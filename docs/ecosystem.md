@@ -53,6 +53,16 @@ The table counts the seams. Each one has a section below that gives the shape on
 
 The adapter keeps SmartCiti.X's guards as written there. It dedupes on `event_id`. Past two minutes of clock skew it trusts the receipt time (`ts_source: "server"`). A missing modality becomes `"quiz"`. Fewer than three usable events means no profile update. Affect labels never reach an export (ACP-08). This repo's DATAWORKS rules apply on top. A learner event is emitted only for an eligible session: signed in, not demo, not K-12, adult attested and opted in. The learner id must already be a pseudonym. Affect, mood, name and free-text fields are stripped. Revoking consent deletes every message held. **The adapter is local only.** It makes no request, writes no storage and sends nothing.
 
+**The live learner path (round 8, ECOSYSTEM-2).** `WebXR/shared/eco-learn.js` `ecoAttachLearner(session, { station, skills })` connects a station run in the smartcity app (`WebXR/smartcity/js/app.js`, one import and one call before `session.start()`) to an in-memory adapter:
+
+- **Events.** It records `start`, then `step-ok` when a step completes, `step-wrong` on a wrong or dangerous action, and finally `complete` or `fail` (a pass needs two stars and no hazard).
+- **Consent.** It holds events only while `dx-data.js` `dxCollecting()` is true: an adult, signed in, not K-12, not the demo, opted in. Consent is re-read at every event and at every count. When consent is gone, through `dxRevoke`, a sign-out or a K-12 surface, everything held is deleted and the run stops reporting.
+- **Learner id.** It is the salted per-profile session hash (`dxSessionHash`), never the account id.
+- **Storage and network.** Events live in page memory only: nothing is sent and nothing is written.
+- **Bundling.** `eco-bus.js` and `eco-learn.js` are in the smartcity bundle, after `dx-data.js`.
+- **Test probe.** `window.__ecoLearnTest` gives the checker read-only counts and copies, in the pattern of `window.__smartcityTest`.
+- **The instructor console.** It is a different page, so it cannot see one page's memory. The Ecosystem tab therefore shows no held count; it would always read 0 there.
+
 `tools/check_eco.mjs` validates every event against the documented shapes. When a read-only SmartCiti.X clone is present, it also pushes the messages through SmartCiti.X's real `Bus` (strict) and `extractSignals`, and the audit entries through its `AuditLog`. It imports those modules at run time from the clone and copies nothing.
 
 ### 5. Agents registry
@@ -125,3 +135,7 @@ This repo's `WebXR/shared/flowhub.js` defines its side of a flow contract (`flow
 - that every adapter event is valid (and accepted by SmartCiti.X's real modules when its clone is present);
 - that 0 network calls are made;
 - that Router.X is marked absent here.
+- the Ecosystem tab in the built instructor page (leg 7, Playwright);
+- the learner path: a real `game.js` Session under the real consent gate (leg 8, headless), and a real station (`valve-vault`) in the built smartcity page (leg 9, Playwright). Events are held only when the learner opted in, every one is valid, and 0 are held when not opted in, in the demo, on a K-12 surface or after revoke.
+
+Legs 2b and 4's live half skip without the sibling clones (as in CI) and say so. Legs 7 and 9 skip only when Playwright is absent.

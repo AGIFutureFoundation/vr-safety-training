@@ -21,6 +21,7 @@ import { buildEmbodiment, observeEmbodied, probeSkill, DIFFICULTY_LADDER } from 
 import { attachEpisodeRecorder, EpisodeStore, EPISODE_SCHEMA_VERSION } from "../../shared/episodes.js";
 // DATAWORKS: nothing is recorded without the learner's opt-in (and never for K-12, signed-out or demo sessions).
 import { dxCollecting } from "../../shared/dx-data.js";
+import { ecoAttachLearner } from "../../shared/eco-learn.js"; // ECOSYSTEM-2: station events to the in-memory eco-bus adapter, only under DATAWORKS consent
 // SILICA: the opt-in reaction-time eval for stations that declare reactionEval (docs/consoles/SILICA.md).
 import { silRecordRun } from "../../shared/sil-reaction.js";
 import { Platform, FLOW_LOAD, FLOW_START, FLOW_RESUME, FLOW_STATE } from "../../shared/platform.js";
@@ -1015,6 +1016,9 @@ async function enterSim(id, { briefed = false } = {}) {
     viewMode: () => (renderer.xr.isPresenting ? "vr" : (state.mode === "ar" ? "ar" : "desktop")),
     env: () => ({ weather: state.stage?.weather?.kind ?? null, timeOfDay: timeOfDay(), eventSeed: eventsSeed }),
   }) : null;
+  // ECOSYSTEM-2 (docs/ecosystem.md): start / step / complete into the in-memory eco-bus adapter — inert (null) unless
+  // dxCollecting(); consent is re-read at every event and its loss deletes what was held. Nothing is sent or stored.
+  try { state.ecoLearn = ecoAttachLearner(state.session, { station: room.id, skills: room.skills ?? [], tier: renderer.xr.isPresenting ? "headset" : "standard" }); } catch (_) { state.ecoLearn = null; }
   state.session.start();
   // Random events: the ambient half (see the interrupt-timing half above).
   // Built fresh for every station, always — when events are off this just

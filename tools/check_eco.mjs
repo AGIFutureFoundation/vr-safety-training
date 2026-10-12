@@ -16,7 +16,11 @@
  *   5. 0 network calls (fetch, XMLHttpRequest, WebSocket, sendBeacon stubbed to count) and no network API in the eco sources;
  *   6. Router.X is marked absent ("not yet built") in docs/ecosystem.md, and the instructor tab is wired read-only;
  *   7. the Ecosystem tab in the BUILT instructor page (Playwright): options and blocks as in the extract, 0 page errors,
- *      0 requests and 0 storage writes after the click (skipped, saying so, only without Playwright).
+ *      0 requests and 0 storage writes after the click (skipped, saying so, only without Playwright);
+ *   8. the learner path (eco-learn.js): a real game.js Session under the real dx-data.js consent gate holds every event,
+ *      valid, only for an opted-in adult; 0 signed out, demo, not opted in or K-12; 0 after dxRevoke, even mid-run.
+ *   9. the same path in the BUILT smartcity page (Playwright): a real station stepped under a real opt-in holds start + each
+ *      step, every event valid, 0 once consent is removed; 0 when not opted in, in the demo and on a K-12 surface.
  */
 import { readFileSync, existsSync, statSync } from "node:fs";
 import { join, dirname } from "node:path";
@@ -166,7 +170,7 @@ await check("4. bus adapter: every event valid against the documented shapes", a
 });
 
 await check("5. 0 network calls; no network API in the eco sources", () => {
-  for (const f of ["WebXR/shared/eco-blocks.js", "WebXR/shared/eco-bus.js", "WebXR/shared/eco-blocks-data.js", "tools/eco_extract.mjs"]) {
+  for (const f of ["WebXR/shared/eco-blocks.js", "WebXR/shared/eco-bus.js", "WebXR/shared/eco-learn.js", "WebXR/shared/eco-blocks-data.js", "tools/eco_extract.mjs"]) {
     const s = read(f).replace(/^\s*(\/\/|\*).*$/gm, "");
     ok(!/\bfetch\s*\(|XMLHttpRequest|new WebSocket|sendBeacon|EventSource|https?:\/\/(?!github\.com)/.test(s), `${f} names a network API`);
     ok(!/localStorage|indexedDB|sessionStorage/.test(s), `${f} touches storage`);
@@ -182,7 +186,7 @@ await check("6. Router.X marked absent; instructor tab wired read-only; bundles 
   ok(html.includes('id="tab-eco"') && html.includes('id="eco-root"'), "tab markup");
   ok(app.includes("ecoMountBlocksPanel") && app.includes('["eco", "tab-eco", "view-eco"]'), "app wiring");
   ok(bundle.indexOf('"eco-blocks-data.js"') > 0 && bundle.indexOf('"eco-blocks-data.js"') < bundle.indexOf('"eco-blocks.js"'), "bundle order");
-  for (const f of ["WebXR/shared/eco-blocks.js", "WebXR/shared/eco-bus.js"]) {
+  for (const f of ["WebXR/shared/eco-blocks.js", "WebXR/shared/eco-bus.js", "WebXR/shared/eco-learn.js"]) {
     const s = read(f);
     ok(!/import\s*\{[^}]*\bas\b/.test(s), `${f} uses an import alias`);
     for (const m of s.matchAll(/^(?:export\s+)?(?:const|let|var|function)\s+([A-Za-z_$][\w$]*)/gm)) ok(/^(eco|ECO_)/.test(m[1]), `${f}: top-level ${m[1]} lacks the prefix`);
@@ -262,6 +266,161 @@ await check("7. the Ecosystem tab in the built instructor page: options, blocks,
     ok(external.length === extBefore, `${external.length - extBefore} external requests after the click`);
     ok(before === after, "the tab wrote to localStorage");
     return `built page: ${r.options} options, electrical → ${r.electrical.join(", ")}; page errors 0, requests after the click 0, storage writes 0 (${fonts} font faces preloaded; external requests aborted before the click: ${extBefore})`;
+  } finally { await browser.close(); server.close(); }
+});
+
+// 8. The learner path behind consent (eco-next 3): a real shared/game.js Session, wired by eco-learn.js exactly as the
+// smartcity app wires it, under the REAL dx-data.js consent gate (headless storage stand-ins, the same ones check_dataworks
+// uses). Opted-in adult: every event held and valid; signed out, demo, K-12 and not opted in: 0 held; after dxRevoke: 0.
+await check("8. learner events into the in-memory adapter only under DATAWORKS consent; revoke leaves 0", async () => {
+  class Mem { constructor() { this.m = new Map(); } getItem(k) { return this.m.has(k) ? this.m.get(k) : null; } setItem(k, v) { this.m.set(k, String(v)); } removeItem(k) { this.m.delete(k); } key(i) { return [...this.m.keys()][i] ?? null; } get length() { return this.m.size; } clear() { this.m.clear(); } }
+  globalThis.localStorage = new Mem(); globalThis.sessionStorage = new Mem(); globalThis.window = globalThis.window ?? {};
+  const DX = await imp(join(ROOT, "WebXR/shared/dx-data.js"));
+  const LEARN = await imp(join(ROOT, "WebXR/shared/eco-learn.js"));
+  const { Session, Sfx } = await imp(join(ROOT, "WebXR/shared/game.js"));
+  Sfx.muted = true;
+  DX.dxUseStore(DX.dxMakeStore(DX.dxMemBackend()));
+  const signIn = () => localStorage.setItem("vr-training-auth-v1", JSON.stringify({ id: "learner-eco@example.invalid" }));
+  let t = Date.parse("2026-10-12T20:30:00.000Z");
+  const probes = { clock: () => (t += 700) };
+  const room = () => ({ id: "eco-check-room", name: "Eco Check Room", parSeconds: 60, hazards: { haz1: "that one bites." }, interrupts: [],
+    steps: [{ id: "s1", kind: "select", target: "a", title: "Touch A", why: "first." }, { id: "s2", kind: "gauge", target: "g", title: "Set the gauge", why: "green.", gauge: { green: [0.4, 0.6] } }] });
+  const play = () => {
+    const session = new Session(room(), {});
+    const h = LEARN.ecoAttachLearner(session, { station: "eco-check-room", skills: ["loto"], probes });
+    session.start(); session.select("haz1"); session.select("a"); session.gauge.t = 0.5; session.select("g");
+    return h;
+  };
+  // ineligible sessions: nothing attaches, nothing is held
+  const blocked = {};
+  blocked.signedOut = [play(), LEARN.ecoLearnHeldCount()];
+  sessionStorage.setItem("vr-training-demo-v1", "1"); signIn();
+  blocked.demo = [play(), LEARN.ecoLearnHeldCount()];
+  sessionStorage.removeItem("vr-training-demo-v1");
+  blocked.notOptedIn = [play(), LEARN.ecoLearnHeldCount()];
+  for (const [k, [h, n]] of Object.entries(blocked)) ok(h === null && n === 0, `${k}: attached or held ${n}`);
+  // opted in (a signed-in adult, not K-12, not the demo): a real run is held, every event valid
+  ok(DX.dxOptIn({ licence: "CC-BY-4.0", adult: true }).ok && DX.dxCollecting(), "opt-in failed");
+  const h = play();
+  ok(h && h.station === "eco-check-room", "an opted-in session did not attach");
+  const msgs = LEARN.ecoLearnMessages();
+  const verbs = msgs.map((m) => m.payload.verb);
+  ok(JSON.stringify(verbs) === JSON.stringify(["attempted", "answered", "answered", "answered", "failed"]), `verbs ${verbs.join(",")}`);
+  ok(msgs.filter((m) => m.payload.payload.correct === false).length === 1, "the hazard was not held as one wrong step");
+  for (const m of msgs) { const p = BUS.ecoValidateMessage(m); ok(!p.length, `held message ${m.event_id}: ${p.join("; ")}`); }
+  ok(msgs.every((m) => /^s-[0-9a-f]{16}$/.test(m.payload.learner_id) && !JSON.stringify(m).includes("learner-eco")), "the learner id is not the salted session hash, or the account id leaked");
+  let live = "no SmartCiti.X clone: documented shapes only";
+  if (existsSync(join(SC, "bus/bus.mjs"))) {
+    const SB = await imp(join(SC, "bus/bus.mjs")), ST = await imp(join(SC, "bus/telemetry.mjs"));
+    const real = new SB.Bus({ strict: true });
+    for (const m of msgs) ok(real.publish(m.topic, m.role, m.payload, { event_id: m.event_id, schema_version: m.schema_version }).ok, "the real Bus refused a held message");
+    ok(ST.extractSignals(msgs.map((m) => m.payload)).usable, "the real extractSignals found the run unusable");
+    live = `also accepted by SmartCiti.X's real Bus (${msgs.length}/${msgs.length}) and extractSignals`;
+  }
+  const heldOn = LEARN.ecoLearnHeldCount();
+  // K-12: the same consented profile on a K-12 surface holds nothing, and what was held goes
+  globalThis.location = { search: "?audience=k12" };
+  const k12 = [play(), LEARN.ecoLearnHeldCount()];
+  delete globalThis.location;
+  ok(k12[0] === null && k12[1] === 0, `K-12: attached or held ${k12[1]}`);
+  // revoke: dxRevoke deletes, and a session still running reports nothing more
+  const h2 = play(); ok(h2 && LEARN.ecoLearnHeldCount() === 5, "re-held after K-12");
+  const running = new Session(room(), {}); LEARN.ecoAttachLearner(running, { station: "eco-check-room", probes }); running.start();
+  const before = LEARN.ecoLearnHeldCount();
+  const rv = await DX.dxRevoke();
+  ok(rv.ok && LEARN.ecoLearnHeldCount() === 0, "revoke left events held");
+  running.select("a"); running.gauge.t = 0.5; running.select("g");
+  ok(LEARN.ecoLearnHeldCount() === 0 && LEARN.ecoLearnMessages().length === 0, "a running session reported after revoke");
+  ok(network === 0, `${network} network calls`);
+  const st = LEARN.ecoLearnStats();
+  return `opted in: ${heldOn}/${heldOn} held events valid (start, a hazard as a wrong step, 2 steps, and a fail, since a hazard was hit), ${live}; held 0 signed out, 0 demo, 0 not opted in, 0 K-12; ${before} → 0 after revoke; attaches refused ${st.refusedAttach}; network 0`;
+});
+
+// 9. The learner path in the BUILT smartcity page (the integration rule: measure the combined case where it runs). A real
+// station (?sim=valve-vault) is opened, entered with "Free explore" and stepped through window.__smartcityTest; what the page holds is read through
+// eco-learn.js's read-only window.__ecoLearnTest. The opted-in profile is made in this process by the real dxOptIn over
+// storage stand-ins and copied into the page's localStorage before load. Cases: opted in (held, every event valid), then
+// consent removed in the page (0); signed in without opting in (0); the demo (0); a K-12 surface (0). Needs Playwright.
+await check("9. the learner path in the built smartcity page: held only when opted in, every event valid, 0 otherwise", async () => {
+  const { createServer } = await import("node:http");
+  const { extname, normalize } = await import("node:path");
+  const PWL = await imp(join(ROOT, "tools/lib/pw.mjs"));
+  let pw; try { pw = await PWL.pwModule(); } catch (e) { console.log(`     (browser leg skipped: ${e.message})`); return "SKIP"; }
+  const DX = await imp(join(ROOT, "WebXR/shared/dx-data.js"));
+  const WEBXR = join(ROOT, "WebXR"), PAGE = "smartcity/dist/smartcity-x.html";
+  ok(existsSync(join(WEBXR, PAGE)), `${PAGE} missing — run python3 tools/bundle_webxr.py smartcity`);
+  ok(readFileSync(join(WEBXR, PAGE), "utf8").includes("__ecoLearnTest"), "the built smartcity page has no eco-learn.js — the dist is stale: run python3 tools/bundle_webxr.py smartcity");
+  // the storage of a signed-in adult who opted in, made by the real consent code
+  const Mem = globalThis.localStorage.constructor;
+  globalThis.localStorage = new Mem(); globalThis.sessionStorage = new Mem();
+  delete globalThis.window; // leg 8's stand-in for game.js; Playwright's client must not think it runs in a page
+  localStorage.setItem("vr-training-auth-v1", JSON.stringify({ id: "learner-eco-page@example.invalid" }));
+  const signedIn = Object.fromEntries([...localStorage.m]);
+  ok(DX.dxOptIn({ licence: "CC0-1.0", adult: true }).ok, "opt-in failed");
+  const optedIn = Object.fromEntries([...localStorage.m]);
+  const TYPES = { ".html": "text/html", ".js": "application/javascript", ".mjs": "application/javascript", ".json": "application/json", ".css": "text/css", ".png": "image/png", ".svg": "image/svg+xml", ".woff2": "font/woff2", ".webp": "image/webp", ".glb": "model/gltf-binary" };
+  const server = createServer((req, res) => {
+    const path = normalize(decodeURIComponent(new URL(req.url, "http://x").pathname)).replace(/^([/\\])+/, "");
+    const file = join(WEBXR, path);
+    if (!file.startsWith(WEBXR) || !existsSync(file) || statSync(file).isDirectory()) { res.writeHead(404); res.end(); return; }
+    res.writeHead(200, { "content-type": TYPES[extname(file)] ?? "application/octet-stream" }); res.end(readFileSync(file));
+  });
+  const PORT = Number(process.env.ECO_PORT || 9161);
+  await new Promise((r, j) => { server.once("error", j); server.listen(PORT, "127.0.0.1", r); });
+  const origin = `http://127.0.0.1:${PORT}`;
+  const browser = await pw.chromium.launch({ executablePath: PWL.pwExecutable(), args: ["--no-sandbox", "--use-gl=swiftshader", "--enable-unsafe-swiftshader"] });
+  const ecoErrors = [];
+  const run = async (opts) => { try { return await runOne(opts); } catch (e) { throw new Error(`${opts.label}: ${e.message.split("\n")[0]}`); } };
+  const runOne = async ({ local, demo = false, query = "" }) => {
+    const ctx = await browser.newContext({ viewport: { width: 1100, height: 760 } });
+    await ctx.addInitScript(({ local, demo }) => { try { for (const [k, v] of Object.entries(local)) localStorage.setItem(k, v); if (demo) sessionStorage.setItem("vr-training-demo-v1", "1"); } catch (_) { /* no storage */ } }, { local, demo });
+    const page = await ctx.newPage();
+    page.on("pageerror", (e) => { if (/eco/i.test(String(e.message))) ecoErrors.push(String(e.message)); });
+    await page.route("**/*", (route) => {
+      const u = route.request().url();
+      if (u.startsWith(`${origin}/`)) return route.continue();
+      if (/cdnjs\.cloudflare\.com\/ajax\/libs\/three\.js\/.*three\.module\.min\.js$/.test(u)) return route.fulfill({ status: 200, contentType: "application/javascript", body: readFileSync(join(WEBXR, "vendor/three/dist/three.module.min.js"), "utf8") });
+      const rx = u.match(/cdnjs\.cloudflare\.com\/ajax\/libs\/(?:react|react-dom)\/[^/]+\/umd\/(react(?:-dom)?\.production\.min\.js)$/);
+      if (rx) return route.fulfill({ status: 200, contentType: "application/javascript", body: readFileSync(join(WEBXR, "vendor/react/dist", rx[1]), "utf8") });
+      return route.abort();
+    });
+    await page.goto(`${origin}/${PAGE}?sim=valve-vault${query}`, { waitUntil: "load", timeout: 90000 });
+    // "Free explore" is the desktop way in; the station's Session starts on it.
+    await page.waitForSelector("#enter-flat", { state: "visible", timeout: 90000 });
+    await page.click("#enter-flat");
+    // A first run on screen offers the station's pre-brief; its own Start button builds the station and starts the run.
+    await page.waitForSelector("#prebrief-start", { state: "visible", timeout: 90000 });
+    await page.evaluate(() => document.getElementById("prebrief-start").click());
+    await page.waitForFunction(() => !!(window.__ecoLearnTest && window.__smartcityTest && window.__smartcityTest.session()), null, { timeout: 90000, polling: 250 });
+    const r = await page.evaluate(() => {
+      const T = window.__smartcityTest, s = T.session();
+      let stepped = 0;
+      for (let i = 0; i < 12 && !s.finished; i += 1) {
+        const st = s.step; if (!st || st.kind !== "select" || !st.target) break;
+        T.select(st.target); stepped += 1;
+      }
+      return { station: s.room?.id ?? null, stepped, held: window.__ecoLearnTest.held(), messages: window.__ecoLearnTest.messages() };
+    });
+    const afterRevoke = await page.evaluate(() => {
+      for (const k of Object.keys(localStorage)) if (k.includes("dx-consent-v1")) localStorage.removeItem(k);
+      return { held: window.__ecoLearnTest.held(), messages: window.__ecoLearnTest.messages().length };
+    });
+    await ctx.close();
+    return { ...r, afterRevoke };
+  };
+  try {
+    const on = await run({ label: "opted in", local: optedIn });
+    ok(on.station === "valve-vault" && on.stepped >= 1, `the station did not run (${on.station}, ${on.stepped} steps)`);
+    ok(on.held === on.messages.length && on.held === on.stepped + 1, `opted in: held ${on.held} for start + ${on.stepped} steps`);
+    for (const m of on.messages) { const p = BUS.ecoValidateMessage(m); ok(!p.length, `held message ${m.event_id}: ${p.join("; ")}`); }
+    ok(on.messages.every((m) => m.payload.context.module_id === "valve-vault" && !JSON.stringify(m).includes("learner-eco-page")), "module id or a leaked account id");
+    ok(on.afterRevoke.held === 0 && on.afterRevoke.messages === 0, `after consent was removed: ${on.afterRevoke.held} held`);
+    const off = await run({ label: "not opted in", local: signedIn });
+    const demo = await run({ label: "demo", local: optedIn, demo: true });
+    const k12 = await run({ label: "K-12", local: optedIn, query: "&audience=k12" });
+    for (const [k, v] of Object.entries({ "not opted in": off, demo, "K-12": k12 })) ok(v.held === 0 && v.messages.length === 0 && v.stepped >= 1, `${k}: held ${v.held} after ${v.stepped} steps`);
+    ok(ecoErrors.length === 0, `eco page errors: ${ecoErrors.slice(0, 2).join(" | ")}`);
+    return `built page, valve-vault: opted in ${on.held}/${on.held} held events valid (start + ${on.stepped} steps), 0 after consent removed; not opted in 0, demo 0, K-12 0 (each after ${off.stepped} steps); eco page errors 0`;
   } finally { await browser.close(); server.close(); }
 });
 

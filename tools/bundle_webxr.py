@@ -156,6 +156,10 @@ APPS = {
             SHARED / "dx-data.js",
             # SILICA: the opt-in reaction-time eval (docs/consoles/SILICA.md); reads dx-data.js above.
             SHARED / "sil-reaction.js",
+            # ECOSYSTEM-2 (docs/ecosystem.md): the SmartCiti.X-shaped bus adapter and the learner path into it, in memory
+            # only and only while dx-data.js above says the learner opted in.
+            SHARED / "eco-bus.js",
+            SHARED / "eco-learn.js",
             SHARED / "perf.js",
             SHARED / "weather.js",
             SHARED / "environment.js",
