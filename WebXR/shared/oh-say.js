@@ -96,6 +96,8 @@ export const OH_CORES_TALK = Object.freeze({
   report: ["{toName}, the chain after {job} holds {lines} lines, all intact", "{toName}, chain check done: {lines} lines, every one intact", "For you, {toName}: {lines} lines in the chain, none broken"],
   ack: ["Thanks, {toName}, {lines} intact lines noted on the board", "Noted, {toName}: {lines} lines checked, so the board keeps moving", "Good to hear, {toName}; {lines} lines intact and the queue goes on"],
   memory: ["That makes {count} {kinds} for me today", "Today I have done {count} {kinds} so far", "{count} {kinds} for me today, counting this one"],
+  // HIVE-5: home after the last job (ohHive's homeward move). The site is the agent's home site, slotted from the move event.
+  home: ["Heading back to {site}", "Back to {site} now", "Walking home to {site}", "Nothing left on my list, so back to {site}"],
 });
 /** HIVE-4: a second sentence for a kind (the memory's last site and its time on the hive clock; "reset" for cell entries and zone set-ups). */
 export const OH_SECOND = Object.freeze({
@@ -145,6 +147,7 @@ export const OH_CORES_TALK_ES = Object.freeze({
   report: ["{toName}, la cadena tras {job} tiene {lines} líneas, todas intactas", "{toName}, revisión hecha: {lines} líneas, todas intactas", "Para ti, {toName}: {lines} líneas en la cadena, ninguna rota"],
   ack: ["Gracias, {toName}, anoto {lines} líneas intactas en el tablero", "Anotado, {toName}: {lines} líneas revisadas, el tablero sigue", "Qué bien, {toName}; {lines} líneas intactas y la cola sigue"],
   memory: ["Con este trabajo llevo {count} {kinds} hoy", "Hoy llevo {count} {kinds}, contando este trabajo", "Ya son {count} {kinds} para mí hoy"],
+  home: ["Vuelvo a {site}", "Regreso a {site} ahora", "De vuelta a {site}", "No me queda nada pendiente, así que vuelvo a {site}"], // HIVE-5
 });
 export const OH_SECOND_ES = Object.freeze({
   memory: ["El trabajo anterior: {lastSite}, a las {clock}", "Antes: {lastSite}, a las {clock}", "Antes de este, {lastSite} a las {clock} de la colmena"],
