@@ -1283,7 +1283,8 @@ const fxSceneHandle = (siteId, shot = "wide", look = null) => {
   const hd3 = HD3_SCENE_SITES.find((s) => s.id === siteId);
   if (hd3) {
     if (hd3.parish !== parish.id) return { ok: false, parish: hd3.parish, href: `?parish=${encodeURIComponent(hd3.parish)}&scene=${encodeURIComponent(siteId)}:${shot}${look ? `:${look}` : ""}` };
-    const sc = hd3Scene(parish, siteId, shot);
+    // ENV-HD-8: the vehicles MOTORWORKS parked on this page (shown ones), so the street camera frames past them
+    const sc = hd3Scene(parish, siteId, shot, { vehicles: (mvPark?.parked ?? []).filter((v) => !v.hidden) });
     if (!sc) return { ok: false, reason: `unknown shot (${HD3_SHOTS.join(", ")})` };
     np.x = sc.target[0]; np.z = sc.target[2];
     world.update(np.x, np.z, 999); cwStreetsMount.update(np.x, np.z, 999); tfLand.update(np.x, np.z, 99); atmos.update(np.x, np.z);

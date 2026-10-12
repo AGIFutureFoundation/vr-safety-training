@@ -24,6 +24,10 @@
 //   hd3ScenePresets()                 -> [{ siteId, shot, parish }] for the fourteen presets (seven sites x two shots)
 //   HD3_KW_HALF, hd3KitRects(parish)  ENV-HD-6: KREWE's kits (live oaks, bandstands, kiosks ...) count as obstacles too
 //   HD3_PROP_HALF, hd3PropRects(parish) ENV-HD-7: NEWTON's parked site cars (mvPropPoints) block a street camera's sight line
+//   hd3Scene(parish, siteId, shot, { vehicles })  ENV-HD-8: optional — the parked vehicles the page drew (MOTORWORKS' placements:
+//                                       [{ x, z, heading, dims: [w, h, l] }]); a street camera stands clear of them and its sight line
+//                                       passes none of them (first pass); absent or empty = the camera ENV-HD-7 chose
+//   HD3_VEH_MARGIN, hd3VehicleHit(vehicles, x, z, m)  ENV-HD-8: is (x, z) within m of a parked vehicle's footprint (oriented)
 //   The parishes app routes `window.__parishTest.scene(siteId, shot)` (and `?scene=<siteId>:<shot>`) here for these sites.
 
 import { npHeightAt, npWaterAt, npChunkOf, npMassingForChunk, NP_SIZE } from "./np-parish.js";
@@ -78,6 +82,39 @@ export function hd3PropRects(parish) {
   hd3PropCache.set(parish, out);
   return out;
 }
+// ENV-HD-8: MOTORWORKS parks one vehicle per fitting site (mv-world.js mvPlacements), and the placements need NEWTON's world,
+// so the solver could not see them: the school campus's street shot had a parked school bus across the building's foot
+// (ENV-HD-7's Left). The app now passes the vehicles it parked. A sight line clear of a vehicle in plan is not enough (the bus
+// stood 8 m off the line to the subject, yet crossed the building's foot in a 62-degree frame), so the test is occlusion:
+// a vehicle nearer the camera than the subject, whose bearing span (its four corners, plus a margin) overlaps the span of the
+// site's building and its board seen from the camera, hides part of the subject. The camera also stands 0.5 m clear of every vehicle (never inside one).
+// Heading h faces (sin h, cos h) (mv-world.js).
+export const HD3_VEH_MARGIN = { camera: 0.5, degrees: 2 };
+export function hd3VehicleCorners(v) {
+  const [w, , l] = v.dims ?? [2.2, 2.2, 6], h = v.heading ?? 0, fx = Math.sin(h), fz = Math.cos(h), rx = Math.cos(h), rz = -Math.sin(h);
+  return [[1, 1], [1, -1], [-1, -1], [-1, 1]].map(([a, c]) => [v.x + rx * a * w / 2 + fx * c * l / 2, v.z + rz * a * w / 2 + fz * c * l / 2]);
+}
+/** Is (x, z) within m of a parked vehicle's oriented footprint? */
+export function hd3VehicleHit(vehicles, x, z, m) {
+  for (const v of vehicles ?? []) {
+    const [w, , l] = v.dims ?? [2.2, 2.2, 6], h = v.heading ?? 0, dx = x - v.x, dz = z - v.z;
+    const along = dx * Math.sin(h) + dz * Math.cos(h), across = dx * Math.cos(h) - dz * Math.sin(h);
+    if (Math.abs(across) < w / 2 + m && Math.abs(along) < l / 2 + m) return true;
+  }
+  return false;
+}
+/** The vehicles that hide part of the subject (`subject` = ground points: the building's corners and the board) from (px, pz). */
+export function hd3Occluders(vehicles, px, pz, subject) {
+  if (!vehicles?.length || !subject?.length) return [];
+  const [sx, sz] = subject.reduce((a, q) => [a[0] + q[0] / subject.length, a[1] + q[1] / subject.length], [0, 0]);
+  const a0 = Math.atan2(sx - px, sz - pz), rel = (x, z) => { let d = Math.atan2(x - px, z - pz) - a0; while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI; return d; };
+  const sa = subject.map(([x, z]) => rel(x, z)), lo = Math.min(...sa), hi = Math.max(...sa), far = Math.max(...subject.map(([x, z]) => Math.hypot(x - px, z - pz)));
+  const mg = (HD3_VEH_MARGIN.degrees * Math.PI) / 180;
+  return vehicles.filter((v) => {
+    const cs = hd3VehicleCorners(v), va = cs.map(([x, z]) => rel(x, z)), near = Math.min(...cs.map(([x, z]) => Math.hypot(x - px, z - pz)));
+    return near < far && Math.min(...va) - mg < hi && Math.max(...va) + mg > lo;
+  });
+}
 const hd3Hit = (a, b) => a[0] < b[2] && a[2] > b[0] && a[1] < b[3] && a[3] > b[1];
 /** Massing rects (grown by 2 m) and tree crowns around (x, z), and the other catalog sites' buildings; cached per map + chunk. */
 const hd3NearCache = new WeakMap();
@@ -110,7 +147,7 @@ function hd3Clear(parish, x, z, m, skip) {
 }
 
 /** The camera for one preset (see SEAMS), or null for a site or shot this module does not frame. */
-export function hd3Scene(parish, siteId, shot = "wide") {
+export function hd3Scene(parish, siteId, shot = "wide", { vehicles = null } = {}) {
   const spec = HD3_SCENE_SITES.find((s) => s.id === siteId);
   if (!spec || !HD3_SHOTS.includes(shot) || parish?.id !== spec.parish) return null;
   const i = (parish.sites ?? []).findIndex((s) => s.id === siteId);
@@ -146,10 +183,17 @@ export function hd3Scene(parish, siteId, shot = "wide") {
   // 1.2 m pass is the fallback
   const ownD = (px, pz) => (b ? Math.hypot(Math.max(Math.abs(px - b.cx) - b.w / 2, 0), Math.max(Math.abs(pz - b.cz) - b.d / 2, 0)) : 99);
   const props = hd3PropRects(parish);
+  const veh = Array.isArray(vehicles) ? vehicles.filter((v) => v && Number.isFinite(v.x) && Number.isFinite(v.z)) : [];
+  // ENV-HD-8: the subject seen from the camera (the building's four corners and the board) and the parked vehicles
+  const subject = b ? [[b.cx - b.w / 2, b.cz - b.d / 2], [b.cx + b.w / 2, b.cz - b.d / 2], [b.cx + b.w / 2, b.cz + b.d / 2], [b.cx - b.w / 2, b.cz + b.d / 2], [sx, sz + 6]] : [[sx, sz + 6], [tx, tz]];
+  const vehFree = (px, pz) => !veh.length || (!hd3VehicleHit(veh, px, pz, HD3_VEH_MARGIN.camera) && !hd3Occluders(veh, px, pz, subject).length);
   const propFree = (px, pz) => [0, 0.2, 0.35, 0.5, 0.65, 0.8].every((t) => { const x = px + (tx - px) * t, z = pz + (tz - pz) * t; return !props.some((r) => hd3Hit([x - 0.8, z - 0.8, x + 0.8, z + 0.8], r)); });
-  for (const [m, own, clearProps] of [[3.5, 12, true], [3.5, 12, false], [1.2, 0, false]]) for (const [px, pz] of cands) {
+  // ENV-HD-8: the vehicles count in the first two passes (with NEWTON's cars, then alone); with none passed, the second pass
+  // is ENV-HD-7's second pass and every camera is unchanged
+  for (const [m, own, clearProps, clearVeh] of [[3.5, 12, true, true], [3.5, 12, false, true], [3.5, 12, false, false], [1.2, 0, false, false]]) for (const [px, pz] of cands) {
     if (ownD(px, pz) < own || !hd3Clear(parish, px, pz, m, -1)) continue;
     if (![0.2, 0.35, 0.5, 0.65].every((t) => hd3Clear(parish, px + (tx - px) * t, pz + (tz - pz) * t, 0.8, -1))) continue;
+    if (clearVeh && !vehFree(px, pz)) continue;
     if (clearProps && !propFree(px, pz)) continue;
     return out([px, Math.max(y, npHeightAt(parish, px, pz)) + 1.7, pz], y + 3.2, 62);
   }

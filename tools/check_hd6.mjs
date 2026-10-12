@@ -154,6 +154,56 @@ check(cued === 4, `presets with a cue: ${cued} of 4`);
   }
   check(clear === all, `street cameras with a sight line clear of the site cars: ${clear} of ${all}`);
 }
+// ENV-HD-8: MOTORWORKS' parked vehicles (the app passes the ones it drew). Fixture: mvPlacements on NEWTON's headless world with
+// DETAIL's lots, as the app's mount places them. A vehicle nearer the camera than the subject whose bearing span overlaps the
+// building's and board's span hides part of it (hd3Occluders); the test here is the module's, re-done independently below.
+{
+  const N = await imp("shared/nw-physics.js"), MW = await imp("shared/mv-world.js"), DT = await imp("shared/dt-detail.js");
+  // ENV-HD-7's seven street cameras (x, z), which must not move when no vehicles are passed
+  const HD7_CAMS = { "bridge-yard": [-1093.0, -218.4], "port-terminal": [-966.2, 1318.5], "mission-bay-construction-site": [675.3, -284.9], "presidio-crew-yard": [-525.8, -67.3], "no-sw-mid-city-fire-station": [-1784.4, 714.6], "hospital-district": [-724.9, 582.7], "mission-school-campus": [-605.8, 73.8] };
+  const occludes = (vs, px, pz, subj) => { // independent: sample the subject's outline and test each ray against each vehicle's box
+    const out = new Set();
+    const pts = [];
+    for (let k = 0; k < subj.length; k++) { const [ax, az] = subj[k], [bx, bz] = subj[(k + 1) % subj.length]; for (let t = 0; t < 1; t += 0.05) pts.push([ax + (bx - ax) * t, az + (bz - az) * t]); }
+    for (const v of vs) {
+      const [w, , l] = v.dims, h = v.heading, fx = Math.sin(h), fz = Math.cos(h);
+      for (const [qx, qz] of pts) {
+        const L = Math.hypot(qx - px, qz - pz);
+        for (let s = 0.5; s < L; s += 0.25) {
+          const x = px + ((qx - px) * s) / L, z = pz + ((qz - pz) * s) / L, dx = x - v.x, dz = z - v.z;
+          if (Math.abs(dx * fx + dz * fz) < l / 2 && Math.abs(dx * fz - dz * fx) < w / 2) { out.add(v.drivable ?? v.id); break; }
+        }
+        if (out.has(v.drivable ?? v.id)) break;
+      }
+    }
+    return [...out];
+  };
+  for (const tier of ["balanced", "high"]) {
+    let before = 0, after = 0, n = 0, unchanged = 0, moved = [];
+    for (const spec of H3.HD3_SCENE_SITES) {
+      const p = R.npParish(spec.parish), i = p.sites.findIndex((s) => s.id === spec.id), s = p.sites[i], b = CW.cwSiteBuilding(p, i);
+      const vehicles = MW.mvPlacements(p, N.nwParishWorld(p), { tier, lots: DT.dtLotRects(p) });
+      // the subject's outline: the building's footprint with the board (6 m south of the site point) on it
+      const subj = [[b.cx - b.w / 2, b.cz - b.d / 2], [b.cx + b.w / 2, b.cz - b.d / 2], [b.cx + b.w / 2, b.cz + b.d / 2], [b.cx - b.w / 2, b.cz + b.d / 2]];
+      const board = [s.position[0], s.position[1] + 6];
+      const c0 = H3.hd3Scene(p, spec.id, "street"), c1 = H3.hd3Scene(p, spec.id, "street", { vehicles });
+      const hd7 = HD7_CAMS[spec.id];
+      if (hd7 && Math.abs(c0.position[0] - hd7[0]) < 0.06 && Math.abs(c0.position[2] - hd7[1]) < 0.06 && JSON.stringify(H3.hd3Scene(p, spec.id, "street", { vehicles: [] })) === JSON.stringify(c0)) unchanged++;
+      const o0 = [...new Set([...occludes(vehicles, c0.position[0], c0.position[2], subj), ...occludes(vehicles, c0.position[0], c0.position[2], [board, [board[0] + 0.01, board[1]]])])];
+      const o1 = [...new Set([...occludes(vehicles, c1.position[0], c1.position[2], subj), ...occludes(vehicles, c1.position[0], c1.position[2], [board, [board[0] + 0.01, board[1]]])])];
+      const inside = H3.hd3VehicleHit(vehicles, c1.position[0], c1.position[2], 0);
+      n++; if (o0.length) before++; if (o1.length || inside) after++;
+      if (c1.position.some((v, k) => Math.abs(v - c0.position[k]) > 1e-6)) moved.push(`${spec.id} ${c0.position[0].toFixed(1)}, ${c0.position[2].toFixed(1)} -> ${c1.position[0].toFixed(1)}, ${c1.position[2].toFixed(1)} (was hidden by: ${o0.join(", ") || "none"})`);
+      if (spec.id === "mission-school-campus" && tier === "high") check(o0.length > 0 && o1.length === 0, `mission-school-campus: the parked vehicles hid part of the school from ENV-HD-7's camera (${o0.join(", ")}); with the app's placements passed, none do`);
+    }
+    check(after === 0, `${tier}: street cameras with no parked vehicle hiding the building or its board, with the placements fixture: ${n - after} of ${n} (without the vehicles: ${n - before} of ${n}); camera inside a vehicle 0`);
+    check(unchanged === n, `${tier}: with no vehicles passed (or an empty list), the seven street cameras are ENV-HD-7's (${unchanged} of ${n})`);
+    note(`${tier}: street cameras clear of parked vehicles (building and board unhidden): ${n - before} of ${n} -> ${n - after} of ${n}`);
+    if (tier === "high") note(`street cameras moved by the parked vehicles: ${moved.join("; ") || "none"}`);
+  }
+  const app = readFileSync(join(WEBXR, "parishes/js/app.js"), "utf8");
+  check(/hd3Scene\(parish, siteId, shot, \{ vehicles: \(mvPark\?\.parked \?\? \[\]\)\.filter\(\(v\) => !v\.hidden\) \}\)/.test(app), "the parishes app passes the vehicles MOTORWORKS parked (shown ones) to the street solver");
+}
 note(`cue triangles per preset (balanced / high): ${perSite.map((r) => `${r.kind} ${r.balanced} / ${r.high}`).join(", ")} (budget ${B.trianglesPerSite.balanced} / ${B.trianglesPerSite.high})`);
 note(`sites cued by kind (ENV-HD-6: 1 each of four): ${K.HD6_CUED_KINDS.map((k) => `${k} ${tally[k].cued} of ${tally[k].sites}`).join(", ")}`);
 

@@ -235,7 +235,7 @@ check(FX.fxScene(R.npParish("orleans"), "rb-site-soma-robot-cell", "wide") === n
   check(hd3Shots === 14, `non-robot scene presets: ${hd3Shots} of 14 (ENV-HD-3's 6 + ENV-HD-5's 8)`);
   note(`scene presets: 12 (ROBO-EXTERIORS, six robot sites x wide/door) -> 18 (ENV-HD-3) -> ${shots + hd3Shots} (ENV-HD-5) (+ ${H.HD3_SCENE_SITES.map((x) => `${x.label.toLowerCase()} on ${x.parish} (${x.stations} stations)`).join(", ")}, x ${H.HD3_SHOTS.join("/")})`);
   const appSrc = readFileSync(join(WEBXR, "parishes/js/app.js"), "utf8");
-  check(/import\s*\{[^}]*\bhd3Scene\b[^}]*\}\s*from\s*"\.\.\/\.\.\/shared\/hd3-scenes\.js"/.test(appSrc) && /hd3Scene\(parish, siteId, shot\)/.test(appSrc) && /__parishTest\.scenePresets\s*=/.test(appSrc), "the app routes __parishTest.scene to the non-robot presets and lists every preset");
+  check(/import\s*\{[^}]*\bhd3Scene\b[^}]*\}\s*from\s*"\.\.\/\.\.\/shared\/hd3-scenes\.js"/.test(appSrc) && /hd3Scene\(parish, siteId, shot(\)|, \{ vehicles: )/.test(appSrc) /* ENV-HD-8: an optional vehicles argument */ && /__parishTest\.scenePresets\s*=/.test(appSrc), "the app routes __parishTest.scene to the non-robot presets and lists every preset");
   const bsrc = readFileSync(join(ROOT, "tools/bundle_webxr.py"), "utf8"), ih = bsrc.indexOf('SHARED / "hd3-scenes.js"');
   check(ih > bsrc.indexOf('SHARED / "cw-cityworks.js"') && ih > bsrc.indexOf('SHARED / "np-parish.js"') && ih > 0, "the bundler lists hd3-scenes.js after its imports");
   const hsrc = readFileSync(join(WEBXR, "shared/hd3-scenes.js"), "utf8");
