@@ -22,6 +22,7 @@ calls a network, speaks or listens. The voice stays on-device, off by default, a
 | `tools/check_hive3.mjs`, `tools/check_hive_world.mjs` | Each grepped the seam's old call shape (`onTalk: (id, on) =>`, `talkStart(id)`); the same claims read the new shape. |
 | `tools/drive_avatars_hd2.mjs` (new, not in the gate) | The built page: the voice (stubbed speechSynthesis, probed inside its own callbacks), the stop hand from the front, an agent speaking in the cell hall. |
 | `docs/perf/checkers-baseline.json` | The `check_agent_avatars` row raised from 4 s to 7 s, still an estimate. |
+| `docs/omega-hive.md` | Two sentences: the rooms' lighter level, and the light and mouth following the voice. |
 
 ## Evals (before → after)
 
@@ -104,7 +105,8 @@ To reproduce: `python3 tools/bundle_webxr.py parishes && node tools/drive_avatar
   seam's new call shape, with the same claim.
 - `node tools/check_omega_hive.mjs`: 15 passed, 0 failed. `node tools/check_voices.mjs`: 10 passed, 0 failed.
   `node tools/check_hive4.mjs`: 11 passed, 0 failed.
-- `node tools/check_avatars.mjs`: all pass. `node tools/check_console.mjs`: all pass.
+- `node tools/check_avatars.mjs`: all pass. `node tools/check_console.mjs`: all pass. `node tools/check_hd4.mjs`: all 118 pass.
+  `node tools/check_robo_interiors.mjs`: 302 passed, 0 failed.
 - `node tools/check_imports.mjs`: all 1124 modules. `node tools/check_parse.mjs`: all 2703 modules parse.
   `node tools/check_newton.mjs`: 60 checks, 0 failed.
 - `node tools/drive_avatars_hd2.mjs 9131`: all drive steps pass, page errors 0, off-host requests 0.
