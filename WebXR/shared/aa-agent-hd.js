@@ -59,7 +59,15 @@ export const AA_HD_ROOM_BUDGET = Object.freeze({ meshesAndSprites: 12, triangles
 export const AA_HD_LOD = Object.freeze({
   full: Object.freeze({ trunk: 16, trunkLite: false, small: 12, neck: 10, head: [18, 10], mouth: [10, 4], cap: [10, 6], limb: 10, limbLite: false, hand: [8, 6], thumb: 6, foot: [10, 5], band: 16, eye: [8, 4], halo: [28, 3], badge: 10, talk: [8, 4] }),
   room: Object.freeze({ trunk: 8, trunkLite: true, small: 6, neck: 6, head: [10, 6], mouth: [6, 3], cap: [6, 3], limb: 6, limbLite: true, hand: [6, 3], thumb: 0, foot: [6, 3], band: 8, eye: [6, 2], halo: [12, 3], badge: 6, talk: [6, 3] }),
+  // AVATARS-HD-3: the operations room's crowd (seven figures beside the room's own 2,022 triangles inside IX_BUDGET's 6,000): the same
+  // forms, colours, bones and pose; a five-ring trunk, a three-ring vest and yoke, two-ring limbs (four-sided arms), a two-ring neck, no
+  // brows and no dark mouth slot (the pose still moves their bones; the lit opening still shows the words), fewer segments elsewhere.
+  // <= AA_HD_CROWD_BUDGET.
+  crowd: Object.freeze({ trunk: 8, trunkLite: "crowd", small: 5, neck: 5, neckLite: true, head: [8, 5], mouth: null, cap: [6, 2], limb: 5, arm: 4, limbLite: "crowd", hand: [4, 3], thumb: 0, foot: [5, 2], band: 6, eye: [3, 2], halo: [8, 3], badge: 6, talk: [4, 2], brows: false, vestLite: true }),
 });
+/** AVATARS-HD-3: the ops room's crowd figure budget. Seven figures and the room's own 25 meshes and 2,022 triangles must stay inside
+ * IX_BUDGET (120 meshes, 6,000 triangles): (6,000 - 2,022) / 7 = 568, so a crowd figure keeps to 540 triangles (3 meshes). */
+export const AA_HD_CROWD_BUDGET = Object.freeze({ meshesAndSprites: 12, triangles: 540, drawCallsSilent: 3, drawCallsSpeaking: 5 });
 /** crew.js CT_AVATAR_STYLES.body's heights and widths (the balanced figure's body types), so a figure keeps its build on every tier. */
 export const AA_HD_BODY_DIMS = Object.freeze({ slender: { h: 1.0, w: 0.86 }, average: { h: 1.0, w: 1.0 }, broad: { h: 1.0, w: 1.18 }, tall: { h: 1.1, w: 0.98 }, compact: { h: 0.9, w: 1.04 }, full: { h: 0.98, w: 1.28 } });
 /** The skeleton: name -> parent. */
@@ -152,6 +160,7 @@ function aaHdEllipsoid(rx, ry, rz, seg, rings) {
 }
 /** A limb hanging from its joint (y = 0) down to y = -L: rounded at both ends, radius r0 at the joint, r1 at the far end. */
 function aaHdLimb(L, r0, r1, seg, sx = 1, lite = false) {
+  if (lite === "crowd") return aaHdLathe([[0, -L - r1 * 0.9], [r1, -L], [r0, 0], [0, r0 * 0.9]], seg, { sx }); // AVATARS-HD-3: the crowd level
   if (lite) return aaHdLathe([[0, -L - r1 * 0.95], [r1, -L], [((r0 + r1) / 2) * 1.04, -L / 2], [r0, 0], [0, r0 * 0.95]], seg, { sx }); // AVATARS-HD-2: the room level
   return aaHdLathe([[0, -L - r1 * 0.95], [r1 * 0.72, -L - r1 * 0.62], [r1, -L], [((r0 + r1) / 2) * 1.04, -L / 2], [r0, 0], [r0 * 0.72, r0 * 0.62], [0, r0 * 0.95]], seg, { sx });
 }
@@ -233,29 +242,32 @@ export function aaHdGeometry(spec, level = "full") {
   };
   const sx = 1.24 * W, sz = 0.8 * W;
   // trunk: hips, a belted waist (the role colour), chest and rounded shoulders (cool shell)
-  const trunk = (D.trunkLite ? [[0, 0.86], [0.148, 0.92], [0.152, 0.98], [0.138, 1.03], [0.14, 1.14], [0.174, 1.28], [0.182, 1.35], [0.15, 1.43], [0, 1.462]]
+  const trunk = (D.trunkLite === "crowd" ? [[0, 0.86], [0.15, 0.93], [0.152, 0.99], [0.138, 1.06], [0.176, 1.29], [0.172, 1.4], [0, 1.462]]
+    : D.trunkLite ? [[0, 0.86], [0.148, 0.92], [0.152, 0.98], [0.138, 1.03], [0.14, 1.14], [0.174, 1.28], [0.182, 1.35], [0.15, 1.43], [0, 1.462]]
     : [[0, 0.86], [0.11, 0.872], [0.148, 0.92], [0.152, 0.98], [0.138, 1.05], [0.136, 1.12], [0.152, 1.2], [0.174, 1.28], [0.182, 1.35], [0.17, 1.405], [0.125, 1.445], [0, 1.462]]).map(([r, y]) => [r, y * H]);
   aaHdPush(body, aaHdLathe(trunk, D.trunk, { sx: sx / W, sz: sz / W }), { col: (q) => (q[1] > 0.99 * H && q[1] < 1.06 * H ? C.accent : q[1] < 0.99 * H ? C.shellDeep : C.shell), bone: torsoBone });
   if (spec.vest) { // a high-visibility vest with two reflective bands
-    const vp = [[0.138, 1.08], [0.152, 1.17], [0.176, 1.27], [0.186, 1.34], [0.176, 1.4]].map(([r, y]) => [r + 0.012, y * H]);
-    aaHdPush(body, aaHdLathe(vp, D.trunk, { sx: sx / W, sz: sz / W }), { col: (q) => (Math.abs(q[1] - 1.14 * H) < 0.02 || Math.abs(q[1] - 1.25 * H) < 0.02 ? C.band : C.vest), bone: torsoBone });
+    const vp = (D.vestLite ? [[0.138, 1.08], [0.164, 1.2], [0.186, 1.37]] : [[0.138, 1.08], [0.152, 1.17], [0.176, 1.27], [0.186, 1.34], [0.176, 1.4]]).map(([r, y]) => [r + 0.012, y * H]);
+    aaHdPush(body, aaHdLathe(vp, D.trunk, { sx: sx / W, sz: sz / W }), { col: (q) => (Math.abs(q[1] - 1.14 * H) < 0.02 || Math.abs(q[1] - 1.25 * H) < 0.02 || (D.vestLite && Math.abs(q[1] - 1.2 * H) < 0.02) ? C.band : C.vest), bone: torsoBone });
   }
-  if (spec.yoke) aaHdPush(body, aaHdLathe([[0.19 + 0.014, 1.31 * H], [0.2 + 0.014, 1.37 * H], [0.18 + 0.016, 1.415 * H], [0.12, 1.452 * H]], D.trunk, { sx: sx / W, sz: sz / W }), { col: C.accent, bone: "chest" });
+  if (spec.yoke) aaHdPush(body, aaHdLathe((D.vestLite ? [[0.19 + 0.014, 1.31 * H], [0.2 + 0.014, 1.37 * H], [0.12, 1.452 * H]] : [[0.19 + 0.014, 1.31 * H], [0.2 + 0.014, 1.37 * H], [0.18 + 0.016, 1.415 * H], [0.12, 1.452 * H]]), D.trunk, { sx: sx / W, sz: sz / W }), { col: C.accent, bone: "chest" });
   if (spec.collar) aaHdPush(body, aaHdLathe([[0.058, 1.43 * H], [0.064, 1.46 * H], [0.06, 1.48 * H]], D.small, { sz: 0.9 }), { col: C.accent, bone: "chest" });
   // neck and head (an egg of the shell colour: no skin)
-  aaHdPush(body, aaHdLathe([[0.046, 1.43 * H], [0.041, 1.5 * H], [0.044, J.headC[1] - 0.06]], D.neck), { col: C.joint, bone: "neck" });
+  aaHdPush(body, aaHdLathe(D.neckLite ? [[0.046, 1.43 * H], [0.043, J.headC[1] - 0.06]] : [[0.046, 1.43 * H], [0.041, 1.5 * H], [0.044, J.headC[1] - 0.06]], D.neck), { col: C.joint, bone: "neck" });
   const [hrx, hry, hrz] = J.headR;
   aaHdPush(body, aaHdEllipsoid(hrx, hry, hrz, D.head[0], D.head[1]), { at: J.headC, col: C.shell, bone: "head" });
   // brows (graphite) and the mouth slot (dark), each on its own bone
-  aaHdPush(body, aaHdBox(0.036, 0.008, 0.012), { at: J.browL, rot: [0, 0.32, 0], col: C.brow, bone: "browL" });
-  aaHdPush(body, aaHdBox(0.036, 0.008, 0.012), { at: J.browR, rot: [0, -0.32, 0], col: C.brow, bone: "browR" });
-  aaHdPush(body, aaHdEllipsoid(0.028, 0.0055, 0.009, D.mouth[0], D.mouth[1]), { at: J.mouth, col: C.mouth, bone: "mouth" });
+  if (D.brows !== false) {
+    aaHdPush(body, aaHdBox(0.036, 0.008, 0.012), { at: J.browL, rot: [0, 0.32, 0], col: C.brow, bone: "browL" });
+    aaHdPush(body, aaHdBox(0.036, 0.008, 0.012), { at: J.browR, rot: [0, -0.32, 0], col: C.brow, bone: "browR" });
+  }
+  if (D.mouth) aaHdPush(body, aaHdEllipsoid(0.028, 0.0055, 0.009, D.mouth[0], D.mouth[1]), { at: J.mouth, col: C.mouth, bone: "mouth" });
   // arms: rounded shoulder, upper arm, forearm (shell over graphite), mitten hands with a thumb
   for (const side of ["L", "R"]) {
     const s = side === "L" ? 1 : -1, sh = J[`shoulder${side}`], el = J[`elbow${side}`], wr = J[`wrist${side}`];
     aaHdPush(body, aaHdEllipsoid(0.066, 0.06, 0.062, D.cap[0], D.cap[1]), { at: [sh[0] - s * 0.008, sh[1] + 0.006, sh[2]], col: C.cap, bone: `shoulder${side}` });
-    aaHdPush(body, aaHdLimb(0.27 * H, 0.05, 0.041, D.limb, 1, D.limbLite), { at: sh, col: C.graphite, bone: `shoulder${side}` });
-    aaHdPush(body, aaHdLimb(0.245 * H, 0.043, 0.032, D.limb, 1, D.limbLite), { at: el, col: C.shell, bone: `elbow${side}` });
+    aaHdPush(body, aaHdLimb(0.27 * H, 0.05, 0.041, D.arm ?? D.limb, 1, D.limbLite), { at: sh, col: C.graphite, bone: `shoulder${side}` });
+    aaHdPush(body, aaHdLimb(0.245 * H, 0.043, 0.032, D.arm ?? D.limb, 1, D.limbLite), { at: el, col: C.shell, bone: `elbow${side}` });
     aaHdPush(body, aaHdEllipsoid(0.02, 0.07, 0.044, D.hand[0], D.hand[1]), { at: [wr[0], wr[1] - 0.07, wr[2] + 0.004], col: C.hand, bone: `wrist${side}` });
     if (D.thumb) aaHdPush(body, aaHdLimb(0.045, 0.014, 0.011, D.thumb), { at: [wr[0] - s * 0.006, wr[1] - 0.03, wr[2] + 0.04], rot: [0.5, 0, s * 0.35], col: C.hand, bone: `wrist${side}` });
     // legs: thigh, shin and foot

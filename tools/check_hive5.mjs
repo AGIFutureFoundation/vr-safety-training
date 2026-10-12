@@ -264,7 +264,10 @@ await check("5 wiring and hygiene: bundles, app, hwSyncRoom, prefix, no alias, n
   const py = read("tools/bundle_webxr.py"), app = read("WebXR/parishes/js/app.js"), hw = read("WebXR/shared/hw-hive-world.js"), panel = read("WebXR/shared/oh-panel.js");
   // Integration guard (loop 10 round 5): AVATARS-HD-2's room-level HD figure fits the robot rooms, not the ops room (seven of them
   // measured 46 meshes / 8,508 triangles against IX_BUDGET's 6,000), so the app must not hand that mount to the ops room.
-  ok(/mount: h5IsOpsRoom\(ixWorld\.room\) \? undefined : aaRoomMount/.test(app), "the app hands the ops room the default (lightened) figure, not the room-level HD mount");
+  // Updated in loop 10 round 6 (AVATARS-HD-3): the app now hands the ops room the crowd level (aaCrowdAvatarMount, through
+  // aaOpsMountFor): seven of them with the room measure 46 meshes / 5,586 triangles on high (check_agent_avatars §9l, which also walks
+  // the seeded day inside the budget); balanced still gets HIVE-5's lightened standard figure. The room-level mount stays out.
+  ok(/mount: h5IsOpsRoom\(ixWorld\.room\) \? aaOpsMountFor\(ixWorld\.room\) : aaRoomMount/.test(app) && /aaOpsMount = aaCrowdAvatarMount\(\{/.test(app) && !/h5IsOpsRoom\(ixWorld\.room\) \? aaRoomMount/.test(app), "the app hands the ops room the crowd-level mount (seven fit IX_BUDGET), never the room-level HD mount");
   const par = py.slice(py.indexOf('"parishes": {')), i0 = py.indexOf('"instructor": {'), ins = py.slice(i0, py.indexOf('"instructor/js/app.js"', i0) + 30);
   const at = (s, f) => s.indexOf(`SHARED / "${f}"`);
   ok(at(par, "h5-ops-room.js") > at(par, "hd4-rooms.js") && at(par, "h5-ops-room.js") > at(par, "aa-agent-avatars.js") && at(par, "h5-ops-room.js") > at(par, "h3-hive-day.js") && at(par, "h5-ops-room.js") < at(par, "hw-hive-world.js") && at(par, "h5-hive-live.js") > 0 && at(par, "h5-hive-live.js") < par.indexOf('"parishes/js/app.js"'), "the parishes bundle lists h5-ops-room.js (after hd4-rooms, before hw-hive-world) and h5-hive-live.js");

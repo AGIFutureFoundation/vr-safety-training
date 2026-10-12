@@ -93,7 +93,7 @@ import { ohMountHive } from "../../shared/oh-panel.js"; // OMEGA-HIVE: the agent
 import { vcMountVoiceSettings } from "../../shared/vc-voices.js";
 import { vbColearnProvider, vbColearnLocalSource } from "../../shared/vb-colearn.js";
 // AGENT-AVATARS: the software agents embodied at the robot sites.
-import { aaMountAgentAvatars, aaVbridgeAgents, aaVbridgeSource, aaRoomAvatarMount } from "../../shared/aa-agent-avatars.js";
+import { aaMountAgentAvatars, aaVbridgeAgents, aaVbridgeSource, aaRoomAvatarMount, aaCrowdAvatarMount } from "../../shared/aa-agent-avatars.js";
 // HIVE-IN-WORLD: the hive's agents inside the robotics rooms, one door with the exterior, and the return into the room.
 import { hwSyncRoom, hwFxDoorAt, hwReturnHash, hwRoomFromHash, hwRouter, hwBoxesIn } from "../../shared/hw-hive-world.js";
 import { h5IsOpsRoom } from "../../shared/h5-ops-room.js";
@@ -1430,9 +1430,13 @@ window.__parishTest.agentAvatars = aaWorld;
 var hwRoomMount = null;
 // AVATARS-HD-2: the rooms' figures are the room level of the high-detail figure on high (inside IX_BUDGET), and wait for the voice too.
 var aaRoomMount = aaRoomAvatarMount({ voiced: aaVoiced });
+// AVATARS-HD-3: the hive's operations room gets the crowd level on high (seven figures and the room inside IX_BUDGET; balanced keeps
+// HIVE-5's lightened standard figure), and its walks between the door and the consoles go round the room's colliders. One per room.
+var aaOpsMountRoom = null, aaOpsMount = null;
+function aaOpsMountFor(room) { if (room !== aaOpsMountRoom) { aaOpsMountRoom = room; aaOpsMount = aaCrowdAvatarMount({ voiced: aaVoiced, room, router: hwRouter }); } return aaOpsMount; }
 function hwSync() {
   const hv = h3Scene?.relay ?? window.__parishTest?.hive?.hive ?? null; // HIVE-3: the scene's paced hive while it plays
-  hwRoomMount = hwSyncRoom(hwRoomMount, { room: ixWorld.room, three: THREE, agents: hv?.agents ?? [], source: hv, tier: npTierName, reducedMotion: npReduced, mount: h5IsOpsRoom(ixWorld.room) ? undefined : aaRoomMount }); // the ops room keeps HIVE-5's lightened standard figure: seven room-level HD figures would take it to 8,508 triangles, over its 6,000
+  hwRoomMount = hwSyncRoom(hwRoomMount, { room: ixWorld.room, three: THREE, agents: hv?.agents ?? [], source: hv, tier: npTierName, reducedMotion: npReduced, mount: h5IsOpsRoom(ixWorld.room) ? aaOpsMountFor(ixWorld.room) : aaRoomMount }); // the ops room: the crowd level (seven room-level HD figures would take it to 8,508 triangles, over its 6,000; check_agent_avatars §9l measures the crowd)
   return hwRoomMount;
 }
 // A station launched from a robotics room comes back with #...&ixr=<style>: stand at that room's door and go back inside.

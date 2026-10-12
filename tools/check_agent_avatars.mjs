@@ -728,9 +728,164 @@ const HDV = {};
     const bal = measureRoom("ixr-cell-hall", "room", "balanced"), low = measureRoom("ixr-cell-hall", "room", "low"), balToday = measureRoom("ixr-cell-hall", "today", "balanced");
     ok(bal.c.hd === 0 && bal.all.triangles === balToday.all.triangles && bal.all.meshes === balToday.all.meshes && bal.tex === balToday.tex && low.c.figures === 0, `balanced and the phone unchanged in a room: balanced builds today's figure (${bal.all.triangles} triangles, ${bal.all.meshes} meshes, as without the room level), the phone tier none`);
     const appSrc = read("WebXR/parishes/js/app.js");
-    ok(/var aaRoomMount = aaRoomAvatarMount\(\{ voiced: aaVoiced \}\);/.test(appSrc) && /hwSyncRoom\(hwRoomMount, \{[^\n]*mount: (?:h5IsOpsRoom\(ixWorld\.room\) \? undefined : )?aaRoomMount \}\)/.test(appSrc), "wiring: the page's robotics-room mount (hwSyncRoom's mount) is aaRoomAvatarMount with the voice's pending (the ops room keeps HIVE-5's lightened figure)");
+    ok(/var aaRoomMount = aaRoomAvatarMount\(\{ voiced: aaVoiced \}\);/.test(appSrc) && /hwSyncRoom\(hwRoomMount, \{[^\n]*mount: h5IsOpsRoom\(ixWorld\.room\) \? aaOpsMountFor\(ixWorld\.room\) : aaRoomMount \}\)/.test(appSrc) && /aaCrowdAvatarMount\(\{ voiced: aaVoiced, room, router: hwRouter \}\)/.test(appSrc), "wiring: the page's robotics-room mount (hwSyncRoom's mount) is aaRoomAvatarMount with the voice's pending (AVATARS-HD-3: the ops room takes the crowd mount, aaCrowdAvatarMount with the room's router; §9l)");
     HDV.rooms = R.map((x) => ({ st: x.st, shell: x.room.shell.triangles, today: x.today.all.triangles, room: x.room.all.triangles, full: x.full.all.triangles, meshesToday: x.today.all.meshes, meshesRoom: x.room.all.meshes, inside: x.room.inside }));
     HDV.roomsInside = { n: inRoom, of: styles.length, fullOver: overFull, worstTri: worstRoomTri };
+  }
+  // 9l. AVATARS-HD-3: the hive's operations room (HIVE-5's h5MountOpsRoom, through hwSyncRoom as the page calls it) with the page's
+  // mount, the crowd level, on high: built as the page builds it on a desktop (ENV-HD-4's ops dresser and lighting, ENV-HD-2's skins),
+  // seven figures standing at their consoles with their captions up; the walks between the door and the consoles over the seeded day,
+  // against the room's console and chair boxes; the mouth at a low frame rate; and the rooms over the hive's whole day.
+  {
+    const IX = await imp("WebXR/shared/ix-interiors.js"), IXR = await imp("WebXR/shared/ixr-robo-interiors.js"), H4R = await imp("WebXR/shared/hd4-rooms.js"), HD2 = await imp("WebXR/shared/hd2-room-skins.js");
+    const HW = await imp("WebXR/shared/hw-hive-world.js");
+    const DESK = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36";
+    const dz = {}; const regD = { ixRegisterDresser: (st, fn) => (dz[st] ??= []).push(fn) };
+    IXR.ixrRegisterDressers(regD); H4R.hd4RegisterDressers(regD, { ultra: false, ua: DESK }); HD2.hd2RegisterSkins(regD);
+    const signBytes = IXR.IXR_SHELL_SIGNS.reduce((a, [w, h]) => a + Math.round(w * h * 4 * 4 / 3), 0);
+    const ctx = new Proxy({}, { get: (_t, k) => (k === "measureText" ? () => ({ width: 10 }) : typeof k === "string" && k.startsWith("create") ? () => ({ addColorStop() {} }) : () => {}), set: () => true });
+    const savedDoc = globalThis.document;
+    const PANEL = { exchanges: true, memory: true, variety: true, homeward: true }; // the panel's hive (oh-panel.js)
+    const measure = (room) => { const m = IXR.ixrMeasure(room); const signs = m.textures.some((t) => /sign|label|board/i.test(t.name)) ? 0 : signBytes; return { meshes: m.meshes, triangles: m.triangles, bytes: m.textureBytes + signs }; };
+    const inside = (s, tier = "high") => s.meshes <= IX.IX_BUDGET.meshes && s.triangles <= IX.IX_BUDGET.triangles[tier === "low" ? "low" : "high"] && s.bytes <= IXR.IXR_TEX_BUDGET[tier];
+    const buildRoom = (st, tier = "high") => {
+      delete globalThis.document;
+      const site = st === H4R.HD4_OPS_STYLE ? H4R.hd4OpsSite(H4R.hd4OpsHome(), null) : IXR.ixrSiteFor(rbData.RB_SITES.find((x) => IXR.IXR_SITE_STYLE[x.id] === st), null);
+      const room = IX.ixBuild(st, { three: RT, tier, site, dressers: dz });
+      globalThis.document = { createElement: () => ({ width: 0, height: 0, getContext: () => ctx }) };
+      return room;
+    };
+    const triOf = (g) => { let tri = 0; g?.traverse((o) => { if (o.isMesh) tri += (o.geometry.index ? o.geometry.index.count : o.geometry.attributes.position.count) / 3; }); return tri; };
+    const mounts = { lite: () => undefined, room: () => AA.aaRoomAvatarMount(), crowd: (room) => AA.aaCrowdAvatarMount({ room, router: HW.hwRouter }), straight: () => AA.aaCrowdAvatarMount() };
+    const enter = (kind, tier = "high") => {
+      const room = buildRoom(H4R.HD4_OPS_STYLE, tier), shell = measure(room), hive = OHH.ohHive({ seed: HIVE_SEED, ...PANEL });
+      const m = HW.hwSyncRoom(null, { room, three: RTS, agents: hive.agents, source: hive, tier, mount: mounts[kind](room) });
+      m.animate(0, 0);
+      const standing = m.standing().length;
+      for (const a of hive.agents) m.avatars.handle({ type: "speak", agent: a.id, text: `${a.name} speaks a line long enough to fill its caption bubble with words.` });
+      m.animate(0.2, 0.2);
+      const all = measure(room), c = m.avatars.counts(), tris = hive.agents.map((a) => triOf(m.avatars.figure(a.id)));
+      return { room, shell, hive, m, standing, all, c, tris, lite: hive.agents.map((a) => m.avatars.figure(a.id)?.userData?.h5Lite ?? null) };
+    };
+    const E = { lite: enter("lite"), room: enter("room"), crowd: enter("crowd") };
+    const C = E.crowd, worstCrowd = Math.max(...C.tris), bestCrowd = Math.min(...C.tris);
+    console.log(`     ops room on high, 7 standing and speaking: shell ${C.shell.meshes} meshes / ${C.shell.triangles} tris; HIVE-5's lightened figure → ${E.lite.all.meshes} / ${E.lite.all.triangles}; room level → ${E.room.all.meshes} / ${E.room.all.triangles}; crowd level → ${C.all.meshes} / ${C.all.triangles}, ${(C.all.bytes / 1048576).toFixed(2)} MiB`);
+    ok(C.standing === 7 && C.c.hd === 7 && C.c.hdLevel === "crowd" && inside(C.all), `the ops room on high with the page's mount: ${C.standing} of 7 standing at their consoles, ${C.c.hd} crowd-level high-detail figures with captions up; ${C.all.meshes} meshes (≤ ${IX.IX_BUDGET.meshes}), ${C.all.triangles} triangles (≤ ${IX.IX_BUDGET.triangles.high}), ${(C.all.bytes / 1048576).toFixed(2)} MiB (≤ ${(IXR.IXR_TEX_BUDGET.high / 1048576).toFixed(0)} MiB); the room level would make ${E.room.all.triangles} (${inside(E.room.all) ? "inside" : "over"})`);
+    ok(worstCrowd <= HD.AA_HD_CROWD_BUDGET.triangles && C.lite.every((l) => !l || l.after === l.before), `the crowd level per figure: ${bestCrowd}–${worstCrowd} triangles (≤ ${HD.AA_HD_CROWD_BUDGET.triangles}), 3 meshes; HIVE-5's h5LiteFigure leaves it as built (no faceted coarsening; before ${E.lite.lite[0]?.before} → ${E.lite.lite[0]?.after} on today's figure)`);
+    // no skin and the label at the crowd level
+    const tones = crew.CT_AVATAR_STYLES.skin.map((s) => [((s.hex >> 16) & 255) / 255, ((s.hex >> 8) & 255) / 255, (s.hex & 255) / 255]);
+    let minD = Infinity, labelled = 0;
+    for (const a of [...OHA, ...AA.aaVbridgeAgents("rb-site-soma-robot-cell")]) {
+      const spec = HD.aaHdSpec(a), geo = HD.aaHdGeometry(spec, "crowd");
+      for (let i = 0; i < geo.body.si.length / 4; i += 1) {
+        const bone = Object.keys(HD.AA_HD_BONES)[geo.body.si[4 * i]]; if (!/^(head|wristL|wristR)$/.test(bone)) continue;
+        const c = [geo.body.c[3 * i], geo.body.c[3 * i + 1], geo.body.c[3 * i + 2]]; if (spec.tablet && bone === "wristL" && c[0] < 0.3) continue;
+        for (const tn of tones) minD = Math.min(minD, Math.hypot(c[0] - tn[0], c[1] - tn[1], c[2] - tn[2]));
+      }
+    }
+    for (const a of C.hive.agents) { const g = C.m.avatars.figure(a.id), lab = g?.children.find((o) => o.name === "aa-label"); if (g?.userData.aaAgent?.level === "crowd" && /^software agent · /.test(lab?.userData.text ?? "")) labelled += 1; }
+    const glowCrowd = OHA.every((a) => { const geo = HD.aaHdGeometry(HD.aaHdSpec(a), "crowd"); return geo.triangles.glow >= 80; });
+    ok(minD >= 0.15 && labelled === 7 && glowCrowd, `software, never a person, at the crowd level: head and hands ≥ 0.15 RGB from every skin tone (closest ${minD.toFixed(3)}); labelled "software agent · <role>" ${labelled} of 7; visor band, eyes, halo and badge kept`);
+    const bal = enter("crowd", "balanced"), balLite = enter("lite", "balanced"), low = enter("crowd", "low");
+    ok(bal.c.hd === 0 && bal.all.triangles === balLite.all.triangles && bal.all.meshes === balLite.all.meshes && low.c.figures === 0 && inside(bal.all, "balanced"), `balanced and the phone unchanged in the ops room: balanced builds HIVE-5's lightened standard figure (${bal.all.triangles} triangles, ${bal.all.meshes} meshes, as before), the phone none`);
+    for (const x of [...Object.values(E), bal, balLite, low]) x.m.dispose();
+    // the walks between the door and the consoles over the seeded day: each walk's path against the consoles' and chairs' boxes
+    const day = (kind) => {
+      const room = buildRoom(H4R.HD4_OPS_STYLE), hive = OHH.ohHive({ seed: HIVE_SEED, ...PANEL });
+      const m = HW.hwSyncRoom(null, { room, three: RTS, agents: hive.agents, source: hive, tier: "high", mount: mounts[kind](room) });
+      const boxes = room.colliders.filter((b) => b.max[1] > 0.5).map((b) => ({ x0: b.min[0], z0: b.min[2], x1: b.max[0], z1: b.max[2], kind: b.kind })); // consoles, chairs, props and walls (the router's own rule)
+      const walks = new Map(); let clock = 0, steps = 0, inSteps = 0, worst = 0;
+      m.animate(0, 0);
+      for (let k = 0; k < 480; k += 1) {
+        hive.step();
+        for (let f = 0; f < 5; f += 1) {
+          clock += 0.2; m.animate(clock, 0.2);
+          for (const a of hive.agents) { const p = m.avatars.state(a.id)?.walkPath; if (p) walks.set(`${a.id}@${p.start}`, p.pts); }
+        }
+        const s = measure(room); steps += 1; if (inside(s)) inSteps += 1; worst = Math.max(worst, s.triangles);
+      }
+      // the distance from a walk's path to a box (Euclidean, so a box's corner is round): sampled every 2 cm along each leg
+      const ptBox = (x, z, q) => Math.hypot(Math.max(q.x0 - x, 0, x - q.x1), Math.max(q.z0 - z, 0, z - q.z1));
+      const legDist = (a, b2, q) => { const L = Math.hypot(b2.x - a.x, b2.z - a.z), n = Math.max(1, Math.ceil(L / 0.02)); let d = Infinity; for (let i = 0; i <= n; i += 1) d = Math.min(d, ptBox(a.x + ((b2.x - a.x) * i) / n, a.z + ((b2.z - a.z) * i) / n, q)); return d; };
+      const cross = (r) => [...walks.values()].filter((pts) => pts.some((p, i) => i > 0 && boxes.some((q) => (r === 0 ? HW.hwSegBox(pts[i - 1], p, q) : legDist(pts[i - 1], p, q) < r)))).length;
+      const routed = [...walks.values()].filter((pts) => pts.length > 2).length;
+      // the closest a walk comes to a console or chair away from its ends (the spots themselves stand 0.42 m or more from their chairs)
+      const away = (pts, i, d0) => { const a = pts[i - 1], b2 = pts[i], L = Math.hypot(b2.x - a.x, b2.z - a.z); return L > 2 * d0 ? [{ x: a.x + ((b2.x - a.x) * d0) / L, z: a.z + ((b2.z - a.z) * d0) / L }, { x: b2.x - ((b2.x - a.x) * d0) / L, z: b2.z - ((b2.z - a.z) * d0) / L }] : null; };
+      let clear = Infinity; for (const pts of walks.values()) pts.forEach((p, i) => { if (!i) return; const s = away(pts, i, 0.6); if (s) for (const q of boxes) if (q.kind === "hd4-console") clear = Math.min(clear, legDist(s[0], s[1], q)); });
+      m.dispose();
+      return { n: walks.size, raw: cross(0), body: cross(0.3), margin: cross(0.45), routed, steps, inSteps, worst, clear };
+    };
+    const straight = day("straight"), routed = day("crowd");
+    // a walk that must go round: from the video wall's side of the arc (2 m in front of the wall) to each console's spot, through the
+    // page's route (aaRoomRoute with hw-hive-world.js hwRouter) against the straight line
+    const opsRoom = buildRoom(H4R.HD4_OPS_STYLE), rt = AA.aaRoomRoute(opsRoom, HW.hwRouter), cons = opsRoom.colliders.filter((b) => b.kind === "hd4-console").map((b) => ({ x0: b.min[0], z0: b.min[2], x1: b.max[0], z1: b.max[2] }));
+    const through = (pts) => pts.some((p, i) => i > 0 && cons.some((q) => HW.hwSegBox(pts[i - 1], p, q)));
+    const far = opsRoom.spots.agent.map((s) => { const from = { x: s.x * 0.2, z: -opsRoom.d / 2 + 2 }, r = rt?.(from, s); return { straight: through([from, s]), routed: r ? through([from, ...r]) : true }; });
+    ok(far.filter((x) => x.routed).length === 0 && far.some((x) => x.straight), `a walk that has to go round (from the wall side of the arc to each spot): straight through a console or chair ${far.filter((x) => x.straight).length} of ${far.length}, routed ${far.filter((x) => x.routed).length} of ${far.length}`);
+    // a figure is up to 0.36 m from its midline to the outside of a shoulder cap (the broadest body), 0.3 m for an average one
+    ok(routed.n > 0 && routed.raw === 0 && routed.body === 0, `walks between the door and the consoles (seed ${HIVE_SEED}, 480 steps): ${routed.n} walks; a path through a console, chair, prop or wall box ${routed.raw} of ${routed.n}, within a 0.3 m body's half-width ${routed.body} of ${routed.n} (0.45 m: ${routed.margin}), ${routed.routed} routed round them, closest to a console or chair away from the ends ${routed.clear.toFixed(2)} m; walking straight (before): ${straight.raw} through a box, ${straight.body} within 0.3 m, ${straight.margin} within 0.45 m of ${straight.n}, closest ${straight.clear.toFixed(2)} m`);
+    ok(routed.inSteps === routed.steps, `the ops room with the crowd level over the hive's day: inside IX_BUDGET and IXR_TEX_BUDGET ${routed.inSteps} of ${routed.steps} steps (worst ${routed.worst} triangles)`);
+    // the six robotics rooms over the hive's day with the room level (the page's aaRoomAvatarMount), one hive, all six rooms mounted
+    {
+      const hive = OHH.ohHive({ seed: HIVE_SEED, ...PANEL }), styles = Object.keys(IXR.IXR_ROOMS);
+      const R = styles.map((st) => { const room = buildRoom(st); return { st, room, m: HW.hwSyncRoom(null, { room, three: RTS, agents: hive.agents, source: hive, tier: "high", mount: AA.aaRoomAvatarMount() }), ok: 0, worst: 0, worstTex: 0, most: 0 }; });
+      let clock = 0;
+      for (let k = 0; k < 480; k += 1) {
+        hive.step();
+        for (let f = 0; f < 5; f += 1) { clock += 0.2; for (const r of R) r.m?.animate(clock, 0.2); }
+        for (const r of R) { const s = measure(r.room); if (inside(s)) r.ok += 1; r.worst = Math.max(r.worst, s.triangles); r.worstTex = Math.max(r.worstTex, s.bytes); r.most = Math.max(r.most, r.m?.avatars?.counts?.().figures ?? 0); }
+      }
+      const all = R.filter((r) => r.ok === 480).length, busiest = R.reduce((a, b) => (b.worst > a.worst ? b : a));
+      for (const r of R) console.log(`     ${r.st.padEnd(18)} over the day (room level): ${r.ok} of 480 steps inside, worst ${r.worst} triangles, ${(r.worstTex / 1048576).toFixed(2)} MiB, up to ${r.most} figures`);
+      ok(all === styles.length && R.some((r) => r.most > 0), `the six robotics rooms over the hive's whole seeded day (480 steps) with the room level on high: inside IX_BUDGET and IXR_TEX_BUDGET ${all} of ${styles.length} rooms × 480 steps (busiest ${busiest.st}, worst ${busiest.worst} triangles)`);
+      for (const r of R) r.m?.dispose();
+      HDV.dayRooms = { n: all, of: styles.length, ops: routed.inSteps, opsOf: routed.steps };
+    }
+    // the mouth at a low frame rate: the stubbed voice of §9f (word-length based boundaries carrying their own timeStamp, ms) and frames
+    // at 1 Hz and 2 Hz. Each boundary is stamped with its own time (within 1 ms), and every frame that follows a new word shows the mouth
+    // open (the newest word), N of N.
+    const lowRate = (hz) => {
+      let simMs = 0;
+      const src = AA.aaEmitter(), w = AA.aaMountAgentAvatars({ three: RTS, parent: new RT.Group(), agents: [AG.trainer], source: src, siteAt, tier: "high", hd: true, now: () => simMs });
+      const hooks = AA.aaVoiceHooks(w, AG.trainer.id), sched = [];
+      let tv = 0.35; sched.push([tv, () => hooks.onstart()]); tv += 0.04;
+      for (const wd of words) { const at = tv; sched.push([at, () => hooks.onboundary({ name: "word", charIndex: wd.char, timeStamp: at * 1000 })]); tv += 0.09 + 0.028 * wd.len; }
+      sched.push([tv + 0.3, () => hooks.onend()]);
+      const bounds = sched.slice(1, -1).map((x) => x[0]);
+      w.animate(0, 0, null); src.emit({ type: "speak", agent: AG.trainer.id, text });
+      let stampsOk = 0, frames = 0, framesOpen = 0, seen = 0;
+      for (let k = 1; k <= Math.ceil(hz * 9); k += 1) {
+        const t = k / hz;
+        while (sched.length && sched[0][0] <= t) { const [at, fn] = sched.shift(); simMs = at * 1000; fn(); }
+        simMs = t * 1000; w.animate(t, 1 / hz, null);
+        const s = w.state(AG.trainer.id), n = s.boundaries;
+        if (n > seen) { frames += 1; if (s.mouth >= AA.AA_MOUTH_SEEN) framesOpen += 1; seen = n; }
+      }
+      w.dispose();
+      return { bounds, frames, framesOpen };
+    };
+    // stamps: read back through a 1 Hz mount's own boundary record
+    const stampCheck = (() => {
+      let simMs = 0;
+      const src = AA.aaEmitter(), w = AA.aaMountAgentAvatars({ three: RTS, parent: new RT.Group(), agents: [AG.trainer], source: src, siteAt, tier: "high", hd: true, now: () => simMs });
+      w.animate(0, 0, null); src.emit({ type: "speak", agent: AG.trainer.id, text }); simMs = 1000; w.animate(1, 1, null);
+      const hooks = AA.aaVoiceHooks(w, AG.trainer.id); simMs = 1100; hooks.onstart();
+      let tv = 1.14, okN = 0; const want = [], q = [];
+      for (const wd of words) { want.push(tv); q.push([tv, wd.char]); tv += 0.09 + 0.028 * wd.len; }
+      for (let t = 2; q.length; t += 1) { // 1 Hz: each boundary arrives late, just before the next frame, carrying its own time
+        while (q.length && q[0][0] < t) { const [at, ch] = q.shift(); simMs = t * 1000 - 1; hooks.onboundary({ name: "word", charIndex: ch, timeStamp: at * 1000 }); }
+        simMs = t * 1000; w.animate(t, 1, null);
+      }
+      const got = w.boundaryLog(AG.trainer.id);
+      for (let i = 0; i < want.length; i += 1) if (got[i] !== undefined && Math.abs(got[i] - want[i]) <= 0.001) okN += 1;
+      w.dispose();
+      return { ok: okN, n: want.length };
+    })();
+    const r1 = lowRate(1), r2 = lowRate(2);
+    ok(stampCheck.ok === stampCheck.n, `word boundaries stamped with their own time (the event's timeStamp, mapped from the last frame), not the last frame's: ${stampCheck.ok} of ${stampCheck.n} within 1 ms`);
+    ok(r1.framesOpen === r1.frames && r2.framesOpen === r2.frames && r1.frames > 0, `the mouth at a low frame rate: every frame after a new word shows the mouth open, 1 Hz ${r1.framesOpen} of ${r1.frames}, 2 Hz ${r2.framesOpen} of ${r2.frames}`);
+    HDV.ops = { lite: E.lite.all, room: E.room.all, crowd: C.all, perFigure: [bestCrowd, worstCrowd], walks: { far: far.filter((x) => x.straight).length, farRouted: far.filter((x) => x.routed).length, farN: far.length, clear: routed.clear, straightClear: straight.clear, n: routed.n, raw: routed.raw, body: routed.body, margin: routed.margin, straight: straight.raw, straightBody: straight.body, straightMargin: straight.margin, straightN: straight.n }, stamps: stampCheck, r1, r2 };
+    globalThis.document = savedDoc;
   }
   // 9i. the wiring: the outdoor mount asks for hd; the bundles list the module before the portraits
   const app = read("WebXR/parishes/js/app.js"), bundler = read("tools/bundle_webxr.py");
@@ -744,6 +899,8 @@ if (HDV.tiers) {
   const T9 = HDV.tiers;
   console.log(`\n  EVAL AVATARS-HD: triangles per figure low 0 / balanced ${T9.balanced.perFigure.toFixed(0)} / high ${T9.high.perFigure.toFixed(0)} (worst ${T9.high.worstTri}, budget ${3000}); draw calls per figure balanced ${T9.balanced.silent}/${T9.balanced.speaking}, high ${T9.high.silent}/${T9.high.speaking} (silent/speaking)`);
   if (HDV.stopFront) console.log(`  EVAL AVATARS-HD-2: stop vs raised hand from the front ${HDV.stopFront.before.dist.toFixed(2)} → ${HDV.stopFront.after.dist.toFixed(2)} body heights apart; stop hand outside → inside the shoulders' width; palm to the front ${HDV.stopFront.after.palm.toFixed(2)}`);
+  if (HDV.ops) { const o = HDV.ops; console.log(`  EVAL AVATARS-HD-3: ops room on high with 7 standing, speaking figures: HIVE-5's lightened figure ${o.lite.meshes} meshes / ${o.lite.triangles} triangles, room level ${o.room.meshes} / ${o.room.triangles} (over) → crowd level ${o.crowd.meshes} / ${o.crowd.triangles} (≤ 120 / 6,000); crowd figure ${o.perFigure[0]}–${o.perFigure[1]} triangles; walks within a 0.3 m body of a box ${o.walks.straightBody} → ${o.walks.body} of ${o.walks.n} (through a box ${o.walks.straight} → ${o.walks.raw}; closest to a console or chair mid-walk ${o.walks.straightClear.toFixed(2)} → ${o.walks.clear.toFixed(2)} m; a walk from the wall side ${o.walks.far} → ${o.walks.farRouted} of ${o.walks.farN} through a console); boundary stamps on their own time ${o.stamps.ok} of ${o.stamps.n}; frames after a new word with the mouth open 1 Hz ${o.r1.framesOpen} of ${o.r1.frames}, 2 Hz ${o.r2.framesOpen} of ${o.r2.frames}`); }
+  if (HDV.dayRooms) console.log(`  EVAL AVATARS-HD-3: rooms inside budget over the whole seeded day (480 steps, high): robotics rooms with the room level ${HDV.dayRooms.n} of ${HDV.dayRooms.of}; ops room with the crowd level ${HDV.dayRooms.ops} of ${HDV.dayRooms.opsOf} steps`);
   if (HDV.roomsInside) console.log(`  EVAL AVATARS-HD-2: robotics rooms inside IX_BUDGET on high with ${3} high-detail figures 0 → ${HDV.roomsInside.n} of ${HDV.roomsInside.of} (room level, worst ${HDV.roomsInside.worstTri} triangles a figure; the outdoor figure would put ${HDV.roomsInside.fullOver} over)`);
   if (HDV.light) console.log(`  EVAL AVATARS-HD-2: boundaries forwarded by the real controller 0 → ${HDV.voiceCtl.forwarded} of ${HDV.voiceCtl.words}; mouth opens per word (word-length stub) ${HDV.voiceCtl.perWord} of ${HDV.voiceCtl.forwarded}, real hive ${HDV.light.after.opened} of ${HDV.light.after.words}; talk light from onstart ${HDV.light.before.good} of ${HDV.light.before.lines} → ${HDV.light.after.good} of ${HDV.light.after.lines}`);
   console.log(`  EVAL AVATARS-HD: distinct silhouettes ${HDV.silhouettes.before} → ${HDV.silhouettes.after} of 21; mouth within ${HDV.mouth.on.max.toFixed(1)} ms of word boundaries (stubbed voice, ${HDV.mouth.on.within} of ${HDV.mouth.on.n}), ${HDV.mouth.off.max.toFixed(1)} ms of caption word onsets (${HDV.mouth.off.within} of ${HDV.mouth.off.n}); gestures ${HDV.gestures.map((r) => `${r.on} ${r.got}/${r.n}`).join(", ")}`);

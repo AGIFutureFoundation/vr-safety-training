@@ -59,6 +59,14 @@
 //     every one, today's figure poses stop, nod and approve.
 //   aaVoiceHooks(world, agentId, text?) -> { onstart, onboundary, onend } for a voice's say(): the light and the mouth follow the utterance.
 //   aaRoomAvatarMount(extra) -> a mount for hwSyncRoom's `mount` (AVATARS-HD-2): the room level of the high-detail figure on high.
+//   aaCrowdAvatarMount(extra) -> the same for the hive's operations room (AVATARS-HD-3): the crowd level (AA_HD_CROWD_BUDGET), seven of
+//              them inside IX_BUDGET with the room. extra.room + extra.router (hw-hive-world.js hwRouter, passed in: this module imports
+//              nothing of the hive's) make the walks between the door and the consoles go round the room's colliders (aaRoomRoute).
+//   aaRoomRoute(room, router, opts?) -> route(from, to) round room.colliders (the consoles, chairs and walls), or null.
+//   now (option, ms; default performance.now) and talkWord(id, charIndex, text?, atMs?) (AVATARS-HD-3): a word boundary is stamped with
+//              its own time (atMs, the event's timeStamp, else now() when it arrives), mapped onto the mount's clock from the last frame,
+//              not with the last frame's time; and a frame that comes after a word's opening has passed unseen (a very low frame rate)
+//              shows the newest word open, so no word passes without the mouth opening.
 //   aaBoundaryWordSec(bw, chars) -> how long a boundary-driven word lasts (s), from the line's boundaries so far (the mouth closes before
 //              the next word at the voice's own pace).
 //   aaVbridgeAgents(homeSite) -> the four VBRIDGE personas as agents standing at homeSite
@@ -69,7 +77,7 @@
 
 import { ctAvatarFigure, ctAvatarOption, CT_AVATAR_BUDGET } from "./crew.js";
 import { aaAgentLook, aaRoleLabel, aaHash, AA_VBRIDGE_PERSONAS } from "./aa-agent-portraits.js";
-import { aaHdSupported, aaHdBuild, aaHdPose, aaWordOnsets, aaHdMouth, AA_HD_GESTURE_MS } from "./aa-agent-hd.js";
+import { aaHdSupported, aaHdBuild, aaHdPose, aaWordOnsets, aaHdMouth, AA_HD_GESTURE_MS, AA_HD_LOD } from "./aa-agent-hd.js";
 import { RB_SITES } from "./rb-robotics-data.js";
 import { VB_TASKS, VB_REASONS } from "./vb-shared-data.js";
 
@@ -109,6 +117,10 @@ const aaClamp = (v, a, b) => Math.max(a, Math.min(b, v));
  * AA_BOUNDARY_FILL of it (it closes at 86% of that, aaHdMouth), so it closes between words at the voice's pace. */
 export const AA_BOUNDARY_PRIOR = Object.freeze({ a: 0.05, b: 0.025 });
 export const AA_BOUNDARY_FILL = 0.8;
+/** AVATARS-HD-3: a frame counts a word as seen when the mouth is at least this open; a word whose opening passed unseen between frames is
+ * shown at AA_MOUTH_CATCHUP on the next frame. */
+export const AA_MOUTH_SEEN = 0.15;
+export const AA_MOUTH_CATCHUP = 0.8;
 
 /** AVATARS-HD-2: seconds a boundary-driven word of `chars` characters will last, from the line's boundaries so far (`bw`: [{ at, char }]):
  * interval = a + b x delta-chars fitted by least squares to the last eight intervals (one interval: a pace per character), else the prior. */
@@ -156,7 +168,7 @@ export function aaEmitter() {
 export function aaVoiceHooks(world, agentId, text = null) {
   return {
     onstart: () => { try { world?.talkStart?.(agentId, text); } catch (_) { /* a figure never stops a voice */ } },
-    onboundary: (e) => { try { if (!e || e.name === undefined || e.name === "word") world?.talkWord?.(agentId, Number.isFinite(e?.charIndex) ? e.charIndex : null, text); } catch (_) { /* ignore */ } },
+    onboundary: (e) => { try { if (!e || e.name === undefined || e.name === "word") world?.talkWord?.(agentId, Number.isFinite(e?.charIndex) ? e.charIndex : null, text, Number.isFinite(e?.timeStamp) ? e.timeStamp : null); } catch (_) { /* ignore */ } },
     onend: () => { try { world?.talkEnd?.(agentId, text); } catch (_) { /* ignore */ } },
   };
 }
@@ -165,6 +177,26 @@ export function aaVoiceHooks(world, agentId, text = null) {
  * desktop high tier (AA_HD_ROOM_BUDGET), so a room with H3_ROOM_FIGURES figures stays inside IX_BUDGET; balanced keeps today's figure
  * and the phone tier builds none. `extra` adds options (the page passes `voiced`). */
 export function aaRoomAvatarMount(extra = {}) { return (opts = {}) => aaMountAgentAvatars({ ...opts, ...extra, hd: "room" }); }
+
+/** AVATARS-HD-3: a route round a room's colliders (room-local boxes: walls, consoles, chairs, props), from `router` (hw-hive-world.js
+ * hwRouter(boxesIn, opts), passed in by the caller). Defaults: a 0.3 m body and a 0.05 m margin on a 0.25 m grid (the ops room's spots
+ * stand 0.42 m or more from their chairs, so a clear straight walk stays straight and only a blocked one bends). Null without a room
+ * or a router. */
+export function aaRoomRoute(room, router, { radius = 0.3, margin = 0.05, step = 0.25, reach = 8 } = {}) {
+  const boxes = Array.isArray(room?.colliders) ? room.colliders : null;
+  if (!boxes || typeof router !== "function") return null;
+  const boxesIn = (x0, z0, x1, z1) => boxes.filter((b) => b?.min && b?.max && b.max[0] >= x0 && b.min[0] <= x1 && b.max[2] >= z0 && b.min[2] <= z1);
+  try { const r = router(boxesIn, { radius, margin, step, reach }); return typeof r?.route === "function" ? r.route : null; } catch (_) { return null; }
+}
+
+/** AVATARS-HD-3: the avatar mount for the hive's operations room (h5-ops-room.js h5MountOpsRoom's `mount`, through hwSyncRoom): the crowd
+ * level of the high-detail figure on the desktop high tier (seven figures and the room inside IX_BUDGET); balanced keeps today's figure
+ * (HIVE-5 lightens it there) and the phone tier builds none. `extra`: { voiced, room, router } (room + router: walks go round the
+ * consoles; aaRoomRoute). */
+export function aaCrowdAvatarMount({ room = null, router = null, ...extra } = {}) {
+  const route = aaRoomRoute(room, router);
+  return (opts = {}) => aaMountAgentAvatars({ ...opts, ...(route ? { route } : {}), ...extra, hd: "crowd" });
+}
 
 /** A site lookup's answer as { x, y, z } (accepts [x, z], [x, y, z], { x, z }, { position: [x, z] }), or null. */
 export function aaSitePoint(v) {
@@ -325,13 +357,16 @@ function aaCountObject(obj) {
  * answers this map's site position ({ x, y, z } / [x, z] / null when the site is not on this map). `here` passed to
  * animate is the learner's [x, z] (null = everyone near). Headless without `three`: the state machine still runs.
  */
-export function aaMountAgentAvatars({ three = null, parent = null, agents = [], source = null, siteAt = () => null, reducedMotion = false, tier = "high", groundAt = null, spotFor = null, textureScale = 1, blocked = null, route = null, hd = false, voiced = null } = {}) {
+export function aaMountAgentAvatars({ three = null, parent = null, agents = [], source = null, siteAt = () => null, reducedMotion = false, tier = "high", groundAt = null, spotFor = null, textureScale = 1, blocked = null, route = null, hd = false, voiced = null, now = null } = {}) {
   const T = three;
   const build = !!(T && parent && AA_TIERS[tier] !== false);
   // AVATARS-HD: the high-detail figure is opt-in (the outdoor mount asks for it) and only ever on the desktop "high" tier; balanced
   // keeps today's figure and the phone tier builds none. A three.js without skinning (the checkers' stub) builds today's figure.
   const hdOn = !!(hd && build && tier === "high" && aaHdSupported(T));
-  const hdLevel = hd === "room" ? "room" : "full"; // AVATARS-HD-2: the robotics rooms ask for the room level
+  const hdLevel = typeof hd === "string" && AA_HD_LOD[hd] ? hd : "full"; // AVATARS-HD-2: the robotics rooms ask for "room"; AVATARS-HD-3: the ops room for "crowd"
+  // AVATARS-HD-3: the page's clock in ms (performance.now), so a word boundary keeps its own time between frames
+  const nowMs = typeof now === "function" ? now : () => (typeof performance !== "undefined" && typeof performance.now === "function" ? performance.now() : NaN);
+  let frameMs = NaN; // nowMs() at the last frame (animate)
   const root = build ? new T.Group() : null;
   if (root) { root.name = "aa-agent-avatars"; parent.add(root); }
   const figures = new Map();
@@ -476,7 +511,7 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
   /** AVATARS-HD: a voice's word boundary (SpeechSynthesisUtterance onboundary, `charIndex`): the mouth opens on this word now. Once a
    * line has had a boundary the mouth follows the boundaries only. AVATARS-HD-2: each word lasts as long as the voice's own pace says
    * (aaBoundaryWordSec), so the mouth closes between words. */
-  function talkWord(id, charIndex = null, text = null) {
+  function talkWord(id, charIndex = null, text = null, atMs = null) {
     const f = figures.get(id); let tk = f ? lineFor(f, text) : null; if (!tk) return false;
     if (tk.wait) { talkStart(id, text); tk = f.talk; } // a boundary before onstart: the voice has started
     if (!tk.bw) tk.bw = [];
@@ -484,7 +519,8 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
     const w = est.find((x) => x.char === ci) ?? est[tk.bw.length] ?? null, c0 = ci ?? w?.char ?? null;
     const nextChar = c0 == null ? null : est.find((x) => x.char > c0)?.char ?? tk.text.length + 1;
     const sec = aaBoundaryWordSec(tk.bw, c0 == null ? 5 : nextChar - c0);
-    tk.bw.push({ at: clock, dur: sec * AA_BOUNDARY_FILL, char: c0 });
+    tk.bw.push({ at: stampOf(atMs, tk), dur: sec * AA_BOUNDARY_FILL, char: c0 });
+    f.mouthClock = NaN; // the next state() reads the mouth afresh
     return true;
   }
   function talkEnd(id, text = null) {
@@ -583,6 +619,29 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
     if ((g?.kind === "nod" || g?.kind === "approve") && !reducedMotion) head.rotation.x = Math.sin(((clock - g.start) / (g.end - g.start)) * Math.PI) * 0.35;
     else head.rotation.x = 0;
   }
+  /** AVATARS-HD-3: a boundary's time on the mount's clock: the event's own time (atMs, else now() as it arrives) measured from the last
+   * frame, never before the line started and never more than 2 s after the last frame (a stray timestamp falls back to the frame). */
+  function stampOf(atMs, tk) {
+    const ms = Number.isFinite(atMs) ? Number(atMs) : nowMs();
+    const d = Number.isFinite(ms) && Number.isFinite(frameMs) ? (ms - frameMs) / 1000 : 0;
+    const at = Math.abs(d) <= 2 ? clock + d : clock;
+    return Math.max(at, tk?.start ?? -Infinity, tk?.bw?.length ? tk.bw[tk.bw.length - 1].at : -Infinity);
+  }
+  /** AVATARS-HD-3: the mouth this frame. As mouthAt, but when the newest word's opening has passed between two frames without being shown
+   * (about one frame a second), this frame shows that word open (AA_MOUTH_CATCHUP): at a normal frame rate every word is seen open on its
+   * own (only a frame within a few ms of a word's onset, before the mouth reaches 15%, shows it open a frame early). */
+  function mouthShown(f) {
+    const m = mouthAt(f), tk = f.talk;
+    if (!tk || m === 0 && (tk.wait || clock < tk.start || (!tk.voiced && clock >= tk.end))) return m;
+    const on = tk.bw?.length ? tk.bw : tk.words ?? [];
+    let n = -1; for (let i = 0; i < on.length; i += 1) { if (on[i].at <= clock) n = i; else break; }
+    const key = tk.bw?.length ? "seenB" : "seenW";
+    if (n < 0) return m;
+    if (m >= AA_MOUTH_SEEN) { tk[key] = n; return m; }
+    // a word not yet seen open (its opening passed between frames, or this frame is at its very edge)
+    if (n > (tk[key] ?? -1) && !reducedMotion) { tk[key] = n; tk.caught = (tk.caught ?? 0) + 1; return AA_MOUTH_CATCHUP; }
+    return m;
+  }
   /** AVATARS-HD: the mouth's openness now (0 while silent; held half open, still, under reduced motion). */
   function mouthAt(f) {
     const tk = f.talk; if (!tk || tk.wait || clock < tk.start || (!tk.voiced && clock >= tk.end)) return 0;
@@ -593,13 +652,14 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
    * the words, a blink, and the gesture the hive's last event raised (aa-agent-hd.js aaHdPose). */
   function poseHd(f) {
     const fig = f.fig, g = f.gesture && clock < f.gesture.end ? f.gesture : null;
-    const m = mouthAt(f), ph = (clock + f.blinkOff) % f.blinkPeriod;
+    const m = f.mouthClock === clock ? f.mouth : mouthAt(f), ph = (clock + f.blinkOff) % f.blinkPeriod;
     fig.hd.apply(aaHdPose(fig.hd.spec, { t: clock, walking: !!f.walk, walkPhase: f.walkPhase, speaking: talkOn(f), mouth: m, beat: m,
       gesture: g ? { kind: g.kind, k: (clock - g.start) / Math.max(1e-6, g.end - g.start) } : null, blink: ph < 0.14 ? Math.sin((ph / 0.14) * Math.PI) : 0, reduced: reducedMotion }));
   }
 
   function animate(t, dt = 0, here = null) {
     clock = Number.isFinite(t) ? t : clock + (dt || 0);
+    frameMs = nowMs();
     for (const s of sources) s.poll?.();
     for (const f of figures.values()) {
       tickTalk(f);
@@ -626,7 +686,7 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
         // AVATARS-HD: the stride's phase (a careful agent's cadence is a little slower; the travel speed is the same for all)
         if (!reducedMotion) f.walkPhase += (Number(dt) || 0) * Math.PI * 2 * 1.8 * (1.1 - 0.25 * (Number(f.agent.traits?.caution) || 0.5));
       }
-      f.mouth = mouthAt(f);
+      f.mouth = mouthShown(f); f.mouthClock = clock;
       if (!f.fig) continue;
       const d = here ? Math.hypot(here[0] - f.x, here[1] - f.z) : 0;
       const vis = !f.offMap && d <= AA_HIDE_RADIUS;
@@ -668,7 +728,7 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
   const stateOf = (f) => ({ id: f.agent.id, name: f.agent.name ?? f.agent.id, label: f.fig?.roleText ?? `software agent · ${aaRoleLabel(f.agent)}`, site: f.site, slot: f.slot, x: f.x, y: f.y, z: f.z, yaw: f.yaw, offMap: f.offMap, visible: f.visible, walking: !!f.walk, routed: !!f.walk?.routed,
     speaking: talkOn(f), waiting: !!f.talk?.wait, line: f.talk?.text ?? null, caption: f.caption?.text ?? null, gesture: f.gesture?.kind ?? null, queued: f.queue.length,
     talkVisible: f.fig ? !!f.fig.parts.talk.visible : null, captionVisible: f.fig ? !!f.fig.caption.visible : null, headPitch: f.fig ? f.fig.parts.head.rotation.x : null, tabletY: f.fig ? f.fig.parts.tablet.position.y : null,
-    mouth: mouthAt(f), hd: !!f.fig?.hd, voiced: !!f.talk?.voiced, boundaries: f.talk?.bw?.length ?? 0 });
+    mouth: f.mouthClock === clock ? f.mouth : mouthAt(f), caughtUp: f.talk?.caught ?? 0, walkPath: f.walk ? { start: f.walk.start, pts: (f.walk.pts ?? [f.walk.from, f.walk.to]).map((q) => ({ x: q.x, z: q.z })) } : null, hd: !!f.fig?.hd, voiced: !!f.talk?.voiced, boundaries: f.talk?.bw?.length ?? 0 });
 
   return {
     root, handle, animate, attach, detach, addAgents,
@@ -677,6 +737,8 @@ export function aaMountAgentAvatars({ three = null, parent = null, agents = [], 
     figure: (id) => figures.get(id)?.fig?.group ?? null,
     /** An on-device voice can drive the talk light instead of the clock: start holds it on, end lets it go (talkStart above). */
     talkStart, talkWord, talkEnd,
+    /** AVATARS-HD-3: the current line's word boundaries as stamped (the mount's clock, s). */
+    boundaryLog: (id) => (figures.get(id)?.talk?.bw ?? []).map((b) => b.at),
     talkLog: () => talkLog.slice(), captionLog: () => captionLog.slice(), gestureLog: () => gestureLog.slice(),
     clock: () => clock, counts, sources: () => sources.size,
     /** HIVE-3: take one figure out (a visitor that has walked out of a robotics room): its meshes and canvases are disposed and
