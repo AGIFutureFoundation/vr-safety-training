@@ -42,7 +42,14 @@ The agents are software and say so. There is no language model, no network call 
 
 ## Budgets
 
-Both panels are DOM only. The world loop steps the hive's simulation and draws nothing in three.js, so it adds no mesh, light, triangle, draw call or texture on any tier. The phone and headset tiers do not change. Bundle bytes (measured with `stat` against `git cat-file -s 230105b7:…`):
+Both panels are DOM only. The world loop steps the hive's simulation and makes no three.js call. Measured in the built page at `?parish=sf-downtown` (`$SP/loop10/oc/drive_budget.mjs`, `budget-out.txt`, load average about 15). The first column is with `?noworld`, settled when two measures 3 s apart agree.
+
+| Tier | World absent, settled | Control: 4 s later, still no world | World started and stepped 600 simulated minutes | Same wait after |
+|---|---|---|---|---|
+| Desktop (default) | 328 meshes (113 instanced), 2 lights, 125,331 triangles, 145 draw calls, 6 textures | 328 / 2 / **129,791 / 156** / 6 | 328 / 2 / 129,791 / 156 / 6 | 328 / 2 / 137,003 / 157 / 6 |
+| Phone (390 × 844) | 219 meshes (72 instanced), 2 lights, 40,726 triangles, 90 draw calls, 0 textures | identical | identical | identical |
+
+The desktop triangle and draw-call rise happens in the no-world control too. It is the world's own drift, the same kind OMEGA-HIVE measured. Meshes, lights and textures do not change on either tier. The phone and headset budgets do not change. Bundle bytes (measured with `stat` against `git cat-file -s 230105b7:…`):
 - `WebXR/parishes/dist/parishes.html`: 8,256,627 → 8,489,983 B (+233,356 B). About 101 KB of that is the record module, 74 KB is ROBO-ARENA's arena with ROBOTRAIN-6/7/8, and the rest is the claw modules.
 - `WebXR/instructor/dist/instructor-console.html`: 4,317,158 → 4,469,165 B (+152,007 B).
 
