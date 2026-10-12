@@ -70,7 +70,35 @@ rule, not a judgement. The learner in the checker is a seeded stand-in.
 5. Reason: the tab must read its JSON from the page. Check: the drive. Observe: the drive serves `WebXR/` as root, so `docs/` was
    unreachable; the JSON moved beside the page and the tab tries the dist path, then the source path. Then 10 eval rows, page errors 0.
 6. Reason: neighbours. Observe: check_omega_hive 15/0, check_voices 10/0, check_hive_world 35/35, check_imports 1,119 ok, check_newton
-   pass, check_console pass.
+   pass, check_console pass. Then `check_parse` (all 2,698 shipped modules parse) and `UX_PORT=9122 check_interface` (21 passed,
+   0 failed): nothing to fix.
+7. Reason: a still of two figures in an exchange, in the world. Check: both figures' caption bubbles carry the two turns of one
+   exchange at the moment of the shot (read from the room's avatar state). Act: `$SP/loop10/h4/drive_world.mjs`: step the page's hive
+   outdoors to t=132 (the room reads who is present only when it opens, so the figures carry no backlog of lines), enter the cell hall,
+   step t=133 (Selka questions Brann, both at the SoMa cell, neither moves), poll until both bubbles show their turn. Observe: the
+   first frame from the room's preset camera had Brann standing in front of Selka; the second, framed from the side, stood inside
+   the cell's fence with a post through Brann's bubble; the third, from the far side, shows both figures and both labelled bubbles.
+
+## Checkers (single runs)
+
+- `node tools/check_hive4.mjs`: 10 passed, 0 failed.
+- `node tools/check_omega_hive.mjs` 15/0; `check_voices` 10/0; `check_hive_world` all 35 pass; `check_console` all pass.
+- `node tools/check_imports.mjs`: all 1,119 modules; `node tools/check_newton.mjs`: all pass; `node tools/check_parse.mjs`: all 2,698
+  shipped modules parse.
+- `UX_PORT=9122 node tools/check_interface.mjs`: 21 passed, 0 failed (the base's known `vc-voice-character` line did not fail here).
+- Not run: `tools/check_all.mjs` (the coordinator gates), `eval_worlds` and `eval_content` (no world subject or station changed).
+
+## Stills (`$SP/loop10/h4/`, 1920x1080, each looked at)
+
+- `h4-world-exchange.png`: the cell hall (sf-downtown, seed 1, hive minute 133). Selka (software agent · safety steward) and Brann
+  (software agent · maintenance planner) side by side, each under a bubble that names speaker and addressee: "Selka (software agent)
+  to Brann: Confirming: Brann, with a load of 1, can you take…" and "Brann (software agent) to Selka: Selka, 0.35 was the best bid on
+  vbjob-bf093c8598b20171, with skill…". The camera was placed by the drive; page errors 0, off-host 0.
+- `h4-panel-memory.png`: the Omega Hive panel (the menu's Learn tab), the feed at hive minute 16 with Lio's memory line in italics
+  ("That makes 2 routing runs for me today. Last one: Automated Warehouse Aisle (procedural), 00:09 hive time.") and the auditor's
+  report with the dispatcher's reply indented under it.
+- `h4-console-hive-tab.png` and `h4-console-evals.png`: the instructor console's Omega Hive tab (cards, lines, refusals with reasons,
+  the ten eval rows).
 
 ## Seams
 
@@ -82,8 +110,6 @@ rule, not a judgement. The learner in the checker is a seeded stand-in.
 
 ## Left
 
-- Stills of the parishes page (two figures in an exchange in the world, the panel's memory line) were not taken; only the console's
-  tab stills are in `$SP/loop10/h4/`. `check_parse` and `check_interface` were not run before the hand-back time.
 - Spanish has no talk cores: an exchange falls back to the round-3 line and no memory line is said.
 - The steward's repetition (above); the tab replays a seeded day rather than reading the learner's own hive.
 - Dist bundles were rebuilt for the drive and are not committed. The `check_hive4` baseline row is an estimate.
