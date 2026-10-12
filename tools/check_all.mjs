@@ -144,6 +144,8 @@ const CHECKERS = [
   "check_room_skins.mjs",
   // ENV-HD-4: the opt-in Ultra setting's budget, the robot sites' looks, lit robot rooms and the hive operations room (docs/consoles/ENV-HD-4.md).
   "check_hd4.mjs",
+  // ROBOTS-HD: the robots in high detail on the desktop high tier, the status light from the site's / governor's state, the rooms in budget (docs/consoles/ROBOTS-HD.md).
+  "check_robots_hd.mjs",
   "check_la_rooms.mjs",
   // The parish data modules on the shared parish schema (docs/parishes.md, console DELTA); PARISH's check_parishes absorbs it.
   "check_parish_data.mjs",
