@@ -42,6 +42,10 @@ import { npWaterAt, npChunkOf, npMassingForChunk } from "./np-parish.js";
 import { HD3_SCENE_SITES } from "./hd3-scenes.js";
 
 export const HD6_KINDS = ["fire-station", "hospital", "school", "park"];
+/** ENV-HD-7: the next busiest kinds without a cue (catalog counts on the 46 maps: utility 36, substation 31; construction, the
+ *  busiest, is the robot and crane sites' kind and has its own exteriors): a fenced equipment compound beside the building. */
+export const HD6_MORE_KINDS = ["utility", "substation"];
+export const HD6_CUED_KINDS = [...HD6_KINDS, ...HD6_MORE_KINDS];
 const hd6Bytes = (w, h = w) => Math.round(w * h * 4 * 4 / 3); // RGBA8 with a mip chain
 /** The stated budget. The cue mesh is one per map; triangles are per cued site; the lamp posts are counted per board. */
 export const HD6_KIND_BUDGET = {
@@ -54,7 +58,7 @@ export const HD6_KIND_BUDGET = {
 const HD6_C = {
   bayFrame: 0xa8322a, bayPanel: 0xd8dbdd, slat: 0x9aa0a6, glass: 0x2b3a46, apron: 0xb9b6ae, trim: 0xa8322a,
   tower: 0xbdb3a2, towerCap: 0x5c6167, canopy: 0xeef0f2, blue: 0x2f6db5, white: 0xf7f8f9, post: 0x8a9096, lane: 0x4a4d52,
-  kerb: 0xe2c44a, schoolCanopy: 0x2a9d8f, schoolPost: 0xe9c46a, fence: 0x3d6b4f, play: 0xb5654a, frameA: 0xe9c46a, frameB: 0x3a7bc8,
+  kerb: 0xe2c44a, chain: 0x8e959b, pad: 0xa9a59c, xfmr: 0x6f7f74, bushing: 0xc9c2b0, cabinet: 0xb8bcb4, pipe: 0x5b6f86, unit: 0x9aa0a6, schoolCanopy: 0x2a9d8f, schoolPost: 0xe9c46a, fence: 0x3d6b4f, play: 0xb5654a, frameA: 0xe9c46a, frameB: 0x3a7bc8,
   timber: 0x7a5a3c, roof: 0x3f6e4a, gravel: 0xc8b68a, soil: 0x4a3a2a, shrub: 0x3c7a3a, shed: 0x8b7355, shedRoof: 0x55595e, lamp: 0x5c6167,
 };
 
@@ -67,7 +71,7 @@ export function hd6KindSites(parish) {
   const heroes = new Set(HD3_SCENE_SITES.filter((x) => x.by === "kind" && x.parish === parish.id && HD6_KINDS.includes(x.kind)).map((x) => x.id));
   const out = [];
   (parish.sites ?? []).forEach((st, index) => {
-    if (!HD6_KINDS.includes(st.kind)) return;
+    if (!HD6_CUED_KINDS.includes(st.kind)) return;
     let b = null; try { b = cwSiteBuilding(parish, index); } catch { b = null; }
     if (!b) return;
     const door = cwDoorOf(parish, b);
@@ -170,6 +174,36 @@ export function hd6CueParts(parish, site, tier = "high", sideOverride = 0) {
     for (const [px, pz] of [[-1.5, -1], [1.5, -1], [-1.5, 1], [1.5, 1]]) box(0.12, 2.2, 0.12, fx + px, 1.1, fz + pz, HD6_C.frameA);
     for (const pz of [-1, 1]) box(3.1, 0.1, 0.1, fx, 2.2, fz + pz, HD6_C.frameB);
     if (hi) for (const px of [-1, -0.33, 0.33, 1]) box(0.08, 0.08, 2.1, fx + px * 1.5, 2.2, fz, HD6_C.frameB);
+  } else if (kind === "utility" || kind === "substation") {
+    // ENV-HD-7: a fenced equipment compound beside the building (side away from the board): a gravel pad, a chain-link fence
+    // with a gate gap on its road side, and the kind's plant — three transformers with bushings (substation) or two cabinets
+    // and a pipe rack (utility); a rooftop unit on the building. Generic by kind; no signs, no words.
+    group = "compound";
+    const cw = 12, x0 = side > 0 ? L2 + 1.5 : -L2 - 1.5 - cw, x1 = x0 + cw, z0 = -D2, z1 = Math.min(D2, -D2 + 12), fh = 2.2;
+    box(cw, 0.06, z1 - z0, (x0 + x1) / 2, 0.03, (z0 + z1) / 2, HD6_C.pad);
+    const fence = (ax, az, bx2, bz2, gap) => {
+      const len = Math.hypot(bx2 - ax, bz2 - az), n = Math.max(2, Math.round(len / 3)), alongX = Math.abs(bx2 - ax) > Math.abs(bz2 - az);
+      for (let k = 0; k <= n; k++) { const t = k / n; if (gap && t > 0.38 && t < 0.62) continue; box(0.1, fh, 0.1, ax + (bx2 - ax) * t, fh / 2, az + (bz2 - az) * t, HD6_C.chain); }
+      for (const [t0, t1] of gap ? [[0, 0.4], [0.6, 1]] : [[0, 1]]) {
+        const mx = ax + (bx2 - ax) * (t0 + t1) / 2, mz = az + (bz2 - az) * (t0 + t1) / 2, l = len * (t1 - t0);
+        box(alongX ? l : 0.04, hi ? fh - 0.25 : 0.06, alongX ? 0.04 : l, mx, hi ? fh / 2 : fh - 0.05, mz, HD6_C.chain); // the mesh as a thin panel on high, a top rail on balanced
+      }
+    };
+    fence(x0, z1, x1, z1, true); fence(x0, z0, x1, z0, false); fence(x0, z0, x0, z1, false); fence(x1, z0, x1, z1, false);
+    const mx = (x0 + x1) / 2, mz = (z0 + z1) / 2;
+    if (kind === "substation") {
+      for (const dx of [-3.5, 0, 3.5]) {
+        box(2, 2.2, 1.6, mx + dx, 1.1, mz, HD6_C.xfmr);
+        if (hi) for (const bx2 of [-0.6, 0, 0.6]) box(0.18, 0.7, 0.18, mx + dx + bx2, 2.55, mz, HD6_C.bushing);
+        if (hi) box(0.1, 1.8, 1.7, mx + dx + 1.05, 1.1, mz, HD6_C.xfmr); // cooling fins
+      }
+    } else {
+      for (const dx of [-3.6, -1.4]) box(1.6, 1.9, 0.9, mx + dx, 0.95, mz - 1.5, HD6_C.cabinet);
+      for (const py of [1.2, 1.9]) box(6, 0.32, 0.32, mx + 1.6, py, mz + 1.2, HD6_C.pipe); // a pipe rack
+      for (const dx of [-1.2, 4.2]) box(0.2, 2.2, 0.8, mx + dx, 1.1, mz + 1.2, HD6_C.chain);
+    }
+    group = "roof";
+    box(Math.min(3, L2), 1.1, Math.min(2.2, D2), 0, H + 0.55, -D2 * 0.3, HD6_C.unit); // a rooftop unit
   } else if (kind === "park") {
     // the pavilion beside the building, on the side away from the board
     group = "pavilion";
@@ -249,7 +283,7 @@ function hd6PreferredSide(parish, site) {
   const bx = b.site.position[0] - b.cx, bz = b.site.position[1] + 6 - b.cz;
   return bx * cs - bz * sn > 0 ? -1 : 1;
 }
-const HD6_FREE = ["yard", "pavilion", "shed", "bed"];
+const HD6_FREE = ["yard", "pavilion", "shed", "bed", "compound"];
 /** The groups that stand on or against the building itself (within 0.5 m of its walls): where the engine's building stands over
  *  water or at a carriageway's edge (a fort on a levee, a clinic on a narrow street), they may too, as the building does;
  *  the building is the engine's, not a cue's placement. */

@@ -55,12 +55,12 @@ const perSite = [];
 const hdr = (id) => { const p = R.npParish(id); return { p, sites: K.hd6KindSites(p) }; };
 // ENV-HD-7: every site of the four kinds on every map (fitted in the build's order, sharing the map's `taken` list)
 const ALL = R.npParishIds();
-const tally = Object.fromEntries(K.HD6_KINDS.map((k) => [k, { sites: 0, cued: 0, full: 0 }]));
+const tally = Object.fromEntries(K.HD6_CUED_KINDS.map((k) => [k, { sites: 0, cued: 0, full: 0 }]));
 const fitted = new Map(); // parish id -> [{ site, balanced: {parts, skipped}, high: {parts, skipped} }]
 let faults = { road: 0, water: 0, building: 0, board: 0, cue: 0, buried: 0, over: 0 }, partsSeen = 0, catalog = 0;
 for (const id of ALL) {
   const { p, sites } = hdr(id);
-  catalog += p.sites.filter((s) => K.HD6_KINDS.includes(s.kind)).length;
+  catalog += p.sites.filter((s) => K.HD6_CUED_KINDS.includes(s.kind)).length;
   const rows = [], taken = { balanced: [], high: [] };
   for (const site of sites) {
     const row = { site };
@@ -86,11 +86,12 @@ for (const id of ALL) {
   }
   fitted.set(id, rows);
 }
-for (const k of K.HD6_KINDS) {
+check(K.HD6_MORE_KINDS.length >= 2 && K.HD6_MORE_KINDS.every((k) => !K.HD6_KINDS.includes(k)), `the next kinds take a cue too: ${K.HD6_MORE_KINDS.join(", ")} (kinds with a cue: 4 -> ${K.HD6_CUED_KINDS.length})`);
+for (const k of K.HD6_CUED_KINDS) {
   const t = tally[k];
   check(t.sites > 0 && t.cued === t.sites, `${k}: every site on every map takes a cue (${t.cued} of ${t.sites}; ${t.full} with every part group, the rest skip a group that cannot fit)`);
 }
-check(Object.values(tally).reduce((a, t) => a + t.sites, 0) === catalog, `every catalog site of the four kinds is considered (${catalog} on ${ALL.length} maps)`);
+check(Object.values(tally).reduce((a, t) => a + t.sites, 0) === catalog, `every catalog site of the cued kinds is considered (${catalog} on ${ALL.length} maps)`);
 check(faults.over === 0, `every cued site inside HD6_KIND_BUDGET's triangles per site (${faults.over} over)`);
 check(faults.road === 0, `no cue part on a carriageway at any site (${faults.road} of ${partsSeen})`);
 check(faults.water === 0, `no cue part in the water (${faults.water})`);
@@ -154,7 +155,7 @@ check(cued === 4, `presets with a cue: ${cued} of 4`);
   check(clear === all, `street cameras with a sight line clear of the site cars: ${clear} of ${all}`);
 }
 note(`cue triangles per preset (balanced / high): ${perSite.map((r) => `${r.kind} ${r.balanced} / ${r.high}`).join(", ")} (budget ${B.trianglesPerSite.balanced} / ${B.trianglesPerSite.high})`);
-note(`sites cued by kind (ENV-HD-6: 1 each): ${K.HD6_KINDS.map((k) => `${k} ${tally[k].cued} of ${tally[k].sites}`).join(", ")}`);
+note(`sites cued by kind (ENV-HD-6: 1 each of four): ${K.HD6_CUED_KINDS.map((k) => `${k} ${tally[k].cued} of ${tally[k].sites}`).join(", ")}`);
 
 // 1b, 3, 4. the built mesh per map and tier, the chunk budgets, the lamps
 const maps = [...new Set(specs.map((s) => s.parish))];
