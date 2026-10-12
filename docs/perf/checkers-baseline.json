@@ -142,7 +142,8 @@
     "check_silica.mjs": 4900,
     "check_geo.mjs": 560,
     "check_vbridge.mjs": 600,
-    "check_omega_hive.mjs": 7500
+    "check_omega_hive.mjs": 7500,
+    "check_hive_world.mjs": 4000
   },
   "notes": {
     "check_agent_avatars.mjs": "2026-10-12 (loop 10): new (console AGENT-AVATARS). 1.5 s is an ESTIMATE, not a measurement; re-measure on a quiet gate. Imports the avatar, portrait, registry and VBRIDGE modules (no station suite, no browser), mounts a fixture hive on the three.js stub and samples 60 s of events at 20 Hz, runs two VBRIDGE jobs and mounts the robotics sites of five maps on a stub for their per-site counts.",
@@ -174,6 +175,7 @@
     "check_robo_interiors.mjs": "2026-10-12 (console ROBO-INTERIORS): new. An ESTIMATE (about 1.5 s standalone headless on a loaded shared machine), to re-measure on a quiet gate: six robotics rooms built and furnished on three tiers, budgets and texture bytes measured, 70 A* walks with NEWTON's avatar step, door spots on five maps, the mount round trip; the --browser walk-through is opt-in and not in the gate.",
     "check_room_skins.mjs": "2026-10-12 (console ENV-HD-2, loop 10 round 2): new. An ESTIMATE (about 1.5 s standalone headless on a loaded shared machine), to re-measure on a quiet gate: nine INTERIORS styles built with and without the skin on three tiers (CLASSROOMS' and LA-ROOMS' dressers registered), meshes, triangles, lights and texture bytes compared; no browser.",
     "check_exteriors.mjs": "2026-10-12 (ROBO-EXTERIORS, loop 10): new. An estimate to re-measure on a quiet gate: 2.5 s standalone at load 6.6 on the shared four-core box (six lots, three tiers of builds, fifteen streamed builds at the robot sites, scenes, wiring); no browser.",
-    "check_omega_hive.mjs": "2026-10-12 10:40 UTC: new (console OMEGA-HIVE). An ESTIMATE from one standalone run (about 7.4 s wall on a shared four-core machine with six consoles working); re-measure on a quiet gate. Three 200-job hive days, 200 short seeded days for the distinctiveness corpus, a 40-job day through ENTERPRISE-3's audit log in memory, voice stubs; no browser, no suite load."
+    "check_omega_hive.mjs": "2026-10-12 10:40 UTC: new (console OMEGA-HIVE). An ESTIMATE from one standalone run (about 7.4 s wall on a shared four-core machine with six consoles working); re-measure on a quiet gate. Three 200-job hive days, 200 short seeded days for the distinctiveness corpus, a 40-job day through ENTERPRISE-3's audit log in memory, voice stubs; no browser, no suite load.",
+    "check_hive_world.mjs": "2026-10-12 (loop 10 round 2): new (console HIVE-IN-WORLD). 4 s is an ESTIMATE from one standalone run (about 3 s wall at load average 9.6 on the shared four-core machine); re-measure on a quiet gate. Builds the six robotics rooms on three tiers with the vendored three.js and stands the hive's agents in them over a seeded hive run, computes the room doors on the five robot-site maps, checks the return links, two seeded 200-job hive days for supervise every job, and 100 routed walk-ins over the page's collider set; no browser."
   }
 }

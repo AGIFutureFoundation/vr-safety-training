@@ -44,6 +44,9 @@ export const OH_CORES = Object.freeze({
   audit: ["The audit chain holds {lines} lines and every one is intact", "Chain check after {job}: {lines} lines, all intact"],
   audit_broken: ["The audit chain breaks at line {lines}, so the hive stops for a person", "Chain check after {job} failed at line {lines}"],
   standing: ["Standing approval from {supervisor} covers governor-allowed simulated jobs only", "{supervisor} has a standing approval for simulated jobs the governor allows"],
+  // HIVE-IN-WORLD: "supervise every job" (the learner approves each job before it runs).
+  supervise: ["{job} at {site} passed the governor and waits for the supervisor", "The supervisor reviews {job} at {site} before it runs"],
+  supervise_on: ["{supervisor} now approves every job before it runs", "Every job waits for {supervisor} before it runs"],
 });
 
 /** Kinds whose reason gets a sentence of its own: the reason's calm phrase (OH_REASON_PHRASES), fitted to the band. */

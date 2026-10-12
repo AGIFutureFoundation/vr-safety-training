@@ -485,7 +485,8 @@ export function ixrRegisterDressers(ix) {
 
 export function ixrAgentSpot(room, agent = null) {
   const spots = room?.spots?.agent ?? [];
-  const role = agent?.role ?? String(agent?.id ?? "").replace(/^oh-/, "");
+  // OMEGA-HIVE's agents carry their role key in `key` ("safety-steward") and a sentence in `role` (HIVE-IN-WORLD): the key wins.
+  const role = agent?.key ?? (/^[a-z-]+$/.test(String(agent?.role ?? "")) ? agent.role : String(agent?.id ?? "").replace(/^oh-/, ""));
   return spots.find((s) => s.role === role) ?? spots[0] ?? null;
 }
 
@@ -607,20 +608,25 @@ export function ixrTexBytes(tex) {
   return Math.round(img.width * img.height * 4 * (mips ? 4 / 3 : 1));
 }
 export function ixrMeasure(room) {
-  let meshes = 0, triangles = 0, instances = 0;
+  let meshes = 0, triangles = 0, instances = 0, sprites = 0;
   const seen = new Map();
-  room.group.traverse((o) => {
-    if (!o.isMesh) return;
-    meshes++;
-    const g = o.geometry, n = (g.index ? g.index.count : g.attributes.position.count) / 3;
-    triangles += n * (o.isInstancedMesh ? o.count : 1);
-    if (o.isInstancedMesh && /^ixr-/.test(o.name)) instances += o.count;
+  const take = (o) => {
     for (const m of [].concat(o.material)) {
       const t = m?.map; if (!t?.image) continue;
       const key = t.image; // clones share one image: one upload
       if (!seen.has(key)) seen.set(key, { name: t.name || o.name, w: t.image.width, h: t.image.height, bytes: ixrTexBytes(t) });
     }
+  };
+  room.group.traverse((o) => {
+    // HIVE-IN-WORLD: an agent figure's label and caption are sprites; they are not meshes, but their canvases are room textures.
+    if (o.isSprite) { sprites++; take(o); return; }
+    if (!o.isMesh) return;
+    meshes++;
+    const g = o.geometry, n = (g.index ? g.index.count : g.attributes.position.count) / 3;
+    triangles += n * (o.isInstancedMesh ? o.count : 1);
+    if (o.isInstancedMesh && /^ixr-/.test(o.name)) instances += o.count;
+    take(o);
   });
   const textures = [...seen.values()];
-  return { meshes, triangles, instances, props: room.ixr?.tags?.length ?? 0, textures, textureBytes: textures.reduce((a, t) => a + t.bytes, 0) };
+  return { meshes, sprites, triangles, instances, props: room.ixr?.tags?.length ?? 0, textures, textureBytes: textures.reduce((a, t) => a + t.bytes, 0) };
 }

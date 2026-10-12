@@ -119,10 +119,15 @@ function aaFigureInner(look, kind) {
     out.push(`<circle cx="${aaF(cx - 0.09 * k)}" cy="${aaF(cy + 0.2 * k)}" r="${aaF(0.05 * k)}" fill="#ffffff"/>`, aaGlyph(look.glyph, cx - 0.09 * k, cy + 0.2 * k, 0.04 * k, "#0b1a24"));
     out.push(`<rect x="${aaF(cx + 0.05 * k)}" y="${aaF(cy + 0.15 * k)}" width="${aaF(0.13 * k)}" height="${aaF(0.17 * k)}" rx="1.5" fill="#1d2a33" stroke="${a}" stroke-width="0.8"/>`); // the tablet
     out.push(`<rect x="${aaF(cx + 0.065 * k)}" y="${aaF(cy + 0.165 * k)}" width="${aaF(0.1 * k)}" height="${aaF(0.12 * k)}" fill="${a}" opacity="0.55"/>`);
+    // HIVE-IN-WORLD: the outfit the agent names shows too, so two agents with one glyph and accent (the hive's safety steward
+    // and VBRIDGE's governor persona) never share a portrait. "agent" (the personas) draws nothing more.
+    if (look.outfit === "hivis-vest") out.push(`<rect x="${aaF(cx - 0.21 * k)}" y="${aaF(cy + 0.34 * k)}" width="${aaF(0.42 * k)}" height="${aaF(0.02 * k)}" fill="#dfe8ee"/>`, `<rect x="${aaF(cx - 0.17 * k)}" y="${aaF(cy + 0.12 * k)}" width="${aaF(0.02 * k)}" height="${aaF(0.22 * k)}" fill="#dfe8ee"/>`); // a second reflective band and a brace
+    else if (look.outfit === "tablet") out.push(`<path d="M${aaF(cx + 0.08 * k)} ${aaF(cy + 0.2 * k)}H${aaF(cx + 0.15 * k)}M${aaF(cx + 0.08 * k)} ${aaF(cy + 0.24 * k)}H${aaF(cx + 0.13 * k)}" stroke="#0b1a24" stroke-width="0.7"/>`); // lines on the tablet's screen
   }
   out.push(`<path d="${aaProfilePath(P.HEAD_PROFILE, cx, cy, k, 0.95)}" fill="${a}" opacity="0.82"/>`); // a hologram head, no skin
   out.push(`<rect x="${aaF(cx - 0.105 * k)}" y="${aaF(cy - 0.035 * k)}" width="${aaF(0.21 * k)}" height="${aaF(0.055 * k)}" rx="${aaF(0.025 * k)}" fill="#0b1a24" stroke="${a}" stroke-width="0.8"/>`); // the visor, where a face would be
   out.push(`<ellipse cx="${aaF(cx)}" cy="${aaF(cy - 0.18 * k)}" rx="${aaF(0.1 * k)}" ry="${aaF(0.022 * k)}" fill="none" stroke="${a}" stroke-width="1.4"/>`); // the halo
+  if (look.outfit === "visor") out.push(`<rect x="${aaF(cx - 0.125 * k)}" y="${aaF(cy - 0.045 * k)}" width="${aaF(0.25 * k)}" height="${aaF(0.012 * k)}" fill="${a}"/>`); // a wraparound visor's brow
   return out.join("");
 }
 
