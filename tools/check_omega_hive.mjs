@@ -297,7 +297,7 @@ await check("13 wiring: the panel mounts behind DATAWORKS' eligibility (not K-12
   need(DX);
   const app = src("WebXR/parishes/js/app.js");
   ok(/import \{ ohMountHive \} from "\.\.\/\.\.\/shared\/oh-panel\.js"/.test(app), "app.js does not import ohMountHive");
-  ok(/window\.__parishTest\.hive = [^\n]*dxEligibility\(dxReadSignals\(\), \{ stage: "offer" \}\)[^\n]*ohMountHive\(\$\("menu-drills"\)/.test(app), "the mount is not gated by dxEligibility at the offer stage");
+  ok(/window\.__parishTest\.hive = [^\n]*!npParams\.has\("demo"\) && dxEligibility\(dxReadSignals\(\), \{ stage: "offer" \}\)[^\n]*ohMountHive\(\$\("menu-drills"\)/.test(app), "the mount is not gated by ?demo and dxEligibility at the offer stage");
   const el = (sg) => DX.dxEligibility(sg, { stage: "offer" }).eligible;
   ok(!el({ demo: true, signedIn: true, k12: false }) && !el({ demo: false, signedIn: false, k12: false }) && !el({ demo: false, signedIn: true, k12: true }) && !el({ demo: null, signedIn: true, k12: false }) && el({ demo: false, signedIn: true, k12: false }), "the gate's logic");
   const py = src("tools/bundle_webxr.py");
@@ -305,7 +305,7 @@ await check("13 wiring: the panel mounts behind DATAWORKS' eligibility (not K-12
   ok(order.every((i) => i > 0) && order.every((x, i) => i === 0 || x > order[i - 1]), "the bundle list order");
   ok(src("tools/check_all.mjs").includes('"check_omega_hive.mjs"'), "check_all does not list check_omega_hive.mjs");
   const doc = src("docs/omega-hive.md"); ok(/software agent/i.test(doc) && /What it is not/i.test(doc), "docs/omega-hive.md");
-  return "app mount gated (demo, signed-out, K-12 and unknown all refused), 5 modules listed after vb-panel.js, check_all lists it, docs present";
+  return "app mount gated by ?demo and dxEligibility (demo, signed-out, K-12 and unknown all refused), 5 modules listed after vb-panel.js, check_all lists it, docs present";
 });
 
 // 14 — hygiene

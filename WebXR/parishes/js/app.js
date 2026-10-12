@@ -1142,8 +1142,9 @@ vbLocal?.refresh().catch(() => {});
 window.__parishTest.vbridge = vbMountDispatch($("menu-drills"), { reducedMotion: npReduced, ent3: { auditAppend: ent3AuditAppend, policies: ent3Policies, fleet: ent3Fleet }, stationHref: (id) => npLink(id), policyFor: vbProvider ? (policyId, env, seed) => vbProvider.policyFor(policyId, env, seed) : null, providerLabel: vbProvider ? (sc) => vbProvider.describe(sc) : null });
 // OMEGA-HIVE (docs/omega-hive.md): seven software agents coordinate the robot jobs through the same governor; physical-path
 // requests come to the learner as approvals (approving lets only the simulated job run); every award, veto, refusal and approval
-// goes to ENTERPRISE-3's audit log. Not mounted in K-12, demo or signed-out sessions (DATAWORKS' eligibility at the offer stage).
-window.__parishTest.hive = (() => { try { let ok = false; try { ok = dxEligibility(dxReadSignals(), { stage: "offer" }).eligible === true; } catch (_) { ok = false; } return ok ? ohMountHive($("menu-drills"), { reducedMotion: npReduced, audit: ent3AuditAppend, seed: 1 }) : null; } catch (_) { return null; } })();
+// goes to ENTERPRISE-3's audit log. Not mounted in K-12, demo or signed-out sessions (DATAWORKS' eligibility at the offer stage, and the
+// page's own ?demo flag, as the GEO gate reads it).
+window.__parishTest.hive = (() => { try { let ok = false; try { ok = !npParams.has("demo") && dxEligibility(dxReadSignals(), { stage: "offer" }).eligible === true; } catch (_) { ok = false; } return ok ? ohMountHive($("menu-drills"), { reducedMotion: npReduced, audit: ent3AuditAppend, seed: 1 }) : null; } catch (_) { return null; } })();
 window.__parishTest.vbColearn = vbProvider;
 window.__parishTest.vbLocal = vbLocal;
 window.__parishTest.xr = npXRTest;

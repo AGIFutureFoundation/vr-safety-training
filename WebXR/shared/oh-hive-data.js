@@ -128,7 +128,7 @@ const OH_DEFS = [
     traits: { warmth: 0.85, formality: 0.65, verbosity: 0.75, caution: 0.85 }, skills: {},
     prefer: ["Samantha", "Fiona", "Veena"], lexicon: { pad: ["with your say respected", "as you agreed", "with the choice left to you", "kept on this device"] } },
   { id: "oh-trainer", key: "trainer", name: "Tamsa", role: "Trainer: takes pick-and-place and zone set-up jobs, and coaches after every run that did not finish clean.",
-    homeSite: "rb-site-san-jose-robotics-lab", avatar: { glyph: "tutor", accent: 0xf2c14b, outfit: "visor" },
+    homeSite: "rb-site-san-jose-robotics-lab", avatar: { glyph: "tutor", accent: 0xe58fd1, outfit: "visor" },
     traits: { warmth: 0.95, formality: 0.2, verbosity: 0.65, caution: 0.55 }, skills: { "rb-teleop-pick-place": 1, "rb-cobot-zone-setup": 0.9, "rb-cell-entry": 0.4 },
     prefer: ["Victoria", "Allison", "Kate"], lexicon: { pad: ["nice and steady", "one step at a time", "we learn from every run", "good practice all round"] } },
   { id: "oh-auditor", key: "auditor", name: "Quen", role: "Auditor: re-walks the audit chain after jobs close and reports whether every line is intact.",
