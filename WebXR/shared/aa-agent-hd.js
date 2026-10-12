@@ -23,7 +23,8 @@
 //             leg, a hip shift, a bent knee).
 // Speech in the body: the mouth opens on each word onset (aaHdMouth; the mount supplies the onsets, from the voice's boundary
 // events when voice is on, from the caption's word timing when it is off). Gestures: raise (a bid), accept (an award), stop (a
-// refusal: the hand up, palm out), nod (an approval or a completion).
+// refusal: AVATARS-HD-2, the hand held up in front of the chest, inside the shoulders, palm square to the front and fingers up, so it
+// reads as "stop" from in front and never as the bid's raised hand), nod (an approval or a completion).
 //
 // Budget (desktop high only; balanced keeps crew.js's figure and the phone tier builds none): AA_HD_BUDGET, held by
 // tools/check_agent_avatars.mjs. Every top-level name starts with `aa`/`AA_` (the bundler shares one scope). Nothing here calls a
@@ -71,6 +72,10 @@ const AA_HD_ORDER = Object.keys(AA_HD_BONES);
 /** Gesture lengths (ms). */
 export const AA_HD_GESTURE_MS = Object.freeze({ raise: 1400, accept: 1200, stop: 1800, nod: 900, approve: 900 });
 const AA_HD_BODY_IDS = ["average", "slender", "tall", "broad", "compact", "full"]; // the same pick as the balanced figure
+/** AVATARS-HD-2: the stop hand (right arm; Euler XYZ). Found on the real skeleton for all seven bodies: the hand's centre about 0.09 m right
+ * of the midline at chest height, 0.36 m in front of the chest, its palm normal within 5 degrees of the figure's front, fingers up. The
+ * round-4 pose (shoulder [-1.25, 0, -0.1], elbow [-1.35, pi/2, 0], wrist [0, 0, -0.54]) held it beside the head, near the bid's raise. */
+export const AA_HD_STOP_POSE = Object.freeze({ sh: Object.freeze([-0.687, 0.225, 0.3]), el: Object.freeze([-1.224, 2.149, 0]), wr: Object.freeze([0.33, -0.344, -1.065]) });
 
 const aaHdClamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const aaHdC01 = (v) => aaHdClamp(v, 0, 1);
@@ -326,7 +331,7 @@ export function aaHdPose(spec, st = {}) {
   const g = st.gesture, gk = g ? (red ? 1 : aaHdEase(g.k)) : 0;
   if (g?.kind === "raise") { R = { sh: aaHdLerp3(R.sh, [-2.78, 0, -0.16], gk), el: aaHdLerp3(R.el, [-0.28, Math.PI / 2, 0], gk), wr: aaHdLerp3(R.wr, [0, 0, -0.1], gk) }; brow += 0.007 * gk; }
   else if (g?.kind === "accept") { const pump = red ? 0 : Math.sin(aaHdC01(g.k) * Math.PI * 4) * 0.12; R = { sh: aaHdLerp3(R.sh, [-0.5, 0, 0.12], gk), el: aaHdLerp3(R.el, [-1.8 + pump, 0, 0], gk), wr: R.wr }; brow += 0.004 * gk; }
-  else if (g?.kind === "stop") { R = { sh: aaHdLerp3(R.sh, [-1.25, 0, -0.1], gk), el: aaHdLerp3(R.el, [-1.35, Math.PI / 2, 0], gk), wr: aaHdLerp3(R.wr, [0, 0, -0.54], gk) }; furrow = gk; }
+  else if (g?.kind === "stop") { const S = AA_HD_STOP_POSE; R = { sh: aaHdLerp3(R.sh, S.sh, gk), el: aaHdLerp3(R.el, S.el, gk), wr: aaHdLerp3(R.wr, S.wr, gk) }; furrow = gk; }
   if ((g?.kind === "nod" || g?.kind === "approve") && !red) r.head = [r.head[0] + Math.sin(aaHdC01(g.k) * Math.PI) * 0.35, r.head[1], r.head[2]];
   r.shoulderL = L.sh; r.elbowL = L.el; r.wristL = L.wr; r.shoulderR = R.sh; r.elbowR = R.el; r.wristR = R.wr;
   r.hipL = hipL; r.hipR = hipR; r.kneeL = kneeL; r.kneeR = kneeR; r.ankleL = ankL; r.ankleR = ankR;

@@ -639,16 +639,34 @@ const HDV = {};
   const g3 = w3.figure(AG.logistics.id); let t3 = 0; w3.animate(t3, 0, null);
   const fp = (name) => { g3.updateMatrixWorld(true); const bone = g3.userData.parts.body.skeleton.bones.find((b) => b.name === `aa-bone-${name}`); return g3.worldToLocal(bone.getWorldPosition(new RT.Vector3())); };
   const restH = fp("head"), restWr = fp("wristR"), restChest = fp("chest");
-  const mid = (type, extra = {}) => { src3.emit({ type, agent: AG.logistics.id, ...extra }); const kind = AA.AA_GESTURE_FOR[type === "speak" ? "approved" : type]; t3 += (AA.AA_GESTURE_MS[kind] / 1000) * 0.5; w3.animate(t3, 0.05, null); const r = { head: fp("head"), wr: fp("wristR"), el: fp("elbowR"), pitch: g3.userData.parts.head.rotation.x }; t3 += 2.5; w3.animate(t3, 0.05, null); return r; };
+  // AVATARS-HD-2: the palm's normal in figure space (the right hand's palm faces +x in its bind frame: towards the body when it hangs)
+  const palmOf = () => { const bone = g3.userData.parts.body.skeleton.bones.find((b) => b.name === "aa-bone-wristR"); const q = g3.getWorldQuaternion(new RT.Quaternion()).invert().multiply(bone.getWorldQuaternion(new RT.Quaternion())); return { palm: new RT.Vector3(1, 0, 0).applyQuaternion(q), fingers: new RT.Vector3(0, -1, 0).applyQuaternion(q) }; };
+  const mid = (type, extra = {}) => { src3.emit({ type, agent: AG.logistics.id, ...extra }); const kind = AA.AA_GESTURE_FOR[type === "speak" ? "approved" : type]; t3 += (AA.AA_GESTURE_MS[kind] / 1000) * 0.5; w3.animate(t3, 0.05, null); const r = { head: fp("head"), wr: fp("wristR"), el: fp("elbowR"), sl: fp("shoulderL"), sr: fp("shoulderR"), pitch: g3.userData.parts.head.rotation.x, ...palmOf() }; t3 += 2.5; w3.animate(t3, 0.05, null); return r; };
   const pr = mid("bid"), pa2 = mid("award"), ps = mid("refused", { reason: "speed over the site limit" }), pn = mid("speak", { about: "approved", text: "Approved for the sim." }), pc = mid("complete");
   const poses = [
     ["raise: the right hand above the head", pr.wr.y > restH.y + 0.1],
     ["accept: the right hand up at the chest", pa2.wr.y > restChest.y - 0.05 && pa2.wr.y < restH.y],
-    ["stop: the hand forward, up, palm out", ps.wr.z > restWr.z + 0.25 && ps.wr.y > ps.el.y + 0.1],
+    // AVATARS-HD-2: the stop hand reads as "stop" from the front: in front of the chest, inside the shoulders' width, between the chest
+    // and the head, palm square to the front and fingers up (round 4 measured only "forward and up", which a hand beside the head passed)
+    ["stop: the hand in front of the chest, inside the shoulders, palm to the front", ps.wr.x > Math.min(ps.sl.x, ps.sr.x) && ps.wr.x < Math.max(ps.sl.x, ps.sr.x) && ps.wr.z > restChest.z + 0.2 && ps.wr.y > restChest.y - 0.1 && ps.wr.y < restH.y && ps.palm.z >= 0.8 && ps.fingers.y >= 0.8],
     ["approve: a nod", pn.pitch > 0.2],
     ["complete: a nod", pc.pitch > 0.2],
   ];
   ok(poses.every((p) => p[1]), `each gesture's pose, measured on the figure's bones mid-gesture: ${poses.filter((p) => p[1]).length} of ${poses.length}`, poses.filter((p) => !p[1]).map((p) => p[0]).join("; "));
+  // AVATARS-HD-2: stop against raise from the front, the round-4 stop pose as the before (the same figure, the same moment): the front
+  // view's distance between the two hands (x, y in figure metres), and where the stop hand sits against the shoulders and the head
+  {
+    const spec = HD.aaHdSpec(AG.logistics), fig = HD.aaHdBuild(RT, AG.logistics, spec);
+    const handAt = (pose) => { fig.apply(pose); fig.group.updateMatrixWorld(true); const b = fig.bones, w = b.wristR.getWorldPosition(new RT.Vector3()), q = b.wristR.getWorldQuaternion(new RT.Quaternion()); const h = w.clone().add(new RT.Vector3(0, -0.07, 0).applyQuaternion(q)); return { h, palm: new RT.Vector3(1, 0, 0).applyQuaternion(q), sr: b.shoulderR.getWorldPosition(new RT.Vector3()), sl: b.shoulderL.getWorldPosition(new RT.Vector3()), head: b.head.getWorldPosition(new RT.Vector3()) }; };
+    const at = (kind) => HD.aaHdPose(spec, { t: 0, gesture: { kind, k: 0.5 } });
+    const oldStop = at("stop"); oldStop.r.shoulderR = [-1.25, 0, -0.1]; oldStop.r.elbowR = [-1.35, Math.PI / 2, 0]; oldStop.r.wristR = [0, 0, -0.54];
+    const raise = handAt(at("raise")), sNew = handAt(at("stop")), sOld = handAt(oldStop), H = spec.body.H;
+    const d2 = (a, b) => Math.hypot(a.h.x - b.h.x, a.h.y - b.h.y) / H, inside = (s) => s.h.x > Math.min(s.sl.x, s.sr.x) && s.h.x < Math.max(s.sl.x, s.sr.x);
+    HDV.stopFront = { before: { dist: d2(sOld, raise), inside: inside(sOld), y: sOld.h.y, x: sOld.h.x, palm: sOld.palm.z }, after: { dist: d2(sNew, raise), inside: inside(sNew), y: sNew.h.y, x: sNew.h.x, palm: sNew.palm.z }, raiseY: raise.h.y, head: sNew.head.y };
+    const S = HDV.stopFront;
+    ok(S.after.inside && !S.before.inside && S.after.dist >= S.before.dist + 0.15 && S.after.palm >= 0.8 && raise.h.y > sNew.head.y + 0.25, `stop and raise apart from the front: the hands ${S.before.dist.toFixed(2)} → ${S.after.dist.toFixed(2)} body heights apart; the stop hand ${S.before.inside ? "inside" : "outside"} → ${S.after.inside ? "inside" : "outside"} the shoulders (x ${S.before.x.toFixed(2)} → ${S.after.x.toFixed(2)} m), at ${S.before.y.toFixed(2)} → ${S.after.y.toFixed(2)} m (head bone ${S.head.toFixed(2)}), palm to the front ${S.before.palm.toFixed(2)} → ${S.after.palm.toFixed(2)}; the raised hand still above the head (${raise.h.y.toFixed(2)} m)`);
+    fig.skeleton.dispose?.();
+  }
   w3.dispose();
   // 9h. reduced motion: no idle, blink or walk on the high figure; a gesture holds still at its pose
   const src4 = AA.aaEmitter(), w4 = AA.aaMountAgentAvatars({ three: RTS, parent: new RT.Group(), agents: [AG.trainer], source: src4, siteAt, tier: "high", hd: true, reducedMotion: true });
@@ -725,6 +743,7 @@ const HDV = {};
 if (HDV.tiers) {
   const T9 = HDV.tiers;
   console.log(`\n  EVAL AVATARS-HD: triangles per figure low 0 / balanced ${T9.balanced.perFigure.toFixed(0)} / high ${T9.high.perFigure.toFixed(0)} (worst ${T9.high.worstTri}, budget ${3000}); draw calls per figure balanced ${T9.balanced.silent}/${T9.balanced.speaking}, high ${T9.high.silent}/${T9.high.speaking} (silent/speaking)`);
+  if (HDV.stopFront) console.log(`  EVAL AVATARS-HD-2: stop vs raised hand from the front ${HDV.stopFront.before.dist.toFixed(2)} → ${HDV.stopFront.after.dist.toFixed(2)} body heights apart; stop hand outside → inside the shoulders' width; palm to the front ${HDV.stopFront.after.palm.toFixed(2)}`);
   if (HDV.roomsInside) console.log(`  EVAL AVATARS-HD-2: robotics rooms inside IX_BUDGET on high with ${3} high-detail figures 0 → ${HDV.roomsInside.n} of ${HDV.roomsInside.of} (room level, worst ${HDV.roomsInside.worstTri} triangles a figure; the outdoor figure would put ${HDV.roomsInside.fullOver} over)`);
   if (HDV.light) console.log(`  EVAL AVATARS-HD-2: boundaries forwarded by the real controller 0 → ${HDV.voiceCtl.forwarded} of ${HDV.voiceCtl.words}; mouth opens per word (word-length stub) ${HDV.voiceCtl.perWord} of ${HDV.voiceCtl.forwarded}, real hive ${HDV.light.after.opened} of ${HDV.light.after.words}; talk light from onstart ${HDV.light.before.good} of ${HDV.light.before.lines} → ${HDV.light.after.good} of ${HDV.light.after.lines}`);
   console.log(`  EVAL AVATARS-HD: distinct silhouettes ${HDV.silhouettes.before} → ${HDV.silhouettes.after} of 21; mouth within ${HDV.mouth.on.max.toFixed(1)} ms of word boundaries (stubbed voice, ${HDV.mouth.on.within} of ${HDV.mouth.on.n}), ${HDV.mouth.off.max.toFixed(1)} ms of caption word onsets (${HDV.mouth.off.within} of ${HDV.mouth.off.n}); gestures ${HDV.gestures.map((r) => `${r.on} ${r.got}/${r.n}`).join(", ")}`);
