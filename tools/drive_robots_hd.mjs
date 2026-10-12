@@ -50,6 +50,8 @@ async function openPage(parish, tier, { auth = false, reducedMotion = null } = {
   await page.evaluate(() => { window.__parishTest.setTime?.(1); const m = document.getElementById("menu"); if (m) m.hidden = true; window.__parishTest.np.playing = true; window.__parishTest.np.modal = null; });
   return { page, context };
 }
+/** ROBOTS-HD-3: a still that waits longer on a loaded machine and never ends the drive (a missed still is logged, not a failure of the page). */
+const shot = async (page, file) => { try { await page.screenshot({ path: file, timeout: 120000 }); return true; } catch (e) { console.log(`still missed (${file.split("/").pop()}): ${String(e.message).split("\n")[0]}`); return false; } };
 const frames = (page, n) => page.evaluate((n) => new Promise((res) => { let k = 0; const f = () => (++k >= n ? res() : requestAnimationFrame(f)); requestAnimationFrame(f); }), n);
 
 /** Stand the learner `dc` metres from the SITE CENTRE (the speed-and-separation distance), on the line from the centre through
@@ -233,7 +235,7 @@ if (!only || only === "rooms") {
     const ok = r.meshes <= IX_BUDGET.meshes && r.triangles <= triCap && r.built <= triCap && r.held === 0 && r.figures === 3;
     if (ok) inside++;
     say(ok, `room ${st}: ${r.meshes} meshes, ${r.calls} draw calls, ${r.triangles} triangles drawn (${r.built} built) <= ${IX_BUDGET.meshes} / ${triCap}; HD robots ${r.hd} ${r.hdKinds} (${r.hdTris} tris); figures ${r.figures} ${JSON.stringify(r.levels)}, held ${r.held} (${r.had} the hive's own, topped up to 3; hive mounted: ${r.hive})`);
-    if (outDir) await page.screenshot({ path: join(outDir, `room-${st}.png`) });
+    if (outDir) await shot(page, join(outDir, `room-${st}.png`));
   }
   say(inside === styles.length, `robot rooms inside IX_BUDGET with the HD robots and three agent figures each, 0 held: ${inside} of ${styles.length}`);
   await context.close();
@@ -285,14 +287,14 @@ if (!only || only === "port") {
   const info = await page.evaluate(() => { const T = window.__parishTest, room = window.ixWorld.room, q = room.rhd?.robots?.[0]; const m = T.roboInteriors.measure(); return { site: room.ixr?.site ?? null, st: T.robotics.state(room.ixr?.site), kind: q?.kind ?? null, light: q?.robot?.lightState ?? null, tris: q?.robot?.triangles ?? 0, calls: q?.robot?.calls ?? 0, meshes: m.meshes, drawn: m.triangles, built: m.trianglesBuilt, dc: m.calls }; });
   const rule = (st) => (!st ? null : st.estopped ? "e-stop" : st.locked || st.mode === "stop" ? "protective-stop" : "running");
   say(opened?.here && info.kind === "straddle" && info.light === rule(info.st) && info.meshes <= IX_BUDGET.meshes && info.built <= IX_BUDGET.triangles.high, `port control room on oak-west-oakland (its site ${info.site} here): the straddle carrier in the window, ${info.tris} tris / ${info.calls} calls, beacons ${info.light} = the site's state; room ${info.meshes} meshes, ${info.dc} calls, ${info.drawn} drawn (${info.built} built)`);
-  if (outDir) await page.screenshot({ path: join(outDir, "room-port-carrier.png") });
+  if (outDir) await shot(page, join(outDir, "room-port-carrier.png"));
   // e-stop the port site through its own act(): the beacons go red; reset.
   const red = await page.evaluate(async () => { const T = window.__parishTest, id = window.ixWorld.room.ixr.site; T.robotics.act(id, "press-estop"); await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))); const l = window.ixWorld.room.rhd.robots[0].robot.lightState; return { l, st: T.robotics.state(id) }; });
   say(red.l === "e-stop" && red.st?.estopped, `the port site's e-stop pressed: the carrier's beacons -> ${red.l}`);
   if (outDir) {
     // close: the learner at the centre desk looking at the pane the carrier stands in
     await page.evaluate(() => { const P = window.ixWorld.pose; P.x = -7.25; P.z = -4.0; });
-    await frames(page, 3); await page.screenshot({ path: join(outDir, "room-port-carrier-close.png") });
+    await frames(page, 3); await shot(page, join(outDir, "room-port-carrier-close.png"));
   }
   await page.evaluate(async () => { const T = window.__parishTest; T.robotics.act(window.ixWorld.room.ixr.site, "restart"); });
   await context.close();
