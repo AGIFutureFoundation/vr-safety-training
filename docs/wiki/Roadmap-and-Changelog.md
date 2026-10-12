@@ -26,8 +26,8 @@ Built means it is in the repository and its checker passes today. Planned means 
 ### Richer demonstrations
 
 - *Planned* A real headset session for the recorder: the controller source is proven with stubbed sessions only.
-- *Open* The page-level proof of a learner's own takes training the provider: proven in Node and by the checker, not yet observed in the built page.
-- *Planned* A cell-entry ghost on the rig, which needs the walker drawn.
+- **Built** The page-level proof of a learner's own takes training the provider, observed in the built page (headless, loop 9): an adult test profile opts in on the Me tab, makes 3 takes, the provider card reads "your 3 takes", and revoking returns it to "synthetic demonstrations" with 0 episodes stored; page errors 0, external requests 0. The drive's output is in `docs/consoles/ROBOTRAIN-5.md`.
+- **Built** A cell-entry ghost on the rig with the walker drawn (loop 8), pinned by `check_robotrain` section 9 (loop 9).
 - *Planned* A learned anomaly check and a per-agent rate limit beside the governor's rules.
 - *Open* Preference ratings are recorded and paired; nothing trains on them yet. Then
 

@@ -20,6 +20,10 @@
  *                 synthetic; opted in with takes → "your N takes"; revoke → synthetic, takes gone), the panel and the app carry the
  *                 label, the WebXR session loop feeds teleop.xr from session.requestAnimationFrame only, the pad drives the cell
  *                 task with its own HUD line and replays the policy as a ghost on the same rig
+ *   9  loops 8–9: (ROBOTRAIN-4, ROBOTRAIN-5) dxFlush resolves with the count, serialises, awaits writes already in flight, and a
+ *                 revoke waits for them before it empties the store; rtFollowCell moves a plain walker node and poses the arm by
+ *                 mode; the parishes app builds the walker on a cell site only; the three hard variants are in colearn.json,
+ *                 seeded, 60 held-out seeds each, the gaps stated; RT_TASKS covers six tasks and rtCompare reports the hard ones
  *   6  hygiene:   no network call, no import alias, no model identifier, no affiliation wording in any ROBOTRAIN file
  *
  *     node tools/check_robotrain.mjs
@@ -292,9 +296,98 @@ pad8.stop();
 const padClick = host8.children.find((c) => c.className === "rt-row")?.children.find((c) => c.className === "rt-ghost");
 check(!!padClick && typeof padClick.handlers.click === "function", "pad", "one button: Robot demonstrates back");
 
+// ---------------------------------------------------------------- 9 loop 8–9 (ROBOTRAIN-4, ROBOTRAIN-5): the flush, the walker, the hard variants
+// 9a dxFlush resolves with the count and serialises; a write the idle slot already started is awaited too (the loop-9 page bug)
+const slow9 = () => { const b = dx.dxMemBackend(); return { kind: "memory", async all() { await new Promise((r) => setTimeout(r, 15)); return b.all(); }, async save(l) { await new Promise((r) => setTimeout(r, 15)); return b.save(l); }, async clear() { return b.clear(); } }; };
+const store9 = dx.dxMakeStore(slow9());
+check(dx.dxOptIn({ licence: "CC0-1.0", adult: true, signals: { ...sigIn, adult: null } }).ok, "flush", "opt-in for the flush checks");
+const take9 = (seed) => { const e = rb.rbEnv("rb-cell-entry", { seed }), r = rt.rtRecorder(e, { store: store9, signals: sigIn }), h = rt.rtScriptedHumanCell(e, { seed, skill: 1 }); let d = false; for (let i = 0; i < 400 && !d; i++) d = r.step(h(r.observation)).done; return r.finish(); };
+for (const s of [9101, 9102, 9103]) take9(s);
+const pend9 = dx.dxPendingCount();
+const n9 = await dx.dxFlush();
+const list9 = await store9.list();
+check(pend9 === 3 && n9 === 3 && list9.length === 3 && dx.dxPendingCount() === 0, "flush", `dxFlush resolves with the count written (pending ${pend9} → flushed ${n9}, store ${list9.length}, pending after ${dx.dxPendingCount()})`);
+// two flushes at once: chained, each write runs once, nothing is lost (the store's put is serialised)
+for (const s of [9104, 9105]) take9(s);
+const [fa, fb] = await Promise.all([dx.dxFlush(), dx.dxFlush()]);
+check(fa + fb === 2 && (await store9.list()).length === 5, "flush", `two concurrent flushes write each take once (${fa} + ${fb}; store ${(await store9.list()).length})`);
+// in flight: let the idle slot (setTimeout in Node) start the write, then flush — the flush waits for that put to land
+take9(9106);
+await new Promise((r) => setTimeout(r, 2));
+const inflight9 = dx.dxPendingCount(), nIn = await dx.dxFlush();
+check(inflight9 === 1 && nIn === 1 && (await store9.list()).length === 6, "flush", `a write the idle slot already started is awaited by dxFlush (in flight ${inflight9} → flushed ${nIn}; store ${(await store9.list()).length})`);
+// concurrent puts straight on the store keep every episode
+const eps9 = rt.rtRecordTakes({ n: 4, scenario: "rb-cell-entry", seed: 91 });
+const store9b = dx.dxMakeStore(slow9());
+const puts9 = await Promise.all(eps9.map((e) => store9b.put(e)));
+check(puts9.every(Boolean) && (await store9b.list()).length === 4, "flush", "four concurrent store puts keep four episodes (put is serialised)");
+// a revoke while a write is already in flight: the revoke waits for it, then empties the store (no take lands after the clear)
+check(dx.dxOptIn({ licence: "CC0-1.0", adult: true, signals: { ...sigIn, adult: null } }).ok, "flush", "opt-in again");
+take9(9108);
+await new Promise((r) => setTimeout(r, 2));
+const inflightRev = dx.dxPendingCount();
+await dx.dxRevoke({ store: store9 });
+await new Promise((r) => setTimeout(r, 60));
+check(inflightRev === 1 && (await store9.list()).length === 0, "flush", `revoke during an in-flight write: the store holds ${(await store9.list()).length} afterwards (the write was in flight: ${inflightRev})`);
+check(dx.dxOptIn({ licence: "CC0-1.0", adult: true, signals: { ...sigIn, adult: null } }).ok, "flush", "opt-in again");
+// a revoke between the take and the flush discards it (consent is re-checked at write time)
+take9(9107);
+await dx.dxRevoke({ store: store9 });
+const nRev = await dx.dxFlush();
+check(nRev === 0 && (await store9.list()).length === 0, "flush", `revoke before the flush: nothing written (${nRev}), store emptied`);
+check(/__parishTest\.dxFlush = dxFlush/.test(APP) && /stored: async \(\) => \(await dxStore\.list\(\)\)\.length/.test(APP) && /onTake: \(\) => \{ vbLocal\?\.refresh\(\)\.then\(\(\) => npDxPanel\?\.render\?\.\(\)\)/.test(APP), "flush", "the page exposes dxFlush and the store count on __parishTest, and a finished take re-renders the Me tab's count");
+// 9b rtFollowCell: a plain walker node stands at the observation's place with its hand at the control; the arm is posed by the robot's mode
+const walker9 = { position: { x: 0, y: 0, z: 0 }, visible: false, children: [{ userData: { hand: true }, position: { x: 0, y: 0, z: 0 } }] };
+const rig9 = { rotation: { x: 0, y: 0, z: 0 }, userData: {}, children: [{ userData: { pivot: true }, rotation: { x: 0, y: 0, z: 0 } }] };
+const obs9 = rb.rbEnv("rb-cell-entry", { seed: 5 }).reset();
+check(!!obs9.walker && Array.isArray(obs9.walker.at) && Array.isArray(obs9.walker.hand), "walker", "the cell observation carries walker { at, hand, control }");
+const f9 = rt.rtFollowRig(rig9, obs9, { walker: walker9 });
+check(walker9.visible === true && walker9.position.x === obs9.walker.at[0] && walker9.position.y === obs9.walker.at[1] && walker9.position.z === obs9.walker.at[2] && walker9.children[0].position.x === obs9.walker.hand[0] && walker9.children[0].position.y === obs9.walker.hand[1] && f9?.at?.length === 3, "walker", `rtFollowRig hands a cell observation to rtFollowCell, which moves a plain walker node to ${JSON.stringify(obs9.walker.at)} with the hand at ${JSON.stringify(obs9.walker.hand)}`);
+const pose9 = (mode, restarted = false) => { const r = { rotation: { x: 0, y: 0, z: 0 }, userData: {}, children: [{ userData: { pivot: true }, rotation: { x: 0, y: 0, z: 0 } }] }; rt.rtFollowCell(r, { ...obs9, robotMode: mode, restarted }, null); return [r.rotation.y, r.children[0].rotation.x, r.userData.rtDriven]; };
+const modes9 = { full: pose9("full"), reduced: pose9("reduced"), stopped: pose9("protective-stop"), restarted: pose9("full", true) };
+check(JSON.stringify(modes9.full) === "[0.8,0,true]" && JSON.stringify(modes9.reduced) === "[0,-0.3,true]" && JSON.stringify(modes9.stopped) === "[0,0.6,true]" && JSON.stringify(modes9.restarted) === "[0,0,true]", "walker", `the arm is posed by mode: ${JSON.stringify(modes9)}`);
+check(rt.rtFollowCell(rig9, { effector: [0, 0, 0] }) === null && rt.rtFollowRig({ rotation: { y: 0 }, children: [] }, { effector: [0.1, 0.3, -0.3] }) !== null, "walker", "no walker in the observation → rtFollowCell does nothing; an arm observation still turns the rig");
+// 9c the parishes app builds the walker on a cell site only (two boxes beside the rig, hidden until moved)
+check(/walker: rtSite\?\.rig === "cell" \? npWalkerFigure\(rtRig\) : null/.test(APP) && /function npWalkerFigure\(rig\)/.test(APP) && /w\.visible = false/.test(APP) && /hand\.userData\.hand = true/.test(APP), "walker", "the app builds the walker figure on a cell site only, hidden until a take or the ghost moves it");
+// 9d the hard variants: present in colearn.json, seeded, 60 held-out seeds each, the gap stated
+const col = await imp("WebXR/shared/col-learn.js");
+const EV9 = JSON.parse(read("docs/evals/colearn.json"));
+const V9 = ["rb-construction-drilling#hard", "rb-port-gantry#hard", "rb-amr-fleet-routing#hard"];
+for (const id of V9) {
+  const v = EV9.variants?.find((x) => x.id === id);
+  check(!!v && v.random.n === 60 && v.expert.n === 60 && v.bcFiltered.n === 60 && v.bcUnfiltered.n === 60, "variants", `${id}: in colearn.json with 60 held-out seeds each (${v ? `random ${v.random.n}, clone ${v.bcFiltered.n}, expert ${v.expert.n}` : "missing"})`);
+  check(!!v && Math.abs(v.gapToExpert - (v.expert.success - v.bcFiltered.success)) < 0.002 && v.bcFiltered.success > v.random.success, "variants", `${id}: the gap is stated and is expert − clone (${v?.gapToExpert}); the clone beats random`);
+  check(rb.rbVariantIds().includes(id) && col.COL_VARIANTS.some((c) => `${c.scenario}#${c.variant}` === id), "variants", `${id}: declared in rb-robotics-data.js and measured through COLEARN's COL_VARIANTS`);
+  const roll9 = () => { const e = rb.rbEnv(id, { seed: 7003 }); return rb.rbRollout(e, { seed: 7003, policy: rb.rbPolicy(e, { skill: 1, seed: 7003 }) }); };
+  const a = roll9(), b = roll9();
+  const sig = (sd) => JSON.stringify(rb.rbEnv(id, { seed: sd }).reset());
+  check(JSON.stringify(a.steps) === JSON.stringify(b.steps) && new Set([7001, 7002, 7003, 7004, 7005].map(sig)).size > 1, "variants", `${id}: seeded (the same seed gives the same episode; seeds differ)`);
+}
+check(/held-out seeds 7001-7060/.test(EV9.data) && JSON.stringify(col.colHeldOut(60)) === JSON.stringify(Array.from({ length: 60 }, (_, i) => 7001 + i)), "variants", "the held-out seeds are 7001–7060, stated in the eval file");
+const portV = EV9.variants.find((x) => x.id === "rb-port-gantry#hard");
+check(portV.gapToExpert === 0.283 && /0\.283/.test(read("docs/consoles/ROBOTRAIN-4.md")) && /0\.283/.test(read("docs/consoles/ROBOTRAIN-5.md")), "variants", `the port gap is stated (${portV.gapToExpert}) in colearn.json and the console notes`);
+const amrV = EV9.variants.find((x) => x.id === "rb-amr-fleet-routing#hard");
+check(amrV.expert.success === 1 && amrV.expert.clean === 1 && new RegExp(String(amrV.gapToExpert)).test(read("docs/consoles/ROBOTRAIN-5.md")), "variants", `the AMR hard variant is solvable (expert ${amrV.expert.success}, clean ${amrV.expert.clean}) and its gap (${amrV.gapToExpert}) is stated in the console note`);
+// the file matches the code: the AMR variant re-measured live
+const live9 = col.colEvalScenario("rb-amr-fleet-routing#hard", { onlySuccessful: true });
+check(live9.modelHash === amrV.modelHash && live9.bc.success === amrV.bcFiltered.success && live9.expert.success === amrV.expert.success, "variants", `colearn.json's AMR variant matches a live run (model ${live9.modelHash}, clone ${live9.bc.success})`);
+// the base scenarios are unchanged by the variants: a base AMR observation has no variant fields
+const amrBase = rb.rbEnv("rb-amr-fleet-routing", { seed: 7001 }).reset();
+check(!("walkways" in amrBase) && !("blocked" in amrBase) && "walkways" in rb.rbEnv("rb-amr-fleet-routing#hard", { seed: 7001 }).reset(), "variants", "the base AMR observation carries no variant fields (its seeds and rows are unchanged)");
+// 9e teleop tasks for the hard variants: rtCompareAll reports recorded vs synthetic on six tasks
+const HARD_RT = ["rb-construction-drilling#hard", "rb-port-gantry#hard"];
+check(rt.RT_TASK_IDS.length === 6 && HARD_RT.every((id) => rt.RT_TASK_IDS.includes(id) && rt.RT_TASKS[id].label && rt.RT_TASKS[id].poseToAction && rt.RT_TASKS[id].human), "rtvariants", `RT_TASKS covers six tasks, the two hard variants on their base controls (${rt.RT_TASK_IDS.join(", ")})`);
+check(new Set(rt.RT_TASK_IDS.map((id) => rt.RT_TASKS[id].label)).size === 6 && /RT_TASKS\[id\]\.label/.test(FILES_RT()), "rtvariants", "the pad labels each task by its own name");
+const cmpHard = Object.fromEntries(HARD_RT.map((id) => [id, rt.rtCompare({ scenario: id })]));
+for (const id of HARD_RT) {
+  const c = cmpHard[id], v = EV9.variants.find((x) => x.id === id);
+  check(c.heldOut === 60 && c.recorded.success > c.random.success && c.synthetic.success > c.random.success, "rtvariants", `${id}: recorded ${c.recorded.success} (clean ${c.recorded.clean}) and synthetic ${c.synthetic.success} (clean ${c.synthetic.clean}) both above random ${c.random.success} on 60 held-out seeds`);
+  check(c.synthetic.success === v.bcFiltered.success && c.expert.success === v.expert.success, "rtvariants", `${id}: the synthetic arm agrees with colearn.json (${c.synthetic.success} = ${v.bcFiltered.success})`);
+}
+
 // ---------------------------------------------------------------- 6 hygiene
 function FILES_RT() { return read("WebXR/shared/rt-teleop.js"); }
-const FILES = { rt: read("WebXR/shared/rt-teleop.js"), vbc: read("WebXR/shared/vb-colearn.js"), console: read("docs/consoles/ROBOTRAIN.md"), console2: read("docs/consoles/ROBOTRAIN-2.md"), console3: read("docs/consoles/ROBOTRAIN-3.md"), data: DATA, fns: FNS, gen: read("tools/gen_robotics_programme.mjs"), page: PAGE, handbook: DOC, ...Object.fromEntries(GAPS.map((id) => [id, read(`WebXR/smartcity/js/sims/${id}.js`)])) };
+const FILES = { rt: read("WebXR/shared/rt-teleop.js"), vbc: read("WebXR/shared/vb-colearn.js"), console: read("docs/consoles/ROBOTRAIN.md"), console2: read("docs/consoles/ROBOTRAIN-2.md"), console3: read("docs/consoles/ROBOTRAIN-3.md"), console5: read("docs/consoles/ROBOTRAIN-5.md"), data: DATA, fns: FNS, gen: read("tools/gen_robotics_programme.mjs"), page: PAGE, handbook: DOC, ...Object.fromEntries(GAPS.map((id) => [id, read(`WebXR/smartcity/js/sims/${id}.js`)])) };
 for (const [k, v] of Object.entries(FILES)) {
   check(v.length > 0, "hygiene", `${k}: missing`);
   check(!/\bfetch\s*\(|XMLHttpRequest|sendBeacon|WebSocket\s*\(|navigator\.sendBeacon/.test(v), "hygiene", `${k}: a network call`);
@@ -309,7 +402,8 @@ check(!/claude-(opus|sonnet|haiku)|\bopus[- ]\d|\bsonnet[- ]\d|\bhaiku[- ]\d|\bg
 check(/^(export (const|function|let) (rt|RT_)|import |\/\/|\/\*| \*|\s*$|const rt|[})\]]|\s)/m.test(FILES.rt) && [...FILES.rt.matchAll(/^export (?:const|function|let) (\w+)/gm)].every((m) => /^(rt|RT_)/.test(m[1])), "hygiene", "every export of rt-teleop.js is prefixed rt/RT_");
 check(/adults only/.test(FILES.rt) && /revoking deletes/.test(FILES.rt) && /no upload endpoint/.test(FILES.rt), "hygiene", "rt-teleop.js states the data rules");
 check(FILES.console.includes("## Cycles") && FILES.console.includes("## Seams"), "hygiene", "docs/consoles/ROBOTRAIN.md lacks Cycles or Seams");
+check(FILES.console5.includes("## Cycles") && FILES.console5.includes("## Seams") && FILES.console5.includes("## Left") && /before/.test(FILES.console5) && /after/.test(FILES.console5), "hygiene", "docs/consoles/ROBOTRAIN-5.md lacks Cycles, Seams, Left or before/after evals");
 
 const fmt = (x) => `success ${x.success} clean ${x.clean} steps ${x.meanSteps}`;
 if (fails.length) { for (const f of fails.slice(0, 40)) console.log("FAIL", f); console.log(`check_robotrain: FAILED ${fails.length} of ${checks} checks`); process.exit(1); }
-console.log(`check_robotrain: ok — ${checks} checks · gap coverage before ${before.covered}/${before.of} → after ${after.covered}/${after.of} (${after.gaps.map((g) => `${g.gap}: ${g.id} in ${inLevels(g.id).length} level(s)`).join("; ")}) · meshes ${GAPS.map((id) => meshCounts[id]).join("/")} · programme coverage ${cov.covered}/${cov.of} · recorded vs synthetic BC on ${cmp.heldOut} held-out seeds (N=${cmp.n}, stand-in labelled synthetic): recorded ${fmt(cmp.recorded)} (kept ${cmp.recorded.kept}/${cmp.recorded.offered}) · synthetic ${fmt(cmp.synthetic)} (kept ${cmp.synthetic.kept}/${cmp.synthetic.offered}) · random ${cmp.random.success} · expert ${cmp.expert.success} · recorder inert without consent, human take valid with receipt, revoke deletes · page: loop 5/5 live, recorder live, gaps 4/4 · loop 6: XR pose source pure (grip + trigger/squeeze/e-stop), rig follows the pose with 0 new meshes · cell entry through the pose path: recorded ${fmt(cmp2.recorded)} (kept ${cmp2.recorded.kept}/${cmp2.recorded.offered}) · synthetic ${fmt(cmp2.synthetic)} · random ${cmp2.random.success} · expert ${cmp2.expert.success} · COLEARN provider on seeded safe jobs: completed ${pc.totals.colearn.completed}/${pc.totals.colearn.of} vs scripted ${pc.totals.scripted.completed}/${pc.totals.scripted.of} (${Object.entries(pc.tasks).map(([k, t]) => `${k} ${t.colearn.completed}/${t.scripted.completed}`).join(", ")}), governor verdict on ${pc.governor.stepsMonitored}/${pc.governor.stepsRun} steps · K-12 lesson lk-lesson-robot-waits-for-ok on ${lesson?.station} · loop 7 last mile: signed out → synthetic; opted in with ${N8} takes → "${descOwn.replace(/^.*trained on /, "")}", job ${jobOwn.phase} with the governor on ${jobOwn.deliverable?.episode?.steps?.length}/${jobOwn.deliverable?.episode?.steps?.length} steps; revoke → synthetic, takes 0 · XR loop on session.requestAnimationFrame, teleop.xr called from it only · pad: cell task through the XR seam (${fedP} frames), ghost ${ghostN} frames on the same rig`);
+console.log(`check_robotrain: ok — ${checks} checks · gap coverage before ${before.covered}/${before.of} → after ${after.covered}/${after.of} (${after.gaps.map((g) => `${g.gap}: ${g.id} in ${inLevels(g.id).length} level(s)`).join("; ")}) · meshes ${GAPS.map((id) => meshCounts[id]).join("/")} · programme coverage ${cov.covered}/${cov.of} · recorded vs synthetic BC on ${cmp.heldOut} held-out seeds (N=${cmp.n}, stand-in labelled synthetic): recorded ${fmt(cmp.recorded)} (kept ${cmp.recorded.kept}/${cmp.recorded.offered}) · synthetic ${fmt(cmp.synthetic)} (kept ${cmp.synthetic.kept}/${cmp.synthetic.offered}) · random ${cmp.random.success} · expert ${cmp.expert.success} · recorder inert without consent, human take valid with receipt, revoke deletes · page: loop 5/5 live, recorder live, gaps 4/4 · loop 6: XR pose source pure (grip + trigger/squeeze/e-stop), rig follows the pose with 0 new meshes · cell entry through the pose path: recorded ${fmt(cmp2.recorded)} (kept ${cmp2.recorded.kept}/${cmp2.recorded.offered}) · synthetic ${fmt(cmp2.synthetic)} · random ${cmp2.random.success} · expert ${cmp2.expert.success} · COLEARN provider on seeded safe jobs: completed ${pc.totals.colearn.completed}/${pc.totals.colearn.of} vs scripted ${pc.totals.scripted.completed}/${pc.totals.scripted.of} (${Object.entries(pc.tasks).map(([k, t]) => `${k} ${t.colearn.completed}/${t.scripted.completed}`).join(", ")}), governor verdict on ${pc.governor.stepsMonitored}/${pc.governor.stepsRun} steps · K-12 lesson lk-lesson-robot-waits-for-ok on ${lesson?.station} · loop 7 last mile: signed out → synthetic; opted in with ${N8} takes → "${descOwn.replace(/^.*trained on /, "")}", job ${jobOwn.phase} with the governor on ${jobOwn.deliverable?.episode?.steps?.length}/${jobOwn.deliverable?.episode?.steps?.length} steps; revoke → synthetic, takes 0 · XR loop on session.requestAnimationFrame, teleop.xr called from it only · pad: cell task through the XR seam (${fedP} frames), ghost ${ghostN} frames on the same rig · loops 8–9: dxFlush ${n9}/${pend9} written, in-flight write awaited, revoke waits for it; walker at ${JSON.stringify(obs9.walker.at)}; hard variants pinned ${V9.length} (${V9.map((id) => { const v = EV9.variants.find((x) => x.id === id); return `${id.replace("rb-", "")} random ${v.random.success} / clone ${v.bcFiltered.success} / expert ${v.expert.success}, gap ${v.gapToExpert}`; }).join("; ")}) · teleop tasks ${rt.RT_TASK_IDS.length}, recorded vs synthetic on the hard ones: ${HARD_RT.map((id) => `${id.replace("rb-", "")} recorded ${cmpHard[id].recorded.success} (clean ${cmpHard[id].recorded.clean}) / synthetic ${cmpHard[id].synthetic.success} (clean ${cmpHard[id].synthetic.clean})`).join("; ")}`);
