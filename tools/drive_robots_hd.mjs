@@ -31,7 +31,7 @@ const { RB_SITES } = await imp("WebXR/shared/rb-robotics-data.js");
 const { IX_BUDGET } = await imp("WebXR/shared/ix-interiors.js");
 const { rbSsmMode } = await imp("WebXR/shared/rb-env.js");
 
-const port = Number(process.argv[2]) || 9144, outDir = process.argv[3] || null, ultra = process.argv[4] === "ultra", only = process.env.RHD_ONLY || null; // RHD_ONLY=still: the cell stills alone; RHD_ONLY=jobs: the agent-jobs run alone; RHD_ONLY=rooms: the rooms alone; RHD_ONLY=zone: the zone indoors alone
+const port = Number(process.argv[2]) || 9144, outDir = process.argv[3] || null, ultra = process.argv[4] === "ultra", only = process.env.RHD_ONLY || null; // RHD_ONLY=still: the cell stills alone; RHD_ONLY=jobs: the agent-jobs run alone; RHD_ONLY=rooms: the rooms alone; RHD_ONLY=zone: the zone indoors alone; RHD_ONLY=outdoor: A and C alone
 if (outDir) mkdirSync(outDir, { recursive: true });
 const { base, close } = await pvServe(port);
 const browser = await pvLaunch();
@@ -86,7 +86,7 @@ const rule = (st) => (!st ? null : st.estopped || st.locked ? "e-stop" : st.mode
 
 // ------------------------------------------------------------------------------------------------ A. the robots outdoors
 const perRobot = [];
-for (const parish of only ? [] : ["sf-downtown", "oak-west-oakland", "bay-san-jose"]) {
+for (const parish of only && only !== "outdoor" ? [] : ["sf-downtown", "oak-west-oakland", "bay-san-jose"]) {
   const { page, context } = await openPage(parish, "high");
   const hd = await page.evaluate(() => window.__parishTest.robotsHd?.measure?.() ?? null);
   say(hd && hd.robots.length === RB_SITES.filter((s) => s.parish === parish).length, `${parish}: HD robots built on high: ${hd?.robots.map((r) => `${r.kind} ${r.meshes} meshes / ${r.triangles} tris`).join(", ")}`);
@@ -270,7 +270,7 @@ if (!only || only === "zone") {
 }
 
 // ------------------------------------------------------------------------------------------------------- C. balanced
-if (!only) {
+if (!only || only === "outdoor") {
   const { page, context } = await openPage("oak-west-oakland", "balanced");
   const r = await page.evaluate(() => { const T = window.__parishTest; let rhd = 0, rig = 0; T.threeScene.traverse((o) => { if (o.isMesh && /^rhd-/.test(o.name)) rhd++; if (o.isMesh && /^rb-(amr|gantry|arm|cell)/.test(o.name) && o.visible) rig++; }); return { on: T.robotsHd?.on ?? null, rhd, rig }; });
   say(r.on === false && r.rhd === 0 && r.rig > 0, `balanced: HD off (${r.on}), ${r.rhd} HD meshes, today's rig meshes drawn ${r.rig}`);
