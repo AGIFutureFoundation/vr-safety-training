@@ -30,6 +30,14 @@
 //   h5MountOpsRoom({ three, room, agents, source, tier, reducedMotion, mount, repaintMs })
 //       -> { room, placed, avatars, presence, animate(t, dt), sync(), paint(), standing(), painted(), counts(), log(), dispose() } | null
 //   hw-hive-world.js's hwSyncRoom hands the ops room to h5MountOpsRoom (the robot rooms keep hwMountRoomAgents).
+//   HIVE-7: the figures show the mood. The mount listens for the hive's `mood` events (HIVE-6's moods option) and seeds each agent
+//   from hive.mood(id) as the room opens; each figure's glow (the high tier's one glow mesh: visor band, eyes, halo, badge; the
+//   balanced figure's halo) pulses in brightness only, by mood (H5_MOOD_GLOW: calm steady, busy a quick shallow pulse, concerned a
+//   slow deeper one, relieved a slow faint one). The role colour's hue is unchanged, no geometry is added, nothing touches a face
+//   or a bone (AVATARS-HD's posture is theirs), reduced motion holds the glow steady, and the phone tier builds no figure.
+//   H5_MOOD_GLOW                         { calm, busy, concerned, relieved } -> { hz, depth } (brightness 1 - depth .. 1)
+//   h5MoodGlow(mood, t, reducedMotion)   -> the glow's brightness factor at time t (seconds)
+//   mount.moods()                        -> { [agentId]: { mood, cause, glow } } (glow: the factor last applied, or null unbuilt)
 
 import { aaMountAgentAvatars } from "./aa-agent-avatars.js";
 import { h3RoomPresence } from "./h3-hive-day.js";
@@ -58,6 +66,30 @@ export const H5_SCREEN_TEXT = Object.freeze({
     counts: (m) => [`Completados ${m.completed} · rechazados ${m.refused} · vetados ${m.vetoed}`, `Trabajos revisados ${m.dispatchedChecked} de ${m.dispatched} · envíos físicos ${m.physicalDispatched}`],
     clock: (t) => `minuto ${t} de la colmena (${ohClock(t)})`, traits: ["calidez", "formalidad", "locuacidad", "cautela"] }),
 });
+
+export const H5_MOOD_GLOW = Object.freeze({
+  calm: Object.freeze({ hz: 0, depth: 0 }),
+  busy: Object.freeze({ hz: 0.9, depth: 0.12 }),
+  concerned: Object.freeze({ hz: 0.35, depth: 0.28 }),
+  relieved: Object.freeze({ hz: 0.2, depth: 0.08 }),
+});
+/** The glow's brightness factor for a mood at time t (seconds): 1 when calm, unknown or reduced motion; never above 1. */
+export function h5MoodGlow(mood, t = 0, reducedMotion = false) {
+  const g = H5_MOOD_GLOW[mood];
+  if (!g || reducedMotion || !g.hz || !g.depth) return 1;
+  return 1 - g.depth * (0.5 - 0.5 * Math.cos(2 * Math.PI * g.hz * (Number(t) || 0)));
+}
+/** Set a figure's glow brightness (its own material's colour times k, from the colour it was built with). */
+function h5ApplyGlow(fig, k) {
+  const parts = fig?.userData?.parts ?? {};
+  for (const m of [parts.glow, parts.halo]) {
+    const c = m?.material?.color;
+    if (!c || !Number.isFinite(c.r)) continue;
+    const ud = (m.userData = m.userData ?? {});
+    if (!ud.h7Base) ud.h7Base = [c.r, c.g, c.b];
+    c.r = ud.h7Base[0] * k; c.g = ud.h7Base[1] * k; c.b = ud.h7Base[2] * k;
+  }
+}
 
 export function h5IsOpsRoom(room) { return !!(room && room.id === HD4_OPS_STYLE); }
 
@@ -327,18 +359,34 @@ export function h5MountOpsRoom({ three = null, room = null, agents = [], source 
     painted = done; dirty = false;
     return done.size;
   }
-  sync(); paint();
+  // HIVE-7: the moods (HIVE-6's `mood` events; seeded from hive.mood(id) as the room opens)
+  const moodOf = new Map(), glowOf = new Map();
+  for (const a of roster) { const m = h5Try(() => source?.mood?.(a.id), null); if (m?.mood) moodOf.set(a.id, { mood: m.mood, cause: m.cause ?? null }); }
+  const onMood = (e) => { if (e?.agent && e.mood) moodOf.set(e.agent, { mood: e.mood, cause: e.cause ?? null }); };
+  try { source?.on?.("mood", onMood); } catch (_) { /* a source without moods: every figure stays calm */ }
+  function glow(t) {
+    for (const a of roster) {
+      const fig = avatars?.figure?.(a.id);
+      if (!fig) { glowOf.delete(a.id); continue; }
+      const m = moodOf.get(a.id)?.mood ?? "calm", k = h5MoodGlow(m, t, reducedMotion);
+      h5ApplyGlow(fig, k); glowOf.set(a.id, k);
+      fig.userData.h7Mood = m;
+    }
+  }
+  sync(); paint(); glow(0);
   return {
     room, placed, avatars, presence, screens,
     animate(t, dt) {
       sync();
       avatars?.animate(t, dt, null);
+      glow(t);
       for (const id of [...leaving]) { const s = avatars?.state(id); if (!s || !s.walking) { leaving.delete(id); avatars?.release?.(id); } } // out of the doorway: gone
       if (dirty && Number(t) * 1000 - lastPaint >= repaintMs) { paint(); lastPaint = Number(t) * 1000; }
     },
     sync, paint,
     standing() { return [...inRoom].filter((id) => { const s = avatars?.state(id); return !!avatars?.figure?.(id) && !!s?.visible && !s.walking; }); }, // a built figure (the phone tier builds none)
     painted() { return [...painted]; },
+    moods() { const o = {}; for (const a of roster) { const m = moodOf.get(a.id); o[a.id] = { mood: m?.mood ?? "calm", cause: m?.cause ?? null, glow: glowOf.has(a.id) ? glowOf.get(a.id) : null }; } return o; },
     leaving() { return [...leaving]; },
     log() { return log.slice(); },
     counts() {
@@ -347,6 +395,7 @@ export function h5MountOpsRoom({ three = null, room = null, agents = [], source 
     },
     dispose() {
       try { source?.off?.("*", onAny); } catch (_) { /* gone */ }
+      try { source?.off?.("mood", onMood); } catch (_) { /* gone */ }
       presence.dispose();
       try { avatars?.dispose(); } catch (_) { /* the room's own exit already disposed the meshes */ }
     },

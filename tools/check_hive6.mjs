@@ -20,6 +20,17 @@
  *   7. the combined case (the round-5 integration lesson): entering the operations room at minute 0 through hwSyncRoom holds the
  *      briefing once, seven stand, the wall carries it, and the room with seven figures speaking it stays inside IX_BUDGET and
  *      IXR_TEX_BUDGET on high and balanced.
+ *   8. HIVE-7: the figures show the mood. The ops room (the app's crowd mount on high, today's figure on balanced) stepped through a
+ *      seeded day to its refusals: each figure's mood equals the hive's mood(id) (N of N agents at every sampled minute), its glow
+ *      brightness follows H5_MOOD_GLOW (hue unchanged, never above the built colour), reduced motion holds it steady, and the room's
+ *      meshes and triangles are unchanged by the moods (no geometry) and inside IX_BUDGET.
+ *   9. HIVE-7: moods on the live console link. The panel's hive (moods and the briefing on) through h5LivePublisher and a fake
+ *      BroadcastChannel to h5LiveReader: every snapshot's moods equal the hive's mood(id) (N of N agents per snapshot), the causes
+ *      carry only the hive's own fields, the briefing captions are the hive's, a hive without moods sends the old shape, and the tab
+ *      takes the live moods from the reader's snapshot (the replay stays the fallback; nothing posted or stored).
+ *  10. HIVE-7: the Spanish hive (the panel's Spanish configuration, moods and the briefing on, approvals in the window): no English
+ *      fragment in a Spanish line but names (site and agent names, the supervisor) and ids (job ids, reason ids); the mood words and
+ *      phrases and the briefing kinds are Spanish.
  */
 import { readFileSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
@@ -227,7 +238,41 @@ await check("4 the morning briefing: the queue, then each agent in turn with its
   for (const k of ["completed", "refused", "vetoed", "declined", "dispatched", "dispatchedChecked", "stepsMonitored", "physicalDispatched"]) ok(a[k] === bm[k], `${k} ${bm[k]} with the briefing, ${a[k]} without`);
   ok(bm.dispatchedChecked === bm.dispatched && bm.physicalDispatched === 0 && bm.stepsMonitored === bm.steps, "the governor still checks every step, physical 0");
   evals.push(`morning briefing (seeds 1-5, at hive minute 0): 7 turns a day, lines grounded ${grounded} of ${lines} (first jobs equal the day's first awards ${firstOk} of ${firstN}), turn-taking overlaps 0; governor ${bm.dispatchedChecked} of ${bm.dispatched} checked, ${bm.stepsMonitored} of ${bm.steps} steps, physical 0`);
-  return `${grounded}/${lines} grounded, first jobs ${firstOk}/${firstN}, overlaps 0; once; not after minute ${M.H6_BRIEF.window}; outcomes unchanged; governor ${bm.dispatchedChecked}/${bm.dispatched}, physical 0`;
+  // HIVE-7: the page's case. The learner decides (no decide), and approves each waiting request from minute 1 to the window's end; the
+  // look-ahead could not know. An agent whose first award differs from its briefing line says the change in one line (brief_fix:
+  // the award and the approval since the briefing; brief_fix_q: the queue moved), grounded and in its band. With the hive's own
+  // decide (seeds 1-5 above) the briefing already held, so no correction is said there.
+  ok(DAYS.size && [...DAYS.values()].every((dd) => !dd.events.some((e) => e.briefing?.fix)), "no correction when the briefing held (the stand-in days)");
+  let said = 0, sayOk = 0, before = 0, fixes = 0, fixOk = 0;
+  for (const seed of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) {
+    const hv = H.ohHive({ seed, ...PANEL, moods: true, briefing: true });
+    const bb = hv.brief();
+    let approved = 0;
+    for (let i = 0; i < 480; i += 1) { hv.step(); if (hv.now() >= 1 && hv.now() <= M.H6_BRIEF.window) for (const p of hv.pending()) if (hv.approve(p.jobId)) approved += 1; }
+    const ev = hv.events();
+    for (const e of bb.filter((x) => x.about === "brief_first" || x.about === "brief_none")) {
+      said += 1;
+      const aw = ev.find((x) => x.type === "award" && x.agent === e.agent);
+      const fix = ev.filter((x) => x.type === "speak" && x.agent === e.agent && x.briefing?.fix);
+      const held = e.about === "brief_first" ? aw?.jobId === e.jobId : !(aw && aw.t <= M.H6_BRIEF.lookahead);
+      if (held) before += 1;
+      ok(fix.length <= 1 && (held ? fix.length === 0 : fix.length === 1), `seed ${seed} ${e.agent}: ${fix.length} corrections for a briefing that ${held ? "held" : "did not hold"}`);
+      if (fix.length) {
+        fixes += 1; const f = fix[0], a = agentOf(f.agent);
+        const g = S.ohGrounded(f.text, f, { siteNames: SITE_NAMES });
+        const band = S.ohSentences(f.text).every((x) => { const w = S.ohWords(x).length; return w >= a.style.band[0] && w <= a.style.band[1]; });
+        const appr = ev.filter((x) => x.type === "speak" && x.about === "approved" && x.t >= e.t && x.t <= f.t).pop();
+        const named = f.about === "brief_fix" ? !!appr && f.approved === appr.jobId && f.text.includes(appr.jobId) : !appr;
+        if (g.ok && band && named && f.jobId === aw.jobId && f.t === aw.t && f.text.includes(aw.siteName) && / · morning briefing to Orrin: /.test(f.caption)) fixOk += 1;
+        else throw new Error(`seed ${seed} ${f.agent}: correction not grounded (${g.missing.join(", ")}; band ${band}; named ${named}): ${f.caption}`);
+      }
+      if (held || fix.length) sayOk += 1;
+    }
+    ok(approved > 0 || seed > 1, `seed ${seed}: the stand-in approved nothing in the window`);
+  }
+  ok(sayOk === said && fixOk === fixes, `first jobs said (with corrections) = first awards ${sayOk} of ${said}; corrections grounded ${fixOk} of ${fixes}`);
+  evals.push(`the briefing after the learner's approvals (seeds 1-10, no decide, every waiting request approved from minute 1 to ${M.H6_BRIEF.window}): first jobs said = first awards ${before} of ${said} before -> ${sayOk} of ${said} with the correction line; corrections ${fixes}, grounded and in band ${fixOk} of ${fixes}`);
+  return `${grounded}/${lines} grounded, first jobs ${firstOk}/${firstN}, overlaps 0; once; not after minute ${M.H6_BRIEF.window}; outcomes unchanged; governor ${bm.dispatchedChecked}/${bm.dispatched}, physical 0; after approvals ${before}/${said} -> ${sayOk}/${said} (${fixes} corrections)`;
 });
 
 // ------------------------------------------------------------------------------------------------ 5. the tab, the panel, the room
@@ -250,7 +295,7 @@ await check("6 hygiene: prefix, no alias, no network or model call, bundles, che
   ok(tops.length && tops.every((n) => /^(h6|H6_)/.test(n)), `a top-level name without the h6 prefix (${tops.filter((n) => !/^(h6|H6_)/.test(n)).join(", ")})`);
   ok(!/^import /m.test(src), "h6-moods.js imports nothing");
   const model = new RegExp(["cla", "ude-[a-z]+-\\d|gpt-\\d|gem", "ini-\\d"].join(""), "i");
-  for (const f of ["WebXR/shared/h6-moods.js", "WebXR/shared/oh-hive.js", "WebXR/shared/oh-say.js", "WebXR/shared/oh-panel.js", "WebXR/instructor/js/h4-hive.js", "tools/check_hive6.mjs", "docs/consoles/HIVE-6.md"]) {
+  for (const f of ["WebXR/shared/h6-moods.js", "WebXR/shared/oh-hive.js", "WebXR/shared/oh-say.js", "WebXR/shared/oh-panel.js", "WebXR/instructor/js/h4-hive.js", "tools/check_hive6.mjs", "docs/consoles/HIVE-6.md", "WebXR/shared/h5-ops-room.js", "WebXR/shared/h5-hive-live.js", "docs/consoles/HIVE-7.md"]) { // HIVE-7's files too
     const s = read(f); ok(!model.test(s), `${f}: a model identifier`); ok(!/import \{[^}]*\bas\b[^}]*\}/.test(s), `${f}: an import alias`);
   }
   ok(!/\bfetch\(|XMLHttpRequest|WebSocket|sendBeacon|EventSource|getUserMedia|SpeechRecognition|speechSynthesis/.test(code), "h6-moods.js: a network, voice or listening call");
@@ -262,7 +307,7 @@ await check("6 hygiene: prefix, no alias, no network or model call, bundles, che
   ok(/"check_hive6\.mjs"/.test(read("tools/check_all.mjs")), "check_all lists check_hive6");
   const base = JSON.parse(read("docs/perf/checkers-baseline.json") || "{}");
   ok(JSON.stringify(base).includes("check_hive6.mjs") && /ESTIMATE/.test(JSON.stringify(base).split("check_hive6.mjs").slice(-1)[0].slice(0, 300)), "the baseline row (an estimate)");
-  for (const f of ["docs/consoles/HIVE-6.md", "docs/consoles/memory/HIVE-6.md", "tools/briefs/next/h6-next.md"]) ok(existsSync(join(ROOT, f)), `${f} missing`);
+  for (const f of ["docs/consoles/HIVE-6.md", "docs/consoles/memory/HIVE-6.md", "tools/briefs/next/h6-next.md", "docs/consoles/HIVE-7.md", "docs/consoles/memory/HIVE-7.md", "tools/briefs/next/h7-next.md"]) ok(existsSync(join(ROOT, f)), `${f} missing`);
   return "prefix, no alias, no network, bundles, check_all, baseline, docs";
 });
 
@@ -305,6 +350,127 @@ await check("7 the briefing in the operations room: entering at minute 0 holds i
     }
   } finally { delete globalThis.document; }
   return out.join("; ");
+});
+
+// ------------------------------------------------------------------------------------------------ 8. figures show the mood
+await check("8 HIVE-7: the figures show the mood: figure mood = hive mood(id) N of N through refusals, glow pulse in its band, no geometry", async () => {
+  const THREE = await imp("WebXR/vendor/three/dist/three.module.min.js");
+  const IX = await imp("WebXR/shared/ix-interiors.js"), IXR = await imp("WebXR/shared/ixr-robo-interiors.js"), HD2 = await imp("WebXR/shared/hd2-room-skins.js");
+  const HD4 = await imp("WebXR/shared/hd4-rooms.js"), HW = await imp("WebXR/shared/hw-hive-world.js"), AA = await imp("WebXR/shared/aa-agent-avatars.js");
+  const OPS = await imp("WebXR/shared/h5-ops-room.js");
+  const DESK = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36";
+  const fake = () => { const ctx = new Proxy({}, { get: (_t, k) => (k === "measureText" ? (s) => ({ width: String(s).length * 6 }) : typeof k === "string" && k.startsWith("create") ? () => ({ addColorStop() {} }) : k === "getImageData" ? (x, y, w, h) => ({ data: new Uint8ClampedArray(Math.max(4, 4 * (w | 0) * (h | 0))) }) : () => {}), set: () => true }); return { width: 0, height: 0, getContext: () => ctx }; };
+  const dressers = (() => { const d = {}; const r = { ixRegisterDresser: (st, fn) => (d[st] ??= []).push(fn) }; IXR.ixrRegisterDressers(r); HD4.hd4RegisterDressers(r, { ultra: false, ua: DESK }); HD2.hd2RegisterSkins(r); return d; })();
+  ok(OPS.h5MoodGlow("calm", 1.3) === 1 && OPS.h5MoodGlow("concerned", 1.3, true) === 1 && OPS.h5MoodGlow("nope", 2) === 1, "calm, reduced motion and an unknown mood hold the glow at 1");
+  const out = [];
+  globalThis.document = { createElement: fake };
+  try {
+    for (const tier of ["high", "balanced"]) for (const reduced of [false, true]) {
+      const room = IX.ixBuild(HD4.HD4_OPS_STYLE, { three: THREE, tier, site: HD4.hd4OpsSite(HD4.hd4OpsHome(), null), dressers });
+      const hive = H.ohHive({ seed: 1, decide: standIn, ...PANEL, moods: true, briefing: true });
+      const mount = HW.hwSyncRoom(null, { room, three: THREE, agents: hive.agents, source: hive, tier, reducedMotion: reduced, mount: tier === "high" ? AA.aaCrowdAvatarMount({ room }) : AA.aaMountAgentAvatars });
+      const m0 = IXR.ixrMeasure(room);
+      const roomB = IX.ixBuild(HD4.HD4_OPS_STYLE, { three: THREE, tier, site: HD4.hd4OpsSite(HD4.hd4OpsHome(), null), dressers });
+      const hiveB = H.ohHive({ seed: 1, decide: standIn, ...PANEL, briefing: true });
+      const mountB = HW.hwSyncRoom(null, { room: roomB, three: THREE, agents: hiveB.agents, source: hiveB, tier, reducedMotion: reduced, mount: tier === "high" ? AA.aaCrowdAvatarMount({ room: roomB }) : AA.aaMountAgentAvatars });
+      let same = 0;
+      let samples = 0, matched = 0, glowed = 0, inBand = 0, seen = new Set(), refusals = 0, t = 0;
+      for (let i = 0; i < 240; i += 1) {
+        hive.step(); t += 0.37; mount.animate(t, 0.37); hiveB.step(); mountB.animate(t, 0.37);
+        if (i % 20 === 19) { const a1 = IXR.ixrMeasure(room), b1 = IXR.ixrMeasure(roomB); if (a1.meshes === b1.meshes && a1.triangles === b1.triangles) same += 1; }
+        refusals = hive.events().filter((e) => e.type === "refused").length;
+        const moods = mount.moods();
+        for (const a of hive.agents) {
+          samples += 1; const want = hive.mood(a.id).mood, got = moods[a.id];
+          if (got.mood === want) matched += 1; seen.add(want);
+          const fig = mount.avatars.figure(a.id);
+          if (!fig || got.glow === null) continue;
+          glowed += 1;
+          const g = OPS.H5_MOOD_GLOW[want], k = got.glow;
+          const mat = (fig.userData.parts.glow ?? fig.userData.parts.halo).material, base = (fig.userData.parts.glow ?? fig.userData.parts.halo).userData.h7Base;
+          const hueKept = base && Math.abs(mat.color.r - base[0] * k) < 1e-6 && Math.abs(mat.color.g - base[1] * k) < 1e-6 && Math.abs(mat.color.b - base[2] * k) < 1e-6;
+          if (fig.userData.h7Mood === want && k <= 1 && k >= 1 - g.depth - 1e-9 && (!reduced || k === 1) && hueKept) inBand += 1;
+        }
+      }
+      ok(refusals > 0 && seen.has("concerned") && seen.has("relieved"), `${tier}: the day reached ${refusals} refusals and moods ${[...seen].join(", ")}`);
+      ok(matched === samples, `${tier}${reduced ? " (reduced motion)" : ""}: figure mood = hive mood(id) ${matched} of ${samples}`);
+      ok(glowed > 0 && inBand === glowed, `${tier}${reduced ? " (reduced motion)" : ""}: glow in its band, hue kept ${inBand} of ${glowed}`);
+      const m1 = IXR.ixrMeasure(room);
+      ok(same === 12, `${tier}: the room with moods equals the room without them (meshes, triangles) at ${same} of 12 sampled minutes`);
+      ok(m1.triangles <= IX.IX_BUDGET.triangles.high && m1.meshes <= IX.IX_BUDGET.meshes, `${tier}: ${m1.meshes} meshes / ${m1.triangles} triangles outside IX_BUDGET`);
+      if (!reduced) {
+        out.push(`${tier}: ${matched}/${samples} figure moods = hive, glow ${inBand}/${glowed} in band, ${refusals} refusals, room ${m1.meshes} meshes / ${m1.triangles} tris, = moods off ${same}/12`);
+        evals.push(`figures show the mood (headless ops room, ${tier}, seed 1, 240 minutes): figure mood = hive mood(id) ${matched} of ${samples} (7 agents); glow in band ${inBand} of ${glowed}; moods seen ${[...seen].sort().join(", ")}; room ${m1.meshes} meshes / ${m1.triangles} triangles (at entry ${m0.meshes} / ${m0.triangles}), equal to the room with moods off at ${same} of 12 sampled minutes`);
+      }
+      mount.dispose(); mountB.dispose();
+    }
+  } finally { delete globalThis.document; }
+  return out.join("; ");
+});
+
+// ------------------------------------------------------------------------------------------------ 9. moods on the live link
+await check("9 HIVE-7: moods on the live console link: each snapshot's moods = the panel hive's mood(id) N of N; receive only, replay fallback", async () => {
+  const L = await imp("WebXR/shared/h5-hive-live.js");
+  const bus = new Map();
+  class FakeChannel { constructor(name) { this.name = name; this.onmessage = null; (bus.get(name) ?? bus.set(name, new Set()).get(name)).add(this); } postMessage(d) { const data = JSON.parse(JSON.stringify(d)); for (const c of bus.get(this.name)) if (c !== this) c.onmessage?.({ data }); } close() { bus.get(this.name)?.delete(this); } }
+  const got = [];
+  const reader = L.h5LiveReader({ Channel: FakeChannel, onSnapshot: (x) => { if (x) got.push({ x, want: hive.agents.map((a) => hive.mood(a.id).mood) }); } });
+  const hive = H.ohHive({ seed: 3, decide: standIn, ...PANEL, moods: true, briefing: true });
+  const brief = hive.brief();
+  const pub = L.h5LivePublisher({ hive, Channel: FakeChannel, setTimer: () => 1, clearTimer: () => {} });
+  pub.set(true);
+  for (let k = 0; k < 240; k += 1) { hive.step(); await Promise.resolve(); }
+  let snaps = 0, agentsOk = 0, agentsAll = 0, causesOk = 0;
+  const CAUSE_KEYS = new Set(["type", "t", "jobId", "reason", "by", "lines", "mood", "held"]);
+  for (const { x, want } of got) {
+    snaps += 1;
+    ok(Array.isArray(x.moods) && x.moods.length === 7, `a snapshot with ${x.moods?.length ?? 0} moods`);
+    x.moods.forEach((m, i) => { agentsAll += 1; if (m.agent === hive.agents[i].id && m.mood === want[i]) agentsOk += 1; if (!m.cause || Object.keys(m.cause).every((k) => CAUSE_KEYS.has(k))) causesOk += 1; });
+  }
+  ok(snaps > 50 && agentsOk === agentsAll, `live moods = the hive's mood(id) ${agentsOk} of ${agentsAll} over ${snaps} snapshots`);
+  ok(causesOk === agentsAll, `causes carry only the hive's own fields ${causesOk} of ${agentsAll}`);
+  const last = reader.snapshot();
+  const changes = hive.events().filter((e) => e.type === "mood").length;
+  ok(last.moodChanges === changes && new Set(last.moods.map((m) => m.mood)).size >= 2, `the day's mood changes ${last.moodChanges} = ${changes}; moods in the last snapshot ${[...new Set(last.moods.map((m) => m.mood))].join(", ")}`);
+  ok(last.briefing.length === 7 && last.briefing.every((b, i) => b.caption === brief[i].caption && b.turn === brief[i].briefing.turn), `the live briefing is the hive's own 7 captions (${last.briefing.length})`);
+  const keys = Object.keys(last).sort().join(",");
+  ok(keys === "at,briefing,jobs,lines,metrics,moodChanges,moods,pending,refusals,schema,t", `a moods snapshot's keys: ${keys}`);
+  const plain = L.h5LiveSnapshot(H.ohHive({ seed: 3, ...PANEL }));
+  ok(Object.keys(plain).sort().join(",") === "at,jobs,lines,metrics,pending,refusals,schema,t", "a hive without moods sends the old shape");
+  pub.set(false);
+  ok(reader.snapshot() === null, "off: the tab drops the live moods (back to the replay)");
+  reader.close();
+  const tab = read("WebXR/instructor/js/h4-hive.js");
+  ok(/h4MoodPanel\(seed, [^;]*reader\.snapshot\(\)/.test(tab) && /function h4LiveMoodPanel\(live\)/.test(tab) && /Array\.isArray\(live\.moods\)/.test(tab) && !/postMessage|localStorage|sessionStorage|indexedDB/.test(tab), "the tab's moods panel reads the live snapshot when it carries moods, else the replay; posts and stores nothing");
+  evals.push(`moods on the live console link (seed 3, panel hive, 240 minutes): live moods = hive mood(id) ${agentsOk} of ${agentsAll} (${snaps} snapshots x 7 agents); mood changes ${changes}; briefing 7 of 7 captions; 0 requests, 0 storage`);
+  return `${agentsOk}/${agentsAll} over ${snaps} snapshots; changes ${changes}; briefing 7/7; old shape without moods; dropped on off`;
+});
+
+// ------------------------------------------------------------------------------------------------ 10. the Spanish lines
+await check("10 HIVE-7: Spanish lines carry no English fragment but names and ids (moods, briefing and corrections on)", async () => {
+  const P = await imp("WebXR/shared/oh-panel.js");
+  const VB = await imp("WebXR/shared/vb-shared-data.js");
+  const EN = /\b(the|and|with|at|my|is|of|to|on|for|I|job|jobs|queue|audit|clean|briefing|morning|first|refusal|after|from|ready|every|line|chain|approval|approved|learner|careful|mindful|glad|plate|hands|full|watching|relieved|good|start|change|now|moved|changed|since|nothing|board|minutes|calm|busy|concerned|mood)\b/;
+  const names = [...SITE_NAMES, ...D.OH_AGENTS.map((a) => a.name), "Supervisor (este dispositivo)"].sort((a, b) => b.length - a.length);
+  const ids = new Set([...VB.VB_REASONS.map((r) => r.id), ...Object.keys(D.OH_REASON_PHRASES ?? {})]);
+  let n = 0, clean = 0, fixes = 0, briefN = 0; const bad = [];
+  for (const seed of [1, 2]) {
+    const hv = H.ohHive({ seed, ...PANEL, moods: true, briefing: true, say: (a, ev) => S.ohSay(a, ev, { lang: "es" }), agents: D.OH_AGENTS.map((a) => D.ohAgentIn(a, "es")), supervisor: "Supervisor (este dispositivo)" });
+    briefN += (hv.brief() ?? []).length;
+    for (let i = 0; i < 480; i += 1) { hv.step(); if (hv.now() >= 1 && hv.now() <= M.H6_BRIEF.window) for (const p of hv.pending()) hv.approve(p.jobId); }
+    for (const e of hv.events().filter((x) => x.type === "speak")) {
+      n += 1; if (e.briefing?.fix) fixes += 1;
+      let s = e.text; for (const nm of names) s = s.split(nm).join(" ");
+      s = s.replace(/\bvbjob-[0-9a-f]+\b/g, " ").split(/\s+/).filter((w) => !ids.has(w.replace(/[.,;:]$/, ""))).join(" ");
+      if (EN.test(s)) bad.push(e.text); else clean += 1;
+    }
+  }
+  ok(clean === n, `Spanish lines with an English fragment: ${bad.length} of ${n}: ${bad.slice(0, 2).join(" | ")}`);
+  const words = Object.values(M.H6_MOOD_PHRASES.es).flatMap((m) => Object.values(m).flat()).concat(Object.values(P.OH_MOOD_WORDS.es), Object.values(S.OH_CORES_BRIEF_ES).flat(), Object.values(S.OH_SECOND_ES ?? {}).flat());
+  const wbad = words.filter((w) => EN.test(String(w).replace(/\{\w+\}/g, " ")));
+  ok(!wbad.length, `Spanish phrase lists with English: ${wbad.join(" | ")}`);
+  evals.push(`Spanish lines without an English fragment but names and ids (seeds 1-2, moods, briefing, approvals in the window): ${clean} of ${n} (briefing turns ${briefN}, corrections ${fixes}); phrase lists ${words.length} of ${words.length}`);
+  return `${clean}/${n} lines; ${words.length} phrases and words; briefing ${briefN}; corrections ${fixes}`;
 });
 
 console.log(`\n${passed} passed, ${failed} failed`);

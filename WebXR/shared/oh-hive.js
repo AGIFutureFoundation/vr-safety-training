@@ -329,7 +329,8 @@ export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AG
     m.awards += 1; if (best.skill === topSkill) m.awardsToBest += 1;
     j.winner = best.a.id; j.awardedOnce = true; j.awardT = t; j.bids = bids.length; m.toAward.push(t - j.queuedAt);
     state.get(best.a.id).load += 1;
-    emit({ type: "award", agent: best.a.id, by: dispatcher.id, ...factsOf(j, { bid: best.score }) });
+    const awardE = emit({ type: "award", agent: best.a.id, by: dispatcher.id, ...factsOf(j, { bid: best.score }) });
+    if (briefSaid) briefFix(best.a, awardE); // HIVE-7: the briefing's correction, when the day's first award is not what was said
     write("oh-award", `${j.vb.id} ${task} @ ${siteId} -> ${best.a.id} (bid ${best.score}, ${bids.length} bid(s))`);
     // HIVE-4: with exchanges, the dispatcher hands the job over and the winner confirms (in place of the winner's award line),
     // and the steward questions a contested winning bid from another map or from an agent already holding a job.
@@ -464,7 +465,20 @@ export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AG
   }
 
   // HIVE-6: the morning briefing (briefing only; once, in the day's first minutes). Returns its speak events, or null.
-  let briefed = false;
+  // HIVE-7: what each agent said its first job was (briefSaid); when the agent's first award after the briefing differs (a learner's
+  // approval re-queued a job ahead of others, or the look-ahead's plan otherwise moved), the agent says the change in one line to
+  // the dispatcher, naming the award it got and the approval since the briefing (or that the queue moved). Grounded the same way.
+  let briefed = false, briefSaid = null, briefId = null;
+  function briefFix(agent, award) {
+    const said = briefSaid.get(agent.id);
+    if (!said || said.done) return null;
+    said.done = true;
+    if (said.jobId === award.jobId) return null; // as briefed
+    if (said.jobId === null && award.t > H6_BRIEF.lookahead) return null; // "nothing in the first N minutes" still held
+    const appr = log.filter((e) => e.type === "speak" && e.about === "approved" && e.t >= said.t && e.agent === keeper?.id).pop();
+    const facts = { jobId: award.jobId, to: award.to, siteName: award.siteName, said: said.jobId, toName: dispatcher.name, toAgent: dispatcher.id, ...(appr ? { approved: appr.jobId } : {}) };
+    return speak(agent, appr ? "brief_fix" : "brief_fix_q", facts, { briefing: { id: briefId, fix: true, said: said.jobId } });
+  }
   function brief({ lookahead = null } = {}) {
     if (!briefing || briefed || t > H6_BRIEF.window) return null;
     briefed = true;
@@ -472,6 +486,7 @@ export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AG
     const first = h6BriefFirstJobs(log, ahead, H6_BRIEF.lookahead);
     const order = [dispatcher, ...roster.filter((a) => a !== dispatcher)];
     const id = `b-${t}`, of = order.length, out = [];
+    briefId = id; briefSaid = new Map();
     const firstHour = stream.filter((j) => j.arriveT <= H6_BRIEF.firstHour).length;
     order.forEach((a, turn) => {
       const meta = { briefing: { id, turn, of } };
@@ -484,6 +499,7 @@ export function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AG
       else if (first.has(a.id)) { const w = first.get(a.id); e = speak(a, "brief_first", { jobId: w.jobId, to: w.to, siteName: w.siteName, task: w.task, firstAward: { t: w.t, ahead: !!w.ahead }, ...to }, meta); }
       else e = speak(a, "brief_none", { window: H6_BRIEF.lookahead, to: a.homeSite, siteName: siteName(a.homeSite), ...to }, meta);
       if (e) out.push(e);
+      if (e && (e.about === "brief_first" || e.about === "brief_none")) briefSaid.set(a.id, { jobId: e.about === "brief_first" ? e.jobId : null, t: e.t, done: !!log.some((x) => x.type === "award" && x.agent === a.id) }); // HIVE-7
     });
     return out;
   }
