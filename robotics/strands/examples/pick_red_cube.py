@@ -14,7 +14,7 @@ would use the real tool and a policy server the owner runs:
     # pip install strands-robots               # Apache-2.0; needs lerobot, torch, strands-agents
     # from strands_robots import Robot
     # robot = Robot(tool_name="arm", robot="so100", port="/dev/ttyACM0")   # opens the serial port
-    # robot.start_task("pick up the red cube", policy_port=5555, policy_host="localhost", policy_provider="groot")
+    # robot.start_task("pick up the red cube", policy_port=5555, policy_host="localhost", policy_provider="<provider>")
     # A Strands Agent driving the tool by language would also need a model provider and its credentials.
     # Here, SimRobot(..., port=...) is refused by the governor ("physical-target").
 """

@@ -38,7 +38,7 @@ try:  # pragma: no cover - depends on the environment
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
         from strands_robots.policies import Policy as _PolicyBase  # type: ignore
-    POLICY_BASE = "strands_robots.policies.Policy (installed)"
+    POLICY_BASE = "strands_robots.policies.Policy (importable)"
 except Exception:  # noqa: BLE001 - not installed (or its dependencies are missing)
 
     class _PolicyBase(abc.ABC):  # type: ignore[no-redef]
