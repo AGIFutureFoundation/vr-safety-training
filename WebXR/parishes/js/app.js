@@ -1118,7 +1118,17 @@ window.__parishTest.colearn = colMountCoLearn($("menu-drills"), { reducedMotion:
 // ROBOTRAIN-2: the pointer pad and touch drive the pose here; a WebXR session added to this app calls teleop.xr(frame, refSpace) from its frame callback and the controller takes over. The nearest arm rig on this map follows the pose live (no new mesh).
 // ROBOTRAIN-3: the pad drives the cell-entry task too (the select on the pad), the XR session loop above feeds it, a finished take
 // re-reads the learner's consented takes for the provider (vbLocal), and "Robot demonstrates back" replays the provider's policy as a ghost on the same rig.
-window.__parishTest.teleop = (() => { try { const host = document.createElement("div"); host.id = "rt-teleop"; $("menu-drills")?.append(host); const rtSite = rbWorld?.sites?.find((s) => s.rig === "cobot" || s.rig === "cell") ?? null; return rtMountTeleop(host, { reducedMotion: npReduced, rig: rtSite ? rbWorld.rigNode(rtSite.id) : null, task: rtSite?.rig === "cell" ? "rb-cell-entry" : "rb-teleop-pick-place", onTake: () => { vbLocal?.refresh().catch(() => {}); }, modelFor: (sc) => vbProvider?.modelFor(sc) ?? null }); } catch (_) { return null; } })();
+// ROBOTRAIN-4: on a cell site the pad also gets a walker figure (two boxes beside the rig, hidden until a take or the ghost moves it), so
+// "Robot demonstrates back" on the cell task walks the figure up the approach with its hand at each control (rtFollowCell).
+window.__parishTest.teleop = (() => { try { const host = document.createElement("div"); host.id = "rt-teleop"; $("menu-drills")?.append(host); const rtSite = rbWorld?.sites?.find((s) => s.rig === "cobot" || s.rig === "cell") ?? null; const rtRig = rtSite ? rbWorld.rigNode(rtSite.id) : null; return rtMountTeleop(host, { reducedMotion: npReduced, rig: rtRig, walker: rtSite?.rig === "cell" ? npWalkerFigure(rtRig) : null, task: rtSite?.rig === "cell" ? "rb-cell-entry" : "rb-teleop-pick-place", onTake: () => { vbLocal?.refresh().catch(() => {}); }, modelFor: (sc) => vbProvider?.modelFor(sc) ?? null }); } catch (_) { return null; } })();
+function npWalkerFigure(rig) {
+  if (!rig?.parent) return null;
+  const w = new THREE.Group(); w.name = "rt-walker"; w.visible = false;
+  const body = new THREE.Mesh(new THREE.BoxGeometry(0.4, 1.7, 0.3), new THREE.MeshLambertMaterial({ color: 0x3a8fd8 })); body.name = "rt-walker-body"; body.position.y = 0.85;
+  const hand = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.12, 0.12), new THREE.MeshLambertMaterial({ color: 0xf2c9a0 })); hand.name = "rt-walker-hand"; hand.userData.hand = true; hand.position.set(0, 0.9, 0.2);
+  w.add(body, hand); rig.parent.add(w);
+  return w;
+}
 // VBRIDGE (docs/consoles/VBRIDGE.md): supervise jobs a mock software agent sends to the robot sites — the safety governor checks
 // each (e-stop wins, allowlist, limits, stale lineage), simulated robots only; every decision goes to ENTERPRISE-3's audit log.
 // ROBOTRAIN-2: jobs that name the COLEARN policy run a behaviour-cloning policy as the provider (trained lazily on synthetic demonstrations); guarded.

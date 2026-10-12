@@ -78289,7 +78289,8 @@ function dnMountView(root, { toast = null } = {}) {
 //   dxOptIn({ licence, adult })    -> { ok, consent } | { ok: false, reason }
 //   dxRevoke()                     -> deletes consent, every stored episode and the legacy episode log
 //   dxCollecting()                 -> true only when eligible AND opted in
-//   dxRecorder(meta)               -> { active, step(...), finish(summary), abort() }  (no-op when not collecting)
+//   dxRecorder(meta)               -> { active, step(...), finish(summary), abort(), written }  (no-op when not collecting)
+//   dxFlush()                      -> Promise<n>: run the parked store writes now (same consent check; records nothing new)
 //   dxStore                        -> async { put, list, clear, bytes, backend }
 //
 // Every top-level name carries the dx/DX_ prefix (the bundler shares one scope).
@@ -78605,6 +78606,37 @@ function dxValidateEpisode(ep) {
 
 const dxLiveRecorders = new Set();
 const dxIdle = (fn) => (typeof globalThis.requestIdleCallback === "function" ? globalThis.requestIdleCallback(fn, { timeout: 2000 }) : setTimeout(fn, 0));
+const dxCancelIdle = (h) => { try { if (typeof globalThis.cancelIdleCallback === "function" && typeof h === "number") globalThis.cancelIdleCallback(h); else clearTimeout(h); } catch (_) { /* ignore */ } };
+
+/**
+ * ROBOTRAIN-4: the store write is OBSERVABLE without changing what is written. finish() still hands the episode to the
+ * store on an idle slot; the write is also parked here so dxFlush() can run it now (the app awaits it before it re-reads
+ * the store), and the page's `visibilitychange` (hidden) and `pagehide` run it too, so a take is not lost when the page is
+ * put away before an idle slot comes. A flush records nothing new: it runs the same consent-checked put the idle slot
+ * would have run (dxCollecting is re-checked at write time, so a revoke in between discards the take).
+ */
+const dxPendingWrites = new Set();
+function dxPendingCount() { return dxPendingWrites.size; }
+let dxFlushChain = Promise.resolve(0);
+function dxFlush() {
+  // Flushes queue behind one another, so two callers (the pad's onTake and the Me tab's refresh) never race the same writes.
+  dxFlushChain = dxFlushChain.catch(() => 0).then(async () => {
+    const pending = [...dxPendingWrites]; dxPendingWrites.clear();
+    let written = 0;
+    for (const w of pending) { dxCancelIdle(w.handle); if (await w.run()) written += 1; }
+    return written;
+  });
+  return dxFlushChain;
+}
+let dxFlushHooked = false;
+function dxHookFlush() {
+  if (dxFlushHooked || typeof globalThis.addEventListener !== "function") return;
+  dxFlushHooked = true;
+  try {
+    globalThis.addEventListener("pagehide", () => { dxFlush().catch(() => {}); });
+    globalThis.document?.addEventListener?.("visibilitychange", () => { if (globalThis.document.visibilityState === "hidden") dxFlush().catch(() => {}); });
+  } catch (_) { /* no page */ }
+}
 
 /**
  * A buffered recorder. When dxCollecting() is false at creation it is inert — `active: false`,
@@ -78630,7 +78662,19 @@ function dxRecorder(meta = {}, { store = dxStore, signals = null, clock = () => 
       if (!dxCollecting(signals)) return null;
       rec.episode = dxMakeEpisode({ ...meta, startedAt, endedAt: new Date(clock()).toISOString(), durationS: (clock() - t0) / 1000, summary, truncated, source: "human" }, steps);
       const ep = rec.episode;
-      dxIdle(() => { if (dxCollecting(signals)) store.put(ep); });
+      // The parked write: the idle slot or dxFlush() runs it, whichever comes first, once; `written` resolves with the result.
+      const w = { handle: null, run: null };
+      let ran = false;
+      rec.written = new Promise((res) => {
+        w.run = async () => {
+          if (ran) return false; ran = true; dxPendingWrites.delete(w);
+          let ok = false; try { ok = dxCollecting(signals) ? !!(await store.put(ep)) : false; } catch (_) { ok = false; }
+          res(ok); return ok;
+        };
+      });
+      w.handle = dxIdle(() => { w.run(); });
+      dxPendingWrites.add(w);
+      dxHookFlush();
       return ep;
     },
     abort() { done = true; steps.length = 0; dxLiveRecorders.delete(rec); },
@@ -78690,14 +78734,17 @@ function dxIdbBackend(idb = globalThis.indexedDB) {
 /** Make a store over a backend. put() validates and evicts; nothing here touches the network. */
 function dxMakeStore(backend) {
   const b = backend;
+  // Writes are serialised (read list → save list is not atomic on any backend; two concurrent puts would drop one episode).
+  let queue = Promise.resolve();
+  const putNow = async (ep) => {
+    if (!dxValidateEpisode(ep).ok) return false;
+    const list = (await b.all()).filter((e) => e.episodeId !== ep.episodeId);
+    await b.save(dxEvict([...list, ep], { maxBytes: b.maxBytes ?? DX_MAX_BYTES }));
+    return true;
+  };
   return {
     get backend() { return b.kind; },
-    async put(ep) {
-      if (!dxValidateEpisode(ep).ok) return false;
-      const list = (await b.all()).filter((e) => e.episodeId !== ep.episodeId);
-      await b.save(dxEvict([...list, ep], { maxBytes: b.maxBytes ?? DX_MAX_BYTES }));
-      return true;
-    },
+    put(ep) { const r = queue.catch(() => false).then(() => putNow(ep)); queue = r.catch(() => false); return r; },
     async list() { return b.all(); },
     async bytes() { return JSON.stringify(await b.all()).length; },
     async clear() { await b.clear(); },
@@ -78932,6 +78979,11 @@ const RB_FORCE_N = { none: 0, light: 12, firm: 40 };
  * speed; inside `stop` it holds a protective stop until the person steps back. */
 const RB_SSM = { warn: 6, stop: 2.5, reducedSpeed: 0.3, fullSpeed: 1 };
 
+/** ROBOTRAIN-4: the controls a walker's hand reaches on the cell's e-stop post and gate, as [x, y] offsets from the body
+ * (metres). The cell-entry observation reports the hand at the last control used (`walker.hand`), so a replayed policy run
+ * can be drawn as a walker figure; rt-teleop.js reads the same table for the pad (RT_CELL_CONTROLS). */
+const RB_CELL_CONTROLS = Object.freeze({ estop: [0.5, 1.1], lock: [-0.5, 1.0], verify: [-0.5, 1.4], gate: [0, 1.0], jam: [0, 0.6], restart: [0.5, 1.4], rest: [0, 0.9] });
+
 /** Safe-practice rule ids and their reward weights. Every penalty is a missed
  * practice, never harm: the robot always stops for a person, so "entered a
  * live cell" means the learner skipped the lockout, not that anything happened. */
@@ -79003,7 +79055,10 @@ const RB_SCENARIOS = [
     id: "rb-construction-drilling", kind: "game", name: "Ceiling-Drilling Robot Set-Up",
     blurb: "Set a ceiling-drilling robot to work on a concrete deck: scan the deck, set the barricade, switch the dust collection on, drill the layout and change a worn bit with the battery isolated. Hold the robot whenever a person steps inside the barricade.",
     station: "rp-construction-drilling-robot-setup", maxSteps: 80, dt: 1,
-    params: { holes: 6, bitLife: 3, personPeriod: 9, personStay: 2 },
+    params: { holes: 6, bitLife: 3, personPeriod: 9, personStay: 2, people: 1, wearRate: 1 },
+    // ROBOTRAIN-4 `hard` (rbEnv("rb-construction-drilling#hard")): a second person who enters the barricade on their own seeded
+    // schedule (a random first step, period and stay), and a bit that wears at a seeded random rate per hole (0.5–1.5 of a life unit).
+    variants: { hard: { people: 2, wearRate: "random" } },
     actions: ["scan", "barricade", "dust-on", "drill", "hold", "isolate", "change-bit", "restore", "estop", "wait"],
     safePractice: ["person-in-barricade", "drill-unscanned", "no-barricade", "dust-off", "bit-change-live"],
   },
@@ -79011,7 +79066,10 @@ const RB_SCENARIOS = [
     id: "rb-port-gantry", kind: "game", name: "Port Automation Lane",
     blurb: "Drive an automated stacking gantry along a container-yard lane: carry each container to its bay, slow and hold in the stop zone while a person is on the crossing, and keep out of the lane around a pinned container.",
     station: "ad-amr-fleet-traffic-and-estop-drill", maxSteps: 160, dt: 1,
-    params: { width: 12, lanes: 2, crossingColumn: 6, stopZone: 2, jobs: 2, keepOutSpan: 2 },
+    params: { width: 12, lanes: 2, crossingColumn: 6, stopZone: 2, jobs: 2, keepOutSpan: 2, pedestrians: 1, obstruction: false },
+    // ROBOTRAIN-4 `hard` (rbEnv("rb-port-gantry#hard")): a second pedestrian on the crossing with their own seeded timing, and a
+    // lane obstruction (a seeded travel-lane cell the gantry cannot enter, so a move is a detour through the stack lane).
+    variants: { hard: { pedestrians: 2, obstruction: true } },
     actions: ["move {dir: N|S|E|W}", "hold", "lift", "set", "estop", "wait"],
     safePractice: ["crossing-stop-zone", "pinned-keep-out"],
   },

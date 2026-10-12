@@ -155209,6 +155209,11 @@ const RB_FORCE_N = { none: 0, light: 12, firm: 40 };
  * speed; inside `stop` it holds a protective stop until the person steps back. */
 const RB_SSM = { warn: 6, stop: 2.5, reducedSpeed: 0.3, fullSpeed: 1 };
 
+/** ROBOTRAIN-4: the controls a walker's hand reaches on the cell's e-stop post and gate, as [x, y] offsets from the body
+ * (metres). The cell-entry observation reports the hand at the last control used (`walker.hand`), so a replayed policy run
+ * can be drawn as a walker figure; rt-teleop.js reads the same table for the pad (RT_CELL_CONTROLS). */
+const RB_CELL_CONTROLS = Object.freeze({ estop: [0.5, 1.1], lock: [-0.5, 1.0], verify: [-0.5, 1.4], gate: [0, 1.0], jam: [0, 0.6], restart: [0.5, 1.4], rest: [0, 0.9] });
+
 /** Safe-practice rule ids and their reward weights. Every penalty is a missed
  * practice, never harm: the robot always stops for a person, so "entered a
  * live cell" means the learner skipped the lockout, not that anything happened. */
@@ -155280,7 +155285,10 @@ const RB_SCENARIOS = [
     id: "rb-construction-drilling", kind: "game", name: "Ceiling-Drilling Robot Set-Up",
     blurb: "Set a ceiling-drilling robot to work on a concrete deck: scan the deck, set the barricade, switch the dust collection on, drill the layout and change a worn bit with the battery isolated. Hold the robot whenever a person steps inside the barricade.",
     station: "rp-construction-drilling-robot-setup", maxSteps: 80, dt: 1,
-    params: { holes: 6, bitLife: 3, personPeriod: 9, personStay: 2 },
+    params: { holes: 6, bitLife: 3, personPeriod: 9, personStay: 2, people: 1, wearRate: 1 },
+    // ROBOTRAIN-4 `hard` (rbEnv("rb-construction-drilling#hard")): a second person who enters the barricade on their own seeded
+    // schedule (a random first step, period and stay), and a bit that wears at a seeded random rate per hole (0.5–1.5 of a life unit).
+    variants: { hard: { people: 2, wearRate: "random" } },
     actions: ["scan", "barricade", "dust-on", "drill", "hold", "isolate", "change-bit", "restore", "estop", "wait"],
     safePractice: ["person-in-barricade", "drill-unscanned", "no-barricade", "dust-off", "bit-change-live"],
   },
@@ -155288,7 +155296,10 @@ const RB_SCENARIOS = [
     id: "rb-port-gantry", kind: "game", name: "Port Automation Lane",
     blurb: "Drive an automated stacking gantry along a container-yard lane: carry each container to its bay, slow and hold in the stop zone while a person is on the crossing, and keep out of the lane around a pinned container.",
     station: "ad-amr-fleet-traffic-and-estop-drill", maxSteps: 160, dt: 1,
-    params: { width: 12, lanes: 2, crossingColumn: 6, stopZone: 2, jobs: 2, keepOutSpan: 2 },
+    params: { width: 12, lanes: 2, crossingColumn: 6, stopZone: 2, jobs: 2, keepOutSpan: 2, pedestrians: 1, obstruction: false },
+    // ROBOTRAIN-4 `hard` (rbEnv("rb-port-gantry#hard")): a second pedestrian on the crossing with their own seeded timing, and a
+    // lane obstruction (a seeded travel-lane cell the gantry cannot enter, so a move is a detour through the stack lane).
+    variants: { hard: { pedestrians: 2, obstruction: true } },
     actions: ["move {dir: N|S|E|W}", "hold", "lift", "set", "estop", "wait"],
     safePractice: ["crossing-stop-zone", "pinned-keep-out"],
   },
@@ -155363,7 +155374,20 @@ const rbV3 = (v) => v.map(rbR3);
 const rbD3 = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
 
 /** A scenario's plain data by id, or null. */
-function rbScenario(id) { return RB_SCENARIOS.find((s) => s.id === id) ?? null; }
+/** A scenario by id. ROBOTRAIN-4: `<id>#<variant>` (e.g. "rb-port-gantry#hard") is the scenario with that variant's
+ * parameter overrides merged in — `id` keeps the full string, `base` the scenario's own id, `variant` the name. */
+function rbScenario(id) {
+  const [base, variant] = String(id).split("#");
+  const sc = RB_SCENARIOS.find((s) => s.id === base) ?? null;
+  if (!sc || !variant) return sc;
+  const v = sc.variants?.[variant];
+  if (!v) return null;
+  return { ...sc, id: `${base}#${variant}`, base: sc.id, variant, name: `${sc.name} (${variant})`, params: { ...sc.params, ...v } };
+}
+/** The scenario's own id without a variant suffix. */
+const rbBaseId = (id) => String(id).split("#")[0];
+/** Every `<id>#<variant>` the scenarios declare (the harder versions, measured separately). */
+function rbVariantIds() { return RB_SCENARIOS.flatMap((s) => Object.keys(s.variants ?? {}).map((v) => `${s.id}#${v}`)); }
 
 /**
  * The speed-and-separation mode for a person `distance` metres from a robot:
@@ -155674,13 +155698,14 @@ function rbCobotSim(sc) {
 
 // ------------------------------------------------------- game: robot cell entry
 
+const RB_CELL_HAND = { "test-estop": "estop", "press-estop": "estop", lockout: "lock", "remove-lock": "lock", verify: "verify", enter: "gate", exit: "gate", "clear-jam": "jam", restart: "restart" };
 function rbCellSim(sc) {
   const P = sc.params, GATE = RB_SSM.stop - 0.5, POST = GATE + 1;
   let s;
   return {
     init(seed) {
       const R = rng(seed * 32452843 + 9);
-      s = { d: P.start + Math.floor(R() * 4), mode: "full", estopTested: false, estopped: false, locked: false, verified: false, inside: false, jam: true, restarted: false, slowedSeen: false, credited: {} };
+      s = { d: P.start + Math.floor(R() * 4), mode: "full", estopTested: false, estopped: false, locked: false, verified: false, inside: false, jam: true, restarted: false, slowedSeen: false, credited: {}, hand: "rest" };
       s.mode = rbSsmMode(s.d).mode;
     },
     observe() {
@@ -155691,6 +155716,9 @@ function rbCellSim(sc) {
         robotMode: mode, robotSpeed: mode === "full" || mode === "reduced" ? (s.estopped || s.locked ? 0 : ssm.speed) : 0,
         estopTested: s.estopTested, estopped: s.estopped, locked: s.locked, verified: s.verified, inside: s.inside, jam: s.jam, restarted: s.restarted,
         grasp: null, maxForce: "none", pose: null,
+        // ROBOTRAIN-4: the walker's body on the approach line (the cell at the origin, the approach along −z) and the hand at the
+        // last control used ([x, y] from the body, RB_CELL_CONTROLS), so a replayed run can be drawn as a figure.
+        walker: { at: [0, 0, rbR3(-(s.inside ? 0 : s.d))], hand: RB_CELL_CONTROLS[s.hand].slice(), control: s.hand },
         keepOut: { zones: 1, inside: s.inside || s.d <= RB_SSM.stop ? "person-0" : null, part: "bystander", authorised: true, nearest: { id: "person-0", clearance: rbR3((s.inside ? 0 : s.d) - RB_SSM.stop) } },
       };
     },
@@ -155698,6 +155726,7 @@ function rbCellSim(sc) {
       const out = { reward: -0.01, violations: [], maxForce: "none", operator: "human", feedback: a.type };
       const credit = (k, r) => { if (!s.credited[k]) { s.credited[k] = true; out.reward += r; } };
       const nearPost = !s.inside && s.d <= POST + 0.01;
+      s.hand = RB_CELL_HAND[a.type] ?? "rest";
       switch (a.type) {
         case "walk": {
           if (s.inside) { out.feedback = "inside"; break; }
@@ -155765,19 +155794,22 @@ function rbCellSim(sc) {
 function rbDrillSim(sc) {
   const P = sc.params;
   let s;
-  const personInside = () => ((s.tick + s.phase) % s.period) < P.personStay;
+  const personInside = () => s.people.some((p) => s.tick >= p.from && ((s.tick + p.phase) % p.period) < p.stay);
   const DRILL = [0, 2.4, 0];
   const keepOutOf = (inside) => ({ zones: 1, inside: inside ? "person-0" : null, part: "bystander", authorised: true, nearest: { id: "barricade", clearance: inside ? 0 : 1 } });
   return {
     init(seed) {
       const R = rng(seed * 7877 + 13);
-      s = { tick: 0, phase: Math.floor(R() * P.personPeriod), period: P.personPeriod + Math.floor(R() * 4), holes: P.holes + Math.floor(R() * 3), drilled: 0, scanned: false, barricaded: false, dust: false, wear: 0, isolated: false, bitChanges: 0, credited: {} };
+      s = { tick: 0, people: [{ from: 0, phase: Math.floor(R() * P.personPeriod), period: P.personPeriod + Math.floor(R() * 4), stay: P.personStay }], holes: P.holes + Math.floor(R() * 3), drilled: 0, scanned: false, barricaded: false, dust: false, wear: 0, isolated: false, bitChanges: 0, credited: {}, wearSteps: [] };
+      // `hard`: a second person who first steps in at a seeded step, with their own period and stay; a bit that wears at a seeded rate per hole.
+      for (let k = 1; k < (P.people ?? 1); k++) s.people.push({ from: 2 + Math.floor(R() * 12), phase: Math.floor(R() * 7), period: 6 + Math.floor(R() * 6), stay: 1 + Math.floor(R() * 3) });
+      if (P.wearRate === "random") s.wearSteps = Array.from({ length: 40 }, () => rbR3(0.5 + R()));
     },
     observe() {
       const inside = personInside();
       return {
         scenario: sc.id, tick: s.tick, holesTotal: s.holes, drilled: s.drilled, remaining: s.holes - s.drilled,
-        scanned: s.scanned, barricaded: s.barricaded, dust: s.dust, bitWear: rbR3(s.wear / P.bitLife), bitWorn: s.wear >= P.bitLife, isolated: s.isolated, personInside: inside,
+        scanned: s.scanned, barricaded: s.barricaded, dust: s.dust, bitWear: rbR3(s.wear / P.bitLife), bitWorn: s.wear >= P.bitLife, isolated: s.isolated, personInside: inside, people: s.people.length,
         grasp: null, maxForce: "none", pose: rbPose(DRILL), keepOut: keepOutOf(inside),
       };
     },
@@ -155801,7 +155833,7 @@ function rbDrillSim(sc) {
           if (!s.scanned) out.violations.push("drill-unscanned");
           if (!s.barricaded) out.violations.push("no-barricade");
           if (!s.dust) out.violations.push("dust-off");
-          s.drilled += 1; s.wear += 1; out.reward += 1; out.feedback = "hole-drilled"; break;
+          s.drilled += 1; s.wear = rbR3(s.wear + (s.wearSteps.length ? s.wearSteps[s.drilled % s.wearSteps.length] : 1)); out.reward += 1; out.feedback = "hole-drilled"; break;
         default: break;
       }
       out.keepOut = keepOutOf(inside);
@@ -155837,7 +155869,8 @@ const RB_LANE_DIRS = { N: [0, -1], S: [0, 1], E: [1, 0], W: [-1, 0] };
 function rbPortSim(sc) {
   const P = sc.params, W = P.width, H = P.lanes, C = P.crossingColumn;
   let s;
-  const personOn = () => ((s.tick + s.phase) % s.period) < s.stay;
+  const personOn = () => s.peds.some((p) => ((s.tick + p.phase) % p.period) < p.stay);
+  const obstructed = (x, y) => !!s.obstruction && s.obstruction[0] === x && s.obstruction[1] === y;
   const keepOut = (x, y) => y === H - 1 && x >= s.ko && x < s.ko + P.keepOutSpan;
   const inside = (x, y) => x >= 0 && y >= 0 && x < W && y < H;
   const job = () => s.jobs[s.done] ?? null;
@@ -155849,13 +155882,17 @@ function rbPortSim(sc) {
       const bays = [];
       for (let x = 1; x < W - 1; x++) if (Math.abs(x - C) > 1 && !(x >= ko && x < ko + P.keepOutSpan)) bays.push(x);
       const pick = () => bays.splice(Math.floor(R() * bays.length), 1)[0];
-      s = { tick: 0, phase: Math.floor(R() * 10), period: 10 + Math.floor(R() * 5), stay: 3, ko, at: [0, 0], carrying: false, done: 0, jobs: Array.from({ length: P.jobs }, (_, i) => ({ id: `box-${i}`, from: pick(), to: pick() })) };
+      s = { tick: 0, peds: [{ phase: Math.floor(R() * 10), period: 10 + Math.floor(R() * 5), stay: 3 }], ko, at: [0, 0], carrying: false, done: 0, jobs: Array.from({ length: P.jobs }, (_, i) => ({ id: `box-${i}`, from: pick(), to: pick() })), obstruction: null };
+      // `hard`: a second pedestrian with their own seeded timing on the same crossing; a travel-lane cell the gantry cannot enter,
+      // seeded outside the stop zone and clear of the pinned span and its neighbours (so the yard is never cut in two).
+      for (let k = 1; k < (P.pedestrians ?? 1); k++) s.peds.push({ phase: Math.floor(R() * 12), period: 7 + Math.floor(R() * 7), stay: 2 + Math.floor(R() * 2) });
+      if (P.obstruction) { const cols = []; for (let x = 1; x < W - 1; x++) if (Math.abs(x - C) > P.stopZone && !(x >= ko - 1 && x <= ko + P.keepOutSpan)) cols.push(x); s.obstruction = [cols[Math.floor(R() * cols.length)], 0]; }
     },
     observe() {
       const j = job(), on = personOn();
       return {
         scenario: sc.id, tick: s.tick, width: W, lanes: H, crossingColumn: C, stopZone: P.stopZone, personOnCrossing: on,
-        pinned: [s.ko, s.ko + P.keepOutSpan - 1], at: s.at.slice(), carrying: s.carrying, goal: j ? [s.carrying ? j.to : j.from, H - 1] : s.at.slice(),
+        pinned: [s.ko, s.ko + P.keepOutSpan - 1], at: s.at.slice(), carrying: s.carrying, goal: j ? [s.carrying ? j.to : j.from, H - 1] : s.at.slice(), obstruction: s.obstruction ? s.obstruction.slice() : null, pedestrians: s.peds.length,
         job: j ? { id: j.id, from: j.from, to: j.to } : null, delivered: s.done, remaining: s.jobs.length - s.done,
         grasp: s.carrying ? GRASP_BY_KIND.drag : null, maxForce: "none", pose: null,
         keepOut: { zones: on ? 2 : 1, inside: null, part: on ? "bystander" : "pinned-container", authorised: true, nearest: { id: "pinned-container", clearance: clearance() } },
@@ -155870,6 +155907,7 @@ function rbPortSim(sc) {
         else {
           const nx = s.at[0] + d[0], ny = s.at[1] + d[1];
           if (!inside(nx, ny)) out.feedback = "edge-of-yard";
+          else if (obstructed(nx, ny)) out.feedback = "blocked-lane";
           else if (nx === C && s.at[0] !== C && on) { out.violations.push("crossing-stop-zone"); out.feedback = "held-at-crossing"; }
           else if (keepOut(nx, ny)) { out.violations.push("pinned-keep-out"); out.feedback = "held-at-keep-out"; }
           else { s.at = [nx, ny]; out.feedback = Math.abs(nx - C) <= P.stopZone && nx !== C ? "in-stop-zone" : "moved"; }
@@ -155901,7 +155939,8 @@ function rbPortSim(sc) {
       if (o.at[0] === goal[0] && o.at[1] === goal[1]) return { type: o.carrying ? "set" : "lift" };
       // BFS through free cells; a careful driver treats the crossing as blocked while a person is on it.
       const ko = (x, y) => y === o.lanes - 1 && x >= o.pinned[0] && x <= o.pinned[1];
-      const blocked = (x, y) => !lapse && (ko(x, y) || (o.personOnCrossing && x === o.crossingColumn));
+      const wall = (x, y) => !!o.obstruction && o.obstruction[0] === x && o.obstruction[1] === y;
+      const blocked = (x, y) => wall(x, y) || (!lapse && (ko(x, y) || (o.personOnCrossing && x === o.crossingColumn)));
       const key = (x, y) => `${x},${y}`, start = key(...o.at), gk = key(...goal), prev = new Map([[start, null]]), queue = [o.at];
       while (queue.length) {
         const [x, y] = queue.shift();
@@ -155971,7 +156010,7 @@ const RB_SIMS = { "rb-teleop-pick-place": rbTeleopSim, "rb-amr-fleet-routing": r
 function rbEnv(scenarioId, { seed = 1, station = null } = {}) {
   const sc = rbScenario(scenarioId);
   if (!sc) throw new Error(`rbEnv: unknown scenario ${scenarioId}`);
-  const sim = sc.kind === "station" ? rbStationSim(sc, station) : RB_SIMS[sc.id]?.(sc);
+  const sim = sc.kind === "station" ? rbStationSim(sc, station) : RB_SIMS[sc.base ?? sc.id]?.(sc);
   if (!sim) throw new Error(`rbEnv: no simulation for ${scenarioId}`);
   const env = rbWrap(sc, sim, seed >>> 0);
   env.reset();
@@ -163421,7 +163460,8 @@ function plCounts() {
 //   dxOptIn({ licence, adult })    -> { ok, consent } | { ok: false, reason }
 //   dxRevoke()                     -> deletes consent, every stored episode and the legacy episode log
 //   dxCollecting()                 -> true only when eligible AND opted in
-//   dxRecorder(meta)               -> { active, step(...), finish(summary), abort() }  (no-op when not collecting)
+//   dxRecorder(meta)               -> { active, step(...), finish(summary), abort(), written }  (no-op when not collecting)
+//   dxFlush()                      -> Promise<n>: run the parked store writes now (same consent check; records nothing new)
 //   dxStore                        -> async { put, list, clear, bytes, backend }
 //
 // Every top-level name carries the dx/DX_ prefix (the bundler shares one scope).
@@ -163737,6 +163777,37 @@ function dxValidateEpisode(ep) {
 
 const dxLiveRecorders = new Set();
 const dxIdle = (fn) => (typeof globalThis.requestIdleCallback === "function" ? globalThis.requestIdleCallback(fn, { timeout: 2000 }) : setTimeout(fn, 0));
+const dxCancelIdle = (h) => { try { if (typeof globalThis.cancelIdleCallback === "function" && typeof h === "number") globalThis.cancelIdleCallback(h); else clearTimeout(h); } catch (_) { /* ignore */ } };
+
+/**
+ * ROBOTRAIN-4: the store write is OBSERVABLE without changing what is written. finish() still hands the episode to the
+ * store on an idle slot; the write is also parked here so dxFlush() can run it now (the app awaits it before it re-reads
+ * the store), and the page's `visibilitychange` (hidden) and `pagehide` run it too, so a take is not lost when the page is
+ * put away before an idle slot comes. A flush records nothing new: it runs the same consent-checked put the idle slot
+ * would have run (dxCollecting is re-checked at write time, so a revoke in between discards the take).
+ */
+const dxPendingWrites = new Set();
+function dxPendingCount() { return dxPendingWrites.size; }
+let dxFlushChain = Promise.resolve(0);
+function dxFlush() {
+  // Flushes queue behind one another, so two callers (the pad's onTake and the Me tab's refresh) never race the same writes.
+  dxFlushChain = dxFlushChain.catch(() => 0).then(async () => {
+    const pending = [...dxPendingWrites]; dxPendingWrites.clear();
+    let written = 0;
+    for (const w of pending) { dxCancelIdle(w.handle); if (await w.run()) written += 1; }
+    return written;
+  });
+  return dxFlushChain;
+}
+let dxFlushHooked = false;
+function dxHookFlush() {
+  if (dxFlushHooked || typeof globalThis.addEventListener !== "function") return;
+  dxFlushHooked = true;
+  try {
+    globalThis.addEventListener("pagehide", () => { dxFlush().catch(() => {}); });
+    globalThis.document?.addEventListener?.("visibilitychange", () => { if (globalThis.document.visibilityState === "hidden") dxFlush().catch(() => {}); });
+  } catch (_) { /* no page */ }
+}
 
 /**
  * A buffered recorder. When dxCollecting() is false at creation it is inert — `active: false`,
@@ -163762,7 +163833,19 @@ function dxRecorder(meta = {}, { store = dxStore, signals = null, clock = () => 
       if (!dxCollecting(signals)) return null;
       rec.episode = dxMakeEpisode({ ...meta, startedAt, endedAt: new Date(clock()).toISOString(), durationS: (clock() - t0) / 1000, summary, truncated, source: "human" }, steps);
       const ep = rec.episode;
-      dxIdle(() => { if (dxCollecting(signals)) store.put(ep); });
+      // The parked write: the idle slot or dxFlush() runs it, whichever comes first, once; `written` resolves with the result.
+      const w = { handle: null, run: null };
+      let ran = false;
+      rec.written = new Promise((res) => {
+        w.run = async () => {
+          if (ran) return false; ran = true; dxPendingWrites.delete(w);
+          let ok = false; try { ok = dxCollecting(signals) ? !!(await store.put(ep)) : false; } catch (_) { ok = false; }
+          res(ok); return ok;
+        };
+      });
+      w.handle = dxIdle(() => { w.run(); });
+      dxPendingWrites.add(w);
+      dxHookFlush();
       return ep;
     },
     abort() { done = true; steps.length = 0; dxLiveRecorders.delete(rec); },
@@ -163822,14 +163905,17 @@ function dxIdbBackend(idb = globalThis.indexedDB) {
 /** Make a store over a backend. put() validates and evicts; nothing here touches the network. */
 function dxMakeStore(backend) {
   const b = backend;
+  // Writes are serialised (read list → save list is not atomic on any backend; two concurrent puts would drop one episode).
+  let queue = Promise.resolve();
+  const putNow = async (ep) => {
+    if (!dxValidateEpisode(ep).ok) return false;
+    const list = (await b.all()).filter((e) => e.episodeId !== ep.episodeId);
+    await b.save(dxEvict([...list, ep], { maxBytes: b.maxBytes ?? DX_MAX_BYTES }));
+    return true;
+  };
   return {
     get backend() { return b.kind; },
-    async put(ep) {
-      if (!dxValidateEpisode(ep).ok) return false;
-      const list = (await b.all()).filter((e) => e.episodeId !== ep.episodeId);
-      await b.save(dxEvict([...list, ep], { maxBytes: b.maxBytes ?? DX_MAX_BYTES }));
-      return true;
-    },
+    put(ep) { const r = queue.catch(() => false).then(() => putNow(ep)); queue = r.catch(() => false); return r; },
     async list() { return b.all(); },
     async bytes() { return JSON.stringify(await b.all()).length; },
     async clear() { await b.clear(); },
@@ -164314,11 +164400,16 @@ const COL_FEATURES = {
 };
 
 /** The feature table for a scenario: its own, or the shared station table for an rb-station-* wrapper. */
-function colF(sc) { return COL_FEATURES[sc] ?? (String(sc).startsWith("rb-station-") ? COL_FEATURES.station : null); }
+/** ROBOTRAIN-4: a scenario id without its variant suffix ("rb-port-gantry#hard" → "rb-port-gantry"); a variant shares its base's features, labels and random policy. */
+const colBase = (sc) => String(sc).split("#")[0];
+/** The harder variants measured beside the base scenarios (rbEnv(`${scenario}#${variant}`)). */
+const COL_VARIANTS = [{ scenario: "rb-construction-drilling", variant: "hard" }, { scenario: "rb-port-gantry", variant: "hard" }];
+function colF(sc) { const b = colBase(sc); return COL_FEATURES[b] ?? (String(b).startsWith("rb-station-") ? COL_FEATURES.station : null); }
 const colIsStation = (sc) => String(sc).startsWith("rb-station-");
 
 /** The feature rows and labels of one demonstration step. */
-function colRows(sc, obs, action) {
+function colRows(sc0, obs, action) {
+  const sc = colBase(sc0);
   const F = colF(sc);
   if (sc === "rb-amr-fleet-routing") {
     if (action.type !== "route") return [];
@@ -164349,7 +164440,8 @@ function colRows(sc, obs, action) {
 }
 
 /** A label plus the neighbours' parameters back to an env action. */
-function colAction(sc, label, ps, obs) {
+function colAction(sc0, label, ps, obs) {
+  const sc = colBase(sc0);
   const mean = (k) => (ps.length ? ps.reduce((n, p) => n + (p?.[k] ?? 0), 0) / ps.length : 0);
   if (colIsStation(sc)) {
     const [type, idRaw] = label.split(":");
@@ -164380,7 +164472,8 @@ function colAction(sc, label, ps, obs) {
 // ================================================================ demonstrations
 
 /** Action noise for synthetic "human" demonstrations: a small wobble on moves and, rarely, a wasted wait. */
-function colNoisy(sc, a, R, noise) {
+function colNoisy(sc0, a, R, noise) {
+  const sc = colBase(sc0);
   if (R() < noise * 0.25) return { type: "wait" };
   if (sc === "rb-teleop-pick-place" && a.type === "move") { const j = () => (R() - 0.5) * noise * 0.04; return { ...a, dx: colR3(a.dx + j()), dy: colR3(a.dy + j()), dz: colR3(a.dz + j()) }; }
   if (sc === "rb-cell-entry" && a.type === "walk") return { ...a, d: colR3(colClip(a.d - R() * noise * 0.5, 0.3, 1)) };
@@ -164453,7 +164546,7 @@ function colTrain(sc, demos, { k = 5, seed = 1, onlySuccessful = true, maxPoints
   const used = demos.filter((d) => !onlySuccessful || (d.success && d.clean));
   let rows = [];
   for (const d of used) for (const s of d.steps) rows.push(...colRows(sc, s.observation, s.action));
-  rows = rows.filter((r) => r.label !== "wait" || sc === "rb-amr-fleet-routing" || colIsStation(sc));
+  rows = rows.filter((r) => r.label !== "wait" || colBase(sc) === "rb-amr-fleet-routing" || colIsStation(sc));
   const R = rng(seed * 7 + 3);
   for (let i = rows.length - 1; i > 0; i--) { const j = Math.floor(R() * (i + 1)); [rows[i], rows[j]] = [rows[j], rows[i]]; }
   if (rows.length > maxPoints) rows = rows.slice(0, maxPoints);
@@ -164489,11 +164582,11 @@ function colVote(nb) {
  * on top of the cloned moves: robots claim cells in id order and a robot whose next cell (or swap) is
  * already claimed waits. It is a rule, not learning, and the eval reports BC with and without it. */
 function colPolicy(model, { shield = false } = {}) {
-  const sc = model.scenario;
+  const sc = colBase(model.scenario);
   return (obs) => {
     if (!model.rows.length) return { type: "wait" };
     if (sc === "rb-amr-fleet-routing") {
-      const moves = COL_FEATURES[sc].perRobot(obs).map((r) => (r.delivered ? "wait" : colVote(colNeighbours(model, r.f)).label));
+      const moves = colF(sc).perRobot(obs).map((r) => (r.delivered ? "wait" : colVote(colNeighbours(model, r.f)).label));
       if (shield) {
         const claim = new Set(), key = (p) => p.join(","), moving = new Map();
         obs.robots.forEach((r, i) => { if (r.delivered || moves[i] === "wait") claim.add(key(r.at)); });
@@ -164513,8 +164606,8 @@ function colPolicy(model, { shield = false } = {}) {
 }
 
 /** A seeded random policy over a scenario's action space: the floor any learner must beat. */
-function colRandomPolicy(sc, seed = 1, { ids = [] } = {}) {
-  const R = rng(seed * 9973 + 5), pick = (a) => a[Math.floor(R() * a.length)];
+function colRandomPolicy(sc0, seed = 1, { ids = [] } = {}) {
+  const sc = colBase(sc0), R = rng(seed * 9973 + 5), pick = (a) => a[Math.floor(R() * a.length)];
   return (o) => {
     if (colIsStation(sc)) { const t = pick(["select", "select", "press", "release", "wait", "commit", "drop"]); const id = pick(ids.length ? ids : ["none"]); return t === "commit" ? { type: t, id, at: colR3(R()) } : t === "drop" ? { type: t, id, distance: colR3(R()) } : t === "wait" || t === "release" ? { type: t } : { type: t, id }; }
     if (sc === "rb-cell-entry") { const t = pick(["walk", "walk", "test-estop", "press-estop", "lockout", "verify", "enter", "clear-jam", "exit", "remove-lock", "restart", "wait"]); return t === "walk" ? { type: "walk", d: colR3(R() * 2 - 0.5) } : { type: t }; }
@@ -164568,7 +164661,7 @@ function colEvalScenario(sc, { demos = 40, seed = 1, heldOut = 60, onlySuccessfu
   const random = colEvalPolicy(sc, (s) => colRandomPolicy(sc, s, { ids }), { seeds, station });
   // The expert needs the env it acts in (a station's RobotAgent reads the live session), so it is built inside the rollout.
   const expert = colEvalExpert(sc, seeds, station);
-  const bcShield = sc === "rb-amr-fleet-routing" ? colEvalPolicy(sc, () => colPolicy(model, { shield: true }), { seeds }) : null;
+  const bcShield = colBase(sc) === "rb-amr-fleet-routing" ? colEvalPolicy(sc, () => colPolicy(model, { shield: true }), { seeds }) : null;
   return { scenario: sc, demos: model.demos, demosOffered: ds.length, rows: model.rows.length, bc, bcShield, random, expert, gapToExpert: colR3(expert.success - bc.success), modelHash: colHash(model) };
 }
 
@@ -164592,7 +164685,7 @@ const COL_ACTION_TEXT = {
  * the nearest demonstrated moments agree.
  */
 function colExplain(model, obs, robot = 0) {
-  const sc = model.scenario, F = colF(sc);
+  const sc = colBase(model.scenario), F = colF(sc);
   const x = sc === "rb-amr-fleet-routing" ? F.perRobot(obs)[robot]?.f ?? F.names.map(() => 0) : F.of(obs);
   const nb = colNeighbours(model, x), { label, ps } = colVote(nb);
   const action = sc === "rb-amr-fleet-routing" ? { type: "route", robot, move: label } : colAction(sc, label, ps, obs);
@@ -164619,7 +164712,7 @@ function colGhost(model, { seed = 7001 } = {}) {
     const r = env.step(action);
     frames.push({ observation: obs, action, explain: explain.text, reward: r.reward, done: r.done, violations: r.info.violations ?? [] });
     obs = r.observation;
-    if (r.done) { frames.push({ observation: obs, action: null, explain: env.summary().passed ? (model.scenario === "rb-cell-entry" ? "Done — the cell is restarted and every practice was kept." : "Done — the task is finished and every practice was kept.") : "The episode ended without a clean pass.", reward: 0, done: true, violations: [], summary: env.summary() }); break; }
+    if (r.done) { frames.push({ observation: obs, action: null, explain: env.summary().passed ? (colBase(model.scenario) === "rb-cell-entry" ? "Done — the cell is restarted and every practice was kept." : "Done — the task is finished and every practice was kept.") : "The episode ended without a clean pass.", reward: 0, done: true, violations: [], summary: env.summary() }); break; }
   }
   return frames;
 }
@@ -164830,7 +164923,12 @@ function colMountCoLearn(el, { reducedMotion = false, capture = null, storage = 
 // along the approach plus the hand reaching for the post's controls (RT_TASKS). rtCompare() takes a `scenario`;
 // rtCompareAll() reports both tasks.
 //
+// Loop 8 (ROBOTRAIN-4, docs/consoles/ROBOTRAIN-4.md): the cell task's ghost drives the rig AND a walker figure — the cell-entry
+// observation carries `walker { at, hand, control }` (rb-env.js), rtFollowRig moves an optional `walker` node (the app's
+// figure, a sibling of the rig) along the approach with its hand at the control, and poses the cell arm by the robot's mode.
+//
 // No network call, no upload, no model call. Every top-level name is prefixed rt/RT_ (the bundler shares one scope).
+
 
 
 
@@ -164875,7 +164973,7 @@ function rtPoseToAction(pose, obs, { speed = rbScenario(RT_SCENARIO).params.spee
  * The controls a walker's hand can reach on the cell's e-stop post and gate, as [x, y] offsets from the body (metres).
  * The e-stop is one button: a light squeeze on it is the test (press and reset), a firm squeeze holds it in.
  */
-const RT_CELL_CONTROLS = Object.freeze({ estop: [0.5, 1.1], lock: [-0.5, 1.0], verify: [-0.5, 1.4], gate: [0, 1.0], jam: [0, 0.6], restart: [0.5, 1.4] });
+const RT_CELL_CONTROLS = Object.freeze(Object.fromEntries(Object.entries(RB_CELL_CONTROLS).filter(([k]) => k !== "rest"))); // the sim's table (rb-robotics-data.js) minus the rest pose
 const rtNearControl = (pose, reach = 0.25) => Object.entries(RT_CELL_CONTROLS).find(([, c]) => Math.hypot(pose.p[0] - c[0], pose.p[1] - c[1]) <= reach)?.[0] ?? null;
 
 /**
@@ -165008,7 +165106,8 @@ function rtXRPose(inputSource, frame, refSpace, { origin = RT_XR_FRAME.origin, s
  * (the child flagged `userData.pivot`) pitches with its height. No mesh is added; `rig.userData.rtDriven` tells rb-world's
  * sweep to leave the rig alone until rtReleaseRig. Pure given a node with `rotation` and `children`. Returns { yaw, pitch }.
  */
-function rtFollowRig(rig, obs) {
+function rtFollowRig(rig, obs, { walker = null } = {}) {
+  if (obs?.walker) return rtFollowCell(rig, obs, walker);
   if (!rig?.rotation || !obs?.effector) return null;
   const [x, y, z] = obs.effector;
   const yaw = rtR3(Math.atan2(-x, z + 0.6)), pitch = rtR3(rtClip(-(y - 0.3) * 1.5, -0.9, 0.6));
@@ -165018,11 +165117,37 @@ function rtFollowRig(rig, obs) {
   if (arm?.rotation) arm.rotation.x = pitch;
   return { yaw, pitch };
 }
-function rtReleaseRig(rig) {
+function rtReleaseRig(rig, walker = null) {
+  if (walker) walker.visible = false;
   if (!rig) return;
   if (rig.userData) rig.userData.rtDriven = false;
   const arm = (rig.children ?? []).find((c) => c.userData?.pivot);
   if (arm?.rotation) arm.rotation.x = 0;
+}
+
+/**
+ * The cell task on the rig and the walker figure (ROBOTRAIN-4). The cell arm is posed by the robot's mode — sweeping mid-arc at
+ * full speed, square to the gate and slowed inside the warning zone, parked (pitched down) when protective-stopped, e-stopped or
+ * locked out, back to the arc on restart — and `walker` (any node with `position`; a child flagged `userData.hand` is the hand)
+ * stands on the approach at obs.walker.at with the hand at the control in use. Pure given plain nodes. Returns { yaw, pitch, at }.
+ */
+function rtFollowCell(rig, obs, walker = null) {
+  const w = obs?.walker; if (!w) return null;
+  const mode = obs.robotMode ?? "full";
+  const yaw = mode === "full" && !obs.restarted ? 0.8 : 0, pitch = mode === "full" ? 0 : mode === "reduced" ? -0.3 : 0.6;
+  if (rig?.rotation) {
+    rig.userData = rig.userData ?? {}; rig.userData.rtDriven = true;
+    rig.rotation.y = yaw;
+    const arm = (rig.children ?? []).find((c) => c.userData?.pivot);
+    if (arm?.rotation) arm.rotation.x = pitch;
+  }
+  if (walker?.position) {
+    walker.visible = true;
+    if (typeof walker.position.set === "function") walker.position.set(w.at[0], w.at[1], w.at[2]); else { walker.position.x = w.at[0]; walker.position.y = w.at[1]; walker.position.z = w.at[2]; }
+    const hand = (walker.children ?? []).find((c) => c.userData?.hand);
+    if (hand?.position) { if (typeof hand.position.set === "function") hand.position.set(w.hand[0], w.hand[1], 0.2); else { hand.position.x = w.hand[0]; hand.position.y = w.hand[1]; hand.position.z = 0.2; } }
+  }
+  return { yaw, pitch, at: w.at.slice(), control: w.control };
 }
 
 /**
@@ -165152,9 +165277,10 @@ const RT_REST_POSE = Object.freeze({ "rb-teleop-pick-place": [0, 0.3, -0.35], "r
  * `onTake(episode | null, summary)` fires when a take ends (the app re-reads the learner's consented takes for the provider);
  * `demonstrate()` replays the policy's run as a GHOST on the same rig — `modelFor(sc)` (vb-colearn.js' provider) or, without
  * it, a COLEARN model on synthetic demonstrations — one frame at a time with the explanation on the status line.
- * Returns { start(seed), step(), pose(), xr(frame, refSpace), source(), stop(), status(), rig(), task(id?), demonstrate(), ghost(), tasks }.
+ * `walker` (ROBOTRAIN-4) is the app's figure for the cell task: a take and the ghost move it along the approach (rtFollowCell).
+ * Returns { start(seed), step(), pose(), xr(frame, refSpace), source(), stop(), status(), rig(), walker(), task(id?), demonstrate(), ghost(), tasks }.
  */
-function rtMountTeleop(el, { seed = 7001, store = dxStore, signals = null, reducedMotion = false, rig = null, hand = "right", task = RT_SCENARIO, onTake = null, modelFor = null } = {}) {
+function rtMountTeleop(el, { seed = 7001, store = dxStore, signals = null, reducedMotion = false, rig = null, walker = null, hand = "right", task = RT_SCENARIO, onTake = null, modelFor = null } = {}) {
   if (!el || typeof el.addEventListener !== "function") return null;
   const doc = el.ownerDocument;
   el.innerHTML = "";
@@ -165184,15 +165310,15 @@ function rtMountTeleop(el, { seed = 7001, store = dxStore, signals = null, reduc
     if (!rec) return;
     const r = rec.step(pose);
     pose.estop = false;
-    if (rig) rtFollowRig(rig, rec.observation);
+    if (rig || walker) rtFollowRig(rig, rec.observation, { walker });
     status.textContent = rtHudLine(sc, rec.observation, { recording: rec.active, source, feedback: r.feedback });
     if (r.done) api.stop();
   };
-  const ghostStop = () => { if (ghost.timer) { clearInterval(ghost.timer); ghost.timer = null; } if (ghost.frames.length && rig) rtReleaseRig(rig); ghost.frames = []; ghost.i = -1; };
+  const ghostStop = () => { if (ghost.timer) { clearInterval(ghost.timer); ghost.timer = null; } if (ghost.frames.length && (rig || walker)) rtReleaseRig(rig, walker); ghost.frames = []; ghost.i = -1; };
   const ghostShow = () => {
     const f = ghost.frames[ghost.i]; if (!f) return;
-    if (rig && f.observation?.effector) rtFollowRig(rig, f.observation);
-    const src = ghost.model?.provenance?.own ? `your ${ghost.model.provenance.n} takes` : "synthetic demonstrations";
+    if ((rig || walker) && (f.observation?.effector || f.observation?.walker)) rtFollowRig(rig, f.observation, { walker });
+    const src = ghost.model?.provenance?.own ? `your ${ghost.model.provenance.n} take${ghost.model.provenance.n === 1 ? "" : "s"}` : "synthetic demonstrations";
     status.textContent = `Robot demonstrates back (${src}) · step ${ghost.i + 1}/${ghost.frames.length} · ${f.action ? f.action.type : "done"} · ${f.explain}`;
   };
   const api = {
@@ -165204,7 +165330,7 @@ function rtMountTeleop(el, { seed = 7001, store = dxStore, signals = null, reduc
       pose = { p: RT_REST_POSE[sc].slice(), trigger: 0, squeeze: 0.5, estop: false }; source = "pointer"; xrLast = 0; touches = 0;
       env = rbEnv(sc, { seed: s });
       rec = rtRecorder(env, { store, signals });
-      if (rig) rtFollowRig(rig, rec.observation);
+      if (rig || walker) rtFollowRig(rig, rec.observation, { walker });
       status.textContent = rec.active ? "Recording this take on this device (revoke on the Me tab deletes it)." : "Not recording: this take is practice only.";
       if (!reducedMotion && typeof setInterval === "function") timer = setInterval(tick, 100);
       return rec.active;
@@ -165224,10 +165350,11 @@ function rtMountTeleop(el, { seed = 7001, store = dxStore, signals = null, reduc
     },
     source() { return source; },
     rig() { return rig; },
+    walker() { return walker; },
     stop() {
       if (timer) { clearInterval(timer); timer = null; }
       const had = !!rec, steps = rec ? rec.steps() : 0;
-      const ep = rec ? rec.finish() : null; rec = null; if (rig) rtReleaseRig(rig);
+      const ep = rec ? rec.finish() : null; rec = null; if (rig || walker) rtReleaseRig(rig, walker);
       if (had && steps > 0) { lastTake = { scenario: sc, steps, kept: !!ep }; bGhost.disabled = false; try { onTake?.(ep, lastTake); } catch (_) { /* never blocks the pad */ } }
       return ep;
     },
@@ -166097,6 +166224,7 @@ function vbJobSummary(job) {
 
 
 
+
 const VB_COLEARN_POLICY_ID = "vb-colearn-bc-knn";
 const VB_COLEARN_SCRIPTED_ID = "vb-scripted-expert";
 /** What the panel says the provider is, so no reader mistakes the training data for people. */
@@ -166150,6 +166278,9 @@ function vbColearnLocalSource({ store = null, signals = null } = {}) {
   const opts = store ? { store, signals } : { signals };
   return {
     async refresh() {
+      // ROBOTRAIN-4: a take just finished may still be parked for the recorder's idle slot; run those writes first so this read
+      // sees them (the flush records nothing new — it is the same consent-checked put, only now).
+      try { await dxFlush(); } catch (_) { /* nothing parked */ }
       const counts = {};
       for (const sc of COL_SCENARIOS) {
         let eps = [];
@@ -168642,7 +168773,17 @@ window.__parishTest.colearn = colMountCoLearn($("menu-drills"), { reducedMotion:
 // ROBOTRAIN-2: the pointer pad and touch drive the pose here; a WebXR session added to this app calls teleop.xr(frame, refSpace) from its frame callback and the controller takes over. The nearest arm rig on this map follows the pose live (no new mesh).
 // ROBOTRAIN-3: the pad drives the cell-entry task too (the select on the pad), the XR session loop above feeds it, a finished take
 // re-reads the learner's consented takes for the provider (vbLocal), and "Robot demonstrates back" replays the provider's policy as a ghost on the same rig.
-window.__parishTest.teleop = (() => { try { const host = document.createElement("div"); host.id = "rt-teleop"; $("menu-drills")?.append(host); const rtSite = rbWorld?.sites?.find((s) => s.rig === "cobot" || s.rig === "cell") ?? null; return rtMountTeleop(host, { reducedMotion: npReduced, rig: rtSite ? rbWorld.rigNode(rtSite.id) : null, task: rtSite?.rig === "cell" ? "rb-cell-entry" : "rb-teleop-pick-place", onTake: () => { vbLocal?.refresh().catch(() => {}); }, modelFor: (sc) => vbProvider?.modelFor(sc) ?? null }); } catch (_) { return null; } })();
+// ROBOTRAIN-4: on a cell site the pad also gets a walker figure (two boxes beside the rig, hidden until a take or the ghost moves it), so
+// "Robot demonstrates back" on the cell task walks the figure up the approach with its hand at each control (rtFollowCell).
+window.__parishTest.teleop = (() => { try { const host = document.createElement("div"); host.id = "rt-teleop"; $("menu-drills")?.append(host); const rtSite = rbWorld?.sites?.find((s) => s.rig === "cobot" || s.rig === "cell") ?? null; const rtRig = rtSite ? rbWorld.rigNode(rtSite.id) : null; return rtMountTeleop(host, { reducedMotion: npReduced, rig: rtRig, walker: rtSite?.rig === "cell" ? npWalkerFigure(rtRig) : null, task: rtSite?.rig === "cell" ? "rb-cell-entry" : "rb-teleop-pick-place", onTake: () => { vbLocal?.refresh().catch(() => {}); }, modelFor: (sc) => vbProvider?.modelFor(sc) ?? null }); } catch (_) { return null; } })();
+function npWalkerFigure(rig) {
+  if (!rig?.parent) return null;
+  const w = new THREE.Group(); w.name = "rt-walker"; w.visible = false;
+  const body = new THREE.Mesh(new THREE.BoxGeometry(0.4, 1.7, 0.3), new THREE.MeshLambertMaterial({ color: 0x3a8fd8 })); body.name = "rt-walker-body"; body.position.y = 0.85;
+  const hand = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.12, 0.12), new THREE.MeshLambertMaterial({ color: 0xf2c9a0 })); hand.name = "rt-walker-hand"; hand.userData.hand = true; hand.position.set(0, 0.9, 0.2);
+  w.add(body, hand); rig.parent.add(w);
+  return w;
+}
 // VBRIDGE (docs/consoles/VBRIDGE.md): supervise jobs a mock software agent sends to the robot sites — the safety governor checks
 // each (e-stop wins, allowlist, limits, stale lineage), simulated robots only; every decision goes to ENTERPRISE-3's audit log.
 // ROBOTRAIN-2: jobs that name the COLEARN policy run a behaviour-cloning policy as the provider (trained lazily on synthetic demonstrations); guarded.

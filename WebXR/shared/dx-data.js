@@ -359,11 +359,16 @@ const dxCancelIdle = (h) => { try { if (typeof globalThis.cancelIdleCallback ===
  */
 const dxPendingWrites = new Set();
 export function dxPendingCount() { return dxPendingWrites.size; }
-export async function dxFlush() {
-  const pending = [...dxPendingWrites]; dxPendingWrites.clear();
-  let written = 0;
-  for (const w of pending) { dxCancelIdle(w.handle); if (await w.run()) written += 1; }
-  return written;
+let dxFlushChain = Promise.resolve(0);
+export function dxFlush() {
+  // Flushes queue behind one another, so two callers (the pad's onTake and the Me tab's refresh) never race the same writes.
+  dxFlushChain = dxFlushChain.catch(() => 0).then(async () => {
+    const pending = [...dxPendingWrites]; dxPendingWrites.clear();
+    let written = 0;
+    for (const w of pending) { dxCancelIdle(w.handle); if (await w.run()) written += 1; }
+    return written;
+  });
+  return dxFlushChain;
 }
 let dxFlushHooked = false;
 function dxHookFlush() {
@@ -471,14 +476,17 @@ export function dxIdbBackend(idb = globalThis.indexedDB) {
 /** Make a store over a backend. put() validates and evicts; nothing here touches the network. */
 export function dxMakeStore(backend) {
   const b = backend;
+  // Writes are serialised (read list → save list is not atomic on any backend; two concurrent puts would drop one episode).
+  let queue = Promise.resolve();
+  const putNow = async (ep) => {
+    if (!dxValidateEpisode(ep).ok) return false;
+    const list = (await b.all()).filter((e) => e.episodeId !== ep.episodeId);
+    await b.save(dxEvict([...list, ep], { maxBytes: b.maxBytes ?? DX_MAX_BYTES }));
+    return true;
+  };
   return {
     get backend() { return b.kind; },
-    async put(ep) {
-      if (!dxValidateEpisode(ep).ok) return false;
-      const list = (await b.all()).filter((e) => e.episodeId !== ep.episodeId);
-      await b.save(dxEvict([...list, ep], { maxBytes: b.maxBytes ?? DX_MAX_BYTES }));
-      return true;
-    },
+    put(ep) { const r = queue.catch(() => false).then(() => putNow(ep)); queue = r.catch(() => false); return r; },
     async list() { return b.all(); },
     async bytes() { return JSON.stringify(await b.all()).length; },
     async clear() { await b.clear(); },
