@@ -235,11 +235,26 @@ Source: `docs/consoles/ENV-HD-5.md`. A coordinator’s earlier attempt changed t
 |---|---|
 | Operations-room screens painted from the hive (a console for each agent and the wall); agents standing at their consoles on entering (high and balanced; the phone tier builds none) | 0 → 8 of 8; 0 → 7 of 7 |
 | The room with 7 speaking figures: meshes; triangles; texture MiB on high, against 120 meshes, 6,000 triangles and 24 MiB; the triangles 7 standard figures would have made | 88; 4,878; 21.58; 9,078 |
-| The same on balanced, against a texture budget of 3 MiB (the screens take colour, bars and a talk light, no words); texture bytes the screens add | 84; 4,190; 2.77; 0 |
+| The same on balanced, against a texture budget of 3 MiB (the screens take colour, bars and a talk light); texture bytes the screens add | 84; 4,190; 2.77; 0 |
 | Built in the page at hive minute 159: agents standing; screens painted; meshes and triangles built; page errors; off-host requests | 7 of 7; 8 of 8; 88; 4,878; 0; 0 |
-| On the merged head, triangles built against the limit of 6,000: with the high-detail line’s room-level figures in the room (the video review’s capture; 46 meshes) → after the integration fix, which keeps the lightened figure here (built page; page errors) | 8,508 → 4,470; 0 |
 
-Source: `docs/consoles/HIVE-5.md`. The figures in this room are lightened from 1,008 to 408 triangles each so that all 7 fit; the screens are painted from the hive’s own events and metrics, and every card says “software agent”. With both consoles merged the room was briefly over its triangle limit (the video review’s capture measured 46 meshes and 8,508 triangles built against 6,000, because the high-detail line’s room mount put its figures here), a gap no checker covered; it was fixed at integration, the app keeping the lightened figure in this room, and the built page now measures 4,470 triangles.
+Source: `docs/consoles/HIVE-5.md`. The figures in this room are lightened from 1,008 to 408 triangles each so that all 7 fit; the screens are painted from the hive’s own events and metrics, and every card says “software agent”. On the merged head the room is over its triangle limit: the video review’s capture, with the high-detail line’s room-level figures standing in it, measures 46 meshes and 8,508 triangles built against 6,000, and no checker covers that combination.
+
+### Round six: buildings that read as their kind (ENV-HD-6)
+
+| Measure | Before → after |
+|---|---|
+| Kinds of place whose busiest site carries a cue of its kind (a fire station’s apparatus bays and hose tower; a hospital’s drop-off canopy, lane and a white H on blue; a school’s entrance canopy and fenced play yard; a park’s gable-roofed crew house, pavilion, paths and shed) | 0 → 4 of 4 |
+| Cue triangles at each site, balanced / high, against a stated budget of 1,200 / 3,600: park; fire station; hospital; school | 276 / 420; 192 / 384; 156 / 180; 480 / 1,968 |
+| The cue and lamp mesh a map: merged meshes on balanced and high (none on the phone tier or a headset browser); triangles on the Orleans map, balanced / high; on the Marina and Mission maps, high | 1; 2,028 / 2,244; 1,716; 3,312 |
+| Cue parts on a carriageway, in water, into another building or within 1.5 m of the job board, at every site checked | 0 |
+| Job boards whose lamp floated with nothing holding it at night, before → after (a post, an arm and a housing, 48 triangles a board) | 90 → 0 (90 of 90 boards with a post) |
+| Street cameras clear of every tree (no crown within 5 m): the solver now reads the live-oak placements, adding 8 m to a crown; the park’s camera, nearest crown edge, in metres | 6 of 7 → 7 of 7; 0.2 → 11.0 |
+| Hero buildings with the opt-in Ultra setting’s 2048 px facade atlas: before → after; the atlas’s texture MiB a map, against a stated 24; triangles a building | 0 of 4 → 4 of 4; 21.33; 8 |
+| In the built page (the Orleans hospital street shot): cue meshes on the phone tier; draw calls on the phone tier / balanced / high | 0; 151 / 199 / 209 |
+| Exteriors checker checks, before → after; the new buildings checker; facades and room-lighting checkers, unchanged; page errors and external requests in the drives | 309 → 316; 118; 2,977, 127; 0, 0 |
+
+Source: `docs/consoles/ENV-HD-6.md`. Every cue is procedural and generic by kind: one merged, vertex-coloured mesh a map with no texture and no light, a hospital sign built from boxes with no red cross or other protected emblem and no words, and no flagpole at the school. The phone tier and a headset browser build nothing.
 
 ### Checkers run on the neighbours
 
@@ -272,19 +287,21 @@ Source: `docs/consoles/HIVE-5.md`. The figures in this room are lightened from 1
 
 - *Planned* Establishing shots now cover the 4 busiest kinds that had none; a door shot at a site building is still not made.
 
-- *Planned* The new shots frame the parish engine’s plain generic building, so nothing in the frame says fire station, hospital, school or park crew yard beyond the setting, and the park’s street shot stands under a tree crown that the camera solver does not see.
+- *Planned* Only the busiest site of each kind carries a cue; every other park, fire station, hospital and school keeps the plain box. The school reads from its wide shot but not from its street shot, where yard props stand in front of the entrance canopy; the H sign reads at night only by the street lamps; and the park’s gable ends are stepped boxes, visible as steps up close.
 
-**Round two of this loop** is merged into the integration head (`c1dc76a1`): `HIVE-IN-WORLD` (note last committed in `0c834a8a`); `ENV-HD-2` (note last committed in `a0d21aea`). Each figure from it is checked by phrase against that console’s committed note, not re-run from a branch; a note that is edited later stops the build.
+**Round two of this loop** is merged into the integration head (`40d97421`): `HIVE-IN-WORLD` (note last committed in `0c834a8a`); `ENV-HD-2` (note last committed in `a0d21aea`). Each figure from it is checked by phrase against that console’s committed note, not re-run from a branch; a note that is edited later stops the build.
 
-**Round three of this loop** is merged into the integration head (`c1dc76a1`), and each figure from it is checked by phrase against that console’s committed note, a committed data file or a commit message, not re-run from a branch: `ENV-HD-3` (its last commit `f3589590`, 7 commits since the head that round started from; its console note is committed; merged into the integration head). A note that is edited later stops the build.
+**Round three of this loop** is merged into the integration head (`40d97421`), and each figure from it is checked by phrase against that console’s committed note, a committed data file or a commit message, not re-run from a branch: `ENV-HD-3` (its last commit `f3589590`, 7 commits since the head that round started from; its console note is committed; merged into the integration head). A note that is edited later stops the build.
 
 **Round four ** of this loop is **merged** into the integration head (`e252b25f`) and is read from it with a read-only git show: `ENV-HD-4` (its own commits end at `70b4aed5`, 11 commits of its own; its console note is committed; merged). Each figure is checked by phrase against that console’s note or its commit messages, and a rebuild re-reads the final state.
 
 **Round five ** of this loop is merged into the integration head; its figures were read from the console branches (the same commits) with a read-only git show: `ENV-HD-5` (branch head `c0afcff2`, 5 commits of its own; its console note is committed; merged). Each figure is checked by phrase against that console’s note, a committed file or its commit messages, and a rebuild re-reads the final state.
+
+**Round six ** of this loop is merged into the integration head; its figures were read from the console branches (the same commits) with a read-only git show: `ENV-HD-6` (branch head `b7065f74`, 6 commits of its own; its console note is committed; merged). Each figure is checked by phrase against that console’s note, a committed file or its commit messages, and a rebuild re-reads the final state.
 
 Sources: `docs/consoles/ROBO-INTERIORS.md`, `docs/consoles/ROBO-EXTERIORS.md`, `WebXR/shared/ixr-robo-interiors.js`, `WebXR/shared/fx-exteriors.js`, `tools/check_robo_interiors.mjs`, `tools/check_exteriors.mjs`. Each figure is read from those notes by the script that built this page. Rooms are generic by kind, as the interiors note says: no real building’s interior is modelled.
 
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `c1dc76a1`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `e196829d`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

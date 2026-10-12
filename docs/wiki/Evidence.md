@@ -66,7 +66,7 @@ Every number in this whitepaper comes from the repository file named beside it; 
 | **Platform: counts and content scores** | | | |
 | Scored training stations; programmes | 742 · 61 | `docs/investor/platform-summary.json` | count |
 | Content evaluation over 742 stations: mean; scoring 95 or more; 90 to 94; below 90 | 95.8 · 612 · 126 · 4 | `docs/investor/platform-summary.json` | content score |
-| Quality-gate checkers in the full run | 144 | `tools/check_all.mjs` | count |
+| Quality-gate checkers in the full run | 151 | `tools/check_all.mjs` | count |
 | Robotics facets ready in the shared export; robot sites; gym scenarios | 6 of 6 · 6 · 9 | `exports/shared/holodeck-shared.json` | count |
 | Character registry entries with a sprite; figure fits the role, before and after | 57 · 23 of 57 → 57 of 57 | `docs/consoles/AVATARS.md` | count |
 | **Robot-training stations: content score (steps, hazards, interruptions)** | | | |
@@ -282,7 +282,6 @@ Every number in this whitepaper comes from the repository file named beside it; 
 | Home moves after the last job, outdoors too, before → after; lines grounded; outdoor figures where the hive says; idle agents home at the day’s end | 0 → 89 of 89; 89 of 89; 7 of 7; 7 of 7 | `docs/consoles/HIVE-5.md` | simulated |
 | Governor with the home move on: dispatched jobs checked; steps monitored; physical dispatches; jobs completed with and without it | 150 of 150; 3,061 of 3,061; 0; 144 | `docs/consoles/HIVE-5.md` | simulated |
 | Built page at hive minute 159 (high, a software renderer): agents standing; screens painted; meshes built; triangles built (equal to the checker’s); triangles drawn; texture MiB; page errors; off-host requests; the toggle on a 390 × 844 touch phone in pixels | 7 of 7; 8 of 8; 88; 4,878; 4,292; 19.25; 0; 0; 284 by 44 | `docs/consoles/HIVE-5.md` | observed |
-| The operations room on the merged head, triangles built against the room’s limit of 6,000: with the high-detail line’s room-level figures in it (measured by the video review’s capture, cut 12; 46 meshes) → after the integration fix, measured in the built page with `HIVE-5` ’s drive; page errors; checkers on the merged tree passing | 8,508 → 4,470; 0; 43 of 43 | `docs/consoles/COORDINATOR.md` | observed |
 | **`ROBOTRAIN-8`: the declared retests, measured once on fresh seeds (design committed at 16:08 UTC and amended from training-side evidence at 16:15 UTC, before any run on the fresh seeds; its committed note and data file)** | | | |
 | Fresh held-out seeds, never tuned on: first to last (how many); the earlier range, already seen by earlier rounds | 7061 –7120 (60); 7001 –7060 | `docs/consoles/ROBOTRAIN-8.md` | count |
 | Per-step reward on fleet routing, clone success on the fresh seeds: the declared rule (oversampled pairs at the declared threshold); the same pairs at the sweep’s hinted threshold; the older pairs at the hinted threshold; the rule filter; no filter | 0.517; 0.467; 0.883; 0.650; 0.533 | `docs/evals/colearn.json` | simulated |
@@ -298,10 +297,54 @@ Every number in this whitepaper comes from the repository file named beside it; 
 | Reactive agent on the hard fleet-routing variant, passed of its training seeds (101 –130), first rule → amended rule; of the supplement’s seeds, earlier agent → new agent (mean steps 15.3 for the new one); of the fresh seeds, earlier agent → new agent; rules broken in any of them | 16/30 → 29/30; 1 of 3 → 3 of 3; 26 of 60 → 55 of 60; 0 | `docs/perf/agent-baselines-robotics.json` and `docs/evals/colearn.json` | simulated |
 | Colearn checker checks, before → after (it re-runs the new retests and compares the file byte for byte); roboscenarios checker checks; lines the results added to the data file, and lines they deleted (every earlier row is byte-identical) | 61 → 69; 13; 747; 0 | `docs/consoles/ROBOTRAIN-8.md` | count |
 | A timing run on the earlier range, disclosed before the design was written (not a result, and the round count was not chosen from it): port-lane hard variant before → after one correction round; the holders features after one round | 0.717 → 0.583; 0.783 | `docs/consoles/ROBOTRAIN-8.md` | simulated |
+| **`AVATARS-HD-3`: the operations room at full detail (its committed note)** | | | |
+| Crowd-level figure: triangles a figure against its stated budget of 540; meshes a figure | 496 –524; 3 | `docs/consoles/AVATARS-HD-3.md` | count |
+| Operations room on high with all 7 agents standing in it: meshes; triangles, against the room-level figure’s 8,508; steps of a seeded day inside the room’s budgets | 46; 5,586; 480 of 480 | `docs/consoles/AVATARS-HD-3.md` | simulated |
+| Walks over a seeded day that clear every console and collider; walks crossing a console in the go-round test case, before → after | 214; 7 → 0 | `docs/consoles/AVATARS-HD-3.md` | simulated |
+| Word boundaries stamped with their own time; mouth checked at 1 and 2 frames a second | 20 of 20 | `docs/consoles/AVATARS-HD-3.md` | simulated |
+| **`HIVE-6`: moods from the day, a morning briefing, words on the balanced screens (its committed note)** | | | |
+| Mood changes in a seeded day of 480 minutes (the panel’s hive, 5 seeds), before → after; changes traced to the hive’s own events | 0 → 168, 178, 198, 163, 155; 862 of 862 | `docs/consoles/HIVE-6.md` | simulated |
+| Lines that carry the speaker’s mood; mood phrases in register, language and band (share of lines); safety lines with a mood phrase | 7,137 of 7,137; 1,163 of 1,163 (16.3%); 0 of 1,076 | `docs/consoles/HIVE-6.md` | simulated |
+| Mood voice inside the gentle band (rate 0.85 –1.15, pitch 0.85 –1.2): lines of seed 1; rate seen; pitch seen; safety lines never faster or higher | 1,434 of 1,434; 0.87 –1.15; 0.92 –1.2; 220 of 220 | `docs/consoles/HIVE-6.md` | simulated |
+| Briefing lines grounded, before → after; first jobs equal to the day’s first awards; overlapping lines | 0 → 35 of 35; 15 of 15; 0 | `docs/consoles/HIVE-6.md` | simulated |
+| Balanced operations-room screens with words, before → after; the balanced room: meshes; triangles; texture MiB (limit 3) | 0 of 8 → 8 of 8; 85; 4,394; 2.77 | `docs/consoles/HIVE-6.md` | count |
+| The hive’s output with the options off, byte-identical; governor with them on: jobs checked; steps monitored; physical dispatches | 3 of 3; 154 of 154; 3,196 of 3,196; 0 | `docs/consoles/HIVE-6.md` | simulated |
+| Built page, entering the operations room at hive minute zero: briefing turns; agents standing; screens painted; meshes and triangles built; mood changes after 90 minutes; the tab’s moods panel rows and buttons; checker checks | 7; 7 of 7; 8 of 8; 88, 4,878; 35; 7, 0; 7 | `docs/consoles/HIVE-6.md` | observed |
+| **`ENV-HD-6`: buildings that read as their kind (its committed note)** | | | |
+| Kinds of place with a cue of their kind, before → after; cue triangles at each site, balanced / high (park; fire station; hospital; school), against a stated 1,200 / 3,600 | 0 → 4 of 4; 276 / 420; 192 / 384; 156 / 180; 480 / 1,968 | `docs/consoles/ENV-HD-6.md` | count |
+| Cue and lamp meshes a map on balanced and high; triangles on the Orleans map, balanced / high; cue parts in a bad place (carriageway, water, another building, within 1.5 m of the board) | 1; 2,028 / 2,244; 0 | `docs/consoles/ENV-HD-6.md` | count |
+| Night lamp bars floating, before → after (90 of 90 boards now with a post, arm and housing) | 90 → 0 | `docs/consoles/ENV-HD-6.md` | count |
+| Street cameras clear of every tree, before → after; the park’s nearest crown edge, metres, before → after | 6 of 7 → 7 of 7; 0.2 → 11.0 | `docs/consoles/ENV-HD-6.md` | count |
+| Ultra hero buildings, before → after; atlas px; texture MiB a map against 24; triangles a building | 0 of 4 → 4 of 4; 2048; 21.33; 8 | `docs/consoles/ENV-HD-6.md` | count |
+| Checks: exteriors, before → after; the new buildings checker; facades and room-lighting, unchanged; page errors and external requests in the drives | 309 → 316; 118; 2,977, 127; 0, 0 | `docs/consoles/ENV-HD-6.md` | observed |
+| **`ROBOTS-HD`: the robots themselves in high detail (its committed note)** | | | |
+| High-detail robot, draw calls / triangles, today → now (budget): cobot; AMR; gantry; fenced cell | 3 / 100 → 8 / 1,336 (8 / 2,000); 3 / 72 → 5 / 1,132 (5 / 1,600); 4 / 48 → 6 / 1,392 (6 / 3,000); 4 / 48 → 10 / 1,948 (10 / 3,600) | `docs/consoles/ROBOTS-HD.md` | count |
+| Balanced, phone and headset mounts that build nothing (maps); rooms identical; robot rooms inside the room budget with the high-detail robots (rooms carrying them); the busiest room, meshes and triangles | 15 of 15 (5); 18 of 18; 6 of 6 (4); 29, 4,668 | `docs/consoles/ROBOTS-HD.md` | count |
+| Status-light states shown, before → after; seeded steps in which the light matches the site’s state; governor decisions shown right; no state shown dark; floor zone exactly inside the warning distance | 0 of 3 → 3 of 3; 360 of 360; 6 of 6; 7 of 7; 360 of 360 | `docs/consoles/ROBOTS-HD.md` | simulated |
+| Motion: key poses eased with zero joint speed; worst joint step in a 60 Hz frame, radians; AMR metres travelled → metres rolled by the wheels | 4 of 4; 0.003; 1.23 → 1.21 | `docs/consoles/ROBOTS-HD.md` | simulated |
+| In the built page: cell view draw calls / triangles drawn, old rig → new robot; sites with the right light in every state; robot rooms inside the budget with the hive’s agents; page errors; checker checks | 151 / 158,196 → 156 / 159,992; 4 of 4; 6 of 6; 0; 42 | `docs/consoles/ROBOTS-HD.md` | observed |
+| **`ROBO-ARENA`: robots compete, model against model (its committed note and data files)** | | | |
+| Model families compared on the same scenarios and seeds, before → after; scenarios (gym; hard variants; stations); episodes; steps checked by the governor; dispatches to a physical robot | none → 8; 12 (9; 3; 3); 4,260; 179,248; 0 | `docs/evals/arena.json` | simulated |
+| Protocol committed, UTC, and held-out results committed, UTC; held-out seeds for the gym and for the stations; development seeds | 17:46; 17:48; 7121 –7180, 7121 –7130; 1 –20 | `docs/consoles/ROBO-ARENA.md` | count |
+| Gym leaderboard, pooled success (Wilson 95% interval): expert; reactive; DAgger (3 rounds); clone; DAgger (1 round); per-step-reward clone; small model; random | 1.000 (0.993 to 1.000); 0.939 (0.909 to 0.959); 0.859 (0.827 to 0.886); 0.837 (0.804 to 0.866); 0.809 (0.774 to 0.840); 0.802 (0.766 to 0.833); 0.757 (0.720 to 0.792); 0.000 (0.000 to 0.007) | `docs/evals/arena.json` | simulated |
+| Rules broken on the gym, each a protective stop, in the same order | 0; 0; 19; 35; 37; 43; 64; 670 | `docs/evals/arena.json` | simulated |
+| Small model (26,640 parameters) against the clone on the held-out hard variants (180 episodes): small model; clone; difference (interval); task text blanked | 0.600; 0.622; −0.022 (−0.122 to 0.078); 0.606 | `docs/evals/arena.json` | simulated |
+| The same over every scenario on held-out seeds (570 episodes) | 0.753; 0.846; −0.093 (−0.139 to −0.047); 0.719 | `docs/evals/arena.json` | simulated |
+| Small model on the stations, with its task text and with it blanked: robot cell; AMR fleet; cobot (the clone passes 10 of 10 and 10 of 10 on the cell and the cobot) | 10 of 10, 0 of 10; 10 of 10, 0 of 10; 0 of 10, 0 of 10 | `docs/evals/arena.json` | simulated |
+| Trainable set: episodes; steps; synthetic; consented; train, validation and test episodes; cross-split copies removed; duplicates dropped; leakage left | 351; 9,469; 351; 0; 237, 57, 57; 6; 3; 0 | `exports/robotics/arena/index.json` | count |
+| Arena checker checks; the panel’s headless drive: rows; scenario cards; page errors; off-host requests | 8; 8; 12; 0; 0 | `docs/consoles/ROBO-ARENA.md` | observed |
+| **`OMEGA-CLAW`: the agents that run robot training and model testing (its committed note and record)** | | | |
+| Declared comparisons run once on held-out seeds, before → after; gym scenarios by challengers; seeds; episodes; steps checked by the governor; physical dispatches | none → 45 of 45; 9 by 5; 7121 –7180; 3,600; 133,061; 0 | `docs/evals/claw.json` | simulated |
+| Promotions; refusals in all, by reason: not better; rule broken; not applicable; undeclared; seed reused; kinds exercised on purpose | 0; 47: 18; 18; 9; 1; 1; 3 of 3 | `docs/evals/claw.json` | count |
+| The one clear win, DAgger (3 rounds) on fleet routing, refused: successes of the challenger and of the clone; lower bound against upper bound; rules the challenger broke | 55 of 60; 42 of 60; 0.819 against 0.801; 5 | `docs/evals/claw.json` | simulated |
+| Audit: hash-chain lines re-walked (with the audit’s own line); declared first, each seed once, held-out seeds only | 228 (229); ok | `docs/evals/claw.json` | count |
+| Persistent world, seed 1: simulated minutes; jobs completed; refused; vetoed; dispatched, all checked; steps monitored; physical dispatches; waiting for the learner | 960; 163; 28; 8; 190; 3,839; 0; 14 | `docs/evals/claw.json` | simulated |
+| In the built page: simulated minutes; jobs completed; steps checked; seconds hidden, which gave no steps; page errors | 613; 119; 2,562; 4; 0 | `docs/consoles/OMEGA-CLAW.md` | observed |
+| Claw checker checks, before → after the console’s work; bundle growth of the parishes and instructor pages, bytes | 0 → 8; 233,356; 152,007 | `docs/consoles/OMEGA-CLAW.md` | count |
 
 Simulated: produced by the simulator on seeded runs, with synthetic demonstrations or simulated learners. Count: read from the data the repository ships. Content score: the platform's own station evaluation, scored out of 100. Each value is re-checked against its file by the build script that wrote this table. The scripted expert sees the targets, so it is a ceiling and not a competitor.
 
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `c1dc76a1`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `e196829d`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

@@ -94,9 +94,25 @@ Source: `WebXR/shared/hd4-looks.js`
 
 Source: `docs/consoles/AVATARS-HD.md`
 
+- **Mood (of an agent)** A state an agent carries that is derived only from the hive’s own events by fixed rules: calm, busy while it holds jobs, concerned after a refusal that names it, relieved after a clean audit. It adds a short phrase to some lines and a small shift to the voice, never on a safety line, and it is not a feeling.
+
+Source: `docs/consoles/HIVE-6.md`
+
+- **Arena** A harness in which every robot model family in the repository runs the same scenarios on the same held-out seeds through the safety governor, with a leaderboard of success, rules broken and protective stops, each with a Wilson interval. The protocol is committed before the run, and the scripted expert is an upper bound, not a competitor.
+
+Source: `docs/consoles/ROBO-ARENA.md`, `docs/evals/arena.json`
+
+- **Wilson interval** A range for a success rate measured on a limited number of seeds, so that a difference counts only when their ranges do not overlap; it stays inside the span from nothing to everything even for a perfect or a zero score.
+
+Source: `docs/consoles/ROBO-ARENA.md`
+
+- **Promotion** The Omega Claw’s decision to make a challenger model the incumbent for a scenario: allowed only if its interval lies clear of the incumbent’s, no rule was broken in its runs, the governor saw every step and nothing went to a physical robot. Otherwise the promoter refuses and logs the reason in a hash chain.
+
+Source: `docs/consoles/OMEGA-CLAW.md`, `docs/evals/claw.json`
+
 Definitions follow how the repository uses each term, not an outside textbook.
 
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `c1dc76a1`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `e196829d`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

@@ -192,8 +192,16 @@ Takes the warehouse and port routing jobs and moves totes between the robot site
 | Home after the last job, outdoors too (opt-in): home moves in the seeded day, before → after; home lines grounded in the event; outdoor figures where the hive says; idle agents home at the day’s end | 0 → 89 of 89; 89 of 89; 7 of 7; 7 of 7 | `docs/consoles/HIVE-5.md` | simulated |
 | The governor with homeward on: dispatched jobs checked; steps monitored; physical dispatches; jobs completed with and without it | 150 of 150; 3,061 of 3,061; 0; 144 | `docs/consoles/HIVE-5.md` | simulated |
 | In the built page (high, a software renderer), the room at hive minute 159: agents standing; screens painted; meshes and triangles built (equal to the checker’s figure); triangles drawn; texture MiB; page errors; off-host requests | 7 of 7; 8 of 8; 88; 4,878; 4,292; 19.25; 0; 0 | `docs/consoles/HIVE-5.md` | observed |
-| The operations room on the merged head, triangles built against the limit of 6,000: with the high-detail line’s room-level figures in it (the video review’s capture, cut 12) → after the integration fix, in the built page with this console’s drive; page errors | 8,508 → 4,470; 0 | `docs/consoles/COORDINATOR.md` | observed |
 | The console link’s toggle on a 390 × 844 touch phone, signed in, in pixels (width by height); panel buttons at least 44 px; hive checker checks | 284 by 44; 6 of 6; 5 passed | `docs/consoles/HIVE-5.md` | observed |
+| **Round six: moods from the day, a morning briefing and words on the balanced screens** | | | |
+| Mood changes in a seeded day of 480 hive minutes (the panel’s hive, 5 seeds), before → after, seed by seed; into calm, busy, concerned and relieved over the 5 days; changes traced to the hive’s own events | 0 → 168, 178, 198, 163, 155; 232, 88, 271, 271; 862 of 862 | `docs/consoles/HIVE-6.md` | simulated |
+| Lines that carry the speaker’s mood; mood phrases in the speaker’s register, language and band (share of lines with one); safety lines with a mood phrase | 7,137 of 7,137; 1,163 of 1,163 (16.3%); 0 of 1,076 | `docs/consoles/HIVE-6.md` | simulated |
+| Mood voice inside the gentle band (rate 0.85 –1.15, pitch 0.85 –1.2): lines of seed 1 with a shift of at most 0.05; rate seen; pitch seen; safety lines never faster or higher | 1,434 of 1,434; 0.87 –1.15; 0.92 –1.2; 220 of 220 | `docs/consoles/HIVE-6.md` | simulated |
+| The morning briefing (7 turns a day): lines grounded in the hive’s own queue, awards and chain, before → after; briefed first jobs equal to the day’s first awards; overlapping lines | 0 → 35 of 35; 15 of 15; 0 | `docs/consoles/HIVE-6.md` | simulated |
+| Balanced operations-room screens with words, before → after (small cards and the small wall: words); the balanced room with all the agents speaking: meshes; triangles; texture MiB against 3 | 0 of 8 → 8 of 8 (28; 10); 85; 4,394; 2.77 | `docs/consoles/HIVE-6.md` | count |
+| The hive’s output with the options off, byte-identical against the base; the governor with moods and the briefing on: dispatched jobs checked; steps monitored; physical dispatches | 3 of 3; 154 of 154; 3,196 of 3,196; 0 | `docs/consoles/HIVE-6.md` | simulated |
+| In the built page, entering the operations room at hive minute zero: briefing turns held; agents standing; screens painted; meshes and triangles built; texture MiB; mood changes after 90 minutes; and the console tab’s moods panel (rows; changes by minute 120; buttons) | 7; 7 of 7; 8 of 8; 88, 4,878; 21.58; 35; 7; 49; 0 | `docs/consoles/HIVE-6.md` | observed |
+| Mood and briefing checker checks | 7 passed | `docs/consoles/HIVE-6.md` | count |
 | **What the panel costs** | | | |
 | Meshes, lights, triangles, draw calls and texture bytes the panel adds on the desktop or phone tier, mounted and after 60 hive steps | 0 | `docs/consoles/OMEGA-HIVE.md` | observed |
 | The desktop world it was measured in: meshes; triangles; draw calls | 312; 114,395; 137 | `docs/consoles/OMEGA-HIVE.md` | observed |
@@ -233,17 +241,25 @@ Both columns run behind the same governor, steward and approvals, with a capacit
 
 - The talk first made the safety steward repeat more: it asked about a hundred questions a day from six templates and its distinct-2 fell to 0.097. A cooldown of one question every 6 hive minutes with more variants lifted it (0.145 → 0.159), at the price of fewer questions (103 → 45 a day). The rule that decides when it asks is a rule, not a judgement, and the learner in the checker is a seeded stand-in.
 
-- The agents standing in the operations room are lightened (1,008 → 408 triangles each): they keep their parts, colours, label, visor and halo, but the head and torso are visibly faceted when seen up close, which is the only way all 7 fit with the room inside its triangle budget without editing the avatar module.
+- On balanced the agents standing in the operations room are still lightened (1,008 → 408 triangles each, visibly faceted when seen up close); on the high tier the room now uses the crowd-level figure of the high-detail line, which keeps the figure’s parts at about 496 –524 triangles.
 
 - “At its console” means “holds no job”: in a busy part of the day most agents are out (at hive minute 261 of the seeded day the page held 11 jobs); the agents stand together at the start of the day and whenever the hive is quiet.
 
 - The console link carries what the panel shows and nothing else, but it is the learner’s own hive: it is off by default, never remembered, and dropped by the tab on “off” or after 6 s of silence. A same-origin channel reaches only pages of the same browser profile and is not a network path. The Spanish toggle text and screen text are machine-assisted.
 
-- With both consoles merged the operations room was, for a while, over its triangle limit: the high-detail line’s room mount put its room-level figures in this room, and the video review’s capture of the merged head measured 46 meshes and 8,508 triangles built against 6,000, a gap that neither console’s own checker covered (this one uses its own lightened figures, the other covers the robot rooms). It was fixed at integration: the app hands the room the default figure, which this console lightens, and the room measures 4,470 triangles in the built page; the figures stay the coarser, lightened ones, and `check_hive5` now guards the wiring.
+- On the merged head the operations room is over its triangle limit: with the high-detail line’s room-level figures standing in it, the video review’s capture measures 46 meshes and 8,508 triangles built against 6,000, and neither console’s check covers the combination.
 
 - In the video review’s captures the hive did send an agent home after its last job outdoors, but the reel could not get a usable frame of the walk in nine attempts: by its own reading the figure is already standing at its home slot when the home line appears, because the capture stepped the hive ahead of the figure, so the footage neither shows nor refutes the walk; the checker shows the outdoor figures where the hive says (7 of 7).
 
 - The home move has no job and goes nowhere near the governor; it changes the hive’s own idea of where an agent stands, so later bids count hops from home (the seeded day’s outcomes did not change: 144 jobs completed both ways).
+
+- The moods are rules over the hive’s events, not feelings: a few states, fixed thresholds (concerned lasts 30 hive minutes after the last refusal, relieved 20) and a fixed phrase set. Concerned and relieved come in pairs because every clean audit relieves every concerned agent.
+
+- The briefing’s first job is the hive’s own seeded queue played forward with its own decisions. In the page the learner decides, and an approval re-queues a job, so a learner who approves a physical request in the first minutes can change who wins a job first. It runs once, when the learner enters the operations room in the first 30 hive minutes.
+
+- The balanced screens’ words are small (6 –10 px on a small cell, each wall caption cut at about 30 characters): legible close to a console, not from across the room. More pixels would cost about 0.75 MiB, which the room’s 3 MiB budget does not have.
+
+- A mood phrase is joined to the first sentence that fits the band, which is sometimes the closer. The Spanish phrases and briefing lines are machine-assisted and need a native speaker’s review, and the figures do not yet use the mood events.
 
 ### What it is not
 
@@ -289,7 +305,7 @@ The avatar layer puts a labelled hologram figure at a robot site on the balanced
 
 ### Instructor console and Guide
 
-The Data governance tab lists the agents with their portraits, and the Guide answers “What is the Omega Hive?” from its on-device knowledge base. Both were wired when round one was integrated; the console page has not yet been driven with the full roster. `HIVE-4` adds an Omega Hive tab to the console (merged): read-only, with a card for each of the 7 agents, their lines, the governor’s refusals and the evals table read from a committed JSON file; its drive on a headless page found page errors 0. `HIVE-5` stands the hive in its operations room (merged into the integration head): 7 of 7 agents at their consoles on entering, 8 of 8 screens painted from the hive’s own data, and the instructor tab can show the learner’s own hive live over a same-origin link the learner turns on.
+The Data governance tab lists the agents with their portraits, and the Guide answers “What is the Omega Hive?” from its on-device knowledge base. Both were wired when round one was integrated; the console page has not yet been driven with the full roster. `HIVE-4` adds an Omega Hive tab to the console (merged): read-only, with a card for each of the 7 agents, their lines, the governor’s refusals and the evals table read from a committed JSON file; its drive on a headless page found page errors 0. `HIVE-5` stands the hive in its operations room (merged into the integration head): 7 of 7 agents at their consoles on entering, 8 of 8 screens painted from the hive’s own data, and the instructor tab can show the learner’s own hive live over a same-origin link the learner turns on. `HIVE-6` gives the agents moods derived from the hive’s own events and a morning briefing in the operations room, and puts words on the balanced screens (merged into the integration head); both are off by default.
 
 ### The game’s characters
 
@@ -309,21 +325,25 @@ The same voice controller speaks the 34 game characters’ own knowledge-pack li
 
 - *Planned* The Spanish exchange and memory lines are machine-assisted, like the rest of the Spanish text; a pad can repeat across the sentences of one line, as in the round before.
 
-- *Planned* The operations room’s figures are a lightened copy of the standard figure; a lighter figure from the high-detail line is to replace it, the figures walk straight from the door to their spots, and the screens on balanced and the phone show colour and bars but no words (a larger cell on balanced would fit its texture budget).
+- *Planned* On balanced the operations room keeps the lightened copy of the standard figure; the high tier has the crowd level.
 
 - *Planned* The Spanish screen text and the console link’s toggle need a native speaker’s review, like the rest of the Spanish pack; the hive checker’s timing row is an estimate to re-measure on a quiet machine.
 
-**Round two of this loop** is merged into the integration head (`c1dc76a1`): `HIVE-IN-WORLD` (note last committed in `0c834a8a`); `VOICES` (note last committed in `dc890479`). Each figure from it is checked by phrase against that console’s committed note, not re-run from a branch; a note that is edited later stops the build.
+- *Planned* Figures that show the mood (posture, gesture tempo or halo); the live console link does not carry moods, so the tab’s moods panel is a replay even when its cards are live; a larger balanced cell grid if the room’s texture budget can be freed.
 
-**Round three of this loop** is merged into the integration head (`c1dc76a1`), and each figure from it is checked by phrase against that console’s committed note, a committed data file or a commit message, not re-run from a branch: `HIVE-3` (its last commit `bb5011ca`, 8 commits since the head that round started from; its console note is committed; merged into the integration head). A note that is edited later stops the build.
+**Round two of this loop** is merged into the integration head (`40d97421`): `HIVE-IN-WORLD` (note last committed in `0c834a8a`); `VOICES` (note last committed in `dc890479`). Each figure from it is checked by phrase against that console’s committed note, not re-run from a branch; a note that is edited later stops the build.
+
+**Round three of this loop** is merged into the integration head (`40d97421`), and each figure from it is checked by phrase against that console’s committed note, a committed data file or a commit message, not re-run from a branch: `HIVE-3` (its last commit `bb5011ca`, 8 commits since the head that round started from; its console note is committed; merged into the integration head). A note that is edited later stops the build.
 
 **Round four ** of this loop is **merged** into the integration head (`e252b25f`) and is read from it with a read-only git show: `HIVE-4` (its own commits end at `507a9448`, 8 commits of its own; its console note is committed; merged). Each figure is checked by phrase against that console’s note or its commit messages, and a rebuild re-reads the final state.
 
 **Round five ** of this loop is merged into the integration head; its figures were read from the console branches (the same commits) with a read-only git show: `HIVE-5` (branch head `c4cca2fc`, 4 commits of its own; its console note is committed; merged). Each figure is checked by phrase against that console’s note, a committed file or its commit messages, and a rebuild re-reads the final state.
+
+**Round six ** of this loop is merged into the integration head; its figures were read from the console branches (the same commits) with a read-only git show: `HIVE-6` (branch head `371c62e1`, 4 commits of its own; its console note is committed; merged). Each figure is checked by phrase against that console’s note, a committed file or its commit messages, and a rebuild re-reads the final state.
 
 Sources: `docs/consoles/OMEGA-HIVE.md`, `docs/omega-hive.md`, `docs/consoles/AGENT-AVATARS.md`, `WebXR/shared/oh-hive-data.js`, `tools/check_omega_hive.mjs`. The figures are read from those notes and files by the script that built this page. The seeded runs are simulations; no person was measured, and no hardware is involved.
 
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `c1dc76a1`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `e196829d`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

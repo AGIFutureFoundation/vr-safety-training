@@ -12,8 +12,8 @@ How the SmartCiti.X Holodeck repository is laid out, where the robotics training
 | Standards cited by name | 513 | `tools/standards.json` |
 | Content evaluation, corpus mean (of 100) | 95.8 | `tools/eval-content.json` |
 | Stations scoring 95 or more | 612 of 742 | `tools/eval-content.json` |
-| Checkers in the gate | 154 | `tools/check_all.mjs` |
-| Console notes | 168 | `docs/consoles/` |
+| Checkers in the gate | 161 | `tools/check_all.mjs` |
+| Console notes | 176 | `docs/consoles/` |
 
 ## Where things are
 
@@ -68,4 +68,4 @@ The GitHub Actions workflow `.github/workflows/webxr-checks.yml` runs the same g
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `c1dc76a1`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `e196829d`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
