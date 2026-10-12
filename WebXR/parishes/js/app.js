@@ -868,7 +868,7 @@ function frame(now) {
   drWorld?.animate(dt);
   rbWorld?.animate(dt, np.x, np.z);
   rhdWorld?.tick(dt, np.x, np.z);
-  if (typeof ixWorld !== "undefined" && ixWorld?.room?.rhd) rhdRoomLights(ixWorld.room, rbWorld?.state(ixWorld.room.ixr?.site) ?? null); // ROBOTS-HD: a room's robots show their site's state (dark when the site is on another map)
+  if (typeof ixWorld !== "undefined" && ixWorld?.room?.rhd) rhdRoomLights(ixWorld.room, rbWorld?.state(ixWorld.room.ixr?.site) ?? null, ixWorld.pose); // ROBOTS-HD: a room's robots show their site's state (dark when the site is on another map); ROBOTS-HD-2: and the floor zone round each by the learner's room-local pose
   aaWorld?.animate(now / 1000, dt, np.playing && !np.modal ? [np.x, np.z] : null); // AGENT-AVATARS: walks, talk lights, captions (writes only within GRIOT's radius)
   if (hwRoomMount?.room !== (ixWorld.room ?? null) && typeof hwSync === "function") hwSync(); // HIVE-IN-WORLD: the agents in the room open now
   hwRoomMount?.animate(now / 1000, dt);
@@ -1212,7 +1212,7 @@ var rbWorld = rbMountRobotics({
 window.__parishTest.robotics = rbWorld;
 // ROBOTS-HD (docs/consoles/ROBOTS-HD.md): each site's rig in high detail on the desktop high tier (balanced, phone and headset keep
 // today's rigs); the status light shows the site's own state (running, protective stop, e-stop) and the floor zone shows when a person is near.
-var rhdWorld = (() => { try { return rhdMountRobots({ THREE, robotics: rbWorld, tier: npTierName, reducedMotion: npReduced }); } catch (e) { console.warn("rhd-robots-hd:", e); return null; } })();
+var rhdWorld = (() => { try { return rhdMountRobots({ THREE, robotics: rbWorld, tier: npTierName, reducedMotion: npReduced, jobs: { state: () => window.__parishTest.vbridge?.state?.() ?? null } /* ROBOTS-HD-2: the agent-jobs panel's live run lights its site's robot (mounted later) */ }); } catch (e) { console.warn("rhd-robots-hd:", e); return null; } })();
 window.__parishTest.robotsHd = rhdWorld;
 // ROBO-INTERIORS: a camera preset per robotics room for captures (ixScene opens any of the six from any map, using this map's
 // robot site of that style when it has one), the doors, a measurement of the room in view and the walk-through (the page's own

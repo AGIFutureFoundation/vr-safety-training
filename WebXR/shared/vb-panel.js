@@ -110,7 +110,8 @@ export function vbMountDispatch(el, { reducedMotion = false, ent3 = null, statio
     refuse() { if (!job || job.phase !== "NEGOTIATION") return null; vbApprove(job, { supervisor: "Supervisor (this device)", approve: false }); show(); return job; },
     step() { if (!frames.length) return null; if (fi < frames.length - 1) { fi += 1; show(); } else finish(null); return job; },
     estop() { if (!frames.length) return null; finish(fi); return job; },
-    state() { return { job, audit: gov.log(), verify: gov.verify() }; },
+    // ROBOTS-HD-2: `run` is the live run's step and that step's governor decision (read-only), so the site's robot light can follow it.
+    state() { return { job, audit: gov.log(), verify: gov.verify(), run: job && job.phase === "TRANSACTION" && frames.length ? { step: fi, of: frames.length, action: frames[fi]?.info?.governor ?? null } : null }; },
   };
   bNext.onclick = () => api.next(); bApprove.onclick = () => api.approve(); bRefuse.onclick = () => api.refuse(); bStep.onclick = () => api.step(); bStop.onclick = () => api.estop();
   show();

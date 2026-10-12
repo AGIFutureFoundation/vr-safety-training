@@ -9,10 +9,16 @@
  *      matches the site's own state by the stated rule N of N; the three states each shown; a VBRIDGE governor monitor
  *      decision maps the same way N of N; no state -> the light is dark (never invented); the floor zone shows exactly when
  *      rbSsmMode says a person is inside the warning distance.
+ *   3b. The agent-jobs run (ROBOTS-HD-2): while the panel runs a job on a site of this map, that site's light follows each
+ *      step's governor decision in step order (the real vbRun with the supervisor's e-stop, and a scripted monitor run with an
+ *      inside-separation step: green -> amber -> red), the more severe of the run and the site's own state wins, a halted run
+ *      keeps its last decision until the next job, a clean run hands back; no run -> the default lights exactly.
  *   4. Motion: the arm's joints eased (zero speed at each key pose, no jump between frames); the AMR's wheels turn by the
  *      distance it travels and hold still when it stops.
  *   5. Rooms: the robot rooms with the HD robots (and ENV-HD-4's lighting, with and without Ultra) inside IX_BUDGET /
  *      HD4_ULTRA_BUDGET N of 6; the replaced parts are gone; balanced / phone / headset rooms identical to before.
+ *   5b. The zone indoors (ROBOTS-HD-2): a headless walk (ixrWalkTo) from the door past each room robot shows its floor zone
+ *      exactly inside the warning distance by the room-local pose, N of N; dark with no site state.
  *   6. Wiring: the app mounts, ticks and registers the dresser in order; the bundler lists the module.
  *
  *     node tools/check_robots_hd.mjs
@@ -33,6 +39,8 @@ const RBW = await imp("shared/rb-world.js");
 const RB = await imp("shared/rb-robotics-data.js");
 const ENV = await imp("shared/rb-env.js");
 const VBG = await imp("shared/vb-governor.js");
+const VBB = await imp("shared/vb-bridge.js");
+const RB_SSM_ = (await imp("shared/rb-robotics-data.js")).RB_SSM;
 const IX = await imp("shared/ix-interiors.js");
 const IXR = await imp("shared/ixr-robo-interiors.js");
 const H = await imp("shared/hd4-rooms.js");
@@ -56,7 +64,7 @@ for (const kind of RBW.RB_RIG_TYPES) {
   before[kind] = { calls: n, triangles: meshesIn(g).reduce((a, m) => a + tri(m), 0) };
 }
 const rows = [];
-for (const kind of [...RHD.RHD_KINDS, "cell-arm"]) {
+for (const kind of [...RHD.RHD_KINDS, "cell-arm", "drill"]) {
   const ground = new THREE.Group(), r = RHD.rhdBuildRobot(THREE, kind, { zone: kind !== "cell-arm", ground });
   const all = new Set([...meshesIn(r.group), ...meshesIn(ground)]);
   const calls = all.size, triangles = [...all].reduce((a, m) => a + tri(m), 0), B = RHD.RHD_BUDGET[kind];
@@ -145,6 +153,65 @@ check(none.every((x) => RHD.rhdLightState(x) === null), `no state -> no light (n
 const lone = RHD.rhdBuildRobot(THREE, "cobot"); lone.setLight(null);
 check(lone.lightState === null && lone.light.material.color.getHex() === RHD.RHD_LIGHT.off, "a robot given no state stays dark");
 
+// ------------------------------------------------------------------------------------- 3b. the agent-jobs panel's live run
+console.log("3b. the light follows a live agent-jobs run");
+{
+  // A stand-in for vb-panel.js' api: state() -> { job, run }, exactly the shape the panel returns (run: the step it shows).
+  const panel = { st: { job: null, run: null }, state() { return this.st; } };
+  const cellSite = RB.RB_SITES.find((x) => x.rig === "cell"), pidC = cellSite.parish;
+  const root = new THREE.Group(), w = RBW.rbMountRobotics({ three: THREE, root, parish: npParish(pidC), tier: "high" });
+  const hd = RHD.rhdMountRobots({ THREE, robotics: w, tier: "high", ua: DESK, jobs: panel });
+  const sc = w.sites.find((x) => x.id === cellSite.id), far = [sc.position[0] + 30, sc.position[1] + 30], near = [sc.position[0] + 0.5, sc.position[1] + 0.5], mid = [sc.position[0] + RB_SSM_.warn + 1, sc.position[1]];
+  const own = () => RHD.rhdLightState(w.state(cellSite.id)); // the site's own state, by the same rule
+  const tick = (p = far) => { w.animate(0.05, ...p); hd.tick(0.05, ...p); return hd.light(cellSite.id); };
+  // (a) the real run: the cell's queued job (vb-panel's first job), approved, the supervisor's e-stop at step 4.
+  const spec = { seed: 101, client: { id: "client-mock-1" }, request: { taskType: "rb-cell-entry", siteId: cellSite.id, speed: 0.4, nearestPersonM: 8, policyId: "vb-scripted-expert", note: "clear a jam in the cell" } };
+  const job = VBB.vbRunJob(spec, VBG.vbGovernor(), { estopAtStep: 4 });
+  const runSteps = job.deliverable.episode.steps;
+  let okA = 0; const seenA = [];
+  for (let i = 0; i < runSteps.length; i++) {
+    panel.st = { job: { id: job.id, phase: "TRANSACTION", request: job.request }, run: { step: i, of: runSteps.length, action: runSteps[i].info.governor } };
+    const got = tick(); seenA.push(got);
+    if (got === RHD.rhdLightState({ action: runSteps[i].info.governor })) okA++;
+  }
+  check(okA === runSteps.length && seenA[0] === "running" && seenA[seenA.length - 1] === "e-stop", `the real run (cell job, the supervisor's e-stop at step 4): the light matches the governor's decision ${okA} of ${runSteps.length} steps (${seenA.join(" -> ")})`);
+  // (b) a scripted monitor run with an inside-separation step: green -> amber -> red in step order.
+  const g2 = VBG.vbGovernor(), lim2 = VBG.vbSiteLimits(cellSite.id), jid = "vbjob-rhd-scripted";
+  const script = [{ nearestPersonM: 20, speed: 0.2 }, { nearestPersonM: lim2.warn - 0.3, speed: lim2.maxSpeed }, { nearestPersonM: Math.max(0, lim2.minSeparation - 0.3), speed: 0.1 }, { nearestPersonM: 20, speed: 0.1, estop: true }];
+  const decisions = script.map((x) => g2.monitor({ jobId: jid, siteId: cellSite.id, ...x }));
+  let okB = 0; const seenB = [];
+  decisions.forEach((d, i) => { panel.st = { job: { id: jid, phase: "TRANSACTION", request: { siteId: cellSite.id } }, run: { step: i, of: decisions.length, action: d.action } }; const got = tick(); seenB.push(got); if (got === RHD.rhdLightState(d)) okB++; });
+  const order = seenB.filter((x, i) => x !== seenB[i - 1]);
+  check(okB === decisions.length && JSON.stringify(order) === JSON.stringify(["running", "protective-stop", "e-stop"]), `a scripted run (${decisions.map((d) => d.action).join(", ")}) lights ${order.join(" -> ")} in step order, ${okB} of ${decisions.length} matching the governor`);
+  const log = hd.runLog().filter((e) => e.jobId === jid);
+  check(log.length === decisions.length && log.every((e, i) => e.step === i && e.light === RHD.rhdLightState({ action: e.action })), `the mount logs every step it showed, in order: ${log.length} of ${decisions.length}`);
+  // (c) the more severe wins: the site's own e-stop over a "continue"; the site's protective stop (a person inside) too.
+  panel.st = { job: { id: jid, phase: "TRANSACTION", request: { siteId: cellSite.id } }, run: { step: 0, of: 1, action: "continue" } };
+  w.act(cellSite.id, "press-estop"); const e1 = tick(); w.act(cellSite.id, "restart");
+  const e2 = tick(near); tick(mid); tick(far); // step back out past the warning distance: the site resumes on its own
+  check(e1 === "e-stop" && e2 === "protective-stop", `the more severe wins: the site's e-stop over the run's "continue" -> ${e1}; a person inside the stop distance over "continue" -> ${e2}`);
+  // (d) after the run: a halted run keeps its last decision until the next job; a clean run hands back at once.
+  panel.st = { job, run: null }; const h1 = tick();
+  const clean = VBB.vbRunJob({ ...spec, seed: 111 }, VBG.vbGovernor(), {});
+  panel.st = { job: clean, run: null }; const h2 = tick();
+  panel.st = { job: { id: "vbjob-next", phase: "NEGOTIATION", request: { siteId: cellSite.id } }, run: null }; const h3 = tick();
+  check(own() === "running" && h1 === "e-stop" && !clean.deliverable.evalCard.halted && h2 === own() && h3 === own() && hd.run() === null, `after the run: halted by the e-stop -> ${h1} until the next job; a clean run -> ${h2} (handed back to the site's own ${own()}); next job, not running -> ${h3}`);
+  // (e) a run on a site of another map lights nothing here; no run -> the default lights exactly.
+  panel.st = { job: { id: "vbjob-other", phase: "TRANSACTION", request: { siteId: "rb-site-west-oakland-warehouse" } }, run: { step: 0, of: 3, action: "estop" } };
+  const o1 = tick();
+  const root2 = new THREE.Group(), w2b = RBW.rbMountRobotics({ three: THREE, root: root2, parish: npParish(pidC), tier: "high" }), hdB = RHD.rhdMountRobots({ THREE, robotics: w2b, tier: "high", ua: DESK });
+  const root3 = new THREE.Group(), w3b = RBW.rbMountRobotics({ three: THREE, root: root3, parish: npParish(pidC), tier: "high" }), hdC = RHD.rhdMountRobots({ THREE, robotics: w3b, tier: "high", ua: DESK, jobs: { state: () => ({ job: null }) } });
+  let sameD = 0, nD = 0; let sd = 11; const r2 = () => { sd = (sd * 1664525 + 1013904223) >>> 0; return sd / 4294967296; };
+  for (let k = 0; k < 120; k++) {
+    const u = r2(); const id = cellSite.id; if (u < 0.06) { w2b.act(id, "press-estop"); w3b.act(id, "press-estop"); } else if (u < 0.12) { w2b.act(id, "restart"); w3b.act(id, "restart"); }
+    const d = r2() * 10, a = r2() * 6.283, px = sc.position[0] + Math.cos(a) * d, pz = sc.position[1] + Math.sin(a) * d;
+    w2b.animate(0.05, px, pz); hdB.tick(0.05, px, pz); w3b.animate(0.05, px, pz); hdC.tick(0.05, px, pz); nD++;
+    const RB_ = hdB.robots.find((R) => R.id === id).robot, RC = hdC.robots.find((R) => R.id === id).robot;
+    if (hdB.light(id) === hdC.light(id) && RB_.links.upper.rotation.x === RC.links.upper.rotation.x && RB_.zone.visible === RC.zone.visible) sameD++;
+  }
+  check(o1 === own() && sameD === nD, `a run on another map's site leaves this robot on its own state (${o1}); with no run the lights, pose and zone are the default's exactly: ${sameD} of ${nD} steps`);
+}
+
 // --------------------------------------------------------------------------------------------------------- 4. motion
 console.log("4. motion");
 const arm = RHD.rhdBuildRobot(THREE, "cobot"), ang = (p) => { arm.pose(p); return [arm.links.upper.rotation.x, arm.links.fore.rotation.x, arm.links.wrist.rotation.x]; };
@@ -207,14 +274,58 @@ const L1 = RHD.rhdRoomLights(lit, { mode: "stop", estopped: false, locked: false
 const bay = build("ixr-maint-bay", "high", roomsWith({ rhd: true })), L3 = RHD.rhdRoomLights(bay, { mode: "full", estopped: false, locked: false });
 check(L1.every((x) => x === "protective-stop") && L2.every((x) => x === null) && L3.every((x) => x === null), "room robots show their site's state, dark with none, and the locked-out robots on the stand and the lift stay dark");
 
+// ------------------------------------------------------------------------------- 5b. the floor zone indoors (ROBOTS-HD-2)
+console.log("5b. the floor zone indoors: a walk past every robot");
+{
+  const live = { mode: "full", estopped: false, locked: false };
+  let steps = 0, okSteps = 0, robotsN = 0, robotsShown = 0, darkOk = 0, darkN = 0, onFloor = 0, zoned = 0;
+  const lines = [];
+  for (const st of Object.keys(RHD.RHD_ROOM_ROBOTS)) {
+    const room = build(st, "high", roomsWith({ rhd: true }));
+    const rs = room.rhd.robots, withZone = rs.filter((q) => q.robot.zone);
+    for (const q of rs) { if (q.robot.zone) { zoned++; const wp = new THREE.Vector3(); q.robot.zone.getWorldPosition(wp); if (Math.abs(wp.y) < 1e-6) onFloor++; } else if (q.light === "site") zoned = -999; }
+    const start = { x: room.door.x, z: room.door.z - 0.8, yaw: 0, pitch: 0 };
+    const seenIn = new Map(withZone.map((q) => [q, false]));
+    // The learner walks from the door to a point beside each robot (the first walkable one of a few offsets), and back.
+    const rec = (rm, pose, input, dt) => {
+      const p = IX.ixWalk(rm, pose, input, dt);
+      RHD.rhdRoomLights(room, live, p);
+      for (const q of withZone) {
+        const d = Math.hypot(p.x - q.x, p.z - q.z), want = ENV.rbSsmMode(d).mode !== "full";
+        steps++; if (q.robot.zone.visible === want) okSteps++;
+        if (want && q.robot.zone.visible) seenIn.set(q, true);
+      }
+      RHD.rhdRoomLights(room, null, p); darkN++; if (withZone.every((q) => !q.robot.zone.visible)) darkOk++; // the site on another map: dark
+      RHD.rhdRoomLights(room, live, p);
+      return p;
+    };
+    let from = start;
+    for (const q of withZone) {
+      let reached = null;
+      for (const [ox, oz] of [[0, 1.6], [1.6, 0], [-1.6, 0], [0, 2.4], [2.2, 1.6], [-2.2, 1.6], [0, -1.8]]) {
+        const r = IXR.ixrWalkTo(room, from, { x: q.x + ox, z: q.z + oz }, rec);
+        if (r.ok) { reached = r.pose; break; }
+      }
+      if (reached) from = reached;
+      robotsN++; if (seenIn.get(q)) robotsShown++;
+      lines.push(`${st.replace("ixr-", "")}/${q.kind}${seenIn.get(q) ? "" : " (never inside)"}`);
+    }
+    IXR.ixrWalkTo(room, from, start, rec);
+  }
+  check(zoned > 0 && onFloor === zoned, `every room robot that shows its site's state has a floor zone on the room floor (benches lift the robot, not the zone): ${onFloor} of ${zoned}; the maintenance bay's locked-out robots have none`);
+  check(steps > 0 && okSteps === steps && robotsShown === robotsN, `walking from the door past each robot (ixrWalkTo): the zone shows exactly inside the warning distance ${okSteps} of ${steps} robot-steps; inside it at least once for ${robotsShown} of ${robotsN} robots (${lines.join(", ")})`);
+  check(darkN > 0 && darkOk === darkN, `with no site state (the site on another map) every zone stays dark: ${darkOk} of ${darkN} steps`);
+}
+
 // --------------------------------------------------------------------------------------------------------- 6. wiring
 console.log("6. wiring");
 const app = readFileSync(join(WEBXR, "parishes/js/app.js"), "utf8"), bundler = readFileSync(join(ROOT, "tools/bundle_webxr.py"), "utf8");
 check(/import \{ rhdMountRobots, rhdRegisterDressers, rhdRoomLights \} from "\.\.\/\.\.\/shared\/rhd-robots-hd\.js"/.test(app), "the parishes app imports the module");
+check(/jobs: \{ state: \(\) => window\.__parishTest\.vbridge\?\.state\?\.\(\) \?\? null \}/.test(app) && /run: job && job\.phase === "TRANSACTION" && frames\.length \? \{ step: fi, of: frames\.length, action: frames\[fi\]\?\.info\?\.governor/.test(readFileSync(join(WEBXR, "shared/vb-panel.js"), "utf8")), "the app hands the agent-jobs panel's state to the HD robots, and the panel reports its live run's step and governor decision");
 check(/rhdMountRobots\(\{ THREE, robotics: rbWorld, tier: npTierName/.test(app) && app.indexOf("rhdMountRobots(") > app.indexOf("var rbWorld = rbMountRobotics("), "the app mounts the HD robots on the robotics sites, after them, with the page's tier");
 check(/rbWorld\?\.animate\(dt, np\.x, np\.z\);\n\s*rhdWorld\?\.tick\(dt, np\.x, np\.z\);/.test(app), "the app ticks the HD robots right after the sites animate (the same learner position)");
 check(app.indexOf("rhdRegisterDressers(") > app.indexOf("ixrRegisterDressers(typeof") && app.indexOf("rhdRegisterDressers(") < app.indexOf("hd4RegisterDressers(typeof"), "the room dresser registers after ROBO-INTERIORS' and before ENV-HD-4's");
-check(/rhdRoomLights\(ixWorld\.room, rbWorld\?\.state\(ixWorld\.room\.ixr\?\.site\)/.test(app), "a room's robots take their site's state each frame");
+check(/rhdRoomLights\(ixWorld\.room, rbWorld\?\.state\(ixWorld\.room\.ixr\?\.site\) \?\? null, ixWorld\.pose\)/.test(app), "a room's robots take their site's state and the learner's room-local pose each frame");
 check(bundler.indexOf('"rhd-robots-hd.js"') > bundler.indexOf('SHARED / "ixr-robo-interiors.js"') && bundler.indexOf('"rhd-robots-hd.js"') > bundler.indexOf('SHARED / "rb-world.js"'), "the bundler lists the module after rb-world.js and ixr-robo-interiors.js");
 
 console.log(`check_robots_hd: ${passes} passed, ${failures} failed`);
