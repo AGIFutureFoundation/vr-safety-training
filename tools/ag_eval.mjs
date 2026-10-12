@@ -83,8 +83,10 @@ export async function agEvaluate({ seeds = 5, stations = null, withLegacy = fals
 export async function agEvaluateScenarios({ seeds = 3, scenarios = [] } = {}) {
   const { rbEnv, rbPolicy, rbRollout, rbScenario } = await import("../WebXR/shared/rb-env.js");
   const { colRandomPolicy } = await import("../WebXR/shared/col-learn.js");
+  const { rt7ReactivePolicy, RT7_REACTIVE_FIELDS } = await import("../WebXR/shared/rt7-learn.js");
   const seedList = Array.from({ length: seeds }, (_, i) => i + 1);
-  const agents = { random: (env, seed) => colRandomPolicy(env.id, seed), expert: (env, seed) => rbPolicy(env, { skill: 1, seed }) };
+  // ROBOTRAIN-7: a third baseline between the two, the non-privileged reactive agent (rules over the safety fields; no planner).
+  const agents = { random: (env, seed) => colRandomPolicy(env.id, seed), expert: (env, seed) => rbPolicy(env, { skill: 1, seed }), reactive: (env) => rt7ReactivePolicy(env.id) };
   const perScenario = {};
   for (const id of scenarios) {
     if (!rbScenario(id)) throw new Error(`ag_eval: unknown gym scenario ${id}`);
@@ -101,6 +103,7 @@ export async function agEvaluateScenarios({ seeds = 3, scenarios = [] } = {}) {
     scenarioBaselines: {
       random: "uniform random over the scenario's discrete actions (shared/col-learn.js colRandomPolicy, the floor COLEARN reports)",
       expert: "the scenario's scripted expert (shared/rb-env.js rbPolicy at skill 1): a planner written for the scenario, an upper bound, not a learner",
+      reactive: `a non-privileged reactive rule-follower (shared/rt7-learn.js rt7ReactivePolicy): no search, no planner, no learning; it reads only the safety fields plus the task's own position and goal (${Object.entries(RT7_REACTIVE_FIELDS).map(([k, v]) => `${k}: ${v.join(", ")}`).join("; ")}); written on training seeds 101–130, measured once here`,
       retrieval: null, "retrieval-ask": null,
       notApplicable: "retrieval and retrieval-ask read a station step's text; a gym observation has none, so they are not run (null), not scored as 0",
     },
@@ -141,7 +144,7 @@ if (import.meta.url === `file://${process.argv[1]}` && process.argv.includes("--
   const scenarioIds = arg("scenarios", null)?.split(",") ?? null;
   if (scenarioIds) {
     Object.assign(res, await agEvaluateScenarios({ seeds: nSeeds, scenarios: scenarioIds }));
-    for (const [id, row] of Object.entries(res.perScenario)) console.log(`${id.padEnd(34)} random ${row.random.passed}/${row.random.of}  expert ${row.expert.passed}/${row.expert.of}  retrieval n/a  retrieval-ask n/a`);
+    for (const [id, row] of Object.entries(res.perScenario)) console.log(`${id.padEnd(34)} random ${row.random.passed}/${row.random.of}  reactive ${row.reactive.passed}/${row.reactive.of}  expert ${row.expert.passed}/${row.expert.of}  retrieval n/a  retrieval-ask n/a`);
   }
   const json = JSON.stringify(res, null, 1) + "\n";
   if (out === "-") process.stdout.write(json);
