@@ -76258,11 +76258,21 @@ void npStripFromCentreline; void NP_GROUND;
  * atlas). Near ring only (FC_NEAR_RING); the phone tier ("low") keeps each kit's two cheapest details and no signs.
  * `group.userData.fc` = { kits, signs: [{ word, type, x, z }], triangles, meshes }; `group.dispose()` frees what the chunk owns.
  *
+ * Kit resolvers (ENV-HD-2): `FC_KIT_RESOLVERS` is consulted, in order, when fcDetails buckets a spot —
+ *
+ *     resolver({ parish, kind, spot, group }) -> a group key of FC_KITS[kind] | null      (the first non-null wins)
+ *
+ * The built-in one, `fcRoboticsGroup`, gives sheds and towers within FC_ROBOTICS.radius (150 m) of a robot site
+ * (RB_SITES, the same anchor + offset positions ROBO-EXTERIORS builds at) the robotics variant: skylights, roof plant and
+ * dock bumpers on sheds; a plant louvre band and a roof plant screen on towers. The robotics kits keep the generic kits'
+ * two cheapest details, so on the phone tier a robotics spot shares the generic bucket (no extra mesh).
+ *
  * Everything here is procedural and generic: nothing models a real building, and the signs name generic trades only
  * (FC_SIGN_WORDS) — never a real business or brand. TYCOON's player-opened businesses keep their own sign at their
  * listing's site (parishes app, `tySignsFor`). The data (FC_DETAIL_KINDS, FC_KITS, FC_SIGN_WORDS, FC_SIGN_COLOURS,
  * FC_BUDGET) is plain and dependency-free so TQ-BRIDGE can export it to exports/shared/.
  */
+
 
 
 /** The detail kinds FACADES draws (plain data; `stretch` = drawn in the building's unit-height space). */
@@ -76284,6 +76294,10 @@ const FC_DETAIL_KINDS = [
   { id: "rollUpDoor", label: "Roll-up doors", note: "loading doors with a lintel on sheds and warehouses" },
   { id: "loadingDock", label: "Loading dock", note: "a raised dock apron in front of the doors (port sheds)" },
   { id: "tankRail", label: "Tank rail and ladder", note: "a top guard rail and a ladder on a storage tank" },
+  { id: "skylights", label: "Skylights", note: "glazed roof lights along a shed's ridge (robotics variant)" },
+  { id: "roofPlant", label: "Roof plant", note: "air-handling units and a louvred plant screen on a flat roof (robotics variant)" },
+  { id: "dockBumpers", label: "Dock bumpers and lights", note: "rubber bumpers either side of each loading door and a dock light above (robotics variant)" },
+  { id: "louvreBand", label: "Plant louvre band", note: "a band of plant-room louvres under a tower's roof line (robotics variant)" },
 ];
 
 /**
@@ -76295,8 +76309,9 @@ const FC_KITS = {
   quarterBlock: { "new-orleans": ["cornice", "awning", "windowGrid", "shutters", "gallery"], bay: ["cornice", "awning", "windowGrid", "bayWindow", "fireEscape"] },
   gardenHouse: { "new-orleans": ["windowGrid", "shutters", "stoop", "porch"], bay: ["windowGrid", "bayWindow", "stoop", "porch"] },
   suburbHouse: { "new-orleans": ["windowGrid", "shutters", "stoop", "porch"], bay: ["windowGrid", "bayWindow", "stoop", "balcony"] },
-  shed: { "new-orleans": ["windowBand", "rollUpDoor", "parapet"], bay: ["windowBand", "rollUpDoor", "parapet"], port: ["windowBand", "rollUpDoor", "loadingDock"] },
-  tower: { "new-orleans": ["mullions", "cornice"], bay: ["mullions", "cornice", "fireEscape", "roofTank"] },
+  shed: { "new-orleans": ["windowBand", "rollUpDoor", "parapet"], bay: ["windowBand", "rollUpDoor", "parapet"], port: ["windowBand", "rollUpDoor", "loadingDock"],
+    robotics: ["windowBand", "rollUpDoor", "roofPlant", "skylights", "dockBumpers"] },
+  tower: { "new-orleans": ["mullions", "cornice"], bay: ["mullions", "cornice", "fireEscape", "roofTank"], robotics: ["cornice", "mullions", "roofPlant", "louvreBand"] },
   campusBlock: { "new-orleans": ["windowBand", "cornice", "parapet"], bay: ["windowBand", "cornice", "parapet"] },
   tank: { "new-orleans": ["tankRail"], bay: ["tankRail"] },
 };
@@ -76319,6 +76334,8 @@ const FC_BUDGET = {
   signShare: 0.35,
   signKinds: ["quarterBlock", "tower"],
 };
+/** ENV-HD-2: the robotics variant's reach (metres from a robot site) and the massing kinds that take it (plain data). */
+const FC_ROBOTICS = { radius: 150, kinds: ["shed", "tower"], group: "robotics" };
 
 // -------------------------------------------------------------------- kits
 
@@ -76328,7 +76345,7 @@ const FC_BODY = {
   shed: { w: 40, d: 22, h: 1, unit: true }, tower: { w: 22, d: 22, h: 1, unit: true }, campusBlock: { w: 28, d: 18, h: 1, unit: true },
   tank: { w: 18, d: 18, h: 1, unit: true },
 };
-const FC_C = { glass: 0x2b3440, glassBay: 0x35434f, trim: 0xefe9dc, shutterNo: 0x2f5d45, iron: 0x23262a, awning: 0x8c3b2e, stone: 0x9a938a, door: 0x6d7378, steel: 0xb8bcc0, wood: 0x7a5a3c, tank: 0x6b5140, dock: 0x8a8f94 };
+const FC_C = { glass: 0x2b3440, glassBay: 0x35434f, trim: 0xefe9dc, shutterNo: 0x2f5d45, iron: 0x23262a, awning: 0x8c3b2e, stone: 0x9a938a, door: 0x6d7378, steel: 0xb8bcc0, wood: 0x7a5a3c, tank: 0x6b5140, dock: 0x8a8f94, sky: 0x8fb3c9, plant: 0x9aa3ab, louvre: 0x5d656d, bumper: 0x1f2124, lamp: 0xe8b923 };
 
 const fcCache = new WeakMap(); // THREE -> { kits: Map, mat, signMat }
 function fcStore(THREE) { let s = fcCache.get(THREE); if (!s) { s = { kits: new Map(), mat: null, signMat: null, parts: new Map() }; fcCache.set(THREE, s); } return s; }
@@ -76401,6 +76418,23 @@ function fcDetailParts(THREE, id, kind, b) {
     for (const u of [-12, 0, 12]) onFace(f, u, 0.28, 4.2, 0.56, FC_C.door);
   } else if (id === "loadingDock") {
     box(34, 0.13, 3, FC_C.dock, 0, 0.065, fd + 1.5);
+  } else if (id === "skylights") { // unit-height space on a shed's roof (y = 1): four glazed lights along the ridge
+    for (const x of [-13.5, -4.5, 4.5, 13.5]) box(5, 0.03, 2.2, FC_C.sky, x, 1.012, 0);
+  } else if (id === "roofPlant") { // unit-height space: a louvred screen box and two air-handling units on the flat roof
+    const hu = kind === "tower" ? 0.03 : 0.16, x0 = b.w * 0.18, z0 = -b.d * 0.18;
+    box(b.w * 0.3, hu, b.d * 0.26, FC_C.louvre, x0, 1 + hu / 2 - 0.004, z0);
+    box(b.w * 0.12, hu * 0.7, b.d * 0.12, FC_C.plant, -x0, 1 + hu * 0.35 - 0.004, z0);
+    box(b.w * 0.12, hu * 0.7, b.d * 0.12, FC_C.plant, -x0 * 0.2, 1 + hu * 0.35 - 0.004, -z0);
+  } else if (id === "dockBumpers") { // unit-height space on the shed's front: bumpers either side of each door, a light above
+    const f = faces[0];
+    for (const u of [-12, 0, 12]) {
+      box(0.35, 0.09, 0.3, FC_C.bumper, f[1] + u - 2.35, 0.1, f[2] + 0.15); box(0.35, 0.09, 0.3, FC_C.bumper, f[1] + u + 2.35, 0.1, f[2] + 0.15);
+      box(0.45, 0.025, 0.35, FC_C.lamp, f[1] + u + 2.6, 0.62, f[2] + 0.18);
+    }
+  } else if (id === "louvreBand") { // unit-height space under a tower's cornice: a louvre band round the plant floor
+    const y = 0.955, t = 0.03;
+    box(b.w + 0.1, t, 0.12, FC_C.louvre, 0, y, fd + 0.06); box(b.w + 0.1, t, 0.12, FC_C.louvre, 0, y, -fd - 0.06);
+    box(0.12, t, b.d + 0.1, FC_C.louvre, fw + 0.06, y, 0); box(0.12, t, b.d + 0.1, FC_C.louvre, -fw - 0.06, y, 0);
   } else if (id === "tankRail") { // unit-height space on the unit cylinder of radius 9
     P.push([new THREE.CylinderGeometry(9.25, 9.25, 0.04, 12, 1, true), FC_C.steel, M(0, 1.02, 0)]);
     box(0.5, 1, 0.12, FC_C.steel, 0, 0.5, 9.1);
@@ -76433,6 +76467,45 @@ function fcMergeParts(THREE, parts) {
 
 /** The region group a parish's kits read: New Orleans or the Bay Area. */
 function fcRegionGroup(parish) { return /^(new-orleans|louisiana)/.test(parish?.region ?? "new-orleans") ? "new-orleans" : "bay"; }
+
+// -------------------------------------------------------------------- kit resolvers (ENV-HD-2)
+
+/** The robot sites' positions on a map (RB_SITES' anchor + offset, as ROBO-EXTERIORS resolves them), cached per map. */
+const fcRobotCache = new Map();
+function fcRobotSitesFor(parish) {
+  const id = parish?.id;
+  if (!id) return [];
+  if (fcRobotCache.has(id)) return fcRobotCache.get(id);
+  const out = [];
+  for (const r of RB_SITES ?? []) {
+    if (r.parish !== id) continue;
+    const a = (parish.sites ?? []).find((x) => x.id === r.anchor);
+    if (a) out.push({ id: r.id, x: a.position[0] + (r.offset?.[0] ?? 0), z: a.position[1] + (r.offset?.[1] ?? 0) });
+  }
+  fcRobotCache.set(id, out);
+  return out;
+}
+
+/** The built-in resolver: a shed or tower within FC_ROBOTICS.radius of a robot site takes the robotics variant. */
+function fcRoboticsGroup({ parish, kind, spot } = {}) {
+  if (!FC_ROBOTICS.kinds.includes(kind) || !spot) return null;
+  const r2 = FC_ROBOTICS.radius * FC_ROBOTICS.radius;
+  for (const r of fcRobotSitesFor(parish)) { const dx = spot.x - r.x, dz = spot.z - r.z; if (dx * dx + dz * dz <= r2) return FC_ROBOTICS.group; }
+  return null;
+}
+
+/** Resolvers consulted in order when fcDetails buckets a spot: ({ parish, kind, spot, group }) -> FC_KITS group | null. */
+const FC_KIT_RESOLVERS = [fcRoboticsGroup];
+
+/** The kit group a spot takes: the first resolver's answer that names a kit of this kind, else the district's default. */
+function fcKitGroupFor(parish, kind, spot, group) {
+  for (const fn of FC_KIT_RESOLVERS) {
+    let g = null;
+    try { g = fn({ parish, kind, spot, group }); } catch { g = null; }
+    if (g && FC_KITS[kind]?.[g]) return g;
+  }
+  return group;
+}
 
 /** The detail ids of one kit on a tier (the phone tier keeps the two cheapest). */
 function fcKitDetails(kind, group, tier = "high") {
@@ -76555,8 +76628,12 @@ function fcDetails({ THREE, parish, chunk, spots, tier = "high" } = {}) {
   for (const [kind, list] of Object.entries(drawn)) {
     if (!FC_BODY[kind]) continue;
     for (const s of list) {
-      let g = regionGroup;
-      if (kind === "shed" && npDistrictAt(parish, s.x, s.z)?.character === "port") g = "port";
+      let base = regionGroup;
+      if (kind === "shed" && npDistrictAt(parish, s.x, s.z)?.character === "port") base = "port";
+      // a resolver may name a variant (ENV-HD-2: robotics near a robot site); where the variant's details on this tier
+      // are the default kit's (the phone tier keeps the two cheapest), the spot stays in the default bucket — no extra mesh
+      let g = fcKitGroupFor(parish, kind, s, base);
+      if (g !== base && fcKitDetails(kind, g, tierKey).slice().sort().join() === fcKitDetails(kind, base, tierKey).slice().sort().join()) g = base;
       const k = `${kind}|${g}`; if (!buckets.has(k)) buckets.set(k, { kind, g, list: [] }); buckets.get(k).list.push(s);
     }
   }
@@ -76620,12 +76697,17 @@ NP_MASSING_HOOKS.details = fcDetails;
  *       copy of the finished chunks' arrays, nearest ring first) and generates queued chunks, time-sliced, until
  *       DT_BUDGET.frameMs[tier] is spent (SMOOTH). drain() finishes the queue at once. Call it before npBuildParish.
  *
+ * Lots (ENV-HD-2): no candidate is kept inside a robotics building's lot — ROBO-EXTERIORS' `fxLayoutsFor(parish)` lot
+ * rectangles and their `fxColliders` boxes, grown by DT_LOT_MARGIN (`dtLotRects(parish)`, cached per map). The test runs
+ * after a candidate's random draws, so the tiers and rings stay subsets of one another.
+ *
  * Budget: tiny geometry (2–20 triangles an instance), no textures, two shared materials; the visible set's triangles are
  * capped by the capacities (DT_BUDGET.triangles per tier, tools/check_detail.mjs proves Σ capacity × triangles ≤ it).
  * Colours: vegetation and street kit from a fixed natural range; fences, mailboxes, roof kit, containers and site
  * clutter from the region's PALETTE categories. Everything is procedural and generic: nothing records a real object.
  * Nothing moves, so reduced motion needs nothing.
  */
+
 
 
 
@@ -76912,6 +76994,10 @@ function* dtSteps(bufs, parish, cx, cz, tier, { ring = 0, spots = null, tally = 
   const out = () => { const families = {}; let count = 0; DT_FAMILIES.forEach((f, i) => { families[f.id] = bufs[i].trim(); count += bufs[i].n; }); const counts = {}; tierIds.forEach((t, i) => { counts[t] = tierN[i]; }); return { families, count, tiers: counts }; };
   if (keepP <= 0) return out();
   const x0 = -NP_SIZE / 2 + cx * NP_CHUNK, z0 = -NP_SIZE / 2 + cz * NP_CHUNK;
+  // ENV-HD-2: the robotics lots touching this chunk (usually none), grown by the margin, as a flat array
+  const lotList = dtLotRects(parish).filter((r) => r[2] + DT_LOT_MARGIN > x0 && r[0] - DT_LOT_MARGIN < x0 + NP_CHUNK && r[3] + DT_LOT_MARGIN > z0 && r[1] - DT_LOT_MARGIN < z0 + NP_CHUNK);
+  const nLots = lotList.length, lots = new Float64Array(nLots * 4);
+  lotList.forEach((r, i) => { lots[i * 4] = r[0] - DT_LOT_MARGIN; lots[i * 4 + 1] = r[1] - DT_LOT_MARGIN; lots[i * 4 + 2] = r[2] + DT_LOT_MARGIN; lots[i * 4 + 3] = r[3] + DT_LOT_MARGIN; });
   const rng = npRng((prep.seed ^ Math.imul(cx + 101, 0x9e3779b1) ^ Math.imul(cz + 211, 0x85ebca77) ^ 0xd7a11) >>> 0);
   const region = dtRegionColours(parish);
   // Heights on a 16 m grid, bilinear between (the nearest ring's terrain uses the same step).
@@ -76944,6 +77030,7 @@ function* dtSteps(bufs, parish, cx, cz, tier, { ring = 0, spots = null, tally = 
     // Every candidate draws its numbers first, then one threshold keeps it: lower tiers and farther rings are subsets.
     const u = rng(), a = rng(), b = rng(), e = rng();
     work++;
+    if (nLots) for (let q = 0; q < nLots * 4; q += 4) if (x > lots[q] && x < lots[q + 2] && z > lots[q + 1] && z < lots[q + 3]) return;
     for (let q = 0; q < nT; q++) if (u < tierP[q]) tierN[q]++;
     if (u >= keepP) return;
     const sc = extra ?? DT_SCALE[kind] ?? [1, 1, 1], k = 1 - jit + a * jit * 2;
@@ -77087,6 +77174,27 @@ function* dtSteps(bufs, parish, cx, cz, tier, { ring = 0, spots = null, tally = 
     }
   }
   return out();
+}
+
+/** ENV-HD-2: how far round a robotics lot DETAIL keeps clear (metres: a prop's half-width). */
+const DT_LOT_MARGIN = 0.5;
+const dtLotCache = new Map();
+/** The robotics building lots on a map as [x0, z0, x1, z1] rects (each lot and its solid boxes), cached per map. */
+function dtLotRects(parish) {
+  const id = parish?.id;
+  if (!id) return [];
+  if (dtLotCache.has(id)) return dtLotCache.get(id);
+  let out = [];
+  try {
+    if (fxSitesFor(parish).length) {
+      for (const l of fxLayoutsFor(parish)) {
+        if (Array.isArray(l.lot)) out.push([l.lot[0], l.lot[1], l.lot[2], l.lot[3]]);
+        for (const b of l.boxes ?? []) out.push([b.min[0], b.min[2], b.max[0], b.max[2]]);
+      }
+    }
+  } catch { out = []; }
+  dtLotCache.set(id, out);
+  return out;
 }
 
 /** A stable digest of a chunk's detail (determinism checks). */
@@ -169955,7 +170063,8 @@ function ixrPaintMesh(g, res) {
   g.fillStyle = "rgba(255,255,255,0.9)";
   for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) g.fillRect(i * step - wire * 0.5, j * step - wire * 0.5, wire * 2, wire * 2); // weld nodes
 }
-/** One tileable texture of the set, cached by name and size (the canvas is painted once per page). */
+/** One tileable texture of the set, cached by name and size (the canvas is painted once per page). Exported for ENV-HD-2's
+ *  room skins (hd2-room-skins.js), which put the same set on the most-visited INTERIORS rooms. */
 function ixrSetTexture(THREE, name, res, repeat) {
   const key = `${name}@${res}`;
   let base = IXR_TEX_CACHE.get(key);
@@ -169970,8 +170079,9 @@ function ixrSetTexture(THREE, name, res, repeat) {
   if (!t.image) t.image = base.image;
   return t;
 }
-/** The epoxy floor of one room: base, speckle, joints every 4 m, then the room's floor marks (ROOMS[style].floor). */
-function ixrFloorTexture(THREE, styleId, room, res) {
+/** The epoxy floor of one room: base, speckle, joints every 4 m, then the room's floor marks (ROOMS[style].floor, or `marks`
+ *  for a room outside this set — ENV-HD-2's skins pass their own). */
+function ixrFloorTexture(THREE, styleId, room, res, marks = null) {
   const c = ixrCanvas(res, res);
   if (c) {
     const g = c.getContext("2d"), rng = ixrRng(styleId.length * 97 + 5);
@@ -169993,7 +170103,7 @@ function ixrFloorTexture(THREE, styleId, room, res) {
       for (let t = -span; t < span; t += p * 2) { g.beginPath(); g.moveTo(x0 + t, z0); g.lineTo(x0 + t + p, z0); g.lineTo(x0 + t + p + (z1 - z0), z1); g.lineTo(x0 + t + (z1 - z0), z1); g.closePath(); g.fill(); }
       g.restore();
     };
-    for (const m of IXR_ROOMS[styleId]?.floor ?? []) {
+    for (const m of marks ?? IXR_ROOMS[styleId]?.floor ?? []) {
       const [k] = m;
       if (k === "line" || k === "dash") {
         const [, x1, z1, x2, z2, lw, col, dash] = m;
@@ -170377,6 +170487,176 @@ function ixrMeasure(room) {
   });
   const textures = [...seen.values()];
   return { meshes, triangles, instances, props: room.ixr?.tags?.length ?? 0, textures, textureBytes: textures.reduce((a, t) => a + t.bytes, 0) };
+}
+
+
+/* ===== shared/hd2-room-skins.js ===== */
+// ENV-HD-2 — high-detail canvas textures for the most-visited INTERIORS rooms (console `hd2`, docs/consoles/ENV-HD-2.md).
+// SmartCiti.X Powered by AGI Corp.
+//
+// ROBO-INTERIORS drew a procedural canvas texture set for its six robotics rooms (ixr-robo-interiors.js: an epoxy floor with
+// the room's floor marks, painted concrete walls, brushed metal props; 1024 px on the desktop high tier, 256 px everywhere
+// else). This module puts the same set on the INTERIORS styles most sites open into, as one more dresser per style: it only
+// sets texture maps on the meshes the shell and the other dressers already made — it adds no mesh, light or geometry, so a
+// room's meshes and triangles are exactly what they were. Rooms stay generic by kind: every texture is drawn from code (no
+// image file, no logo, no words, no company, union or trade-body name) and nothing models a real building.
+//
+// SEAMS (every top-level name is hd2/HD2_-prefixed: the bundler shares one scope; three.js comes from the caller):
+//   HD2_SKIN_STYLES                 plain data: style id -> { set: "industrial" | "tile", sites } (sites = how many parish-engine
+//                                     sites open the style, counted over the ten maps when this was written: why these first)
+//   HD2_TEX_BUDGET                  GPU texture bytes per room per tier (w × h × 4, × 4/3 with a mip chain), every texture in
+//                                     the room counted, the shell's two 512 × 256 signs included: high 24 MiB, balanced and
+//                                     low 3 MiB (ROBO-INTERIORS' IXR_TEX_BUDGET, the same rooms' budget)
+//   hd2FloorMarks(styleId, room)    -> the floor marks an industrial room's epoxy floor carries (ixrFloorTexture's mark format)
+//   hd2SkinRoom({ three, group, room, tier })  -> { style, set, res, maps } | null: the floor, the walls and the metal props
+//                                     take the set; the industrial set draws ixr's epoxy floor and painted concrete, the tile set
+//                                     a vinyl-tile floor and a painted block wall; brushed metal on racks, machines, tanks,
+//                                     cabinets and hoods either way
+//   hd2RegisterSkins(ix)            -> the style ids registered (ix = { ixRegisterDresser }; null registers none). Register
+//                                     after the other dressers so the skin sees their meshes (it never adds one).
+
+
+/** The styles skinned, most-visited first (site counts over the ten maps: workshop 167, plant room 139, port shed 124, civic
+ *  lobby 108, classroom 62, apparatus bay 55, transit barn 53, clinic 52, warehouse 47). */
+const HD2_SKIN_STYLES = {
+  "workshop": { set: "industrial", sites: 167 },
+  "plant-room": { set: "industrial", sites: 139 },
+  "port-shed": { set: "industrial", sites: 124 },
+  "civic-lobby": { set: "tile", sites: 108 },
+  "classroom": { set: "tile", sites: 62 },
+  "apparatus-bay": { set: "industrial", sites: 55 },
+  "transit-barn": { set: "industrial", sites: 53 },
+  "clinic": { set: "tile", sites: 52 },
+  "warehouse": { set: "industrial", sites: 47 },
+};
+const HD2_TEX_BUDGET = { high: 24 * 1024 * 1024, balanced: 3 * 1024 * 1024, low: 3 * 1024 * 1024 };
+
+const HD2_Y = "#f2c14b", HD2_W = "#eef2f4";
+const HD2_METAL_PROPS = /^ix-dress-(rack|machine|tank|cabinet|hood)$/;
+
+/** An industrial room's floor marks (room-local metres, the door on +z): a hatched door apron, a yellow walkway from the door
+ *  to the back wall, a dashed perimeter keep-clear line, and per kind a bay line or a keep-clear box. */
+function hd2FloorMarks(styleId, room) {
+  const w = room?.w ?? 12, d = room?.d ?? 10, hw = w / 2, hd = d / 2;
+  const m = [
+    ["hatch", 0, hd - 0.7, 2.6, 1.0],
+    ["line", -1.0, hd - 1.3, -1.0, -hd + 1.2, 0.1, HD2_Y], ["line", 1.0, hd - 1.3, 1.0, -hd + 1.2, 0.1, HD2_Y],
+    ["dash", -hw + 0.9, -hd + 0.9, hw - 0.9, -hd + 0.9, 0.08, HD2_Y, 0.6],
+    ["dash", -hw + 0.9, -hd + 0.9, -hw + 0.9, hd - 1.6, 0.08, HD2_Y, 0.6], ["dash", hw - 0.9, -hd + 0.9, hw - 0.9, hd - 1.6, 0.08, HD2_Y, 0.6],
+  ];
+  if (styleId === "apparatus-bay" || styleId === "transit-barn") {
+    m.push(["dash", -w / 4, hd - 0.4, -w / 4, -hd + 1.5, 0.12, HD2_W, 1.2], ["dash", w / 4, hd - 0.4, w / 4, -hd + 1.5, 0.12, HD2_W, 1.2]);
+  } else if (styleId === "plant-room" || styleId === "workshop") {
+    m.push(["box", 0, -hd / 4, w * 0.62, d * 0.42, 0.1, HD2_Y]);
+  } else if (styleId === "port-shed" || styleId === "warehouse") {
+    m.push(["line", -hw + 1.6, 0, hw - 1.6, 0, 0.1, HD2_Y], ["cross", -hw + 2.2, hd - 2.2, 0.8, 0.08, HD2_W]);
+  }
+  return m;
+}
+
+const HD2_TEX_CACHE = new Map();
+function hd2Canvas(w, h) {
+  if (typeof document === "undefined" || !document.createElement) return null;
+  const c = document.createElement("canvas"); c.width = w; c.height = h;
+  return c.getContext("2d") ? c : null;
+}
+function hd2Rng(seed) { let s = seed >>> 0 || 1; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
+/** Wrap a canvas (or, headless, a same-size stub so the bytes are still measured) as a texture. */
+function hd2Texture(THREE, canvas, w, h, name, repeat = null) {
+  const tex = canvas ? new THREE.CanvasTexture(canvas) : new THREE.Texture();
+  if (!canvas) tex.image = { width: w, height: h };
+  tex.name = name;
+  if (canvas && "colorSpace" in tex) tex.colorSpace = THREE.SRGBColorSpace;
+  if (repeat) { tex.wrapS = tex.wrapT = THREE.RepeatWrapping; tex.repeat.set(repeat[0], repeat[1]); }
+  tex.anisotropy = 4;
+  return tex;
+}
+function hd2Noise(g, res, rng, n, a, light = "255,255,255", dark = "0,0,0") {
+  for (let i = 0; i < n; i++) {
+    const s = 1 + Math.floor(rng() * (res / 256 + 1));
+    g.fillStyle = `rgba(${rng() < 0.5 ? light : dark},${(a * (0.4 + rng() * 0.6)).toFixed(3)})`;
+    g.fillRect(Math.floor(rng() * res), Math.floor(rng() * res), s, s);
+  }
+}
+/** A vinyl-tile floor for the whole room (0.6 m tiles, two tones, grout lines, speckle), tinted from the style's floor colour. */
+function hd2TileFloor(THREE, styleId, room, res) {
+  const c = hd2Canvas(res, res);
+  if (c) {
+    const rng = hd2Rng(styleId.length * 131 + 7);
+    const g = c.getContext("2d"), { w, d } = room, sx = res / w, sz = res / d;
+    const base = new THREE.Color(room.style.floor), lite = base.clone().lerp(new THREE.Color(0xffffff), 0.1), dark = base.clone().multiplyScalar(0.92);
+    g.fillStyle = `#${base.getHexString()}`; g.fillRect(0, 0, res, res);
+    const t = 0.6;
+    for (let i = 0; i * t < w; i++) for (let j = 0; j * t < d; j++) {
+      g.fillStyle = `#${((i + j) % 2 ? lite : dark).getHexString()}`;
+      g.fillRect(i * t * sx, j * t * sz, t * sx + 1, t * sz + 1);
+    }
+    hd2Noise(g, res, rng, res * res / 40, 0.1, "245,245,240", "40,40,40");
+    g.strokeStyle = "rgba(40,42,44,0.3)"; g.lineWidth = Math.max(1, res / 900);
+    for (let x = t; x < w; x += t) { g.beginPath(); g.moveTo(x * sx, 0); g.lineTo(x * sx, res); g.stroke(); }
+    for (let z = t; z < d; z += t) { g.beginPath(); g.moveTo(0, z * sz); g.lineTo(res, z * sz); g.stroke(); }
+    const sheen = g.createLinearGradient(0, 0, res, res); sheen.addColorStop(0, "rgba(255,255,255,0.07)"); sheen.addColorStop(0.5, "rgba(255,255,255,0)"); sheen.addColorStop(1, "rgba(255,255,255,0.05)");
+    g.fillStyle = sheen; g.fillRect(0, 0, res, res);
+  }
+  return hd2Texture(THREE, c, res, res, `hd2-tile-floor-${styleId}`);
+}
+/** A painted block wall (tileable, one tile = 2 m: 0.4 × 0.2 m blocks in running bond), cached per size; a clone per room. */
+function hd2BlockWall(THREE, res, repeat) {
+  const key = `block@${res}`;
+  let base = HD2_TEX_CACHE.get(key);
+  if (!base) {
+    const c = hd2Canvas(res, res);
+    if (c) {
+      const rng = hd2Rng(29);
+      const g = c.getContext("2d"), bw = res / 5, bh = res / 10, lw = Math.max(1, res / 400);
+      g.fillStyle = "#eceeee"; g.fillRect(0, 0, res, res);
+      hd2Noise(g, res, rng, res * res / 50, 0.07, "255,255,255", "90,94,98");
+      g.fillStyle = "rgba(110,114,118,0.32)";
+      for (let r = 0; r < 10; r++) {
+        g.fillRect(0, r * bh, res, lw);
+        for (let k = 0; k <= 5; k++) g.fillRect(((k + (r % 2 ? 0.5 : 0)) * bw) % res, r * bh, lw, bh);
+      }
+    }
+    base = hd2Texture(THREE, c, res, res, "hd2-block-wall", [1, 1]);
+    HD2_TEX_CACHE.set(key, base);
+  }
+  const t = base.clone(); t.name = base.name; t.needsUpdate = true; t.repeat.set(repeat[0], repeat[1]);
+  if (!t.image) t.image = base.image;
+  return t;
+}
+
+/** The skin: texture maps on the meshes that are already in the room (see the header). */
+function hd2SkinRoom({ three: THREE, group, room, tier = "high" } = {}) {
+  const styleId = room?.id, spec = HD2_SKIN_STYLES[styleId];
+  if (!THREE || !group || !spec) return null;
+  const res = ixrTexRes(tier), maps = [];
+  const floor = group.getObjectByName("ix-floor"), wall = group.getObjectByName("ix-wall-0");
+  if (floor?.material) {
+    floor.material.map = spec.set === "industrial" ? ixrFloorTexture(THREE, styleId, room, res, hd2FloorMarks(styleId, room)) : hd2TileFloor(THREE, styleId, room, res);
+    floor.material.color.set(0xffffff); floor.material.roughness = spec.set === "industrial" ? 0.55 : 0.6; floor.material.needsUpdate = true;
+    maps.push(floor.material.map.name);
+  }
+  if (wall?.material) { // the four walls share one material in ixBuild
+    const rep = [Math.max(room.w, room.d) / 2, room.h / 2];
+    wall.material.map = spec.set === "industrial" ? ixrSetTexture(THREE, "concrete", res, rep) : hd2BlockWall(THREE, res, rep);
+    wall.material.needsUpdate = true; maps.push(wall.material.map.name);
+  }
+  let metal = null;
+  group.traverse((o) => {
+    if (!o.isMesh || !HD2_METAL_PROPS.test(o.name) || !o.material || Array.isArray(o.material)) return;
+    metal ??= ixrSetTexture(THREE, "metal", res, [1, 1]);
+    o.material.map = metal; o.material.roughness = 0.5; o.material.metalness = 0.15; o.material.needsUpdate = true;
+  });
+  if (metal) maps.push(metal.name);
+  room.hd2 = { style: styleId, set: spec.set, res, maps };
+  return room.hd2;
+}
+
+function hd2RegisterSkins(ix) {
+  if (!ix || typeof ix.ixRegisterDresser !== "function") return [];
+  const styles = Object.keys(HD2_SKIN_STYLES);
+  for (const st of styles) ix.ixRegisterDresser(st, (a) => hd2SkinRoom(a));
+  return styles;
 }
 
 
@@ -170943,6 +171223,7 @@ function hvMount({ THREE = null, root = null, parish, el = null, pos = () => nul
 
 
 // ROBO-INTERIORS: a walk-in robotics room behind a door beside each robot site's pad (docs/consoles/ROBO-INTERIORS.md).
+
 
 
 
@@ -171972,6 +172253,10 @@ void larDressed;
 // ROBO-INTERIORS: the six robotics rooms' dresser (props, the canvas texture set, the agent spots where the hive's avatars stand).
 var ixrDressed = ixrRegisterDressers(typeof ixRegisterDresser === "function" ? { ixRegisterDresser } : null);
 void ixrDressed;
+// ENV-HD-2: the same canvas texture set on the most-visited INTERIORS rooms (workshop, plant room, port shed, civic lobby,
+// classroom, apparatus bay, transit barn, clinic, warehouse): maps only, no mesh added; registered after the other dressers.
+var hd2Skinned = hd2RegisterSkins(typeof ixRegisterDresser === "function" ? { ixRegisterDresser } : null);
+void hd2Skinned;
 var crWorld = crMountClassrooms({
   three: THREE, scene, root, parish, tier: npTierName, toast: npToast, launch: crLaunch, passive: crDressed.length > 0,
   groundAt: (x, z) => Math.max(npHeightAt(parish, x, z), 0.2),
@@ -172095,6 +172380,37 @@ Object.defineProperty(fxSceneHandle, "children", { get: () => scene.children });
 window.__parishTest.threeScene = scene;
 window.__parishTest.scene = fxSceneHandle;
 { const q = npParams.get("scene"); if (q && q.includes(":")) { const [sid, shot] = q.split(":"); window.__parishTest.scene(sid, shot); } }
+// ENV-HD-2 (docs/consoles/ENV-HD-2.md): capture presets for the reel and the deck. `room(styleId)` opens a skinned INTERIORS
+// room (a site of that style on this map, else the map's first site, opened with the style) and stands the camera in the
+// door-side corner looking across to the far corner; `hood(siteId)` frames a robot site's neighbourhood from high above,
+// behind its wide shot, so the sheds and towers within 150 m (the robotics facade variant) are in frame.
+window.__parishTest.hd2 = {
+  styles: Object.keys(HD2_SKIN_STYLES),
+  room(styleId) {
+    const st = IX_STYLES[styleId]; if (!st) return null;
+    const site = parish.sites.find((s) => ixStyleFor(s.kind, s.id) === styleId) ?? parish.sites[0];
+    if (!site) return null;
+    if (ixWorld.inside()) { const p = ixWorld.exit(); np.x = p.x; np.z = p.z; np.yaw = p.yaw; np.pitch = p.pitch; }
+    npKeys.clear();
+    const room = ixWorld.enter(site, { x: np.x, z: np.z, yaw: np.yaw, pitch: np.pitch }, { style: styleId });
+    if (!room) return null;
+    const x = st.w / 2 - 1.3, z = st.d / 2 - 1.7;
+    ixWorld.pose.x = x; ixWorld.pose.z = z; np.yaw = Math.atan2(2 * x, 2 * z); np.pitch = -0.1; np.near = null;
+    const menu = document.getElementById("menu"); if (menu && !np.playing) menu.hidden = true; // a clean frame (Esc brings it back)
+    document.getElementById("toast")?.classList.remove("on");
+    return { style: styleId, site: site.id, meshes: room.meshes(), skin: room.hd2 ?? null };
+  },
+  hood(siteId, { back = 110, up = 62 } = {}) {
+    const sc = fxSitesFor(parish).some((s) => s.id === siteId) ? fxScene(parish, siteId, "wide") : null;
+    if (!sc) return { ok: false };
+    const dx = sc.position[0] - sc.target[0], dz = sc.position[2] - sc.target[2], L = Math.hypot(dx, dz) || 1;
+    np.x = sc.target[0]; np.z = sc.target[2];
+    world.update(np.x, np.z, 999); cwStreetsMount.update(np.x, np.z, 999); tfLand.update(np.x, np.z, 99); atmos.update(np.x, np.z);
+    fxShot = { ...sc, position: [sc.target[0] + dx / L * back, sc.target[1] + up, sc.target[2] + dz / L * back] };
+    const menu = document.getElementById("menu"); if (menu && !np.playing) menu.hidden = true;
+    return { ok: true, ...fxShot };
+  },
+};
 // COLEARN (docs/consoles/COLEARN.md): watch the robot's cloned policy do the cell entry, then try it with the bandit tutor;
 // a finished try becomes a consented episode only through DATAWORKS' capture (inert unless opted in).
 window.__parishTest.colearn = colMountCoLearn($("menu-drills"), { reducedMotion: npReduced, capture: (steps, meta) => dxCaptureRollout(steps, meta) });
