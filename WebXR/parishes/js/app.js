@@ -79,7 +79,7 @@ import { hd3Scene, hd3ScenePresets, HD3_SCENE_SITES, HD3_SHOTS } from "../../sha
 // ENV-HD-4 (docs/consoles/ENV-HD-4.md): the opt-in Ultra desktop setting, the robot sites' six looks (dawn, day, dusk, night,
 // fog, rain) with floodlights, dock lights and a wet tint, lit robot rooms and the hive's operations room.
 import { hd4UltraChoice, hd4MountUltraToggle, hd4MountUltraSites, HD4_ULTRA_BUDGET } from "../../shared/hd4-ultra.js";
-import { hd4MountSiteLights, hd4LookPresets, hd4LightLevel, hd4LookFog, HD4_LOOKS } from "../../shared/hd4-looks.js";
+import { hd4MountSiteLights, hd4LookPresets, hd4LightLevel, hd4LookFog, hd4DawnSky, HD4_LOOKS } from "../../shared/hd4-looks.js";
 import { hd4RegisterDressers, hd4OpsHome, hd4OpsSite, hd4OpsDoor, hd4OpsScreens, HD4_OPS_STYLE } from "../../shared/hd4-rooms.js";
 import { uxMountTabs, uxOnboarding } from "../../shared/ux-menu.js";
 import { dxMountConsent } from "../../shared/dx-consent-ui.js";
@@ -388,6 +388,7 @@ function npApplySky() {
   // ENV-HD-4: sky.js knows day, dusk and night only, so "dawn" drew the midday sky; at dawn it now takes the low-sun palette
   // (warm horizon, deep zenith) through the clock hour 5.5, which skyTimeBucket maps to that band.
   sky = buildSky(root, { time: NP_TIMES[np.timeIdx] === "dawn" ? 5.5 : NP_TIMES[np.timeIdx], weather, radius: 3000 });
+  if (NP_TIMES[np.timeIdx] === "dawn") hd4DawnSky(sky.root); // ENV-HD-4: the low sun in the east and a cooler, rose-violet dome
   npRecipe = sky.recipe;
   const atDim = atDarken(atWeatherNow), atShade = (hex) => new THREE.Color(hex).multiplyScalar(atDim).getHex();
   scene.background.setHex(atShade(npRecipe.sky));

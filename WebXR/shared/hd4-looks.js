@@ -36,6 +36,15 @@ export const HD4_LOOKS = {
   rain: { time: "dusk", weather: "rain", label: "Rain at dusk", fogScale: 0.7 },
 };
 export const HD4_LOOK_IDS = Object.keys(HD4_LOOKS);
+/** Dawn on sky.js's low-sun dome (sky.js knows day, dusk and night only): the dome turned half round so the low sun stands in
+ *  the east, and a cooler rose-violet tint on its gradient, so dawn and dusk read apart. Returns whether a dome was tinted. */
+export function hd4DawnSky(root) {
+  if (!root) return false;
+  root.rotation.y = Math.PI;
+  let n = 0;
+  root.traverse((o) => { if (o.isMesh && o.material?.vertexColors && o.material.side === 1 && o.material.color) { o.material.color.setHex(0xd6c6ff); n++; } }); // 1 = BackSide (the dome)
+  return n > 0;
+}
 /** A look's scene fog: the page's (ATMOS's) linear fog, drawn in by the look's `fogScale` (a ground fog at the site), never
  *  nearer than ATMOS's floor of three board-read distances, so a site board stays legible. */
 export function hd4LookFog(look, fog) {

@@ -166,6 +166,12 @@ for (const id of L.HD4_LOOK_IDS) check(NP_TIMES.includes(L.HD4_LOOKS[id].time) &
   // and the hours 5–6 fall in the dusk (low-sun) band
   const sky = readFileSync(join(WEBXR, "shared/sky.js"), "utf8");
   check(/if \(typeof time === "string"\) return SKY_BANDS\.includes\(time\) \? time : "day";/.test(sky) && /\(h >= 5 && h < 6\)\) return "dusk"/.test(sky) && /time: NP_TIMES\[np\.timeIdx\] === "dawn" \? 5\.5 : NP_TIMES\[np\.timeIdx\]/.test(appSrc), "dawn draws the low-sun sky (sky.js maps the string \"dawn\" to day; the app passes the hour 5.5, the dusk band)"); }
+{ // dawn and dusk share sky.js's low-sun band: dawn turns the dome half round (the sun in the east) and tints it cooler
+  const root = new THREE.Group(), dome = new THREE.Mesh(new THREE.SphereGeometry(10, 8, 6), new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.BackSide, vertexColors: true })), disc = new THREE.Mesh(new THREE.CircleGeometry(1, 8), new THREE.MeshBasicMaterial({ color: 0xfff3c8 }));
+  root.add(dome, disc);
+  const ok = L.hd4DawnSky(root);
+  check(ok && Math.abs(root.rotation.y - Math.PI) < 1e-9 && dome.material.color.getHex() === 0xd6c6ff && disc.material.color.getHex() === 0xfff3c8 && /if \(NP_TIMES\[np\.timeIdx\] === "dawn"\) hd4DawnSky\(sky\.root\)/.test(appSrc), "dawn reads apart from dusk: the dome turned half round (the low sun in the east) and tinted rose-violet; the sun disc keeps its colour");
+}
 const presets = L.hd4LookPresets(R.NP_PARISHES, FX.fxSitesFor);
 check(presets.length === 36 && new Set(presets.map((p) => p.id)).size === 36, `exterior presets: 0 -> ${presets.length} (six robot sites x six looks, unique ids)`);
 for (const s of new Set(presets.map((p) => p.siteId))) check(presets.filter((p) => p.siteId === s).length === 6, `${s}: six looks`);
