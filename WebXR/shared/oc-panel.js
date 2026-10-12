@@ -13,7 +13,7 @@
 //
 // Every top-level name starts with `oc`/`OC_` (the bundler shares one scope).
 
-import { ocVerifyChain, ocPracticeNeeds, OC_AGENT_LABEL, OC_FEATURE, OC_REFUSALS } from "./oc-claw.js";
+import { ocVerifyChain, ocVerifyHead, ocPracticeNeeds, ocSideBySide, OC_AGENT_LABEL, OC_FEATURE, OC_REFUSALS } from "./oc-claw.js";
 
 export const OC_PANEL_CSS = `
 .oc-panel{font:14px/1.4 system-ui,Arial,sans-serif;color:#dbe7ee;background:rgba(8,14,22,.92);border:1px solid rgba(124,196,255,.35);border-radius:10px;padding:12px;margin:10px 0;max-width:100%;box-sizing:border-box;overflow-wrap:anywhere}
@@ -47,7 +47,9 @@ export function ocRowVerdict(record, run, modelId) {
   return v ? v.verdict : "context";
 }
 
-export function ocMountClaw(el, { record = null, human = null, onSelect = null } = {}) {
+export function ocMountClaw(el, { record = null, records = null, human = null, onSelect = null } = {}) {
+  const recs = (Array.isArray(records) && records.length ? records : [record]).filter(Boolean);
+  record = record ?? recs[recs.length - 1];
   if (!el || typeof document === "undefined" || !record) return null;
   const box = ocMk("section", "oc-panel"); box.id = "oc-claw"; box.setAttribute("aria-label", `${OC_FEATURE}: the software agents that run robot training and model testing`);
   ocStyleOnce(box);
@@ -63,7 +65,20 @@ export function ocMountClaw(el, { record = null, human = null, onSelect = null }
   }
   box.appendChild(roster);
 
-  const chain = ocVerifyChain(record.chain ?? []);
+  // One protocol at a time (a select when there are several); everything below re-renders for it.
+  let sel = null, chain = null, need = null;
+  if (recs.length > 1) {
+    const prow = ocMk("div", "oc-row");
+    const plab = ocMk("label", null, "Protocol "); plab.htmlFor = "oc-protocol";
+    const psel = ocMk("select"); psel.id = "oc-protocol"; psel.dataset.oc = "protocol";
+    recs.forEach((r, i) => { const o = ocMk("option", null, `${r.protocol.version} · seeds ${r.protocol.seeds}`); o.value = String(i); if (r === record) o.selected = true; psel.appendChild(o); });
+    psel.addEventListener("change", () => { record = recs[Number(psel.value)] ?? record; renderBody(); });
+    prow.append(plab, psel); box.appendChild(prow);
+  }
+  const body = ocMk("div"); body.dataset.oc = "body"; box.appendChild(body);
+  function renderBody() {
+  body.textContent = "";
+  chain = record.chainHead ? { ...ocVerifyHead(record.chainHead, record.chainTail), head: true } : { ...ocVerifyChain(record.chain ?? []), head: false };
   const k = record.counts;
   const ex = Object.values(k.exercised ?? {}).filter(Boolean).length;
   const sum = ocMk("div", "oc-sum");
@@ -73,23 +88,23 @@ export function ocMountClaw(el, { record = null, human = null, onSelect = null }
   stat(`Promotions: ${k.promotions} (clear: ${k.promotionsClear}/${k.promotions})`, "promotions");
   stat(`Refusals exercised: ${ex}/3`, "exercised");
   stat(`Governor: ${k.stepsChecked.toLocaleString("en-US")}/${k.stepsRun.toLocaleString("en-US")} steps · physical ${k.physical}`, "governor");
-  const cs = stat(`Audit chain: ${chain.ok ? "intact" : `broken at line ${chain.brokenAt}`} (${chain.lines} lines, re-walked on this device)`, "chain"); cs.classList.add(chain.ok ? "oc-ok" : "oc-bad");
-  box.appendChild(sum);
+  const cs = stat(chain.head ? `Audit chain head ${String(chain.hash).slice(0, 8)}: ${chain.ok ? "matches" : "does not match"} its last line, re-hashed on this device (${chain.lines} lines; the full chain is re-walked by check_claw from the committed record)` : `Audit chain: ${chain.ok ? "intact" : `broken at line ${chain.brokenAt}`} (${chain.lines} lines, re-walked on this device)`, "chain"); cs.classList.add(chain.ok ? "oc-ok" : "oc-bad");
+  body.appendChild(sum);
 
   // Declarations
-  box.appendChild(ocMk("h4", null, "Declarations (committed before the run)"));
+  body.appendChild(ocMk("h4", null, "Declarations (committed before the run)"));
   const probesDeclared = record.declarations.filter((d) => /^oc-probe-/.test(d.id)).length;
   const dl = ocMk("p", "oc-note", `${record.declarations.length - probesDeclared} declarations, one per scenario${probesDeclared ? ` (plus ${probesDeclared} probe declared only to be refused)` : ""}: ${record.protocol.models.length} models each, incumbent ${record.protocol.incumbent}, challengers ${record.protocol.challengers.join(", ")} (${record.protocol.negativeControl} is a declared negative control). Metric: ${record.protocol.metric}; ${record.protocol.interval}. Promotion: ${record.protocol.promotion}.`);
-  dl.dataset.oc = "declarations"; box.appendChild(dl);
+  dl.dataset.oc = "declarations"; body.appendChild(dl);
 
   // Leaderboard per scenario
-  box.appendChild(ocMk("h4", null, "Runs and leaderboard"));
+  body.appendChild(ocMk("h4", null, "Runs and leaderboard"));
   const row = ocMk("div", "oc-row");
   const lab = ocMk("label", null, "Scenario "); lab.htmlFor = "oc-scenario";
-  const sel = ocMk("select"); sel.id = "oc-scenario"; sel.dataset.oc = "scenario";
+  sel = ocMk("select"); sel.id = "oc-scenario"; sel.dataset.oc = "scenario";
   for (const r of record.runs) { const o = ocMk("option", null, r.scenarioId); o.value = r.declId; sel.appendChild(o); }
-  row.append(lab, sel); box.appendChild(row);
-  const tbl = ocMk("table", "oc-board"); tbl.dataset.oc = "board"; box.appendChild(tbl);
+  row.append(lab, sel); body.appendChild(row);
+  const tbl = ocMk("table", "oc-board"); tbl.dataset.oc = "board"; body.appendChild(tbl);
   function draw(declId) {
     const run = record.runs.find((r) => r.declId === declId) ?? record.runs[0];
     const d = record.declarations.find((x) => x.id === run.declId);
@@ -114,14 +129,14 @@ export function ocMountClaw(el, { record = null, human = null, onSelect = null }
   draw(record.runs[0]?.declId);
 
   // Promotions
-  box.appendChild(ocMk("h4", null, "Promotions"));
+  body.appendChild(ocMk("h4", null, "Promotions"));
   const pr = ocMk("div"); pr.dataset.oc = "promotions";
   if (!record.promotions.length) pr.appendChild(ocMk("p", "oc-note", `None this round: no challenger cleared the gate in ${k.declaredComparisons} declared comparisons, so the incumbent (${record.protocol.incumbent}) keeps every scenario.`));
   for (const p of record.promotions) pr.appendChild(ocMk("p", "oc-ref", `${p.scenarioId}: ${p.from} → ${p.to} (interval ${p.cCi.join("–")} against ${p.iCi.join("–")}, 0 rule breaks, governor ${p.governorChecked}/${p.steps} steps)`));
-  box.appendChild(pr);
+  body.appendChild(pr);
 
   // Refusals
-  box.appendChild(ocMk("h4", null, "Refusals, with reasons"));
+  body.appendChild(ocMk("h4", null, "Refusals, with reasons"));
   const rf = ocMk("div"); rf.dataset.oc = "refusals";
   const byReason = new Map(); for (const r of record.refusals) { if (!byReason.has(r.reason)) byReason.set(r.reason, []); byReason.get(r.reason).push(r); }
   const order = ["undeclared", "seed-reused", "rule-broken", "interval-overlap", "not-better", "not-applicable"];
@@ -134,18 +149,34 @@ export function ocMountClaw(el, { record = null, human = null, onSelect = null }
     p.append(ocMk("b", null, `${reason} × ${xs.length}`), document.createTextNode(` — ${OC_REFUSALS[reason] ?? reason}. e.g. ${ex1.name ?? ex1.agent}: ${ex1.subject}${ex1.ruleBreaks ? ` (${ex1.ruleBreaks} rule breaks${cleared(ex1) ? ", though its interval was clear of the incumbent's" : ""})` : ""}.`));
     rf.appendChild(p);
   }
-  box.appendChild(rf);
+  body.appendChild(rf);
 
   // People and robots
-  box.appendChild(ocMk("h4", null, "Where people and robots each need practice"));
-  const need = ocPracticeNeeds({ runs: record.runs, promoted: record.promoted, human });
+  body.appendChild(ocMk("h4", null, "Where people and robots each need practice"));
+  need = ocPracticeNeeds({ runs: record.runs, promoted: record.promoted, human });
   const pp = ocMk("div"); pp.dataset.oc = "practice"; pp.dataset.learner = need.learnerData;
   pp.appendChild(ocMk("p", "oc-note", `Robots (the model each scenario runs): ${need.robots.length ? need.robots.map((r) => `${r.scenarioId} — ${r.modelId}, ${r.why}`).join("; ") : "none below the mark"}.`));
   pp.appendChild(ocMk("p", "oc-note", human?.eligible ? `People (this device's own drills and tutor, never sent anywhere): ${need.people.length ? need.people.map((p) => `${p.kind === "drill" ? "drill" : "cell-entry step"} ${p.id} — ${p.why}`).join("; ") : "nothing below the mark yet"}.` : "People: your own drill and tutor results show here once you have opted in on this device (adults only; never in K-12, demo or signed-out sessions). Nothing is read until then."));
-  box.appendChild(pp);
+  body.appendChild(pp);
 
+
+  // People and robots side by side, per scenario
+  body.appendChild(ocMk("h4", null, "Side by side: each robot scenario and its learner stations"));
+  const sbs = ocSideBySide({ runs: record.runs, promoted: record.promoted, human });
+  const st = ocMk("table", "oc-board"); st.dataset.oc = "side"; st.dataset.learner = human?.eligible ? "local" : "none";
+  const sh = ocMk("tr"); for (const h of ["Scenario", "Robot (model, success, gap)", "People (matching stations, gap)"]) sh.appendChild(ocMk("th", null, h)); st.appendChild(sh);
+  for (const x of sbs) {
+    const tr = ocMk("tr"); tr.dataset.scenario = x.scenarioId;
+    const rb = ocMk("td", x.robot?.gap ? "oc-bad" : "oc-ok", x.robot ? `${x.robot.modelId} ${x.robot.k}/${x.robot.n} — ${x.robot.gap ? `gap: ${x.robot.why}` : x.robot.why}` : "not run");
+    const pt = x.people.learner ? `${x.people.why}${x.people.learner.todo.length ? ` — to practise: ${x.people.learner.todo.join(", ")}` : ""}` : x.people.gap ? `gap: ${x.people.why}` : `${x.people.why}: ${x.people.stations.join(", ")}`;
+    const pe = ocMk("td", x.people.gap === true ? "oc-bad" : x.people.gap === false ? "oc-ok" : null, pt);
+    tr.append(ocMk("td", null, x.scenarioId), rb, pe); st.appendChild(tr);
+  }
+  body.appendChild(st);
+  }
+  renderBody();
   el.appendChild(box);
-  return { el: box, chain, need, select(declId) { sel.value = declId; draw(declId); }, record };
+  return { el: box, get chain() { return chain; }, get need() { return need; }, get record() { return record; }, records: recs, select(declId) { const r = recs.find((x) => x.runs.some((y) => y.declId === declId)); if (r && r !== record) { record = r; renderBody(); const ps = box.querySelector("#oc-protocol"); if (ps) ps.value = String(recs.indexOf(r)); } sel.value = declId; sel.dispatchEvent(new Event("change")); } };
 }
 
 /** The persistent world's view. `loop` is ocWorldLoop(...). */

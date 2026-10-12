@@ -129,3 +129,28 @@ export function ocWorldLoop({ seed = 1, promoted = {}, policyFor = null, doc = t
     counts: () => ({ ticks, hiddenTicks }),
   };
 }
+
+/**
+ * The world in the scene: one small status lamp above each robot site on this map, amber while a hive job is at work
+ * there and green when idle, driven by ocWorld.stats().sites. Desktop high tier only (phone and headset tiers get
+ * nothing). Stated budget: one mesh and 48 triangles per site (an 8 x 4 sphere sharing one geometry), two shared
+ * untextured basic materials, 0 lights, 0 textures. `sites` is rbMountRobotics(...).sites ({ id, position: [x, z], y }).
+ */
+export const OC_LAMP_BUDGET = Object.freeze({ meshesPerSite: 1, trianglesPerSite: 48, lights: 0, textures: 0, tiers: Object.freeze(["high"]) });
+export function ocMountSiteLamps({ three: T = null, root = null, sites = [], tier = "balanced" } = {}) {
+  if (!T || !root || !OC_LAMP_BUDGET.tiers.includes(tier) || !sites.length) return null;
+  const geo = new T.SphereGeometry(0.6, 8, 4);
+  const mats = { busy: new T.MeshBasicMaterial({ color: 0xffb020 }), idle: new T.MeshBasicMaterial({ color: 0x4fd18b }) };
+  const lamps = sites.map((s) => {
+    const m = new T.Mesh(geo, mats.idle);
+    m.name = `oc-lamp-${s.id}`; m.userData.site = s.id; m.userData.state = "idle";
+    m.position.set(s.position[0], (Number(s.y) || 0) + 7.5, s.position[1]);
+    root.add(m);
+    return m;
+  });
+  function update(stats) {
+    const by = new Map((stats?.sites ?? []).map((x) => [x.siteId, x]));
+    for (const m of lamps) { const busy = (by.get(m.userData.site)?.busy ?? 0) > 0; m.material = busy ? mats.busy : mats.idle; m.userData.state = busy ? "busy" : "idle"; }
+  }
+  return { lamps, update, states: () => lamps.map((m) => ({ site: m.userData.site, state: m.userData.state })), counts: () => ({ meshes: lamps.length, triangles: lamps.length * OC_LAMP_BUDGET.trianglesPerSite, lights: 0, textures: 0 }) };
+}

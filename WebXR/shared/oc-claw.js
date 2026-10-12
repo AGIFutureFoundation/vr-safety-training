@@ -362,7 +362,7 @@ export function ocRow(id, model, d, r) {
  * published constants (RA_DEMOS: demonstrations at seed*100003 + k + 1; RA_DAGGER: rollouts at seed0 + round*100 + k)
  * and ROBOTRAIN-6's pair seeds (31 + i, each run at (31 + i)*100003 + 1) for the per-step-reward model.
  */
-export function ocRaAdapter(ra, { scenarioKinds = ["gym"] } = {}) {
+export function ocRaAdapter(ra, { scenarioKinds = ["gym"], lmOptions = null } = {}) {
   const D = ra.RA_DEMOS ?? { n: 40, seed: 1 }, G = ra.RA_DAGGER ?? { rollouts: 20, seed0: 800000 };
   const demos = Array.from({ length: D.n }, (_, k) => D.seed * 100003 + k + 1);
   const dagger = (rounds) => Array.from({ length: rounds }, (_, r) => Array.from({ length: G.rollouts }, (_, k) => G.seed0 + (r + 1) * 100 + k)).flat();
@@ -371,7 +371,7 @@ export function ocRaAdapter(ra, { scenarioKinds = ["gym"] } = {}) {
   return {
     raModels: () => ra.raModels(),
     raScenarios: () => ra.raScenarios().filter((s) => scenarioKinds.includes(s.kind)),
-    raRun: (q) => ra.raRun(q),
+    raRun: (q) => ra.raRun(lmOptions ? { ...q, lmOptions } : q),
     raLeaderboard: (rs) => ra.raLeaderboard(rs),
     trainingSeeds: (m) => seeds[m.id] ?? ocTrainingSeeds(m),
   };
@@ -382,6 +382,16 @@ export function ocVerifyChain(lines = []) {
   let prev = "genesis";
   for (let i = 0; i < lines.length; i += 1) { const l = lines[i]; if (l.seq !== i || l.prev !== prev || ocLineHash(l) !== l.hash) return { ok: false, brokenAt: i, lines: lines.length }; prev = l.hash; }
   return { ok: true, brokenAt: null, lines: lines.length };
+}
+
+/**
+ * A page's check of a trimmed record: its last line re-hashed on this device matches the head hash and the line count.
+ * The full chain is re-walked by check_claw from the committed JSON; the page says so.
+ */
+export function ocVerifyHead(head, tail = []) {
+  const l = tail[tail.length - 1];
+  if (!head || !l) return { ok: false, lines: head?.lines ?? 0, hash: head?.hash ?? null };
+  return { ok: ocLineHash(l) === l.hash && l.hash === head.hash && l.seq === head.lines - 1, lines: head.lines, hash: head.hash };
 }
 
 // ------------------------------------------------------------------ people and robots in one report
@@ -415,6 +425,57 @@ export function ocPracticeNeeds({ runs = [], promoted = {}, human = null, below 
   return { robots, people, learnerData: eligible ? "local" : "none", summary };
 }
 
+/**
+ * The learner stations that match a robot scenario: the robot stations (RP_ROBOT_STATIONS) at the operator and technician
+ * levels of every robotics-programme track whose `scenario` is the scenario's base (a hard variant shares its base's).
+ * `tracks` is RP_TRACKS and `isRobot` rpIsRobotStation (shared/rp-programme-data.js), injected so this module keeps no import.
+ */
+export function ocScenarioDrills(tracks = [], isRobot = () => true) {
+  const out = {};
+  for (const t of tracks) {
+    if (!t?.scenario) continue;
+    const xs = (out[t.scenario] ??= []);
+    for (const lv of ["operator", "technician"]) for (const id of t.levels?.[lv] ?? []) if (isRobot(id) && !xs.includes(id)) xs.push(id);
+  }
+  return out;
+}
+/** ocScenarioDrills(RP_TRACKS, rpIsRobotStation), frozen for the page (check_claw 10 re-derives it from the programme). */
+export const OC_SCENARIO_DRILLS = Object.freeze({
+  "rb-cell-entry": ["robot-cell", "rt-robot-estop-recovery-and-restart", "tw-palletizer-cell-fenced-access-permit", "ad-robot-cell-lockout-and-safe-reentry", "rt-teach-pendant-safe-jogging", "tw-amr-traffic-zone-entry-and-lockout"],
+  "rb-cobot-zone-setup": ["ad-cobot-risk-assessment-and-speed-separation", "robot-cell", "rt-cobot-power-force-limit-check", "ad-robot-cell-lockout-and-safe-reentry"],
+  "rb-amr-fleet-routing": ["ad-amr-fleet-traffic-and-estop-drill", "tw-amr-traffic-zone-entry-and-lockout"],
+  "rb-construction-drilling": ["rp-construction-drilling-robot-setup"],
+  "rb-teleop-pick-place": ["ad-cobot-risk-assessment-and-speed-separation", "rp-teleop-demonstration-collection", "robot-cell", "ad-robot-cell-lockout-and-safe-reentry", "ad-amr-fleet-traffic-and-estop-drill"],
+});
+
+/**
+ * People and robots side by side, one row per robot scenario. Robot: the model the scenario runs (promoted or incumbent),
+ * its measured success and interval, and a gap when success is under `below` or any rule broke. People: the matching
+ * learner stations (OC_SCENARIO_DRILLS; none for a scenario no track covers, which is itself a gap in the programme), and,
+ * only when the learner is eligible, which of them this device's own records show passed. `human.stations` is
+ * { [stationId]: { passed, best } } from the device's training records; nothing is read or shown when not eligible.
+ */
+export function ocSideBySide({ runs = [], promoted = {}, human = null, drills = OC_SCENARIO_DRILLS, below = 0.9 } = {}) {
+  const eligible = !!human?.eligible;
+  return runs.map((r) => {
+    const id = promoted[r.scenarioId];
+    const x = r.results.find((y) => y.modelId === id) ?? null;
+    const robot = x ? { modelId: x.modelId, k: x.k, n: x.n, rate: x.rate, ci: x.ci, ruleBreaks: x.ruleBreaks, gap: x.rate < below || x.ruleBreaks > 0, why: x.ruleBreaks > 0 ? `${x.ruleBreaks} rule breaks` : x.rate < below ? `success ${x.rate} under ${below}` : "at the mark" } : null;
+    const base = String(r.scenarioId).split("#")[0];
+    const stations = [...(drills[base] ?? [])];
+    let people;
+    if (!stations.length) people = { stations, gap: true, why: "no learner station in the programme matches this scenario yet", learner: null };
+    else if (!eligible) people = { stations, gap: null, why: `${stations.length} matching station${stations.length === 1 ? "" : "s"}`, learner: null };
+    else {
+      const rec = human.stations ?? {};
+      const passed = stations.filter((s) => rec[s]?.passed);
+      const todo = stations.filter((s) => !rec[s]?.passed);
+      people = { stations, gap: todo.length > 0, why: `${passed.length} of ${stations.length} passed on this device`, learner: { passed, todo } };
+    }
+    return { scenarioId: r.scenarioId, robot, people };
+  });
+}
+
 // ------------------------------------------------------------------ the declared protocol (committed before any held-out run)
 
 /**
@@ -443,7 +504,47 @@ export const OC_PROTOCOL = Object.freeze({
   ]),
 });
 
-/** The protocol's declarations, one per scenario. */
+/** The protocol's declarations, one per scenario (protocol 2's ids start `oc2-`, so they never meet protocol 1's). */
 export function ocProtocolDeclarations(p = OC_PROTOCOL) {
-  return p.scenarios.map((sc) => ({ id: `oc-${sc.replace(/[^a-z0-9]+/gi, "-")}`, scenarioId: sc, models: [...p.models], incumbent: p.incumbent, challengers: [...p.challengers], negativeControl: p.negativeControl, metric: p.metric, seeds: [...p.seeds] }));
+  const pre = p.idPrefix ?? "oc";
+  return p.scenarios.map((sc) => ({ id: `${pre}-${sc.replace(/[^a-z0-9]+/gi, "-")}`, scenarioId: sc, models: [...p.models], incumbent: p.incumbent, challengers: [...p.challengers], negativeControl: p.negativeControl, metric: p.metric, seeds: [...p.seeds] }));
 }
+
+/**
+ * Round 7's held-out seeds, drawn ONLY through ARENA-2's committed declaration (docs/evals/arena-declared-r7.json,
+ * commit 8ea01d3c: gym 7181–7240). The claw for protocol 2 is a NEW instance whose held-out set is these seeds alone, so
+ * protocol 1's spent seeds (7121–7180) are refused as not held out.
+ */
+export const OC_HELD_OUT_2 = Object.freeze(Array.from({ length: 60 }, (_, i) => 7181 + i));
+
+/**
+ * Round 7's protocol (committed before its one held-out run). It is the first claw comparison of the small
+ * language-conditioned model (ra-lm, ROBO-ARENA's ra/1 model, trained here; never a large language model), which round 6b
+ * could not compare because its branch carried the contract stub. Same nine gym scenarios, same eight models and the same
+ * gate as protocol 1; the incumbent is the model promoted on every scenario after protocol 1 (bc: 0 promotions there).
+ * ra-lm is built as ROBO-ARENA declared it: its task texts (raLmTaskTexts over the stations' exported steps) and the three
+ * station tasks in its training set; it runs on the gym scenarios only. ARENA-2's ra-lm-h is not in this branch (its
+ * declaration is; the model lands later), so it is not declared here. Probes: an undeclared run; a re-test on ten of
+ * these seeds once spent; and a declaration on ten of protocol 1's spent seeds, refused as not held out.
+ */
+export const OC_PROTOCOL_2 = Object.freeze({
+  version: "oc-protocol/2",
+  idPrefix: "oc2",
+  seeds: OC_HELD_OUT_2,
+  seedSource: Object.freeze({ owner: "ARENA-2", file: "docs/evals/arena-declared-r7.json", commit: "8ea01d3c", gym: "7181–7240" }),
+  scenarios: OC_PROTOCOL.scenarios,
+  models: OC_PROTOCOL.models,
+  incumbent: "bc",
+  incumbentFrom: "oc-protocol/1: bc kept every gym scenario (0 promotions)",
+  challengers: Object.freeze(["ra-lm", "dagger-r1", "dagger-r3", "step-reward", "random"]),
+  negativeControl: "random",
+  lm: "ra-lm as declared in arena-declared.json (ra/1): lmOptions { texts: raLmTaskTexts(raReadStation), stationFor: the three headless station rooms }",
+  metric: "success",
+  interval: OC_INTERVAL,
+  promotion: OC_PROTOCOL.promotion,
+  probes: Object.freeze([
+    { kind: "undeclared", id: "oc2-probe-undeclared", note: "evaluate a comparison id that was never declared" },
+    { kind: "seed-reused", id: "oc2-probe-retest", scenarioId: "rb-cell-entry", models: ["bc", "ra-lm"], incumbent: "bc", challengers: ["ra-lm"], seeds: OC_HELD_OUT_2.slice(0, 10), note: "declare a re-test of ra-lm on ten of these seeds once spent, then try to run it" },
+    { kind: "not-held-out", id: "oc2-probe-spent-r6", scenarioId: "rb-amr-fleet-routing", models: ["bc", "ra-lm"], incumbent: "bc", challengers: ["ra-lm"], seeds: OC_HELD_OUT.slice(0, 10), note: "declare ra-lm on ten of protocol 1's spent seeds (7121–7130): refused at declaration" },
+  ]),
+});

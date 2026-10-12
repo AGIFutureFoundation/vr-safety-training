@@ -14,6 +14,11 @@
  *   6. people beside robots: learner values only when eligible, counts only in the chain
  *   7. wiring: the parishes mount and its gate, the instructor tab, the bundle lists, check_all and the estimated baseline row
  *   8. controls at least 44 px; hygiene: no model identifier, no claim wording
+ *   9. protocol 2 (round 7): seeds only through ARENA-2's committed declaration (8ea01d3c), which precedes the protocol,
+ *      which precedes its record; N comparisons run once; verdicts re-derive; refusals 3 of 3 plus not-held-out; chain intact
+ *  10. people and robots side by side per scenario (learner stations re-derived from the programme's tracks; learner values
+ *      only when eligible); the page module carries both records with chains trimmed to heads that match the JSON
+ *  11. the world in the scene: a lamp per robot site on the desktop high tier only, inside its stated budget, busy or idle
  * Run: node tools/check_claw.mjs   (OC_ROOT=<tree> runs it against another checkout, for a before measurement)
  */
 import { readFileSync } from "node:fs";
@@ -80,7 +85,8 @@ await check("1 five software agents, labelled, invented names apart from the hiv
   const hive = new Set((HD.OH_AGENTS ?? []).map((a) => a.name));
   ok(A.every((a) => !hive.has(a.name)) && new Set(A.map((a) => a.name)).size === 5, "names distinct from the hive's and each other");
   const NET = /\b(fetch|XMLHttpRequest|WebSocket|EventSource|sendBeacon|importScripts)\s*\(|navigator\.sendBeacon|https?:\/\//;
-  const KEY = new RegExp(["api[_-]?key", "authori" + "zation:", "bear" + "er ", "sk-[A-Za-z0-9]{8}"].join("|"), "i");
+  // The key-prefix pattern starts at a word boundary: unanchored it matched inside the station id "ri·sk-assessment".
+  const KEY = new RegExp(["api[_-]?key", "authori" + "zation:", "bear" + "er ", "\\bsk-[A-Za-z0-9]{8}"].join("|"), "i");
   for (const f of OC_FILES) { const t = src(f).replace(/\/\/.*$/gm, ""); ok(t, `${f} missing`); ok(!NET.test(t), `${f}: network code`); ok(!KEY.test(t), `${f}: key wording`); }
   return `${A.map((a) => `${a.name} (${a.key})`).join(", ")}; ${OC_FILES.length} modules: no network code, no key`;
 });
@@ -248,7 +254,7 @@ await check("7 wiring: the parishes mount and its gate, the instructor tab, the 
   ok(/var ocHuman = [^\n]*!npParams\.has\("demo"\) && dxEligibility\(dxReadSignals\(\), \{ stage: "collect" \}\)\.eligible === true && !!dxConsent\(\)[^\n]*: null/.test(app), "the learner gate (DATAWORKS' collect-stage eligibility: signed in, adult, not K-12 or demo, and opted in)");
   const idx = src("WebXR/instructor/index.html"), ia = src("WebXR/instructor/js/app.js");
   ok(/id="tab-claw"/.test(idx) && /id="view-claw"/.test(idx) && /id="oc-root"/.test(idx), "instructor tab markup");
-  ok(/\["claw", "tab-claw", "view-claw"\]/.test(ia) && /ocMountClaw\(\$\("oc-root"\), \{ record: OC_RECORD, human: null \}\)/.test(ia), "instructor tab wiring, no learner data");
+  ok(/\["claw", "tab-claw", "view-claw"\]/.test(ia) && /ocMountClaw\(\$\("oc-root"\), \{ record: OC_RECORD, records: OC_RECORDS, human: null \}\)/.test(ia), "instructor tab wiring, no learner data");
   const b = src("tools/bundle_webxr.py");
   for (const f of ["rt6-learn.js", "rt7-learn.js", "rt8-learn.js", "ra-lm.js", "ra-arena.js", "oc-claw.js", "oc-world.js", "oc-claw-record.js", "oc-panel.js"]) ok(b.includes(`SHARED / "${f}"`), `bundle list: ${f}`);
   ok(b.indexOf('SHARED / "oh-hive.js"') < b.indexOf('SHARED / "oc-world.js"'), "oc-world.js after oh-hive.js");
@@ -265,10 +271,124 @@ await check("8 controls at least 44 px; no model identifier and no claim wording
   ok(/\.oc-panel select,\.oc-panel button\{min-height:44px;min-width:44px/.test(css), "44 px controls");
   const MODEL = new RegExp("\\b(" + ["gp" + "t-?\\d", "cla" + "ude-\\d", "cla" + "ude [0-9]", "op" + "us", "son" + "net", "hai" + "ku", "gem" + "ini", "lla" + "ma", "mis" + "tral"].join("|") + ")\\b", "i");
   const CLAIM = new RegExp("\\b(" + ["partnered " + "with", "in partner" + "ship with", "endorsed " + "by", "our " + "customers", "valuation " + "of", "token " + "price", "raised \\$", "funding " + "round"].join("|") + ")", "i");
-  const files = [...OC_FILES, "WebXR/shared/oc-claw-record.js", "tools/claw_eval.mjs", "tools/check_claw.mjs", "docs/evals/claw.json", "docs/omega-claw.md", "docs/consoles/OMEGA-CLAW.md", "docs/consoles/memory/OMEGA-CLAW.md", "tools/briefs/next/oc-next.md"];
+  const files = [...OC_FILES, "WebXR/shared/oc-claw-record.js", "tools/claw_eval.mjs", "tools/check_claw.mjs", "docs/evals/claw.json", "docs/omega-claw.md", "docs/consoles/OMEGA-CLAW.md", "docs/consoles/memory/OMEGA-CLAW.md", "tools/briefs/next/oc-next.md", "docs/evals/claw2.json", "docs/consoles/CLAW-2.md", "docs/consoles/memory/CLAW-2.md", "tools/briefs/next/oc2-next.md"];
   let n = 0;
   for (const f of files) { const t = src(f); if (!t) continue; n += 1; ok(!MODEL.test(t), `${f}: model identifier`); ok(!CLAIM.test(t), `${f}: claim wording`); }
   return `${n} files clean`;
+});
+
+// 9 — protocol 2 (round 7)
+const REC2 = json("docs/evals/claw2.json");
+await check("9 protocol 2: seeds only through ARENA-2's committed declaration; declared before its one run; N run once; verdicts re-derive; refusals 3 of 3 (+ not-held-out); chain intact", () => {
+  need(OC); ok(OC.OC_PROTOCOL_2, "OC_PROTOCOL_2 missing"); ok(REC2, "docs/evals/claw2.json missing");
+  const P = OC.OC_PROTOCOL_2;
+  ok(REC2.dev === false, "the record is a development run");
+  ok(REC2.protocol.hash === OC.ocHash(P), `protocol 2 hash ${REC2.protocol.hash} != current ${OC.ocHash(P)} (changed after the run)`);
+  const decl = json(P.seedSource.file); ok(decl?.protocol?.seeds?.gym, `${P.seedSource.file} missing`);
+  const [a, b] = String(decl.protocol.seeds.gym).split("–").map(Number);
+  ok(P.seeds[0] === a && P.seeds[P.seeds.length - 1] === b && P.seeds.length === b - a + 1, `seeds ${P.seeds[0]}–${P.seeds[P.seeds.length - 1]} != declared ${decl.protocol.seeds.gym}`);
+  ok(!P.seeds.some((s) => OC.OC_HELD_OUT.includes(s)), "protocol 2 reuses protocol 1's seeds");
+  let note = "git not available (archive): ancestry not checked";
+  try {
+    const git = (...x) => execFileSync("git", x, { cwd: ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim();
+    const p = git("log", "--format=%H", "--reverse", "-S", "export const OC_PROTOCOL_2", "--", "WebXR/shared/oc-claw.js").split("\n")[0];
+    const r = git("log", "--format=%H", "--reverse", "--diff-filter=A", "--", "docs/evals/claw2.json").split("\n")[0];
+    const s = git("log", "--format=%H", "--reverse", "--diff-filter=A", "--", P.seedSource.file).split("\n")[0];
+    if (p && r && s) {
+      ok(p !== r, "protocol 2 and its record landed in the same commit");
+      const anc = (x, y) => { try { git("merge-base", "--is-ancestor", x, y); return true; } catch (_) { return false; } };
+      ok(s.startsWith(P.seedSource.commit), `the declaration file was added in ${s.slice(0, 8)}, not ${P.seedSource.commit}`);
+      ok(anc(s, p), `ARENA-2's declaration ${s.slice(0, 8)} is not an ancestor of protocol 2's ${p.slice(0, 8)}`);
+      ok(anc(p, r), `protocol 2's commit ${p.slice(0, 8)} is not an ancestor of its record's ${r.slice(0, 8)}`);
+      note = `declaration ${s.slice(0, 8)} -> protocol ${p.slice(0, 8)} -> record ${r.slice(0, 8)}`;
+    }
+  } catch (e) { if (/ancestor|same commit|added in/.test(String(e?.message))) throw e; }
+  const decls = OC.ocProtocolDeclarations(P);
+  const N = decls.reduce((n, d) => n + d.challengers.length, 0);
+  ok(REC2.counts.declaredComparisons === N && REC2.comparisons.length === N && REC2.counts.comparisonsRunOnce === N, `comparisons ${REC2.comparisons.length} != declared ${N}`);
+  ok(REC2.runs.length === decls.length && decls.every((d) => REC2.declarations.some((x) => x.id === d.id && x.hash)), "declarations and runs");
+  ok(REC2.declarations.every((d) => d.seedRange === `${a}–${b}` || /probe/.test(d.id)), "every comparison on ARENA-2's declared seeds");
+  ok(REC2.audit.ok && REC2.audit.declaredFirst && REC2.audit.seedOnce && REC2.audit.heldOnly, "audit flags");
+  const ex = REC2.counts.exercised; ok(ex.undeclared && ex["seed-reused"] && ex["rule-broken"] && ex["not-held-out"], `exercised ${JSON.stringify(ex)}`);
+  ok(REC2.probes.find((x) => x.kind === "runs-added-by-probes")?.n === 0, "the probes ran nothing");
+  const claw = OC.ocClaw({ arena: stubArena() });
+  for (const c of REC2.comparisons) {
+    const run = REC2.runs.find((r) => r.declId === c.declId);
+    ok(claw.judge(run.results.find((x) => x.modelId === c.challenger), run.results.find((x) => x.modelId === c.incumbent)) === c.verdict, `${c.declId} ${c.challenger}: ${c.verdict} does not re-derive`);
+  }
+  const clear = REC2.promotions.filter((x) => x.cCi[0] > x.iCi[1] && x.ruleBreaks === 0 && x.governorChecked === x.steps && x.physical === 0).length;
+  ok(clear === REC2.promotions.length, "a protocol-2 promotion without a clear interval");
+  let steps = 0, checked = 0, phys = 0;
+  for (const r of REC2.runs) for (const x of r.results) { steps += x.steps; checked += x.governorChecked; phys += x.physical; }
+  ok(steps === checked && steps === REC2.counts.stepsRun && phys === 0, `governor ${checked}/${steps}, physical ${phys}`);
+  ok(REC2.world.physicalDispatched === 0 && REC2.world.governorEveryStep && REC2.world.stepsMonitored === REC2.world.steps, "protocol-2 world: governor and physical");
+  const ch = OC.ocVerifyChain(REC2.chain); ok(ch.ok, `protocol-2 chain broken at ${ch.brokenAt}`);
+  const lm = REC2.runs.map((r) => r.results.find((x) => x.modelId === "ra-lm")).filter((x) => x && x.applicable);
+  ok(lm.length === decls.length, `ra-lm applicable on ${lm.length} of ${decls.length} scenarios`);
+  const N1 = REC ? REC.counts.declaredComparisons : 0;
+  evals.push(`declared comparisons: ${N1} -> ${N1 + N} (protocol 2: ${N} on ${a}–${b}, run once ${REC2.counts.comparisonsRunOnce}/${N}, ${REC2.counts.episodes} episodes)`);
+  evals.push(`protocol 2 refusals exercised: 3/3 (+ not-held-out) ${JSON.stringify(REC2.counts.refusalsByReason)}; promotions ${REC2.promotions.length}, clear ${clear}/${REC2.promotions.length}`);
+  evals.push(`small model (ra-lm) vs clone (bc), measured once on ${a}–${b}: ${REC2.smallModel.map((s) => `${s.scenarioId} ${s.lm} vs ${s.bc} (${s.verdict})`).join("; ")}`);
+  evals.push(`protocol 2 governor ${checked}/${steps} steps, physical ${phys}; world ${REC2.world.minutes} min, ${REC2.world.completed} jobs, governor ${REC2.world.stepsMonitored}/${REC2.world.steps}, physical dispatches ${REC2.world.physicalDispatched}; chain intact (${ch.lines} lines)`);
+  return `${note}; ${N} comparisons, verdicts re-derived, ${REC2.promotions.length} promotions, chain ${ch.lines} lines intact`;
+});
+
+// 10 — people and robots side by side; the trimmed page module
+await check("10 side by side: each robot scenario with its learner stations (from the programme), gaps for both, learner values only when eligible; the page module trimmed to chain heads", async () => {
+  need(OC); ok(REC2, "docs/evals/claw2.json missing");
+  const RP = need(await imp("WebXR/shared/rp-programme-data.js"));
+  const derived = OC.ocScenarioDrills(RP.RP_TRACKS, (id) => Object.prototype.hasOwnProperty.call(RP.RP_ROBOT_STATIONS, id));
+  ok(JSON.stringify(derived) === JSON.stringify(OC.OC_SCENARIO_DRILLS), `OC_SCENARIO_DRILLS differs from the programme's tracks: ${JSON.stringify(derived)}`);
+  const no = OC.ocSideBySide({ runs: REC2.runs, promoted: REC2.promoted, human: { eligible: false, stations: { "robot-cell": { passed: true } } } });
+  ok(no.length === REC2.runs.length && no.every((x) => x.robot && x.people), "a row per scenario with both sides");
+  ok(no.every((x) => x.people.learner === null), "ineligible: no learner value");
+  const uncovered = no.filter((x) => !x.people.stations.length).map((x) => x.scenarioId);
+  ok(uncovered.every((sc) => no.find((x) => x.scenarioId === sc).people.gap === true), "an uncovered scenario shows as a programme gap");
+  const yes = OC.ocSideBySide({ runs: REC2.runs, promoted: REC2.promoted, human: { eligible: true, stations: { "robot-cell": { passed: true, best: 90 }, "rt-teach-pendant-safe-jogging": { passed: false, best: 60 } } } });
+  const ce = yes.find((x) => x.scenarioId === "rb-cell-entry");
+  ok(ce.people.learner.passed.join() === "robot-cell" && ce.people.learner.todo.includes("rt-teach-pendant-safe-jogging") && ce.people.gap === true, `cell entry learner side ${JSON.stringify(ce.people)}`);
+  ok(yes.every((x, i) => JSON.stringify(x.robot) === JSON.stringify(no[i].robot)), "the robot side does not depend on the learner");
+  const robotGaps = no.filter((x) => x.robot.gap).map((x) => x.scenarioId);
+  const app = src("WebXR/parishes/js/app.js");
+  ok(/var ocHuman = [^\n]*dxConsent\(\); return ok \? \{ eligible: true, [^\n]*stations: [^\n]*ppRecords\(\)[^\n]*: null;/.test(app), "the learner's station records are read only inside the DATAWORKS gate");
+  ok(/ocMountClaw\(\$\("menu-drills"\), \{ record: OC_RECORD, records: OC_RECORDS, human: ocHuman \}\)/.test(app), "parishes passes both records");
+  // The page module: both records, each chain trimmed to its head, the head matching the committed record.
+  const M = need(await imp("WebXR/shared/oc-claw-record.js"));
+  ok(M.OC_RECORDS?.length === 2 && M.OC_RECORD === M.OC_RECORDS[1], "two records, the latest first shown");
+  for (const [m, full] of [[M.OC_RECORDS[0], REC], [M.OC_RECORDS[1], REC2]]) {
+    ok(!("chain" in m) && m.chainHead.lines === full.chain.length && m.chainHead.hash === full.chain[full.chain.length - 1].hash, `${m.protocol.version}: head does not match the committed chain`);
+    ok(OC.ocVerifyHead(m.chainHead, m.chainTail).ok, `${m.protocol.version}: head check`);
+    const bad = [{ ...m.chainTail[0], detail: m.chainTail[0].detail + "x" }]; ok(!OC.ocVerifyHead(m.chainHead, bad).ok, "a tampered last line is caught");
+  }
+  const bytes = Buffer.byteLength(src("WebXR/shared/oc-claw-record.js"));
+  const full = (r) => Buffer.byteLength(JSON.stringify(r.chain));
+  evals.push(`people beside robots, per scenario: ${no.length} rows; robot gaps ${robotGaps.length} (${robotGaps.join(", ")}); scenarios with no matching learner station ${uncovered.length} (${uncovered.join(", ")}); learner side only when eligible (fixture: cell entry 1 of ${ce.people.stations.length} passed)`);
+  evals.push(`page module: 2 records in ${bytes} B; chains trimmed to head + last line (full chains ${full(REC)} B and ${full(REC2)} B stay in docs/evals/claw.json and claw2.json)`);
+  return `${no.length} rows; robot gaps ${robotGaps.length}; uncovered ${uncovered.length}; module ${bytes} B`;
+});
+
+// 11 — the world in the scene
+await check("11 the world in the scene: a lamp per robot site on the desktop high tier only, inside its stated budget, busy or idle from the world", async () => {
+  need(OW); ok(OW.ocMountSiteLamps && OW.OC_LAMP_BUDGET, "ocMountSiteLamps missing");
+  const T = need(await imp("WebXR/vendor/three/dist/three.module.min.js"));
+  const sites = [{ id: "rb-site-soma-robot-cell", position: [10, 20], y: 1 }, { id: "rb-site-x", position: [0, 0], y: 0 }];
+  for (const tier of ["low", "balanced"]) { const g = new T.Group(); ok(OW.ocMountSiteLamps({ three: T, root: g, sites, tier }) === null && g.children.length === 0, `${tier}: lamps mounted`); }
+  const g = new T.Group();
+  const L = OW.ocMountSiteLamps({ three: T, root: g, sites, tier: "high" });
+  ok(L && g.children.length === sites.length, "one lamp per site on high");
+  let tris = 0, tex = 0, lights = 0; g.traverse((o) => { if (o.isMesh) { const gi = o.geometry.index; tris += (gi ? gi.count : o.geometry.attributes.position.count) / 3; if (o.material.map) tex += 1; } if (o.isLight) lights += 1; });
+  const B = OW.OC_LAMP_BUDGET;
+  ok(tris === B.trianglesPerSite * sites.length && lights === 0 && tex === 0, `lamps: ${tris} triangles, ${lights} lights, ${tex} textures (budget ${B.trianglesPerSite} a site, 0, 0)`);
+  ok(L.counts().triangles === tris, "counts() agrees with the geometry");
+  L.update({ sites: [{ siteId: "rb-site-soma-robot-cell", busy: 2 }, { siteId: "rb-site-x", busy: 0 }] });
+  ok(JSON.stringify(L.states()) === JSON.stringify([{ site: "rb-site-soma-robot-cell", state: "busy" }, { site: "rb-site-x", state: "idle" }]), `states ${JSON.stringify(L.states())}`);
+  const w = OW.ocWorld({ seed: 2, promoted: {}, policyFor: () => null }); w.run(120);
+  const st = w.stats(); const L2 = OW.ocMountSiteLamps({ three: T, root: new T.Group(), sites: st.sites.map((s, i) => ({ id: s.siteId, position: [i, i], y: 0 })), tier: "high" });
+  L2.update(st); ok(L2.states().every((s, i) => s.state === (st.sites[i].busy > 0 ? "busy" : "idle")), "lamps follow ocWorld.stats().sites");
+  const app = src("WebXR/parishes/js/app.js");
+  ok(/ocMountSiteLamps\(\{ three: THREE, root, sites: rbWorld\?\.sites \?\? \[\], tier: npTierName \}\)/.test(app) && /loop\.onTick\(\(\) => lamps\.update\(loop\.world\.stats\(\)\)\)/.test(app), "parishes mounts the lamps with the tier in force and updates them each tick");
+  evals.push(`world in the scene: a lamp per robot site on high only (low and balanced: 0), ${B.trianglesPerSite} triangles and 1 mesh a site, 0 lights, 0 textures; busy/idle from the world`);
+  return `${sites.length} lamps, ${tris} triangles, 0 lights, 0 textures; low/balanced none`;
 });
 
 for (const e of evals) console.log(`EVAL ${e}`);
