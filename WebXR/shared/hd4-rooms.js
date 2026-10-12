@@ -7,6 +7,10 @@
 //    over the robot area, one by the door), and one real light — a task spotlight over the room's robot — which with the
 //    shell's hemisphere and point light makes 3, IX_BUDGET's desktop limit. Everything else is emissive (no texture).
 //    Nothing moves: the beacons glow steadily, so reduced motion needs no special case.
+//    ENV-HD-5 (docs/consoles/ENV-HD-5.md): balanced takes a light-weight version — emissive fixtures only, no real light, no
+//    texture, one instanced mesh (one draw call): the same LED ceiling panels, a flush ceiling panel over every station pad
+//    (and every ops console) in place of the pendant and its pool, and the three amber beacons' lenses. The phone tier and a
+//    headset browser still build nothing.
 // 2. The hive's operations room (`hd4-hive-ops`, an INTERIORS style), GENERIC BY KIND: a control room where the Omega Hive's
 //    seven software agents' consoles stand in an arc facing a video wall (two panels either side of the shell's honesty sign).
 //    Each console has a desk, a monitor whose screen is a cell of one shared canvas, a chair, a strip in the agent's accent
@@ -19,7 +23,9 @@
 //   HD4_ROOM_LIGHT_BUDGET              what the lighting adds per room per tier (meshes, real lights, triangles, texture bytes)
 //   HD4_ROOM_TARGETS                   plain data: style -> [x, z] the task spotlight aims at (the room's robot)
 //   HD4_OPS_ROLES / HD4_OPS_BUDGET     the seven role keys in console order; the ops room's stated budget per tier
-//   hd4LightRoom({ three, group, room, tier, ua }) -> { panels, pendants, beacons, lights } | null (null where it builds nothing)
+//   hd4LightRoom({ three, group, room, tier, ua }) -> { panels, pendants, beacons, lights } | null (null where it builds nothing;
+//                                          on balanced it hands over to hd4LightRoomBalanced)
+//   hd4LightRoomBalanced({ three, group, room }) -> { panels, taskPanels, beacons, lights: 0, meshes: 1, triangles } (ENV-HD-5)
 //   hd4OpsLayout(agents?)              -> [{ key, agentId, accent, x, z, yaw, spot: { x, z, yaw } }] (pure, room metres)
 //   hd4DressOps({ three, group, room, site, tier, agents }) -> room.hd4Ops = { consoles, screens, spots }
 //   hd4OpsScreens(room)                -> { canvas, texture, cells: [{ key, agentId, role, x, y, w, h }], wall: { canvas, texture,
@@ -45,7 +51,8 @@ export function hd4OpsHome(agents = OH_AGENTS) {
 }
 
 export const HD4_OPS_STYLE = "hd4-hive-ops";
-export const HD4_ROOM_LIGHT_BUDGET = { meshesAdded: { low: 0, balanced: 0, high: 4 }, lightsAdded: { low: 0, balanced: 0, high: 1 }, trianglesAdded: { low: 0, balanced: 0, high: 900 }, textureBytes: 0 };
+// ENV-HD-5: balanced adds one instanced mesh of emissive fixtures (no light, no texture); it added nothing before.
+export const HD4_ROOM_LIGHT_BUDGET = { meshesAdded: { low: 0, balanced: 1, high: 4 }, lightsAdded: { low: 0, balanced: 0, high: 1 }, trianglesAdded: { low: 0, balanced: 400, high: 900 }, textureBytes: 0 };
 export const HD4_ROOM_TARGETS = { "ixr-cell-hall": [0, -4], "ixr-cobot-lab": [0, -2.2], "ixr-amr-warehouse": [-3.5, -3], "ixr-port-control": [0, -3.3], "ixr-drilling-deck": [0, -3.5], "ixr-maint-bay": [3.6, -3.2], "hd4-hive-ops": [0, -2.4] };
 export const HD4_OPS_ROLES = ["dispatcher", "safety-steward", "maintenance-planner", "consent-keeper", "trainer", "auditor", "logistics"];
 const hd4OpsMiB = 1024 * 1024;
@@ -72,6 +79,7 @@ function hd4PoolGeometry(THREE, warm = [0.16, 0.14, 0.1], n = 20) {
 
 /** Light one room (the six robot rooms and the ops room): panels, pendants with pools, beacons, one task spotlight. */
 export function hd4LightRoom({ three: THREE, group, room, tier = "high", ua = typeof navigator !== "undefined" ? navigator.userAgent : "" }) {
+  if (THREE && room && group && tier === "balanced" && !hd4Headset(ua)) return hd4LightRoomBalanced({ three: THREE, group, room });
   if (!THREE || !room || !group || !hd4Lit(tier, ua)) return null;
   const { w, d, h } = room, style = room.style ?? {};
   const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), v = new THREE.Vector3(), s = new THREE.Vector3(), col = new THREE.Color();
@@ -113,6 +121,29 @@ export function hd4LightRoom({ three: THREE, group, room, tier = "high", ua = ty
   group.add(spot); group.add(spot.target);
   const triangles = 12 * (pm.count + bm.count + gm.count) + 20 * pools.count;
   room.hd4Lights = { panels: panels.length, pendants: spots.length, beacons: beacons.length, lights: 1, meshes: 4, triangles };
+  return room.hd4Lights;
+}
+
+/** ENV-HD-5: balanced's light-weight lighting (see the header): emissive boxes in one InstancedMesh, per-instance colour —
+ *  the LED panels where high puts them, a flush warm panel on the ceiling over every station pad (and ops console), and the
+ *  beacons' amber lenses on the walls. No real light, no texture, no pool (additive overdraw), no fittings. */
+export function hd4LightRoomBalanced({ three: THREE, group, room }) {
+  if (!THREE || !room || !group) return null;
+  const { w, d, h } = room, style = room.style ?? {}, lamp = style.lamp ?? 0xf2f6fa;
+  const rows = Math.max(2, Math.round(d / 5)), cols = Math.max(2, Math.round(w / 6)), boxes = [];
+  for (let r = 0; r < rows; r++) for (let c = 1; c < cols; c++) boxes.push([1.2, 0.04, 0.6, -w / 2 + (w / cols) * c, h - 0.03, -d / 2 + (d / rows) * (r + 0.5), lamp]);
+  const panels = boxes.length;
+  const spots = room.actions.filter((a) => a.kind === "station").map((a) => [a.x, a.z]);
+  for (const c of room.hd4Ops?.consoles ?? []) spots.push([c.x * 0.86, c.z * 0.86 + (-2.4) * 0.14]);
+  for (const [x, z] of spots) boxes.push([0.9, 0.04, 0.5, x, h - 0.03, z, 0xfff1d6]);
+  const beacons = IXR_ROOMS[room.id] ? [[-w / 4, Math.min(h * 0.62, h - 0.6), -d / 2 + 0.14], [w / 4, Math.min(h * 0.62, h - 0.6), -d / 2 + 0.14], [1.6, Math.min(2.75, h - 0.5), d / 2 - 0.14]] : [];
+  for (const [x, y, z] of beacons) boxes.push([0.26, 0.26, 0.26, x, y + 0.07, z, 0xff9a1f]);
+  const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), v = new THREE.Vector3(), s = new THREE.Vector3(), col = new THREE.Color();
+  const im = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ color: 0xffffff, toneMapped: false }), boxes.length);
+  im.name = "hd4-light-balanced";
+  boxes.forEach(([bw, bh, bd, x, y, z, c], i) => { m4.compose(v.set(x, y, z), q.identity(), s.set(bw, bh, bd)); im.setMatrixAt(i, m4); im.setColorAt(i, col.setHex(c)); });
+  group.add(im);
+  room.hd4Lights = { tier: "balanced", panels, pendants: 0, taskPanels: spots.length, beacons: beacons.length, lights: 0, meshes: 1, triangles: 12 * boxes.length };
   return room.hd4Lights;
 }
 

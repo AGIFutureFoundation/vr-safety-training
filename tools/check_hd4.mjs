@@ -8,9 +8,14 @@
  *      near-camera detail per site and per room (meshes, triangles, draw calls) and the hero textures' bytes inside the budget.
  *   3. The phone and headset tiers are unchanged (rooms and site lights build exactly what they built before), and the high
  *      tier's texture bytes are unchanged with Ultra off; the high tier's added lighting stays inside IX_BUDGET.
+ *      ENV-HD-5 (docs/consoles/ENV-HD-5.md): balanced was proven identical here too; it now takes a light-weight lighting
+ *      (hd4LightRoomBalanced: one instanced mesh of emissive fixtures, no light, no texture), so balanced is checked against
+ *      that budget instead (+1 mesh, +0 lights, +0 texture bytes, triangles inside HD4_ROOM_LIGHT_BUDGET.balanced and
+ *      IX_BUDGET), and a headset browser on balanced joins the identical builds.
  *   4. The six looks (dawn, day, dusk, night, fog, rain) over the app's own clock and weather, every robot site's wide shot
  *      under each (presets 0 -> 36), fog density, wetness and the site lighting policy per look, the site lights' switching.
- *   5. Lit robot rooms: panels, a pendant over every station pad, three beacons and one task spotlight in each of the six.
+ *   5. Lit robot rooms: panels, a pendant over every station pad, three beacons and one task spotlight in each of the six;
+ *      ENV-HD-5: on balanced, the panels, a flush panel over every station pad and the beacons' lenses, emissive only.
  *   6. The hive operations room: an INTERIORS style inside its budget on every tier, seven consoles, seven agent spots (one per
  *      role), the screens seam, walkable from the door, and its door beside the dispatcher's home site.
  *   7. The wiring: the app, the bundle, the scene handle's look argument, the checker list and its baseline row.
@@ -129,13 +134,22 @@ for (const [st, a, b] of ultraRows) console.log(`  ${st.padEnd(20)} ${String(a.m
 
 // ------------------------------------------------------------------------------------------------ 3. phone and headset unchanged
 console.log("3. the phone and headset tiers unchanged; high's texture bytes unchanged with Ultra off");
-let same = 0, total = 0, hiBytesSame = 0, hiLitOk = 0;
+let same = 0, total = 0, hiBytesSame = 0, hiLitOk = 0, balOk = 0;
+const BL = H.HD4_ROOM_LIGHT_BUDGET, balRows = [];
 for (const st of STYLES) {
-  for (const tier of ["low", "balanced"]) {
+  // the phone tier, and a headset browser on balanced (ENV-HD-5: balanced itself now takes the light-weight lighting, below)
+  for (const [tier, dr, who] of [["low", ultra, "low"], ["balanced", headset, "balanced/headset"]]) {
     total++;
-    const a = stats(build(st, tier, plain)), b = stats(build(st, tier, ultra));
+    const a = stats(build(st, tier, plain)), b = stats(build(st, tier, dr));
     if (a.meshes === b.meshes && a.triangles === b.triangles && a.lights === b.lights && a.bytes === b.bytes) same++;
-    else check(false, `${st}/${tier}: unchanged`, `${a.meshes}/${a.triangles}/${a.lights}/${a.bytes} vs ${b.meshes}/${b.triangles}/${b.lights}/${b.bytes}`);
+    else check(false, `${st}/${who}: unchanged`, `${a.meshes}/${a.triangles}/${a.lights}/${a.bytes} vs ${b.meshes}/${b.triangles}/${b.lights}/${b.bytes}`);
+  }
+  { // ENV-HD-5: balanced adds exactly its light-weight lighting — one mesh, no light, no texture — inside the room budget
+    const a = stats(build(st, "balanced", plain)), b = stats(build(st, "balanced", ultra)), dt = b.triangles - a.triangles;
+    const ok = b.meshes - a.meshes === BL.meshesAdded.balanced && b.lights === a.lights && b.bytes === a.bytes && dt > 0 && dt <= BL.trianglesAdded.balanced && b.meshes <= IX.IX_BUDGET.meshes && b.triangles <= IX.IX_BUDGET.triangles.high;
+    if (ok) balOk++;
+    else check(false, `${st}/balanced: the light-weight lighting inside its budget`, `${a.meshes}/${a.triangles}/${a.lights}/${a.bytes} -> ${b.meshes}/${b.triangles}/${b.lights}/${b.bytes}`);
+    balRows.push(`${st}: balanced ${a.meshes} -> ${b.meshes} meshes, ${a.triangles} -> ${b.triangles} tris (+${dt}), lights ${a.lights} -> ${b.lights}, ${fmtB(a.bytes)} -> ${fmtB(b.bytes)}`);
   }
   total++;
   const a = stats(build(st, "high", plain)), hs = stats(build(st, "high", headset)), h = stats(build(st, "high", lit));
@@ -143,9 +157,11 @@ for (const st of STYLES) {
   else check(false, `${st}/headset: unchanged`, `${a.meshes}/${a.triangles}/${a.lights} vs ${hs.meshes}/${hs.triangles}/${hs.lights}`);
   if (a.bytes === h.bytes) hiBytesSame++;
   if (h.meshes - a.meshes === H.HD4_ROOM_LIGHT_BUDGET.meshesAdded.high && h.triangles - a.triangles <= H.HD4_ROOM_LIGHT_BUDGET.trianglesAdded.high && h.lights <= IX.IX_BUDGET.lights.high && h.meshes <= IX.IX_BUDGET.meshes && h.triangles <= IX.IX_BUDGET.triangles.high) hiLitOk++;
-  note(`${st}: high ${a.meshes} -> ${h.meshes} meshes, ${a.triangles} -> ${h.triangles} tris, ${a.lights} -> ${h.lights} lights, ${fmtB(a.bytes)} -> ${fmtB(h.bytes)} (lighting); phone/balanced/headset identical`);
+  note(`${st}: high ${a.meshes} -> ${h.meshes} meshes, ${a.triangles} -> ${h.triangles} tris, ${a.lights} -> ${h.lights} lights, ${fmtB(a.bytes)} -> ${fmtB(h.bytes)} (lighting); phone and headset identical`);
 }
-check(same === total, `robot rooms identical with the hd4 dressers on the phone tier, balanced and a headset browser (Ultra asked for): ${same} of ${total} builds`);
+for (const r of balRows) note(r);
+check(same === total, `robot rooms identical with the hd4 dressers on the phone tier and in a headset browser (high and balanced; Ultra asked for): ${same} of ${total} builds`);
+check(balOk === STYLES.length, `ENV-HD-5: balanced robot rooms add only the light-weight lighting (+${BL.meshesAdded.balanced} mesh, +0 lights, +0 texture bytes, triangles +<= ${BL.trianglesAdded.balanced}) inside IX_BUDGET (${IX.IX_BUDGET.meshes} meshes, ${IX.IX_BUDGET.triangles.high} tris): ${balOk} of ${STYLES.length}`);
 check(hiBytesSame === STYLES.length, `high tier texture bytes per room unchanged with Ultra off: ${hiBytesSame} of ${STYLES.length} (the lighting draws no texture)`);
 check(hiLitOk === STYLES.length, `high tier lighting inside IX_BUDGET (meshes +${H.HD4_ROOM_LIGHT_BUDGET.meshesAdded.high}, triangles +<=${H.HD4_ROOM_LIGHT_BUDGET.trianglesAdded.high}, lights <= ${IX.IX_BUDGET.lights.high}): ${hiLitOk} of ${STYLES.length}`);
 for (const tier of ["low", "balanced"]) {
@@ -217,6 +233,20 @@ for (const st of STYLES) {
   check(!!ok, `${st}: ${Lr?.panels} light panels, ${Lr?.pendants} pendant task lights over ${pads} station pads (each with a floor pool), ${Lr?.beacons} warning beacons, 1 task spotlight`);
 }
 check(litRooms === 6, `robot rooms with lighting: 0 -> ${litRooms} of 6`);
+// ENV-HD-5: balanced's light-weight lighting — the panels, a flush panel over every pad, the beacons' lenses; emissive only
+let balLit = 0;
+for (const st of STYLES) {
+  const room = build(st, "balanced", lit), Lr = room.hd4Lights, pads = room.actions.filter((a) => a.kind === "station").length;
+  const im = room.group.getObjectByName("hd4-light-balanced");
+  const extra = ["hd4-task-spot", "hd4-light-pools", "hd4-task-fittings", "hd4-task-lamps", "hd4-light-panels"].filter((n) => room.group.getObjectByName(n));
+  const ok = Lr?.tier === "balanced" && Lr.panels > 0 && Lr.taskPanels === pads && Lr.beacons === 3 && Lr.lights === 0 && im?.isInstancedMesh && im.count === Lr.panels + Lr.taskPanels + Lr.beacons
+    && im.material.isMeshBasicMaterial && !im.material.map && im.instanceColor && extra.length === 0;
+  if (ok) balLit++;
+  check(!!ok, `${st}/balanced: ${Lr?.panels} light panels, ${Lr?.taskPanels} flush task panels over ${pads} station pads, ${Lr?.beacons} beacon lenses in one instanced mesh (${im?.count} boxes, ${Lr?.triangles} tris), 0 real lights, no texture${extra.length ? `; high-only parts present: ${extra.join(", ")}` : ""}`);
+}
+check(balLit === 6, `ENV-HD-5: balanced robot rooms with lighting: 0 -> ${balLit} of 6 (emissive panels only, no real light)`);
+{ const room = build(H.HD4_OPS_STYLE, "balanced", lit), pads = room.actions.filter((a) => a.kind === "station").length;
+  check(room.hd4Lights?.tier === "balanced" && room.hd4Lights.taskPanels === pads + 7 && room.hd4Lights.beacons === 0 && room.hd4Lights.lights === 0, `${H.HD4_OPS_STYLE}/balanced: ${room.hd4Lights?.panels} panels and a flush panel over each of its ${pads} station pads and 7 consoles, no beacons, 0 real lights (${room.hd4Lights?.triangles} tris)`); }
 
 // ------------------------------------------------------------------------------------------------ 6. the hive operations room
 console.log("6. the hive operations room");

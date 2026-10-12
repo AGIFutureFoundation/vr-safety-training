@@ -19,6 +19,12 @@
   and the school campus on the Mission map (5). Labels name the kind only; the frame is the parish engine's generic
   building. Through `window.__parishTest.scene(siteId, shot[, look])`, listed by `__parishTest.scenePresets()`: 18 → 26.
   `tools/drive_hd3_scenes.mjs` now writes JPEG (q92) and loads each map once.
+- **Balanced lighting in the robot rooms** (`WebXR/shared/hd4-rooms.js`). On balanced (not in a headset browser) each of the
+  six robot rooms and the hive operations room takes a light-weight version of the high tier's lighting: the same LED
+  ceiling panels, a flush warm panel on the ceiling over every station pad (and ops console) in place of the pendant and its
+  floor pool, and the three amber beacons' lenses — emissive boxes in ONE instanced mesh (one draw call), no real light, no
+  texture, no additive pool. +1 mesh and +132–228 triangles a room; lights and texture bytes unchanged. The phone tier and a
+  headset browser build exactly what they built before.
 
 ## Evals (before → after, each with its source)
 | eval | before | after | source |
@@ -53,11 +59,27 @@
    computed from the catalog, plus a label check. Observe: "ROBO-EXTERIORS: all 302 checks pass" (278 before); "scene
    presets: 12 → 18 (ENV-HD-3) → 26 (ENV-HD-5)". The school's wide camera is the solver's fallback (30 m up): the campus
    sits among low rowhouses (72 massing boxes within 140 m, the tallest 9.9 m) so no spot 62–86 m out is 5 m clear; a probe
-   found the fallback camera outside every box, above every roof. `check_bridge` 139/139. Pass.
+   found the fallback camera outside every box, above every roof. `check_bridge` 139/139. Pass; committed e3bd3134.
+4. Reason: the robot rooms' lighting on balanced, light-weight and inside its budget — emissive fixtures only, no real light,
+   no texture; proof = `check_hd4` (balanced adds exactly 1 mesh, 0 lights, 0 texture bytes and ≤ 400 triangles, inside
+   IX_BUDGET; the phone tier and a headset browser on high and on balanced identical). Act: `hd4LightRoomBalanced` (one
+   InstancedMesh, MeshBasicMaterial, per-instance colour: the LED panels where high puts them, a flush warm panel on the
+   ceiling over every station pad and ops console instead of the pendant and its pool, the three beacons' lenses), called
+   from `hd4LightRoom` on balanced outside a headset; `HD4_ROOM_LIGHT_BUDGET.balanced` 0 → 1 mesh / 400 triangles. The
+   checker proved balanced identical (§3); it now proves balanced against that budget, adds a headset browser on balanced to
+   the identical builds (18 of 18) and lists the balanced fixtures per room (§5). Observe: "ENV-HD-4: all 127 checks pass"
+   (118 before); balanced robot rooms 18–20 → 19–21 meshes, +132–228 triangles (1,016–2,340 → 1,148–2,568), lights 2 → 2,
+   texture bytes unchanged (2.33–2.67 MiB); the ops room on balanced 21 → 22 meshes, 1,334 → 1,538 triangles, inside its
+   stated budget (40 / 6,000 / 2 / 3 MiB). Pass.
 
 ## Seams
 - `lar-rooms.js`: `LAR_SIGN_PX` (`{ high: [512, 120], balanced: [256, 60], low: [256, 60] }`), `larSignMaterial(THREE, text,
   tier)` (was `low`).
 - `hd2-room-skins.js`: `HD2_SIGN_BYTES.balanced` = 256 × 60 × 4 × 4/3.
+- `hd3-scenes.js`: `HD3_SCENE_SITES` entries carry `by: "site" | "kind"`; seven sites, `hd3ScenePresets()` 14. The app's
+  `__parishTest.scene` routes any entry (no app change beyond comments).
+- `hd4-rooms.js`: `hd4LightRoomBalanced({ three, group, room })` → `room.hd4Lights = { tier: "balanced", panels, pendants: 0,
+  taskPanels, beacons, lights: 0, meshes: 1, triangles }` (mesh `hd4-light-balanced`); `HD4_ROOM_LIGHT_BUDGET` balanced
+  `meshesAdded` 1, `trianglesAdded` 400.
 
 ## Left
