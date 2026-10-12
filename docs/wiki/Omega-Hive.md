@@ -138,30 +138,38 @@ Takes the warehouse and port routing jobs and moves totes between the robot site
 | Built page: utterances on the on-device voice; then, with voice off, captions shown and utterances | 15 of 15; 43, 0 | `docs/consoles/OMEGA-HIVE.md` | observed |
 | Headless drive of the panel over 5 page loads: page errors; requests to other hosts (the one address that named another host was the rendering library’s, answered from a local copy) | 0; 0 | `docs/consoles/OMEGA-HIVE.md` | observed |
 | **Avatars in the world** | | | |
-| Agents embodied in the avatar checker, before and after: the hive’s agents, from a run of the real hive (seed 1); the agent-jobs personas | 0 → 7; 0 → 4 | `tools/check_agent_avatars.mjs` on `0c834a8a` | count |
-| Over that run’s 152 steps (350 spoken lines, 30 moves, 22 refusals, 56 completions): talk light on exactly while a line is spoken, sampled at 20 Hz; a caption bubble for each line; every move ending on a free spot at its named site | 350 of 350; 350 of 350; 30 of 30 | `tools/check_agent_avatars.mjs` on `0c834a8a` | simulated |
-| A calm stop gesture on every refusal; a nod on every completion; each agent standing at its home site | 22 of 22; 56 of 56; 7 of 7 | `tools/check_agent_avatars.mjs` on `0c834a8a` | simulated |
-| Meshes and sprites in the heaviest figure, against the budget (the same ceiling as the game’s characters); agent labels drawn whole inside their canvas | 11 of 12; 11 of 11 | `tools/check_agent_avatars.mjs` on `0c834a8a` | count |
+| Agents embodied in the avatar checker, before and after: the hive’s agents, from a run of the real hive (seed 1); the agent-jobs personas | 0 → 7; 0 → 4 | `docs/consoles/HIVE-IN-WORLD.md` (`tools/check_agent_avatars.mjs`) | count |
+| Over that run’s 152 steps (350 spoken lines, 30 moves, 22 refusals, 56 completions): talk light on exactly while a line is spoken, sampled at 20 Hz; a caption bubble for each line; every move ending on a free spot at its named site | 350 of 350; 350 of 350; 30 of 30 | `docs/consoles/HIVE-IN-WORLD.md` (`tools/check_agent_avatars.mjs`) | simulated |
+| A calm stop gesture on every refusal; a nod on every completion | 22 of 22; 56 of 56 | `docs/consoles/HIVE-IN-WORLD.md` (`tools/check_agent_avatars.mjs`) | simulated |
+| Agent labels drawn whole inside their canvas, before → after (a label had been cut at its edge in the reel’s capture); the portraits that are distinct, before → after | 0 of 11 → 11 of 11; 10 of 11 → 11 of 11 | `docs/consoles/HIVE-IN-WORLD.md` (`tools/check_agent_avatars.mjs`) | count |
 | Against a fixture of the avatars: jobs that start where their agent’s figure stands; before the walk-back fix the fixture found 9 problems | 161 of 161 | `docs/consoles/OMEGA-HIVE.md` | simulated |
 | Phone tier, before → after: draw calls; triangles drawn (it builds no figures) | 153 → 153; 56,490 → 56,490 | `docs/consoles/AGENT-AVATARS.md` | observed |
 | Balanced tier, before → after, 4 figures: draw calls; triangles drawn | 192 → 228; 117,852 → 121,332 | `docs/consoles/AGENT-AVATARS.md` | observed |
 | High tier, before → after, 4 figures: draw calls; triangles drawn | 190 → 226; 159,668 → 163,148 | `docs/consoles/AGENT-AVATARS.md` | observed |
 | Portraits: shown at 48 px as 96 px images, drawn once and cached; atlas bytes unchanged against the budget | 155.9 KiB of 160 KiB | `docs/consoles/AGENT-AVATARS.md` | count |
 | **Voices for the game’s characters: the same on-device rules** | | | |
-| Characters with a voice profile, before and after; profiles inside the band (rate 0.85 to 1.05, pitch 0.85 to 1.15); distinct rate and pitch pairs; the closest pair, as a share of the band; tempers the roles fall into | 0 → 34; 34 of 34; 34 of 34; 0.100; 6 | `tools/check_voices.mjs` on `dc890479` | count |
-| Stubbed speech engine with one on-device and one network voice: lines spoken, all verbatim from the knowledge pack; network voices chosen (of 136 utterances); lines spoken over another line | 136 of 136; 0; 0 | `tools/check_voices.mjs` on `dc890479` | simulated |
-| With voice off: utterances; dialogues identical with voice on and off | 0; 102 of 102 | `tools/check_voices.mjs` on `dc890479` | simulated |
-| Talk light on exactly while a line is spoken; meshes in the heaviest speaking figure against the budget (before the light: 8) | 34 of 34; 9 of 12 | `tools/check_voices.mjs` on `dc890479` | simulated |
-| Voice checker checks | 10 passed | `tools/check_voices.mjs` on `dc890479` | count |
+| Characters with a voice profile, before and after; profiles inside the band (rate 0.85 to 1.05, pitch 0.85 to 1.15); distinct rate and pitch pairs; the closest pair, as a share of the band; tempers the roles fall into | 0 → 34; 34 of 34; 34 of 34; 0.100; 6 | `docs/consoles/VOICES.md` (`tools/check_voices.mjs`) | count |
+| Stubbed speech engine with one on-device and one network voice: lines spoken, all verbatim from the knowledge pack; network voices chosen (of 136 utterances); lines spoken over another line | 136 of 136; 0; 0 | `docs/consoles/VOICES.md` (`tools/check_voices.mjs`) | simulated |
+| With voice off: utterances; dialogues identical with voice on and off | 0; 102 of 102 | `docs/consoles/VOICES.md` (`tools/check_voices.mjs`) | simulated |
+| Talk light on exactly while a line is spoken; meshes in the heaviest speaking figure against the budget (before the light: 8) | 34 of 34; 9 of 12 | `docs/consoles/VOICES.md` (`tools/check_voices.mjs`) | simulated |
+| Voice checker checks | 10 passed | `docs/consoles/VOICES.md` (`tools/check_voices.mjs`) | count |
 | **Supervise every job, and walks that respect the buildings** | | | |
-| A seeded 200 -job day: dispatches without the learner’s approval, with the setting off → with “Supervise every job” on (the toggle starts off) | 150 of 155 → 0 of 116 | `tools/check_hive_world.mjs` on `0c834a8a` | simulated |
-| Every dispatch line follows an approve line for its job; supervise requests, one for every governor-allowed job; declined jobs that ran; physical dispatches; audit lines, chain intact | 116 of 116; 150; 0; 0; 816 | `tools/check_hive_world.mjs` on `0c834a8a` | simulated |
-| The setting’s lines grounded in their events (and inside the consent keeper’s speaking band) | 151 of 151 | `tools/check_hive_world.mjs` on `0c834a8a` | simulated |
-| Walk points inside a building’s collider over 50 walks of the agents, before → after routing round buildings; walks that took a route round one; standing slots inside a building, before → after | 1,082 of 11,000 → 0 of 11,424; 8; 1 of 42 → 0 of 42 | `tools/check_hive_world.mjs` on `0c834a8a` | simulated |
+| A seeded 200 -job day: dispatches without the learner’s approval, with the setting off → with “Supervise every job” on (the toggle starts off) | 150 of 155 → 0 of 116 | `docs/consoles/HIVE-IN-WORLD.md` (`tools/check_hive_world.mjs`) | simulated |
+| Every dispatch line follows an approve line for its job; refusals and vetoes, the same with the setting on or off | 116 of 116; 31 and 9 | `docs/consoles/HIVE-IN-WORLD.md` (`tools/check_hive_world.mjs`) | simulated |
+| Walk points inside a building’s collider over 50 walks of the agents, before → after routing round buildings; walks that took a route round one; standing slots inside a building, before → after | 1,082 of 11,000 → 0 of 11,424; 8; 1 of 42 → 0 of 42 | `docs/consoles/HIVE-IN-WORLD.md` (`tools/check_hive_world.mjs`) | simulated |
 | **The hive in a second language** | | | |
-| Languages the hive speaks, before and after (English; Spanish, picked by the page’s language, with its own phrase cores, style pools and voice names) | 1 → 2 | `tools/check_voices.mjs` on `dc890479` | count |
-| A seeded Spanish day of 955 spoken lines: agents inside their speaking band; sentences inside; lines whose every fact is in their event; strings flagged by the calm-text scan (of 1,071) | 7 of 7; 1,536 of 1,536; 954 of 954; 0 | `tools/check_voices.mjs` on `dc890479` | simulated |
-| Speaker named by a naive-Bayes classifier on 2,269 held-out Spanish lines (chance 0.143); lines spoken on a device with no local Spanish voice (the caption stays) | 0.959; 0 | `tools/check_voices.mjs` on `dc890479` | simulated |
+| Languages the hive speaks, before and after (English; Spanish, picked by the page’s language, with its own phrase cores, style pools and voice names) | 1 → 2 | `docs/consoles/VOICES.md` (`tools/check_voices.mjs`) | count |
+| A seeded Spanish day: agents inside their speaking band; sentences inside; lines whose every fact is in their event; strings flagged by the calm-text scan (of 1,071) | 7 of 7; 1,536 of 1,536; 954 of 954; 0 | `docs/consoles/VOICES.md` (`tools/check_voices.mjs`) | simulated |
+| Speaker named by a naive-Bayes classifier on 2,269 held-out Spanish lines (chance 0.143); lines spoken on a device with no local Spanish voice (the caption stays) | 0.959; 0 | `docs/consoles/VOICES.md` (`tools/check_voices.mjs`) | simulated |
+| **Round three: the hive sends an agent to a site, and it comes into the room** | | | |
+| Agents the hive sent to a robot site, shown inside that site’s room, before → after (the checker’s job moves); rooms inside the room budget and the texture budget at every step; most figures standing in one room | 0 of 108 → 108 of 108; 5,760 of 5,760; 3 | `docs/consoles/HIVE-3.md` | simulated |
+| Visitors that came in through the room’s doorway; that walked out when their job ended; agents sent elsewhere that walked out of the room they were in | 104 of 104; 80 of 80; 88 of 88 | `docs/consoles/HIVE-3.md` | simulated |
+| What the learner turns on is remembered for a signed-in adult profile on this device (3 settings: the voice switch, “Supervise every job” and the language), under the profile’s own key and back after a reload; demo, K-12, signed-out and unknown sessions that store and read nothing | back after a reload under the profile's own key only; 6 of 6 | `docs/consoles/HIVE-3.md` | observed |
+| The hive panel in Spanish (machine-assisted, needs a native speaker's review): UI strings covered; the agents’ role sentences; personality chips; English UI strings left in the panel | 20 of 20; 7 of 7; 8 of 8; no English UI string | `docs/consoles/HIVE-3.md` | observed |
+| The voice-driven talk light in the rooms, with a stubbed speech engine offering one on-device and one network voice: on for each spoken line; off after each; network voices chosen | 15 of 15; 14 of 14; 0 of 94 | `docs/consoles/HIVE-3.md` | simulated |
+| “A day in the hive”, a seeded scene for the video reviews over its own hive: seconds; beats in order; events, identical on repeated runs of one seed; seeds on which its story holds; page errors; requests to another host | 27; 12; 69; 5 of 5; 0; 0 | `docs/consoles/HIVE-3.md` | observed |
+| The worst room over the hive’s day, the cell hall with 3 visitors at most: meshes (budget 120), triangles (budget 6,000) and texture MiB (budget 24) on the high tier; texture MiB on the balanced tier (budget 3) | 47; 4,712; 23.92; 2.98 | `docs/consoles/HIVE-3.md` | observed |
+| Checker checks | 32 passed | `tools/check_hive3.mjs` | count |
 | **What the panel costs** | | | |
 | Meshes, lights, triangles, draw calls and texture bytes the panel adds on the desktop or phone tier, mounted and after 60 hive steps | 0 | `docs/consoles/OMEGA-HIVE.md` | observed |
 | The desktop world it was measured in: meshes; triangles; draw calls | 312; 114,395; 137 | `docs/consoles/OMEGA-HIVE.md` | observed |
@@ -192,6 +200,12 @@ Both columns run behind the same governor, steward and approvals, with a capacit
 - The governor results are invariants of the design, not discoveries. The approval stand-in in the checker is a seeded rule, not a person.
 
 - While it was built, the check found its own mistakes: the single dispatcher refused 30 jobs to the hive’s 28 because requests reached the governor out of time order; fixed at the source, the outcomes became identical.
+
+- The talk light in the rooms comes on when the line arrives, which can be before the voice’s start (up to 20 ms in the stubbed engine); from the start to the end it stays on and it goes off after the agent’s last line, so “exact” means on for the whole of every voiced line and off afterwards, not off until the voice starts.
+
+- “A day in the hive” is scripted: the approval is the scene’s and stands in for the learner’s click, and every caption fact comes from the scene hive’s own events. The settings gate is the panel’s own: signed in, not K-12 and not the demo, so “adult profile” here means a signed-in, non-K-12 profile.
+
+- The rooms send an agent home when its last job ends; outdoors, a figure still stays where the hive last moved it, because the hive has no “go home” move.
 
 ### What it is not
 
@@ -233,7 +247,7 @@ In the parishes app’s drills menu, beside the agent-jobs panel: roster cards, 
 
 ### In the world
 
-The avatar layer puts a labelled hologram figure at a robot site on the balanced and high tiers (the phone tier builds none): it walks when its agent moves, shows a talk light and a caption bubble while a line is spoken, raises a palm on a refusal and nods on completion. Round one tested the layer against a fixture because the page’s avatar mount read the panel object, which holds the hive one level down. HIVE-IN-WORLD fixed the mount (it is merged into the integration head), and its checker now runs the real hive: 7 agents embodied, with the talk light, captions and moves exact over a run of 152 steps.
+The avatar layer puts a labelled hologram figure at a robot site on the balanced and high tiers (the phone tier builds none): it walks when its agent moves, shows a talk light and a caption bubble while a line is spoken, raises a palm on a refusal and nods on completion. Round one tested the layer against a fixture because the page’s avatar mount read the panel object, which holds the hive one level down. HIVE-IN-WORLD fixed the mount (it is merged into the integration head), and its checker now runs the real hive: 7 agents embodied, with the talk light, captions and moves exact over a run of 152 steps. An agent the hive sends to a site for a job comes into that site’s room through the door and walks out when the job ends (`HIVE-3`, merged into the integration head).
 
 ### Instructor console and Guide
 
@@ -251,11 +265,17 @@ The same voice controller speaks the 34 game characters’ own knowledge-pack li
 
 - *Planned* `check_omega_hive` carries an estimated timing row to re-measure on a quiet machine.
 
-**Round two of this loop** is read from its console branches while the coordinator merges them: `HIVE-IN-WORLD` (committed, head `0c834a8a`, merged; its console note is committed, and its figures here come from its checkers re-run on a snapshot of that commit); `VOICES` (committed, head `dc890479`, merged; its figures here come from its checker re-run on a snapshot of that commit, beside its committed console note). The pages are rebuilt by one command, and each figure is re-checked then.
+- *Planned* The Spanish text is machine-assisted and awaits a native speaker’s review, and the scene’s captions are English only.
+
+- *Planned* What the learner turns on is remembered on the parishes page only: Bay World, Summit and Redwood have no hive panel.
+
+**Round two of this loop** is merged into the integration head (`de429b36`): `HIVE-IN-WORLD` (note last committed in `0c834a8a`); `VOICES` (note last committed in `dc890479`). Each figure from it is checked by phrase against that console’s committed note, not re-run from a branch; a note that is edited later stops the build.
+
+**Round three of this loop** is merged into the integration head (`de429b36`), and each figure from it is checked by phrase against that console’s committed note, a committed data file or a commit message, not re-run from a branch: `HIVE-3` (its last commit `bb5011ca`, 8 commits since the head that round started from; its console note is committed; merged into the integration head). A note that is edited later stops the build.
 
 Sources: `docs/consoles/OMEGA-HIVE.md`, `docs/omega-hive.md`, `docs/consoles/AGENT-AVATARS.md`, `WebXR/shared/oh-hive-data.js`, `tools/check_omega_hive.mjs`. The figures are read from those notes and files by the script that built this page. The seeded runs are simulations; no person was measured, and no hardware is involved.
 
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `41e41366`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `de429b36`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

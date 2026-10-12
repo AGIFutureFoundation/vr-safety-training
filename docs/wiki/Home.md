@@ -27,7 +27,7 @@ The robots are simulated and every result in this wiki is a simulation, seeded-r
 - [`docs/bench-protocol.md`](../bench-protocol.md): how the six gym tasks would be scored on hardware. It is a method; no hardware run has happened.
 - [`docs/learner-data-terms.md`](../learner-data-terms.md): the learner-data terms, a draft for counsel that says only what the code enforces.
 - [`docs/perf/robot-policies.html`](../perf/robot-policies.html): the static policy evaluation report, one card per trained policy.
-- [`docs/consoles/`](../consoles/): one note per build console (158 so far), each with its evals before → after and what is left; `COORDINATOR.md` logs each integration loop.
+- [`docs/consoles/`](../consoles/): one note per build console (161 so far), each with its evals before → after and what is left; `COORDINATOR.md` logs each integration loop.
 - [`docs/virtuals-bridge.md`](../virtuals-bridge.md): how on-chain software agents would request robot work through the Holodeck, with the safety governor in between. A planned technology, modelled and not yet connected.
 
 ## Get involved
@@ -36,4 +36,4 @@ The robots are simulated and every result in this wiki is a simulation, seeded-r
 - **Build with the gym**: `WebXR/shared/rb-env.js` is a seeded reset/step/reward environment with scripted experts and labelled synthetic datasets in `exports/robotics/`.
 - **Read the code before the claims**: every number here names its file; `node tools/check_all.mjs` re-checks all of them.
 
-_Head `41e41366`, built 2026-10-12. This wiki is regenerated from the verified whitepaper fragments; edit the fragments or the generator, not these pages._
+_Head `de429b36`, built 2026-10-12. This wiki is regenerated from the verified whitepaper fragments; edit the fragments or the generator, not these pages._

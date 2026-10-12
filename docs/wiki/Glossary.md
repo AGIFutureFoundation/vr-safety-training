@@ -42,7 +42,7 @@ Source: `docs/virtuals-bridge.md`, `docs/robotics-programme.md`
 
 Source: `docs/consoles/ROBOTRAIN.md`, `docs/consoles/ROBOTRAIN-2.md`
 
-- **Preference pair** A learner's thumbs up on one agent run and thumbs down on another run of the same station, each with one reason from a fixed list. The pairs are recorded and matched up, and they train a reward model (a Bradley–Terry model; so far on synthetic pairs from a synthetic rater). Used to filter demonstrations before cloning, it did not beat the rule filter.
+- **Preference pair** A learner's thumbs up on one agent run and thumbs down on another run of the same station, each with one reason from a fixed list. The pairs are recorded and matched up, and they train a reward model (a Bradley–Terry model; so far on synthetic pairs from a synthetic rater). Used to filter demonstrations before cloning, it did not beat the rule filter. On the teleop pad an opted-in adult can also rate 2 cloned robot runs; 2 ratings make 1 pair.
 
 Source: `docs/consoles/AGENTGYM.md`
 
@@ -58,9 +58,25 @@ Source: `docs/consoles/ROBOTRAIN-6.md`, `docs/evals/colearn.json`
 
 Source: `docs/consoles/ROBOTRAIN-6.md`
 
+- **Per-step reward** A reward model that scores a short window of steps instead of a whole run, so that only the low-reward moments are dropped before the clone is trained and the rest of every demonstration is kept. The windows and the rater are synthetic.
+
+Source: `docs/consoles/ROBOTRAIN-7.md`, `docs/evals/colearn.json`
+
+- **Reactive agent** A baseline that picks each action from a short list of rules over the safety fields it can see, with no search and no planner. It sits between the random floor and the scripted expert, which sees the targets.
+
+Source: `docs/consoles/ROBOTRAIN-7.md`, `docs/perf/agent-baselines-robotics.json`
+
+- **Aliasing ceiling** The highest share of the expert’s labelled actions that any policy reading only a given set of features could match: where states give the same feature values but the expert acts differently, at least one of them must be answered wrongly. It is measured on training states before any held-out seed is run.
+
+Source: `docs/consoles/ROBOTRAIN-6.md`, `docs/consoles/ROBOTRAIN-7.md`
+
+- **Ablation** A re-run with one part taken out, to show how much that part carries. Here the detour feature was taken out of the other-robots features, and the clone’s success fell from 0.983 to 0.517.
+
+Source: `docs/consoles/ROBOTRAIN-7.md`
+
 Definitions follow how the repository uses each term, not an outside textbook.
 
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `41e41366`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `de429b36`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

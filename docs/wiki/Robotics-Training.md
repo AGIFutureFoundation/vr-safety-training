@@ -120,4 +120,4 @@ Robot stations are the ones the programme page tags as robot stations (`docs/rob
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `41e41366`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `de429b36`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

@@ -794,6 +794,8 @@ const GT_PROFILE_KEYS = [
   "vr-dean-v1",
   // DATAWORKS' consented data system (shared/dx-data.js, docs/robot-datasets.md): consent, episodes, session salt.
   "dx-consent-v1", "dx-episodes-v1", "dx-session-salt-v1",
+  // HIVE-3: the Omega Hive panel's remembered settings (shared/h3-hive-day.js): voice, supervise every job, language.
+  "h3-hive-settings-v1",
 ];
 
 function gtLocal() { try { return globalThis.localStorage ?? null; } catch (_) { return null; } }
@@ -70879,6 +70881,7 @@ function k2KioskPrompt(lesson) { return `Press E — field lesson: ${lesson.titl
 
 
 
+
 /** One versioned key. A shape change gets a new suffix, not a migration. */
 const AUTH_KEY = "vr-training-auth-v1";
 /**
@@ -71540,6 +71543,8 @@ const Auth = {
     // Records are private to the signed-in identity (shared/profiles.js), so
     // the ones cleared are that person's, before their session key goes.
     if (clearRecords) TrainingRecords.clear();
+    // HIVE-3: the hive panel's remembered settings (h3-hive-day.js) belong to this profile and go with its session.
+    try { gtStorage()?.removeItem("h3-hive-settings-v1"); } catch (_) { /* storage blocked */ }
     this.session = null;
     try { localStorage.removeItem(AUTH_KEY); } catch (_) { /* ignore */ }
     Identity.clear();
@@ -79365,6 +79370,13 @@ function mgBayMap({ roads = [], sites = [], zoneAt = () => "downtown", roadAt = 
 
 function mgSeedOf(id, seed = 0) { return [...String(id)].reduce((s, ch) => (s * 31 + ch.charCodeAt(0)) >>> 0, 101 + seed); }
 function mgInBox(x, z, boxes) { for (const b of boxes ?? []) if (x >= b.min[0] && x <= b.max[0] && z >= b.min[2] && z <= b.max[2]) return true; return false; }
+/** ENV-HD-3: robotics lots ([[x0, z0, x1, z1]], ROBO-EXTERIORS' lot rectangles and fxColliders boxes, as DETAIL's dtLotRects
+ *  gives them; the parishes app passes `lots`) as boxes grown by MG_LOT_MARGIN: no animal or person is placed inside one,
+ *  and nothing that walks steps into one (fliers may cross over). */
+const MG_LOT_MARGIN = 0.5;
+function mgLotBoxes(lots, m = MG_LOT_MARGIN) {
+  return (lots ?? []).map((r) => ({ min: [r[0] - m, -1e4, r[1] - m], max: [r[2] + m, 1e4, r[3] + m], kind: "fx-lot" }));
+}
 
 /** The ground a kind may stand on at (x, z): fliers anywhere, swimmers only on open water, waders on land or wetland, the rest dry land. */
 function mgGroundOk(map, kind, x, z) {
@@ -79389,7 +79401,8 @@ function mgPlan(map, o = {}) {
   const cands = [];
   const sites = map.sites ?? [];
   const nearSite = (x, z) => { let d = Infinity; for (const s of sites) d = Math.min(d, Math.hypot(x - s.x, z - s.z)); return d; };
-  const boxesAt = (x, z) => { try { return o.colliders?.(npChunkOf(x, z).key) ?? []; } catch { return []; } };
+  const lotBoxes = mgLotBoxes(o.lots);
+  const boxesAt = (x, z) => { let b; try { b = o.colliders?.(npChunkOf(x, z).key) ?? []; } catch { b = []; } return lotBoxes.length ? [...b, ...lotBoxes] : b; };
   const add = (kind, x, z, heading, why, extra = {}) => {
     if (!mgGroundOk(map, kind, x, z) || mgInBox(x, z, boxesAt(x, z))) return;
     cands.push({ kind, x, z, heading, why, ...extra, pri: rng() * (1 + nearSite(x, z) / 350) });
@@ -79655,8 +79668,9 @@ function mgMountLife(o = {}) {
   if (!three || !map) return { animate() {}, counts: () => ({}), stats: () => ({ drawCalls: 0, triangles: 0, agents: 0 }), agents: [], meshes: [], dispose() {} };
   const still = !!(o.still ?? mgReducedMotion());
   const colliders = typeof o.colliders === "function" ? o.colliders : null;
-  const boxesAt = colliders ? (x, z) => { try { return colliders(npChunkOf(x, z).key) ?? []; } catch { return []; } } : null;
-  const plan = mgPlan(map, { tier: o.tier, night: o.night, seed: o.seed, sidewalkAt: o.sidewalkAt, colliders });
+  const lotBoxes = mgLotBoxes(o.lots);
+  const boxesAt = colliders || lotBoxes.length ? (x, z) => { let b; try { b = colliders?.(npChunkOf(x, z).key) ?? []; } catch { b = []; } return lotBoxes.length ? [...b, ...lotBoxes] : b; } : null;
+  const plan = mgPlan(map, { tier: o.tier, night: o.night, seed: o.seed, sidewalkAt: o.sidewalkAt, colliders, lots: o.lots });
   const agents = plan.map((p, i) => mgAgent(p, i));
   const groundAt = o.groundAt ?? (() => 0);
   const group = new three.Group(); group.name = "mg-life";

@@ -66,7 +66,7 @@ Every number in this whitepaper comes from the repository file named beside it; 
 | **Platform: counts and content scores** | | | |
 | Scored training stations; programmes | 742 · 61 | `docs/investor/platform-summary.json` | count |
 | Content evaluation over 742 stations: mean; scoring 95 or more; 90 to 94; below 90 | 95.8 · 612 · 126 · 4 | `docs/investor/platform-summary.json` | content score |
-| Quality-gate checkers in the full run | 138 | `tools/check_all.mjs` | count |
+| Quality-gate checkers in the full run | 141 | `tools/check_all.mjs` | count |
 | Robotics facets ready in the shared export; robot sites; gym scenarios | 6 of 6 · 6 · 9 | `exports/shared/holodeck-shared.json` | count |
 | Character registry entries with a sprite; figure fits the role, before and after | 57 · 23 of 57 → 57 of 57 | `docs/consoles/AVATARS.md` | count |
 | **Robot-training stations: content score (steps, hazards, interruptions)** | | | |
@@ -166,20 +166,20 @@ Every number in this whitepaper comes from the repository file named beside it; 
 | Nodes of the lineage figure on the policy report: learner consents; synthetic datasets, clones and simulated sites; measured evals | 0; 6; 12 | `docs/consoles/ROBOTRAIN-6.md` | count |
 | Evaluation tool, same output: seconds before → after; DAgger rounds: before → after | 23.4 s → 15.2 s; 74 s to 3.2 s | `docs/consoles/ROBOTRAIN-6.md` | observed |
 | Colearn checker checks; roboscenarios checker checks, before and after | 46 → 55; 12 → 13 | `docs/consoles/ROBOTRAIN-6.md` | count |
-| **`HIVE-IN-WORLD`: the hive in person (checkers re-run on a snapshot of its branch; no console note)** | | | |
-| Real hive in the avatar checker (seed 1, 152 steps: 350 spoken lines, 30 moves, 22 refusals, 56 completions): talk light exact; a caption for each line; moves ending at the named site | 350 of 350; 350 of 350; 30 of 30 | `tools/check_agent_avatars.mjs` on `0c834a8a` | simulated |
-| Calm stop gesture on each refusal; nod on each completion; hive agents embodied, before and after | 22 of 22; 56 of 56; 0 → 7 | `tools/check_agent_avatars.mjs` on `0c834a8a` | simulated |
-| Agents standing at their room spots, rooms by agents; room-tiers inside the room budget with the agents and captions in | 7 of 7; 18 of 18 | `tools/check_hive_world.mjs` on `0c834a8a` | simulated |
-| One door: rooms that open at their exterior building’s door; door spots clear of every exterior collider; stations that return into the same room | 6 of 6; 6 of 6; 6 of 6 | `tools/check_hive_world.mjs` on `0c834a8a` | simulated |
-| “Supervise every job” on a seeded 200 -job day: dispatches without the learner’s approval, setting off → on; every dispatch follows an approve line; physical dispatches | 150 of 155 → 0 of 116; 116 of 116; 0 | `tools/check_hive_world.mjs` on `0c834a8a` | simulated |
-| Agents’ walks: walk points inside a building’s collider, before → after routing round buildings; walks that took a route round one; standing slots inside a building, before → after | 1,082 of 11,000 → 0 of 11,424; 8; 1 of 42 → 0 of 42 | `tools/check_hive_world.mjs` on `0c834a8a` | simulated |
-| Avatar checker checks; hive-world checker checks | 70; 35 | `tools/check_agent_avatars.mjs` on `0c834a8a`, `tools/check_hive_world.mjs` on `0c834a8a` | count |
-| **`VOICES`: every character speaks, in its own voice (checker re-run on a snapshot of its branch)** | | | |
-| Characters with a voice profile, before and after; inside the band (rate 0.85 to 1.05, pitch 0.85 to 1.15); distinct pairs; closest pair as a share of the band | 0 → 34; 34 of 34; 34 of 34; 0.100 | `tools/check_voices.mjs` on `dc890479` | count |
-| Stubbed speech engine with an on-device and a network voice: lines spoken verbatim from the pack; network voices chosen (of 136 utterances); overlapping lines | 136 of 136; 0; 0 | `tools/check_voices.mjs` on `dc890479` | simulated |
-| Utterances with voice off; dialogues identical with voice on and off | 0; 102 of 102 | `tools/check_voices.mjs` on `dc890479` | simulated |
-| Languages the hive speaks, before and after; a seeded Spanish day of 955 lines: agents inside their band; sentences inside; lines grounded; strings flagged by the calm-text scan; speaker accuracy on 2,269 held-out lines | 1 → 2; 7 of 7; 1,536 of 1,536; 954 of 954; 0; 0.959 | `tools/check_voices.mjs` on `dc890479` | simulated |
-| Talk light exact while a line is spoken; meshes in the heaviest speaking figure against the budget; voice checker checks | 34 of 34; 9 of 12; 10 | `tools/check_voices.mjs` on `dc890479` | simulated |
+| **`HIVE-IN-WORLD`: the hive in person (its committed console note)** | | | |
+| Real hive in the avatar checker (seed 1, 152 steps: 350 spoken lines, 30 moves, 22 refusals, 56 completions): talk light exact; a caption for each line; moves ending at the named site | 350 of 350; 350 of 350; 30 of 30 | `docs/consoles/HIVE-IN-WORLD.md` (`tools/check_agent_avatars.mjs`) | simulated |
+| Calm stop gesture on each refusal; nod on each completion; hive agents embodied, before and after | 22 of 22; 56 of 56; 0 → 7 | `docs/consoles/HIVE-IN-WORLD.md` (`tools/check_agent_avatars.mjs`) | simulated |
+| Agents standing at their room spots, rooms by agents; room-tiers inside the room budget with the agents and captions in | 7 of 7; 18 of 18 | `docs/consoles/HIVE-IN-WORLD.md` (`tools/check_hive_world.mjs`) | simulated |
+| One door: rooms that open at their exterior building’s door; door spots clear of every exterior collider; stations that return into the same room | 6 of 6; 6 of 6; 6 of 6 | `docs/consoles/HIVE-IN-WORLD.md` (`tools/check_hive_world.mjs`) | simulated |
+| “Supervise every job” on a seeded 200 -job day: dispatches without the learner’s approval, setting off → on; every dispatch follows an approve line; refusals and vetoes, the same either way | 150 of 155 → 0 of 116; 116 of 116; 31 and 9 | `docs/consoles/HIVE-IN-WORLD.md` (`tools/check_hive_world.mjs`) | simulated |
+| Agents’ walks: walk points inside a building’s collider, before → after routing round buildings; walks that took a route round one; standing slots inside a building, before → after | 1,082 of 11,000 → 0 of 11,424; 8; 1 of 42 → 0 of 42 | `docs/consoles/HIVE-IN-WORLD.md` (`tools/check_hive_world.mjs`) | simulated |
+| Avatar checker checks; hive-world checker checks | 70; 35 | `docs/consoles/HIVE-IN-WORLD.md` (`tools/check_agent_avatars.mjs`), `docs/consoles/HIVE-IN-WORLD.md` (`tools/check_hive_world.mjs`) | count |
+| **`VOICES`: every character speaks, in its own voice (its committed console note)** | | | |
+| Characters with a voice profile, before and after; inside the band (rate 0.85 to 1.05, pitch 0.85 to 1.15); distinct pairs; closest pair as a share of the band | 0 → 34; 34 of 34; 34 of 34; 0.100 | `docs/consoles/VOICES.md` (`tools/check_voices.mjs`) | count |
+| Stubbed speech engine with an on-device and a network voice: lines spoken verbatim from the pack; network voices chosen (of 136 utterances); overlapping lines | 136 of 136; 0; 0 | `docs/consoles/VOICES.md` (`tools/check_voices.mjs`) | simulated |
+| Utterances with voice off; dialogues identical with voice on and off | 0; 102 of 102 | `docs/consoles/VOICES.md` (`tools/check_voices.mjs`) | simulated |
+| Languages the hive speaks, before and after; a seeded Spanish day: agents inside their band; sentences inside; lines grounded; strings flagged by the calm-text scan; speaker accuracy on 2,269 held-out lines | 1 → 2; 7 of 7; 1,536 of 1,536; 954 of 954; 0; 0.959 | `docs/consoles/VOICES.md` (`tools/check_voices.mjs`) | simulated |
+| Talk light exact while a line is spoken; meshes in the heaviest speaking figure against the budget; voice checker checks | 34 of 34; 9 of 12; 10 | `docs/consoles/VOICES.md` (`tools/check_voices.mjs`) | simulated |
 | **`ENV-HD-2`: high detail beyond the robot sites** | | | |
 | Sheds and towers within 150 m of a robot site with a robotics variant, before and after; beyond the radius; the phone tier builds what it built before | 0 → 68 of 68; 0 | `docs/consoles/ENV-HD-2.md` | count |
 | Worst robot-site chunk on the high tier, facades plus kit: before; after (budget 6 meshes, 24,000 triangles) | 3 + 2 meshes, 4,918 + 880 triangles; 4 + 2 meshes, 4,158 + 880 triangles | `docs/consoles/ENV-HD-2.md` | count |
@@ -190,10 +190,43 @@ Every number in this whitepaper comes from the repository file named beside it; 
 | Texture bytes per room: before (the shell’s signs); high; balanced and low | 1.33 MiB → 17.33 MiB; 2.33 MiB | `docs/consoles/ENV-HD-2.md` | count |
 | Stills at 1920 by 1080 pixels from the built page; page errors | 13; 0 | `docs/consoles/ENV-HD-2.md` | observed |
 | Facades checker; detail checker; room-skin checker; exteriors checker unchanged | 2,860 → 2,957; 479 → 485; 164; 259 | `docs/consoles/ENV-HD-2.md` | count |
+| **`ENV-HD-3`: high detail everywhere a learner walks (its committed note)** | | | |
+| Room styles with the high-detail texture set, before and after; meshes, triangles and lights on every tier with it on | 15 → 25; unchanged | `docs/consoles/ENV-HD-3.md` | count |
+| Room-skin checker passes, before and after; Louisiana rooms over the balanced texture budget before the skin | 164 → 382; 6 | `docs/consoles/ENV-HD-3.md` | count |
+| Texture bytes per room, the worst room in budget (shell signs and Louisiana name signs counted): high; balanced; low | 17.33 MiB; 2.33 MiB; 2.86 MiB | `docs/consoles/ENV-HD-3.md` | count |
+| Louisiana rooms on the balanced tier before any skin: texture MiB over the room budget of 3 MiB (name-sign canvases, 6 to 15 a room); bytes the skin adds there: none | 3.21 to 6.02 | `docs/consoles/ENV-HD-3.md` | count |
+| Chunks drawn one mesh per kind where the generic and robotics kits meet; robotics towers with an entrance canopy; the worst robotics-variant chunk on the high tier | 0 → 14; 0 → 28 of 28; 4 meshes / 5,204 triangles → 3 meshes / 5,066 triangles | `docs/consoles/ENV-HD-3.md` | count |
+| Worst robot-site chunk on the high tier, meshes before and after (generic + robotics meshes in the San José chunk); entrance canopies on the robotics towers | 6 → 5 (4 + 2 → 2 + 2) | `docs/consoles/ENV-HD-3.md` | count |
+| Facades checker passes; exteriors checker passes; shared-export check | 2,957 → 2,977; 259 → 278; 139 of 139 | `docs/consoles/ENV-HD-3.md` | count |
+| Establishing-shot presets, before and after; non-robot sites framed (stations at each: the bridge yard, the port terminal, the construction site); shots each; exteriors checker passes | 12 → 18; 3 (7, 6, 6); 2; 259 → 278 | `docs/consoles/ENV-HD-3.md` | count |
+| Stills at 1920 by 1080 from the capture drive (each preset by day and by night); page errors; external requests | 12; 0; 0 | `docs/consoles/ENV-HD-3.md` | observed |
+| Vehicles parked inside a robotics building lot, before and after; motorworks checker passes | 2 → 0; 37 → 69 | `docs/consoles/ENV-HD-3.md` | count |
+| Animals and people inside a lot; chased agents that stepped in; menagerie checker passes | 0; 0 of 6; 93,998 → 94,048 | `docs/consoles/ENV-HD-3.md` | simulated |
+| **`HIVE-3`: the hive’s day (its committed note)** | | | |
+| Agents the hive sent to a robot site, shown inside that site’s room, before and after; room-steps inside the room and texture budgets; most figures in one room | 0 of 108 → 108 of 108; 5,760 of 5,760; 3 | `docs/consoles/HIVE-3.md` | simulated |
+| Hive settings remembered for a signed-in adult profile (3): after a reload; demo, K-12 and signed-out sessions | back after a reload under the profile's own key only; demo, K-12 and signed-out sessions store nothing | `docs/consoles/HIVE-3.md` | observed |
+| The hive panel in Spanish: English UI strings left in it | no English UI string | `docs/consoles/HIVE-3.md` | observed |
+| Talk light in the rooms with a stubbed speech engine (one on-device and one network voice): on for each line; off after; network voices chosen | 15 of 15; 14 of 14; 0 of 94 | `docs/consoles/HIVE-3.md` | simulated |
+| “A day in the hive”: seconds; page errors; requests to another host | 27; 0; 0 | `docs/consoles/HIVE-3.md` | observed |
+| **`ROBOTRAIN-7`: the robot-learning roadmap, next (its committed note)** | | | |
+| Declared before any held-out seed was run (written at 13:17 UTC): the step window, in steps; the drop threshold; the number of correction rounds (of 20 rollouts each) | 3; 0.25; 5 | `docs/consoles/ROBOTRAIN-7.md` | count |
+| Per-step reward, clone success on 60 held-out seeds: fleet routing at the declared threshold; the rule filter; unfiltered; the whole-run reward | 0.550; 0.817; 0.600; 0.483 | `docs/evals/colearn.json` | simulated |
+| Per-step reward, the hard variant: at the declared threshold; the rule filter; unfiltered; the whole-run reward | 0.017; 0.050; 0.117; 0.050 | `docs/evals/colearn.json` | simulated |
+| Steps dropped of all demonstration steps: fleet routing; the hard variant (rule-breaking steps dropped: 2 of 4; 2 of 9) | 3 of 560; 18 of 839 | `docs/evals/colearn.json` | count |
+| Window model, accuracy on the held-out window pairs with the synthetic rater’s own ceiling beside it: fleet routing; the hard variant | 0.66 (0.65); 0.72 (0.671) | `docs/evals/colearn.json` | simulated |
+| Threshold sweep, reported beside the declared threshold and not chosen from (success at 0.1 and at 0.5): fleet routing; the hard variant | 0.600, 0.917; 0.117, 0.083 | `docs/evals/colearn.json` | simulated |
+| Aliasing ceiling on the same training states: route features; features that read the other robots (ambiguous vectors 32 → 6) | 0.745 → 0.959 | `docs/evals/colearn.json` | count |
+| Hard fleet-routing variant, clone success after 5 declared rounds of 20 rollouts, round by round (the final round is the result, not the best) | 0.85 → 0.917 → 0.917 → 0.9 → 0.917 → 0.983 | `docs/evals/colearn.json` | simulated |
+| The gap to the expert: with the default features; with route features; with the other robots in view | 0.95; 0.583; 0.017 | `docs/evals/colearn.json` | simulated |
+| Ablation declared at 13:36 UTC, after the result above was seen: holder and order features without the detour move; aliasing ceiling on the same states; clone success after the same rounds; the gap; round by round | 0.796; 0.517; 0.483; 0.217 → 0.783 → 0.467 → 0.6 → 0.25 → 0.517 | `docs/evals/colearn.json` | simulated |
+| Robot runs a learner can rate on the pad, collected only for an opted-in adult (never K-12, demo or signed-out; a revoke empties them); built-page drive: page errors; external requests | 2; 0; 0 | `docs/consoles/ROBOTRAIN-7.md` | observed |
+| Ratings an opted-in adult makes → pairs they become; ratings collected before opt-in, for K-12, for demo, signed out, and after a revoke | 2 → 1; 0 | `docs/consoles/ROBOTRAIN-7.md` | observed |
+| Colearn checker checks, before and after; roboscenarios checker checks | 55 → 61; 13 | `docs/consoles/ROBOTRAIN-7.md` | count |
+| Reactive agent that reads only the safety fields, passed of 3 seeds: drilling; port; fleet routing (random 0 of 3 and the expert 3 of 3 on each); hard variants with a third baseline | 3 of 3; 3 of 3; 1 of 3; 0 → 3 | `docs/perf/agent-baselines-robotics.json` | simulated |
 
 Simulated: produced by the simulator on seeded runs, with synthetic demonstrations or simulated learners. Count: read from the data the repository ships. Content score: the platform's own station evaluation, scored out of 100. Each value is re-checked against its file by the build script that wrote this table. The scripted expert sees the targets, so it is a ceiling and not a competitor.
 
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `41e41366`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `de429b36`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

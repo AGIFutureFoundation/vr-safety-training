@@ -712,6 +712,8 @@ const GT_PROFILE_KEYS = [
   "vr-dean-v1",
   // DATAWORKS' consented data system (shared/dx-data.js, docs/robot-datasets.md): consent, episodes, session salt.
   "dx-consent-v1", "dx-episodes-v1", "dx-session-salt-v1",
+  // HIVE-3: the Omega Hive panel's remembered settings (shared/h3-hive-day.js): voice, supervise every job, language.
+  "h3-hive-settings-v1",
 ];
 
 function gtLocal() { try { return globalThis.localStorage ?? null; } catch (_) { return null; } }
@@ -59298,6 +59300,7 @@ function smActFinish(state, run) {
 
 
 
+
 /** One versioned key. A shape change gets a new suffix, not a migration. */
 const AUTH_KEY = "vr-training-auth-v1";
 /**
@@ -59959,6 +59962,8 @@ const Auth = {
     // Records are private to the signed-in identity (shared/profiles.js), so
     // the ones cleared are that person's, before their session key goes.
     if (clearRecords) TrainingRecords.clear();
+    // HIVE-3: the hive panel's remembered settings (h3-hive-day.js) belong to this profile and go with its session.
+    try { gtStorage()?.removeItem("h3-hive-settings-v1"); } catch (_) { /* storage blocked */ }
     this.session = null;
     try { localStorage.removeItem(AUTH_KEY); } catch (_) { /* ignore */ }
     Identity.clear();

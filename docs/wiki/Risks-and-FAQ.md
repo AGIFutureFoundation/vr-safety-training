@@ -57,7 +57,7 @@ These are the risks we can point to in the work itself, each with what the repos
 
 - **What the repository shows** Recording is inert unless an adult, signed-in learner has opted in. K-12, demo and signed-out sessions never collect. The ConstructionVR study's consent covered research use only, so its data train nothing here.
 
-- **Mitigation built** Data stay on the device, with no upload endpoint. Revoking deletes the takes and marks dependent policies stale: 797 of 797 deployments flagged correctly across 200 seeded graphs. Agent ratings go through the same gate.
+- **Mitigation built** Data stay on the device, with no upload endpoint. Revoking deletes the takes and marks dependent policies stale: 797 of 797 deployments flagged correctly across 200 seeded graphs. Agent ratings go through the same gate, and so do the thumbs a learner can give a cloned robot run on the teleop pad: they are stored only through that gate, only while collecting, for an opted-in adult, never for K-12, demo or signed-out sessions, and a revoke empties them.
 
 - **Still open** No real learner has been measured, so the consent screen itself has not been tested on people. A registry moves between devices only as a file a person carries; no sync service exists.
 
@@ -146,7 +146,7 @@ Sources: `docs/virtuals-bridge.md` (the robot rule), `docs/consoles/VBRIDGE.md`
 
 Every station is scored by the platform's content evaluation out of 100. Across 742 scored stations the mean is 95.8, with 612 scoring 95 or more, 126 between 90 to 94, and 4 below 90. The robotics stations built in the recent loops each score 95 or more.
 
-A full gate runs 138 checkers, and each build console records its own cycles: what it expected, what it measured and what it changed.
+A full gate runs 141 checkers, and each build console records its own cycles: what it expected, what it measured and what it changed.
 
 Sources: `docs/investor/platform-summary.json`, `docs/investor/stations.csv`, `tools/check_all.mjs`
 
@@ -206,11 +206,13 @@ Since then, the loop 10 consoles built the Omega Hive (7 software agents behind 
 
 A second round of that loop attached the hive's agents to the avatar layer and stood them in the walk-in rooms, gave the 34 game characters on-device voices, and took the robotics look to 68 of 68 neighbouring sheds and towers.
 
-From the build notes' own lists of what is left: a real headset session for the teleoperation pad, which today is proven with stubbed sessions; a robot-side answer to the hard variants where the clone trails the expert: the port lane (0.717 against 1.00) and fleet routing (0.05 against 1.00, a gap of 0.95; 0.417 with route features after 5 rounds of corrections labelled by the scripted expert); the page proof's drive script in the gate, where it is not yet, because it needs an idle-machine timing; a per-agent cadence baseline for the anomaly check, which catches 17 of 50 fast repeats, and a history from a site's own accepted jobs instead of a procedural one; a measured study of how learners use the hive's approval setting, voices and labels, none of which has been tried by a person; a reward for steps instead of whole runs, a way to rate robot runs on the page and a reactive baseline for the gym scenarios; and a lineage diagram instead of a table in the governance view.
+A third round of that loop, now merged into the integration head, did this: `ROBOTRAIN-7` measured a reward for steps, which did not beat the rule filter at its declared threshold (0.550 against 0.817 on fleet routing), per-robot features that take the fleet-routing hard variant from a gap of 0.583 to 0.017 (most of that gain is a detour feature that is close to what the scripted expert computes; without it the same rounds end at 0.517), a reactive baseline for the hard variants, and a thumbs up or down on 2 cloned robot runs, for opted-in adults only; `ENV-HD-3` put the high-detail textures on 25 room styles, brought the worst robot-site chunk from 6 to 5 meshes, kept parked vehicles out of the robotics lots, and framed 3 more places for the reviews (scene presets 12 → 18); `HIVE-3` stood the agents the hive sends to a site inside its room (108 of 108 job moves shown), remembered what a signed-in adult turns on, put the hive panel in Spanish (20 of 20 UI strings) and scripted a “day in the hive” scene. The roadmap page marks each item.
+
+From the build notes' own lists of what is left: a real headset session for the teleoperation pad, which today is proven with stubbed sessions; a robot-side answer to the port lane's hard variant, where the clone reaches 0.717 against the expert's 1.00 (a gap of 0.283); fleet routing, which had a gap of 0.95, is down to 0.017 with opt-in features that read the other robots, on the scripted expert's labels and not a person's; the page proof's drive script in the gate, where it is not yet, because it needs an idle-machine timing; a per-agent cadence baseline for the anomaly check, which catches 17 of 50 fast repeats, and a history from a site's own accepted jobs instead of a procedural one; a measured study of how learners use the hive's approval setting, voices and labels, none of which has been tried by a person; a correction control on the pad, which would replace the scripted expert's labels with a person's; and a lineage diagram instead of a table in the governance view.
 
 Beyond the code, the first measured real learners, who opt in, and the bench pilot with the gap published. A cohort pilot would also need named adults, a site, hardware for any bench run and a legal review of the learner-data terms: the pilot page lists what exists and what does not. These are planned, not built, and the roadmap page marks each.
 
-Sources: `docs/consoles/ROBOTRAIN-6.md`, `docs/consoles/OMEGA-HIVE.md`, `docs/consoles/ROBOTRAIN-5.md`, `docs/consoles/GOVERNOR-2.md`, `docs/consoles/ROBOTRAIN-4.md`, `docs/consoles/ROBOTRAIN-3.md`, `docs/consoles/VBRIDGE.md`, `docs/consoles/ENTERPRISE-3.md`, `docs/consoles/AGENTGYM.md`, `docs/bench-protocol.md`
+Sources: `docs/consoles/ROBOTRAIN-7.md`, `docs/consoles/ROBOTRAIN-6.md`, `docs/consoles/OMEGA-HIVE.md`, `docs/consoles/ROBOTRAIN-5.md`, `docs/consoles/GOVERNOR-2.md`, `docs/consoles/ROBOTRAIN-4.md`, `docs/consoles/ROBOTRAIN-3.md`, `docs/consoles/VBRIDGE.md`, `docs/consoles/ENTERPRISE-3.md`, `docs/consoles/AGENTGYM.md`, `docs/bench-protocol.md`
 
 ### Are the Omega Hive’s agents AI models, and can they move a real robot?
 
@@ -233,4 +235,4 @@ Every figure carries its source file in the table of evidence. Nothing here stat
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `41e41366`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `de429b36`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._

@@ -824,6 +824,8 @@ const GT_PROFILE_KEYS = [
   "vr-dean-v1",
   // DATAWORKS' consented data system (shared/dx-data.js, docs/robot-datasets.md): consent, episodes, session salt.
   "dx-consent-v1", "dx-episodes-v1", "dx-session-salt-v1",
+  // HIVE-3: the Omega Hive panel's remembered settings (shared/h3-hive-day.js): voice, supervise every job, language.
+  "h3-hive-settings-v1",
 ];
 
 function gtLocal() { try { return globalThis.localStorage ?? null; } catch (_) { return null; } }
@@ -76269,6 +76271,13 @@ void npStripFromCentreline; void NP_GROUND;
  * dock bumpers on sheds; a plant louvre band and a roof plant screen on towers. The robotics kits keep the generic kits'
  * two cheapest details, so on the phone tier a robotics spot shares the generic bucket (no extra mesh).
  *
+ * One mesh per kind where variants meet (ENV-HD-3): off the phone tier, a kind whose spots in a chunk fall in more than
+ * one kit bucket (generic and robotics), or whose kit carries ground-floor items, is drawn as ONE merged mesh named
+ * "fc-<kind>-merged" (each spot's body, roof and base parts baked in world space; `userData.fcGroups` = { group: spots }),
+ * instead of one InstancedMesh per bucket and part. The robotics tower kit gains an entrance canopy with lobby glazing
+ * (a "base" item, drawn unstretched at the tower's foot) and its roof plant moves to the unstretched roof items, so both
+ * are sized by the footprint, never by the tower's 30-120 m height. The phone tier builds exactly what it built before.
+ *
  * Everything here is procedural and generic: nothing models a real building, and the signs name generic trades only
  * (FC_SIGN_WORDS) — never a real business or brand. TYCOON's player-opened businesses keep their own sign at their
  * listing's site (parishes app, `tySignsFor`). The data (FC_DETAIL_KINDS, FC_KITS, FC_SIGN_WORDS, FC_SIGN_COLOURS,
@@ -76300,6 +76309,7 @@ const FC_DETAIL_KINDS = [
   { id: "roofPlant", label: "Roof plant", note: "air-handling units and a louvred plant screen on a flat roof (robotics variant)" },
   { id: "dockBumpers", label: "Dock bumpers and lights", note: "rubber bumpers either side of each loading door and a dock light above (robotics variant)" },
   { id: "louvreBand", label: "Plant louvre band", note: "a band of plant-room louvres under a tower's roof line (robotics variant)" },
+  { id: "canopy", label: "Entrance canopy", note: "a canopy on two posts over a tower's ground-floor entrance, with lobby glazing (robotics variant)" },
 ];
 
 /**
@@ -76313,7 +76323,7 @@ const FC_KITS = {
   suburbHouse: { "new-orleans": ["windowGrid", "shutters", "stoop", "porch"], bay: ["windowGrid", "bayWindow", "stoop", "balcony"] },
   shed: { "new-orleans": ["windowBand", "rollUpDoor", "parapet"], bay: ["windowBand", "rollUpDoor", "parapet"], port: ["windowBand", "rollUpDoor", "loadingDock"],
     robotics: ["windowBand", "rollUpDoor", "roofPlant", "skylights", "dockBumpers"] },
-  tower: { "new-orleans": ["mullions", "cornice"], bay: ["mullions", "cornice", "fireEscape", "roofTank"], robotics: ["cornice", "mullions", "roofPlant", "louvreBand"] },
+  tower: { "new-orleans": ["mullions", "cornice"], bay: ["mullions", "cornice", "fireEscape", "roofTank"], robotics: ["cornice", "mullions", "roofPlant", "canopy", "louvreBand"] },
   campusBlock: { "new-orleans": ["windowBand", "cornice", "parapet"], bay: ["windowBand", "cornice", "parapet"] },
   tank: { "new-orleans": ["tankRail"], bay: ["tankRail"] },
 };
@@ -76422,11 +76432,20 @@ function fcDetailParts(THREE, id, kind, b) {
     box(34, 0.13, 3, FC_C.dock, 0, 0.065, fd + 1.5);
   } else if (id === "skylights") { // unit-height space on a shed's roof (y = 1): four glazed lights along the ridge
     for (const x of [-13.5, -4.5, 4.5, 13.5]) box(5, 0.03, 2.2, FC_C.sky, x, 1.012, 0);
-  } else if (id === "roofPlant") { // unit-height space: a louvred screen box and two air-handling units on the flat roof
-    const hu = kind === "tower" ? 0.03 : 0.16, x0 = b.w * 0.18, z0 = -b.d * 0.18;
+  } else if (id === "roofPlant" && kind === "tower") { // ENV-HD-3: a roof item (unstretched, y = 0 at the roof): metres, sized by footprint
+    const x0 = b.w * 0.18, z0 = -b.d * 0.18;
+    box(b.w * 0.3, 2.4, b.d * 0.26, FC_C.louvre, x0, 1.15, z0);
+    box(b.w * 0.12, 1.7, b.d * 0.12, FC_C.plant, -x0, 0.8, z0);
+    box(b.w * 0.12, 1.7, b.d * 0.12, FC_C.plant, -x0 * 0.2, 0.8, -z0);
+  } else if (id === "roofPlant") { // unit-height space on a shed: a louvred screen box and two air-handling units on the flat roof
+    const hu = 0.16, x0 = b.w * 0.18, z0 = -b.d * 0.18;
     box(b.w * 0.3, hu, b.d * 0.26, FC_C.louvre, x0, 1 + hu / 2 - 0.004, z0);
     box(b.w * 0.12, hu * 0.7, b.d * 0.12, FC_C.plant, -x0, 1 + hu * 0.35 - 0.004, z0);
     box(b.w * 0.12, hu * 0.7, b.d * 0.12, FC_C.plant, -x0 * 0.2, 1 + hu * 0.35 - 0.004, -z0);
+  } else if (id === "canopy") { // ENV-HD-3: a base item (unstretched, y = 0 at the foot): a canopy on two posts over the front door, lobby glazing
+    box(9, 0.35, 3.4, FC_C.steel, 0, 4.4, fd + 1.7);
+    box(0.3, 4.2, 0.3, FC_C.iron, -4.1, 2.1, fd + 3.1); box(0.3, 4.2, 0.3, FC_C.iron, 4.1, 2.1, fd + 3.1);
+    quad(8, 3.8, FC_C.glass, 0, 2.0, fd + 0.06, 0);
   } else if (id === "dockBumpers") { // unit-height space on the shed's front: bumpers either side of each door, a light above
     const f = faces[0];
     for (const u of [-12, 0, 12]) {
@@ -76460,6 +76479,33 @@ function fcMergeParts(THREE, parts) {
     o += g.attributes.position.count; g.dispose();
   }
   for (const [geo] of parts) geo.dispose();
+  const out = new THREE.BufferGeometry();
+  out.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+  out.setAttribute("color", new THREE.BufferAttribute(col, 3));
+  out.computeVertexNormals();
+  return out;
+}
+
+/** ENV-HD-3: bake every spot of one kind in a chunk (all its kit buckets; body, roof and base parts) into one non-indexed,
+ *  vertex-coloured geometry in world space. `place(spot, part)` returns the part's Matrix4 (reused; applied at once). */
+function fcBakeKind(THREE, arr, place) {
+  let total = 0;
+  for (const { kit, list } of arr) for (const part of ["body", "roof", "base"]) if (kit[part]) total += kit[part].attributes.position.count * list.length;
+  const pos = new Float32Array(total * 3), col = new Float32Array(total * 3), p = new THREE.Vector3();
+  let o = 0;
+  for (const { kit, list } of arr) for (const part of ["body", "roof", "base"]) {
+    const g = kit[part]; if (!g) continue;
+    const src = g.attributes.position.array, cs = g.attributes.color.array, n = g.attributes.position.count;
+    for (const s of list) {
+      const m = place(s, part);
+      for (let i = 0; i < n; i++) {
+        p.set(src[i * 3], src[i * 3 + 1], src[i * 3 + 2]).applyMatrix4(m);
+        pos[(o + i) * 3] = p.x; pos[(o + i) * 3 + 1] = p.y; pos[(o + i) * 3 + 2] = p.z;
+      }
+      col.set(cs, o * 3);
+      o += n;
+    }
+  }
   const out = new THREE.BufferGeometry();
   out.setAttribute("position", new THREE.BufferAttribute(pos, 3));
   out.setAttribute("color", new THREE.BufferAttribute(col, 3));
@@ -76515,16 +76561,26 @@ function fcKitDetails(kind, group, tier = "high") {
   return tier === "low" ? set.slice(0, 2) : set;
 }
 
-/** A cached kit: { body, roof } merged geometries for (kind, group, tier); `roof` holds the unstretched roof items of a unit kind. */
+/** Where a detail's parts are drawn on a unit (stretched) kind: "body" (unit-height space), "roof" (unstretched, at y + h) or
+ *  "base" (unstretched, at the foot). Non-unit kinds draw everything in the body. */
+function fcDetailPlace(kind, id) {
+  if (!FC_BODY[kind]?.unit) return "body";
+  if (id === "roofTank" || (id === "roofPlant" && kind === "tower")) return "roof";
+  return id === "canopy" ? "base" : "body";
+}
+
+/** A cached kit: { body, roof, base } merged geometries for (kind, group, tier); `roof` holds the unstretched roof items of a
+ *  unit kind, `base` its unstretched ground-floor items (ENV-HD-3: the robotics tower's entrance canopy). */
 function fcKit(THREE, kind, group, tier = "high") {
   const st = fcStore(THREE), key = `${kind}/${group}/${tier === "low" ? "low" : "high"}`;
   if (st.kits.has(key)) return st.kits.get(key);
   const b = FC_BODY[kind]; let kit = null;
   if (b) {
     const ids = fcKitDetails(kind, group, tier);
-    const bodyParts = [], roofParts = [];
-    for (const id of ids) (b.unit && id === "roofTank" ? roofParts : bodyParts).push(...fcDetailParts(THREE, id, kind, b));
-    kit = { ids, body: bodyParts.length ? fcMergeParts(THREE, bodyParts) : null, roof: roofParts.length ? fcMergeParts(THREE, roofParts) : null };
+    const parts = { body: [], roof: [], base: [] };
+    for (const id of ids) parts[fcDetailPlace(kind, id)].push(...fcDetailParts(THREE, id, kind, b));
+    const merged = (list) => (list.length ? fcMergeParts(THREE, list) : null);
+    kit = { ids, body: merged(parts.body), roof: merged(parts.roof), base: merged(parts.base) };
   }
   st.kits.set(key, kit);
   return kit;
@@ -76642,20 +76698,41 @@ function fcDetails({ THREE, parish, chunk, spots, tier = "high" } = {}) {
   const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), up = new THREE.Vector3(0, 1, 0), v = new THREE.Vector3(), sc = new THREE.Vector3();
   const kits = [];
   let triangles = 0;
-  for (const { kind, g, list } of buckets.values()) {
-    const kit = fcKit(THREE, kind, g, tierKey);
+  const perKind = new Map();
+  for (const bk of buckets.values()) {
+    const kit = fcKit(THREE, bk.kind, bk.g, tierKey);
     if (!kit) continue;
-    kits.push(`${kind}/${g}`);
+    kits.push(`${bk.kind}/${bk.g}`);
+    if (!perKind.has(bk.kind)) perKind.set(bk.kind, []);
+    perKind.get(bk.kind).push({ ...bk, kit });
+  }
+  // a spot's matrix for one part: the body in the building's unit-height space, roof and base items unstretched
+  const place = (s, part, unit) => {
+    q.setFromAxisAngle(up, s.rot);
+    if (part === "body") return m4.compose(v.set(s.x, s.y - 0.15, s.z), q, unit ? sc.set(s.s, s.h, s.s) : sc.set(s.s, s.s, s.s));
+    return m4.compose(v.set(s.x, s.y - 0.15 + (part === "roof" ? s.h : 0), s.z), q, sc.set(s.s, 1, s.s));
+  };
+  for (const [kind, arr] of perKind) {
     const unit = FC_BODY[kind].unit;
-    if (kit.body) {
-      const im = new THREE.InstancedMesh(kit.body, st.mat, list.length);
-      list.forEach((s, i) => { q.setFromAxisAngle(up, s.rot); m4.compose(v.set(s.x, s.y - 0.15, s.z), q, unit ? sc.set(s.s, s.h, s.s) : sc.set(s.s, s.s, s.s)); im.setMatrixAt(i, m4); });
-      im.name = `fc-${kind}-${g}`; im.userData.fcKit = kit.ids; group.add(im); triangles += fcTri(kit.body) * list.length;
+    // ENV-HD-3: variants of one kind in one chunk (or ground-floor items) -> one merged mesh, off the phone tier
+    if (tierKey !== "low" && (arr.length > 1 || arr.some((b) => b.kit.base))) {
+      const geo = fcBakeKind(THREE, arr, (s, part) => place(s, part, unit));
+      const mesh = new THREE.Mesh(geo, st.mat);
+      mesh.name = `fc-${kind}-merged`; mesh.userData.fcOwned = true;
+      mesh.userData.fcGroups = Object.fromEntries(arr.map((b) => [b.g, b.list.length]));
+      mesh.userData.fcKit = [...new Set(arr.flatMap((b) => b.kit.ids))];
+      group.add(mesh); triangles += fcTri(geo);
+      continue;
     }
-    if (kit.roof) {
-      const im = new THREE.InstancedMesh(kit.roof, st.mat, list.length);
-      list.forEach((s, i) => { q.setFromAxisAngle(up, s.rot); m4.compose(v.set(s.x, s.y - 0.15 + s.h, s.z), q, sc.set(s.s, 1, s.s)); im.setMatrixAt(i, m4); });
-      im.name = `fc-${kind}-${g}-roof`; group.add(im); triangles += fcTri(kit.roof) * list.length;
+    for (const { g, list, kit } of arr) {
+      for (const part of ["body", "roof", "base"]) {
+        if (!kit[part]) continue;
+        const im = new THREE.InstancedMesh(kit[part], st.mat, list.length);
+        list.forEach((s, i) => im.setMatrixAt(i, place(s, part, unit)));
+        im.name = part === "body" ? `fc-${kind}-${g}` : `fc-${kind}-${g}-${part}`;
+        if (part === "body") im.userData.fcKit = kit.ids;
+        group.add(im); triangles += fcTri(kit[part]) * list.length;
+      }
     }
   }
   // signs over ground-floor shops (not on the phone tier)
@@ -76668,7 +76745,7 @@ function fcDetails({ THREE, parish, chunk, spots, tier = "high" } = {}) {
   }
   if (!group.children.length) return null;
   group.userData.fc = { kits, signs, triangles: Math.round(triangles), meshes: group.children.length };
-  group.dispose = () => { for (const o of group.children) { if (o.name === "fc-signs") o.geometry.dispose(); o.dispose?.(); } };
+  group.dispose = () => { for (const o of group.children) { if (o.name === "fc-signs" || o.userData.fcOwned) o.geometry.dispose(); o.dispose?.(); } };
   return group;
 }
 
@@ -98023,6 +98100,13 @@ function mvRuleFor(site) {
 
 /** Clearance (m) past a road's half width that a parked footprint keeps from the centreline. */
 const MV_ROAD_MARGIN = 1.5;
+/** ENV-HD-3: a parked vehicle keeps this far outside every robotics lot (`lots` = [[x0, z0, x1, z1]], ROBO-EXTERIORS' lot
+ *  rectangles and their fxColliders boxes, as DETAIL's dtLotRects gives them); the app passes them, absent = no lots. */
+const MV_LOT_MARGIN = 0.5;
+function mvInLots(x, z, lots, m = MV_LOT_MARGIN) {
+  for (const r of lots ?? []) if (x >= r[0] - m && x <= r[2] + m && z >= r[1] - m && z <= r[3] + m) return true;
+  return false;
+}
 /**
  * Where the parishes app sets the player down at a site (the start and fast travel: app.js puts the eye 16 m on +z from
  * the site). SURVEYOR-2: the first ring's bearing 0 was 1 m from it, so a parked cab stood over the arriving camera (the
@@ -98061,13 +98145,14 @@ function mvPick(site, rule) {
   return ids.find((id) => (dvById(id).gate?.stations ?? []).some((s) => stations.has(s))) ?? ids[0] ?? null;
 }
 
-function mvFootprintOk(parish, world, x, z, heading, dims) {
+function mvFootprintOk(parish, world, x, z, heading, dims, lots = null) {
   const [w, h, l] = dims;
   const fx = Math.sin(heading), fz = Math.cos(heading), rx = Math.cos(heading), rz = -Math.sin(heading);
   const pts = [[0, 0], [1, 1], [1, -1], [-1, 1], [-1, -1]].map(([a, b]) => [x + rx * a * (w / 2 + 0.5) + fx * b * (l / 2 + 0.5), z + rz * a * (w / 2 + 0.5) + fz * b * (l / 2 + 0.5)]);
   let lo = Infinity, hi = -Infinity;
   for (const [px, pz] of pts) {
     if (Math.abs(px) > NP_SIZE / 2 - 24 || Math.abs(pz) > NP_SIZE / 2 - 24) return false;
+    if (lots && mvInLots(px, pz, lots)) return false; // ENV-HD-3: never inside a robotics lot
     if (npWaterAt(parish, px, pz) || (world.waterDepthAt(px, pz) || 0) > 0.02) return false; // dry: no water polygon (marsh too), no depth
     const c = mvRoadClearance(parish, px, pz);
     if (c.clear < MV_ROAD_MARGIN) return false;
@@ -98082,7 +98167,7 @@ function mvFootprintOk(parish, world, x, z, heading, dims) {
  * name the vehicle's own gate station come first; one vehicle per site, no
  * drivable more than twice per map, capped per tier (MV_BUDGET.perMap).
  */
-function mvPlacements(parish, world, { tier = "balanced" } = {}) {
+function mvPlacements(parish, world, { tier = "balanced", lots = null } = {}) {
   const cap = MV_BUDGET.perMap[tier] ?? MV_BUDGET.perMap.balanced;
   const cands = [];
   parish.sites.forEach((site, order) => {
@@ -98114,7 +98199,7 @@ function mvPlacements(parish, world, { tier = "balanced" } = {}) {
         const rc = mvRoadClearance(parish, x, z);
         let heading = a;
         if (rc.road) { const p = npPolyPointAt(rc.road.pts, npPolyDistance(x, z, rc.road.pts).t); if (typeof p?.yaw === "number") heading = p.yaw; }
-        if (mvFootprintOk(parish, world, x, z, heading, dims)) spot = { x, z, heading };
+        if (mvFootprintOk(parish, world, x, z, heading, dims, lots)) spot = { x, z, heading };
       }
       if (spot) break;
     }
@@ -98145,10 +98230,10 @@ function mvPaletteCategories() {
 }
 
 /** Mount the parked vehicles in a parish page (see the header). */
-function mvMountMotorworks({ three, root, parish, world, tier = "balanced", categories = undefined, region = null } = {}) {
+function mvMountMotorworks({ three, root, parish, world, tier = "balanced", categories = undefined, region = null, lots = null } = {}) {
   const T = three;
   const cats = categories === undefined ? mvPaletteCategories() : categories;
-  const parked = mvPlacements(parish, world, { tier }).map((p, i) => {
+  const parked = mvPlacements(parish, world, { tier, lots }).map((p, i) => {
     const character = npDistrictAt(parish, p.x, p.z)?.character ?? null;
     const drive = mvDriveEntry(p.entry, { region: region ?? parish.region ?? "new-orleans", character, seed: p.id }, cats);
     return { ...p, index: i, character, drive, colour: drive.kit.opts.livery.colour, hidden: false };
@@ -99912,6 +99997,13 @@ function mgBayMap({ roads = [], sites = [], zoneAt = () => "downtown", roadAt = 
 
 function mgSeedOf(id, seed = 0) { return [...String(id)].reduce((s, ch) => (s * 31 + ch.charCodeAt(0)) >>> 0, 101 + seed); }
 function mgInBox(x, z, boxes) { for (const b of boxes ?? []) if (x >= b.min[0] && x <= b.max[0] && z >= b.min[2] && z <= b.max[2]) return true; return false; }
+/** ENV-HD-3: robotics lots ([[x0, z0, x1, z1]], ROBO-EXTERIORS' lot rectangles and fxColliders boxes, as DETAIL's dtLotRects
+ *  gives them; the parishes app passes `lots`) as boxes grown by MG_LOT_MARGIN: no animal or person is placed inside one,
+ *  and nothing that walks steps into one (fliers may cross over). */
+const MG_LOT_MARGIN = 0.5;
+function mgLotBoxes(lots, m = MG_LOT_MARGIN) {
+  return (lots ?? []).map((r) => ({ min: [r[0] - m, -1e4, r[1] - m], max: [r[2] + m, 1e4, r[3] + m], kind: "fx-lot" }));
+}
 
 /** The ground a kind may stand on at (x, z): fliers anywhere, swimmers only on open water, waders on land or wetland, the rest dry land. */
 function mgGroundOk(map, kind, x, z) {
@@ -99936,7 +100028,8 @@ function mgPlan(map, o = {}) {
   const cands = [];
   const sites = map.sites ?? [];
   const nearSite = (x, z) => { let d = Infinity; for (const s of sites) d = Math.min(d, Math.hypot(x - s.x, z - s.z)); return d; };
-  const boxesAt = (x, z) => { try { return o.colliders?.(npChunkOf(x, z).key) ?? []; } catch { return []; } };
+  const lotBoxes = mgLotBoxes(o.lots);
+  const boxesAt = (x, z) => { let b; try { b = o.colliders?.(npChunkOf(x, z).key) ?? []; } catch { b = []; } return lotBoxes.length ? [...b, ...lotBoxes] : b; };
   const add = (kind, x, z, heading, why, extra = {}) => {
     if (!mgGroundOk(map, kind, x, z) || mgInBox(x, z, boxesAt(x, z))) return;
     cands.push({ kind, x, z, heading, why, ...extra, pri: rng() * (1 + nearSite(x, z) / 350) });
@@ -100202,8 +100295,9 @@ function mgMountLife(o = {}) {
   if (!three || !map) return { animate() {}, counts: () => ({}), stats: () => ({ drawCalls: 0, triangles: 0, agents: 0 }), agents: [], meshes: [], dispose() {} };
   const still = !!(o.still ?? mgReducedMotion());
   const colliders = typeof o.colliders === "function" ? o.colliders : null;
-  const boxesAt = colliders ? (x, z) => { try { return colliders(npChunkOf(x, z).key) ?? []; } catch { return []; } } : null;
-  const plan = mgPlan(map, { tier: o.tier, night: o.night, seed: o.seed, sidewalkAt: o.sidewalkAt, colliders });
+  const lotBoxes = mgLotBoxes(o.lots);
+  const boxesAt = colliders || lotBoxes.length ? (x, z) => { let b; try { b = colliders?.(npChunkOf(x, z).key) ?? []; } catch { b = []; } return lotBoxes.length ? [...b, ...lotBoxes] : b; } : null;
+  const plan = mgPlan(map, { tier: o.tier, night: o.night, seed: o.seed, sidewalkAt: o.sidewalkAt, colliders, lots: o.lots });
   const agents = plan.map((p, i) => mgAgent(p, i));
   const groundAt = o.groundAt ?? (() => 0);
   const group = new three.Group(); group.name = "mg-life";
@@ -157159,6 +157253,113 @@ function fxMountExteriors({ THREE, root, parish, tier = "high", hour = 12 } = {}
 }
 
 
+/* ===== shared/hd3-scenes.js ===== */
+// ENV-HD-3 — establishing shots beyond the robot sites (console `hd3`, docs/consoles/ENV-HD-3.md).
+// SmartCiti.X Powered by AGI Corp.
+//
+// ROBO-EXTERIORS gave each of the six robot sites two establishing-shot presets (fxScene: "wide" and "door", 12 in all) for
+// the reel. This module adds two for each of the three non-robot locations a learner visits most — the catalog's busiest
+// sites by station count, one per kind: the bridge yard on the San Francisco Marina map (7 stations, the busiest site in
+// the catalog), the port terminal on the Orleans map (6, on the first map the page opens) and the construction site on the
+// Mission map (6; construction is the busiest kind, 350 stations over 91 sites). The shots frame the parish engine's own
+// generic site (its low building and job board) in the procedural streets around it: nothing here models a real building
+// and every label is generic by kind.
+//
+// SEAMS (every top-level name is hd3/HD3_-prefixed: the bundler shares one scope; no three.js):
+//   HD3_SHOTS                         ["wide", "street"]: a high three-quarter view from the road side, and an eye-level view
+//                                       from the near sidewalk of the nearest street
+//   HD3_SCENE_SITES                   plain data: [{ id, parish, kind, label, stations }] (why these: see above)
+//   hd3Scene(parish, siteId, shot)    -> { siteId, shot, parish, kind, label, position, target, fov } | null — the camera spot is
+//                                       the first candidate that stands dry and clear of massing with its sight line clear;
+//                                       deterministic (no randomness), so a still can be re-shot exactly
+//   hd3ScenePresets()                 -> [{ siteId, shot, parish }] for the six presets
+//   The parishes app routes `window.__parishTest.scene(siteId, shot)` (and `?scene=<siteId>:<shot>`) here for these sites.
+
+
+
+const HD3_SHOTS = ["wide", "street"];
+const HD3_SCENE_SITES = [
+  { id: "bridge-yard", parish: "sf-marina", kind: "bridge", label: "Bridge yard", stations: 7 },
+  { id: "port-terminal", parish: "orleans", kind: "port", label: "Port terminal", stations: 6 },
+  { id: "mission-bay-construction-site", parish: "sf-mission", kind: "construction", label: "Construction site", stations: 6 },
+];
+
+function hd3ScenePresets() {
+  return HD3_SCENE_SITES.flatMap((s) => HD3_SHOTS.map((shot) => ({ siteId: s.id, shot, parish: s.parish })));
+}
+
+const hd3Hit = (a, b) => a[0] < b[2] && a[2] > b[0] && a[1] < b[3] && a[3] > b[1];
+/** Massing rects (grown by 2 m) and tree crowns around (x, z), and the other catalog sites' buildings; cached per map + chunk. */
+const hd3NearCache = new WeakMap();
+function hd3Obstacles(parish, x, z, skip) {
+  let per = hd3NearCache.get(parish); if (!per) hd3NearCache.set(parish, (per = new Map()));
+  const { cx, cz, key } = npChunkOf(x, z), k = `${key}|${skip}`;
+  if (per.has(k)) return per.get(k);
+  const keep = cwMassFilter(parish), rects = [];
+  for (let dx = -1; dx <= 1; dx++) for (let dz = -1; dz <= 1; dz++) {
+    for (const spot of npMassingForChunk(parish, cx + dx, cz + dz)) {
+      if (!keep(spot)) continue;
+      const boxes = cwSpotBoxes(spot);
+      if (boxes.length) for (const b of boxes) rects.push([b.min[0] - 2, b.min[2] - 2, b.max[0] + 2, b.max[2] + 2]);
+      else rects.push([spot.x - 4, spot.z - 4, spot.x + 4, spot.z + 4]); // a tree crown
+    }
+  }
+  (parish.sites ?? []).forEach((s, i) => {
+    if (i === skip) return;
+    try { const b = cwSiteBuilding(parish, i); rects.push([b.cx - b.w / 2 - 2, b.cz - b.d / 2 - 2, b.cx + b.w / 2 + 2, b.cz + b.d / 2 + 2]); } catch { /* none */ }
+  });
+  per.set(k, rects);
+  return rects;
+}
+function hd3Clear(parish, x, z, m, skip) {
+  const half = NP_SIZE / 2 - 30;
+  if (Math.abs(x) > half || Math.abs(z) > half || npWaterAt(parish, x, z)) return false;
+  const box = [x - m, z - m, x + m, z + m];
+  return !hd3Obstacles(parish, x, z, skip).some((r) => hd3Hit(box, r));
+}
+
+/** The camera for one preset (see SEAMS), or null for a site or shot this module does not frame. */
+function hd3Scene(parish, siteId, shot = "wide") {
+  const spec = HD3_SCENE_SITES.find((s) => s.id === siteId);
+  if (!spec || !HD3_SHOTS.includes(shot) || parish?.id !== spec.parish) return null;
+  const i = (parish.sites ?? []).findIndex((s) => s.id === siteId);
+  if (i < 0) return null;
+  const s = parish.sites[i], [sx, sz] = s.position, y = npHeightAt(parish, sx, sz);
+  let b = null; try { b = cwSiteBuilding(parish, i); } catch { b = null; }
+  // the subject: between the site's building and its job board (the board stands 6 m south of the site point)
+  const tx = b ? (b.cx + sx) / 2 : sx, tz = b ? (b.cz + sz + 6) / 2 : sz + 3;
+  // the road side: the bearing from the subject to the nearest street line (the side a learner walks up from)
+  const near = cwNearestLine(parish, tx, tz, 800, (l) => l.cls !== "ferry");
+  const a0 = near ? Math.atan2(near.px - tx, near.pz - tz) : Math.PI / 4;
+  const out = (pos, ty, fov) => ({ siteId, shot, parish: parish.id, kind: spec.kind, label: spec.label, position: pos, target: [tx, ty, tz], fov });
+  const bearings = [0.45, -0.45, 0.8, -0.8, 0, 1.2, -1.2, Math.PI - 0.6, Math.PI + 0.6];
+  if (shot === "wide") {
+    // the first spot with no building within ~18 m (nothing looms in the frame's near corners), else within ~12 m, else 7 m
+    for (const m of [16, 10, 5]) for (const dist of [72, 62, 86]) for (const da of bearings) {
+      const a = a0 + da, px = tx + Math.sin(a) * dist, pz = tz + Math.cos(a) * dist;
+      if (!hd3Clear(parish, px, pz, m, i)) continue;
+      return out([px, Math.max(y, npHeightAt(parish, px, pz)) + 26, pz], y + 3, 55);
+    }
+    return out([tx + Math.sin(a0 + 0.45) * 72, y + 30, tz + Math.cos(a0 + 0.45) * 72], y + 3, 55);
+  }
+  // street: eye height on the near sidewalk of the nearest street, a little along it for an oblique view of the building and
+  // its board, with the near half of the sight line clear of massing; a street farther than 44 m: 34 m out on its side
+  const ux = Math.sin(a0), uz = Math.cos(a0), vx = -uz, vz = ux;
+  const hw = (near?.line?.width ?? 10) / 2, back = near && near.d <= 44 ? Math.max(14, near.d - hw - 1.9) : 34;
+  // the site's own building counts here (skip -1): the subject sits beside it, so a line from the wrong side runs through it
+  const cands = [];
+  for (const lat of [11, -11, 17, -17, 5, -5, 0]) for (const extra of [0, -3, 3]) cands.push([tx + ux * (back + extra) + vx * lat, tz + uz * (back + extra) + vz * lat]);
+  for (const dist of [28, 34, 24]) for (const da of bearings) cands.push([tx + Math.sin(a0 + da) * dist, tz + Math.cos(a0 + da) * dist]);
+  for (const [px, pz] of cands) {
+    if (!hd3Clear(parish, px, pz, 1.2, -1)) continue;
+    if (![0.2, 0.35, 0.5, 0.65].every((t) => hd3Clear(parish, px + (tx - px) * t, pz + (tz - pz) * t, 0.8, -1))) continue;
+    return out([px, Math.max(y, npHeightAt(parish, px, pz)) + 1.7, pz], y + 3.2, 62);
+  }
+  const px = tx + ux * back, pz = tz + uz * back;
+  return out([px, Math.max(y, npHeightAt(parish, px, pz)) + 1.7, pz], y + 3.2, 62);
+}
+
+
 /* ===== shared/bq-facts.js ===== */
 // BAYQUEST — the only Bay Program and Clean Ports lines the play layer states (docs/consoles/BAYQUEST.md).
 //
@@ -159964,6 +160165,7 @@ function npAnswerLesson(state, lesson, choice) {
 
 
 
+
 /** One versioned key. A shape change gets a new suffix, not a migration. */
 const AUTH_KEY = "vr-training-auth-v1";
 /**
@@ -160625,6 +160827,8 @@ const Auth = {
     // Records are private to the signed-in identity (shared/profiles.js), so
     // the ones cleared are that person's, before their session key goes.
     if (clearRecords) TrainingRecords.clear();
+    // HIVE-3: the hive panel's remembered settings (h3-hive-day.js) belong to this profile and go with its session.
+    try { gtStorage()?.removeItem("h3-hive-settings-v1"); } catch (_) { /* storage blocked */ }
     this.session = null;
     try { localStorage.removeItem(AUTH_KEY); } catch (_) { /* ignore */ }
     Identity.clear();
@@ -165261,6 +165465,58 @@ const COL_FEATURE_SETS = {
     },
   },
 };
+/** ROBOTRAIN-7: the first move of a shortest path from (x, y) to (gx, gy) around shelves, the blocked cell and every cell in
+ * `walls` (the other robots), in the same N/S/E/W tie order as colPathMove. Not cached: it depends on where the robots stand.
+ * [0, 0] when already there or walled in. */
+function colDetourMove(o, x, y, gx, gy, walls) {
+  if (x === gx && y === gy) return [0, 0];
+  const W = o.width, H = o.height;
+  const open = (a, b) => a >= 0 && b >= 0 && a < W && b < H && !COL_SHELF(a, b) && !(o.blocked && o.blocked[0] === a && o.blocked[1] === b) && !walls.has(`${a},${b}`);
+  const f = new Int16Array(W * H).fill(-1), queue = [[gx, gy]];
+  f[gy * W + gx] = 0;
+  for (let q = 0; q < queue.length; q++) {
+    const [a, b] = queue[q];
+    for (const d of Object.values(COL_DIRS)) { const na = a + d[0], nb = b + d[1]; if (((na === x && nb === y) || open(na, nb)) && na >= 0 && nb >= 0 && na < W && nb < H && f[nb * W + na] < 0) { f[nb * W + na] = f[b * W + a] + 1; if (!(na === x && nb === y)) queue.push([na, nb]); } }
+  }
+  const d = f[y * W + x];
+  if (d <= 0) return [0, 0];
+  for (const [dx, dy] of Object.values(COL_DIRS)) { const nx = x + dx, ny = y + dy; if (nx >= 0 && ny >= 0 && nx < W && ny < H && f[ny * W + nx] === d - 1 && (open(nx, ny) || (nx === gx && ny === gy))) return [dx, dy]; }
+  return [0, 0];
+}
+/** ROBOTRAIN-7: "amr-robots" is "amr-path" plus six features about the other robots: whether a robot holds the route's next
+ * cell and moves earlier or later in the move order, whether that robot has delivered and stays, this robot's place among
+ * the robots still moving (0 first, 1 last), and the first move of a shortest path around every other robot's cell.
+ * Opt-in; measured in docs/evals/colearn.json `dagger.robotFeatures`. */
+COL_FEATURE_SETS["amr-robots"] = {
+  names: [...COL_FEATURE_SETS["amr-path"].names, "holderEarlier", "holderLater", "holderParked", "order", "detourE", "detourS"],
+  weights: [...COL_FEATURE_SETS["amr-path"].weights, 4, 4, 4, 4, 4, 4],
+  mid: [...COL_FEATURE_SETS["amr-path"].mid, 0.5, 0.5, 0.5, 0.5, 0, 0],
+  text: [...COL_FEATURE_SETS["amr-path"].text, ["a robot that moves earlier holds the route's next cell", "no earlier robot holds the route's next cell"],
+    ["a robot that moves later holds the route's next cell", "no later robot holds the route's next cell"], ["the robot on the route's next cell has delivered and stays", "no parked robot is on the route"],
+    ["this robot moves late in the order", "this robot moves early in the order"], ["the way around the other robots goes east", "the way around the other robots goes west or level"],
+    ["the way around the other robots goes south", "the way around the other robots goes north or level"]],
+  perRobot: (o) => {
+    const base = COL_FEATURE_SETS["amr-path"].perRobot(o);
+    const moving = o.robots.map((r, i) => (r.delivered ? -1 : i)).filter((i) => i >= 0);
+    return o.robots.map((r, i) => {
+      const [x, y] = r.at, [dx, dy] = colPathMove(o, x, y, r.goal[0], r.goal[1]);
+      const j = dx || dy ? o.robots.findIndex((q, k) => k !== i && q.at[0] === x + dx && q.at[1] === y + dy) : -1;
+      const walls = new Set(o.robots.filter((q, k) => k !== i).map((q) => q.at.join(",")));
+      const [ex, ey] = colDetourMove(o, x, y, r.goal[0], r.goal[1], walls);
+      const pos = moving.indexOf(i), order = pos < 0 || moving.length < 2 ? 0 : pos / (moving.length - 1);
+      return { delivered: base[i].delivered, f: [...base[i].f, j >= 0 && j < i ? 1 : 0, j > i ? 1 : 0, j >= 0 && o.robots[j].delivered ? 1 : 0, order, ex, ey] };
+    });
+  },
+};
+/** ROBOTRAIN-7 ablation: "amr-holders" is "amr-robots" without the detour move (the holder and order features only), to show
+ * how much of the gain the way around the robots carries. Opt-in; measured in colearn.json `dagger.holderFeatures`. */
+COL_FEATURE_SETS["amr-holders"] = {
+  names: COL_FEATURE_SETS["amr-robots"].names.slice(0, -2),
+  weights: COL_FEATURE_SETS["amr-robots"].weights.slice(0, -2),
+  mid: COL_FEATURE_SETS["amr-robots"].mid.slice(0, -2),
+  text: COL_FEATURE_SETS["amr-robots"].text.slice(0, -2),
+  perRobot: (o) => COL_FEATURE_SETS["amr-robots"].perRobot(o).map((r) => ({ delivered: r.delivered, f: r.f.slice(0, -2) })),
+};
 const colIsStation = (sc) => String(sc).startsWith("rb-station-");
 
 /** The feature rows and labels of one demonstration step. */
@@ -165772,6 +166028,90 @@ function colMountCoLearn(el, { reducedMotion = false, capture = null, storage = 
 }
 
 
+/* ===== shared/ag-feedback.js ===== */
+// AGENTGYM — human feedback on an agent's demonstrated run.
+//
+// A learner watches an agent's run as a walkthrough (ag-gym.js agWalkthrough)
+// and rates it thumbs up or down with one reason from a fixed list (no free
+// text). Each rating is stored as one DATAWORKS episode (dx-data.js
+// dxMakeEpisode: source "human", kind "gym", scenario "agent-rating:<station>",
+// the consent receipt attached), so the existing rules hold unchanged:
+//   - opt-in only, adults only, never K-12, demo or signed-out (dxCollecting);
+//   - local only (dxStore: IndexedDB / localStorage / memory); no upload path;
+//   - dxRevoke() deletes every rating with the rest of the learner's episodes.
+// agPreferencePairs() turns stored ratings into preference pairs
+// { station, chosen, rejected, reasons } — one per (up, down) pair on the same
+// station — the shape a preference-learning step consumes later. Nothing here
+// trains anything; it records and pairs.
+//
+// Names prefixed `ag`/`AG_`. No fetch/XHR/WebSocket/beacon.
+
+
+const AG_RATING_REASONS = Object.freeze({
+  up: ["safe-order", "clear-to-follow", "efficient", "caught-the-hazard"],
+  down: ["unsafe-touch", "wrong-order", "too-many-hints", "hard-to-follow", "slow"],
+});
+const AG_RATING_SCENARIO_PREFIX = "agent-rating:";
+
+/** Compact the demonstrated run into the steps a rating episode keeps (decisions only, in-world values). */
+function agRatingSteps(run) {
+  return (run.steps ?? []).filter((s) => s.action?.type !== "wait").slice(0, 400).map((s) => ({
+    t: s.t ?? s.observation?.elapsed ?? 0,
+    observation: { stepIndex: s.observation?.stepIndex ?? null, stepId: s.observation?.stepId ?? null, kind: s.observation?.kind ?? null, interrupt: s.observation?.interrupt?.id ?? null },
+    action: { type: s.action.type, ...(s.action.id ? { id: s.action.id } : {}) },
+    reward: s.info?.stationDelta ?? 0,
+    done: !!s.done,
+    info: { outcome: s.info?.hazard ? "hazard" : s.info?.feedback === "warn" ? "wrong" : s.info?.stationDelta > 0 ? "ok" : undefined, hazard: !!s.info?.hazard },
+  }));
+}
+
+/**
+ * Build (but do not store) a rating episode. Returns null with a reason when the
+ * rating or the session is not eligible. `signals` is dx-data's signal shape
+ * (tests pass it; the page reads it from the URL and profile).
+ */
+function agMakeRating({ run, agent, rating, reason, signals = null, runId = null, createdAt = null } = {}) {
+  if (rating !== "up" && rating !== "down") return { ok: false, reason: "rating must be up or down" };
+  if (!AG_RATING_REASONS[rating].includes(reason)) return { ok: false, reason: `reason must be one of ${AG_RATING_REASONS[rating].join(", ")}` };
+  if (!dxCollecting(signals)) return { ok: false, reason: "not collecting: opt in first (adults only; never K-12, demo or signed-out)" };
+  const s = run?.summary ?? {};
+  const ep = dxMakeEpisode({
+    source: "human", world: "smartcity", kind: "gym", scenario: `${AG_RATING_SCENARIO_PREFIX}${s.station ?? "unknown"}`,
+    summary: { success: !!s.passed, score: s.stationScore ?? 0, errors: s.errors ?? 0, hazardHits: s.hazardHits ?? 0 },
+    generator: "shared/ag-feedback.js", recordedWith: "browser", seed: s.seed ?? null, policy: agent,
+    ...(createdAt ? { createdAt, startedAt: createdAt, endedAt: createdAt } : {}),
+    notes: { preference: { rating, reason, agent, station: s.station ?? null, seed: s.seed ?? null, runId: runId ?? `${agent}:${s.station}:${s.seed}` } },
+  }, agRatingSteps(run));
+  const v = dxValidateEpisode(ep);
+  return v.ok ? { ok: true, episode: ep } : { ok: false, reason: v.errors.join("; ") };
+}
+
+/** Rate and store locally. Resolves { ok, episodeId } or { ok: false, reason }. Inert without consent. */
+async function agRate(opts = {}, { store = dxStore } = {}) {
+  const r = agMakeRating(opts);
+  if (!r.ok) return r;
+  const saved = await store.put(r.episode);
+  return saved ? { ok: true, episodeId: r.episode.episodeId } : { ok: false, reason: "store refused the episode" };
+}
+
+/** Every rating among a list of dx episodes. */
+function agRatings(episodes) {
+  return (episodes ?? []).filter((e) => e.kind === "gym" && String(e.scenario).startsWith(AG_RATING_SCENARIO_PREFIX) && e.provenance?.notes?.preference)
+    .map((e) => ({ episodeId: e.episodeId, ...e.provenance.notes.preference }));
+}
+
+/** Preference pairs: every (up, down) pair of ratings on the same station, deterministic order. */
+function agPreferencePairs(episodes) {
+  const by = new Map();
+  for (const r of agRatings(episodes)) { if (!by.has(r.station)) by.set(r.station, { up: [], down: [] }); by.get(r.station)[r.rating].push(r); }
+  const pairs = [];
+  for (const [station, { up, down }] of [...by.entries()].sort((a, b) => (a[0] < b[0] ? -1 : 1))) {
+    for (const u of up) for (const d of down) pairs.push({ station, chosen: { runId: u.runId, agent: u.agent, episodeId: u.episodeId }, rejected: { runId: d.runId, agent: d.agent, episodeId: d.episodeId }, reasons: { chosen: u.reason, rejected: d.reason } });
+  }
+  return pairs;
+}
+
+
 /* ===== shared/rt-teleop.js ===== */
 // ROBOTRAIN — a VR-controller teleoperation demonstration recorder over the robotics gym (console ROBOTRAIN,
 // docs/consoles/ROBOTRAIN.md). SmartCiti.X Holodeck · Powered by AGI Corp.
@@ -165802,6 +166142,7 @@ function colMountCoLearn(el, { reducedMotion = false, capture = null, storage = 
 // figure, a sibling of the rig) along the approach with its hand at the control, and poses the cell arm by the robot's mode.
 //
 // No network call, no upload, no model call. Every top-level name is prefixed rt/RT_ (the bundler shares one scope).
+
 
 
 
@@ -166142,6 +166483,20 @@ function rtHudLine(sc, obs, { recording = false, source = "pointer", feedback = 
 /** The pad's default pose per task (the hand at rest in that task's frame). */
 const RT_REST_POSE = Object.freeze({ "rb-teleop-pick-place": [0, 0.3, -0.35], "rb-cell-entry": [0, 0.9, -8] });
 
+/** ROBOTRAIN-7: one cloned robot run to show and rate: the k-NN policy rolled out once on `seed` on the model's task. The steps
+ * keep the action type and whether a rule broke (what agRate's rating episode and rt6TrajFeatures read); the summary's
+ * `station` is the task id, so ratings of the same task pair up in agPreferencePairs. */
+function rt7RobotRun(model, seed) {
+  const sc = model.scenario, env = rbEnv(sc, { seed });
+  const { steps, summary } = rbRollout(env, { seed, policy: colPolicy(model) });
+  const broke = (s) => (s.info?.violations ?? []).length > 0;
+  return {
+    kind: "robot-game", scenario: sc,
+    summary: { station: sc, seed, passed: !!summary.passed, stationScore: Math.round((summary.score ?? 0) * 100) / 100, errors: summary.violationCount ?? 0, hazardHits: summary.violationCount ?? 0, steps: summary.steps },
+    steps: steps.map((s) => ({ t: s.info?.t ?? 0, observation: {}, action: { type: s.action?.type ?? "wait" }, info: { unsafe: broke(s), hazard: broke(s) }, done: !!s.done })),
+  };
+}
+
 /**
  * A minimal in-page driver: the mouse or a finger (pointer events; touch-action none) over `el` is the hand in the task's frame;
  * pointerdown closes the trigger, the wheel (or a second finger) sets the squeeze, a double-click is the e-stop. In WebXR,
@@ -166169,13 +166524,18 @@ function rtMountTeleop(el, { seed = 7001, store = dxStore, signals = null, reduc
   for (const id of RT_TASK_IDS) { const o = doc.createElement("option"); o.value = id; o.textContent = RT_TASKS[id].label ?? id; sel.append(o); }
   const bGhost = doc.createElement("button"); bGhost.type = "button"; bGhost.className = "rt-ghost"; bGhost.textContent = "Robot demonstrates back"; bGhost.disabled = true;
   bGhost.title = "After a take: the trained policy replays its own run on this rig, one step at a time, with its explanation.";
-  row.append(sel, bGhost);
+  // ROBOTRAIN-7: rate two of the trained policy's runs (thumbs up or down) through AGENTGYM's agRate: kept on this device only
+  // while collecting (adult, signed in, opted in; never K-12, demo or signed-out); revoke on the Me tab deletes the ratings.
+  const bRate = doc.createElement("button"); bRate.type = "button"; bRate.className = "rt-rate-open"; bRate.textContent = "Rate two robot runs"; bRate.style.cssText = "min-height:44px;";
+  bRate.title = "The trained policy runs this task twice. A thumbs up or down on each is kept on this device only if you opted in (adults only).";
+  row.append(sel, bGhost, bRate);
+  const rateBox = doc.createElement("div"); rateBox.className = "rt-rate"; rateBox.setAttribute("aria-live", "polite");
   const pad = doc.createElement("div"); pad.className = "rt-pad"; pad.setAttribute("role", "application"); pad.setAttribute("aria-label", "Teleoperation pad: move the pointer to drive the gripper, hold to grip, wheel to set the grip force, double-click for e-stop");
   pad.style.cssText = "position:relative;height:160px;border:1px solid var(--at-border, #555);border-radius:8px;touch-action:none;";
-  el.append(status, row, pad);
+  el.append(status, row, pad, rateBox);
   let sc = RT_TASKS[task] ? task : RT_SCENARIO;
   let env = null, rec = null, pose = { p: RT_REST_POSE[sc].slice(), trigger: 0, squeeze: 0.5, estop: false }, timer = null, source = "pointer", xrLast = 0, touches = 0;
-  let ghost = { frames: [], i: -1, timer: null, model: null }, lastTake = null;
+  let ghost = { frames: [], i: -1, timer: null, model: null }, lastTake = null, rated = { runs: [], model: null, results: [] };
   const isCell = () => sc === "rb-cell-entry";
   const setTask = (id) => {
     if (!RT_TASKS[id]) return sc;
@@ -166251,6 +166611,45 @@ function rtMountTeleop(el, { seed = 7001, store = dxStore, signals = null, reduc
     /** Step the ghost by hand (reduced motion, or a headless drive): the next frame, or null when it has ended. */
     ghost() { if (!ghost.frames.length) return null; if (ghost.i < ghost.frames.length - 1) { ghost.i += 1; ghostShow(); return ghost.frames[ghost.i]; } ghostStop(); return null; },
     lastTake() { return lastTake; },
+    /** ROBOTRAIN-7: show two of the policy's runs on this task (seeds s and s + 1) with a thumbs up and down on each. The buttons
+     * are enabled only while collecting. Returns { collecting, runs: [{ seed, passed, steps, rulesBroken }] }. */
+    rateRuns(s = seed) {
+      api.stop(); ghostStop();
+      let model = null;
+      if (modelFor) { try { model = modelFor(sc) ?? null; } catch (_) { model = null; } }
+      if (!model) { model = colTrain(sc, colDemosFromEpisodes(colSyntheticDemos(sc, { n: 30, seed: 1 }), sc).demos, { seed: 1 }); model.provenance = { own: false, source: "synthetic human stand-in (colSyntheticDemos)", n: 30, kept: model.demos }; }
+      const on = dxCollecting(signals);
+      rated = { runs: [rt7RobotRun(model, s), rt7RobotRun(model, s + 1)], model, results: [null, null] };
+      rateBox.innerHTML = "";
+      const note = doc.createElement("p"); note.className = "at-muted rt-rate-note";
+      note.textContent = on ? "Rate each run: your ratings stay on this device, and revoke on the Me tab deletes them." : "Rating is off: opt in on the Me tab first (adults only; never K-12, demo or signed-out). Nothing is kept.";
+      rateBox.append(note);
+      rated.runs.forEach((run, k) => {
+        const card = doc.createElement("div"); card.className = "rt-rate-card"; card.dataset.run = String(k);
+        card.style.cssText = "display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:4px 0;";
+        const label = doc.createElement("span"); label.className = "rt-rate-label";
+        label.textContent = `Run ${k ? "B" : "A"} (simulated): ${run.summary.passed ? "finished" : "did not finish"} in ${run.summary.steps} steps, ${run.summary.hazardHits} rule${run.summary.hazardHits === 1 ? "" : "s"} broken`;
+        const mk = (rating, text) => { const b = doc.createElement("button"); b.type = "button"; b.className = `rt-rate-${rating}`; b.textContent = text; b.disabled = !on; b.style.cssText = "min-height:44px;"; b.setAttribute("aria-label", `${text} for run ${k ? "B" : "A"}`); b.addEventListener("click", () => { api.rate(k, rating); }); return b; };
+        card.append(label, mk("up", "Thumbs up"), mk("down", "Thumbs down"));
+        rateBox.append(card);
+      });
+      status.textContent = `Two runs of the trained policy (${model.provenance?.own ? "your takes" : "synthetic demonstrations"}) on this task, ready to rate.`;
+      return { collecting: on, runs: rated.runs.map((r) => ({ seed: r.summary.seed, passed: r.summary.passed, steps: r.summary.steps, rulesBroken: r.summary.hazardHits })) };
+    },
+    /** Rate run k ("up" or "down") through agRate. Resolves { ok, episodeId } or { ok: false, reason }; inert unless collecting. */
+    async rate(k, rating) {
+      const run = rated.runs[k];
+      if (!run) return { ok: false, reason: "no run to rate: press Rate two robot runs first" };
+      const reason = rating === "up" ? (run.summary.hazardHits ? "efficient" : "safe-order") : (run.summary.hazardHits ? "unsafe-touch" : "slow");
+      const res = await agRate({ run, agent: `robot-clone:${rated.model?.provenance?.own ? "your-takes" : "synthetic"}`, rating, reason, signals, runId: `robot-clone:${run.summary.station}:${run.summary.seed}` }, { store });
+      rated.results[k] = res;
+      const card = rateBox.querySelector(`[data-run="${k}"] .rt-rate-label`);
+      if (card) card.dataset.rated = res.ok ? rating : "refused";
+      status.textContent = res.ok ? `Run ${k ? "B" : "A"} rated thumbs ${rating}: kept on this device (revoke on the Me tab deletes it).` : `Not kept: ${res.reason}`;
+      return res;
+    },
+    /** The robot-run ratings this device holds (local DX episodes; empty unless an opted-in adult rated, and after revoke). */
+    async ratings() { try { return (await store.list()).filter((e) => e.kind === "gym" && /^agent-rating:rb-/.test(String(e.scenario))); } catch (_) { return []; } },
   };
   const fromPad = (e) => {
     if (source === "xr" && Date.now() - xrLast < 1500) return;
@@ -169212,6 +169611,295 @@ function ohHiveDay(seed = 1, opts = {}) {
 }
 
 
+/* ===== shared/h3-hive-day.js ===== */
+// HIVE-3 — the hive's day, remembered, in two languages (console HIVE-3, docs/consoles/HIVE-3.md).
+// SmartCiti.X Holodeck · Powered by AGI Corp.
+//
+// Four pieces over OMEGA-HIVE's hive (ohHive) and HIVE-IN-WORLD's robotics rooms. This module draws nothing and calls no
+// network, voice, model or microphone; it reads the hive's own events and the page's own storage only.
+//   1. Who stands in a robotics room (h3RoomPresence): the agents homed at the room's robot site, unless a job has sent them
+//      elsewhere, and any agent the hive sends to that site for a job, until the job ends (completed, refused, vetoed or
+//      declined). An agent whose last job has ended goes home. hw-hive-world.js stands them in the room: through the door to a
+//      free agent spot, else a place by the door, and out through the door when they leave. At most H3_ROOM_FIGURES figures
+//      are in a room at once (the cell hall's texture budget, measured with ixrMeasure, holds three; a fourth agent waits
+//      outside until a figure has left).
+//   2. Remembered settings (h3Settings): the hive panel's voice (on/off), "supervise every job" and the hive's language, kept
+//      on this device under the signed-in profile's own namespace (profiles.js gtKeyFor: `h3-hive-settings-v1::id-<digest>`),
+//      never uploaded, cleared on sign-out (auth.js signOut removes it). Demo, K-12 and signed-out sessions store nothing and
+//      read nothing (the same gate the hive panel mounts behind: DATAWORKS' eligibility at the offer stage, and no ?demo).
+//   3. The hive panel's text in Spanish (H3_PANEL_TEXT, h3PanelText, h3RoleIn, h3ChipIn): the panel's UI strings and the agents'
+//      role sentences, picked by the hive's language like the agents' lines. English is unchanged. The Spanish is
+//      machine-assisted and needs a native speaker's review (the platform's rule for every non-English table).
+//   4. "A day in the hive" (H3_SCENE, h3SceneJobs, h3SceneHive): the scripted, seeded scene the parishes app plays on
+//      sf-downtown for the reel (window.__parishTest.hiveScene()): a job arrives, the agents bid and one wins and walks out of
+//      the cell hall's door to its site, the governor refuses one unsafe request (its reason captioned), and the learner
+//      approves one job that names a robot (the simulated job runs; the physical path stays disabled).
+//
+// SEAMS (every top-level name carries the h3/H3_ prefix: the bundler shares one scope):
+//   H3_ROOM_FIGURES                         3: figures a robotics room holds at once
+//   h3RoomPresence({ agents, source })      -> { at(id), here(siteId), onChange(fn) -> off, jobsOf(id), dispose() }
+//                                              onChange receives { agent, from, to, why: "move" | "job-ended", jobId, t }
+//   H3_SETTINGS_KEY                         "h3-hive-settings-v1" (listed in profiles.js GT_PROFILE_KEYS)
+//   h3SettingsAllowed({ signals, profile, demo })  -> { ok, reason }: may this session keep the hive's settings?
+//   h3Settings({ storage, signals, profile, demo }) -> { allowed, reason, read(), write(patch), clear() }
+//                                              read() -> { voice?, supervise?, lang? } ({} when not allowed or nothing stored)
+//   H3_PANEL_TEXT                           { en: {...}, es: {...} }: every UI string of the hive panel
+//   h3PanelText(lang)                       -> the table for that language (English for any other)
+//   h3RoleIn(agent, lang) / h3ChipIn(chip, lang) -> the role sentence / a personality chip in that language
+//   H3_SCENE                                the scene's beats (ids, start seconds, camera shot) and its duration
+//   h3SceneJobs(seed)                       -> the scene's seeded job list (ohHive's `jobs` shape)
+//   h3SceneHive(makeHive, { seed })         -> a hive over those jobs (the caller hands in OMEGA-HIVE's ohHive: no import)
+//   H3_SCENE_PROLOGUE_STEPS                 4: hive steps taken before the scene's clock starts
+//   h3SceneRelay(hive)                      -> { on, off, agents, jobs(), agentState(id), pending(), step(n), releaseThrough(type|fn),
+//                                                releaseRun(type), releaseAll(), held(), released(), dispose() }: the hive's events,
+//                                                held per step and handed on beat by beat
+
+const H3_ROOM_FIGURES = 3;
+
+// ------------------------------------------------------------------------------------------------ 1. who is in a room
+
+/**
+ * The room-world's whereabouts of every agent: where the hive has it while it holds a job, and home otherwise. Read at once
+ * from the hive (jobs() and agentState()), then kept in step with its award, move, complete and refused events.
+ */
+function h3RoomPresence({ agents = [], source = null } = {}) {
+  const home = new Map((agents ?? []).filter((a) => a?.id).map((a) => [a.id, a.homeSite ?? null]));
+  const at = new Map(), jobs = new Map(), winnerOf = new Map();
+  for (const id of home.keys()) jobs.set(id, new Set());
+  try {
+    const held = new Set((source?.pending?.() ?? []).filter((r) => r.reason === "supervise").map((r) => r.jobId));
+    for (const j of source?.jobs?.() ?? []) {
+      if (!j?.winner || !jobs.has(j.winner)) continue;
+      if (j.status === "moving" || j.status === "running" || (j.status === "awaiting-approval" && held.has(j.jobId))) { jobs.get(j.winner).add(j.jobId); winnerOf.set(j.jobId, j.winner); }
+    }
+  } catch (_) { /* a source without jobs(): everyone starts at home */ }
+  for (const [id, h] of home) {
+    let s = null;
+    if (jobs.get(id).size) { try { s = source?.agentState?.(id)?.site ?? null; } catch (_) { s = null; } }
+    at.set(id, s ?? h);
+  }
+  const listeners = new Set();
+  const set = (id, site, why, ev) => {
+    const from = at.get(id) ?? null; if (from === site) return;
+    at.set(id, site);
+    for (const fn of [...listeners]) { try { fn({ agent: id, from, to: site, why, jobId: ev?.jobId ?? null, t: ev?.t ?? null }); } catch (_) { /* a listener never stops the others */ } }
+  };
+  const end = (id, jobId, ev) => { const js = jobs.get(id); if (!js) return; js.delete(jobId); if (!js.size) set(id, home.get(id) ?? null, "job-ended", ev); };
+  const handlers = {
+    award: (e) => { if (!jobs.has(e?.agent) || !e.jobId) return; jobs.get(e.agent).add(e.jobId); winnerOf.set(e.jobId, e.agent); },
+    move: (e) => { if (!jobs.has(e?.agent) || !e.to) return; if (e.jobId) { jobs.get(e.agent).add(e.jobId); winnerOf.set(e.jobId, e.agent); } set(e.agent, e.to, "move", e); },
+    complete: (e) => { if (e?.jobId) end(e.winner ?? winnerOf.get(e.jobId) ?? e.agent, e.jobId, e); },
+    refused: (e) => { if (e?.jobId) end(e.winner ?? winnerOf.get(e.jobId) ?? e.agent, e.jobId, e); },
+  };
+  const subs = [];
+  if (source && typeof source.on === "function") for (const [type, fn] of Object.entries(handlers)) { source.on(type, fn); subs.push([type, fn]); }
+  return {
+    at: (id) => at.get(id) ?? null,
+    here: (siteId) => [...at.entries()].filter(([, s]) => s === siteId).map(([id]) => id),
+    jobsOf: (id) => [...(jobs.get(id) ?? [])],
+    onChange(fn) { if (typeof fn === "function") listeners.add(fn); return () => listeners.delete(fn); },
+    dispose() { for (const [type, fn] of subs.splice(0)) { try { source.off?.(type, fn); } catch (_) { /* gone */ } } listeners.clear(); },
+  };
+}
+
+// ------------------------------------------------------------------------------------------------ 2. remembered settings
+
+const H3_SETTINGS_KEY = "h3-hive-settings-v1";
+
+/** May this session keep the hive's settings? Only a signed-in profile that is not K-12 and not the demo (the hive's own gate:
+ * DATAWORKS' signals at the offer stage, and the page's ?demo flag). Unknown signals never store. */
+function h3SettingsAllowed({ signals = null, profile = null, demo = false } = {}) {
+  const s = signals ?? {};
+  if (demo || profile?.kind === "demo" || s.demo !== false) return { ok: false, reason: "demo" };
+  if (profile?.kind !== "account" || s.signedIn !== true) return { ok: false, reason: "signed-out" };
+  if (s.k12 !== false) return { ok: false, reason: "k12" };
+  return { ok: true, reason: "ok" };
+}
+
+/** The hive panel's settings on this device: `storage` is the profile's own Storage (profiles.js gtStorage(), which lands the
+ * key on `h3-hive-settings-v1::id-<digest>` for an account). Nothing is read or written unless h3SettingsAllowed says so. */
+function h3Settings({ storage = null, signals = null, profile = null, demo = false } = {}) {
+  const gate = h3SettingsAllowed({ signals, profile, demo });
+  const clean = (o) => {
+    const out = {};
+    if (typeof o?.voice === "boolean") out.voice = o.voice;
+    if (typeof o?.supervise === "boolean") out.supervise = o.supervise;
+    if (typeof o?.lang === "string" && /^[a-z]{2}$/.test(o.lang)) out.lang = o.lang;
+    return out;
+  };
+  const read = () => {
+    if (!gate.ok || !storage) return {};
+    try { return clean(JSON.parse(storage.getItem(H3_SETTINGS_KEY) || "null") ?? {}); } catch (_) { return {}; }
+  };
+  return {
+    allowed: gate.ok, reason: gate.reason, read,
+    write(patch) {
+      if (!gate.ok || !storage) return false;
+      try { storage.setItem(H3_SETTINGS_KEY, JSON.stringify({ v: 1, ...read(), ...clean(patch) })); return true; } catch (_) { return false; }
+    },
+    clear() { if (!storage) return false; try { storage.removeItem(H3_SETTINGS_KEY); return true; } catch (_) { return false; } },
+  };
+}
+
+// ------------------------------------------------------------------------------------------------ 3. the panel in Spanish
+
+/** Every UI string of the Omega Hive panel (oh-panel.js). English is the panel's text as it was; the Spanish is
+ * machine-assisted and needs a native speaker's review ("gobernador" stands for the safety governor). */
+const H3_PANEL_TEXT = Object.freeze({
+  en: Object.freeze({
+    aria: (f) => `${f}: software agents managing the simulated robots`,
+    heading: (f) => `${f} — software agents managing the simulated robots`,
+    note: "Seven software agents, not people, coordinate the robot jobs at the Holodeck's six robot sites. Every job passes the safety governor; anything that would touch a physical robot comes to you as a question, and approving lets only the simulated job run. Lines are written on this device from each agent's persona and the job's own data, with no model or network call. Voice is off until you turn it on, captions always show, and nothing listens.",
+    review: "",
+    label: "software agent",
+    home: (site) => `Home: ${site}`,
+    step: "Step",
+    run: (n) => `Run ${n} steps`,
+    voice: (on) => `Voice: ${on ? "on" : "off"}`,
+    supervise: (on) => `Supervise every job: ${on ? "on" : "off"}`,
+    superviseOn: "Every job waits for your approval before it runs.",
+    superviseOff: "Routine simulated jobs the governor allows run under your standing approval; requests that name a physical robot always ask you.",
+    language: "Language: English",
+    languageTitle: "Show the hive in Spanish (the page reloads; your choice is kept on this device for your profile only).",
+    waiting: (n) => `Waiting for you (${n})`,
+    askSupervise: (r) => `${r.jobId} · ${r.task} at ${r.siteName}. The governor allowed it and you supervise every job: approve to let it run on the simulated robot, or decline.`,
+    askPhysical: (r) => `${r.jobId} · ${r.task} at ${r.siteName}. It names a physical robot; that path is disabled in this build. Approve to run it on the simulated robot only, or decline.`,
+    approve: "Approve (simulated only)",
+    decline: "Decline",
+    feed: "Agent captions",
+    status: (t, m, v) => `Step ${t} · completed ${m.completed} · refused ${m.refused} · vetoed ${m.vetoed} · declined ${m.declined} · waiting for you ${m.awaitingApproval} · audit chain ${v.lines} line(s), ${v.ok ? "intact" : "BROKEN"}`,
+  }),
+  es: Object.freeze({
+    aria: (f) => `${f}: agentes de software que gestionan los robots simulados`,
+    heading: (f) => `${f} — agentes de software que gestionan los robots simulados`,
+    note: "Siete agentes de software, no personas, coordinan los trabajos de robots en los seis sitios de robots del Holodeck. Cada trabajo pasa por el gobernador de seguridad; todo lo que tocaría un robot físico le llega a usted como una pregunta, y aprobar solo deja que se ejecute el trabajo simulado. Las frases se escriben en este dispositivo a partir de la personalidad de cada agente y de los datos del propio trabajo, sin llamadas a ningún modelo ni a la red. La voz está apagada hasta que usted la active, los subtítulos siempre se muestran y nada escucha.",
+    review: "Texto en español asistido por máquina, pendiente de revisión por un hablante nativo.",
+    label: "agente de software",
+    home: (site) => `Sede: ${site}`,
+    step: "Paso",
+    run: (n) => `Ejecutar ${n} pasos`,
+    voice: (on) => `Voz: ${on ? "activada" : "desactivada"}`,
+    supervise: (on) => `Supervisar cada trabajo: ${on ? "sí" : "no"}`,
+    superviseOn: "Cada trabajo espera su aprobación antes de ejecutarse.",
+    superviseOff: "Los trabajos simulados de rutina que el gobernador permite se ejecutan con su aprobación permanente; las solicitudes que nombran un robot físico siempre le preguntan.",
+    language: "Idioma: español",
+    languageTitle: "Mostrar la colmena en inglés (la página se recarga; su elección se guarda en este dispositivo solo para su perfil).",
+    waiting: (n) => `Esperando su decisión (${n})`,
+    askSupervise: (r) => `${r.jobId} · ${r.task} en ${r.siteName}. El gobernador lo permitió y usted supervisa cada trabajo: apruebe para que se ejecute en el robot simulado, o rechácelo.`,
+    askPhysical: (r) => `${r.jobId} · ${r.task} en ${r.siteName}. Nombra un robot físico; esa vía está desactivada en esta versión. Apruebe para ejecutarlo solo en el robot simulado, o rechácelo.`,
+    approve: "Aprobar (solo simulado)",
+    decline: "Rechazar",
+    feed: "Subtítulos de los agentes",
+    status: (t, m, v) => `Paso ${t} · completados ${m.completed} · rechazados ${m.refused} · vetados ${m.vetoed} · declinados ${m.declined} · esperando su decisión ${m.awaitingApproval} · cadena de auditoría ${v.lines} línea(s), ${v.ok ? "intacta" : "ROTA"}`,
+  }),
+});
+function h3PanelText(lang = "en") { return H3_PANEL_TEXT[lang] ?? H3_PANEL_TEXT.en; }
+
+/** The agents' role sentences in Spanish (by role key); English stays the agent's own `role`. Machine-assisted, as above. */
+const H3_ROLES_ES = Object.freeze({
+  dispatcher: "Despachador: anuncia cada trabajo de robot, recoge las ofertas de los agentes y adjudica el trabajo al agente mejor situado.",
+  "safety-steward": "Responsable de seguridad: revisa cada trabajo que el gobernador permite y puede vetarlo; un veto solo añade un rechazo.",
+  "maintenance-planner": "Planificador de mantenimiento: toma los trabajos de entrada a la celda y de configuración de zonas, planifica el bloqueo y mantiene los equipos listos.",
+  "consent-keeper": "Guardián del consentimiento: consulta al supervisor humano siempre que hace falta la palabra de una persona y mantiene en orden los registros de consentimiento.",
+  trainer: "Formador: toma los trabajos de recoger y colocar y de configuración de zonas, y orienta después de cada ejecución que no terminó limpia.",
+  auditor: "Auditor: vuelve a recorrer la cadena de auditoría cuando se cierran los trabajos e informa si cada línea está intacta.",
+  logistics: "Logística: toma los trabajos de rutas del almacén y del puerto y mueve contenedores entre los sitios de robots.",
+});
+function h3RoleIn(agent, lang = "en") { return lang === "es" ? H3_ROLES_ES[agent?.key] ?? agent?.role ?? "" : agent?.role ?? ""; }
+
+/** The personality chips (oh-hive-data.js ohTraitChips' words) in Spanish. */
+const H3_CHIPS_ES = Object.freeze({ warm: "cercano", reserved: "reservado", formal: "formal", casual: "informal", detailed: "detallista", brief: "breve", cautious: "prudente", brisk: "ágil" });
+function h3ChipIn(chip, lang = "en") { return lang === "es" ? H3_CHIPS_ES[chip] ?? chip : chip; }
+
+// ------------------------------------------------------------------------------------------------ 4. "A day in the hive"
+
+const H3_SOMA = "rb-site-soma-robot-cell";
+/**
+ * The scene: sf-downtown's SoMa robot cell (the cell hall), seeded and timed. `steps` are the hive steps the scene takes at each
+ * beat's start (seconds on the scene clock); everything said and shown comes from the hive's own events at those steps.
+ *   prologue  (before the clock starts) a cell-entry job brings the maintenance planner into the cell hall, and the trainer
+ *             takes two pick-and-place jobs at the San José lab (so it is at capacity and does not bid next);
+ *   arrive    a cobot zone set-up job arrives for the Richland drilling deck: the dispatcher announces it;
+ *   award     the agents bid; the planner wins it;
+ *   walk-out  the planner walks out of the cell hall's door, and outside, from the building's door, on towards its site;
+ *   refusal   a cell-entry request with a person 1.2 m from the robot reaches the governor, which refuses it (its reason captioned);
+ *   approval  a cell-entry job that names the physical robot: the governor refuses that path and the consent keeper asks the
+ *             learner; the learner approves a simulated run only; it goes through the bidding and the governor again;
+ *   run       the winner walks into the cell hall and the job runs on the simulated robot (the physical path stays disabled).
+ */
+const H3_SCENE = Object.freeze({
+  parish: "sf-downtown", site: H3_SOMA, style: "ixr-cell-hall", duration: 27,
+  /** at: seconds on the scene clock; shot: where the camera is; steps: hive steps taken then (held, then released). */
+  beats: Object.freeze([
+    Object.freeze({ id: "intro", at: 0, shot: "room", steps: 0 }),
+    Object.freeze({ id: "arrive", at: 0.5, shot: "room", steps: 1 }),
+    Object.freeze({ id: "bids", at: 2.5, shot: "room", steps: 0 }),
+    Object.freeze({ id: "award", at: 4.5, shot: "room", steps: 0 }),
+    Object.freeze({ id: "walk-out", at: 6.5, shot: "room", steps: 0 }),
+    Object.freeze({ id: "outside", at: 10, shot: "door", steps: 0 }),
+    Object.freeze({ id: "refusal", at: 14, shot: "wide", steps: 3 }),
+    Object.freeze({ id: "approval", at: 17.5, shot: "wide", steps: 1 }),
+    Object.freeze({ id: "approved", at: 20, shot: "room", steps: 0 }),
+    Object.freeze({ id: "walk-in", at: 21, shot: "room", steps: 1 }),
+    Object.freeze({ id: "run", at: 24, shot: "room", steps: 3 }),
+    Object.freeze({ id: "end", at: 27, shot: "room", steps: 0 }),
+  ]),
+});
+const H3_SCENE_PROLOGUE_STEPS = 4;
+
+/** The scene's jobs (ohHive's `jobs` shape: { n, arriveT, spec }); the seed varies the jobs' own seeds, never the story. */
+function h3SceneJobs(seed = 1) {
+  const s = (seed >>> 0) || 1;
+  const client = (i) => ({ id: `client-mock-${1 + (i % 6)}`, name: "Mock client agent" });
+  const job = (n, arriveT, request) => ({ n, arriveT, spec: { seed: (s * 1000 + 900 + n) >>> 0, client: client(n), request: { policyId: "vb-scripted-expert", target: { kind: "sim" }, ...request, note: `scene job ${n + 1}` } } });
+  return [
+    job(0, 1, { taskType: "rb-cell-entry", siteId: H3_SOMA, speed: 0.3, nearestPersonM: 8, payloadKg: 3 }),
+    job(1, 3, { taskType: "rb-teleop-pick-place", siteId: "rb-site-san-jose-robotics-lab", speed: 0.15, nearestPersonM: 9, payloadKg: 1 }),
+    job(2, 3, { taskType: "rb-teleop-pick-place", siteId: "rb-site-san-jose-robotics-lab", speed: 0.12, nearestPersonM: 10, payloadKg: 1.2 }),
+    job(3, 5, { taskType: "rb-cobot-zone-setup", siteId: "rb-site-richland-drilling-robot", speed: 0.15, nearestPersonM: 9, payloadKg: 0.5 }),
+    job(4, 6, { taskType: "rb-cell-entry", siteId: H3_SOMA, speed: 0.1, nearestPersonM: 1.2, payloadKg: 3 }),
+    job(5, 9, { taskType: "rb-cell-entry", siteId: H3_SOMA, speed: 0.3, nearestPersonM: 8, payloadKg: 3, target: { kind: "physical" } }),
+  ];
+}
+
+/** A hive over the scene's jobs (the caller hands in OMEGA-HIVE's hive factory, so this module imports nothing). No audit log: the scene writes
+ * nothing to the learner's governance registry; the hive keeps its own chain. */
+function h3SceneHive(makeHive, { seed = 1 } = {}) {
+  return typeof makeHive === "function" ? makeHive({ seed, jobs: h3SceneJobs(seed), nJobs: 6, ticksPerDay: 60 }) : null;
+}
+
+/**
+ * The scene's paced view of a hive: step() runs hive steps and holds their events; release*() hands them on, in the hive's own
+ * order, to whatever listens (the room's figures and presence, the caption bar), so one step's announce, bids, award and walk
+ * can be shown seconds apart. jobs(), agentState() and pending() read the hive itself (a room opened mid-scene starts right).
+ */
+function h3SceneRelay(hive) {
+  const held = [], out = [], listeners = new Map();
+  const unsub = hive && typeof hive.on === "function" ? hive.on("*", (e) => held.push(e)) : null;
+  const emit = (e) => { out.push(e); for (const fn of [...(listeners.get(e.type) ?? []), ...(listeners.get("*") ?? [])]) { try { fn(e); } catch (_) { /* a listener never stops the scene */ } } return e; };
+  /** Hand on the held events up to and including the first that `match` accepts, and the speak lines straight after it. */
+  function releaseThrough(match) {
+    const test = typeof match === "function" ? match : (e) => e.type === match;
+    const i = held.findIndex(test); if (i < 0) return [];
+    let j = i + 1; while (j < held.length && held[j].type === "speak") j += 1;
+    return held.splice(0, j).map(emit);
+  }
+  return {
+    hive, agents: hive?.agents ?? [],
+    on(type, fn) { if (typeof fn === "function") { if (!listeners.has(type)) listeners.set(type, []); listeners.get(type).push(fn); } return () => this.off(type, fn); },
+    off(type, fn) { const xs = listeners.get(type); if (xs) listeners.set(type, xs.filter((f) => f !== fn)); },
+    jobs: () => hive?.jobs?.() ?? [], agentState: (id) => hive?.agentState?.(id) ?? null, pending: () => hive?.pending?.() ?? [],
+    step(n = 1) { for (let i = 0; i < n; i += 1) hive?.step?.(); return held.length; },
+    releaseThrough,
+    /** Every held event of a run of `type` (consecutive bids), with their speak lines. */
+    releaseRun(type) { const got = []; while (held.length && (held[0].type === type || (got.length && held[0].type === "speak"))) got.push(emit(held.shift())); return got; },
+    releaseAll() { return held.splice(0).map(emit); },
+    held: () => held.slice(), released: () => out.slice(),
+    dispose() { try { unsub?.(); } catch (_) { /* gone */ } listeners.clear(); },
+  };
+}
+
+
 /* ===== shared/oh-panel.js ===== */
 // OMEGA-HIVE — the "Omega Hive" panel in the parishes app, beside the agent-jobs panel (docs/omega-hive.md,
 // docs/consoles/OMEGA-HIVE.md). SmartCiti.X Holodeck · Powered by AGI Corp.
@@ -169226,8 +169914,12 @@ function ohHiveDay(seed = 1, opts = {}) {
 // size × device pixel ratio; the badge SVG stays as the fallback), and "Supervise every job" (off by default) makes every
 // governor-allowed job wait in the queue for the learner's approval (ohHive's setSupervise).
 //
-// SEAM: ohMountHive(el, { reducedMotion, audit, seed, nJobs, synth, Utterance, supervise }) ->
-//         { hive, step(), run(n), approve(jobId), decline(jobId), voice(on), supervise(on), voiceController, state(), captions(), el } | null
+// HIVE-3: the panel's own text and the agents' role sentences follow the hive's language (h3PanelText, h3RoleIn, h3ChipIn: English
+// unchanged, Spanish machine-assisted and awaiting a native speaker's review); `settings` (h3Settings) remembers voice, "supervise
+// every job" and the language for a signed-in adult profile on this device, and a language button switches it (the page reloads).
+//
+// SEAM: ohMountHive(el, { reducedMotion, audit, seed, nJobs, synth, Utterance, supervise, lang, settings, reload }) ->
+//         { hive, step(), run(n), approve(jobId), decline(jobId), voice(on), supervise(on), language(code), lang, voiceController, state(), captions(), el } | null
 //
 // Every top-level name starts with `oh`/`OH_` (the bundler shares one scope).
 
@@ -169238,25 +169930,31 @@ function ohHiveDay(seed = 1, opts = {}) {
 
 
 
+
 const OH_FEED_MAX = 40;
 const OH_RUN_STEPS = 10;
-const OH_PANEL_CSS = ".oh-panel{font:13px/1.4 system-ui,sans-serif;padding:10px;border:1px solid #4a3f7a;border-radius:10px;background:#120f22;color:#ece8ff;margin:8px 0}.oh-panel h3{margin:0 0 6px;font-size:15px}.oh-panel .oh-note{opacity:.85;font-size:12px;margin:0 0 6px}.oh-panel .oh-roster{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px}.oh-panel .oh-card{display:flex;gap:6px;align-items:flex-start;border:1px solid #3a335f;border-radius:8px;padding:5px;background:#1b1733;position:relative}.oh-panel .oh-card svg,.oh-panel .oh-card img{flex:0 0 auto;border-radius:6px}.oh-panel .oh-name{font-weight:600}.oh-panel .oh-label{display:inline-block;font-size:10px;letter-spacing:.02em;text-transform:uppercase;background:#2f2a52;border:1px solid #6d62b8;border-radius:4px;padding:0 4px;margin-left:4px}.oh-panel .oh-role{font-size:11px;opacity:.85}.oh-panel .oh-chip{display:inline-block;font-size:10px;border-radius:9px;padding:0 6px;margin:2px 3px 0 0;background:#2a2547}.oh-panel .oh-talk{position:absolute;top:5px;right:5px;width:8px;height:8px;border-radius:50%;background:#3a335f}.oh-panel .oh-card[data-talking=true] .oh-talk{background:#8fe3ff}.oh-panel .oh-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.oh-panel button{background:#2a2450;color:#ece8ff;border:1px solid #6d62b8;border-radius:6px;padding:5px 9px;cursor:pointer}.oh-panel button[aria-pressed=true]{background:#4b3fa0}.oh-panel .oh-feed{max-height:180px;overflow-y:auto;border:1px solid #3a335f;border-radius:6px;padding:4px 6px;margin-top:6px;background:#0d0b19}.oh-panel .oh-feed p{margin:2px 0}.oh-panel .oh-queue{margin-top:6px}.oh-panel .oh-req{border:1px solid #8a6d2a;border-radius:6px;padding:5px;margin-top:4px;background:#1f1a10}.oh-panel .oh-status{margin-top:6px;font-size:12px;opacity:.9}";
+const OH_PANEL_CSS = ".oh-panel{font:13px/1.4 system-ui,sans-serif;padding:10px;border:1px solid #4a3f7a;border-radius:10px;background:#120f22;color:#ece8ff;margin:8px 0}.oh-panel h3{margin:0 0 6px;font-size:15px}.oh-panel .oh-note{opacity:.85;font-size:12px;margin:0 0 6px}.oh-panel .oh-roster{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px}.oh-panel .oh-card{display:flex;gap:6px;align-items:flex-start;border:1px solid #3a335f;border-radius:8px;padding:5px;background:#1b1733;position:relative}.oh-panel .oh-card svg,.oh-panel .oh-card img{flex:0 0 auto;border-radius:6px}.oh-panel .oh-name{font-weight:600}.oh-panel .oh-label{display:inline-block;font-size:10px;letter-spacing:.02em;text-transform:uppercase;background:#2f2a52;border:1px solid #6d62b8;border-radius:4px;padding:0 4px;margin-left:4px}.oh-panel .oh-role{font-size:11px;opacity:.85}.oh-panel .oh-chip{display:inline-block;font-size:10px;border-radius:9px;padding:0 6px;margin:2px 3px 0 0;background:#2a2547}.oh-panel .oh-talk{position:absolute;top:5px;right:5px;width:8px;height:8px;border-radius:50%;background:#3a335f}.oh-panel .oh-card[data-talking=true] .oh-talk{background:#8fe3ff}.oh-panel .oh-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.oh-panel button{background:#2a2450;color:#ece8ff;border:1px solid #6d62b8;border-radius:6px;padding:5px 9px;cursor:pointer}.oh-panel button[aria-pressed=true]{background:#4b3fa0}.oh-panel .oh-feed{max-height:180px;overflow-y:auto;border:1px solid #3a335f;border-radius:6px;padding:4px 6px;margin-top:6px;background:#0d0b19}.oh-panel .oh-feed p{margin:2px 0}.oh-panel .oh-queue{margin-top:6px}.oh-panel .oh-req{border:1px solid #8a6d2a;border-radius:6px;padding:5px;margin-top:4px;background:#1f1a10}.oh-panel .oh-status{margin-top:6px;font-size:12px;opacity:.9}@media (pointer:coarse),(max-width:600px){.oh-panel button{min-height:44px;min-width:44px}}"; // HIVE-3: 44 px touch targets on a phone (the language button and the rest)
 
-function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1, nJobs = 200, ticksPerDay = 480, synth, Utterance, onTalk = null, supervise = false, lang = null } = {}) {
+function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1, nJobs = 200, ticksPerDay = 480, synth, Utterance, onTalk = null, supervise = false, lang = null, settings = null, reload = null } = {}) {
   if (!el || typeof document === "undefined") return null;
+  let prefs = {}; try { prefs = settings?.read?.() ?? {}; } catch (_) { prefs = {}; } // HIVE-3: this profile's remembered choices (none outside its gate)
+  if (typeof prefs.supervise === "boolean") supervise = prefs.supervise;
   // VOICES: the hive speaks the page's language when it has one (English by default, or Spanish); the voice then asks for a local
   // voice of that language, and with none the agent is silent and its caption still shows.
+  if (typeof prefs.lang === "string") lang = prefs.lang; // HIVE-3: the language this profile chose wins over the page's
   const hiveLang = ohLangFor(lang ?? document.documentElement?.lang ?? "en");
+  const T = h3PanelText(hiveLang);
   const hive = ohHive({ seed, audit, nJobs, ticksPerDay, supervise, ...(hiveLang === "en" ? {} : { say: (a, ev) => ohSay(a, ev, { lang: hiveLang }), agents: OH_AGENTS.map((a) => ohAgentIn(a, hiveLang)), supervisor: "Supervisor (este dispositivo)" }) });
   const voice = ohVoiceController({ ...(synth !== undefined ? { synth } : {}), ...(Utterance !== undefined ? { Utterance } : {}), enabled: false });
   const captions = [];
   const siteName = (id) => RB_SITES.find((s) => s.id === id)?.name ?? id;
   const mk = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
 
-  const box = mk("section", "oh-panel"); box.id = "oh-hive"; box.setAttribute("aria-label", `${OH_FEATURE}: software agents managing the simulated robots`);
+  const box = mk("section", "oh-panel"); box.id = "oh-hive"; box.lang = OH_LANGS[hiveLang]?.tag ?? "en-US"; box.dataset.lang = hiveLang; box.setAttribute("aria-label", T.aria(OH_FEATURE));
   const style = document.createElement("style"); style.textContent = OH_PANEL_CSS; box.appendChild(style);
-  box.appendChild(mk("h3", null, `${OH_FEATURE} — software agents managing the simulated robots`));
-  box.appendChild(mk("p", "oh-note", "Seven software agents, not people, coordinate the robot jobs at the Holodeck's six robot sites. Every job passes the safety governor; anything that would touch a physical robot comes to you as a question, and approving lets only the simulated job run. Lines are written on this device from each agent's persona and the job's own data, with no model or network call. Voice is off until you turn it on, captions always show, and nothing listens."));
+  box.appendChild(mk("h3", null, T.heading(OH_FEATURE)));
+  box.appendChild(mk("p", "oh-note", T.note));
+  if (T.review) box.appendChild(mk("p", "oh-note oh-review", T.review));
 
   const roster = mk("div", "oh-roster"); roster.setAttribute("role", "list");
   const cards = new Map();
@@ -169264,14 +169962,14 @@ function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1, nJobs 
     const card = mk("div", "oh-card"); card.setAttribute("role", "listitem"); card.dataset.agent = a.id; card.dataset.talking = "false";
     const pic = mk("div", "oh-pic");
     let img = null; try { img = typeof aaPortraitImg === "function" ? aaPortraitImg(a, { size: 48 }) : null; } catch (_) { img = null; }
-    if (img) { img.title = `${a.name}, ${OH_AGENT_LABEL}`; pic.appendChild(img); } // the 2× portrait (HIVE-IN-WORLD)
-    else pic.innerHTML = avSpriteSvg(avAgentLook(a.avatar.glyph, a.avatar.accent), { kind: "portrait", size: 48, title: `${a.name}, ${OH_AGENT_LABEL}` }); // the badge fallback
+    if (img) { img.title = `${a.name}, ${T.label}`; pic.appendChild(img); } // the 2× portrait (HIVE-IN-WORLD)
+    else pic.innerHTML = avSpriteSvg(avAgentLook(a.avatar.glyph, a.avatar.accent), { kind: "portrait", size: 48, title: `${a.name}, ${T.label}` }); // the badge fallback
     const body = mk("div");
-    const name = mk("div", "oh-name", a.name); name.appendChild(mk("span", "oh-label", OH_AGENT_LABEL));
+    const name = mk("div", "oh-name", a.name); name.appendChild(hiveLang === "en" ? mk("span", "oh-label", OH_AGENT_LABEL) : mk("span", "oh-label", T.label));
     body.appendChild(name);
-    body.appendChild(mk("div", "oh-role", a.role));
-    body.appendChild(mk("div", "oh-role", `Home: ${siteName(a.homeSite)}`));
-    const chips = mk("div"); for (const c of ohTraitChips(a.traits)) chips.appendChild(mk("span", "oh-chip", c)); body.appendChild(chips);
+    body.appendChild(mk("div", "oh-role", h3RoleIn(a, hiveLang)));
+    body.appendChild(mk("div", "oh-role", T.home(siteName(a.homeSite))));
+    const chips = mk("div"); for (const c of ohTraitChips(a.traits)) chips.appendChild(mk("span", "oh-chip", h3ChipIn(c, hiveLang))); body.appendChild(chips);
     card.append(pic, body, mk("span", "oh-talk"));
     card.querySelector(".oh-talk").setAttribute("aria-hidden", "true");
     roster.appendChild(card); cards.set(a.id, card);
@@ -169279,16 +169977,17 @@ function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1, nJobs 
   box.appendChild(roster);
 
   const row = mk("div", "oh-row");
-  const bStep = mk("button", null, "Step"); bStep.type = "button"; bStep.dataset.oh = "step";
-  const bRun = mk("button", null, `Run ${OH_RUN_STEPS} steps`); bRun.type = "button"; bRun.dataset.oh = "run";
-  const bVoice = mk("button", null, "Voice: off"); bVoice.type = "button"; bVoice.dataset.oh = "voice"; bVoice.setAttribute("aria-pressed", "false");
+  const bStep = mk("button", null, T.step); bStep.type = "button"; bStep.dataset.oh = "step";
+  const bRun = mk("button", null, T.run(OH_RUN_STEPS)); bRun.type = "button"; bRun.dataset.oh = "run";
+  const bVoice = mk("button", null, T.voice(false)); bVoice.type = "button"; bVoice.dataset.oh = "voice"; bVoice.setAttribute("aria-pressed", "false");
   const bSup = mk("button", null, ""); bSup.type = "button"; bSup.dataset.oh = "supervise";
-  const supText = (on) => { bSup.textContent = `Supervise every job: ${on ? "on" : "off"}`; bSup.setAttribute("aria-pressed", String(on)); bSup.title = on ? "Every job waits for your approval before it runs." : "Routine simulated jobs the governor allows run under your standing approval; requests that name a physical robot always ask you."; };
+  const supText = (on) => { bSup.textContent = T.supervise(on); bSup.setAttribute("aria-pressed", String(on)); bSup.title = on ? T.superviseOn : T.superviseOff; };
   supText(hive.supervising());
-  row.append(bStep, bRun, bVoice, bSup);
+  const bLang = mk("button", null, T.language); bLang.type = "button"; bLang.dataset.oh = "language"; bLang.title = T.languageTitle; // HIVE-3
+  row.append(bStep, bRun, bVoice, bSup, bLang);
   box.appendChild(row);
   const queueBox = mk("div", "oh-queue"); queueBox.setAttribute("aria-live", "polite"); box.appendChild(queueBox);
-  const feed = mk("div", "oh-feed"); feed.setAttribute("aria-live", "polite"); feed.setAttribute("aria-label", "Agent captions"); box.appendChild(feed);
+  const feed = mk("div", "oh-feed"); feed.setAttribute("aria-live", "polite"); feed.setAttribute("aria-label", T.feed); box.appendChild(feed);
   const status = mk("div", "oh-status"); box.appendChild(status);
   el.appendChild(box);
 
@@ -169310,14 +170009,12 @@ function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1, nJobs 
     queueBox.textContent = "";
     const pend = hive.pending();
     if (!pend.length) return;
-    queueBox.appendChild(mk("div", "oh-name", `Waiting for you (${pend.length})`));
+    queueBox.appendChild(mk("div", "oh-name", T.waiting(pend.length)));
     for (const r of pend) {
       const req = mk("div", "oh-req"); req.dataset.job = r.jobId; req.dataset.reason = r.reason;
-      req.appendChild(mk("div", null, r.reason === "supervise"
-        ? `${r.jobId} · ${r.task} at ${r.siteName}. The governor allowed it and you supervise every job: approve to let it run on the simulated robot, or decline.`
-        : `${r.jobId} · ${r.task} at ${r.siteName}. It names a physical robot; that path is disabled in this build. Approve to run it on the simulated robot only, or decline.`));
-      const ok = mk("button", null, "Approve (simulated only)"); ok.type = "button"; ok.dataset.oh = "approve";
-      const no = mk("button", null, "Decline"); no.type = "button"; no.dataset.oh = "decline";
+      req.appendChild(mk("div", null, r.reason === "supervise" ? T.askSupervise(r) : T.askPhysical(r)));
+      const ok = mk("button", null, T.approve); ok.type = "button"; ok.dataset.oh = "approve";
+      const no = mk("button", null, T.decline); no.type = "button"; no.dataset.oh = "decline";
       ok.onclick = () => api.approve(r.jobId); no.onclick = () => api.decline(r.jobId);
       const br = mk("div", "oh-row"); br.append(ok, no); req.appendChild(br);
       queueBox.appendChild(req);
@@ -169326,12 +170023,12 @@ function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1, nJobs 
   function render() {
     renderQueue();
     const m = hive.metrics(); const v = hive.verify();
-    status.textContent = `Step ${hive.now()} · completed ${m.completed} · refused ${m.refused} · vetoed ${m.vetoed} · declined ${m.declined} · waiting for you ${m.awaitingApproval} · audit chain ${v.lines} line(s), ${v.ok ? "intact" : "BROKEN"}`;
+    status.textContent = T.status(hive.now(), m, v);
   }
 
   let timer = null;
   const api = {
-    hive, el: box, voiceController: voice,
+    hive, el: box, voiceController: voice, lang: hiveLang, settings,
     step() { const ev = hive.step(); render(); return ev; },
     run(n = OH_RUN_STEPS) {
       clearInterval(timer);
@@ -169346,9 +170043,11 @@ function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1, nJobs 
     },
     approve(jobId) { const r = hive.approve(jobId); render(); return r; },
     decline(jobId) { const r = hive.decline(jobId); render(); return r; },
-    voice(on) { const v = voice.setEnabled(on); bVoice.textContent = `Voice: ${v ? "on" : "off"}`; bVoice.setAttribute("aria-pressed", String(v)); return v; },
-    supervise(on) { const v = hive.setSupervise(on); supText(v); render(); return v; },
-    state() { return { t: hive.now(), metrics: hive.metrics(), verify: hive.verify(), pending: hive.pending(), voice: voice.enabled(), supervise: hive.supervising(), captions: captions.length }; },
+    voice(on, { remember = true } = {}) { const v = voice.setEnabled(on); bVoice.textContent = T.voice(v); bVoice.setAttribute("aria-pressed", String(v)); if (remember) { try { settings?.write?.({ voice: v }); } catch (_) { /* nothing kept */ } } return v; },
+    supervise(on) { const v = hive.setSupervise(on); supText(v); render(); try { settings?.write?.({ supervise: v }); } catch (_) { /* nothing kept */ } return v; },
+    /** HIVE-3: switch the hive's language; it is kept for this profile and applies on the reload that follows. */
+    language(code) { const l = ohLangFor(code); let kept = false; try { kept = !!settings?.write?.({ lang: l }); } catch (_) { kept = false; } if (kept && l !== hiveLang) { try { (reload ?? (() => location.reload()))(); } catch (_) { /* headless */ } } return { lang: l, kept }; },
+    state() { return { t: hive.now(), metrics: hive.metrics(), verify: hive.verify(), pending: hive.pending(), voice: voice.enabled(), supervise: hive.supervising(), lang: hiveLang, remembered: settings?.allowed === true, captions: captions.length }; },
     captions() { return captions.slice(); },
     stop() { clearInterval(timer); voice.stop(); },
   };
@@ -169356,6 +170055,8 @@ function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1, nJobs 
   bRun.onclick = () => api.run(OH_RUN_STEPS);
   bVoice.onclick = () => api.voice(!voice.enabled());
   bSup.onclick = () => api.supervise(!hive.supervising());
+  bLang.onclick = () => api.language(hiveLang === "es" ? "en" : "es");
+  if (prefs.voice === true) api.voice(true, { remember: false }); // remembered from an earlier visit by this profile
   render();
   return api;
 }
@@ -169406,7 +170107,7 @@ function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1, nJobs 
 //              building's collider box).
 //     route(from, to) -> [{ x, z }, …] | null: the walk follows these waypoints (ending at `to`) instead of a straight line
 //              (HIVE-IN-WORLD's hwRouter round the colliders); null walks straight.
-//     -> { root, handle(ev), animate(t, dt, here), attach(source), detach(source), addAgents(list), agents(),
+//     -> { root, handle(ev), animate(t, dt, here), attach(source), detach(source), addAgents(list), agents(), release(id),
 //          state(id), talkStart(id), talkEnd(id), talkLog(), captionLog(), gestureLog(), counts(), dispose() }
 //   aaVbridgeAgents(homeSite) -> the four VBRIDGE personas as agents standing at homeSite
 //   aaVbridgeSource(vbApi)    -> an on/off source that turns the agent-jobs panel's job (vbApi.state()) into
@@ -169847,6 +170548,20 @@ function aaMountAgentAvatars({ three = null, parent = null, agents = [], source 
     talkEnd: (id) => { const f = figures.get(id); if (!f?.talk) return false; f.talk.voiced = false; f.talk.end = clock; const last = talkLog.findLast?.((x) => x.agent === id) ?? null; if (last) last.end = clock; if (f.caption) f.caption.end = clock; tickTalk(f); return true; },
     talkLog: () => talkLog.slice(), captionLog: () => captionLog.slice(), gestureLog: () => gestureLog.slice(),
     clock: () => clock, counts, sources: () => sources.size,
+    /** HIVE-3: take one figure out (a visitor that has walked out of a robotics room): its meshes and canvases are disposed and
+     * its slot freed; the agent stays listed, off the map, and gets a new figure when a move next brings it here. */
+    release(id) {
+      const f = figures.get(id); if (!f) return false;
+      if (f.site != null) freeSlot(f.site, f.slot);
+      f.site = null; f.walk = null; f.offMap = true; f.visible = false; f.talk = null; f.queue.length = 0; f.caption = null; f.gesture = null;
+      if (f.fig) {
+        const g = f.fig.group; g.parent?.remove(g);
+        g.traverse((o) => { o.geometry?.dispose?.(); o.material?.map?.dispose?.(); o.material?.dispose?.(); });
+        for (const cv of [f.fig.labelCv, f.fig.captionCv]) if (cv?.c) textureBytes -= cv.c.width * cv.c.height * 4;
+        f.fig = null;
+      }
+      return true;
+    },
     dispose() { for (const s of [...sources]) detach(s); if (root) { root.parent?.remove(root); root.traverse((o) => { o.geometry?.dispose?.(); o.material?.map?.dispose?.(); o.material?.dispose?.(); }); } figures.clear(); },
   };
 }
@@ -171221,9 +171936,18 @@ function ixrMeasure(room) {
 // room's meshes and triangles are exactly what they were. Rooms stay generic by kind: every texture is drawn from code (no
 // image file, no logo, no words, no company, union or trade-body name) and nothing models a real building.
 //
+// ENV-HD-3 (docs/consoles/ENV-HD-3.md) put the set on every other INTERIORS style: the kitchen (a stainless variant: brushed
+// metal on counters, hoods, racks and cabinets), the union hall, the six Louisiana rooms of LA-ROOMS, and TYCOON's rented
+// room and shop (25 of 25 styles), with a third set, "hall" (a plank floor and the painted block wall), for the halls and
+// the rented room. The skin is budget-aware: it adds a map only while the room stays inside HD2_TEX_BUDGET with everything
+// already in it counted (the shell's two signs and, in a Louisiana room, LA-ROOMS' name-sign canvases), floor first.
+//
 // SEAMS (every top-level name is hd2/HD2_-prefixed: the bundler shares one scope; three.js comes from the caller):
-//   HD2_SKIN_STYLES                 plain data: style id -> { set: "industrial" | "tile", sites } (sites = how many parish-engine
-//                                     sites open the style, counted over the ten maps when this was written: why these first)
+//   HD2_SKIN_STYLES                 plain data: style id -> { set: "industrial" | "tile" | "hall", sites, metal? } (sites = how many
+//                                     parish-engine sites open the style, counted over the maps: why these first; metal = the
+//                                     prop kinds that take brushed metal when not the default rack/machine/tank/cabinet/hood)
+//   HD2_SIGN_BYTES                  GPU bytes of one LA-ROOMS name-sign canvas per tier (512 x 120, the phone 256 x 60, mips)
+//   hd2RoomBytes(group, tier)       -> texture bytes a room already carries before the skin (shell signs + LA name signs)
 //   HD2_TEX_BUDGET                  GPU texture bytes per room per tier (w × h × 4, × 4/3 with a mip chain), every texture in
 //                                     the room counted, the shell's two 512 × 256 signs included: high 24 MiB, balanced and
 //                                     low 3 MiB (ROBO-INTERIORS' IXR_TEX_BUDGET, the same rooms' budget)
@@ -171236,8 +171960,10 @@ function ixrMeasure(room) {
 //                                     after the other dressers so the skin sees their meshes (it never adds one).
 
 
-/** The styles skinned, most-visited first (site counts over the ten maps: workshop 167, plant room 139, port shed 124, civic
- *  lobby 108, classroom 62, apparatus bay 55, transit barn 53, clinic 52, warehouse 47). */
+/** The styles skinned, most-visited first (site counts over the maps: workshop 167, plant room 139, port shed 124, civic
+ *  lobby 108, classroom 62, apparatus bay 55, transit barn 53, clinic 52, warehouse 47; ENV-HD-3: kitchen 23, Louisiana
+ *  crafts hall 9, union hall 6, hangar 4, compressor building 4, fabrication shop 4, control room 3, data hall 3, and
+ *  TYCOON's rented room and shop, which no map site opens). */
 const HD2_SKIN_STYLES = {
   "workshop": { set: "industrial", sites: 167 },
   "plant-room": { set: "industrial", sites: 139 },
@@ -171248,11 +171974,33 @@ const HD2_SKIN_STYLES = {
   "transit-barn": { set: "industrial", sites: 53 },
   "clinic": { set: "tile", sites: 52 },
   "warehouse": { set: "industrial", sites: 47 },
+  "kitchen": { set: "tile", sites: 23, metal: ["counter", "hood", "rack", "cabinet"] },
+  "lar-craft-hall": { set: "hall", sites: 9 },
+  "union-hall": { set: "hall", sites: 6 },
+  "lar-hangar": { set: "industrial", sites: 4 },
+  "lar-compressor": { set: "industrial", sites: 4 },
+  "lar-fab-shop": { set: "industrial", sites: 4 },
+  "lar-control-room": { set: "tile", sites: 3 },
+  "lar-data-hall": { set: "tile", sites: 3 },
+  "rented-room": { set: "hall", sites: 0 },
+  "shop": { set: "tile", sites: 0 },
 };
 const HD2_TEX_BUDGET = { high: 24 * 1024 * 1024, balanced: 3 * 1024 * 1024, low: 3 * 1024 * 1024 };
+/** One LA-ROOMS name-sign canvas (lar-rooms.js larSignMaterial: 512 x 120, 256 x 60 on the phone tier), with mips. */
+const HD2_SIGN_BYTES = { high: Math.round(512 * 120 * 4 * 4 / 3), balanced: Math.round(512 * 120 * 4 * 4 / 3), low: Math.round(256 * 60 * 4 * 4 / 3) };
+const HD2_SHELL_BYTES = 2 * Math.round(512 * 256 * 4 * 4 / 3); // the shell's two 512 x 256 signs (IXR_SHELL_SIGNS)
+const hd2MapBytes = (res) => Math.round(res * res * 4 * 4 / 3);
+/** Texture bytes a room carries before the skin, counted the same way headless and in the page: the shell's two signs and one
+ *  canvas per LA-ROOMS name sign (headless, LA-ROOMS draws a flat panel instead, so its canvases are counted by mesh). */
+function hd2RoomBytes(group, tier = "high") {
+  let signs = 0;
+  group?.traverse?.((o) => { if (o.isMesh && /^lar-sign-/.test(o.name)) signs++; });
+  return HD2_SHELL_BYTES + signs * (HD2_SIGN_BYTES[tier] ?? HD2_SIGN_BYTES.high);
+}
 
 const HD2_Y = "#f2c14b", HD2_W = "#eef2f4";
 const HD2_METAL_PROPS = /^ix-dress-(rack|machine|tank|cabinet|hood)$/;
+const hd2MetalTest = (spec) => (spec.metal ? new RegExp(`^ix-dress-(${spec.metal.join("|")})$`) : HD2_METAL_PROPS);
 
 /** An industrial room's floor marks (room-local metres, the door on +z): a hatched door apron, a yellow walkway from the door
  *  to the back wall, a dashed perimeter keep-clear line, and per kind a bay line or a keep-clear box. */
@@ -171320,6 +172068,35 @@ function hd2TileFloor(THREE, styleId, room, res) {
   }
   return hd2Texture(THREE, c, res, res, `hd2-tile-floor-${styleId}`);
 }
+/** A plank floor for the whole room (ENV-HD-3's hall set: 0.18 m boards along x, staggered butt joints, a fine grain, a tone
+ *  per board), tinted from the style's floor colour. */
+function hd2PlankFloor(THREE, styleId, room, res) {
+  const c = hd2Canvas(res, res);
+  if (c) {
+    const rng = hd2Rng(styleId.length * 173 + 11);
+    const g = c.getContext("2d"), { w, d } = room, sx = res / w, sz = res / d;
+    const base = new THREE.Color(room.style.floor), tone = new THREE.Color();
+    g.fillStyle = `#${base.getHexString()}`; g.fillRect(0, 0, res, res);
+    const bw = 0.18, lw = Math.max(1, res / 1000);
+    for (let r = 0; r * bw < d; r++) {
+      let x = -rng() * 2.4;
+      while (x < w) {
+        const len = 1.6 + rng() * 1.6;
+        tone.copy(base).multiplyScalar(0.9 + rng() * 0.18);
+        g.fillStyle = `#${tone.getHexString()}`; g.fillRect(x * sx, r * bw * sz, len * sx, bw * sz);
+        g.fillStyle = "rgba(30,20,12,0.10)";
+        for (let k = 0; k < 3; k++) g.fillRect(x * sx, (r * bw + bw * (0.2 + rng() * 0.6)) * sz, len * sx, lw);
+        g.fillStyle = "rgba(25,16,10,0.45)"; g.fillRect((x + len) * sx - lw, r * bw * sz, lw, bw * sz);
+        x += len;
+      }
+      g.fillStyle = "rgba(25,16,10,0.4)"; g.fillRect(0, r * bw * sz, res, lw);
+    }
+    hd2Noise(g, res, rng, res * res / 60, 0.06, "255,240,220", "40,26,16");
+    const sheen = g.createLinearGradient(0, 0, res, res); sheen.addColorStop(0, "rgba(255,255,255,0.06)"); sheen.addColorStop(0.5, "rgba(255,255,255,0)"); sheen.addColorStop(1, "rgba(255,255,255,0.05)");
+    g.fillStyle = sheen; g.fillRect(0, 0, res, res);
+  }
+  return hd2Texture(THREE, c, res, res, `hd2-plank-floor-${styleId}`);
+}
 /** A painted block wall (tileable, one tile = 2 m: 0.4 × 0.2 m blocks in running bond), cached per size; a clone per room. */
 function hd2BlockWall(THREE, res, repeat) {
   const key = `block@${res}`;
@@ -171345,30 +172122,40 @@ function hd2BlockWall(THREE, res, repeat) {
   return t;
 }
 
-/** The skin: texture maps on the meshes that are already in the room (see the header). */
+/** The skin: texture maps on the meshes that are already in the room (see the header). Budget-aware: a map is set only while
+ *  the room's texture bytes (hd2RoomBytes, plus the maps set so far) stay inside HD2_TEX_BUDGET[tier]; floor, walls, metal. */
 function hd2SkinRoom({ three: THREE, group, room, tier = "high" } = {}) {
   const styleId = room?.id, spec = HD2_SKIN_STYLES[styleId];
   if (!THREE || !group || !spec) return null;
-  const res = ixrTexRes(tier), maps = [];
+  const res = ixrTexRes(tier), maps = [], skipped = [], budget = HD2_TEX_BUDGET[tier] ?? HD2_TEX_BUDGET.high;
+  let bytes = hd2RoomBytes(group, tier);
+  const fits = () => bytes + hd2MapBytes(res) <= budget;
   const floor = group.getObjectByName("ix-floor"), wall = group.getObjectByName("ix-wall-0");
   if (floor?.material) {
-    floor.material.map = spec.set === "industrial" ? ixrFloorTexture(THREE, styleId, room, res, hd2FloorMarks(styleId, room)) : hd2TileFloor(THREE, styleId, room, res);
-    floor.material.color.set(0xffffff); floor.material.roughness = spec.set === "industrial" ? 0.55 : 0.6; floor.material.needsUpdate = true;
-    maps.push(floor.material.map.name);
+    if (fits()) {
+      floor.material.map = spec.set === "industrial" ? ixrFloorTexture(THREE, styleId, room, res, hd2FloorMarks(styleId, room))
+        : spec.set === "hall" ? hd2PlankFloor(THREE, styleId, room, res) : hd2TileFloor(THREE, styleId, room, res);
+      floor.material.color.set(0xffffff); floor.material.roughness = spec.set === "industrial" ? 0.55 : spec.set === "hall" ? 0.7 : 0.6; floor.material.needsUpdate = true;
+      maps.push(floor.material.map.name); bytes += hd2MapBytes(res);
+    } else skipped.push("floor");
   }
   if (wall?.material) { // the four walls share one material in ixBuild
-    const rep = [Math.max(room.w, room.d) / 2, room.h / 2];
-    wall.material.map = spec.set === "industrial" ? ixrSetTexture(THREE, "concrete", res, rep) : hd2BlockWall(THREE, res, rep);
-    wall.material.needsUpdate = true; maps.push(wall.material.map.name);
+    if (fits()) {
+      const rep = [Math.max(room.w, room.d) / 2, room.h / 2];
+      wall.material.map = spec.set === "industrial" ? ixrSetTexture(THREE, "concrete", res, rep) : hd2BlockWall(THREE, res, rep);
+      wall.material.needsUpdate = true; maps.push(wall.material.map.name); bytes += hd2MapBytes(res);
+    } else skipped.push("walls");
   }
-  let metal = null;
-  group.traverse((o) => {
-    if (!o.isMesh || !HD2_METAL_PROPS.test(o.name) || !o.material || Array.isArray(o.material)) return;
-    metal ??= ixrSetTexture(THREE, "metal", res, [1, 1]);
-    o.material.map = metal; o.material.roughness = 0.5; o.material.metalness = 0.15; o.material.needsUpdate = true;
-  });
-  if (metal) maps.push(metal.name);
-  room.hd2 = { style: styleId, set: spec.set, res, maps };
+  const metalTest = hd2MetalTest(spec), props = [];
+  group.traverse((o) => { if (o.isMesh && metalTest.test(o.name) && o.material && !Array.isArray(o.material)) props.push(o); });
+  if (props.length) {
+    if (fits()) {
+      const metal = ixrSetTexture(THREE, "metal", res, [1, 1]);
+      for (const o of props) { o.material.map = metal; o.material.roughness = spec.metal ? 0.38 : 0.5; o.material.metalness = spec.metal ? 0.3 : 0.15; o.material.needsUpdate = true; }
+      maps.push(metal.name); bytes += hd2MapBytes(res);
+    } else skipped.push("metal");
+  }
+  room.hd2 = { style: styleId, set: spec.set, res, maps, skipped, bytes, budget };
   return room.hd2;
 }
 
@@ -171427,6 +172214,7 @@ function hd2RegisterSkins(ix) {
 
 
 
+
 const HW_ROOM_TEXTURE_SCALE = Object.freeze({ high: 1, balanced: 0.5, low: 0 });
 
 function hwFigureYaw(spotYaw) { return (Number(spotYaw) || 0) + Math.PI; }
@@ -171453,24 +172241,116 @@ function hwRoomAgents(room, agents = []) {
   return out;
 }
 
-/** Stand the room's agents at their spots, listening to the hive for captions (see the header). */
+/** Stand the room's agents at their spots, listening to the hive for captions (see the header).
+ * HIVE-3: who is in the room follows the hive (h3RoomPresence): an agent the hive sends to this site for a job comes in
+ * through the door to a free agent spot (its role's first), else a place by the door, and walks out through the door when the
+ * job ends or the hive sends it elsewhere; an agent homed here leaves the same way while a job holds it elsewhere and comes
+ * back when that job ends. At most H3_ROOM_FIGURES figures are in the room at once (a further agent waits outside until a
+ * figure has gone), and a figure that has walked out is released (its meshes and canvases disposed), so the room stays inside
+ * IX_BUDGET and IXR_TEX_BUDGET. Reduced motion: figures appear and go without walking. The hive's move events never reach the
+ * figures directly: the mount turns them into walks between the room's own places. */
 function hwMountRoomAgents({ three = null, room = null, agents = [], source = null, tier = "high", reducedMotion = false, mount = aaMountAgentAvatars } = {}) {
   const siteId = hwRoomSiteId(room);
   if (!siteId || !room.group || typeof mount !== "function") return null;
-  const placed = hwRoomAgents(room, agents);
-  const at = new Map(placed.map((p) => [p.agent.id, p.spot]));
+  const roster = (agents ?? []).filter((a) => a?.id);
+  const byId = new Map(roster.map((a) => [a.id, a]));
+  const spots = room.spots?.agent ?? [];
   const scale = HW_ROOM_TEXTURE_SCALE[tier] ?? 1;
-  const avatars = placed.length ? mount({
-    three, parent: room.group, agents: placed.map((p) => p.agent), source, tier, reducedMotion,
-    siteAt: (id) => (id === siteId ? { x: 0, y: 0, z: 0 } : null), // any other site is off this room: the figure hides
-    spotFor: (a, id) => { const s = id === siteId ? at.get(a.id) : null; return s ? { x: s.x, y: 0, z: s.z, yaw: hwFigureYaw(s.yaw) } : null; },
+  const door = room.door && Number.isFinite(+room.door.x) && Number.isFinite(+room.door.z) ? room.door : { x: 0, z: (Number(room.d) || 10) / 2 - 1.1 };
+  // The room's places as pseudo-sites for the avatar mount: each agent spot, H3_ROOM_FIGURES places by the door (inside it,
+  // facing into the room) and the doorway itself (facing out: where a figure is released).
+  const P = "hw-room:";
+  const place = new Map();
+  for (const s of spots) place.set(`${P}spot:${s.id}`, { x: s.x, y: 0, z: s.z, yaw: hwFigureYaw(s.yaw), spot: s });
+  for (let k = 0; k < H3_ROOM_FIGURES; k += 1) {
+    const s = { id: `door-${k}`, name: "inside the door", x: door.x + (k % 2 ? -1 : 1) * (1.2 + 0.9 * Math.floor(k / 2)), z: door.z - 1.5, yaw: 0 };
+    place.set(`${P}door:${k}`, { x: s.x, y: 0, z: s.z, yaw: hwFigureYaw(s.yaw), spot: s });
+  }
+  place.set(`${P}exit`, { x: door.x, y: 0, z: door.z, yaw: 0 });
+  const relay = source && typeof source.on === "function" ? { // everything but the hive's own moves (the room has its own)
+    on: (type, fn) => { if (type !== "move") source.on(type, fn); },
+    off: (type, fn) => { if (type !== "move") source.off?.(type, fn); },
+  } : null;
+  const avatars = roster.length ? mount({
+    three, parent: room.group, agents: roster, source: relay, tier, reducedMotion,
+    siteAt: (id) => (place.has(id) ? { x: 0, y: 0, z: 0 } : null), // a real site id is off this room: its figure waits unbuilt
+    spotFor: (_a, id) => { const q = place.get(id); return q ? { x: q.x, y: 0, z: q.z, yaw: q.yaw } : null; },
     textureScale: scale > 0 ? scale : 1,
   }) : null;
+  const presence = h3RoomPresence({ agents: roster, source });
+  const holder = new Map(); // place id -> agent id
+  const where = new Map(); // agent id -> { id: place id, spot }
+  const placed = []; // live: [{ agent, spot }] for the agents standing (or walking to their place) in the room
+  const leaving = new Set(); // agents walking out (their figures still exist until released)
+  const waiting = []; // agents here by the hive with no room left: they come in when a figure has gone
+  const log = []; // { t, agent, what: "in" | "out" | "wait" | "promote", place }
+  const homeOf = (id) => byId.get(id)?.homeSite ?? null;
+  const tNow = () => avatars?.clock?.() ?? 0;
+  function freePlace(a) {
+    if (where.size + leaving.size >= H3_ROOM_FIGURES) return null; // the room's figure budget
+    const role = ixrAgentSpot(room, a);
+    const order = [...(role ? [role] : []), ...spots.filter((s) => s !== role)];
+    for (const s of order) { const id = `${P}spot:${s.id}`; if (!holder.has(id)) return id; }
+    for (let k = 0; k < H3_ROOM_FIGURES; k += 1) { const id = `${P}door:${k}`; if (!holder.has(id)) return id; }
+    return null;
+  }
+  function takePlace(a, id) { holder.set(id, a.id); const q = place.get(id); where.set(a.id, { id, spot: q.spot }); placed.push({ agent: a, spot: q.spot }); }
+  function dropPlace(id) {
+    const w = where.get(id); if (!w) return null;
+    where.delete(id); holder.delete(w.id);
+    const i = placed.findIndex((p) => p.agent.id === id); if (i >= 0) placed.splice(i, 1);
+    return w;
+  }
+  function arrive(a, walkIn) {
+    if (!avatars || where.has(a.id)) return;
+    const turning = leaving.delete(a.id); // walking out and sent back: it turns round where it is
+    const id = freePlace(a);
+    if (!id) { if (turning) leaving.add(a.id); if (!waiting.includes(a.id)) { waiting.push(a.id); log.push({ t: tNow(), agent: a.id, what: "wait" }); } return; }
+    takePlace(a, id);
+    if (walkIn && !turning && !reducedMotion) avatars.handle({ type: "move", agent: a.id, to: `${P}exit` }); // appears in the doorway
+    avatars.handle({ type: "move", agent: a.id, to: id }); // the first placement jumps; from the doorway it walks
+    log.push({ t: tNow(), agent: a.id, what: "in", place: id });
+  }
+  function release(id) { leaving.delete(id); avatars?.release?.(id); refill(); }
+  function leave(id) {
+    const wi = waiting.indexOf(id); if (wi >= 0) waiting.splice(wi, 1);
+    if (!dropPlace(id)) return;
+    log.push({ t: tNow(), agent: id, what: "out" });
+    if (reducedMotion) { avatars?.release?.(id); refill(); return; }
+    leaving.add(id);
+    avatars.handle({ type: "move", agent: id, to: `${P}exit` });
+    refill();
+  }
+  function refill() {
+    // a figure by the door steps over to a spot that has come free, then a waiting agent comes in if the budget allows
+    for (const s of spots) {
+      const sid = `${P}spot:${s.id}`; if (holder.has(sid)) continue;
+      const by = [...where.entries()].find(([, w]) => w.id.startsWith(`${P}door:`)); if (!by) break;
+      const [aid] = by; dropPlace(aid); takePlace(byId.get(aid), sid);
+      avatars.handle({ type: "move", agent: aid, to: sid }); log.push({ t: tNow(), agent: aid, what: "promote", place: sid });
+    }
+    while (waiting.length && where.size + leaving.size < H3_ROOM_FIGURES) { const aid = waiting.shift(); if (presence.at(aid) === siteId) arrive(byId.get(aid), true); }
+  }
+  for (const a of roster) if (presence.at(a.id) === siteId) arrive(a, false); // who is here as the room opens: in place at once
+  const offChange = presence.onChange((c) => {
+    const a = byId.get(c.agent); if (!a) return;
+    if (c.to === siteId) arrive(a, true); else if (c.from === siteId) leave(a.id);
+  });
   return {
-    room, siteId, placed, avatars,
-    animate(t, dt) { avatars?.animate(t, dt, null); },
-    counts() { return { agents: placed.length, spots: room.spots?.agent?.length ?? 0, ...(avatars?.counts() ?? { figures: 0, meshes: 0, sprites: 0, triangles: 0, textureBytes: 0 }) }; },
-    dispose() { try { avatars?.dispose(); } catch (_) { /* the room's own exit already disposed the meshes */ } },
+    room, siteId, placed, avatars, presence,
+    animate(t, dt) {
+      avatars?.animate(t, dt, null);
+      for (const id of [...leaving]) { const s = avatars?.state(id); if (!s || !s.walking) release(id); } // out of the doorway: gone
+    },
+    visitors() { return [...where.keys()].filter((id) => homeOf(id) !== siteId); },
+    waiting() { return waiting.slice(); },
+    leaving() { return [...leaving]; },
+    log() { return log.slice(); },
+    counts() {
+      const c = avatars?.counts() ?? { figures: 0, meshes: 0, sprites: 0, triangles: 0, textureBytes: 0 };
+      return { agents: where.size, visitors: [...where.keys()].filter((id) => homeOf(id) !== siteId).length, leaving: leaving.size, waiting: waiting.length, spots: spots.length, ...c };
+    },
+    dispose() { offChange(); presence.dispose(); try { avatars?.dispose(); } catch (_) { /* the room's own exit already disposed the meshes */ } },
   };
 }
 
@@ -172187,14 +173067,13 @@ function hvMount({ THREE = null, root = null, parish, el = null, pos = () => nul
 
 
 
+
 // AGENT-AVATARS: the software agents embodied at the robot sites.
 
 // HIVE-IN-WORLD: the hive's agents inside the robotics rooms, one door with the exterior, and the return into the room.
 
-// CLEANPORTS: key the zero-emission port stations to BAYMAP's West Oakland sites (a no-op until that map merges).
-cpPlaceInParish(npParish);
-// BAYQUEST: the Bay Program play board (games, the Bay Keeper's Trail, Crew Credits) under the ledger; importing it
-// registers its two businesses with TYCOON and its side stories with STORYLINE (docs/consoles/BAYQUEST.md).
+
+
 
 
 
@@ -172318,8 +173197,11 @@ let atWeatherNow = null, atSoundT = 1, atMix = null;
 const npReduced = typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches;
 // WALKABLE: MOTORWORKS' parked vehicles are solid in the walk (the module guarded: absent until MOTORWORKS merges).
 // (Static now that MOTORWORKS is merged: the same placements its mount parks, checked against TERRAFORM's water depth.)
+// ENV-HD-3: ROBO-EXTERIORS' robotics lots (DETAIL's dtLotRects) keep parked vehicles and street life out of the lots.
+let fxLots = [];
+try { fxLots = dtLotRects(parish); } catch { fxLots = []; }
 let wkParked = [];
-try { wkParked = mvPlacements(parish, { waterDepthAt: (x, z) => tfWaterDepthAt(parish, x, z) }, { tier: npTierName }); } catch { wkParked = []; }
+try { wkParked = mvPlacements(parish, { waterDepthAt: (x, z) => tfWaterDepthAt(parish, x, z) }, { tier: npTierName, lots: fxLots }); } catch { wkParked = []; }
 let fxSolid = []; // ROBO-EXTERIORS: the robot-site buildings (pure lots, no three.js) are solid in the walk too
 try { fxSolid = fxColliders(parish); } catch { fxSolid = []; }
 const wkColliders = wkColliderSeam(cwColliders, nwParishColliders, [...(wkSolidBoxes(wkParked, (x, z) => npHeightAt(parish, x, z)) ?? []), ...fxSolid]);
@@ -172333,7 +173215,7 @@ nwPhys.place(np.x, np.z);
 // MOTORWORKS (docs/consoles/MOTORWORKS.md): parked Motor Pool vehicles of fitting classes at fitting sites, two
 // instanced meshes per map; E at one walks its pre-trip on the board (the gate contract) and drives it from its bay
 // with its class's handling. PALETTE's colour categories give the liveries when that module is on the page (guarded).
-const mvPark = mvMountMotorworks({ three: THREE, root, parish, world: nwPhys.world, tier: npTierName, categories: PA_CATEGORIES });
+const mvPark = mvMountMotorworks({ three: THREE, root, parish, world: nwPhys.world, tier: npTierName, categories: PA_CATEGORIES, lots: fxLots });
 let mvPending = null, mvDriving = null;
 function mvExitDrive() {
   const out = nwPhys.exitDrive();
@@ -172506,6 +173388,7 @@ function mgRemount() {
     groundAt: (x, z) => Math.max(npHeightAt(parish, x, z), 0),
     sidewalkAt: typeof cwSide === "function" ? (x, z) => cwSide(parish, x, z) : undefined,
     colliders: typeof cwCol === "function" ? (key) => cwCol(parish, key) : undefined,
+    lots: fxLots, // ENV-HD-3: never inside a robotics lot
     pos: () => (np.playing && !np.modal ? [np.x, np.z] : null),
     threats: () => (nwPhys.driving() ? [[nwPhys.vehicle.x, nwPhys.vehicle.z]] : []), // NEWTON's vehicle while the learner drives
   });
@@ -172929,6 +173812,7 @@ function frame(now) {
   aaWorld?.animate(now / 1000, dt, np.playing && !np.modal ? [np.x, np.z] : null); // AGENT-AVATARS: walks, talk lights, captions (writes only within GRIOT's radius)
   if (hwRoomMount?.room !== (ixWorld.room ?? null) && typeof hwSync === "function") hwSync(); // HIVE-IN-WORLD: the agents in the room open now
   hwRoomMount?.animate(now / 1000, dt);
+  if (h3Scene) h3SceneTick(now / 1000); // HIVE-3: "A day in the hive" (window.__parishTest.hiveScene)
   if (np.playing && !np.modal) { tyClock += dt; if (tyClock >= 1) { tyAfterTick(tyTick(tyClock)); tyClock = 0; } }
   if (np.playing && !np.modal && tyClock === 0) bqTrailTick();
   npHudT += dt; npVisitT += dt;
@@ -173292,6 +174176,19 @@ window.__parishTest.exteriors = fxWorld;
  * handle used to be the THREE.Scene itself: it stays reachable as `__parishTest.threeScene`, and the old readers' calls
  * (traverse, getObjectByName, getObjectById, children) are delegated to it, so check_harvest's live leg reads it as before. */
 const fxSceneHandle = (siteId, shot = "wide") => {
+  // ENV-HD-3: the three busiest non-robot sites take two establishing shots each ("wide", "street"), by day or night
+  const hd3 = HD3_SCENE_SITES.find((s) => s.id === siteId);
+  if (hd3) {
+    if (hd3.parish !== parish.id) return { ok: false, parish: hd3.parish, href: `?parish=${encodeURIComponent(hd3.parish)}&scene=${encodeURIComponent(siteId)}:${shot}` };
+    const sc = hd3Scene(parish, siteId, shot);
+    if (!sc) return { ok: false, reason: `unknown shot (${HD3_SHOTS.join(", ")})` };
+    np.x = sc.target[0]; np.z = sc.target[2];
+    world.update(np.x, np.z, 999); cwStreetsMount.update(np.x, np.z, 999); tfLand.update(np.x, np.z, 99); atmos.update(np.x, np.z);
+    fxShot = sc;
+    const menu = document.getElementById("menu"); if (menu && !np.playing) menu.hidden = true;
+    document.getElementById("toast")?.classList.remove("on");
+    return { ok: true, ...sc };
+  }
   if (!fxSitesFor(parish).some((s) => s.id === siteId)) {
     const other = fxSiteParish(siteId);
     return other ? { ok: false, parish: other, href: `?parish=${encodeURIComponent(other)}&scene=${encodeURIComponent(siteId)}:${shot}` } : { ok: false, reason: "unknown site" };
@@ -173308,6 +174205,11 @@ for (const k of ["traverse", "getObjectByName", "getObjectById"]) fxSceneHandle[
 Object.defineProperty(fxSceneHandle, "children", { get: () => scene.children });
 window.__parishTest.threeScene = scene;
 window.__parishTest.scene = fxSceneHandle;
+/** Every establishing-shot preset the scene handle frames: ROBO-EXTERIORS' 12 (six robot sites x wide/door) + ENV-HD-3's 6. */
+window.__parishTest.scenePresets = () => [
+  ...NP_PARISHES.flatMap((p) => { try { return fxSitesFor(p).flatMap((s) => FX_SHOTS.map((shot) => ({ siteId: s.id, shot, parish: p.id }))); } catch { return []; } }),
+  ...hd3ScenePresets(),
+];
 { const q = npParams.get("scene"); if (q && q.includes(":")) { const [sid, shot] = q.split(":"); window.__parishTest.scene(sid, shot); } }
 // ENV-HD-2 (docs/consoles/ENV-HD-2.md): capture presets for the reel and the deck. `room(styleId)` opens a skinned INTERIORS
 // room (a site of that style on this map, else the map's first site, opened with the style) and stands the camera in the
@@ -173371,14 +174273,20 @@ window.__parishTest.vbridge = vbMountDispatch($("menu-drills"), { reducedMotion:
 // requests come to the learner as approvals (approving lets only the simulated job run); every award, veto, refusal and approval
 // goes to ENTERPRISE-3's audit log. Not mounted in K-12, demo or signed-out sessions (DATAWORKS' eligibility at the offer stage, and the
 // page's own ?demo flag, as the GEO gate reads it).
-window.__parishTest.hive = (() => { try { let ok = false; try { ok = !npParams.has("demo") && dxEligibility(dxReadSignals(), { stage: "offer" }).eligible === true; } catch (_) { ok = false; } return ok ? ohMountHive($("menu-drills"), { reducedMotion: npReduced, audit: ent3AuditAppend, seed: 1, onTalk: (id, on) => { if (on) { aaWorld?.talkStart(id); hwRoomMount?.avatars?.talkStart(id); } else { aaWorld?.talkEnd(id); hwRoomMount?.avatars?.talkEnd(id); } } }) : null; } catch (_) { return null; } })();
+// HIVE-3: the panel's voice, "supervise every job" and language, remembered for a signed-in adult profile on this device only
+// (profiles.js namespaces the key; never uploaded; auth.js signOut clears it). Demo, K-12 and signed-out sessions keep nothing.
+var h3Prefs = (() => { try { return h3Settings({ storage: gtStorage(), signals: dxReadSignals(), profile: gtProfile(), demo: npParams.has("demo") }); } catch (_) { return null; } })();
+window.__parishTest.hivePrefs = h3Prefs;
+window.__parishTest.hive = (() => { try { let ok = false; try { ok = !npParams.has("demo") && dxEligibility(dxReadSignals(), { stage: "offer" }).eligible === true; } catch (_) { ok = false; } return ok ? ohMountHive($("menu-drills"), { reducedMotion: npReduced, audit: ent3AuditAppend, seed: 1, settings: h3Prefs, onTalk: (id, on) => { if (on) { aaWorld?.talkStart(id); hwRoomMount?.avatars?.talkStart(id); } else { aaWorld?.talkEnd(id); hwRoomMount?.avatars?.talkEnd(id); } } }) : null; } catch (_) { return null; } })();
 window.__parishTest.vbColearn = vbProvider;
 // AGENT-AVATARS (docs/consoles/AGENT-AVATARS.md): the software agents embodied at this map's robot sites — the four VBRIDGE
 // personas over the agent-jobs panel's job stream (the client asks, the governor checks, the provider walks to a running job's
 // site, the evaluator nods), and the Omega Hive's agents when OMEGA-HIVE's hive is mounted before this line
 // (window.__parishTest.hive, guarded; the coordinator orders the two mounts). Every figure is labelled "software agent", every
 // line shows as a caption, nothing listens, and the phone tier builds no figures.
-var aaSiteAt = (id) => { const s = rbWorld?.sites?.find((x) => x.id === id); return s ? { x: s.position[0], y: s.y, z: s.position[1] } : null; };
+// HIVE-3: the scene's two outdoor points (the cell hall's building door and a spot towards the street) answer here too.
+var h3ScenePts = new Map();
+var aaSiteAt = (id) => { const h = h3ScenePts.get(id); if (h) return h; const s = rbWorld?.sites?.find((x) => x.id === id); return s ? { x: s.position[0], y: s.y, z: s.position[1] } : null; };
 var aaVbSource = (() => { try { return window.__parishTest.vbridge ? aaVbridgeSource(window.__parishTest.vbridge) : null; } catch (_) { return null; } })();
 // HIVE-IN-WORLD: the agents' walks go round the page's own collider boxes (the walk's colliders: CITYWORKS or NEWTON's massing,
 // parked vehicles, the robotics buildings), and a standing slot inside one is skipped.
@@ -173387,7 +174295,7 @@ var aaWorld = !rbWorld?.sites?.length ? null : (() => { // a map with no robot s
   try {
     const hive = window.__parishTest.hive?.hive ?? null; // HIVE-IN-WORLD: the hive itself (on, agents), not the panel's api
     const hiveAgents = hive ? (typeof hive.agents === "function" ? hive.agents() : hive.agents) ?? [] : [];
-    return aaMountAgentAvatars({ three: THREE, parent: root, agents: [...hiveAgents, ...aaVbridgeAgents(rbWorld?.sites?.[0]?.id ?? null)], source: [hive, aaVbSource].filter(Boolean), siteAt: aaSiteAt, reducedMotion: npReduced, tier: npTierName, groundAt: (x, z) => Math.max(npHeightAt(parish, x, z), 0), route: hwWalk?.route ?? null, blocked: hwWalk?.blocked ?? null });
+    return aaMountAgentAvatars({ three: THREE, parent: root, agents: [...hiveAgents, ...aaVbridgeAgents(rbWorld?.sites?.[0]?.id ?? null)], source: [hive, aaVbSource].filter(Boolean), siteAt: aaSiteAt, reducedMotion: npReduced, tier: npTierName, groundAt: (x, z) => Math.max(npHeightAt(parish, x, z), 0), spotFor: (_a, id) => h3ScenePts.get(id) ?? null, route: hwWalk?.route ?? null, blocked: hwWalk?.blocked ?? null });
   } catch (_) { return null; }
 })();
 window.__parishTest.agentAvatars = aaWorld;
@@ -173396,7 +174304,7 @@ window.__parishTest.agentAvatars = aaWorld;
 // in step by hwSync (every frame, and right after an enter). Only when the hive is mounted (signed in, adult, not K-12, not the demo).
 var hwRoomMount = null;
 function hwSync() {
-  const hv = window.__parishTest?.hive?.hive ?? null;
+  const hv = h3Scene?.relay ?? window.__parishTest?.hive?.hive ?? null; // HIVE-3: the scene's paced hive while it plays
   hwRoomMount = hwSyncRoom(hwRoomMount, { room: ixWorld.room, three: THREE, agents: hv?.agents ?? [], source: hv, tier: npTierName, reducedMotion: npReduced });
   return hwRoomMount;
 }
@@ -173414,6 +174322,164 @@ var hwReturned = (() => {
   } catch (_) { return null; }
 })();
 window.__parishTest.hiveWorld = { sync: hwSync, room: () => hwRoomMount, doors: ixrDoors, returned: hwReturned, returnStyle: hwReturnStyle };
+// HIVE-3 (docs/consoles/HIVE-3.md): "A day in the hive", a scripted scene for the reel. window.__parishTest.hiveScene({ seed })
+// (or ?hivescene=<seed> on sf-downtown) plays H3_SCENE over its own seeded hive (h3SceneHive: six jobs, no audit writes): a job
+// arrives, the agents bid and the maintenance planner wins it and walks out of the cell hall's door, and outside from the
+// building's door towards its site; the governor refuses a request with a person 1.2 m from the robot (its reason captioned);
+// a job that names the physical robot asks the learner, the scene approves a simulated run only (the physical path stays
+// disabled), and the winner walks back into the cell hall to run it on the simulated robot. The camera follows; a caption bar
+// says what happens. Only where the hive itself is mounted (signed in, adult, not K-12, not the demo). Same seed, same scene.
+var h3Scene = null;
+function h3SceneOverlay() {
+  const el = document.createElement("div"); el.id = "h3-scene"; el.setAttribute("role", "status"); el.setAttribute("aria-live", "polite");
+  el.style.cssText = "position:fixed;left:50%;bottom:5%;transform:translateX(-50%);width:min(92vw,980px);box-sizing:border-box;padding:12px 18px;border-radius:12px;background:rgba(12,9,28,.84);color:#f4f1ff;font:600 19px/1.35 system-ui,sans-serif;text-align:center;z-index:60;pointer-events:none;box-shadow:0 6px 24px rgba(0,0,0,.35)";
+  const title = document.createElement("div"); title.dataset.h3 = "title"; title.style.cssText = "font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:#9fe7ff;margin-bottom:4px";
+  const text = document.createElement("div"); text.dataset.h3 = "text";
+  const tag = document.createElement("div"); tag.dataset.h3 = "tag"; tag.style.cssText = "font-size:11px;font-weight:500;opacity:.75;margin-top:6px";
+  tag.textContent = "A day in the hive · scripted scene · software agents, simulated robots · captions from the hive's own events";
+  el.append(title, text, tag); document.body.appendChild(el);
+  return el;
+}
+function h3SceneSay(title, text) {
+  const S = h3Scene; if (!S) return;
+  S.captions.push({ t: Math.round((S.t ?? 0) * 100) / 100, title, text });
+  const t = S.el?.querySelector('[data-h3="title"]'), x = S.el?.querySelector('[data-h3="text"]');
+  if (t) t.textContent = title; if (x) x.textContent = text;
+}
+function h3SceneName(id) { return h3Scene?.hive?.agents?.find((a) => a.id === id)?.name ?? id; }
+function h3SceneRoom() {
+  hwRoomMount?.dispose(); hwRoomMount = null;
+  const r = window.__parishTest.ixScene(H3_SCENE.style);
+  hwSync();
+  const menu = document.getElementById("menu"); if (menu && !np.playing) menu.hidden = true;
+  document.getElementById("toast")?.classList.remove("on"); // a clean frame: the caption bar says where we are
+  return r;
+}
+function h3SceneOutside(shot) {
+  if (ixWorld.inside()) { const p = ixWorld.exit(); np.x = p.x; np.z = p.z; np.yaw = p.yaw; np.pitch = p.pitch; }
+  hwRoomMount?.dispose(); hwRoomMount = null;
+  return window.__parishTest.scene(H3_SCENE.site, shot);
+}
+function h3SceneBeat(b) {
+  const S = h3Scene, R = S.relay;
+  R.step(b.steps);
+  let ev = [];
+  const pick = (type) => ev.find((e) => e.type === type) ?? null;
+  if (b.id === "intro") {
+    S.follow = "oh-maintenance-planner";
+    h3SceneSay("A day in the hive", `The cell hall at the ${H3_SCENE.site === "rb-site-soma-robot-cell" ? "Fabrication Robot Cell (procedural)" : H3_SCENE.site}: the safety steward and the auditor work here; the maintenance planner came in for a cell-entry job. Seed ${S.seed}.`);
+  } else if (b.id === "arrive") {
+    ev = R.releaseThrough("speak"); const e = pick("speak");
+    h3SceneSay("A job arrives", e ? e.caption : "The dispatcher announces a job.");
+  } else if (b.id === "bids") {
+    ev = R.releaseRun("bid");
+    const bids = ev.filter((e) => e.type === "bid").map((e) => `${h3SceneName(e.agent)} ${e.bid >= 0 ? "+" : "−"}${Math.abs(e.bid).toFixed(2)}`);
+    h3SceneSay("The agents bid", `${bids.join(" · ")} (skill, minus distance, minus load; an agent at capacity does not bid)`);
+  } else if (b.id === "award") {
+    ev = R.releaseThrough("award"); const e = pick("award");
+    if (e) { S.follow = e.agent; S.walker = e.agent; S.walkerTo = e.to; S.walkerSite = e.siteName; }
+    h3SceneSay("The best bid wins", e ? `${h3SceneName(e.agent)} (software agent) wins ${e.jobId}: ${e.task}, ${e.siteName}.` : "The job is awarded.");
+  } else if (b.id === "walk-out") {
+    ev = R.releaseThrough("move"); const e = pick("move");
+    if (e) S.follow = e.agent;
+    h3SceneSay("Out of the cell hall's door", e ? `${h3SceneName(e.agent)} walks out of the cell hall to its site: ${e.siteName}.` : "The winner walks out.");
+  } else if (b.id === "outside") {
+    const sc = h3SceneOutside("door");
+    const d = ixrDoors.find((x) => x.style === H3_SCENE.style) ?? null;
+    if (sc?.ok && d && S.walker && aaWorld) {
+      const pos = sc.position, dx = pos[0] - d.x, dz = pos[2] - d.z, L = Math.hypot(dx, dz) || 1, go = Math.max(4, Math.min(14, L - 4));
+      const y = (x, z) => Math.max(npHeightAt(parish, x, z), 0);
+      const ax = d.x + (dx / L) * go, az = d.z + (dz / L) * go;
+      h3ScenePts.set("h3-scene:door", { x: d.x, y: y(d.x, d.z), z: d.z, yaw: Math.atan2(dx, dz) });
+      h3ScenePts.set("h3-scene:away", { x: ax, y: y(ax, az), z: az, yaw: Math.atan2(dx, dz) });
+      aaWorld.handle({ type: "move", agent: S.walker, to: "h3-scene:door" });
+      aaWorld.handle({ type: "move", agent: S.walker, to: "h3-scene:away" });
+      S.outdoor = { agent: S.walker, look: [d.x, y(d.x, d.z) + 1.1, d.z] };
+    }
+    h3SceneSay("Outside, from the building's door", `${h3SceneName(S.walker)} heads for ${S.walkerSite ?? "its site"}, on another map: the agents' walks route round the buildings.`);
+  } else if (b.id === "refusal") {
+    if (S.outdoor && aaWorld) aaWorld.handle({ type: "move", agent: S.outdoor.agent, to: S.walkerTo ?? "off-map" }); // on to its site: off this map
+    S.outdoor = null; h3ScenePts.clear();
+    h3SceneOutside("wide");
+    ev = R.releaseThrough("refused"); const e = pick("refused");
+    const why = e ? VB_REASONS.find((r) => r.id === e.reason)?.text ?? e.reason : "";
+    h3SceneSay("The governor refuses", e ? `${e.jobId} (${e.task}, a person 1.2 m from the robot): ${why}` : "The governor refuses an unsafe request.");
+  } else if (b.id === "approval") {
+    ev = R.releaseAll(); const e = pick("approval-request");
+    S.pendingJob = e?.jobId ?? null;
+    h3SceneSay("Your decision is needed", e ? `${e.jobId} names the physical robot at ${e.siteName}. That path is disabled in this build: approve a simulated run only, or decline.` : "A job that names a robot asks the learner.");
+  } else if (b.id === "approved") {
+    const id = S.pendingJob ? S.hive.approve(S.pendingJob) : null;
+    ev = R.releaseAll();
+    S.follow = null; h3SceneRoom();
+    h3SceneSay("You approve: a simulated run only", id ? `${S.pendingJob} goes back through the bidding and the governor as a simulated job; the physical path stays disabled.` : "Approved for the simulated robot only.");
+  } else if (b.id === "walk-in") {
+    ev = R.releaseAll(); const e = ev.find((x) => x.type === "move" && x.to === H3_SCENE.site) ?? null;
+    if (e) S.follow = e.agent;
+    h3SceneSay("Back through the door", e ? `${h3SceneName(e.agent)} wins it and walks into the cell hall for ${e.jobId}.` : "The winner walks in.");
+  } else if (b.id === "run") {
+    ev = R.releaseAll(); const e = ev.find((x) => x.type === "dispatch" && x.to === H3_SCENE.site) ?? null;
+    h3SceneSay("Running on the simulated robot", e ? `${e.jobId}: ${e.steps} governor-monitored steps on the simulated robot. Physical jobs dispatched: ${S.hive.metrics().physicalDispatched}.` : "The simulated job runs.");
+  } else if (b.id === "end") {
+    const v = S.hive.verify();
+    h3SceneSay("Software agents · simulated robots", `Every award, refusal and approval is on the hive's audit chain: ${v.lines} lines, ${v.ok ? "intact" : "broken"}.`);
+  }
+  S.log.push({ id: b.id, at: b.at, t: Math.round((S.t ?? 0) * 100) / 100, events: ev.filter((e) => e.type !== "speak").map((e) => `${e.type}:${e.agent}:${e.jobId ?? ""}`) });
+}
+function h3SceneCamera(dt) {
+  const S = h3Scene;
+  if (ixWorld.inside()) {
+    const c = IXR_ROOMS[H3_SCENE.style]?.camera; if (!c) return;
+    ixWorld.pose.x = c.x; ixWorld.pose.z = c.z;
+    let yaw = c.yaw;
+    const st = S.follow ? hwRoomMount?.avatars?.state(S.follow) : null;
+    if (st?.visible && hwRoomMount?.avatars?.figure(S.follow)) yaw = c.yaw * 0.35 + Math.atan2(c.x - st.x, c.z - st.z) * 0.65; // follow, keeping the room in frame
+    S.yaw = S.yaw == null ? yaw : S.yaw + (yaw - S.yaw) * Math.min(1, dt * 3);
+    np.yaw = S.yaw; np.pitch = c.pitch;
+  } else if (fxShot && S.outdoor && aaWorld) {
+    const st = aaWorld.state(S.outdoor.agent);
+    if (st?.visible) { const k = Math.min(1, dt * 3), L = S.outdoor.look; L[0] += (st.x - L[0]) * k; L[1] += (st.y + 1.1 - L[1]) * k; L[2] += (st.z - L[2]) * k; fxShot.target = [L[0], L[1], L[2]]; }
+  }
+}
+var h3SceneLastT = null;
+function h3SceneTick(nowS) {
+  const S = h3Scene; if (!S || S.done) return;
+  if (S.t0 == null) S.t0 = nowS;
+  const dt = h3SceneLastT == null ? 0 : Math.max(0, Math.min(0.1, nowS - h3SceneLastT)); h3SceneLastT = nowS;
+  S.t = nowS - S.t0;
+  try {
+    while (S.next < H3_SCENE.beats.length && S.t >= H3_SCENE.beats[S.next].at) { h3SceneBeat(H3_SCENE.beats[S.next]); S.next += 1; }
+    h3SceneCamera(dt);
+  } catch (e) { S.errors += 1; console.warn("hive scene:", e); }
+  if (S.t >= H3_SCENE.duration + 1) h3SceneStop();
+}
+function h3SceneStop() {
+  const S = h3Scene; if (!S) return null;
+  S.done = true; h3Scene = null; h3SceneLastT = null;
+  try { S.relay.dispose(); } catch (_) { /* gone */ }
+  S.el?.remove(); h3ScenePts.clear();
+  hwRoomMount?.dispose(); hwRoomMount = null; hwSync(); // the page's own hive in the room again
+  const out = { seed: S.seed, duration: H3_SCENE.duration, t: Math.round((S.t ?? 0) * 100) / 100, beats: S.log, captions: S.captions, errors: S.errors, metrics: S.hive.metrics(), verify: S.hive.verify() };
+  window.__parishTest.hiveSceneLast = out;
+  S.resolve?.(out);
+  return out;
+}
+window.__parishTest.hiveScene = ({ seed = 1 } = {}) => {
+  if (parish.id !== H3_SCENE.parish) return { ok: false, reason: `the scene plays on ${H3_SCENE.parish}`, href: `?parish=${H3_SCENE.parish}&hivescene=${encodeURIComponent(seed)}` };
+  if (!window.__parishTest.hive) return { ok: false, reason: "the Omega Hive is not mounted in this session (signed out, K-12 or the demo)" };
+  if (h3Scene) h3SceneStop();
+  const hive = h3SceneHive(ohHive, { seed: Number(seed) || 1 });
+  for (let i = 0; i < H3_SCENE_PROLOGUE_STEPS; i += 1) hive.step(); // before the clock: the planner is in the cell hall
+  h3Scene = { seed: Number(seed) || 1, hive, relay: h3SceneRelay(hive), t0: null, t: 0, next: 0, follow: null, walker: null, outdoor: null, pendingJob: null, yaw: null, log: [], captions: [], errors: 0, done: false, el: h3SceneOverlay() };
+  const room = h3SceneRoom();
+  npKeys.clear();
+  const done = new Promise((resolve) => { h3Scene.resolve = resolve; });
+  window.__parishTest.hiveSceneDone = done;
+  return { ok: !!room, seed: h3Scene.seed, duration: H3_SCENE.duration, beats: H3_SCENE.beats.map((x) => ({ id: x.id, at: x.at, shot: x.shot })), stop: () => h3SceneStop() };
+};
+window.__parishTest.hiveSceneStop = () => h3SceneStop();
+window.__parishTest.hiveSceneState = () => (h3Scene ? { t: h3Scene.t, next: h3Scene.next, beats: h3Scene.log.length, follow: h3Scene.follow, room: hwRoomMount ? { placed: hwRoomMount.placed.map((p) => p.agent.id), leaving: hwRoomMount.leaving() } : null } : null);
+{ const q = npParams.get("hivescene"); if (q) setTimeout(() => { try { window.__parishTest.hiveScene({ seed: Number(q) || 1 }); } catch (e) { console.warn("hive scene:", e); } }, 1500); }
 window.__parishTest.vbLocal = vbLocal;
 window.__parishTest.xr = npXRTest;
 // ROBOTRAIN-5: the page-level proof awaits the recorder's parked store writes (dxFlush resolves with the count written) and reads

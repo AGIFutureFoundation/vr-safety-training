@@ -12,6 +12,10 @@ The 6 robot sites of the Holodeck now have buildings. Exterior kits of 5 kinds s
 - 68 of 68 sheds and towers within 150 m of a robot site take a robotics look, 0 beyond it, and the phone tier builds what it built before `docs/consoles/ENV-HD-2.md`
 - 6 → 15 room styles with the high-detail texture set, with no mesh added; 807 of 863 site doors open into the 9 new ones `docs/consoles/ENV-HD-2.md`
 - 834 → 0 scattered props standing inside a robotics building lot `docs/consoles/ENV-HD-2.md`
+- 15 → 25 room styles with the high-detail texture set after `ENV-HD-3` (the kitchen, the union hall and the Louisiana rooms joined); meshes, triangles and lights unchanged `docs/consoles/ENV-HD-3.md`
+- 6 → 5 meshes in the worst robot-site chunk on the high tier, with an entrance canopy on every robotics tower `docs/consoles/ENV-HD-3.md`
+- 2 → 0 parked vehicles standing inside a robotics building lot `docs/consoles/ENV-HD-3.md`
+- 12 → 18 establishing-shot presets, with 3 busy non-robot places added `docs/consoles/ENV-HD-3.md`
 
 ### Each robot site, outside and in
 
@@ -97,16 +101,13 @@ Room budget: 120 meshes, 6,000 triangles on the high tier and 3,000 on the low, 
 
 ### Inside, with the agents standing in (HIVE-IN-WORLD)
 
-| Room | Agents | High tier, before → after: meshes / triangles / texture MiB / sprites | Low tier, before → after: meshes / triangles |
+| The worst room: the robot cell hall, 2 agents | Meshes, before → after | Triangles, before → after | Textures in MiB, before → after |
 |---|---|---|---|
-| Robot cell hall | 2 | 20 → 38 / 1,688 → 3,704 / 22.67 → 23.50 MiB / +4 | 20 → 20 / 1,332 → 1,332 |
-| Cobot lab | 1 | 19 → 28 / 1,420 → 2,428 / 17.33 → 17.75 MiB / +2 | 19 → 19 / 992 → 992 |
-| AMR warehouse | 1 | 19 → 28 / 2,340 → 3,348 / 17.33 → 17.75 MiB / +2 | 19 → 19 / 1,696 → 1,696 |
-| Port control room | 1 | 20 → 29 / 1,016 → 2,024 / 18.67 → 19.08 MiB / +2 | 20 → 20 / 780 → 780 |
-| Ceiling-drilling deck | 1 | 19 → 28 / 1,592 → 2,600 / 17.33 → 17.75 MiB / +2 | 19 → 19 / 1,112 → 1,112 |
-| Robot maintenance bay | 1 | 18 → 27 / 1,740 → 2,748 / 17.33 → 17.75 MiB / +2 | 18 → 18 / 1,228 → 1,228 |
+| High | 20 → 38 (of 120) | 1,688 → 3,704 (of 6,000) | 22.67 → 23.50 (of 24) |
+| Balanced | 20 → 38 | 1,688 → 3,704 | 2.67 → 2.87 (of 3) |
+| Low (phone) | 20 → 20, no figures | 1,332 → 1,332 | unchanged |
 
-Each agent whose home site a room belongs to stands at that room’s agent spot and its captions show over it: agents at their room spots 7 of 7 (rooms by agents), and rooms inside the room budget with the agents and captions in 18 of 18 room-tiers. The low tier builds no figure, so a phone room is unchanged. One door: every robot site’s room opens at its exterior building’s door, 6 of 6 across the 5 robot-site maps, each door spot clear of every exterior collider (6 of 6). A station launched from a room returns into the same room: 6 of 6. Source: `tools/check_hive_world.mjs` on `0c834a8a`, 35 checks. Committed, merged into the integration head.
+A room with one agent adds 9 meshes, about 1,000 triangles and 2 sprites, so the cell hall is the worst case. On the balanced tier the label and caption canvases are drawn smaller there: at full size that room would read 3.50 MiB against its budget of 3 (arithmetic, not measured). In the built page the room measure also counts the shell’s own sign canvases: 38 meshes and 16 draw calls, and 22.83 MiB of textures before a caption is drawn and 23.17 with one. Each agent whose home site a room belongs to stands at that room’s agent spot and its captions show over it: agents at their room spots 7 of 7 (rooms by agents), and rooms inside the room budget with the agents and captions in 18 of 18 room-tiers. The low tier builds no figure, so a phone room is unchanged. One door: every robot site’s room opens at its exterior building’s door (0 of 6 → 6 of 6), each door spot clear of every exterior collider (6 of 6). A station launched from a room returns into the same room: 6 of 6, and the room’s own job board 4 of 4. Source: `tools/check_hive_world.mjs` on `0c834a8a`, `docs/consoles/HIVE-IN-WORLD.md`, 35 checks. Committed, merged into the integration head.
 
 ### Beyond the robot sites (ENV-HD-2)
 
@@ -136,34 +137,62 @@ Source: `docs/consoles/ENV-HD-2.md`, `tools/check_detail.mjs`.
 
 Room styles with the high-detail texture set: 6 → 15, so 807 of 863 site doors now open into a room with it. The set is a skin: it puts texture maps on meshes that already exist and adds none, and meshes, triangles and lights are identical with and without it in 27 of 27 builds (every added style on every tier). Texture bytes per room: 1.33 MiB before (the shell’s signs) → 17.33 MiB on the high tier (the civic lobby, with no metal props, 12.00 MiB) and 2.33 MiB on balanced and low, where a room’s maps come to 1.0 MiB, inside the budgets of 24 MiB and 3 MiB. The industrial set reuses the robotics rooms’ epoxy floor with marks for each kind, painted concrete and brushed metal; the tile set is a vinyl-tile floor (0.6 m tiles) and a painted block wall. 13 stills at 1920 by 1080 pixels, of the 9 rooms and of robot-site neighbourhoods by day and night, were captured from the built page with page errors 0. Checks: facades 2,860 → 2,957, detail 479 → 485, the room-skin checker 164, exteriors 259 unchanged, 1,114 modules importing only what they declare. Source: `docs/consoles/ENV-HD-2.md`.
 
+### Round three: high detail everywhere a learner walks (ENV-HD-3)
+
+| Measure | Before → after | Source |
+|---|---|---|
+| Room styles with the high-detail texture set (the kitchen, the union hall, a Louisiana crafts hall, the Louisiana rooms and the rented room and shop joined) | 15 → 25 | `docs/consoles/ENV-HD-3.md` |
+| Meshes, triangles and lights on every tier with the skin on | unchanged | `docs/consoles/ENV-HD-3.md` |
+| Room-skin checker passes; Louisiana rooms that were over the balanced texture budget before the skin (their name signs), now held inside it | 164 → 382; 6 | `docs/consoles/ENV-HD-3.md` |
+| Texture bytes per room, the worst room in budget (shell signs and Louisiana name signs counted): high; balanced; low (the Louisiana data hall at 256 px over 11 name signs); budgets unchanged at 24, 3 and 3 MiB | 17.33 MiB; 2.33 MiB; 2.86 MiB | `docs/consoles/ENV-HD-3.md` |
+| Louisiana rooms on the balanced tier before any skin: texture MiB, over the 3 MiB room budget from their name-sign canvases (6 to 15 a room); the skin adds no bytes there | 3.21 to 6.02 MiB | `docs/consoles/ENV-HD-3.md` |
+| Worst robot-site chunk on the high tier, meshes (the San José chunk: generic + robotics meshes) | 6 → 5 (4 + 2 → 2 + 2) | `docs/consoles/ENV-HD-3.md` |
+| Robotics towers with an entrance canopy (lobby glazing), and roof plant sized by footprint, so every tower’s plant stands 2.40 m tall and the canopy top 4.57 m | 0 → 28 of 28 | `docs/consoles/ENV-HD-3.md` |
+| Chunks drawn one mesh per kind where the generic and robotics kits meet; the worst robotics-variant chunk on the high tier before → after (the phone tier unchanged) | 0 → 14; 4 meshes / 5,204 triangles → 3 meshes / 5,066 triangles | `docs/consoles/ENV-HD-3.md` |
+| The phone tier builds what it built before; facades checker passes; exteriors checker passes; shared-export check | unchanged; 2,957 → 2,977; 259 → 278; 139 of 139 | `docs/consoles/ENV-HD-3.md` |
+| Establishing-shot presets, before and after: a wide shot and a street shot at each of the busiest non-robot sites (a bridge yard of 7 stations, a port terminal of 6 and a construction site of 6, the busiest kind); exteriors checker passes | 12 → 18; 259 → 278 | `docs/consoles/ENV-HD-3.md` |
+| Stills at 1920 by 1080 from the capture drive, day and night; page errors; external requests | 12; 0; 0 | `docs/consoles/ENV-HD-3.md` |
+| Vehicles parked inside a robotics building lot (the Richland data hall, balanced and high); motorworks checker passes | 2 → 0; 37 → 69 | `docs/consoles/ENV-HD-3.md` |
+| Animals and people inside a lot, with and without the page’s seams; chased agents that stepped in; menagerie checker passes | 0 → 0; 0 of 6; 93,998 → 94,048 | `docs/consoles/ENV-HD-3.md` |
+
+The skin is budget-aware: a texture map is set on a room only while the room stays inside its texture budget with the shell’s signs counted, so the table’s first row is a count of styles, not a promise that every room carries every map.
+
 ### Checkers run on the neighbours
 
 | Checker | Result |
 |---|---|
-| `check_exteriors` | 259 checks pass, unchanged by the neighbourhood work |
-| `check_facades` | 2,860 → 2,957 pass (the robotics variant joined it) |
+| `check_exteriors` | 259 → 278 pass (the chunk test and the scene presets joined it) |
+| `check_facades` | 2,860 → 2,957 → 2,977 pass (the robotics variant, then the merged meshes and canopies, joined it) |
 | `check_palette` | 684 pass, unchanged |
 | `check_walkable` | 2,720 pass, unchanged |
 | `check_detail` | 479 → 485 pass (the lots test joined it); generation median 10.6 ms → 9.9 ms in paired runs, against a budget of 12 ms |
 | `check_robo_interiors` | 302 pass headless; 331 in the built page, on both tiers |
 | `check_la_rooms` | 3,787 pass, unchanged |
 | `check_classrooms` | 2,057 pass, unchanged |
+| `check_room_skins` | 164 → 382 pass (every style, the budget-aware maps) |
+| `check_motorworks` | 37 → 69 pass (the lots test joined it) |
+| `check_menagerie` | 93,998 → 94,048 pass (the lots test joined it) |
+| `check_imports` | 1,117 modules import only what they declare |
 
 ### What is left
 
-- *Planned* The robotics tower kit has no entrance canopy, because it is built in unit-height space; the San José chunk is at its mesh budget on the high tier.
+- *Planned* The 6 Louisiana rooms are over the balanced texture budget before any skin (3.21 to 6.02 MiB against 3, from their name-sign canvases); the skin adds nothing there, and an atlas per room or phone-size signs would bring them in (a finding for the Louisiana rooms’ own console).
 
-- *Planned* Parked vehicles and animals are not tested against the building lots, and the kitchen style, the Louisiana rooms and the union hall are not yet skinned.
+- *Planned* The merged kind mesh holds its parts in world space in the 14 chunks where the generic and robotics kits meet; its geometry bytes are not yet measured against a stated byte budget.
+
+- *Planned* More establishing shots: parks, fire stations, hospitals and schools are the next busiest kinds, and a door shot at a site building.
 
 - *Planned* The phone tier has no lit windows at night; the balanced and phone exteriors were counted from the scene graph and allocation, not driven in a browser.
 
 - *Planned* The detail-generation timing is judged only on a quiet machine; it was measured at a shared load and says so.
 
-**Round two of this loop** is read from its console branches while the coordinator merges them: `HIVE-IN-WORLD` (committed, head `0c834a8a`, merged; its console note is committed, and its figures here come from its checkers re-run on a snapshot of that commit); `ENV-HD-2` (its committed console note, merged). The pages are rebuilt by one command, and each figure is re-checked then.
+**Round two of this loop** is merged into the integration head (`de429b36`): `HIVE-IN-WORLD` (note last committed in `0c834a8a`); `ENV-HD-2` (note last committed in `a0d21aea`). Each figure from it is checked by phrase against that console’s committed note, not re-run from a branch; a note that is edited later stops the build.
+
+**Round three of this loop** is merged into the integration head (`de429b36`), and each figure from it is checked by phrase against that console’s committed note, a committed data file or a commit message, not re-run from a branch: `ENV-HD-3` (its last commit `f3589590`, 7 commits since the head that round started from; its console note is committed; merged into the integration head). A note that is edited later stops the build.
 
 Sources: `docs/consoles/ROBO-INTERIORS.md`, `docs/consoles/ROBO-EXTERIORS.md`, `WebXR/shared/ixr-robo-interiors.js`, `WebXR/shared/fx-exteriors.js`, `tools/check_robo_interiors.mjs`, `tools/check_exteriors.mjs`. Each figure is read from those notes by the script that built this page. Rooms are generic by kind, as the interiors note says: no real building’s interior is modelled.
 
 
 ---
 
-_Every figure on this page was checked against the repository file named beside it when the page was built (head `41e41366`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
+_Every figure on this page was checked against the repository file named beside it when the page was built (head `de429b36`, 2026-10-12). The robots are simulated; no hardware result, partnership, customer, price, valuation or raise is stated anywhere in this wiki. Standards are named, never quoted, and nothing here claims compliance._
