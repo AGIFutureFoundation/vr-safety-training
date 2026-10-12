@@ -32,10 +32,12 @@
 // SEAM:
 //   aaHdSupported(three) -> bool         three.js has SkinnedMesh, Skeleton, Bone and BufferGeometry (else the mount builds today's figure)
 //   aaHdSpec(agent) -> spec              body, colours, posture (from the traits), outfit, tablet, phase
-//   aaHdGeometry(spec) -> { body, glow, talk, bones, triangles }   plain arrays (positions, normals, colours, skin indices/weights)
+//   aaHdGeometry(spec, level?) -> { body, glow, talk, bones, triangles }   plain arrays (positions, normals, colours, skin indices/weights);
+//                                        level "full" (default, the outdoor figure) or "room" (AVATARS-HD-2: AA_HD_LOD.room, the robotics
+//                                        rooms' figure: the same forms, colours, bones and pose with fewer segments, ≤ AA_HD_ROOM_BUDGET)
 //   aaHdPose(spec, st) -> { r, s, o }    bone rotations, scales and offsets; st = { t, walking, walkPhase, speaking, mouth, beat,
 //                                        gesture: { kind, k }, blink, reduced }
-//   aaHdBuild(three, agent, spec?) -> { group, body, glow, talk, bones, skeleton, apply(pose), triangles, spec }
+//   aaHdBuild(three, agent, spec?, { level }?) -> { group, body, glow, talk, bones, skeleton, apply(pose), triangles, spec, level }
 //   aaHdRender(geo, pose, { w, h, view, crop, bg, ss }) -> { rgba, mask, w, h }    software raster (front or side, orthographic)
 //   aaHdSilhouette(agent, { w, h, view }) -> mask (Uint8Array, 1 = figure)
 //   aaHdMaskIoU(a, b) -> intersection over union of two masks
@@ -47,6 +49,16 @@
 
 /** The high tier's figure budget: meshes + sprites (crew.js CT_AVATAR_BUDGET, 12, as today), triangles and draw calls per figure. */
 export const AA_HD_BUDGET = Object.freeze({ meshesAndSprites: 12, triangles: 3000, drawCallsSilent: 3, drawCallsSpeaking: 5 });
+/** AVATARS-HD-2: the robotics rooms' figure budget. Three figures (H3_ROOM_FIGURES) must fit beside the busiest room's shell and its
+ * high-tier lighting (2,780 triangles) inside IX_BUDGET's 6,000, so a room figure keeps to 1,000 triangles: no more than today's
+ * figure (1,008 in its meshes), with 3 meshes where today's has 9. */
+export const AA_HD_ROOM_BUDGET = Object.freeze({ meshesAndSprites: 12, triangles: 1000, drawCallsSilent: 3, drawCallsSpeaking: 5 });
+/** AVATARS-HD-2: segment counts per level of detail. "full" is the outdoor figure as it was; "room" drops the thumb, uses lighter
+ * trunk and limb profiles and fewer segments everywhere else. */
+export const AA_HD_LOD = Object.freeze({
+  full: Object.freeze({ trunk: 16, trunkLite: false, small: 12, neck: 10, head: [18, 10], mouth: [10, 4], cap: [10, 6], limb: 10, limbLite: false, hand: [8, 6], thumb: 6, foot: [10, 5], band: 16, eye: [8, 4], halo: [28, 3], badge: 10, talk: [8, 4] }),
+  room: Object.freeze({ trunk: 8, trunkLite: true, small: 6, neck: 6, head: [10, 6], mouth: [6, 3], cap: [6, 3], limb: 6, limbLite: true, hand: [6, 3], thumb: 0, foot: [6, 3], band: 8, eye: [6, 2], halo: [12, 3], badge: 6, talk: [6, 3] }),
+});
 /** crew.js CT_AVATAR_STYLES.body's heights and widths (the balanced figure's body types), so a figure keeps its build on every tier. */
 export const AA_HD_BODY_DIMS = Object.freeze({ slender: { h: 1.0, w: 0.86 }, average: { h: 1.0, w: 1.0 }, broad: { h: 1.0, w: 1.18 }, tall: { h: 1.1, w: 0.98 }, compact: { h: 0.9, w: 1.04 }, full: { h: 0.98, w: 1.28 } });
 /** The skeleton: name -> parent. */
@@ -134,7 +146,8 @@ function aaHdEllipsoid(rx, ry, rz, seg, rings) {
   return aaHdLathe(prof, seg, { sx: rx / rz });
 }
 /** A limb hanging from its joint (y = 0) down to y = -L: rounded at both ends, radius r0 at the joint, r1 at the far end. */
-function aaHdLimb(L, r0, r1, seg, sx = 1) {
+function aaHdLimb(L, r0, r1, seg, sx = 1, lite = false) {
+  if (lite) return aaHdLathe([[0, -L - r1 * 0.95], [r1, -L], [((r0 + r1) / 2) * 1.04, -L / 2], [r0, 0], [0, r0 * 0.95]], seg, { sx }); // AVATARS-HD-2: the room level
   return aaHdLathe([[0, -L - r1 * 0.95], [r1 * 0.72, -L - r1 * 0.62], [r1, -L], [((r0 + r1) / 2) * 1.04, -L / 2], [r0, 0], [r0 * 0.72, r0 * 0.62], [0, r0 * 0.95]], seg, { sx });
 }
 function aaHdTorus(R, r, M, N) {
@@ -204,8 +217,8 @@ function aaHdJoints(spec) {
 }
 
 /** The figure as plain arrays: the lit body, the unlit glow, the mouth's lit opening, and the bones (bind positions, parents). */
-export function aaHdGeometry(spec) {
-  const J = aaHdJoints(spec), { H, W } = spec.body, C = spec.colours, P = spec.posture;
+export function aaHdGeometry(spec, level = "full") {
+  const J = aaHdJoints(spec), { H, W } = spec.body, C = spec.colours, P = spec.posture, D = AA_HD_LOD[level] ?? AA_HD_LOD.full;
   const body = aaHdBuffer(), glow = aaHdBuffer(), talk = aaHdBuffer();
   const torsoBone = (q) => { // the trunk bends smoothly: pelvis → spine → chest
     const y = q[1] / H;
@@ -215,35 +228,36 @@ export function aaHdGeometry(spec) {
   };
   const sx = 1.24 * W, sz = 0.8 * W;
   // trunk: hips, a belted waist (the role colour), chest and rounded shoulders (cool shell)
-  const trunk = [[0, 0.86], [0.11, 0.872], [0.148, 0.92], [0.152, 0.98], [0.138, 1.05], [0.136, 1.12], [0.152, 1.2], [0.174, 1.28], [0.182, 1.35], [0.17, 1.405], [0.125, 1.445], [0, 1.462]].map(([r, y]) => [r, y * H]);
-  aaHdPush(body, aaHdLathe(trunk, 16, { sx: sx / W, sz: sz / W }), { col: (q) => (q[1] > 0.99 * H && q[1] < 1.06 * H ? C.accent : q[1] < 0.99 * H ? C.shellDeep : C.shell), bone: torsoBone });
+  const trunk = (D.trunkLite ? [[0, 0.86], [0.148, 0.92], [0.152, 0.98], [0.138, 1.03], [0.14, 1.14], [0.174, 1.28], [0.182, 1.35], [0.15, 1.43], [0, 1.462]]
+    : [[0, 0.86], [0.11, 0.872], [0.148, 0.92], [0.152, 0.98], [0.138, 1.05], [0.136, 1.12], [0.152, 1.2], [0.174, 1.28], [0.182, 1.35], [0.17, 1.405], [0.125, 1.445], [0, 1.462]]).map(([r, y]) => [r, y * H]);
+  aaHdPush(body, aaHdLathe(trunk, D.trunk, { sx: sx / W, sz: sz / W }), { col: (q) => (q[1] > 0.99 * H && q[1] < 1.06 * H ? C.accent : q[1] < 0.99 * H ? C.shellDeep : C.shell), bone: torsoBone });
   if (spec.vest) { // a high-visibility vest with two reflective bands
     const vp = [[0.138, 1.08], [0.152, 1.17], [0.176, 1.27], [0.186, 1.34], [0.176, 1.4]].map(([r, y]) => [r + 0.012, y * H]);
-    aaHdPush(body, aaHdLathe(vp, 16, { sx: sx / W, sz: sz / W }), { col: (q) => (Math.abs(q[1] - 1.14 * H) < 0.02 || Math.abs(q[1] - 1.25 * H) < 0.02 ? C.band : C.vest), bone: torsoBone });
+    aaHdPush(body, aaHdLathe(vp, D.trunk, { sx: sx / W, sz: sz / W }), { col: (q) => (Math.abs(q[1] - 1.14 * H) < 0.02 || Math.abs(q[1] - 1.25 * H) < 0.02 ? C.band : C.vest), bone: torsoBone });
   }
-  if (spec.yoke) aaHdPush(body, aaHdLathe([[0.19 + 0.014, 1.31 * H], [0.2 + 0.014, 1.37 * H], [0.18 + 0.016, 1.415 * H], [0.12, 1.452 * H]], 16, { sx: sx / W, sz: sz / W }), { col: C.accent, bone: "chest" });
-  if (spec.collar) aaHdPush(body, aaHdLathe([[0.058, 1.43 * H], [0.064, 1.46 * H], [0.06, 1.48 * H]], 12, { sz: 0.9 }), { col: C.accent, bone: "chest" });
+  if (spec.yoke) aaHdPush(body, aaHdLathe([[0.19 + 0.014, 1.31 * H], [0.2 + 0.014, 1.37 * H], [0.18 + 0.016, 1.415 * H], [0.12, 1.452 * H]], D.trunk, { sx: sx / W, sz: sz / W }), { col: C.accent, bone: "chest" });
+  if (spec.collar) aaHdPush(body, aaHdLathe([[0.058, 1.43 * H], [0.064, 1.46 * H], [0.06, 1.48 * H]], D.small, { sz: 0.9 }), { col: C.accent, bone: "chest" });
   // neck and head (an egg of the shell colour: no skin)
-  aaHdPush(body, aaHdLathe([[0.046, 1.43 * H], [0.041, 1.5 * H], [0.044, J.headC[1] - 0.06]], 10), { col: C.joint, bone: "neck" });
+  aaHdPush(body, aaHdLathe([[0.046, 1.43 * H], [0.041, 1.5 * H], [0.044, J.headC[1] - 0.06]], D.neck), { col: C.joint, bone: "neck" });
   const [hrx, hry, hrz] = J.headR;
-  aaHdPush(body, aaHdEllipsoid(hrx, hry, hrz, 18, 10), { at: J.headC, col: C.shell, bone: "head" });
+  aaHdPush(body, aaHdEllipsoid(hrx, hry, hrz, D.head[0], D.head[1]), { at: J.headC, col: C.shell, bone: "head" });
   // brows (graphite) and the mouth slot (dark), each on its own bone
   aaHdPush(body, aaHdBox(0.036, 0.008, 0.012), { at: J.browL, rot: [0, 0.32, 0], col: C.brow, bone: "browL" });
   aaHdPush(body, aaHdBox(0.036, 0.008, 0.012), { at: J.browR, rot: [0, -0.32, 0], col: C.brow, bone: "browR" });
-  aaHdPush(body, aaHdEllipsoid(0.028, 0.0055, 0.009, 10, 4), { at: J.mouth, col: C.mouth, bone: "mouth" });
+  aaHdPush(body, aaHdEllipsoid(0.028, 0.0055, 0.009, D.mouth[0], D.mouth[1]), { at: J.mouth, col: C.mouth, bone: "mouth" });
   // arms: rounded shoulder, upper arm, forearm (shell over graphite), mitten hands with a thumb
   for (const side of ["L", "R"]) {
     const s = side === "L" ? 1 : -1, sh = J[`shoulder${side}`], el = J[`elbow${side}`], wr = J[`wrist${side}`];
-    aaHdPush(body, aaHdEllipsoid(0.066, 0.06, 0.062, 10, 6), { at: [sh[0] - s * 0.008, sh[1] + 0.006, sh[2]], col: C.cap, bone: `shoulder${side}` });
-    aaHdPush(body, aaHdLimb(0.27 * H, 0.05, 0.041, 10), { at: sh, col: C.graphite, bone: `shoulder${side}` });
-    aaHdPush(body, aaHdLimb(0.245 * H, 0.043, 0.032, 10), { at: el, col: C.shell, bone: `elbow${side}` });
-    aaHdPush(body, aaHdEllipsoid(0.02, 0.07, 0.044, 8, 6), { at: [wr[0], wr[1] - 0.07, wr[2] + 0.004], col: C.hand, bone: `wrist${side}` });
-    aaHdPush(body, aaHdLimb(0.045, 0.014, 0.011, 6), { at: [wr[0] - s * 0.006, wr[1] - 0.03, wr[2] + 0.04], rot: [0.5, 0, s * 0.35], col: C.hand, bone: `wrist${side}` });
+    aaHdPush(body, aaHdEllipsoid(0.066, 0.06, 0.062, D.cap[0], D.cap[1]), { at: [sh[0] - s * 0.008, sh[1] + 0.006, sh[2]], col: C.cap, bone: `shoulder${side}` });
+    aaHdPush(body, aaHdLimb(0.27 * H, 0.05, 0.041, D.limb, 1, D.limbLite), { at: sh, col: C.graphite, bone: `shoulder${side}` });
+    aaHdPush(body, aaHdLimb(0.245 * H, 0.043, 0.032, D.limb, 1, D.limbLite), { at: el, col: C.shell, bone: `elbow${side}` });
+    aaHdPush(body, aaHdEllipsoid(0.02, 0.07, 0.044, D.hand[0], D.hand[1]), { at: [wr[0], wr[1] - 0.07, wr[2] + 0.004], col: C.hand, bone: `wrist${side}` });
+    if (D.thumb) aaHdPush(body, aaHdLimb(0.045, 0.014, 0.011, D.thumb), { at: [wr[0] - s * 0.006, wr[1] - 0.03, wr[2] + 0.04], rot: [0.5, 0, s * 0.35], col: C.hand, bone: `wrist${side}` });
     // legs: thigh, shin and foot
     const hp = J[`hip${side}`], kn = J[`knee${side}`], an = J[`ankle${side}`];
-    aaHdPush(body, aaHdLimb(hp[1] - kn[1], 0.086 * W, 0.062, 10), { at: hp, col: C.graphite, bone: `hip${side}` });
-    aaHdPush(body, aaHdLimb(kn[1] - an[1], 0.062, 0.044, 10), { at: kn, col: C.shellDeep, bone: `knee${side}` });
-    aaHdPush(body, aaHdEllipsoid(0.046, 0.036, 0.105, 10, 5), { at: [an[0], an[1] - 0.045, an[2] + 0.045], col: C.foot, bone: `ankle${side}` });
+    aaHdPush(body, aaHdLimb(hp[1] - kn[1], 0.086 * W, 0.062, D.limb, 1, D.limbLite), { at: hp, col: C.graphite, bone: `hip${side}` });
+    aaHdPush(body, aaHdLimb(kn[1] - an[1], 0.062, 0.044, D.limb, 1, D.limbLite), { at: kn, col: C.shellDeep, bone: `knee${side}` });
+    aaHdPush(body, aaHdEllipsoid(0.046, 0.036, 0.105, D.foot[0], D.foot[1]), { at: [an[0], an[1] - 0.045, an[2] + 0.045], col: C.foot, bone: `ankle${side}` });
   }
   if (spec.tablet) { // the tablet in the left hand (its screen glows)
     const wr = J.wristL;
@@ -252,17 +266,17 @@ export function aaHdGeometry(spec) {
   }
   // what glows: the role-coloured visor band across the eyes, the eyes on it, the halo, the badge
   const hc = J.headC[1], bandH = spec.bigVisor ? 0.032 : 0.023, ringR = (y) => hrz * Math.sqrt(Math.max(0, 1 - ((y - hc) / hry) ** 2)) + 0.004;
-  aaHdPush(glow, aaHdLathe([[ringR(hc + 0.012 - bandH), hc + 0.012 - bandH], [ringR(hc + 0.012) + 0.002, hc + 0.012], [ringR(hc + 0.012 + bandH), hc + 0.012 + bandH]], 16, { a0: -1.85, a1: 1.85, sx: hrx / hrz }), { col: C.glow, bone: "head" });
-  aaHdPush(glow, aaHdEllipsoid(0.017, 0.0105, 0.006, 8, 4), { at: J.eyeL, col: C.eye, bone: "eyeL" });
-  aaHdPush(glow, aaHdEllipsoid(0.017, 0.0105, 0.006, 8, 4), { at: J.eyeR, col: C.eye, bone: "eyeR" });
-  aaHdPush(glow, aaHdTorus(0.118, 0.0065, 28, 3), { at: [0, hc + hry + 0.065, -0.01], rot: [-0.16, 0, 0], col: C.accent, bone: "head" });
+  aaHdPush(glow, aaHdLathe([[ringR(hc + 0.012 - bandH), hc + 0.012 - bandH], [ringR(hc + 0.012) + 0.002, hc + 0.012], [ringR(hc + 0.012 + bandH), hc + 0.012 + bandH]], D.band, { a0: -1.85, a1: 1.85, sx: hrx / hrz }), { col: C.glow, bone: "head" });
+  aaHdPush(glow, aaHdEllipsoid(0.017, 0.0105, 0.006, D.eye[0], D.eye[1]), { at: J.eyeL, col: C.eye, bone: "eyeL" });
+  aaHdPush(glow, aaHdEllipsoid(0.017, 0.0105, 0.006, D.eye[0], D.eye[1]), { at: J.eyeR, col: C.eye, bone: "eyeR" });
+  aaHdPush(glow, aaHdTorus(0.118, 0.0065, D.halo[0], D.halo[1]), { at: [0, hc + hry + 0.065, -0.01], rot: [-0.16, 0, 0], col: C.accent, bone: "head" });
   const chestFront = 0.19 * sz + (spec.vest ? 0.014 : 0.004);
-  aaHdPush(glow, aaHdLathe([[0, 0], [0.026, 0]], 10), { at: [0.085 * W, 1.3 * H, chestFront], rot: [Math.PI / 2, 0, 0], col: C.accent, bone: "chest" });
+  aaHdPush(glow, aaHdLathe([[0, 0], [0.026, 0]], D.badge), { at: [0.085 * W, 1.3 * H, chestFront], rot: [Math.PI / 2, 0, 0], col: C.accent, bone: "chest" });
   // the mouth's lit opening (its own mesh: visible only while the agent talks)
-  aaHdPush(talk, aaHdEllipsoid(0.022, 0.0042, 0.006, 8, 4), { at: [0, 0, 0.0035], col: C.talk, bone: "mouth" });
+  aaHdPush(talk, aaHdEllipsoid(0.022, 0.0042, 0.006, D.talk[0], D.talk[1]), { at: [0, 0, 0.0035], col: C.talk, bone: "mouth" });
   const bones = AA_HD_ORDER.map((name) => ({ name, parent: AA_HD_BONES[name], at: J[name] ?? [0, 0, 0] }));
   const tri = (b) => b.i.length / 3;
-  return { body, glow, talk, bones, joints: J, triangles: { body: tri(body), glow: tri(glow), talk: tri(talk), total: tri(body) + tri(glow) + tri(talk) } };
+  return { body, glow, talk, bones, joints: J, level: AA_HD_LOD[level] ? level : "full", triangles: { body: tri(body), glow: tri(glow), talk: tri(talk), total: tri(body) + tri(glow) + tri(talk) } };
 }
 
 // ------------------------------------------------------------------ the pose (pure): personality, walking, speech, gestures
@@ -328,8 +342,8 @@ export function aaHdPose(spec, st = {}) {
 // ------------------------------------------------------------------ the three.js figure
 
 /** Build the high-detail figure (feet at y = 0, facing +z): one skinned body, one skinned glow, the mouth's lit opening. */
-export function aaHdBuild(T, agent, spec = aaHdSpec(agent)) {
-  const geo = aaHdGeometry(spec);
+export function aaHdBuild(T, agent, spec = aaHdSpec(agent), { level = "full" } = {}) {
+  const geo = aaHdGeometry(spec, level);
   const group = new T.Group(); group.name = `aa-agent-${spec.id}`;
   const bones = {}, list = [];
   for (const b of geo.bones) {
@@ -378,7 +392,7 @@ export function aaHdBuild(T, agent, spec = aaHdSpec(agent)) {
     }
   }
   apply(aaHdPose(spec, { t: 0 }));
-  return { group, body, glow, talk, bones, skeleton, apply, spec, triangles: geo.triangles, headY: geo.joints.headC[1] };
+  return { group, body, glow, talk, bones, skeleton, apply, spec, level: geo.level, triangles: geo.triangles, headY: geo.joints.headC[1] };
 }
 
 // ------------------------------------------------------------------ a software rasteriser: silhouettes and portraits

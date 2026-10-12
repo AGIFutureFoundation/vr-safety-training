@@ -93,7 +93,7 @@ import { ohMountHive } from "../../shared/oh-panel.js"; // OMEGA-HIVE: the agent
 import { vcMountVoiceSettings } from "../../shared/vc-voices.js";
 import { vbColearnProvider, vbColearnLocalSource } from "../../shared/vb-colearn.js";
 // AGENT-AVATARS: the software agents embodied at the robot sites.
-import { aaMountAgentAvatars, aaVbridgeAgents, aaVbridgeSource } from "../../shared/aa-agent-avatars.js";
+import { aaMountAgentAvatars, aaVbridgeAgents, aaVbridgeSource, aaRoomAvatarMount } from "../../shared/aa-agent-avatars.js";
 // HIVE-IN-WORLD: the hive's agents inside the robotics rooms, one door with the exterior, and the return into the room.
 import { hwSyncRoom, hwFxDoorAt, hwReturnHash, hwRoomFromHash, hwRouter, hwBoxesIn } from "../../shared/hw-hive-world.js";
 import { ohHive } from "../../shared/oh-hive.js";
@@ -1389,7 +1389,7 @@ window.__parishTest.vbridge = vbMountDispatch($("menu-drills"), { reducedMotion:
 // (profiles.js namespaces the key; never uploaded; auth.js signOut clears it). Demo, K-12 and signed-out sessions keep nothing.
 var h3Prefs = (() => { try { return h3Settings({ storage: gtStorage(), signals: dxReadSignals(), profile: gtProfile(), demo: npParams.has("demo") }); } catch (_) { return null; } })();
 window.__parishTest.hivePrefs = h3Prefs;
-window.__parishTest.hive = (() => { try { let ok = false; try { ok = !npParams.has("demo") && dxEligibility(dxReadSignals(), { stage: "offer" }).eligible === true; } catch (_) { ok = false; } return ok ? ohMountHive($("menu-drills"), { reducedMotion: npReduced, audit: ent3AuditAppend, seed: 1, settings: h3Prefs, onTalk: (id, on) => { if (on) { aaWorld?.talkStart(id); hwRoomMount?.avatars?.talkStart(id); } else { aaWorld?.talkEnd(id); hwRoomMount?.avatars?.talkEnd(id); } } }) : null; } catch (_) { return null; } })();
+window.__parishTest.hive = (() => { try { let ok = false; try { ok = !npParams.has("demo") && dxEligibility(dxReadSignals(), { stage: "offer" }).eligible === true; } catch (_) { ok = false; } return ok ? ohMountHive($("menu-drills"), { reducedMotion: npReduced, audit: ent3AuditAppend, seed: 1, settings: h3Prefs, onTalk: (id, on, line) => { const t = line?.text ?? null; if (on) { aaWorld?.talkStart(id, t); hwRoomMount?.avatars?.talkStart(id, t); } else { aaWorld?.talkEnd(id, t); hwRoomMount?.avatars?.talkEnd(id, t); } }, onWord: (id, charIndex, line) => { const t = line?.text ?? null; aaWorld?.talkWord(id, charIndex, t); hwRoomMount?.avatars?.talkWord(id, charIndex, t); } }) : null; } catch (_) { return null; } })();
 window.__parishTest.vbColearn = vbProvider;
 // AGENT-AVATARS (docs/consoles/AGENT-AVATARS.md): the software agents embodied at this map's robot sites — the four VBRIDGE
 // personas over the agent-jobs panel's job stream (the client asks, the governor checks, the provider walks to a running job's
@@ -1400,6 +1400,9 @@ window.__parishTest.vbColearn = vbProvider;
 var h3ScenePts = new Map();
 var aaSiteAt = (id) => { const h = h3ScenePts.get(id); if (h) return h; const s = rbWorld?.sites?.find((x) => x.id === id); return s ? { x: s.position[0], y: s.y, z: s.position[1] } : null; };
 var aaVbSource = (() => { try { return window.__parishTest.vbridge ? aaVbridgeSource(window.__parishTest.vbridge) : null; } catch (_) { return null; } })();
+// AVATARS-HD-2: with voice on, a figure's light and mouth wait for the voice's onstart while the panel's on-device voice holds the line
+// (the controller's pending), and follow its word boundaries (onWord above); captions show when the line starts, as before.
+var aaVoiced = (id, text) => { try { return window.__parishTest?.hive?.voiceController?.pending?.(id, text) === true; } catch (_) { return false; } };
 // HIVE-IN-WORLD: the agents' walks go round the page's own collider boxes (the walk's colliders: CITYWORKS or NEWTON's massing,
 // parked vehicles, the robotics buildings), and a standing slot inside one is skipped.
 var hwWalk = (() => { try { const cache = new Map(); return hwRouter((x0, z0, x1, z1) => hwBoxesIn(wkColliders, parish, x0, z0, x1, z1, { cache })); } catch (_) { return null; } })();
@@ -1407,7 +1410,7 @@ var aaWorld = !rbWorld?.sites?.length ? null : (() => { // a map with no robot s
   try {
     const hive = window.__parishTest.hive?.hive ?? null; // HIVE-IN-WORLD: the hive itself (on, agents), not the panel's api
     const hiveAgents = hive ? (typeof hive.agents === "function" ? hive.agents() : hive.agents) ?? [] : [];
-    return aaMountAgentAvatars({ three: THREE, parent: root, agents: [...hiveAgents, ...aaVbridgeAgents(rbWorld?.sites?.[0]?.id ?? null)], source: [hive, aaVbSource].filter(Boolean), siteAt: aaSiteAt, reducedMotion: npReduced, tier: npTierName, hd: true /* AVATARS-HD: the high-detail figure, desktop high tier only */, groundAt: (x, z) => Math.max(npHeightAt(parish, x, z), 0), spotFor: (_a, id) => h3ScenePts.get(id) ?? null, route: hwWalk?.route ?? null, blocked: hwWalk?.blocked ?? null });
+    return aaMountAgentAvatars({ three: THREE, parent: root, agents: [...hiveAgents, ...aaVbridgeAgents(rbWorld?.sites?.[0]?.id ?? null)], source: [hive, aaVbSource].filter(Boolean), siteAt: aaSiteAt, reducedMotion: npReduced, tier: npTierName, hd: true /* AVATARS-HD: the high-detail figure, desktop high tier only */, voiced: aaVoiced, groundAt: (x, z) => Math.max(npHeightAt(parish, x, z), 0), spotFor: (_a, id) => h3ScenePts.get(id) ?? null, route: hwWalk?.route ?? null, blocked: hwWalk?.blocked ?? null });
   } catch (_) { return null; }
 })();
 window.__parishTest.agentAvatars = aaWorld;
@@ -1415,9 +1418,11 @@ window.__parishTest.agentAvatars = aaWorld;
 // agent spots (in the room's group, facing the spot's way) and the hive's captions show over them; one mount per open room, kept
 // in step by hwSync (every frame, and right after an enter). Only when the hive is mounted (signed in, adult, not K-12, not the demo).
 var hwRoomMount = null;
+// AVATARS-HD-2: the rooms' figures are the room level of the high-detail figure on high (inside IX_BUDGET), and wait for the voice too.
+var aaRoomMount = aaRoomAvatarMount({ voiced: aaVoiced });
 function hwSync() {
   const hv = h3Scene?.relay ?? window.__parishTest?.hive?.hive ?? null; // HIVE-3: the scene's paced hive while it plays
-  hwRoomMount = hwSyncRoom(hwRoomMount, { room: ixWorld.room, three: THREE, agents: hv?.agents ?? [], source: hv, tier: npTierName, reducedMotion: npReduced });
+  hwRoomMount = hwSyncRoom(hwRoomMount, { room: ixWorld.room, three: THREE, agents: hv?.agents ?? [], source: hv, tier: npTierName, reducedMotion: npReduced, mount: aaRoomMount });
   return hwRoomMount;
 }
 // A station launched from a robotics room comes back with #...&ixr=<style>: stand at that room's door and go back inside.

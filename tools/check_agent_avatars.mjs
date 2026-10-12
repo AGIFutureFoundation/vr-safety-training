@@ -525,7 +525,8 @@ const HDV = {};
   };
   const err = (samples, bounds) => { const out = []; for (let i = 0; i < bounds.length; i += 1) { const b = bounds[i], next = bounds[i + 1] ?? Infinity; const hit = samples.find(([t, m]) => t >= b - 1e-9 && t < next && m >= THR); out.push(hit ? (hit[0] - b) * 1000 : Infinity); } return out; };
   const v = runMouth(true), ev = err(v.samples, v.bounds);
-  // before onstart the line runs on the caption's timing (the light and mouth start when the line arrives, as today: h3-next item 2)
+  // a mount without `voiced` runs the line on the caption's timing until onstart (the light and mouth start when the line arrives);
+  // with `voiced` (the page's, AVATARS-HD-2) they wait for onstart: measured below over the real hive's lines
   const closedAfter = v.samples.filter(([t]) => t > v.bounds[v.bounds.length - 1] + 0.32).every(([, m]) => m === 0);
   const maxV = Math.max(...ev), within = ev.filter((e) => e <= TOL).length;
   ok(within === ev.length && closedAfter, `voice on (a stubbed utterance's word boundaries): the mouth opens within ${maxV.toFixed(1)} ms of each boundary, ${within} of ${ev.length} within ${TOL} ms; shut after onend`);
@@ -536,20 +537,80 @@ const HDV = {};
   let closes = 0; for (let i = 0; i + 1 < ons.length; i += 1) if (off.samples.some(([t, m]) => t > ons[i] && t < ons[i + 1] && m < THR)) closes += 1;
   ok(withinO === eo.length && shutAfter && closes === ons.length - 1, `voice off (the caption's word timing): the mouth opens within ${maxO.toFixed(1)} ms of each word onset, ${withinO} of ${eo.length}; it closes between words ${closes} of ${ons.length - 1} and is shut after the line`);
   HDV.mouth = { on: { max: maxV, n: ev.length, within }, off: { max: maxO, n: eo.length, within: withinO } };
-  // the real voice controller (oh-voice.js) with a stubbed speechSynthesis: one local voice and one network voice
+  // the real voice controller (oh-voice.js) with a stubbed speechSynthesis: one local voice and one network voice.
+  // AVATARS-HD-2: the stub's word boundaries are word-length based, like the stub above (onstart 0.1 s after speak, then a boundary per
+  // word at 90 ms + 28 ms a letter). Before, it fired one every 0.2 s whatever the word (about 300 words a minute), which no voice does.
+  // The claim is per word now: the mouth opens within TOL of each boundary the controller forwards and closes before the next one.
   const OHV = await imp("WebXR/shared/oh-voice.js");
   const voices = [{ name: "Local Voice", lang: "en-US", localService: true }, { name: "Network Voice", lang: "en-US", localService: false }];
-  const timers = []; let now = 0, bForwarded = 0;
   class Utter { constructor(text2) { this.text = text2; } }
-  const synth = { getVoices: () => voices, speak(u) { timers.push([now + 0.1, () => u.onstart?.()]); let tv = now + 0.14; for (const m of u.text.matchAll(/\S+/g)) { const ci = m.index; timers.push([tv, () => { if (typeof u.onboundary === "function") { bForwarded += 1; u.onboundary({ name: "word", charIndex: ci }); } }]); tv += 0.2; } timers.push([tv + 0.2, () => u.onend?.()]); timers.sort((p, q) => p[0] - q[0]); }, cancel() {} };
-  const ctl = OHV.ohVoiceController({ synth, Utterance: Utter, doc: null, win: null, enabled: true });
+  /** A stubbed speechSynthesis on a simulated clock: word-length based boundaries; `log` keeps each utterance's onstart, boundaries and onend. */
+  const stubSynth = (clockRef, log) => {
+    const timers = [];
+    return { timers, getVoices: () => voices, cancel() {}, speak(u) {
+      const rec = { text: u.text, start: null, end: null, bounds: [] }; log.push(rec);
+      const t0 = clockRef.now; timers.push([t0 + 0.1, () => { rec.start = t0 + 0.1; u.onstart?.(); }]); let tv = t0 + 0.14;
+      for (const m of u.text.matchAll(/\S+/g)) { const ci = m.index, at = tv; timers.push([at, () => { if (typeof u.onboundary === "function") { rec.bounds.push(at); u.onboundary({ name: "word", charIndex: ci }); } }]); tv += 0.09 + 0.028 * m[0].length; }
+      const te = tv + 0.2; timers.push([te, () => { rec.end = te; u.onend?.(); }]); timers.sort((p, q) => p[0] - q[0]);
+    } };
+  };
+  const fire = (sy, t) => { while (sy.timers.length && sy.timers[0][0] <= t) sy.timers.shift()[1](); };
+  const clk2 = { now: 0 }, log2 = [], synth = stubSynth(clk2, log2);
+  const ctl = OHV.ohVoiceController({ synth, Utterance: Utter, doc: null, win: null, enabled: true, now: () => clk2.now * 1000 });
   const src2 = AA.aaEmitter(), w2 = AA.aaMountAgentAvatars({ three: RTS, parent: new RT.Group(), agents: [AG.trainer], source: src2, siteAt, tier: "high", hd: true });
-  w2.animate(0, 0, null); src2.emit({ type: "speak", agent: AG.trainer.id, text }); ctl.say(AG.trainer, text, AA.aaVoiceHooks(w2, AG.trainer.id));
-  const s2 = []; for (let k = 1; k <= FPS * 6; k += 1) { now = k / FPS; while (timers.length && timers[0][0] <= now) timers.shift()[1](); w2.animate(now, 1 / FPS, null); const s = w2.state(AG.trainer.id); s2.push([now, s.mouth, s.voiced]); }
-  let opens = 0; for (let i = 1; i < s2.length; i += 1) if (s2[i][1] >= THR && s2[i - 1][1] < THR && s2[i][2]) opens += 1;
-  ok(ctl.chosen(AG.trainer.id)?.localService === true && opens >= 10, `with oh-voice.js and a stubbed speechSynthesis (one local, one network voice): the local voice is chosen, the mouth opens ${opens} times between onstart and onend; boundaries forwarded by the controller: ${bForwarded} (the onboundary line is HIVE-4's seam)`);
-  HDV.voiceCtl = { opens, forwarded: bForwarded };
+  w2.animate(0, 0, null); src2.emit({ type: "speak", agent: AG.trainer.id, text }); ctl.say(AG.trainer, text, AA.aaVoiceHooks(w2, AG.trainer.id, text));
+  const s2 = []; for (let k = 1; k <= FPS * 6; k += 1) { clk2.now = k / FPS; fire(synth, clk2.now); w2.animate(clk2.now, 1 / FPS, null); const s = w2.state(AG.trainer.id); s2.push([clk2.now, s.mouth, s.voiced]); }
+  /** Per word: the mouth opens (≥ THR) within TOL ms of the boundary and is shut (< THR) again before the next boundary (or onend). */
+  const perWord = (samples, bounds, endT) => { let n = 0, worst = 0; for (let i = 0; i < bounds.length; i += 1) { const b = bounds[i], next = bounds[i + 1] ?? endT; const op = samples.find(([t, m]) => t >= b - 1e-9 && t < next && m >= THR); if (!op) continue; worst = Math.max(worst, (op[0] - b) * 1000); if ((op[0] - b) * 1000 <= TOL && samples.some(([t, m]) => t > op[0] && t < next && m < THR)) n += 1; } return { n, worst }; };
+  const bForwarded = log2[0]?.bounds.length ?? 0, pw = perWord(s2, log2[0]?.bounds ?? [], log2[0]?.end ?? Infinity);
+  ok(ctl.chosen(AG.trainer.id)?.localService === true && bForwarded === words.length && pw.n === bForwarded, `with oh-voice.js and a stubbed speechSynthesis (one local, one network voice; word-length boundaries): the local voice is chosen; boundaries forwarded by the controller: ${bForwarded} of ${words.length} words; the mouth opens on each word within ${pw.worst.toFixed(1)} ms and closes before the next: ${pw.n} of ${bForwarded}`);
+  HDV.voiceCtl = { forwarded: bForwarded, words: words.length, perWord: pw.n, worst: pw.worst };
   w2.dispose();
+  // AVATARS-HD-2: the light and the mouth start at the voice's onstart, over the real hive's lines (seed 1). The page's wiring: the panel's
+  // voice hears each speak event first (say(), then onstart / onboundary / onend with the line), then the figures; `voiced` is the
+  // controller's pending. Before = the same run with a mount that has no `voiced` (the light came on when the line arrived).
+  const lightRun = (withVoiced) => {
+    const hv2 = OHH.ohHive({ seed: HIVE_SEED }), clk = { now: 0 }, log = [], sy = stubSynth(clk, log);
+    const vc = OHV.ohVoiceController({ synth: sy, Utterance: Utter, doc: null, win: null, enabled: true, now: () => clk.now * 1000 });
+    const byId = new Map(OHA.map((a) => [a.id, a])), lines = [];
+    let wl = null;
+    hv2.on("speak", (e) => { const a = byId.get(e.agent); if (!a) return; const L = { agent: e.agent, text: String(e.text).trim(), at: clk.now, start: null, end: null }; lines.push(L);
+      vc.say(a, e.text, { onstart: () => { L.start = clk.now; wl?.talkStart(e.agent, e.text); }, onboundary: (b) => { if (!b?.name || b.name === "word") wl?.talkWord(e.agent, b.charIndex, e.text); }, onend: () => { L.end = clk.now; wl?.talkEnd(e.agent, e.text); } }); });
+    wl = AA.aaMountAgentAvatars({ three: RTS, parent: new RT.Group(), agents: OHA, source: hv2, siteAt, tier: "high", hd: true, ...(withVoiced ? { voiced: (id, t) => vc.pending(id, t) } : {}) });
+    wl.animate(0, 0, null);
+    const frames = new Map(OHA.map((a) => [a.id, []]));
+    let nextStep = 0;
+    for (let k = 1; k <= FPS * 60; k += 1) {
+      clk.now = k / FPS;
+      if (clk.now >= nextStep && vc.queued() <= 2) { hv2.step(); nextStep = clk.now + 0.4; } // the panel's run: a step every 0.4 s, held while the voices catch up
+      fire(sy, clk.now); wl.animate(clk.now, 1 / FPS, null);
+      for (const a of OHA) { const st = wl.state(a.id); frames.get(a.id).push([clk.now, st.talkVisible, st.mouth, st.line, st.captionVisible]); }
+    }
+    let n = 0, good = 0, captioned = 0; const eps = 1 / FPS + 1e-6;
+    for (const L of lines) {
+      if (L.start == null || L.end == null) continue; n += 1;
+      const mine = lines.filter((x) => x.agent === L.agent && x !== L && x.start != null && x.end != null);
+      const prevEnd = Math.max(L.at, ...mine.filter((x) => x.end <= L.start).map((x) => x.end));
+      const fr = frames.get(L.agent);
+      const offBefore = fr.filter(([t]) => t > prevEnd + eps && t < L.start - eps).every(([, lit, m]) => !lit && m === 0);
+      const onDuring = fr.filter(([t]) => t > L.start + eps && t < L.end - eps).every(([, lit, , line]) => lit && line === L.text);
+      if (offBefore && onDuring) good += 1;
+      if (fr.some(([t, , , line, cap]) => t >= L.at - eps && t <= L.end + eps && cap && line === L.text)) captioned += 1;
+    }
+    const bounds = log.flatMap((r) => r.bounds.map((b) => ({ b, r })));
+    let words = 0, opened = 0;
+    for (const L of lines) {
+      const rec = log.find((r) => r.text === L.text && r.start === L.start); if (!rec || L.start == null || L.end == null) continue; // a line still speaking when the run ends is not counted (as above)
+      const fr = frames.get(L.agent).map(([t, , m]) => [t, m]);
+      const pwl = perWord(fr, rec.bounds, rec.end ?? Infinity); words += rec.bounds.length; opened += pwl.n;
+    }
+    wl.dispose();
+    return { lines: n, good, captioned, boundaries: bounds.length, words, opened, waited: wl.talkLog().filter((x) => x.waited).length };
+  };
+  const LB = lightRun(false), LA = lightRun(true);
+  ok(LA.lines >= 10 && LA.good === LA.lines && LA.captioned === LA.lines, `with voice on, the light and the mouth start at onstart: off before it and on from onstart to onend for ${LA.good} of ${LA.lines} spoken lines (the real hive, seed ${HIVE_SEED}, 60 s; a mount without \`voiced\`: ${LB.good} of ${LB.lines}); the caption is up for ${LA.captioned} of ${LA.lines}`);
+  ok(LA.words > 50 && LA.opened === LA.words, `over the same run, the mouth opens on each forwarded word boundary within ${TOL} ms and closes before the next: ${LA.opened} of ${LA.words} words (${LA.lines} lines)`);
+  HDV.light = { before: LB, after: LA };
   // 9g. gestures driven by the hive's own events: the real hive (seed 1), every event type → its gesture, N of N
   // the learner is a seeded stand-in (not a person) who approves every request, so approvals happen; supervise every job is on
   const hv = OHH.ohHive({ seed: HIVE_SEED, supervise: true, decide: () => "approve" });
@@ -620,6 +681,7 @@ const HDV = {};
 if (HDV.tiers) {
   const T9 = HDV.tiers;
   console.log(`\n  EVAL AVATARS-HD: triangles per figure low 0 / balanced ${T9.balanced.perFigure.toFixed(0)} / high ${T9.high.perFigure.toFixed(0)} (worst ${T9.high.worstTri}, budget ${3000}); draw calls per figure balanced ${T9.balanced.silent}/${T9.balanced.speaking}, high ${T9.high.silent}/${T9.high.speaking} (silent/speaking)`);
+  if (HDV.light) console.log(`  EVAL AVATARS-HD-2: boundaries forwarded by the real controller 0 → ${HDV.voiceCtl.forwarded} of ${HDV.voiceCtl.words}; mouth opens per word (word-length stub) ${HDV.voiceCtl.perWord} of ${HDV.voiceCtl.forwarded}, real hive ${HDV.light.after.opened} of ${HDV.light.after.words}; talk light from onstart ${HDV.light.before.good} of ${HDV.light.before.lines} → ${HDV.light.after.good} of ${HDV.light.after.lines}`);
   console.log(`  EVAL AVATARS-HD: distinct silhouettes ${HDV.silhouettes.before} → ${HDV.silhouettes.after} of 21; mouth within ${HDV.mouth.on.max.toFixed(1)} ms of word boundaries (stubbed voice, ${HDV.mouth.on.within} of ${HDV.mouth.on.n}), ${HDV.mouth.off.max.toFixed(1)} ms of caption word onsets (${HDV.mouth.off.within} of ${HDV.mouth.off.n}); gestures ${HDV.gestures.map((r) => `${r.on} ${r.got}/${r.n}`).join(", ")}`);
 }
 console.log(`\n  eval: agents embodied 0 → ${OHA.length} hive agents (the real hive, ohHive seed ${HIVE_SEED}) + ${AP.AA_VBRIDGE_PERSONAS.length} VBRIDGE personas; meshes + sprites per figure ≤ ${AA.AA_AGENT_BUDGET}; over the real hive's run the talk light is exact, every speak event has a caption and every move ends at its named site (lines above)`);
