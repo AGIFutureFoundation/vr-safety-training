@@ -294,7 +294,10 @@ function trace() {
   check("mount", /nwMountPhysics\(/.test(app) && /prefers-reduced-motion/.test(app), "the parishes app mounts the physics and passes the reduced-motion preference");
   check("mount", /onDrive:[\s\S]{0,200}nw\w*\.drive\(/.test(app), "the Motor Pool board's Drive (after the pre-trip) starts the parish drive mode");
   check("mount", /nwAvatar|\.walk\(/.test(app), "the parish walk goes through the physics (falls, walls, water)");
-  const parishesBlock = bundle.slice(bundle.indexOf('"parishes/js/app.js"') - 6000, bundle.indexOf('"parishes/js/app.js"'));
+  // The whole parishes module list (from its "modules": [ to the app entry), not a fixed window: the list grows every loop.
+  const parishesAppAt = bundle.indexOf('"parishes/js/app.js"');
+  const parishesListAt = bundle.lastIndexOf('"modules": [', parishesAppAt);
+  const parishesBlock = bundle.slice(parishesListAt >= 0 ? parishesListAt : Math.max(0, parishesAppAt - 6000), parishesAppAt);
   check("bundle", /nw-physics\.js/.test(parishesBlock) && /nw-drive\.js/.test(parishesBlock), "the parishes bundle carries nw-physics.js and nw-drive.js");
   check("hygiene", !/^import \* as THREE/m.test(phys) && !/^import \* as THREE/m.test(drive) && !/https?:\/\//.test(phys.split("\n").filter((l) => l.startsWith("import")).join("\n")), "no three.js import in either module");
   const tops = [...phys.matchAll(/^export (?:const|function|let|class) (\w+)/gm), ...drive.matchAll(/^export (?:const|function|let|class) (\w+)/gm), ...phys.matchAll(/^(?:const|function|let) (\w+)/gm), ...drive.matchAll(/^(?:const|function|let) (\w+)/gm)].map((m) => m[1]);
