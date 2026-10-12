@@ -16,6 +16,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Full history: check_arena, check_claw and check_strands prove a protocol was committed before its held-out results.
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
