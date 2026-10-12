@@ -5,6 +5,7 @@
 //   IX_STYLES                       plain data: the generic room styles { label, w, d, h, colours, dress: [[prop, pattern]] }
 //   IX_KIND_STYLE                   plain data: every parish-engine site kind -> a style id
 //   IX_SITE_STYLE                   plain data: single sites that open a style of their own (LA-ROOMS), read before the kind
+//   IX_AGENT_SPOTS                  plain data: two agent spots per ACCESS room -> room.agentSpots [{ id, x, z, yaw }]
 //   ixStyleFor(kind, siteId?)       -> style id (never null: an unknown kind gets "civic-lobby")
 //   ixBuild(styleId, { three, tier = "high", site = null, dressers = IX_DRESSERS })
 //                                   -> room { group, style, w, d, h, door: {x, z}, colliders: [{min, max}], actions: [...],
@@ -84,6 +85,17 @@ export const IX_STYLES = {
   "ixr-port-control":  { label: "Port control room", w: 16, d: 12, h: 3.8, wall: 0xdcdfe2, floor: 0x4d5660, ceiling: 0xe8eaec, trim: 0x2f6f8c, accent: 0x4fb8c9, lamp: 0xf2f6fa, dress: [] },
   "ixr-drilling-deck": { label: "Ceiling-drilling deck", w: 20, d: 16, h: 4.2, wall: 0xa9adb0, floor: 0x8d9093, ceiling: 0x9a9ea2, trim: 0xf2c14b, accent: 0xe8b923, lamp: 0xf2f2ea, dress: [] },
   "ixr-maint-bay":     { label: "Robot maintenance bay", w: 16, d: 14, h: 5.2, wall: 0xc4cad0, floor: 0x56606a, ceiling: 0x8f989f, trim: 0xf2c14b, accent: 0x3a8fd8, lamp: 0xf2f8ff, dress: [] },
+  // ACCESS (docs/consoles/ACCESS.md): walk-in rooms for the four kinds that carry an exterior cue (ENV-HD-6/7: the fire station's
+  // bay doors, the hospital's drop-off canopy, the school's entrance canopy, the park's pavilion). Generic by kind; each has its
+  // station pads by the door and two agent spots (IX_AGENT_SPOTS). acc-access.js opens them from those sites' doors.
+  "acc-fire-bay":       { label: "Fire station apparatus bay", w: 18, d: 22, h: 6.8, wall: 0xcfc8bc, floor: 0x6a6d70, ceiling: 0xbab4a9, trim: 0xa8382c, accent: 0xd9a52b, lamp: 0xf2f8ff,
+    dress: [["truck", "bays:2"], ["locker", "wall:8"], ["rack", "back:2"]] },
+  "acc-drop-off-lobby": { label: "Hospital drop-off lobby", w: 16, d: 14, h: 4.2, wall: 0xeef2f4, floor: 0xc4ccd0, ceiling: 0xf3f6f8, trim: 0x2f6db5, accent: 0x2a9d8f, lamp: 0xf6fbff,
+    dress: [["counter", "front"], ["chair", "row:6"], ["bench", "wall:4"]] },
+  "acc-classroom-wing": { label: "School classroom wing", w: 12, d: 20, h: 3.4, wall: 0xf1efe6, floor: 0xa59f8e, ceiling: 0xf5f4ef, trim: 0x2a9d8f, accent: 0xe9c46a, lamp: 0xf6fbff,
+    dress: [["locker", "wall:12"], ["desk", "grid:3x3"], ["chair", "grid:3x3+"], ["cabinet", "back:3"]] },
+  "acc-park-pavilion":  { label: "Park pavilion", w: 16, d: 12, h: 4.6, wall: 0xd9cdb5, floor: 0x9c8a6a, ceiling: 0x7a5a3c, trim: 0x3f6e4a, accent: 0x5f9e4f, lamp: 0xfff0d8,
+    dress: [["bench", "grid:2x3"], ["counter", "front"], ["crate", "wall:4"]] },
   // ENV-HD-4 (docs/consoles/ENV-HD-4.md): the Omega Hive's operations room, generic by kind — a control room where the seven
   // software agents' consoles stand; hd4-rooms.js furnishes it (dresser) and its screens are the seam for the hive's console.
   "hd4-hive-ops":      { label: "Hive operations room", w: 18, d: 14, h: 4.2, wall: 0xd9dde2, floor: 0x4a535c, ceiling: 0xe4e7ea, trim: 0x2f6f8c, accent: 0x7b6cf0, lamp: 0xf2f6fa, dress: [] },
@@ -179,10 +191,24 @@ export const IX_FEATURES = {
   "ixr-port-control":  [[15.4, 0.08, 0.4, 0, 0.95, -0.97, "trim"], [0.05, 0.1, 3.4, 0.99, 2.8, -0.1, "dark"], [0.05, 0.1, 3.4, 0.99, 1.0, -0.1, "dark"]],
   "ixr-drilling-deck": [[0.4, 4.2, 0.4, -0.99, 2.1, 0.1, "wall"], [0.4, 4.2, 0.4, 0.99, 2.1, 0.1, "wall"], [19.6, 0.4, 0.4, 0, 4.0, 0.55, "wall"]],
   "ixr-maint-bay":     [[15.6, 0.3, 0.3, 0, 4.7, -0.2, "accent"], [0.3, 0.3, 4, 0.45, 4.7, -0.45, "dark"], [0.05, 0.6, 2.4, -0.99, 3.0, -0.3, "trim"]],
+  // ACCESS: the bay's roll-up doors (back wall), pole and apron stripes; the lobby's canopy-blue band, wayfinding strip and
+  // wall panels; the wing's classroom doors along both walls, corridor stripe and board; the pavilion's posts, beam and open sides.
+  "acc-fire-bay":       [[6, 5.2, 0.12, -0.5, 2.6, -0.99, "metal"], [6, 5.2, 0.12, 0.5, 2.6, -0.99, "metal"], [0.12, 6.6, 0.12, 0.0, 3.3, -0.3, "metal"], [0.3, 0.02, 9, -0.5, 0.01, -0.35, "accent"], [0.3, 0.02, 9, 0.5, 0.01, -0.35, "accent"], [17.4, 0.4, 0.05, 0, 5.8, 0.99, "trim"]],
+  "acc-drop-off-lobby": [[15.4, 0.5, 0.05, 0, 3.6, -0.99, "trim"], [0.25, 0.02, 9, 0, 0.01, 0.05, "accent"], [6, 0.9, 0.05, 0, 2.6, -0.99, "pale"], [0.05, 1.2, 4, 0.99, 1.6, -0.2, "pale"], [0.05, 1.2, 4, -0.99, 1.6, -0.2, "pale"]],
+  "acc-classroom-wing": [[0.06, 2.1, 1.1, -0.99, 1.05, -0.55, "trim"], [0.06, 2.1, 1.1, 0.99, 1.05, -0.55, "trim"], [0.06, 2.1, 1.1, -0.99, 1.05, 0.2, "trim"], [0.06, 2.1, 1.1, 0.99, 1.05, 0.2, "trim"], [0.4, 0.02, 17, 0, 0.01, 0, "accent"], [4, 1.2, 0.04, 0, 1.6, -0.99, "pale"]],
+  "acc-park-pavilion":  [[0.3, 4.4, 0.3, -0.97, 2.2, -0.95, "wood"], [0.3, 4.4, 0.3, 0.97, 2.2, -0.95, "wood"], [0.3, 4.4, 0.3, -0.97, 2.2, 0.95, "wood"], [0.3, 4.4, 0.3, 0.97, 2.2, 0.95, "wood"], [15.6, 0.3, 0.3, 0, 4.3, 0, "wood"], [0.05, 2.0, 8, -0.99, 1.9, 0, "pale"], [0.05, 2.0, 8, 0.99, 1.9, 0, "pale"]],
   // ENV-HD-4: the hive operations room's two video-wall bezels (either side of the honesty sign), acoustic panels and a cable tray.
   "hd4-hive-ops":      [[5.8, 2.5, 0.1, -0.565, 2.2, -0.99, "dark"], [5.8, 2.5, 0.1, 0.565, 2.2, -0.99, "dark"], [0.05, 1.4, 3.2, -0.99, 2.1, -0.2, "pale"], [0.05, 1.4, 3.2, 0.99, 2.1, -0.2, "pale"], [17.4, 0.1, 0.3, 0, 3.95, -0.6, "metal"]],
 };
 
+/** Two agent spots per ACCESS room (room-local [x, z, yaw]): where a software agent figure stands to lead a lesson, clear of
+ *  every collider and reachable from the door (check_acc). Other styles have none (an empty list). */
+export const IX_AGENT_SPOTS = {
+  "acc-fire-bay":       [[-1.8, 4.6, 0], [1.8, 4.6, 0]],
+  "acc-drop-off-lobby": [[-5.2, 1.0, 0.6], [5.2, 1.0, -0.6]],
+  "acc-classroom-wing": [[-1.0, 6.2, 0], [1.0, 6.2, 0]],
+  "acc-park-pavilion":  [[-4.0, 3.4, 0.4], [4.0, 3.4, -0.4]],
+};
 export function ixStyleFor(kind, siteId = null) { return (siteId && IX_SITE_STYLE[siteId]) || (IX_KIND_STYLE[kind] ?? "civic-lobby"); }
 
 /** The door spot of a site building: `out` metres outside CITYWORKS' door (cwDoorOf) on its face, clear of the footprint. */
@@ -318,6 +344,7 @@ export function ixBuild(styleId, { three: THREE, tier = "high", site = null, tit
   boxMesh(3.6, 1.2, 0.05, 0, Math.min(h - 0.9, 2.8), -d / 2 + 0.03,
     ixSignMaterial(THREE, [(title ?? style.label).toUpperCase(), "A generic room for this kind of site —", "not a model of the real building."]), "ix-label");
   room.addAction({ id: "exit", kind: "exit", x: door.x, z: door.z, label: "Go back outside" });
+  room.agentSpots = (IX_AGENT_SPOTS[styleId] ?? []).map(([x, z, yaw], i) => ({ id: `agent-${i + 1}`, x, z, yaw }));
   // The site's stations: one lit pad each along the door-side row (instanced), each launching its station.
   const stations = (site?.stations ?? []).slice(0, low ? 4 : 8);
   if (stations.length) {
