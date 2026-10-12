@@ -96,6 +96,7 @@ import { vbColearnProvider, vbColearnLocalSource } from "../../shared/vb-colearn
 import { aaMountAgentAvatars, aaVbridgeAgents, aaVbridgeSource, aaRoomAvatarMount } from "../../shared/aa-agent-avatars.js";
 // HIVE-IN-WORLD: the hive's agents inside the robotics rooms, one door with the exterior, and the return into the room.
 import { hwSyncRoom, hwFxDoorAt, hwReturnHash, hwRoomFromHash, hwRouter, hwBoxesIn } from "../../shared/hw-hive-world.js";
+import { h5IsOpsRoom } from "../../shared/h5-ops-room.js";
 // HIVE-5: the console link (the hive's operations room comes through hwSyncRoom).
 import { h5LivePublisher, h5MountLiveToggle } from "../../shared/h5-hive-live.js";
 import { ohHive } from "../../shared/oh-hive.js";
@@ -1431,7 +1432,7 @@ var hwRoomMount = null;
 var aaRoomMount = aaRoomAvatarMount({ voiced: aaVoiced });
 function hwSync() {
   const hv = h3Scene?.relay ?? window.__parishTest?.hive?.hive ?? null; // HIVE-3: the scene's paced hive while it plays
-  hwRoomMount = hwSyncRoom(hwRoomMount, { room: ixWorld.room, three: THREE, agents: hv?.agents ?? [], source: hv, tier: npTierName, reducedMotion: npReduced, mount: aaRoomMount });
+  hwRoomMount = hwSyncRoom(hwRoomMount, { room: ixWorld.room, three: THREE, agents: hv?.agents ?? [], source: hv, tier: npTierName, reducedMotion: npReduced, mount: h5IsOpsRoom(ixWorld.room) ? undefined : aaRoomMount }); // the ops room keeps HIVE-5's lightened standard figure: seven room-level HD figures would take it to 8,508 triangles, over its 6,000
   return hwRoomMount;
 }
 // A station launched from a robotics room comes back with #...&ixr=<style>: stand at that room's door and go back inside.

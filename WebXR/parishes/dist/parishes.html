@@ -157273,24 +157273,34 @@ function fxMountExteriors({ THREE, root, parish, tier = "high", hour = 12, atlas
 // Mission map (6; construction is the busiest kind, 350 stations over 91 sites). The shots frame the parish engine's own
 // generic site (its low building and job board) in the procedural streets around it: nothing here models a real building
 // and every label is generic by kind.
+// ENV-HD-5 (docs/consoles/ENV-HD-5.md) adds the same two shots for the next busiest kinds after construction, by catalog
+// stations: parks (214 stations over 54 sites), fire stations (178 over 46), hospitals (169 over 40) and schools (168 over
+// 43) — the busiest site of each kind, a tie going to a map the presets already open (one page load frames more shots).
+// The labels say only the kind ("Park crew yard", not the site's own name): the frame is the engine's generic building.
 //
 // SEAMS (every top-level name is hd3/HD3_-prefixed: the bundler shares one scope; no three.js):
 //   HD3_SHOTS                         ["wide", "street"]: a high three-quarter view from the road side, and an eye-level view
 //                                       from the near sidewalk of the nearest street
-//   HD3_SCENE_SITES                   plain data: [{ id, parish, kind, label, stations }] (why these: see above)
+//   HD3_SCENE_SITES                   plain data: [{ id, parish, kind, label, stations, by }] (why these: see above; by "site" =
+//                                       one of the catalog's busiest sites, "kind" = the busiest site of a next-busiest kind)
 //   hd3Scene(parish, siteId, shot)    -> { siteId, shot, parish, kind, label, position, target, fov } | null — the camera spot is
 //                                       the first candidate that stands dry and clear of massing with its sight line clear;
 //                                       deterministic (no randomness), so a still can be re-shot exactly
-//   hd3ScenePresets()                 -> [{ siteId, shot, parish }] for the six presets
+//   hd3ScenePresets()                 -> [{ siteId, shot, parish }] for the fourteen presets (seven sites x two shots)
 //   The parishes app routes `window.__parishTest.scene(siteId, shot)` (and `?scene=<siteId>:<shot>`) here for these sites.
 
 
 
 const HD3_SHOTS = ["wide", "street"];
 const HD3_SCENE_SITES = [
-  { id: "bridge-yard", parish: "sf-marina", kind: "bridge", label: "Bridge yard", stations: 7 },
-  { id: "port-terminal", parish: "orleans", kind: "port", label: "Port terminal", stations: 6 },
-  { id: "mission-bay-construction-site", parish: "sf-mission", kind: "construction", label: "Construction site", stations: 6 },
+  { id: "bridge-yard", parish: "sf-marina", kind: "bridge", label: "Bridge yard", stations: 7, by: "site" },
+  { id: "port-terminal", parish: "orleans", kind: "port", label: "Port terminal", stations: 6, by: "site" },
+  { id: "mission-bay-construction-site", parish: "sf-mission", kind: "construction", label: "Construction site", stations: 6, by: "site" },
+  // ENV-HD-5: the next busiest kinds (ties of the busiest count go to a map already listed above)
+  { id: "presidio-crew-yard", parish: "sf-marina", kind: "park", label: "Park crew yard", stations: 5, by: "kind" },
+  { id: "no-sw-mid-city-fire-station", parish: "orleans", kind: "fire-station", label: "Fire station", stations: 4, by: "kind" },
+  { id: "hospital-district", parish: "orleans", kind: "hospital", label: "Hospital campus", stations: 6, by: "kind" },
+  { id: "mission-school-campus", parish: "sf-mission", kind: "school", label: "School campus", stations: 5, by: "kind" },
 ];
 
 function hd3ScenePresets() {
@@ -157359,8 +157369,12 @@ function hd3Scene(parish, siteId, shot = "wide") {
   const cands = [];
   for (const lat of [11, -11, 17, -17, 5, -5, 0]) for (const extra of [0, -3, 3]) cands.push([tx + ux * (back + extra) + vx * lat, tz + uz * (back + extra) + vz * lat]);
   for (const dist of [28, 34, 24]) for (const da of bearings) cands.push([tx + Math.sin(a0 + da) * dist, tz + Math.cos(a0 + da) * dist]);
-  for (const [px, pz] of cands) {
-    if (!hd3Clear(parish, px, pz, 1.2, -1)) continue;
+  // ENV-HD-5: a first pass keeps the camera 3.5 m clear of any building's grown footprint and 12 m from the site's own
+  // building, so its wall does not fill the frame's near side (the hospital campus's camera stood 8.3 m from it); the old
+  // 1.2 m pass is the fallback
+  const ownD = (px, pz) => (b ? Math.hypot(Math.max(Math.abs(px - b.cx) - b.w / 2, 0), Math.max(Math.abs(pz - b.cz) - b.d / 2, 0)) : 99);
+  for (const [m, own] of [[3.5, 12], [1.2, 0]]) for (const [px, pz] of cands) {
+    if (ownD(px, pz) < own || !hd3Clear(parish, px, pz, m, -1)) continue;
     if (![0.2, 0.35, 0.5, 0.65].every((t) => hd3Clear(parish, px + (tx - px) * t, pz + (tz - pz) * t, 0.8, -1))) continue;
     return out([px, Math.max(y, npHeightAt(parish, px, pz)) + 1.7, pz], y + 3.2, 62);
   }
@@ -168059,7 +168073,8 @@ function vbMountDispatch(el, { reducedMotion = false, ent3 = null, stationHref =
 //             leg, a hip shift, a bent knee).
 // Speech in the body: the mouth opens on each word onset (aaHdMouth; the mount supplies the onsets, from the voice's boundary
 // events when voice is on, from the caption's word timing when it is off). Gestures: raise (a bid), accept (an award), stop (a
-// refusal: the hand up, palm out), nod (an approval or a completion).
+// refusal: AVATARS-HD-2, the hand held up in front of the chest, inside the shoulders, palm square to the front and fingers up, so it
+// reads as "stop" from in front and never as the bid's raised hand), nod (an approval or a completion).
 //
 // Budget (desktop high only; balanced keeps crew.js's figure and the phone tier builds none): AA_HD_BUDGET, held by
 // tools/check_agent_avatars.mjs. Every top-level name starts with `aa`/`AA_` (the bundler shares one scope). Nothing here calls a
@@ -168068,10 +168083,12 @@ function vbMountDispatch(el, { reducedMotion = false, ent3 = null, stationHref =
 // SEAM:
 //   aaHdSupported(three) -> bool         three.js has SkinnedMesh, Skeleton, Bone and BufferGeometry (else the mount builds today's figure)
 //   aaHdSpec(agent) -> spec              body, colours, posture (from the traits), outfit, tablet, phase
-//   aaHdGeometry(spec) -> { body, glow, talk, bones, triangles }   plain arrays (positions, normals, colours, skin indices/weights)
+//   aaHdGeometry(spec, level?) -> { body, glow, talk, bones, triangles }   plain arrays (positions, normals, colours, skin indices/weights);
+//                                        level "full" (default, the outdoor figure) or "room" (AVATARS-HD-2: AA_HD_LOD.room, the robotics
+//                                        rooms' figure: the same forms, colours, bones and pose with fewer segments, ≤ AA_HD_ROOM_BUDGET)
 //   aaHdPose(spec, st) -> { r, s, o }    bone rotations, scales and offsets; st = { t, walking, walkPhase, speaking, mouth, beat,
 //                                        gesture: { kind, k }, blink, reduced }
-//   aaHdBuild(three, agent, spec?) -> { group, body, glow, talk, bones, skeleton, apply(pose), triangles, spec }
+//   aaHdBuild(three, agent, spec?, { level }?) -> { group, body, glow, talk, bones, skeleton, apply(pose), triangles, spec, level }
 //   aaHdRender(geo, pose, { w, h, view, crop, bg, ss }) -> { rgba, mask, w, h }    software raster (front or side, orthographic)
 //   aaHdSilhouette(agent, { w, h, view }) -> mask (Uint8Array, 1 = figure)
 //   aaHdMaskIoU(a, b) -> intersection over union of two masks
@@ -168083,6 +168100,16 @@ function vbMountDispatch(el, { reducedMotion = false, ent3 = null, stationHref =
 
 /** The high tier's figure budget: meshes + sprites (crew.js CT_AVATAR_BUDGET, 12, as today), triangles and draw calls per figure. */
 const AA_HD_BUDGET = Object.freeze({ meshesAndSprites: 12, triangles: 3000, drawCallsSilent: 3, drawCallsSpeaking: 5 });
+/** AVATARS-HD-2: the robotics rooms' figure budget. Three figures (H3_ROOM_FIGURES) must fit beside the busiest room's shell and its
+ * high-tier lighting (2,780 triangles) inside IX_BUDGET's 6,000, so a room figure keeps to 1,000 triangles: no more than today's
+ * figure (1,008 in its meshes), with 3 meshes where today's has 9. */
+const AA_HD_ROOM_BUDGET = Object.freeze({ meshesAndSprites: 12, triangles: 1000, drawCallsSilent: 3, drawCallsSpeaking: 5 });
+/** AVATARS-HD-2: segment counts per level of detail. "full" is the outdoor figure as it was; "room" drops the thumb, uses lighter
+ * trunk and limb profiles and fewer segments everywhere else. */
+const AA_HD_LOD = Object.freeze({
+  full: Object.freeze({ trunk: 16, trunkLite: false, small: 12, neck: 10, head: [18, 10], mouth: [10, 4], cap: [10, 6], limb: 10, limbLite: false, hand: [8, 6], thumb: 6, foot: [10, 5], band: 16, eye: [8, 4], halo: [28, 3], badge: 10, talk: [8, 4] }),
+  room: Object.freeze({ trunk: 8, trunkLite: true, small: 6, neck: 6, head: [10, 6], mouth: [6, 3], cap: [6, 3], limb: 6, limbLite: true, hand: [6, 3], thumb: 0, foot: [6, 3], band: 8, eye: [6, 2], halo: [12, 3], badge: 6, talk: [6, 3] }),
+});
 /** crew.js CT_AVATAR_STYLES.body's heights and widths (the balanced figure's body types), so a figure keeps its build on every tier. */
 const AA_HD_BODY_DIMS = Object.freeze({ slender: { h: 1.0, w: 0.86 }, average: { h: 1.0, w: 1.0 }, broad: { h: 1.0, w: 1.18 }, tall: { h: 1.1, w: 0.98 }, compact: { h: 0.9, w: 1.04 }, full: { h: 0.98, w: 1.28 } });
 /** The skeleton: name -> parent. */
@@ -168095,6 +168122,10 @@ const AA_HD_ORDER = Object.keys(AA_HD_BONES);
 /** Gesture lengths (ms). */
 const AA_HD_GESTURE_MS = Object.freeze({ raise: 1400, accept: 1200, stop: 1800, nod: 900, approve: 900 });
 const AA_HD_BODY_IDS = ["average", "slender", "tall", "broad", "compact", "full"]; // the same pick as the balanced figure
+/** AVATARS-HD-2: the stop hand (right arm; Euler XYZ). Found on the real skeleton for all seven bodies: the hand's centre about 0.09 m right
+ * of the midline at chest height, 0.36 m in front of the chest, its palm normal within 5 degrees of the figure's front, fingers up. The
+ * round-4 pose (shoulder [-1.25, 0, -0.1], elbow [-1.35, pi/2, 0], wrist [0, 0, -0.54]) held it beside the head, near the bid's raise. */
+const AA_HD_STOP_POSE = Object.freeze({ sh: Object.freeze([-0.687, 0.225, 0.3]), el: Object.freeze([-1.224, 2.149, 0]), wr: Object.freeze([0.33, -0.344, -1.065]) });
 
 const aaHdClamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const aaHdC01 = (v) => aaHdClamp(v, 0, 1);
@@ -168170,7 +168201,8 @@ function aaHdEllipsoid(rx, ry, rz, seg, rings) {
   return aaHdLathe(prof, seg, { sx: rx / rz });
 }
 /** A limb hanging from its joint (y = 0) down to y = -L: rounded at both ends, radius r0 at the joint, r1 at the far end. */
-function aaHdLimb(L, r0, r1, seg, sx = 1) {
+function aaHdLimb(L, r0, r1, seg, sx = 1, lite = false) {
+  if (lite) return aaHdLathe([[0, -L - r1 * 0.95], [r1, -L], [((r0 + r1) / 2) * 1.04, -L / 2], [r0, 0], [0, r0 * 0.95]], seg, { sx }); // AVATARS-HD-2: the room level
   return aaHdLathe([[0, -L - r1 * 0.95], [r1 * 0.72, -L - r1 * 0.62], [r1, -L], [((r0 + r1) / 2) * 1.04, -L / 2], [r0, 0], [r0 * 0.72, r0 * 0.62], [0, r0 * 0.95]], seg, { sx });
 }
 function aaHdTorus(R, r, M, N) {
@@ -168240,8 +168272,8 @@ function aaHdJoints(spec) {
 }
 
 /** The figure as plain arrays: the lit body, the unlit glow, the mouth's lit opening, and the bones (bind positions, parents). */
-function aaHdGeometry(spec) {
-  const J = aaHdJoints(spec), { H, W } = spec.body, C = spec.colours, P = spec.posture;
+function aaHdGeometry(spec, level = "full") {
+  const J = aaHdJoints(spec), { H, W } = spec.body, C = spec.colours, P = spec.posture, D = AA_HD_LOD[level] ?? AA_HD_LOD.full;
   const body = aaHdBuffer(), glow = aaHdBuffer(), talk = aaHdBuffer();
   const torsoBone = (q) => { // the trunk bends smoothly: pelvis → spine → chest
     const y = q[1] / H;
@@ -168251,35 +168283,36 @@ function aaHdGeometry(spec) {
   };
   const sx = 1.24 * W, sz = 0.8 * W;
   // trunk: hips, a belted waist (the role colour), chest and rounded shoulders (cool shell)
-  const trunk = [[0, 0.86], [0.11, 0.872], [0.148, 0.92], [0.152, 0.98], [0.138, 1.05], [0.136, 1.12], [0.152, 1.2], [0.174, 1.28], [0.182, 1.35], [0.17, 1.405], [0.125, 1.445], [0, 1.462]].map(([r, y]) => [r, y * H]);
-  aaHdPush(body, aaHdLathe(trunk, 16, { sx: sx / W, sz: sz / W }), { col: (q) => (q[1] > 0.99 * H && q[1] < 1.06 * H ? C.accent : q[1] < 0.99 * H ? C.shellDeep : C.shell), bone: torsoBone });
+  const trunk = (D.trunkLite ? [[0, 0.86], [0.148, 0.92], [0.152, 0.98], [0.138, 1.03], [0.14, 1.14], [0.174, 1.28], [0.182, 1.35], [0.15, 1.43], [0, 1.462]]
+    : [[0, 0.86], [0.11, 0.872], [0.148, 0.92], [0.152, 0.98], [0.138, 1.05], [0.136, 1.12], [0.152, 1.2], [0.174, 1.28], [0.182, 1.35], [0.17, 1.405], [0.125, 1.445], [0, 1.462]]).map(([r, y]) => [r, y * H]);
+  aaHdPush(body, aaHdLathe(trunk, D.trunk, { sx: sx / W, sz: sz / W }), { col: (q) => (q[1] > 0.99 * H && q[1] < 1.06 * H ? C.accent : q[1] < 0.99 * H ? C.shellDeep : C.shell), bone: torsoBone });
   if (spec.vest) { // a high-visibility vest with two reflective bands
     const vp = [[0.138, 1.08], [0.152, 1.17], [0.176, 1.27], [0.186, 1.34], [0.176, 1.4]].map(([r, y]) => [r + 0.012, y * H]);
-    aaHdPush(body, aaHdLathe(vp, 16, { sx: sx / W, sz: sz / W }), { col: (q) => (Math.abs(q[1] - 1.14 * H) < 0.02 || Math.abs(q[1] - 1.25 * H) < 0.02 ? C.band : C.vest), bone: torsoBone });
+    aaHdPush(body, aaHdLathe(vp, D.trunk, { sx: sx / W, sz: sz / W }), { col: (q) => (Math.abs(q[1] - 1.14 * H) < 0.02 || Math.abs(q[1] - 1.25 * H) < 0.02 ? C.band : C.vest), bone: torsoBone });
   }
-  if (spec.yoke) aaHdPush(body, aaHdLathe([[0.19 + 0.014, 1.31 * H], [0.2 + 0.014, 1.37 * H], [0.18 + 0.016, 1.415 * H], [0.12, 1.452 * H]], 16, { sx: sx / W, sz: sz / W }), { col: C.accent, bone: "chest" });
-  if (spec.collar) aaHdPush(body, aaHdLathe([[0.058, 1.43 * H], [0.064, 1.46 * H], [0.06, 1.48 * H]], 12, { sz: 0.9 }), { col: C.accent, bone: "chest" });
+  if (spec.yoke) aaHdPush(body, aaHdLathe([[0.19 + 0.014, 1.31 * H], [0.2 + 0.014, 1.37 * H], [0.18 + 0.016, 1.415 * H], [0.12, 1.452 * H]], D.trunk, { sx: sx / W, sz: sz / W }), { col: C.accent, bone: "chest" });
+  if (spec.collar) aaHdPush(body, aaHdLathe([[0.058, 1.43 * H], [0.064, 1.46 * H], [0.06, 1.48 * H]], D.small, { sz: 0.9 }), { col: C.accent, bone: "chest" });
   // neck and head (an egg of the shell colour: no skin)
-  aaHdPush(body, aaHdLathe([[0.046, 1.43 * H], [0.041, 1.5 * H], [0.044, J.headC[1] - 0.06]], 10), { col: C.joint, bone: "neck" });
+  aaHdPush(body, aaHdLathe([[0.046, 1.43 * H], [0.041, 1.5 * H], [0.044, J.headC[1] - 0.06]], D.neck), { col: C.joint, bone: "neck" });
   const [hrx, hry, hrz] = J.headR;
-  aaHdPush(body, aaHdEllipsoid(hrx, hry, hrz, 18, 10), { at: J.headC, col: C.shell, bone: "head" });
+  aaHdPush(body, aaHdEllipsoid(hrx, hry, hrz, D.head[0], D.head[1]), { at: J.headC, col: C.shell, bone: "head" });
   // brows (graphite) and the mouth slot (dark), each on its own bone
   aaHdPush(body, aaHdBox(0.036, 0.008, 0.012), { at: J.browL, rot: [0, 0.32, 0], col: C.brow, bone: "browL" });
   aaHdPush(body, aaHdBox(0.036, 0.008, 0.012), { at: J.browR, rot: [0, -0.32, 0], col: C.brow, bone: "browR" });
-  aaHdPush(body, aaHdEllipsoid(0.028, 0.0055, 0.009, 10, 4), { at: J.mouth, col: C.mouth, bone: "mouth" });
+  aaHdPush(body, aaHdEllipsoid(0.028, 0.0055, 0.009, D.mouth[0], D.mouth[1]), { at: J.mouth, col: C.mouth, bone: "mouth" });
   // arms: rounded shoulder, upper arm, forearm (shell over graphite), mitten hands with a thumb
   for (const side of ["L", "R"]) {
     const s = side === "L" ? 1 : -1, sh = J[`shoulder${side}`], el = J[`elbow${side}`], wr = J[`wrist${side}`];
-    aaHdPush(body, aaHdEllipsoid(0.066, 0.06, 0.062, 10, 6), { at: [sh[0] - s * 0.008, sh[1] + 0.006, sh[2]], col: C.cap, bone: `shoulder${side}` });
-    aaHdPush(body, aaHdLimb(0.27 * H, 0.05, 0.041, 10), { at: sh, col: C.graphite, bone: `shoulder${side}` });
-    aaHdPush(body, aaHdLimb(0.245 * H, 0.043, 0.032, 10), { at: el, col: C.shell, bone: `elbow${side}` });
-    aaHdPush(body, aaHdEllipsoid(0.02, 0.07, 0.044, 8, 6), { at: [wr[0], wr[1] - 0.07, wr[2] + 0.004], col: C.hand, bone: `wrist${side}` });
-    aaHdPush(body, aaHdLimb(0.045, 0.014, 0.011, 6), { at: [wr[0] - s * 0.006, wr[1] - 0.03, wr[2] + 0.04], rot: [0.5, 0, s * 0.35], col: C.hand, bone: `wrist${side}` });
+    aaHdPush(body, aaHdEllipsoid(0.066, 0.06, 0.062, D.cap[0], D.cap[1]), { at: [sh[0] - s * 0.008, sh[1] + 0.006, sh[2]], col: C.cap, bone: `shoulder${side}` });
+    aaHdPush(body, aaHdLimb(0.27 * H, 0.05, 0.041, D.limb, 1, D.limbLite), { at: sh, col: C.graphite, bone: `shoulder${side}` });
+    aaHdPush(body, aaHdLimb(0.245 * H, 0.043, 0.032, D.limb, 1, D.limbLite), { at: el, col: C.shell, bone: `elbow${side}` });
+    aaHdPush(body, aaHdEllipsoid(0.02, 0.07, 0.044, D.hand[0], D.hand[1]), { at: [wr[0], wr[1] - 0.07, wr[2] + 0.004], col: C.hand, bone: `wrist${side}` });
+    if (D.thumb) aaHdPush(body, aaHdLimb(0.045, 0.014, 0.011, D.thumb), { at: [wr[0] - s * 0.006, wr[1] - 0.03, wr[2] + 0.04], rot: [0.5, 0, s * 0.35], col: C.hand, bone: `wrist${side}` });
     // legs: thigh, shin and foot
     const hp = J[`hip${side}`], kn = J[`knee${side}`], an = J[`ankle${side}`];
-    aaHdPush(body, aaHdLimb(hp[1] - kn[1], 0.086 * W, 0.062, 10), { at: hp, col: C.graphite, bone: `hip${side}` });
-    aaHdPush(body, aaHdLimb(kn[1] - an[1], 0.062, 0.044, 10), { at: kn, col: C.shellDeep, bone: `knee${side}` });
-    aaHdPush(body, aaHdEllipsoid(0.046, 0.036, 0.105, 10, 5), { at: [an[0], an[1] - 0.045, an[2] + 0.045], col: C.foot, bone: `ankle${side}` });
+    aaHdPush(body, aaHdLimb(hp[1] - kn[1], 0.086 * W, 0.062, D.limb, 1, D.limbLite), { at: hp, col: C.graphite, bone: `hip${side}` });
+    aaHdPush(body, aaHdLimb(kn[1] - an[1], 0.062, 0.044, D.limb, 1, D.limbLite), { at: kn, col: C.shellDeep, bone: `knee${side}` });
+    aaHdPush(body, aaHdEllipsoid(0.046, 0.036, 0.105, D.foot[0], D.foot[1]), { at: [an[0], an[1] - 0.045, an[2] + 0.045], col: C.foot, bone: `ankle${side}` });
   }
   if (spec.tablet) { // the tablet in the left hand (its screen glows)
     const wr = J.wristL;
@@ -168288,17 +168321,17 @@ function aaHdGeometry(spec) {
   }
   // what glows: the role-coloured visor band across the eyes, the eyes on it, the halo, the badge
   const hc = J.headC[1], bandH = spec.bigVisor ? 0.032 : 0.023, ringR = (y) => hrz * Math.sqrt(Math.max(0, 1 - ((y - hc) / hry) ** 2)) + 0.004;
-  aaHdPush(glow, aaHdLathe([[ringR(hc + 0.012 - bandH), hc + 0.012 - bandH], [ringR(hc + 0.012) + 0.002, hc + 0.012], [ringR(hc + 0.012 + bandH), hc + 0.012 + bandH]], 16, { a0: -1.85, a1: 1.85, sx: hrx / hrz }), { col: C.glow, bone: "head" });
-  aaHdPush(glow, aaHdEllipsoid(0.017, 0.0105, 0.006, 8, 4), { at: J.eyeL, col: C.eye, bone: "eyeL" });
-  aaHdPush(glow, aaHdEllipsoid(0.017, 0.0105, 0.006, 8, 4), { at: J.eyeR, col: C.eye, bone: "eyeR" });
-  aaHdPush(glow, aaHdTorus(0.118, 0.0065, 28, 3), { at: [0, hc + hry + 0.065, -0.01], rot: [-0.16, 0, 0], col: C.accent, bone: "head" });
+  aaHdPush(glow, aaHdLathe([[ringR(hc + 0.012 - bandH), hc + 0.012 - bandH], [ringR(hc + 0.012) + 0.002, hc + 0.012], [ringR(hc + 0.012 + bandH), hc + 0.012 + bandH]], D.band, { a0: -1.85, a1: 1.85, sx: hrx / hrz }), { col: C.glow, bone: "head" });
+  aaHdPush(glow, aaHdEllipsoid(0.017, 0.0105, 0.006, D.eye[0], D.eye[1]), { at: J.eyeL, col: C.eye, bone: "eyeL" });
+  aaHdPush(glow, aaHdEllipsoid(0.017, 0.0105, 0.006, D.eye[0], D.eye[1]), { at: J.eyeR, col: C.eye, bone: "eyeR" });
+  aaHdPush(glow, aaHdTorus(0.118, 0.0065, D.halo[0], D.halo[1]), { at: [0, hc + hry + 0.065, -0.01], rot: [-0.16, 0, 0], col: C.accent, bone: "head" });
   const chestFront = 0.19 * sz + (spec.vest ? 0.014 : 0.004);
-  aaHdPush(glow, aaHdLathe([[0, 0], [0.026, 0]], 10), { at: [0.085 * W, 1.3 * H, chestFront], rot: [Math.PI / 2, 0, 0], col: C.accent, bone: "chest" });
+  aaHdPush(glow, aaHdLathe([[0, 0], [0.026, 0]], D.badge), { at: [0.085 * W, 1.3 * H, chestFront], rot: [Math.PI / 2, 0, 0], col: C.accent, bone: "chest" });
   // the mouth's lit opening (its own mesh: visible only while the agent talks)
-  aaHdPush(talk, aaHdEllipsoid(0.022, 0.0042, 0.006, 8, 4), { at: [0, 0, 0.0035], col: C.talk, bone: "mouth" });
+  aaHdPush(talk, aaHdEllipsoid(0.022, 0.0042, 0.006, D.talk[0], D.talk[1]), { at: [0, 0, 0.0035], col: C.talk, bone: "mouth" });
   const bones = AA_HD_ORDER.map((name) => ({ name, parent: AA_HD_BONES[name], at: J[name] ?? [0, 0, 0] }));
   const tri = (b) => b.i.length / 3;
-  return { body, glow, talk, bones, joints: J, triangles: { body: tri(body), glow: tri(glow), talk: tri(talk), total: tri(body) + tri(glow) + tri(talk) } };
+  return { body, glow, talk, bones, joints: J, level: AA_HD_LOD[level] ? level : "full", triangles: { body: tri(body), glow: tri(glow), talk: tri(talk), total: tri(body) + tri(glow) + tri(talk) } };
 }
 
 // ------------------------------------------------------------------ the pose (pure): personality, walking, speech, gestures
@@ -168348,7 +168381,7 @@ function aaHdPose(spec, st = {}) {
   const g = st.gesture, gk = g ? (red ? 1 : aaHdEase(g.k)) : 0;
   if (g?.kind === "raise") { R = { sh: aaHdLerp3(R.sh, [-2.78, 0, -0.16], gk), el: aaHdLerp3(R.el, [-0.28, Math.PI / 2, 0], gk), wr: aaHdLerp3(R.wr, [0, 0, -0.1], gk) }; brow += 0.007 * gk; }
   else if (g?.kind === "accept") { const pump = red ? 0 : Math.sin(aaHdC01(g.k) * Math.PI * 4) * 0.12; R = { sh: aaHdLerp3(R.sh, [-0.5, 0, 0.12], gk), el: aaHdLerp3(R.el, [-1.8 + pump, 0, 0], gk), wr: R.wr }; brow += 0.004 * gk; }
-  else if (g?.kind === "stop") { R = { sh: aaHdLerp3(R.sh, [-1.25, 0, -0.1], gk), el: aaHdLerp3(R.el, [-1.35, Math.PI / 2, 0], gk), wr: aaHdLerp3(R.wr, [0, 0, -0.54], gk) }; furrow = gk; }
+  else if (g?.kind === "stop") { const S = AA_HD_STOP_POSE; R = { sh: aaHdLerp3(R.sh, S.sh, gk), el: aaHdLerp3(R.el, S.el, gk), wr: aaHdLerp3(R.wr, S.wr, gk) }; furrow = gk; }
   if ((g?.kind === "nod" || g?.kind === "approve") && !red) r.head = [r.head[0] + Math.sin(aaHdC01(g.k) * Math.PI) * 0.35, r.head[1], r.head[2]];
   r.shoulderL = L.sh; r.elbowL = L.el; r.wristL = L.wr; r.shoulderR = R.sh; r.elbowR = R.el; r.wristR = R.wr;
   r.hipL = hipL; r.hipR = hipR; r.kneeL = kneeL; r.kneeR = kneeR; r.ankleL = ankL; r.ankleR = ankR;
@@ -168364,8 +168397,8 @@ function aaHdPose(spec, st = {}) {
 // ------------------------------------------------------------------ the three.js figure
 
 /** Build the high-detail figure (feet at y = 0, facing +z): one skinned body, one skinned glow, the mouth's lit opening. */
-function aaHdBuild(T, agent, spec = aaHdSpec(agent)) {
-  const geo = aaHdGeometry(spec);
+function aaHdBuild(T, agent, spec = aaHdSpec(agent), { level = "full" } = {}) {
+  const geo = aaHdGeometry(spec, level);
   const group = new T.Group(); group.name = `aa-agent-${spec.id}`;
   const bones = {}, list = [];
   for (const b of geo.bones) {
@@ -168414,7 +168447,7 @@ function aaHdBuild(T, agent, spec = aaHdSpec(agent)) {
     }
   }
   apply(aaHdPose(spec, { t: 0 }));
-  return { group, body, glow, talk, bones, skeleton, apply, spec, triangles: geo.triangles, headY: geo.joints.headC[1] };
+  return { group, body, glow, talk, bones, skeleton, apply, spec, level: geo.level, triangles: geo.triangles, headY: geo.joints.headC[1] };
 }
 
 // ------------------------------------------------------------------ a software rasteriser: silhouettes and portraits
@@ -169188,6 +169221,8 @@ const OH_CORES_TALK = Object.freeze({
   report: ["{toName}, the chain after {job} holds {lines} lines, all intact", "{toName}, chain check done: {lines} lines, every one intact", "For you, {toName}: {lines} lines in the chain, none broken"],
   ack: ["Thanks, {toName}, {lines} intact lines noted on the board", "Noted, {toName}: {lines} lines checked, so the board keeps moving", "Good to hear, {toName}; {lines} lines intact and the queue goes on"],
   memory: ["That makes {count} {kinds} for me today", "Today I have done {count} {kinds} so far", "{count} {kinds} for me today, counting this one"],
+  // HIVE-5: home after the last job (ohHive's homeward move). The site is the agent's home site, slotted from the move event.
+  home: ["Heading back to {site}", "Back to {site} now", "Walking home to {site}", "Nothing left on my list, so back to {site}"],
 });
 /** HIVE-4: a second sentence for a kind (the memory's last site and its time on the hive clock; "reset" for cell entries and zone set-ups). */
 const OH_SECOND = Object.freeze({
@@ -169237,6 +169272,7 @@ const OH_CORES_TALK_ES = Object.freeze({
   report: ["{toName}, la cadena tras {job} tiene {lines} líneas, todas intactas", "{toName}, revisión hecha: {lines} líneas, todas intactas", "Para ti, {toName}: {lines} líneas en la cadena, ninguna rota"],
   ack: ["Gracias, {toName}, anoto {lines} líneas intactas en el tablero", "Anotado, {toName}: {lines} líneas revisadas, el tablero sigue", "Qué bien, {toName}; {lines} líneas intactas y la cola sigue"],
   memory: ["Con este trabajo llevo {count} {kinds} hoy", "Hoy llevo {count} {kinds}, contando este trabajo", "Ya son {count} {kinds} para mí hoy"],
+  home: ["Vuelvo a {site}", "Regreso a {site} ahora", "De vuelta a {site}", "No me queda nada pendiente, así que vuelvo a {site}"], // HIVE-5
 });
 const OH_SECOND_ES = Object.freeze({
   memory: ["El trabajo anterior: {lastSite}, a las {clock}", "Antes: {lastSite}, a las {clock}", "Antes de este, {lastSite} a las {clock} de la colmena"],
@@ -169451,14 +169487,24 @@ function ohDialogueAdapter(agent, { transport = null } = {}) {
 //
 // SEAM:
 //   ohPickVoice(agent, voices) -> a local voice for agent.voice.lang, preferring agent.voice.prefer names, or null
-//   ohVoiceController({ synth, Utterance, doc, win, enabled, onCaption, pick }) -> { enabled(), setEnabled(on), say(agent, text, { onstart, onend }),
-//                                                                             stop(), queued(), speaking(), chosen(agentId), spoken(), link(other), kick() }
+//   ohVoiceController({ synth, Utterance, doc, win, enabled, onCaption, pick, now }) -> { enabled(), setEnabled(on), say(agent, text, { onstart, onboundary, onend }),
+//                                                                             stop(), queued(), speaking(), chosen(agentId), spoken(), link(other), kick(), pending(agentId, text?) }
 //     `pick(agent, voices)` chooses the voice (default ohPickVoice); whatever it returns is used only if its `localService` is true.
+//     AVATARS-HD-2: `onboundary(e)` hears the utterance's boundary events (e.name "word" or "sentence", e.charIndex) for the line being
+//     spoken only: a late event from a line that was cancelled or has ended is dropped. `pending(agentId, text?)` is true while an
+//     on-device voice holds a line of that agent (with that text, when given) — waiting in the queue or being spoken — so a figure can
+//     hold its talk light until onstart. A line handed to the voice that has not started within OH_START_WAIT_MS (a stuck voice)
+//     makes `pending` false for every line, so the figures fall back to their own clock. `now()` is the clock in ms.
 //     `link(other)` makes two controllers share one line of speech: neither starts a spoken line while the other is speaking
 //     (VOICES: GRIOT's characters and the Omega Hive's agents never talk over each other on one page).
 //   ohSpeakAs(agent, text, { onstart, onend }) -> the page's default controller's say()
 //
 // Every top-level name starts with `oh`/`OH_` (the bundler shares one scope).
+
+/** AVATARS-HD-2: how long a line handed to the voice may wait for its onstart before `pending` gives up on the voice (ms). 4 s, not
+ * 1.5 s: a page under load can hold a real onstart past 1.5 s (a drive at about one frame a second did), and a stuck voice only
+ * costs the light and the mouth until then; captions show throughout. */
+const OH_START_WAIT_MS = 4000;
 
 /** Local voices only. */
 function ohLocalVoices(voices = []) { return (Array.isArray(voices) ? voices : []).filter((v) => v && v.localService === true); }
@@ -169483,7 +169529,7 @@ function ohPickVoice(agent, voices = []) {
   return same[h % same.length];
 }
 
-function ohVoiceController({ synth = globalThis.speechSynthesis ?? null, Utterance = globalThis.SpeechSynthesisUtterance ?? null, doc = globalThis.document ?? null, win = globalThis.window ?? null, enabled = false, onCaption = null, pick = ohPickVoice } = {}) {
+function ohVoiceController({ synth = globalThis.speechSynthesis ?? null, Utterance = globalThis.SpeechSynthesisUtterance ?? null, doc = globalThis.document ?? null, win = globalThis.window ?? null, enabled = false, onCaption = null, pick = ohPickVoice, now = () => (globalThis.performance?.now?.() ?? Date.now()) } = {}) {
   let on = !!enabled;
   let busy = false;
   const queue = [];
@@ -169510,8 +169556,10 @@ function ohVoiceController({ synth = globalThis.speechSynthesis ?? null, Utteran
     if (!voice) { try { item.opts.onstart?.(); } catch (_) { /* ignore */ } done(item); pump(); return; }
     const u = new Utterance(item.text);
     u.voice = voice; u.lang = voice.lang || item.agent.voice.lang; u.rate = item.agent.voice.rate ?? 1; u.pitch = item.agent.voice.pitch ?? 1;
-    busy = true; current = item;
-    u.onstart = () => { if (current === item) { try { item.opts.onstart?.(); } catch (_) { /* ignore */ } } };
+    busy = true; current = item; item.handed = now(); item.started = false;
+    u.onstart = () => { if (current === item) { item.started = true; try { item.opts.onstart?.(); } catch (_) { /* ignore */ } } };
+    // AVATARS-HD-2: the word boundaries of the line being spoken, and only that line (a figure's mouth opens on each word)
+    u.onboundary = (e) => { if (current === item) { try { item.opts.onboundary?.(e); } catch (_) { /* a callback never stops the voice */ } } };
     // Linked controllers take turns at line boundaries: a peer with a line waiting goes next, then this one's next line.
     const finish = () => { if (!busy || current !== item) return; busy = false; current = null; done(item); kickPeers(); pump(); };
     u.onend = finish; u.onerror = finish;
@@ -169550,6 +169598,14 @@ function ohVoiceController({ synth = globalThis.speechSynthesis ?? null, Utteran
     chosen: (id) => picks.get(id) ?? null,
     spoken: () => spoken.slice(),
     kick: () => pump(),
+    /** AVATARS-HD-2: does an on-device voice hold a line of this agent (with this text, when given), queued or being spoken? */
+    pending(agentId, text = null) {
+      if (!on || !synth || !Utterance) return false;
+      if (current && !current.started && now() - (current.handed ?? 0) > OH_START_WAIT_MS) return false; // a stuck voice: let the clock drive
+      const same = (it) => it.agent?.id === agentId && (text == null || it.text.trim() === String(text).trim());
+      if (current && same(current)) return true;
+      return queue.some((it) => same(it) && !!choose(it.agent)); // a line with no local voice for its agent is never spoken
+    },
     link(other) { if (!other || other === api) return false; if (peers.has(other)) return true; peers.add(other); try { other.link?.(api); } catch (_) { /* the other side links itself */ } return true; },
     linked: () => peers.size,
   };
@@ -169976,6 +170032,11 @@ function vcMountVoiceSettings(el, voice, { characters = GR_ROSTER, infoEl = null
 //     the last one and its time on the hive clock. ohRecall reads all three from the hive's own chain (the oh-award and
 //     oh-complete lines), never from the event or the agent; `logSeq` says how much of the chain the line read.
 //   `variety: true`: ohSay's variety path (more variants; parts in the agent's last four lines are skipped when another fits).
+//   HIVE-5 (loop 10 round 5), off by default so earlier rounds' events are unchanged; the panel turns it on:
+//   `homeward: true`: an agent whose last job has ended (it holds none) and that stands away from its home robot site walks back:
+//     a `move` to its homeSite with `home: true` (no job id) and its own line (about "home"). Its next bids count the hops from
+//     home. The figures outdoors follow that move, so an agent no longer stays at its last job's site. Nothing is written to the
+//     chain for it (it is not a governance step) and the governor sees nothing new.
 //
 // Every top-level name starts with `oh`/`OH_` (the bundler shares one scope).
 
@@ -170101,7 +170162,7 @@ function ohStewardReview(steward, request, decision) {
   return null;
 }
 
-function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AGENTS, jobs = null, nJobs = 200, ticksPerDay = 480, decide = null, supervisor = "Supervisor (this device)", mode = "hive", capacity = OH_CAPACITY, policyFor = null, say = ohSay, sites = RB_SITES, supervise = false, exchanges = false, memory = false, variety = false } = {}) {
+function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AGENTS, jobs = null, nJobs = 200, ticksPerDay = 480, decide = null, supervisor = "Supervisor (this device)", mode = "hive", capacity = OH_CAPACITY, policyFor = null, say = ohSay, sites = RB_SITES, supervise = false, exchanges = false, memory = false, variety = false, homeward = false } = {}) {
   const roster = agents.slice();
   const byKey = (k) => roster.find((a) => a.key === k) ?? roster[0];
   const dispatcher = byKey("dispatcher"), steward = byKey("safety-steward"), keeper = byKey("consent-keeper"), trainer = byKey("trainer"), auditor = byKey("auditor");
@@ -170176,6 +170237,18 @@ function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AGENTS, j
     return e;
   }
   const factsOf = (j, extra = {}) => ({ jobId: j.vb?.id ?? j.firstId, to: j.spec.request.siteId, siteName: siteName(j.spec.request.siteId), task: VB_TASKS[j.spec.request.taskType]?.label ?? j.spec.request.taskType, ...extra });
+  /** HIVE-5: home after the last job (homeward only): a move to the agent's home site and its line. Null when it holds a job or is home. */
+  let homeMoves = 0;
+  function goHome(w) {
+    if (!homeward || !w?.homeSite) return null;
+    const s = state.get(w.id);
+    if (!s || s.load > 0 || s.site === w.homeSite) return null;
+    const facts = { to: w.homeSite, siteName: siteName(w.homeSite), from: s.site, hops: ohSiteHops(s.site, w.homeSite, sites), home: true };
+    s.site = w.homeSite; homeMoves += 1;
+    const e = emit({ type: "move", agent: w.id, ...facts });
+    speak(w, "home", facts);
+    return e;
+  }
 
   let superviseAll = !!supervise;
   if (superviseAll) { write("oh-supervise", `${supervisor}: supervise every job is on; each governor-allowed job waits for a decision`); speak(keeper, "supervise_on", { supervisor }); }
@@ -170308,6 +170381,7 @@ function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AGENTS, j
     speak(w, ok ? "complete" : "halted", factsOf(j, { score, steps, ...(reason ? { reason } : {}) }));
     if (!ok) speak(trainer, "coach", factsOf(j, { score, steps, reason }));
     if (memory && ok) remember(w, j); // HIVE-4: the worker recalls its day from the chain (the oh-complete line above is in it)
+    goHome(w); // HIVE-5: its last job done, the agent walks home (homeward only)
     close(j, ok ? "completed" : "not-accepted");
   }
 
@@ -170350,6 +170424,7 @@ function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AGENTS, j
     emit({ type: "refused", agent: keeper.id, ...factsOf(j, { reason: "supervisor-declined", by: "supervisor" }) });
     write("oh-decline", `${j.vb.id} @ ${j.spec.request.siteId}: ${supervisor} declined; the job is closed`);
     speak(keeper, "declined", factsOf(j));
+    goHome(roster.find((a) => a.id === j.winner)); // HIVE-5: an agent that had walked to a held job goes home (homeward only)
     close(j, "declined");
     return j.vb.id;
   }
@@ -170379,6 +170454,7 @@ function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AGENTS, j
       physicalDispatched: dispatched.filter((j) => j.vb.request.target.kind !== "sim").length,
       supervise: superviseAll, dispatchedWithoutLearner: dispatched.filter((j) => !j.learnerApproved && !j.approvedSim).length,
       ...(exchanges || memory || variety ? { exchanges: log.filter((e) => e.type === "speak" && e.exchange && e.exchange.turn === 0).length, memories: log.filter((e) => e.type === "speak" && e.memory).length } : {}),
+      ...(homeward ? { homeMoves } : {}), // HIVE-5
       lines: chain.length,
     };
   }
@@ -170410,6 +170486,7 @@ function ohHive({ seed = 1, governor = null, audit = null, agents = OH_AGENTS, j
     governor: base,
     now() { return t; },
     talk: Object.freeze({ exchanges: !!exchanges, memory: !!memory, variety: !!variety }), // HIVE-4
+    homeward: !!homeward, // HIVE-5
   };
 }
 
@@ -170731,8 +170808,12 @@ function h3SceneRelay(hive) {
 //
 // HIVE-4: the hive talks (exchanges at handoffs, each worker's memory of its day, varied wording): ohHive({ exchanges, memory,
 // variety }) are on here. A reply sits indented under its opener in the feed; memory lines are in italics. No new UI text.
+// HIVE-5: `homeward: true` too: an agent whose last job has ended walks back to its home site (outdoors as in the rooms), with a line.
 //
-// SEAM: ohMountHive(el, { reducedMotion, audit, seed, nJobs, synth, Utterance, supervise, lang, settings, reload }) ->
+// AVATARS-HD-2: with voice on, `onTalk(agentId, on, line)` hears onstart (true) and onend (false) with the line ({ text, jobId }), and
+// `onWord(agentId, charIndex, line)` hears each word boundary of the line being spoken, so a figure's light and mouth follow the voice.
+//
+// SEAM: ohMountHive(el, { reducedMotion, audit, seed, nJobs, synth, Utterance, supervise, lang, settings, reload, onTalk, onWord }) ->
 //         { hive, step(), run(n), approve(jobId), decline(jobId), voice(on), supervise(on), language(code), lang, voiceController, state(), captions(), el } | null
 //
 // Every top-level name starts with `oh`/`OH_` (the bundler shares one scope).
@@ -170749,7 +170830,7 @@ const OH_FEED_MAX = 40;
 const OH_RUN_STEPS = 10;
 const OH_PANEL_CSS = ".oh-panel{font:13px/1.4 system-ui,sans-serif;padding:10px;border:1px solid #4a3f7a;border-radius:10px;background:#120f22;color:#ece8ff;margin:8px 0}.oh-panel h3{margin:0 0 6px;font-size:15px}.oh-panel .oh-note{opacity:.85;font-size:12px;margin:0 0 6px}.oh-panel .oh-roster{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px}.oh-panel .oh-card{display:flex;gap:6px;align-items:flex-start;border:1px solid #3a335f;border-radius:8px;padding:5px;background:#1b1733;position:relative}.oh-panel .oh-card svg,.oh-panel .oh-card img{flex:0 0 auto;border-radius:6px}.oh-panel .oh-name{font-weight:600}.oh-panel .oh-label{display:inline-block;font-size:10px;letter-spacing:.02em;text-transform:uppercase;background:#2f2a52;border:1px solid #6d62b8;border-radius:4px;padding:0 4px;margin-left:4px}.oh-panel .oh-role{font-size:11px;opacity:.85}.oh-panel .oh-chip{display:inline-block;font-size:10px;border-radius:9px;padding:0 6px;margin:2px 3px 0 0;background:#2a2547}.oh-panel .oh-talk{position:absolute;top:5px;right:5px;width:8px;height:8px;border-radius:50%;background:#3a335f}.oh-panel .oh-card[data-talking=true] .oh-talk{background:#8fe3ff}.oh-panel .oh-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.oh-panel button{background:#2a2450;color:#ece8ff;border:1px solid #6d62b8;border-radius:6px;padding:5px 9px;cursor:pointer}.oh-panel button[aria-pressed=true]{background:#4b3fa0}.oh-panel .oh-feed{max-height:180px;overflow-y:auto;border:1px solid #3a335f;border-radius:6px;padding:4px 6px;margin-top:6px;background:#0d0b19}.oh-panel .oh-feed p{margin:2px 0}.oh-panel .oh-feed p.oh-x[data-turn=\"1\"]{margin-left:14px;border-left:2px solid #6d62b8;padding-left:6px}.oh-panel .oh-feed p[data-memory=true]{font-style:italic}.oh-panel .oh-queue{margin-top:6px}.oh-panel .oh-req{border:1px solid #8a6d2a;border-radius:6px;padding:5px;margin-top:4px;background:#1f1a10}.oh-panel .oh-status{margin-top:6px;font-size:12px;opacity:.9}@media (pointer:coarse),(max-width:600px){.oh-panel button{min-height:44px;min-width:44px}}"; // HIVE-3: 44 px touch targets on a phone (the language button and the rest)
 
-function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1, nJobs = 200, ticksPerDay = 480, synth, Utterance, onTalk = null, supervise = false, lang = null, settings = null, reload = null } = {}) {
+function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1, nJobs = 200, ticksPerDay = 480, synth, Utterance, onTalk = null, onWord = null, supervise = false, lang = null, settings = null, reload = null } = {}) {
   if (!el || typeof document === "undefined") return null;
   let prefs = {}; try { prefs = settings?.read?.() ?? {}; } catch (_) { prefs = {}; } // HIVE-3: this profile's remembered choices (none outside its gate)
   if (typeof prefs.supervise === "boolean") supervise = prefs.supervise;
@@ -170758,7 +170839,7 @@ function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1, nJobs 
   if (typeof prefs.lang === "string") lang = prefs.lang; // HIVE-3: the language this profile chose wins over the page's
   const hiveLang = ohLangFor(lang ?? document.documentElement?.lang ?? "en");
   const T = h3PanelText(hiveLang);
-  const hive = ohHive({ seed, audit, nJobs, ticksPerDay, supervise, exchanges: true, memory: true, variety: true, ...(hiveLang === "en" ? {} : { say: (a, ev) => ohSay(a, ev, { lang: hiveLang }), agents: OH_AGENTS.map((a) => ohAgentIn(a, hiveLang)), supervisor: "Supervisor (este dispositivo)" }) });
+  const hive = ohHive({ seed, audit, nJobs, ticksPerDay, supervise, exchanges: true, memory: true, variety: true, homeward: true, ...(hiveLang === "en" ? {} : { say: (a, ev) => ohSay(a, ev, { lang: hiveLang }), agents: OH_AGENTS.map((a) => ohAgentIn(a, hiveLang)), supervisor: "Supervisor (este dispositivo)" }) });
   const voice = ohVoiceController({ ...(synth !== undefined ? { synth } : {}), ...(Utterance !== undefined ? { Utterance } : {}), enabled: false });
   const captions = [];
   const siteName = (id) => RB_SITES.find((s) => s.id === id)?.name ?? id;
@@ -170817,7 +170898,8 @@ function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1, nJobs 
     feed.scrollTop = feed.scrollHeight;
     if (a && voice.enabled()) {
       const card = cards.get(a.id);
-      voice.say(a, e.text, { onstart: () => { if (card) card.dataset.talking = "true"; try { onTalk?.(a.id, true); } catch (_) { /* a listener never stops the voice */ } }, onend: () => { if (card) card.dataset.talking = "false"; try { onTalk?.(a.id, false); } catch (_) { /* ignore */ } } });
+      const line = { text: e.text, jobId: e.jobId ?? null }; // AVATARS-HD-2: the line, so the page matches the voice to the figure's line
+      voice.say(a, e.text, { onstart: () => { if (card) card.dataset.talking = "true"; try { onTalk?.(a.id, true, line); } catch (_) { /* a listener never stops the voice */ } }, onboundary: (b) => { if (b?.name && b.name !== "word") return; try { onWord?.(a.id, Number.isFinite(b?.charIndex) ? b.charIndex : null, line); } catch (_) { /* ignore */ } }, onend: () => { if (card) card.dataset.talking = "false"; try { onTalk?.(a.id, false, line); } catch (_) { /* ignore */ } } });
     }
   });
 
@@ -170925,13 +171007,23 @@ function ohMountHive(el, { reducedMotion = false, audit = null, seed = 1, nJobs 
 //              (HIVE-IN-WORLD's hwRouter round the colliders); null walks straight.
 //     hd (default false; AVATARS-HD): on the desktop "high" tier, build aa-agent-hd.js's high-detail figure (one skinned body, one
 //              skinned glow, a mouth that opens with the words, jointed arms that gesture, posture from the traits); balanced keeps
-//              today's figure, the phone tier builds none, and a three.js without skinning builds today's figure.
+//              today's figure, the phone tier builds none, and a three.js without skinning builds today's figure. hd: "room"
+//              (AVATARS-HD-2) builds the room level instead (AA_HD_ROOM_BUDGET: <= 1,000 triangles, so a robotics room keeps IX_BUDGET).
+//     voiced(agentId, text) -> bool (AVATARS-HD-2): an on-device voice holds this line (the page's voice controller `pending`). Such a
+//              line shows its caption when it starts and holds the talk light and the mouth until the voice's onstart (talkStart);
+//              when the voice lets it go unstarted (turned off, a stuck voice, no local voice) the clock drives it from then.
 //     -> { root, handle(ev), animate(t, dt, here), attach(source), detach(source), addAgents(list), agents(), release(id),
-//          state(id), talkStart(id), talkWord(id, charIndex), talkEnd(id), talkLog(), captionLog(), gestureLog(), counts(), dispose() }
+//          state(id), talkStart(id, text?), talkWord(id, charIndex, text?), talkEnd(id, text?), talkLog(), captionLog(), gestureLog(),
+//          counts(), dispose() }
+//     With `text` (the line the voice speaks) talkStart/talkWord/talkEnd act on that line only: a later queued line is brought
+//     forward (the voice has moved on), an unknown one is ignored, and a queued line the voice ended unstarted runs on the clock.
 //   Gestures (AA_GESTURE_FOR): bid → raise (a raised hand), award → accept (a hand to the chest), refused → stop (palm out),
 //     the hive's speak event about "approved" → approve (a nod), complete → nod. All are logged on every tier; the high figure poses
 //     every one, today's figure poses stop, nod and approve.
-//   aaVoiceHooks(world, agentId) -> { onstart, onboundary, onend } for a voice's say(): the light and the mouth follow the utterance.
+//   aaVoiceHooks(world, agentId, text?) -> { onstart, onboundary, onend } for a voice's say(): the light and the mouth follow the utterance.
+//   aaRoomAvatarMount(extra) -> a mount for hwSyncRoom's `mount` (AVATARS-HD-2): the room level of the high-detail figure on high.
+//   aaBoundaryWordSec(bw, chars) -> how long a boundary-driven word lasts (s), from the line's boundaries so far (the mouth closes before
+//              the next word at the voice's own pace).
 //   aaVbridgeAgents(homeSite) -> the four VBRIDGE personas as agents standing at homeSite
 //   aaVbridgeSource(vbApi)    -> an on/off source that turns the agent-jobs panel's job (vbApi.state()) into
 //                                contract events: the client asks, the governor checks or refuses, the provider
@@ -170974,6 +171066,30 @@ const AA_SLOTS = Object.freeze([[-4, -9.5], [4, -9.5], [-10.5, -3], [10.5, -3], 
 
 const aaClamp = (v, a, b) => Math.max(a, Math.min(b, v));
 
+/** AVATARS-HD-2: a boundary-driven word's mouth: the expected time to the next boundary is a + b x characters (the word and the space
+ * after it); before the line has two boundaries, this brisk prior (about 0.2 s for a five-letter word). The mouth opens for
+ * AA_BOUNDARY_FILL of it (it closes at 86% of that, aaHdMouth), so it closes between words at the voice's pace. */
+const AA_BOUNDARY_PRIOR = Object.freeze({ a: 0.05, b: 0.025 });
+const AA_BOUNDARY_FILL = 0.8;
+
+/** AVATARS-HD-2: seconds a boundary-driven word of `chars` characters will last, from the line's boundaries so far (`bw`: [{ at, char }]):
+ * interval = a + b x delta-chars fitted by least squares to the last eight intervals (one interval: a pace per character), else the prior. */
+function aaBoundaryWordSec(bw = [], chars = 5) {
+  const pts = [];
+  for (let i = Math.max(1, bw.length - 8); i < bw.length; i += 1) {
+    const dc = Number(bw[i].char) - Number(bw[i - 1].char), dt = bw[i].at - bw[i - 1].at;
+    if (dc > 0 && dt > 0 && dt < 2) pts.push([dc, dt]);
+  }
+  let { a, b } = AA_BOUNDARY_PRIOR;
+  if (pts.length) {
+    const n = pts.length, mx = pts.reduce((q, p) => q + p[0], 0) / n, my = pts.reduce((q, p) => q + p[1], 0) / n;
+    let sxx = 0, sxy = 0; for (const [x, y] of pts) { sxx += (x - mx) ** 2; sxy += (x - mx) * (y - my); }
+    if (n >= 2 && sxx > 1e-9) { b = sxy / sxx; a = my - b * mx; } else { b = my / mx; a = 0; }
+    if (b < 0) { b = 0; a = my; } else if (a < 0) { a = 0; b = my / mx; }
+  }
+  return aaClamp(a + b * Math.max(1, Number(chars) || 1), 0.06, 0.8);
+}
+
 /** A line's duration (ms) when no voice drives it. */
 function aaLineMs(text) {
   const words = String(text ?? "").trim().split(/\s+/).filter(Boolean).length;
@@ -170999,13 +171115,18 @@ function aaEmitter() {
 /** AVATARS-HD: the callbacks a voice passes for one agent's line — say(agent, text, aaVoiceHooks(world, agent.id)) — so the light
  * and the mouth follow the utterance: onstart holds the line, onboundary (word boundaries) opens the mouth on each word, onend lets
  * it go. `world` is the mount (or anything with talkStart/talkWord/talkEnd); a missing world is a no-op. */
-function aaVoiceHooks(world, agentId) {
+function aaVoiceHooks(world, agentId, text = null) {
   return {
-    onstart: () => { try { world?.talkStart?.(agentId); } catch (_) { /* a figure never stops a voice */ } },
-    onboundary: (e) => { try { if (!e || e.name === undefined || e.name === "word") world?.talkWord?.(agentId, Number.isFinite(e?.charIndex) ? e.charIndex : null); } catch (_) { /* ignore */ } },
-    onend: () => { try { world?.talkEnd?.(agentId); } catch (_) { /* ignore */ } },
+    onstart: () => { try { world?.talkStart?.(agentId, text); } catch (_) { /* a figure never stops a voice */ } },
+    onboundary: (e) => { try { if (!e || e.name === undefined || e.name === "word") world?.talkWord?.(agentId, Number.isFinite(e?.charIndex) ? e.charIndex : null, text); } catch (_) { /* ignore */ } },
+    onend: () => { try { world?.talkEnd?.(agentId, text); } catch (_) { /* ignore */ } },
   };
 }
+
+/** AVATARS-HD-2: the avatar mount for a robotics room, for hwSyncRoom(..., { mount }): the room level of the high-detail figure on the
+ * desktop high tier (AA_HD_ROOM_BUDGET), so a room with H3_ROOM_FIGURES figures stays inside IX_BUDGET; balanced keeps today's figure
+ * and the phone tier builds none. `extra` adds options (the page passes `voiced`). */
+function aaRoomAvatarMount(extra = {}) { return (opts = {}) => aaMountAgentAvatars({ ...opts, ...extra, hd: "room" }); }
 
 /** A site lookup's answer as { x, y, z } (accepts [x, z], [x, y, z], { x, z }, { position: [x, z] }), or null. */
 function aaSitePoint(v) {
@@ -171132,8 +171253,8 @@ function aaBuildFigure(T, agent, look, textureScale = 1) {
 /** AVATARS-HD: the high tier's figure (aa-agent-hd.js: one skinned body, one skinned glow, the mouth's lit opening) with the same
  * label and caption as today's. parts.head is the head bone (a nod pitches it), parts.talk the mouth's lit opening (shown exactly
  * while the agent talks), parts.tablet the left wrist (the tablet's hand). */
-function aaBuildHdFigure(T, agent, look, textureScale = 1) {
-  const hd = aaHdBuild(T, agent);
+function aaBuildHdFigure(T, agent, look, textureScale = 1, level = "full") {
+  const hd = aaHdBuild(T, agent, undefined, { level });
   const g = hd.group, headY = hd.headY;
   const roleText = `software agent · ${aaRoleLabel(agent)}`;
   const labelCv = aaCanvas(AA_LABEL_PX[0], AA_LABEL_PX[1], textureScale);
@@ -171142,7 +171263,7 @@ function aaBuildHdFigure(T, agent, look, textureScale = 1) {
   label.userData.text = roleText; label.userData.name = agent.name ?? agent.id; label.userData.fit = labelFit; g.add(label);
   const caption = aaSprite(T, null, 2.8, 0.7); caption.position.set(0, headY + 1.22, 0); caption.name = "aa-caption"; caption.visible = false; caption.userData.text = ""; g.add(caption);
   g.userData.parts = { head: hd.bones.head, talk: hd.talk, tablet: hd.bones.wristL, body: hd.body, glow: hd.glow };
-  g.userData.aaAgent = { id: agent.id, name: agent.name ?? agent.id, label: roleText, software: true, hd: true };
+  g.userData.aaAgent = { id: agent.id, name: agent.name ?? agent.id, label: roleText, software: true, hd: true, level: hd.level };
   return { group: g, parts: g.userData.parts, label, caption, labelCv, captionCv: null, headY, tabletRest: { y: 0, z: 0, rx: 0 }, roleText, hd };
 }
 
@@ -171166,12 +171287,13 @@ function aaCountObject(obj) {
  * answers this map's site position ({ x, y, z } / [x, z] / null when the site is not on this map). `here` passed to
  * animate is the learner's [x, z] (null = everyone near). Headless without `three`: the state machine still runs.
  */
-function aaMountAgentAvatars({ three = null, parent = null, agents = [], source = null, siteAt = () => null, reducedMotion = false, tier = "high", groundAt = null, spotFor = null, textureScale = 1, blocked = null, route = null, hd = false } = {}) {
+function aaMountAgentAvatars({ three = null, parent = null, agents = [], source = null, siteAt = () => null, reducedMotion = false, tier = "high", groundAt = null, spotFor = null, textureScale = 1, blocked = null, route = null, hd = false, voiced = null } = {}) {
   const T = three;
   const build = !!(T && parent && AA_TIERS[tier] !== false);
   // AVATARS-HD: the high-detail figure is opt-in (the outdoor mount asks for it) and only ever on the desktop "high" tier; balanced
   // keeps today's figure and the phone tier builds none. A three.js without skinning (the checkers' stub) builds today's figure.
   const hdOn = !!(hd && build && tier === "high" && aaHdSupported(T));
+  const hdLevel = hd === "room" ? "room" : "full"; // AVATARS-HD-2: the robotics rooms ask for the room level
   const root = build ? new T.Group() : null;
   if (root) { root.name = "aa-agent-avatars"; parent.add(root); }
   const figures = new Map();
@@ -171216,7 +171338,7 @@ function aaMountAgentAvatars({ three = null, parent = null, agents = [], source 
 
   function ensureFig(f) {
     if (!build || f.fig) return;
-    f.fig = hdOn ? aaBuildHdFigure(T, f.agent, f.look, textureScale) : aaBuildFigure(T, f.agent, f.look, textureScale);
+    f.fig = hdOn ? aaBuildHdFigure(T, f.agent, f.look, textureScale, hdLevel) : aaBuildFigure(T, f.agent, f.look, textureScale);
     f.fig.group.position.set(f.x, f.y, f.z); f.fig.group.rotation.y = f.yaw; f.fig.group.visible = f.visible;
     root.add(f.fig.group);
     if (f.fig.labelCv) textureBytes += f.fig.labelCv.c.width * f.fig.labelCv.c.height * 4;
@@ -171254,24 +171376,87 @@ function aaMountAgentAvatars({ three = null, parent = null, agents = [], source 
       cap.userData.text = f.caption.text; cap.visible = true;
     }
   }
+  /** AVATARS-HD-2: does an on-device voice hold this line of the agent (the page's `voiced`, the voice controller's `pending`)? */
+  const voicedFor = (f, text) => { if (typeof voiced !== "function") return false; try { return voiced(f.agent.id, text) === true; } catch (_) { return false; } };
+  const wordsFrom = (text, ms) => aaWordOnsets(text, ms).map((w) => ({ at: clock + w.at / 1000, dur: w.dur / 1000, char: w.char }));
+  /** The light and the mouth are on: the line has started (a voiced line waits for its onstart) and has not ended. */
+  const talkOn = (f) => !!(f.talk && !f.talk.wait && clock >= f.talk.start && (f.talk.voiced || clock < f.talk.end));
   function startNextLine(f, prevEnd) {
     const next = f.queue.shift(); if (!next) return false;
     const start = Math.max(next.at, prevEnd ?? next.at); // a queued line follows the last one exactly, never before it arrived
     // AVATARS-HD: the caption's word timing (onsets spread over the line's window) drives the mouth until a voice takes the line
     const words = aaWordOnsets(next.text, next.ms).map((w) => ({ at: start + w.at / 1000, dur: w.dur / 1000, char: w.char }));
-    f.talk = { text: next.text, start, end: start + next.ms / 1000, voiced: false, jobId: next.jobId ?? null, words, bw: null };
-    talkLog.push({ agent: f.agent.id, text: next.text, start, end: f.talk.end });
+    // AVATARS-HD-2: a line an on-device voice holds waits for the voice's onstart (the caption shows now, the light and mouth then)
+    const wait = !next.unvoiced && voicedFor(f, next.text);
+    f.talk = { text: next.text, start, end: start + next.ms / 1000, ms: next.ms, voiced: false, wait, jobId: next.jobId ?? null, words, bw: null, log: null };
+    f.talk.log = { agent: f.agent.id, text: next.text, start, end: f.talk.end, ...(wait ? { waited: true } : {}) };
+    talkLog.push(f.talk.log);
     showCaption(f, next.caption ?? next.text, start, f.talk.end, "speak");
-    if (f.fig) f.fig.parts.talk.visible = true;
+    if (f.fig) f.fig.parts.talk.visible = !wait;
     return true;
   }
+  /** AVATARS-HD-2: the voice let a waiting line go without starting it: the clock drives it from now (light, mouth, caption). */
+  function unwait(f) {
+    const tk = f.talk; tk.wait = false; tk.start = clock; tk.end = clock + tk.ms / 1000; tk.words = wordsFrom(tk.text, tk.ms);
+    tk.log.start = clock; tk.log.end = tk.end; tk.log.clock = true;
+    if (f.caption) f.caption.end = Math.max(f.caption.end, tk.end);
+    if (f.fig) f.fig.parts.talk.visible = true;
+  }
   function tickTalk(f) {
-    if (f.talk && !f.talk.voiced && clock >= f.talk.end) {
+    if (f.talk?.wait && !voicedFor(f, f.talk.text)) unwait(f);
+    if (f.talk && !f.talk.voiced && !f.talk.wait && clock >= f.talk.end) {
       const end = f.talk.end; f.talk = null;
       if (f.fig) f.fig.parts.talk.visible = false;
       if (f.queue.length) startNextLine(f, end);
     }
-    if (f.caption && clock >= f.caption.end && !(f.talk && f.talk.voiced)) { f.caption = null; if (f.fig) { f.fig.caption.visible = false; f.fig.caption.userData.text = ""; } }
+    if (f.caption && clock >= f.caption.end && !(f.talk && (f.talk.voiced || f.talk.wait))) { f.caption = null; if (f.fig) { f.fig.caption.visible = false; f.fig.caption.userData.text = ""; } }
+  }
+  /** AVATARS-HD-2: the agent's line a voice names: the current one, or a later queued one brought forward (the lines before it end
+   * now: the voice has moved on); null when the line is not here (a voice that never reaches this mount's lines). No text: current. */
+  function lineFor(f, text) {
+    if (text == null) return f.talk;
+    const want = String(text).trim();
+    if (f.talk?.text === want) return f.talk;
+    const i = f.queue.findIndex((q) => q.text === want);
+    if (i < 0) return null;
+    if (f.talk) { f.talk.log.end = Math.min(f.talk.log.end, clock); f.talk = null; }
+    f.queue.splice(0, i);
+    startNextLine(f, clock);
+    return f.talk;
+  }
+  function talkStart(id, text = null) {
+    const f = figures.get(id); const tk = f ? lineFor(f, text) : null; if (!tk) return false;
+    if (!tk.voiced) { // AVATARS-HD: the voice starts now, so the mouth's word timing restarts from now at the voice's rate
+      if (tk.wait) { tk.start = clock; tk.log.start = clock; } // AVATARS-HD-2: the light and the mouth start at onstart
+      tk.voiced = true; tk.wait = false;
+      const rate = Number(f.agent.voice?.rate) > 0 ? Number(f.agent.voice.rate) : 1;
+      tk.words = wordsFrom(tk.text, aaLineMs(tk.text) / rate);
+    }
+    if (f.fig) f.fig.parts.talk.visible = true;
+    return true;
+  }
+  /** AVATARS-HD: a voice's word boundary (SpeechSynthesisUtterance onboundary, `charIndex`): the mouth opens on this word now. Once a
+   * line has had a boundary the mouth follows the boundaries only. AVATARS-HD-2: each word lasts as long as the voice's own pace says
+   * (aaBoundaryWordSec), so the mouth closes between words. */
+  function talkWord(id, charIndex = null, text = null) {
+    const f = figures.get(id); let tk = f ? lineFor(f, text) : null; if (!tk) return false;
+    if (tk.wait) { talkStart(id, text); tk = f.talk; } // a boundary before onstart: the voice has started
+    if (!tk.bw) tk.bw = [];
+    const est = tk.words ?? [], ci = Number.isFinite(charIndex) ? charIndex : null;
+    const w = est.find((x) => x.char === ci) ?? est[tk.bw.length] ?? null, c0 = ci ?? w?.char ?? null;
+    const nextChar = c0 == null ? null : est.find((x) => x.char > c0)?.char ?? tk.text.length + 1;
+    const sec = aaBoundaryWordSec(tk.bw, c0 == null ? 5 : nextChar - c0);
+    tk.bw.push({ at: clock, dur: sec * AA_BOUNDARY_FILL, char: c0 });
+    return true;
+  }
+  function talkEnd(id, text = null) {
+    const f = figures.get(id); if (!f) return false;
+    if (text != null && f.talk?.text !== String(text).trim()) { // AVATARS-HD-2: a later line the voice ended unstarted runs on the clock
+      const q = f.queue.find((x) => x.text === String(text).trim() && !x.unvoiced); if (!q) return false; q.unvoiced = true; return true;
+    }
+    const tk = f.talk; if (!tk) return false;
+    if (tk.wait) { unwait(f); return true; } // AVATARS-HD-2: the voice let it go unspoken (turned off, the page hidden): the clock drives it
+    tk.voiced = false; tk.end = clock; tk.log.end = clock; if (f.caption) f.caption.end = clock; tickTalk(f); return true;
   }
 
   // ---- the events
@@ -171362,7 +171547,7 @@ function aaMountAgentAvatars({ three = null, parent = null, agents = [], source 
   }
   /** AVATARS-HD: the mouth's openness now (0 while silent; held half open, still, under reduced motion). */
   function mouthAt(f) {
-    const tk = f.talk; if (!tk || clock < tk.start || (!tk.voiced && clock >= tk.end)) return 0;
+    const tk = f.talk; if (!tk || tk.wait || clock < tk.start || (!tk.voiced && clock >= tk.end)) return 0;
     if (reducedMotion) return 0.55;
     return aaHdMouth(tk.bw?.length ? tk.bw : tk.words ?? [], clock);
   }
@@ -171370,9 +171555,8 @@ function aaMountAgentAvatars({ three = null, parent = null, agents = [], source 
    * the words, a blink, and the gesture the hive's last event raised (aa-agent-hd.js aaHdPose). */
   function poseHd(f) {
     const fig = f.fig, g = f.gesture && clock < f.gesture.end ? f.gesture : null;
-    const talkOn = !!(f.talk && clock >= f.talk.start && (f.talk.voiced || clock < f.talk.end));
     const m = mouthAt(f), ph = (clock + f.blinkOff) % f.blinkPeriod;
-    fig.hd.apply(aaHdPose(fig.hd.spec, { t: clock, walking: !!f.walk, walkPhase: f.walkPhase, speaking: talkOn, mouth: m, beat: m,
+    fig.hd.apply(aaHdPose(fig.hd.spec, { t: clock, walking: !!f.walk, walkPhase: f.walkPhase, speaking: talkOn(f), mouth: m, beat: m,
       gesture: g ? { kind: g.kind, k: (clock - g.start) / Math.max(1e-6, g.end - g.start) } : null, blink: ph < 0.14 ? Math.sin((ph / 0.14) * Math.PI) : 0, reduced: reducedMotion }));
   }
 
@@ -171413,9 +171597,9 @@ function aaMountAgentAvatars({ three = null, parent = null, agents = [], source 
       // property writes, within GRIOT's animate radius only
       const bob = f.walk && !reducedMotion ? Math.abs(Math.sin(clock * 7)) * 0.04 : 0;
       f.fig.group.position.set(f.x, f.y + bob, f.z); f.fig.group.rotation.y = f.yaw;
-      const talkOn = !!(f.talk && clock >= f.talk.start && (f.talk.voiced || clock < f.talk.end));
-      const tk = f.fig.parts.talk; tk.visible = talkOn;
-      if (talkOn && !f.fig.hd) { const s = reducedMotion ? 1 : 0.75 + 0.5 * Math.abs(Math.sin(clock * 11)); tk.scale.set(1, s, 1); } // the HD mouth opens with the words instead
+      const on = talkOn(f);
+      const tk = f.fig.parts.talk; tk.visible = on;
+      if (on && !f.fig.hd) { const s = reducedMotion ? 1 : 0.75 + 0.5 * Math.abs(Math.sin(clock * 11)); tk.scale.set(1, s, 1); } // the HD mouth opens with the words instead
       poseGesture(f);
     }
   }
@@ -171441,10 +171625,10 @@ function aaMountAgentAvatars({ three = null, parent = null, agents = [], source 
       const c = aaCountObject(f.fig.group); worst = Math.max(worst, c.meshes + c.sprites); meshes += c.meshes; sprites += c.sprites; triangles += c.triangles;
     }
     return { figures: [...figures.values()].filter((f) => f.fig).length, agents: figures.size, meshes, sprites, triangles, worstPerFigure: worst, budget: AA_AGENT_BUDGET, textureBytes, tier, built: build,
-      hd: [...figures.values()].filter((f) => f.fig?.hd).length };
+      hd: [...figures.values()].filter((f) => f.fig?.hd).length, hdLevel: hdOn ? hdLevel : null };
   }
   const stateOf = (f) => ({ id: f.agent.id, name: f.agent.name ?? f.agent.id, label: f.fig?.roleText ?? `software agent · ${aaRoleLabel(f.agent)}`, site: f.site, slot: f.slot, x: f.x, y: f.y, z: f.z, yaw: f.yaw, offMap: f.offMap, visible: f.visible, walking: !!f.walk, routed: !!f.walk?.routed,
-    speaking: !!(f.talk && clock >= f.talk.start && (f.talk.voiced || clock < f.talk.end)), line: f.talk?.text ?? null, caption: f.caption?.text ?? null, gesture: f.gesture?.kind ?? null, queued: f.queue.length,
+    speaking: talkOn(f), waiting: !!f.talk?.wait, line: f.talk?.text ?? null, caption: f.caption?.text ?? null, gesture: f.gesture?.kind ?? null, queued: f.queue.length,
     talkVisible: f.fig ? !!f.fig.parts.talk.visible : null, captionVisible: f.fig ? !!f.fig.caption.visible : null, headPitch: f.fig ? f.fig.parts.head.rotation.x : null, tabletY: f.fig ? f.fig.parts.tablet.position.y : null,
     mouth: mouthAt(f), hd: !!f.fig?.hd, voiced: !!f.talk?.voiced, boundaries: f.talk?.bw?.length ?? 0 });
 
@@ -171453,26 +171637,8 @@ function aaMountAgentAvatars({ three = null, parent = null, agents = [], source 
     agents: () => [...figures.values()].map(stateOf),
     state: (id) => { const f = figures.get(id); return f ? stateOf(f) : null; },
     figure: (id) => figures.get(id)?.fig?.group ?? null,
-    /** An on-device voice can drive the talk light instead of the clock: start holds it on, end lets it go. */
-    talkStart: (id) => {
-      const f = figures.get(id); if (!f?.talk) return false;
-      if (!f.talk.voiced) { // AVATARS-HD: the voice starts now, so the mouth's word timing restarts from now at the voice's rate
-        f.talk.voiced = true;
-        const rate = Number(f.agent.voice?.rate) > 0 ? Number(f.agent.voice.rate) : 1;
-        f.talk.words = aaWordOnsets(f.talk.text, aaLineMs(f.talk.text) / rate).map((w) => ({ at: clock + w.at / 1000, dur: w.dur / 1000, char: w.char }));
-      }
-      return true;
-    },
-    /** AVATARS-HD: a voice's word boundary (SpeechSynthesisUtterance onboundary, `charIndex`): the mouth opens on this word now. Once a
-     * line has had a boundary the mouth follows the boundaries only. */
-    talkWord: (id, charIndex = null) => {
-      const f = figures.get(id); if (!f?.talk) return false;
-      const tk = f.talk; if (!tk.bw) tk.bw = [];
-      const est = tk.words ?? [], w = est.find((x) => x.char === charIndex) ?? est[tk.bw.length] ?? null;
-      tk.bw.push({ at: clock, dur: w ? w.dur : 0.25, char: charIndex });
-      return true;
-    },
-    talkEnd: (id) => { const f = figures.get(id); if (!f?.talk) return false; f.talk.voiced = false; f.talk.end = clock; const last = talkLog.findLast?.((x) => x.agent === id) ?? null; if (last) last.end = clock; if (f.caption) f.caption.end = clock; tickTalk(f); return true; },
+    /** An on-device voice can drive the talk light instead of the clock: start holds it on, end lets it go (talkStart above). */
+    talkStart, talkWord, talkEnd,
     talkLog: () => talkLog.slice(), captionLog: () => captionLog.slice(), gestureLog: () => gestureLog.slice(),
     clock: () => clock, counts, sources: () => sources.size,
     /** HIVE-3: take one figure out (a visitor that has walked out of a robotics room): its meshes and canvases are disposed and
@@ -171916,6 +172082,7 @@ function crMountClassrooms({ three: THREE = null, scene = null, root = null, par
 //                                          (a station as kind "station" so the mount's onLaunch takes it; a simulation as
 //                                          kind "lar-sim" running `launch`). The phone tier ("low") drops decoration only.
 //   larRegisterDressers(ix, { parish, launch })  -> the styles registered; ix = { ixRegisterDresser } (guarded: null = none)
+//   LAR_SIGN_PX                        a name sign's canvas per tier: high 512 × 120, balanced and low 256 × 60 (ENV-HD-5)
 //   `launch(l, r)` is the world's handler: the parishes app passes crLaunch (a station link, psWorld.open for a simulation).
 
 
@@ -172153,11 +172320,15 @@ function larRoomsFor(parish) {
   return out;
 }
 
-/** An object's name on a small canvas (the phone tier draws it at half resolution); headless, a flat dark panel. */
-function larSignMaterial(THREE, text, low = false) {
+/** A name sign's canvas per tier. ENV-HD-5: balanced draws the phone tier's size (it drew the desktop size, which put the
+ *  six rooms at 3.21–6.02 MiB on balanced against its 3 MiB room budget; hd2-room-skins.js HD2_SIGN_BYTES counts the same). */
+const LAR_SIGN_PX = { high: [512, 120], balanced: [256, 60], low: [256, 60] };
+
+/** An object's name on a small canvas (LAR_SIGN_PX: the desktop high tier at twice the phone size); headless, a flat dark panel. */
+function larSignMaterial(THREE, text, tier = "high") {
   const flat = () => new THREE.MeshBasicMaterial({ color: 0x101820 });
   if (typeof document === "undefined" || !document.createElement) return flat();
-  const k = low ? 1 : 2, c = document.createElement("canvas"); c.width = 256 * k; c.height = 60 * k;
+  const [w, h] = LAR_SIGN_PX[tier] ?? LAR_SIGN_PX.high, k = w / 256, c = document.createElement("canvas"); c.width = w; c.height = h;
   const g = c.getContext("2d"); if (!g) return flat();
   g.fillStyle = "#101820"; g.fillRect(0, 0, c.width, c.height); g.fillStyle = "#f2c14b"; g.fillRect(0, c.height - 4 * k, c.width, 4 * k);
   g.fillStyle = "#eaf6fb"; g.textAlign = "center"; g.textBaseline = "middle";
@@ -172194,7 +172365,7 @@ function larDress({ THREE, group, room, r, tier = "high", launch = () => false }
     const foot = LAR_SHAPES[f.shape][0], dir = LAR_DIR[f.face] ?? LAR_DIR.s, flat = !dir[0] && !dir[1];
     const [w, d] = larTurn(foot, f.face), half = dir[0] ? w / 2 : d / 2;
     const y = Math.min(room.h - 0.4, Math.max(2.3, foot[4] + foot[1] / 2 + 0.4));
-    const sign = new THREE.Mesh(signGeo, larSignMaterial(THREE, f.label.split(":")[0], low));
+    const sign = new THREE.Mesh(signGeo, larSignMaterial(THREE, f.label.split(":")[0], tier));
     sign.position.set(flat ? f.at[0] : f.at[0] + dir[0] * (half + 0.05), flat ? 2.4 : y, flat ? f.at[1] : f.at[1] + dir[1] * (half + 0.05));
     sign.rotation.y = flat ? 0 : Math.atan2(dir[0], dir[1]);
     sign.name = `lar-sign-${f.id}`; group.add(sign);
@@ -172874,7 +173045,8 @@ function ixrMeasure(room) {
 //   HD2_SKIN_STYLES                 plain data: style id -> { set: "industrial" | "tile" | "hall", sites, metal? } (sites = how many
 //                                     parish-engine sites open the style, counted over the maps: why these first; metal = the
 //                                     prop kinds that take brushed metal when not the default rack/machine/tank/cabinet/hood)
-//   HD2_SIGN_BYTES                  GPU bytes of one LA-ROOMS name-sign canvas per tier (512 x 120, the phone 256 x 60, mips)
+//   HD2_SIGN_BYTES                  GPU bytes of one LA-ROOMS name-sign canvas per tier (high 512 x 120; balanced and the phone
+//                                     256 x 60 since ENV-HD-5, lar-rooms.js LAR_SIGN_PX; mips)
 //   hd2RoomBytes(group, tier)       -> texture bytes a room already carries before the skin (shell signs + LA name signs)
 //   HD2_TEX_BUDGET                  GPU texture bytes per room per tier (w × h × 4, × 4/3 with a mip chain), every texture in
 //                                     the room counted, the shell's two 512 × 256 signs included: high 24 MiB, balanced and
@@ -172915,8 +173087,9 @@ const HD2_SKIN_STYLES = {
   "hd4-hive-ops": { set: "tile", sites: 0 }, // ENV-HD-4: the hive operations room (no map site opens it; it has its own door)
 };
 const HD2_TEX_BUDGET = { high: 24 * 1024 * 1024, balanced: 3 * 1024 * 1024, low: 3 * 1024 * 1024 };
-/** One LA-ROOMS name-sign canvas (lar-rooms.js larSignMaterial: 512 x 120, 256 x 60 on the phone tier), with mips. */
-const HD2_SIGN_BYTES = { high: Math.round(512 * 120 * 4 * 4 / 3), balanced: Math.round(512 * 120 * 4 * 4 / 3), low: Math.round(256 * 60 * 4 * 4 / 3) };
+/** One LA-ROOMS name-sign canvas (lar-rooms.js LAR_SIGN_PX: 512 x 120 on high; 256 x 60 on balanced, as on the phone tier,
+ *  since ENV-HD-5, so the six Louisiana rooms fit balanced's 3 MiB), with mips. */
+const HD2_SIGN_BYTES = { high: Math.round(512 * 120 * 4 * 4 / 3), balanced: Math.round(256 * 60 * 4 * 4 / 3), low: Math.round(256 * 60 * 4 * 4 / 3) };
 const HD2_SHELL_BYTES = 2 * Math.round(512 * 256 * 4 * 4 / 3); // the shell's two 512 x 256 signs (IXR_SHELL_SIGNS)
 const hd2MapBytes = (res) => Math.round(res * res * 4 * 4 / 3);
 /** Texture bytes a room carries before the skin, counted the same way headless and in the page: the shell's two signs and one
@@ -173542,6 +173715,10 @@ function hd4MountSiteLights({ THREE, root, layouts = [], tier = "high", ua = typ
 //    over the robot area, one by the door), and one real light — a task spotlight over the room's robot — which with the
 //    shell's hemisphere and point light makes 3, IX_BUDGET's desktop limit. Everything else is emissive (no texture).
 //    Nothing moves: the beacons glow steadily, so reduced motion needs no special case.
+//    ENV-HD-5 (docs/consoles/ENV-HD-5.md): balanced takes a light-weight version — emissive fixtures only, no real light, no
+//    texture, one instanced mesh (one draw call): the same LED ceiling panels, a flush ceiling panel over every station pad
+//    (and every ops console) in place of the pendant and its pool, and the three amber beacons' lenses. The phone tier and a
+//    headset browser still build nothing.
 // 2. The hive's operations room (`hd4-hive-ops`, an INTERIORS style), GENERIC BY KIND: a control room where the Omega Hive's
 //    seven software agents' consoles stand in an arc facing a video wall (two panels either side of the shell's honesty sign).
 //    Each console has a desk, a monitor whose screen is a cell of one shared canvas, a chair, a strip in the agent's accent
@@ -173554,7 +173731,9 @@ function hd4MountSiteLights({ THREE, root, layouts = [], tier = "high", ua = typ
 //   HD4_ROOM_LIGHT_BUDGET              what the lighting adds per room per tier (meshes, real lights, triangles, texture bytes)
 //   HD4_ROOM_TARGETS                   plain data: style -> [x, z] the task spotlight aims at (the room's robot)
 //   HD4_OPS_ROLES / HD4_OPS_BUDGET     the seven role keys in console order; the ops room's stated budget per tier
-//   hd4LightRoom({ three, group, room, tier, ua }) -> { panels, pendants, beacons, lights } | null (null where it builds nothing)
+//   hd4LightRoom({ three, group, room, tier, ua }) -> { panels, pendants, beacons, lights } | null (null where it builds nothing;
+//                                          on balanced it hands over to hd4LightRoomBalanced)
+//   hd4LightRoomBalanced({ three, group, room }) -> { panels, taskPanels, beacons, lights: 0, meshes: 1, triangles } (ENV-HD-5)
 //   hd4OpsLayout(agents?)              -> [{ key, agentId, accent, x, z, yaw, spot: { x, z, yaw } }] (pure, room metres)
 //   hd4DressOps({ three, group, room, site, tier, agents }) -> room.hd4Ops = { consoles, screens, spots }
 //   hd4OpsScreens(room)                -> { canvas, texture, cells: [{ key, agentId, role, x, y, w, h }], wall: { canvas, texture,
@@ -173579,7 +173758,8 @@ function hd4OpsHome(agents = OH_AGENTS) {
 }
 
 const HD4_OPS_STYLE = "hd4-hive-ops";
-const HD4_ROOM_LIGHT_BUDGET = { meshesAdded: { low: 0, balanced: 0, high: 4 }, lightsAdded: { low: 0, balanced: 0, high: 1 }, trianglesAdded: { low: 0, balanced: 0, high: 900 }, textureBytes: 0 };
+// ENV-HD-5: balanced adds one instanced mesh of emissive fixtures (no light, no texture); it added nothing before.
+const HD4_ROOM_LIGHT_BUDGET = { meshesAdded: { low: 0, balanced: 1, high: 4 }, lightsAdded: { low: 0, balanced: 0, high: 1 }, trianglesAdded: { low: 0, balanced: 400, high: 900 }, textureBytes: 0 };
 const HD4_ROOM_TARGETS = { "ixr-cell-hall": [0, -4], "ixr-cobot-lab": [0, -2.2], "ixr-amr-warehouse": [-3.5, -3], "ixr-port-control": [0, -3.3], "ixr-drilling-deck": [0, -3.5], "ixr-maint-bay": [3.6, -3.2], "hd4-hive-ops": [0, -2.4] };
 const HD4_OPS_ROLES = ["dispatcher", "safety-steward", "maintenance-planner", "consent-keeper", "trainer", "auditor", "logistics"];
 const hd4OpsMiB = 1024 * 1024;
@@ -173606,6 +173786,7 @@ function hd4PoolGeometry(THREE, warm = [0.16, 0.14, 0.1], n = 20) {
 
 /** Light one room (the six robot rooms and the ops room): panels, pendants with pools, beacons, one task spotlight. */
 function hd4LightRoom({ three: THREE, group, room, tier = "high", ua = typeof navigator !== "undefined" ? navigator.userAgent : "" }) {
+  if (THREE && room && group && tier === "balanced" && !hd4Headset(ua)) return hd4LightRoomBalanced({ three: THREE, group, room });
   if (!THREE || !room || !group || !hd4Lit(tier, ua)) return null;
   const { w, d, h } = room, style = room.style ?? {};
   const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), v = new THREE.Vector3(), s = new THREE.Vector3(), col = new THREE.Color();
@@ -173647,6 +173828,29 @@ function hd4LightRoom({ three: THREE, group, room, tier = "high", ua = typeof na
   group.add(spot); group.add(spot.target);
   const triangles = 12 * (pm.count + bm.count + gm.count) + 20 * pools.count;
   room.hd4Lights = { panels: panels.length, pendants: spots.length, beacons: beacons.length, lights: 1, meshes: 4, triangles };
+  return room.hd4Lights;
+}
+
+/** ENV-HD-5: balanced's light-weight lighting (see the header): emissive boxes in one InstancedMesh, per-instance colour —
+ *  the LED panels where high puts them, a flush warm panel on the ceiling over every station pad (and ops console), and the
+ *  beacons' amber lenses on the walls. No real light, no texture, no pool (additive overdraw), no fittings. */
+function hd4LightRoomBalanced({ three: THREE, group, room }) {
+  if (!THREE || !room || !group) return null;
+  const { w, d, h } = room, style = room.style ?? {}, lamp = style.lamp ?? 0xf2f6fa;
+  const rows = Math.max(2, Math.round(d / 5)), cols = Math.max(2, Math.round(w / 6)), boxes = [];
+  for (let r = 0; r < rows; r++) for (let c = 1; c < cols; c++) boxes.push([1.2, 0.04, 0.6, -w / 2 + (w / cols) * c, h - 0.03, -d / 2 + (d / rows) * (r + 0.5), lamp]);
+  const panels = boxes.length;
+  const spots = room.actions.filter((a) => a.kind === "station").map((a) => [a.x, a.z]);
+  for (const c of room.hd4Ops?.consoles ?? []) spots.push([c.x * 0.86, c.z * 0.86 + (-2.4) * 0.14]);
+  for (const [x, z] of spots) boxes.push([0.9, 0.04, 0.5, x, h - 0.03, z, 0xfff1d6]);
+  const beacons = IXR_ROOMS[room.id] ? [[-w / 4, Math.min(h * 0.62, h - 0.6), -d / 2 + 0.14], [w / 4, Math.min(h * 0.62, h - 0.6), -d / 2 + 0.14], [1.6, Math.min(2.75, h - 0.5), d / 2 - 0.14]] : [];
+  for (const [x, y, z] of beacons) boxes.push([0.26, 0.26, 0.26, x, y + 0.07, z, 0xff9a1f]);
+  const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), v = new THREE.Vector3(), s = new THREE.Vector3(), col = new THREE.Color();
+  const im = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ color: 0xffffff, toneMapped: false }), boxes.length);
+  im.name = "hd4-light-balanced";
+  boxes.forEach(([bw, bh, bd, x, y, z, c], i) => { m4.compose(v.set(x, y, z), q.identity(), s.set(bw, bh, bd)); im.setMatrixAt(i, m4); im.setColorAt(i, col.setHex(c)); });
+  group.add(im);
+  room.hd4Lights = { tier: "balanced", panels, pendants: 0, taskPanels: spots.length, beacons: beacons.length, lights: 0, meshes: 1, triangles: 12 * boxes.length };
   return room.hd4Lights;
 }
 
@@ -173820,6 +174024,439 @@ function hd4RegisterDressers(ix, { ultra = false, ua = typeof navigator !== "und
 }
 
 
+/* ===== shared/h5-ops-room.js ===== */
+// HIVE-5 — the hive in its own room (console `h5`, docs/consoles/HIVE-5.md). SmartCiti.X Holodeck · Powered by AGI Corp.
+//
+// ENV-HD-4 built the hive's operations room (`hd4-hive-ops`): seven consoles in an arc facing a video wall, an agent spot behind
+// each console (room.spots.agent, one per role) and a screens seam (hd4OpsScreens). This module fills the room from the hive:
+// 1. The screens show the hive. Each console screen paints its agent's card: the name, the "software agent" label, the role, the
+//    four traits as bars, the jobs it holds and its last lines. The video wall paints the day's feed (left panel) and the
+//    governor's refusals with their reasons (right panel) with the day's counts. Everything is read from the hive's own events,
+//    jobs and metrics (h5HiveModel), never invented, and drawn through hd4OpsScreens(room).paint(...). The canvases are the room's
+//    own (ENV-HD-4 allocated and counted them), so painting adds no texture byte. Words appear only on the screens (the console's
+//    own UI text), never on floors or walls. Small screens (balanced and the phone: 128 × 64 cells, a 256 × 64 wall) take the
+//    agent's colour, the trait bars and a talk light without words.
+// 2. The hive stands in its room. When the learner enters, every agent that holds no job stands at its console's spot, facing the
+//    video wall. An agent the hive gives a job walks out through the door and is released; when its last job ends it walks back in
+//    to its console (h3RoomPresence, the rooms' own presence). The figures are AGENT-AVATARS' figures, lightened for this room by
+//    h5LiteFigure (each primitive part rebuilt with fewer segments: the same parts, colours, label, visor and halo) so that seven
+//    of them fit IX_BUDGET with the room. The phone tier builds no figures (AGENT-AVATARS' rule); balanced draws the label and
+//    caption canvases at H5_OPS_TEXTURE_SCALE.balanced so the room stays inside IXR_TEX_BUDGET.
+// Agents are software and say so: the figure's label, hologram tint, visor and halo come with it, and every card says "software
+// agent". No network, no voice, no model call: this module positions figures and paints canvases from the hive's own data.
+//
+// SEAMS (every top-level name carries h5/H5_: the bundler shares one scope; three.js comes from the caller):
+//   H5_OPS_TEXTURE_SCALE                 { high: 1, balanced: 0.35, low: 0 }: label and caption canvas scale in the ops room
+//   H5_LITE_CAPS                         the segment caps h5LiteFigure applies, by geometry type
+//   H5_SCREEN_TEXT                       the screens' own words by language (en, es)
+//   h5IsOpsRoom(room)                    -> true for the hive operations room
+//   h5LiteFigure(THREE, group, caps?)    -> { before, after } triangles; rebuilds each primitive part coarser, once per figure
+//   h5HiveModel(source, agents)          -> { t, lang, metrics, card(agentId), feed(n), refusals(n) } from the hive's own data
+//   h5PaintConsole(ctx, w, h, card, text?) and h5PaintWall(ctx, w, h, model, text?)
+//   h5MountOpsRoom({ three, room, agents, source, tier, reducedMotion, mount, repaintMs })
+//       -> { room, placed, avatars, presence, animate(t, dt), sync(), paint(), standing(), painted(), counts(), log(), dispose() } | null
+//   hw-hive-world.js's hwSyncRoom hands the ops room to h5MountOpsRoom (the robot rooms keep hwMountRoomAgents).
+
+
+
+
+
+
+
+
+const H5_OPS_TEXTURE_SCALE = Object.freeze({ high: 1, balanced: 0.35, low: 0 });
+const H5_LITE_CAPS = Object.freeze({
+  SphereGeometry: Object.freeze({ widthSegments: 8, heightSegments: 6 }),
+  CapsuleGeometry: Object.freeze({ capSegments: 2, radialSegments: 6 }),
+  CylinderGeometry: Object.freeze({ radialSegments: 6 }),
+  ConeGeometry: Object.freeze({ radialSegments: 6 }),
+  TorusGeometry: Object.freeze({ radialSegments: 3, tubularSegments: 12 }),
+  CircleGeometry: Object.freeze({ segments: 8 }),
+});
+const H5_SCREEN_TEXT = Object.freeze({
+  en: Object.freeze({ queue: "Queue", none: "nothing held", lines: "Last lines", quiet: "no lines yet", feed: "Today's feed", refusals: "Governor refusals", noRefusals: "No refusals yet",
+    by: { governor: "governor", steward: "safety steward", supervisor: "learner" },
+    counts: (m) => [`Completed ${m.completed} · refused ${m.refused} · vetoed ${m.vetoed}`, `Dispatched jobs checked ${m.dispatchedChecked} of ${m.dispatched} · physical dispatches ${m.physicalDispatched}`],
+    clock: (t) => `hive minute ${t} (${ohClock(t)})`, traits: ["warmth", "formality", "verbosity", "caution"] }),
+  es: Object.freeze({ queue: "Cola", none: "nada pendiente", lines: "Últimas líneas", quiet: "aún sin líneas", feed: "Lo de hoy", refusals: "Rechazos del gobernador", noRefusals: "Aún sin rechazos",
+    by: { governor: "gobernador", steward: "responsable de seguridad", supervisor: "aprendiz" },
+    counts: (m) => [`Completados ${m.completed} · rechazados ${m.refused} · vetados ${m.vetoed}`, `Trabajos revisados ${m.dispatchedChecked} de ${m.dispatched} · envíos físicos ${m.physicalDispatched}`],
+    clock: (t) => `minuto ${t} de la colmena (${ohClock(t)})`, traits: ["calidez", "formalidad", "locuacidad", "cautela"] }),
+});
+
+function h5IsOpsRoom(room) { return !!(room && room.id === HD4_OPS_STYLE); }
+
+/** Lighten one figure for the ops room: each mesh's primitive geometry (sphere, capsule, cylinder, cone, torus, circle) rebuilt
+ * with at most the caps' segments, the same parameters otherwise. The meshes, materials and transforms stay, so the avatar mount
+ * still poses and shows every part. Done once per figure (group.userData.h5Lite). */
+function h5LiteFigure(THREE, group, caps = H5_LITE_CAPS) {
+  if (!THREE || !group || typeof group.traverse !== "function") return null;
+  if (group.userData?.h5Lite) return group.userData.h5Lite;
+  const tris = (g) => Math.round((g?.index ? g.index.count : g?.attributes?.position?.count ?? 0) / 3);
+  let before = 0, after = 0;
+  group.traverse((o) => {
+    if (!o.isMesh || o.isInstancedMesh) return;
+    const g = o.geometry, t0 = tris(g); before += t0;
+    const cap = caps?.[g?.type], Ctor = THREE[g?.type];
+    if (!cap || typeof Ctor !== "function" || !g.parameters) { after += t0; return; }
+    const p = { ...g.parameters }; let changed = false;
+    for (const [k, v] of Object.entries(cap)) if (Number.isFinite(p[k]) && p[k] > v) { p[k] = v; changed = true; }
+    let ng = null;
+    if (changed) { try { ng = new Ctor(...Object.values(p)); } catch (_) { ng = null; } }
+    if (!ng) { after += t0; return; }
+    try { g.dispose?.(); } catch (_) { /* a stub geometry */ }
+    o.geometry = ng; after += tris(ng);
+  });
+  group.userData = group.userData ?? {};
+  group.userData.h5Lite = { before, after };
+  return group.userData.h5Lite;
+}
+
+const h5Site = (id) => RB_SITES.find((s) => s.id === id)?.name ?? id;
+const h5Why = (id) => VB_REASONS.find((r) => r.id === id)?.text ?? OH_REASON_PHRASES[id] ?? id ?? "";
+const h5Try = (fn, d) => { try { const v = fn(); return v ?? d; } catch (_) { return d; } };
+
+/** What the screens show, from the hive's own events, jobs, pending requests and metrics only. */
+function h5HiveModel(source, agents = []) {
+  const ev = h5Try(() => source?.events?.(), []);
+  const jobs = h5Try(() => source?.jobs?.(), []);
+  const pend = h5Try(() => source?.pending?.(), []);
+  const metrics = h5Try(() => source?.metrics?.(), null);
+  const t = h5Try(() => source?.now?.(), ev.length ? ev[ev.length - 1].t : 0);
+  const speaks = ev.filter((e) => e.type === "speak");
+  const roster = agents ?? [];
+  const lang = roster.find((a) => a?.lang)?.lang === "es" ? "es" : "en";
+  return {
+    t, lang, metrics,
+    card(id) {
+      const a = roster.find((x) => x?.id === id); if (!a) return null;
+      const held = jobs.filter((j) => j.winner === id && ["queued", "moving", "running", "awaiting-approval"].includes(j.status)).map((j) => ({ jobId: j.jobId, site: h5Site(j.site), status: j.status }));
+      const queue = a.key === "consent-keeper" ? pend.map((p) => ({ jobId: p.jobId, site: p.siteName ?? h5Site(p.to), status: p.reason })) : held;
+      const mine = speaks.filter((e) => e.agent === id);
+      const lines = mine.slice(-3).map((e) => ({ t: e.t, clock: ohClock(e.t), text: String(e.text ?? ""), to: e.toName ?? null, memory: !!e.memory }));
+      return { id, name: a.name, label: a.label ?? OH_AGENT_LABEL, role: String(a.key ?? "").replace(/-/g, " "), key: a.key, accent: a.avatar?.accent ?? 0x7b6cf0, traits: a.traits ?? {}, queue, lines, spoke: mine.length, talking: !!mine.length && mine[mine.length - 1].t === t };
+    },
+    feed(n = 5) { return speaks.slice(-n).map((e) => ({ t: e.t, clock: ohClock(e.t), agent: e.agent, caption: String(e.caption ?? e.text ?? "") })); },
+    refusals(n = 4) { return ev.filter((e) => e.type === "refused").slice(-n).map((e) => ({ t: e.t, clock: ohClock(e.t), jobId: e.jobId, site: e.siteName ?? h5Site(e.to), by: e.by ?? "", reason: e.veto ?? e.reason ?? "", why: h5Why(e.veto ?? e.reason) })); },
+  };
+}
+
+const h5Hex = (n) => `#${(Number(n) >>> 0).toString(16).padStart(6, "0").slice(-6)}`;
+/** The longest head of `text` that fits `maxW` (an ellipsis when cut). */
+function h5Fit(g, text, maxW) {
+  const s = String(text ?? "");
+  const w = (x) => { const m = g.measureText?.(x); return Number.isFinite(m?.width) ? m.width : x.length * 7; };
+  if (w(s) <= maxW) return s;
+  let lo = 0, hi = s.length;
+  while (lo < hi) { const mid = Math.ceil((lo + hi) / 2); if (w(`${s.slice(0, mid)}…`) <= maxW) lo = mid; else hi = mid - 1; }
+  return `${s.slice(0, lo).trimEnd()}…`;
+}
+/** Up to `max` lines of `text` wrapped to `maxW` (the last one cut with an ellipsis). */
+function h5Wrap(g, text, maxW, max = 2) {
+  const words = String(text ?? "").split(/\s+/).filter(Boolean), out = [];
+  if (max <= 1) return [h5Fit(g, words.join(" "), maxW)];
+  const w = (x) => { const m = g.measureText?.(x); return Number.isFinite(m?.width) ? m.width : x.length * 7; };
+  let cur = "";
+  for (let i = 0; i < words.length; i += 1) {
+    const next = cur ? `${cur} ${words[i]}` : words[i];
+    if (w(next) <= maxW || !cur) { cur = next; continue; }
+    out.push(cur); cur = words[i];
+    if (out.length === max - 1) { cur = words.slice(i).join(" "); break; }
+  }
+  if (cur) out.push(cur);
+  if (out.length > max) out.length = max;
+  if (out.length) out[out.length - 1] = h5Fit(g, out[out.length - 1], maxW);
+  return out;
+}
+
+/** One console screen: the agent's card (words on a large cell; colour, bars and a talk light on a small one). */
+function h5PaintConsole(g, w, h, card, text = H5_SCREEN_TEXT[card?.lang] ?? H5_SCREEN_TEXT.en) {
+  g.fillStyle = "#0d1724"; g.fillRect(0, 0, w, h);
+  if (!card) return 0;
+  const acc = h5Hex(card.accent), band = Math.max(3, Math.round(h * 0.16));
+  g.fillStyle = acc; g.fillRect(0, 0, w, band);
+  const traits = ["warmth", "formality", "verbosity", "caution"];
+  if (w < 256) { // a small screen: no words, the agent's colour, its trait bars and a talk light
+    traits.forEach((k, i) => { const v = Math.max(0, Math.min(1, Number(card.traits?.[k]) || 0)); g.fillStyle = "#24364a"; g.fillRect(w * 0.08, h * (0.3 + i * 0.15), w * 0.5, h * 0.08); g.fillStyle = acc; g.fillRect(w * 0.08, h * (0.3 + i * 0.15), w * 0.5 * v, h * 0.08); });
+    g.fillStyle = card.talking ? "#8fe3ff" : "#3a4b5e"; g.beginPath(); g.arc(w * 0.8, h * 0.55, h * 0.12, 0, Math.PI * 2); g.fill();
+    for (let k = 0; k < Math.min(3, card.queue.length); k += 1) { g.fillStyle = "#37d6c0"; g.fillRect(w * 0.7 + k * w * 0.07, h * 0.8, w * 0.05, h * 0.08); }
+    return 0;
+  }
+  let words = 0;
+  const S = w / 512; // 512 × 256 is the desktop high tier's cell
+  const font = (px, bold = false) => `${bold ? "600 " : ""}${Math.round(px * S)}px system-ui, sans-serif`;
+  const put = (s, x, y, maxW) => { const v = h5Fit(g, s, maxW); g.fillText(v, x, y); words += 1; return v; };
+  g.textBaseline = "middle";
+  g.fillStyle = "#0b1018"; g.font = font(22, true); put(card.name, 12 * S, band / 2, 150 * S);
+  g.font = font(15, true); put(`${card.label} · ${card.role}`, 168 * S, band / 2, w - 180 * S);
+  // the four traits as bars
+  g.font = font(13);
+  traits.forEach((k, i) => {
+    const y = band + (22 + i * 24) * S, v = Math.max(0, Math.min(1, Number(card.traits?.[k]) || 0));
+    g.fillStyle = "#9fb3c8"; put(text.traits[i] ?? k, 12 * S, y, 78 * S);
+    g.fillStyle = "#24364a"; g.fillRect(92 * S, y - 5 * S, 70 * S, 10 * S); g.fillStyle = acc; g.fillRect(92 * S, y - 5 * S, 70 * S * v, 10 * S);
+  });
+  // the queue: the jobs it holds (the consent keeper: the learner's waiting requests)
+  const qx = 178 * S, qw = w - qx - 12 * S;
+  g.fillStyle = "#e8eef4"; g.font = font(14, true); put(`${text.queue} (${card.queue.length})`, qx, band + 20 * S, qw);
+  g.font = font(13); g.fillStyle = "#c9d6e3";
+  if (!card.queue.length) put(text.none, qx, band + 40 * S, qw);
+  card.queue.slice(0, 2).forEach((q, i) => put(`${q.jobId} · ${q.site} · ${q.status}`, qx, band + (40 + i * 18) * S, qw));
+  // the last lines
+  const ly = band + 98 * S;
+  g.fillStyle = "#37d6c0"; g.fillRect(12 * S, ly - 6 * S, w - 24 * S, Math.max(1, 1.5 * S));
+  g.fillStyle = "#e8eef4"; g.font = font(14, true); put(text.lines, 12 * S, ly + 8 * S, 200 * S);
+  g.font = font(13);
+  if (!card.lines.length) { g.fillStyle = "#9fb3c8"; put(text.quiet, 12 * S, ly + 28 * S, w - 24 * S); }
+  const rows = card.lines.slice(-3), lh = 17 * S;
+  let y = ly + 28 * S;
+  for (const [i, l] of rows.entries()) {
+    g.fillStyle = i === rows.length - 1 ? "#ffffff" : "#b7c7d8";
+    for (const part of h5Wrap(g, `${l.clock} ${l.text}`, w - 24 * S, i === rows.length - 1 ? 2 : 1)) { if (y > h - 6 * S) break; g.fillText(part, 12 * S, y); words += 1; y += lh; }
+  }
+  if (card.talking) { g.fillStyle = "#8fe3ff"; g.beginPath(); g.arc(w - 14 * S, band + 14 * S, 6 * S, 0, Math.PI * 2); g.fill(); }
+  return words;
+}
+
+/** The video wall: the day's feed on the left panel, the governor's refusals and the day's counts on the right. */
+function h5PaintWall(g, w, h, model, text = H5_SCREEN_TEXT[model?.lang] ?? H5_SCREEN_TEXT.en, agents = []) {
+  g.fillStyle = "#0b1420"; g.fillRect(0, 0, w, h);
+  if (!model) return 0;
+  const half = w / 2;
+  const accent = (id) => h5Hex(agents.find((a) => a.id === id)?.avatar?.accent ?? 0x8fd3ff);
+  if (w < 1024) { // a small wall: the feed as coloured ticks, the refusals as amber ticks, no words
+    model.feed(8).forEach((l, i) => { g.fillStyle = accent(l.agent); g.fillRect(half * 0.08, h * (0.1 + i * 0.1), half * 0.8, h * 0.06); });
+    model.refusals(6).forEach((r, i) => { g.fillStyle = "#ffb347"; g.fillRect(half * 1.08, h * (0.12 + i * 0.13), half * 0.6, h * 0.08); });
+    return 0;
+  }
+  let words = 0;
+  const S = h / 256;
+  const font = (px, bold = false) => `${bold ? "600 " : ""}${Math.round(px * S)}px system-ui, sans-serif`;
+  const put = (s, x, y, maxW) => { g.fillText(h5Fit(g, s, maxW), x, y); words += 1; };
+  g.textBaseline = "middle";
+  // left: the day's feed (the last five captions, each up to two lines)
+  g.fillStyle = "#16263a"; g.fillRect(0, 0, half, 30 * S);
+  g.fillStyle = "#e8eef4"; g.font = font(17, true); put(`${text.feed} · ${text.clock(model.t)}`, 12 * S, 15 * S, half - 24 * S);
+  g.font = font(14);
+  let y = 46 * S;
+  for (const l of model.feed(5)) {
+    g.fillStyle = accent(l.agent); g.fillRect(10 * S, y - 7 * S, 4 * S, 14 * S);
+    g.fillStyle = "#dfe8f1";
+    for (const part of h5Wrap(g, `${l.clock} ${l.caption}`, half - 34 * S, 2)) { if (y > h - 8 * S) break; g.fillText(part, 22 * S, y); words += 1; y += 18 * S; }
+    y += 6 * S;
+  }
+  // right: the governor's refusals with their reasons, then the day's counts
+  g.fillStyle = "#2a2116"; g.fillRect(half, 0, half, 30 * S);
+  g.fillStyle = "#ffd9a0"; g.font = font(17, true); put(text.refusals, half + 12 * S, 15 * S, half - 24 * S);
+  const refs = model.refusals(4);
+  y = 48 * S;
+  if (!refs.length) { g.fillStyle = "#c9d6e3"; g.font = font(14); put(text.noRefusals, half + 12 * S, y, half - 24 * S); }
+  for (const r of refs) {
+    g.fillStyle = "#ffb347"; g.fillRect(half + 10 * S, y - 7 * S, 4 * S, 34 * S);
+    g.fillStyle = "#f2f5f8"; g.font = font(14, true); put(`${r.clock} ${r.jobId} · ${r.site}`, half + 22 * S, y, half - 34 * S);
+    g.fillStyle = "#c9d6e3"; g.font = font(13); put(`${text.by[r.by] ?? r.by}: ${r.why}`, half + 22 * S, y + 17 * S, half - 34 * S);
+    y += 40 * S;
+  }
+  if (model.metrics) {
+    g.fillStyle = "#16263a"; g.fillRect(half, h - 40 * S, half, 40 * S); g.fillStyle = "#9fe6d8"; g.font = font(13);
+    text.counts(model.metrics).forEach((line, i) => put(line, half + 12 * S, h - (29 - i * 17) * S, half - 24 * S));
+  }
+  return words;
+}
+
+/** Stand the hive in its operations room and paint its screens (see the header). */
+function h5MountOpsRoom({ three = null, room = null, agents = [], source = null, tier = "high", reducedMotion = false, mount = aaMountAgentAvatars, repaintMs = 400 } = {}) {
+  if (!h5IsOpsRoom(room) || !room.group) return null;
+  const roster = (agents ?? []).filter((a) => a?.id);
+  const spots = room.spots?.agent ?? [];
+  const spotOf = (a) => spots.find((s) => s.role === a?.key) ?? null;
+  const door = room.door && Number.isFinite(+room.door.x) && Number.isFinite(+room.door.z) ? room.door : { x: 0, z: (Number(room.d) || 14) / 2 - 1.1 };
+  const P = "h5-ops:";
+  const place = new Map();
+  for (const s of spots) place.set(`${P}spot:${s.role}`, { x: s.x, z: s.z, yaw: (Number(s.yaw) || 0) + Math.PI, spot: s }); // a spot's yaw is the learner's; the figure faces +z at 0
+  place.set(`${P}exit`, { x: door.x, z: door.z, yaw: 0 });
+  const scale = H5_OPS_TEXTURE_SCALE[tier] ?? 1;
+  const relay = source && typeof source.on === "function" ? { // everything but the hive's own moves (the room has its own places)
+    on: (type, fn) => { if (type !== "move") source.on(type, fn); },
+    off: (type, fn) => { if (type !== "move") source.off?.(type, fn); },
+  } : null;
+  const avatars = roster.length && typeof mount === "function" ? mount({
+    three, parent: room.group, agents: roster, source: relay, tier, reducedMotion,
+    siteAt: (id) => (place.has(id) ? { x: 0, y: 0, z: 0 } : null), // a robot site is off this room: the figure waits unbuilt
+    spotFor: (_a, id) => { const q = place.get(id); return q ? { x: q.x, y: 0, z: q.z, yaw: q.yaw } : null; },
+    textureScale: scale > 0 ? scale : 1,
+  }) : null;
+  const presence = h3RoomPresence({ agents: roster, source });
+  const inRoom = new Set(), leaving = new Set(), log = [], placed = [];
+  const tNow = () => avatars?.clock?.() ?? 0;
+  const lite = () => { for (const a of roster) { const g = avatars?.figure?.(a.id); if (g && !g.userData?.h5Lite) h5LiteFigure(three, g); } };
+  const wants = (a) => !!spotOf(a) && presence.jobsOf(a.id).length === 0; // at its console while it holds no job
+  function arrive(a, walkIn) {
+    const turning = leaving.delete(a.id); // walking out and handed back: it turns round where it is
+    inRoom.add(a.id); placed.push({ agent: a, spot: spotOf(a) });
+    if (walkIn && !turning && !reducedMotion) avatars.handle({ type: "move", agent: a.id, to: `${P}exit` }); // appears in the doorway
+    avatars.handle({ type: "move", agent: a.id, to: `${P}spot:${a.key}` }); // the first placement jumps; from the doorway it walks
+    log.push({ t: tNow(), agent: a.id, what: "in", walked: !!walkIn && !reducedMotion });
+    lite();
+  }
+  function leave(a) {
+    inRoom.delete(a.id);
+    const i = placed.findIndex((p) => p.agent.id === a.id); if (i >= 0) placed.splice(i, 1);
+    log.push({ t: tNow(), agent: a.id, what: "out" });
+    if (reducedMotion) { avatars.release?.(a.id); return; }
+    leaving.add(a.id);
+    avatars.handle({ type: "move", agent: a.id, to: `${P}exit` });
+  }
+  let opened = false;
+  function sync() {
+    if (!avatars) return 0;
+    for (const a of roster) {
+      const want = wants(a);
+      if (want && !inRoom.has(a.id)) arrive(a, opened);
+      else if (!want && inRoom.has(a.id)) leave(a);
+    }
+    opened = true;
+    return inRoom.size;
+  }
+  // the screens: repainted from the hive's data after it changes (at most once per repaintMs)
+  const screens = hd4OpsScreens(room);
+  let dirty = true, lastPaint = -Infinity, painted = new Set();
+  const onAny = () => { dirty = true; };
+  try { source?.on?.("*", onAny); } catch (_) { /* a source without "*": painted on enter only */ }
+  function paint() {
+    if (!screens) return 0;
+    const model = h5HiveModel(source, roster);
+    const text = H5_SCREEN_TEXT[model.lang] ?? H5_SCREEN_TEXT.en;
+    const done = new Set();
+    for (const a of roster) { const card = model.card(a.id); if (card && screens.paint(a.id, (g, w, h) => h5PaintConsole(g, w, h, card, text))) done.add(a.id); }
+    if (screens.paint("wall", (g, w, h) => h5PaintWall(g, w, h, model, text, roster))) done.add("wall");
+    painted = done; dirty = false;
+    return done.size;
+  }
+  sync(); paint();
+  return {
+    room, placed, avatars, presence, screens,
+    animate(t, dt) {
+      sync();
+      avatars?.animate(t, dt, null);
+      for (const id of [...leaving]) { const s = avatars?.state(id); if (!s || !s.walking) { leaving.delete(id); avatars?.release?.(id); } } // out of the doorway: gone
+      if (dirty && Number(t) * 1000 - lastPaint >= repaintMs) { paint(); lastPaint = Number(t) * 1000; }
+    },
+    sync, paint,
+    standing() { return [...inRoom].filter((id) => { const s = avatars?.state(id); return !!avatars?.figure?.(id) && !!s?.visible && !s.walking; }); }, // a built figure (the phone tier builds none)
+    painted() { return [...painted]; },
+    leaving() { return [...leaving]; },
+    log() { return log.slice(); },
+    counts() {
+      const c = avatars?.counts?.() ?? { figures: 0, meshes: 0, sprites: 0, triangles: 0, textureBytes: 0 };
+      return { ...c, agents: inRoom.size, leaving: leaving.size, spots: spots.length, painted: painted.size };
+    },
+    dispose() {
+      try { source?.off?.("*", onAny); } catch (_) { /* gone */ }
+      presence.dispose();
+      try { avatars?.dispose(); } catch (_) { /* the room's own exit already disposed the meshes */ }
+    },
+  };
+}
+
+
+/* ===== shared/h5-hive-live.js ===== */
+// HIVE-5 — the console tab, live (console `h5`, docs/consoles/HIVE-5.md). SmartCiti.X Holodeck · Powered by AGI Corp.
+//
+// The instructor console's "Omega Hive" tab (HIVE-4) replays a seeded day. When the learner's own hive runs in the parishes page in
+// the same browser on this device and the learner turns "Show on the console" on in the hive panel, the panel's hive reaches the tab
+// through a BroadcastChannel: a channel between this browser's own pages of the same origin. Nothing is uploaded (no request is
+// made), nothing is stored (neither page writes any storage), and the channel carries only what the panel already shows: the lines,
+// the refusals with their reasons, the jobs held, the requests waiting for the learner and the day's counts. The link is off by
+// default and never remembered (each visit starts off); turning it off, or leaving the page, tells the tab to drop what it holds.
+// The hive panel itself is mounted only for signed-in adults outside K-12 and the demo, so the link is too.
+// The tab only listens: it posts nothing, approves nothing and writes nothing. With no live snapshot it keeps the seeded replay.
+// No network, no model call, no voice, no microphone.
+//
+// SEAMS (every top-level name carries h5/H5_: the bundler shares one scope):
+//   H5_LIVE_CHANNEL, H5_LIVE_SCHEMA, H5_LIVE_TEXT (the toggle's words, en and es), H5_LIVE_STALE_MS
+//   h5LiveSnapshot(hive, { maxLines, at })  -> { schema, at, t, lines, refusals, jobs, pending, metrics } from the hive's own data
+//   h5LivePublisher({ hive, Channel, everyMs, setTimer, clearTimer }) -> { enabled(), set(on), publish(), posts(), dispose() }
+//   h5MountLiveToggle(panel, publisher)     -> the toggle button in the hive panel's row (the panel's 44 px rule on a phone)
+//   h5LiveReader({ Channel, onSnapshot, staleMs, now }) -> { snapshot(), live(), count(), close() }   (receive only)
+
+const H5_LIVE_CHANNEL = "smartcitix-h5-hive-live-v1";
+const H5_LIVE_SCHEMA = "smartcitix.holodeck.h5-hive-live@1";
+const H5_LIVE_STALE_MS = 6000;
+const H5_LIVE_TEXT = Object.freeze({
+  en: Object.freeze({ label: (on) => `Show on the console (this device): ${on ? "on" : "off"}`, title: "Shows this hive's lines on the instructor console open in this browser on this device. Nothing is uploaded or stored, and it is off again when you leave." }),
+  es: Object.freeze({ label: (on) => `Mostrar en la consola (este dispositivo): ${on ? "sí" : "no"}`, title: "Muestra las líneas de esta colmena en la consola del instructor abierta en este navegador y dispositivo. No se sube ni se guarda nada, y se apaga al salir." }),
+});
+
+const h5LiveTry = (fn, d) => { try { const v = fn(); return v ?? d; } catch (_) { return d; } };
+
+/** What the tab may show: the panel's own lines, refusals, held jobs, waiting requests and counts (no learner identity). */
+function h5LiveSnapshot(hive, { maxLines = 140, at = Date.now() } = {}) {
+  const ev = h5LiveTry(() => hive.events(), []);
+  const m = h5LiveTry(() => hive.metrics(), {});
+  return {
+    schema: H5_LIVE_SCHEMA, at, t: h5LiveTry(() => hive.now(), 0),
+    lines: ev.filter((e) => e.type === "speak").slice(-maxLines).map((e) => ({ t: e.t, agent: e.agent, caption: String(e.caption ?? e.text ?? ""), x: e.exchange ? e.exchange.turn : null, memory: !!e.memory })),
+    refusals: ev.filter((e) => e.type === "refused").slice(-40).map((e) => ({ t: e.t, jobId: e.jobId ?? null, site: e.siteName ?? e.to ?? "", by: e.by ?? "", reason: e.veto ?? e.reason ?? "" })),
+    jobs: h5LiveTry(() => hive.jobs(), []).filter((j) => j.winner && ["queued", "moving", "running", "awaiting-approval"].includes(j.status)).map((j) => ({ jobId: j.jobId, winner: j.winner, site: j.site, status: j.status })),
+    pending: h5LiveTry(() => hive.pending(), []).map((p) => ({ jobId: p.jobId, site: p.siteName ?? p.to ?? "", reason: p.reason })),
+    metrics: Object.fromEntries(["completed", "refused", "vetoed", "awaitingApproval", "exchanges", "memories", "dispatched", "dispatchedChecked", "physicalDispatched", "homeMoves"].filter((k) => Number.isFinite(m?.[k])).map((k) => [k, m[k]])),
+  };
+}
+
+/** The parishes page's side: off until set(true); then one snapshot after each hive step (and every `everyMs` while on). */
+function h5LivePublisher({ hive = null, Channel = typeof BroadcastChannel === "function" ? BroadcastChannel : null, everyMs = 2000, setTimer = (fn, ms) => (typeof setInterval === "function" ? setInterval(fn, ms) : null), clearTimer = (h) => { if (h != null && typeof clearInterval === "function") clearInterval(h); } } = {}) {
+  let ch = null, on = false, timer = null, posts = 0, unsub = null, queued = false;
+  const publish = () => { if (!on || !ch || !hive) return false; try { ch.postMessage(h5LiveSnapshot(hive)); posts += 1; return true; } catch (_) { return false; } };
+  const onEvent = () => { if (!on || queued) return; queued = true; Promise.resolve().then(() => { queued = false; publish(); }); }; // one snapshot per step
+  function set(v) {
+    const want = !!v && typeof Channel === "function" && !!hive;
+    if (want === on) return on;
+    if (want) {
+      try { ch = new Channel(H5_LIVE_CHANNEL); } catch (_) { ch = null; return on; }
+      on = true;
+      const u = h5LiveTry(() => hive.on("*", onEvent), null); unsub = typeof u === "function" ? u : () => hive.off?.("*", onEvent);
+      timer = setTimer(publish, everyMs); publish();
+      return on;
+    }
+    on = false;
+    try { unsub?.(); } catch (_) { /* gone */ } unsub = null;
+    clearTimer(timer); timer = null;
+    try { ch?.postMessage({ schema: H5_LIVE_SCHEMA, closed: true }); } catch (_) { /* closed */ } // the tab drops what it holds
+    try { ch?.close(); } catch (_) { /* closed */ } ch = null;
+    return on;
+  }
+  return { enabled: () => on, set, publish, posts: () => posts, dispose: () => set(false) };
+}
+
+/** The toggle in the hive panel's row: "Show on the console (this device): off" until the learner turns it on. */
+function h5MountLiveToggle(panel, publisher) {
+  const row = panel?.el?.querySelector?.(".oh-row");
+  if (!row || !publisher || typeof document === "undefined") return null;
+  const T = H5_LIVE_TEXT[panel.lang] ?? H5_LIVE_TEXT.en;
+  const b = document.createElement("button");
+  b.type = "button"; b.dataset.oh = "console-link"; b.title = T.title;
+  const show = () => { const v = publisher.enabled(); b.textContent = T.label(v); b.setAttribute("aria-pressed", String(v)); };
+  b.onclick = () => { publisher.set(!publisher.enabled()); show(); };
+  show(); row.appendChild(b);
+  return b;
+}
+
+/** The console tab's side: listens only. A snapshot older than `staleMs` (the page went away) counts as none. */
+function h5LiveReader({ Channel = typeof BroadcastChannel === "function" ? BroadcastChannel : null, onSnapshot = null, staleMs = H5_LIVE_STALE_MS, now = () => Date.now() } = {}) {
+  let ch = null, last = null, lastAt = 0, count = 0;
+  try { ch = typeof Channel === "function" ? new Channel(H5_LIVE_CHANNEL) : null; } catch (_) { ch = null; }
+  if (ch) ch.onmessage = (msg) => {
+    const d = msg?.data;
+    if (!d || d.schema !== H5_LIVE_SCHEMA) return;
+    if (d.closed) { last = null; lastAt = 0; } else if (Array.isArray(d.lines) && Array.isArray(d.refusals)) { last = d; lastAt = now(); count += 1; } else return;
+    try { onSnapshot?.(last); } catch (_) { /* a renderer never stops the reader */ }
+  };
+  const fresh = () => !!(last && now() - lastAt <= staleMs);
+  return { snapshot: () => (fresh() ? last : null), live: fresh, count: () => count, close() { try { ch?.close(); } catch (_) { /* closed */ } ch = null; last = null; } };
+}
+
+
 /* ===== shared/hw-hive-world.js ===== */
 // HIVE-IN-WORLD — the Omega Hive's agents in person (console `hw`, docs/consoles/HIVE-IN-WORLD.md).
 // SmartCiti.X Holodeck · Powered by AGI Corp.
@@ -173851,7 +174488,9 @@ function hd4RegisterDressers(ix, { ultra = false, ua = typeof navigator !== "und
 //                                      -> { room, siteId, placed, avatars, animate(t, dt), counts(), dispose() } | null
 //   hwSyncRoom(current, { room, three, agents, source, tier, reducedMotion, mount })
 //                                      -> the mount for the room open now: kept while the room stays, disposed on exit,
-//                                         re-mounted on a change (call it every frame and right after an enter)
+//                                         re-mounted on a change (call it every frame and right after an enter). HIVE-5: the
+//                                         hive operations room (hd4-hive-ops) gets h5-ops-room.js's mount (all seven agents at
+//                                         their consoles, walking out to jobs and back, the screens painted from the hive)
 //   hwFxDoorAt(fxDoor)                 -> { x, z, face } for ixrDoorsFor's doorAt (the door's outside spot), or null
 //   hwReturnHash(style)                -> "ixr=<style>" for a robotics room (appended to a station link's return), else ""
 //   hwRoomFromHash(hash, search?)      -> the ixr style a return asks to re-enter, or null
@@ -173864,6 +174503,7 @@ function hd4RegisterDressers(ix, { ultra = false, ua = typeof navigator !== "und
 //   hwRouter(boxesIn, { radius, margin, step, reach }) -> { route(from, to), blocked(x, z) }: route returns waypoints ending at
 //                                         `to` (straight when the line is clear, else an A* path on a `step` grid round the boxes
 //                                         grown by radius + margin, pulled tight), or null when no path exists
+
 
 
 
@@ -174011,6 +174651,7 @@ function hwMountRoomAgents({ three = null, room = null, agents = [], source = nu
 function hwSyncRoom(current, { room = null, three = null, agents = [], source = null, tier = "high", reducedMotion = false, mount = aaMountAgentAvatars } = {}) {
   if (current && current.room === room) return current;
   if (current) current.dispose();
+  if (h5IsOpsRoom(room) && agents?.length) return h5MountOpsRoom({ three, room, agents, source, tier, reducedMotion, mount }); // HIVE-5: the hive's own room
   if (!room || !hwIsRobotRoom(room) || !agents?.length) return null;
   return hwMountRoomAgents({ three, room, agents, source, tier, reducedMotion, mount });
 }
@@ -174729,6 +175370,9 @@ function hvMount({ THREE = null, root = null, parish, el = null, pos = () => nul
 // AGENT-AVATARS: the software agents embodied at the robot sites.
 
 // HIVE-IN-WORLD: the hive's agents inside the robotics rooms, one door with the exterior, and the return into the room.
+
+
+// HIVE-5: the console link (the hive's operations room comes through hwSyncRoom).
 
 
 
@@ -175878,7 +176522,8 @@ function hd4ApplyLook(look) {
  * handle used to be the THREE.Scene itself: it stays reachable as `__parishTest.threeScene`, and the old readers' calls
  * (traverse, getObjectByName, getObjectById, children) are delegated to it, so check_harvest's live leg reads it as before. */
 const fxSceneHandle = (siteId, shot = "wide", look = null) => {
-  // ENV-HD-3: the three busiest non-robot sites take two establishing shots each ("wide", "street"), by day or night
+  // ENV-HD-3: the three busiest non-robot sites take two establishing shots each ("wide", "street"), by day or night;
+  // ENV-HD-5: so do the busiest park, fire station, hospital and school (HD3_SCENE_SITES, seven in all)
   const hd3 = HD3_SCENE_SITES.find((s) => s.id === siteId);
   if (hd3) {
     if (hd3.parish !== parish.id) return { ok: false, parish: hd3.parish, href: `?parish=${encodeURIComponent(hd3.parish)}&scene=${encodeURIComponent(siteId)}:${shot}${look ? `:${look}` : ""}` };
@@ -175907,7 +176552,8 @@ for (const k of ["traverse", "getObjectByName", "getObjectById"]) fxSceneHandle[
 Object.defineProperty(fxSceneHandle, "children", { get: () => scene.children });
 window.__parishTest.threeScene = scene;
 window.__parishTest.scene = fxSceneHandle;
-/** Every establishing-shot preset the scene handle frames: ROBO-EXTERIORS' 12 (six robot sites x wide/door) + ENV-HD-3's 6. */
+/** Every establishing-shot preset the scene handle frames: ROBO-EXTERIORS' 12 (six robot sites x wide/door) + ENV-HD-3's and
+ *  ENV-HD-5's 14 (seven non-robot sites x wide/street). */
 window.__parishTest.scenePresets = () => [
   ...NP_PARISHES.flatMap((p) => { try { return fxSitesFor(p).flatMap((s) => FX_SHOTS.map((shot) => ({ siteId: s.id, shot, parish: p.id }))); } catch { return []; } }),
   ...hd3ScenePresets(),
@@ -176017,7 +176663,12 @@ window.__parishTest.vbridge = vbMountDispatch($("menu-drills"), { reducedMotion:
 // (profiles.js namespaces the key; never uploaded; auth.js signOut clears it). Demo, K-12 and signed-out sessions keep nothing.
 var h3Prefs = (() => { try { return h3Settings({ storage: gtStorage(), signals: dxReadSignals(), profile: gtProfile(), demo: npParams.has("demo") }); } catch (_) { return null; } })();
 window.__parishTest.hivePrefs = h3Prefs;
-window.__parishTest.hive = (() => { try { let ok = false; try { ok = !npParams.has("demo") && dxEligibility(dxReadSignals(), { stage: "offer" }).eligible === true; } catch (_) { ok = false; } return ok ? ohMountHive($("menu-drills"), { reducedMotion: npReduced, audit: ent3AuditAppend, seed: 1, settings: h3Prefs, onTalk: (id, on) => { if (on) { aaWorld?.talkStart(id); hwRoomMount?.avatars?.talkStart(id); } else { aaWorld?.talkEnd(id); hwRoomMount?.avatars?.talkEnd(id); } } }) : null; } catch (_) { return null; } })();
+window.__parishTest.hive = (() => { try { let ok = false; try { ok = !npParams.has("demo") && dxEligibility(dxReadSignals(), { stage: "offer" }).eligible === true; } catch (_) { ok = false; } return ok ? ohMountHive($("menu-drills"), { reducedMotion: npReduced, audit: ent3AuditAppend, seed: 1, settings: h3Prefs, onTalk: (id, on, line) => { const t = line?.text ?? null; if (on) { aaWorld?.talkStart(id, t); hwRoomMount?.avatars?.talkStart(id, t); } else { aaWorld?.talkEnd(id, t); hwRoomMount?.avatars?.talkEnd(id, t); } }, onWord: (id, charIndex, line) => { const t = line?.text ?? null; aaWorld?.talkWord(id, charIndex, t); hwRoomMount?.avatars?.talkWord(id, charIndex, t); } }) : null; } catch (_) { return null; } })();
+// HIVE-5 (docs/consoles/HIVE-5.md): the console link. Off until the learner turns "Show on the console (this device)" on in the hive
+// panel; then the panel's hive reaches the instructor console open in this browser (a same-origin BroadcastChannel: nothing uploaded,
+// nothing stored, never remembered), and leaving the page turns it off. Only where the hive panel is mounted (its own gate).
+var h5Live = (() => { try { const p = window.__parishTest.hive; if (!p?.hive) return null; const pub = h5LivePublisher({ hive: p.hive }); h5MountLiveToggle(p, pub); addEventListener("pagehide", () => pub.set(false)); return pub; } catch (_) { return null; } })();
+window.__parishTest.hiveLive = h5Live;
 window.__parishTest.vbColearn = vbProvider;
 // AGENT-AVATARS (docs/consoles/AGENT-AVATARS.md): the software agents embodied at this map's robot sites — the four VBRIDGE
 // personas over the agent-jobs panel's job stream (the client asks, the governor checks, the provider walks to a running job's
@@ -176028,6 +176679,9 @@ window.__parishTest.vbColearn = vbProvider;
 var h3ScenePts = new Map();
 var aaSiteAt = (id) => { const h = h3ScenePts.get(id); if (h) return h; const s = rbWorld?.sites?.find((x) => x.id === id); return s ? { x: s.position[0], y: s.y, z: s.position[1] } : null; };
 var aaVbSource = (() => { try { return window.__parishTest.vbridge ? aaVbridgeSource(window.__parishTest.vbridge) : null; } catch (_) { return null; } })();
+// AVATARS-HD-2: with voice on, a figure's light and mouth wait for the voice's onstart while the panel's on-device voice holds the line
+// (the controller's pending), and follow its word boundaries (onWord above); captions show when the line starts, as before.
+var aaVoiced = (id, text) => { try { return window.__parishTest?.hive?.voiceController?.pending?.(id, text) === true; } catch (_) { return false; } };
 // HIVE-IN-WORLD: the agents' walks go round the page's own collider boxes (the walk's colliders: CITYWORKS or NEWTON's massing,
 // parked vehicles, the robotics buildings), and a standing slot inside one is skipped.
 var hwWalk = (() => { try { const cache = new Map(); return hwRouter((x0, z0, x1, z1) => hwBoxesIn(wkColliders, parish, x0, z0, x1, z1, { cache })); } catch (_) { return null; } })();
@@ -176035,7 +176689,7 @@ var aaWorld = !rbWorld?.sites?.length ? null : (() => { // a map with no robot s
   try {
     const hive = window.__parishTest.hive?.hive ?? null; // HIVE-IN-WORLD: the hive itself (on, agents), not the panel's api
     const hiveAgents = hive ? (typeof hive.agents === "function" ? hive.agents() : hive.agents) ?? [] : [];
-    return aaMountAgentAvatars({ three: THREE, parent: root, agents: [...hiveAgents, ...aaVbridgeAgents(rbWorld?.sites?.[0]?.id ?? null)], source: [hive, aaVbSource].filter(Boolean), siteAt: aaSiteAt, reducedMotion: npReduced, tier: npTierName, hd: true /* AVATARS-HD: the high-detail figure, desktop high tier only */, groundAt: (x, z) => Math.max(npHeightAt(parish, x, z), 0), spotFor: (_a, id) => h3ScenePts.get(id) ?? null, route: hwWalk?.route ?? null, blocked: hwWalk?.blocked ?? null });
+    return aaMountAgentAvatars({ three: THREE, parent: root, agents: [...hiveAgents, ...aaVbridgeAgents(rbWorld?.sites?.[0]?.id ?? null)], source: [hive, aaVbSource].filter(Boolean), siteAt: aaSiteAt, reducedMotion: npReduced, tier: npTierName, hd: true /* AVATARS-HD: the high-detail figure, desktop high tier only */, voiced: aaVoiced, groundAt: (x, z) => Math.max(npHeightAt(parish, x, z), 0), spotFor: (_a, id) => h3ScenePts.get(id) ?? null, route: hwWalk?.route ?? null, blocked: hwWalk?.blocked ?? null });
   } catch (_) { return null; }
 })();
 window.__parishTest.agentAvatars = aaWorld;
@@ -176043,9 +176697,11 @@ window.__parishTest.agentAvatars = aaWorld;
 // agent spots (in the room's group, facing the spot's way) and the hive's captions show over them; one mount per open room, kept
 // in step by hwSync (every frame, and right after an enter). Only when the hive is mounted (signed in, adult, not K-12, not the demo).
 var hwRoomMount = null;
+// AVATARS-HD-2: the rooms' figures are the room level of the high-detail figure on high (inside IX_BUDGET), and wait for the voice too.
+var aaRoomMount = aaRoomAvatarMount({ voiced: aaVoiced });
 function hwSync() {
   const hv = h3Scene?.relay ?? window.__parishTest?.hive?.hive ?? null; // HIVE-3: the scene's paced hive while it plays
-  hwRoomMount = hwSyncRoom(hwRoomMount, { room: ixWorld.room, three: THREE, agents: hv?.agents ?? [], source: hv, tier: npTierName, reducedMotion: npReduced });
+  hwRoomMount = hwSyncRoom(hwRoomMount, { room: ixWorld.room, three: THREE, agents: hv?.agents ?? [], source: hv, tier: npTierName, reducedMotion: npReduced, mount: h5IsOpsRoom(ixWorld.room) ? undefined : aaRoomMount }); // the ops room keeps HIVE-5's lightened standard figure: seven room-level HD figures would take it to 8,508 triangles, over its 6,000
   return hwRoomMount;
 }
 // A station launched from a robotics room comes back with #...&ixr=<style>: stand at that room's door and go back inside.
