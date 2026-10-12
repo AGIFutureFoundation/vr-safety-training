@@ -330,6 +330,17 @@ APPS = {
             SHARED / "av-sprites.js",
             SHARED / "oh-hive-data.js",  # OMEGA-HIVE: the hive roster the governance tab shows (data only)
             SHARED / "aa-agent-portraits.js",  # AGENT-AVATARS: the agent roster's portraits on the governance tab (read at render time)
+            # HIVE-4: the Omega Hive tab replays the hive's seeded day on the device (read-only): the robot env and VBRIDGE's
+            # governor and bridge the hive runs over, the hive's words and the hive, then the tab.
+            SHARED / "robot.js",
+            SHARED / "robot-embodiment.js",
+            SHARED / "rb-env.js",
+            SHARED / "vb-shared-data.js",
+            SHARED / "vb-governor.js",
+            SHARED / "vb-bridge.js",
+            SHARED / "oh-say.js",
+            SHARED / "oh-hive.js",
+            WEBXR / "instructor/js/h4-hive.js",
             SHARED / "account.js",
             SHARED / "controls.js",
             WEBXR / "instructor/js/app.js",

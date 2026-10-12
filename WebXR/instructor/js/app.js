@@ -25,6 +25,8 @@ import { dnMountView } from "./dean.js";
 // ENTERPRISE-3 (docs/enterprise.md section 6): the Data governance tab — consent registry, dataset cards, lineage, fleet, revoke, audit, billing status.
 import { ent3MountGovernanceView } from "./governance.js";
 import { OH_AGENTS } from "../../shared/oh-hive-data.js"; // OMEGA-HIVE: the hive roster for the governance tab (AGENT-AVATARS draws the portraits)
+// HIVE-4: the Omega Hive tab (read-only, local: a replay of the hive's seeded day, its refusals and the evals JSON).
+import { h4MountHiveTab } from "./h4-hive.js";
 import { PP_PROGRAMMES } from "../../shared/passport-programmes.js";
 
 // The instructor console. It owns no simulation and no records: it listens to
@@ -577,7 +579,7 @@ fetch("../flows/index.json")
 // ---------------------------------------------------------------------- views
 
 function render() {
-  for (const [name, tab, panel] of [["live", "tab-live", "view-live"], ["roster", "tab-roster", "view-roster"], ["log", "tab-log", "view-log"], ["cohort", "tab-cohort", "view-cohort"], ["billing", "tab-billing", "view-billing"], ["dean", "tab-dean", "view-dean"], ["governance", "tab-governance", "view-governance"]]) {
+  for (const [name, tab, panel] of [["live", "tab-live", "view-live"], ["roster", "tab-roster", "view-roster"], ["log", "tab-log", "view-log"], ["cohort", "tab-cohort", "view-cohort"], ["billing", "tab-billing", "view-billing"], ["dean", "tab-dean", "view-dean"], ["governance", "tab-governance", "view-governance"], ["hive", "tab-hive", "view-hive"]]) {
     $(tab).setAttribute("aria-selected", String(view === name));
     $(panel).hidden = view !== name;
   }
@@ -586,7 +588,8 @@ function render() {
   if (view === "log") renderLog();
 }
 
-function setView(next) { view = next; render(); }
+var h4Tab = null; // HIVE-4: mounted the first time its tab opens (the replay runs then)
+function setView(next) { view = next; if (next === "hive" && !h4Tab) h4Tab = h4MountHiveTab($("h4-root")); render(); }
 
 $("tab-live").addEventListener("click", () => setView("live"));
 $("tab-roster").addEventListener("click", () => setView("roster"));
@@ -595,6 +598,7 @@ $("tab-cohort").addEventListener("click", () => setView("cohort"));
 $("tab-billing").addEventListener("click", () => setView("billing"));
 $("tab-dean").addEventListener("click", () => setView("dean"));
 $("tab-governance").addEventListener("click", () => setView("governance"));
+$("tab-hive").addEventListener("click", () => setView("hive"));
 
 $("send").addEventListener("click", () => {
   const text = $("note").value.trim();
