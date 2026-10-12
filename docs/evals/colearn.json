@@ -810,6 +810,82 @@
         "meanSteps": 114.8,
         "modelHash": "2f89fed7c0872dc7"
       }
-    ]
+    ],
+    "pathFeatures": {
+      "scenario": "rb-amr-fleet-routing#hard",
+      "featureSet": "amr-path",
+      "rollouts": 20,
+      "labels": "the scripted expert's action (rb-env's planner at skill 1) on each state the clone visits; not a person's correction",
+      "aliasing": {
+        "rows": 15548,
+        "vectors": 99,
+        "ambiguousVectors": 32,
+        "rowsOnAmbiguousVectors": 13390,
+        "ceiling": 0.745
+      },
+      "seeds": "training 800100–800519; held-out 7001–7060",
+      "rounds": [
+        {
+          "round": 0,
+          "labelledStates": 0,
+          "rows": 1291,
+          "n": 60,
+          "success": 0.15,
+          "clean": 0.967,
+          "meanSteps": 102.6,
+          "modelHash": "ef64261633f9189e"
+        },
+        {
+          "round": 1,
+          "labelledStates": 2193,
+          "rows": 4466,
+          "n": 60,
+          "success": 0.233,
+          "clean": 0.983,
+          "meanSteps": 95.5,
+          "modelHash": "c624229a9d77592c"
+        },
+        {
+          "round": 2,
+          "labelledStates": 3955,
+          "rows": 7308,
+          "n": 60,
+          "success": 0.35,
+          "clean": 0.65,
+          "meanSteps": 81.533,
+          "modelHash": "3ae92602ddc62676"
+        },
+        {
+          "round": 3,
+          "labelledStates": 5506,
+          "rows": 10910,
+          "n": 60,
+          "success": 0.133,
+          "clean": 0.917,
+          "meanSteps": 104.333,
+          "modelHash": "21a10366bcc3e2f8"
+        },
+        {
+          "round": 4,
+          "labelledStates": 7282,
+          "rows": 14380,
+          "n": 60,
+          "success": 0.4,
+          "clean": 0.9,
+          "meanSteps": 75.5,
+          "modelHash": "5b364de12192f7d5"
+        },
+        {
+          "round": 5,
+          "labelledStates": 8602,
+          "rows": 16839,
+          "n": 60,
+          "success": 0.417,
+          "clean": 0.9,
+          "meanSteps": 73.75,
+          "modelHash": "96e5e5cb24f32003"
+        }
+      ]
+    }
   }
 }

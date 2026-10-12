@@ -65,7 +65,9 @@ export async function colEvalAll() {
       pairs: "200 synthetic pairs per scenario (150 to fit, 50 held out), each two runs of one seed by the scripted stand-in at two skills; labelled synthetic. A learner's consented local pairs join the fit only through rt6LocalPairs (0 here: no person's pairs exist)",
       scenarios: ["rb-amr-fleet-routing", "rb-amr-fleet-routing#hard"].map((sc) => rt6EvalPreference(sc)),
     },
-    dagger: rt6Dagger("rb-amr-fleet-routing#hard", { rounds: 5, rollouts: 20 }),
+    // The same rounds with COLEARN's AMR features plus four route features (col-learn.js COL_FEATURE_SETS["amr-path"], opt-in):
+    // measured once, after the aliasing figure above pointed at the features; COLEARN's default clone is unchanged.
+    dagger: { ...rt6Dagger("rb-amr-fleet-routing#hard", { rounds: 5, rollouts: 20 }), pathFeatures: rt6Dagger("rb-amr-fleet-routing#hard", { rounds: 5, rollouts: 20, featureSet: "amr-path" }) },
   };
 }
 

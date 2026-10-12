@@ -219,8 +219,8 @@ export function rt6EvalPreference(sc, { pairs = 200, trainPairs = 150, demos = 4
 /** How much of the expert's labelling the clone's features can express: group the labelled rows by feature vector;
  * `ceiling` is the share of rows that agree with their vector's most common label, the best agreement any policy over
  * these features could reach on these states. AMR rows are per robot (colF's perRobot), as COLEARN trains them. */
-export function rt6Aliasing(sc, labelled) {
-  const F = colF(sc);
+export function rt6Aliasing(sc, labelled, featureSet = null) {
+  const F = colF(sc, featureSet);
   if (!F?.perRobot) return null;
   const by = new Map();
   let rows = 0;
@@ -251,12 +251,12 @@ export const RT6_DAGGER_LABELS = "the scripted expert's action (rb-env's planner
  * seeds, labels every visited state with the expert's action, aggregates, retrains (every row kept: maxPoints is lifted
  * so no labelled state is subsampled away) and scores on the held-out seeds.
  */
-export function rt6Dagger(sc, { rounds = 5, rollouts = 20, demos = 40, seed = 1, heldOut = 60, maxPoints = 1000000 } = {}) {
+export function rt6Dagger(sc, { rounds = 5, rollouts = 20, demos = 40, seed = 1, heldOut = 60, maxPoints = 1000000, featureSet = null } = {}) {
   const eps = colSyntheticDemos(sc, { n: demos, seed });
   const { demos: ds } = colDemosFromEpisodes(eps, sc);
   const seeds = colHeldOut(heldOut);
   const agg = [];
-  let model = colTrain(sc, ds, { seed, onlySuccessful: true, maxPoints });
+  let model = colTrain(sc, ds, { seed, onlySuccessful: true, maxPoints, featureSet });
   const out = [];
   const score = (round) => out.push({ round, labelledStates: agg.length, rows: model.rows.length, ...colEvalPolicy(sc, () => colPolicy(model), { seeds }), modelHash: colHash(model) });
   score(0);
@@ -273,8 +273,8 @@ export function rt6Dagger(sc, { rounds = 5, rollouts = 20, demos = 40, seed = 1,
         if (st.done) break;
       }
     }
-    model = colTrain(sc, [...ds, { id: "rt6-dagger-labels", source: "synthetic", success: true, clean: true, steps: agg }], { seed, onlySuccessful: true, maxPoints });
+    model = colTrain(sc, [...ds, { id: "rt6-dagger-labels", source: "synthetic", success: true, clean: true, steps: agg }], { seed, onlySuccessful: true, maxPoints, featureSet });
     score(r);
   }
-  return { scenario: sc, rollouts, labels: RT6_DAGGER_LABELS, aliasing: rt6Aliasing(sc, agg), seeds: `training ${RT6_DAGGER_SEED0 + 100}–${RT6_DAGGER_SEED0 + rounds * 100 + rollouts - 1}; held-out ${seeds[0]}–${seeds[seeds.length - 1]}`, rounds: out };
+  return { scenario: sc, ...(featureSet ? { featureSet } : {}), rollouts, labels: RT6_DAGGER_LABELS, aliasing: rt6Aliasing(sc, agg, featureSet), seeds: `training ${RT6_DAGGER_SEED0 + 100}–${RT6_DAGGER_SEED0 + rounds * 100 + rollouts - 1}; held-out ${seeds[0]}–${seeds[seeds.length - 1]}`, rounds: out };
 }
