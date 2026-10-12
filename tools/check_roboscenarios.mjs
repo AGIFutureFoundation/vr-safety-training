@@ -25,6 +25,7 @@ import { rbEnv, rbRollout, rbPolicy } from "../WebXR/shared/rb-env.js";
 import { colRandomPolicy, colHeldOut, COL_SCENARIOS, colSyntheticDemos } from "../WebXR/shared/col-learn.js";
 import { RT_TASKS, RT_TASK_IDS, rtRecordTakes } from "../WebXR/shared/rt-teleop.js";
 import { rt7ReactivePolicy, RT7_REACTIVE_FIELDS } from "../WebXR/shared/rt7-learn.js";
+import { rt8ReactivePolicy, RT8_SIDESTEP_K } from "../WebXR/shared/rt8-learn.js";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 let passes = 0, failures = 0;
@@ -217,16 +218,21 @@ check("hard variants with an AGENTGYM baseline in the robotics supplement (rando
   const out = [];
   for (const id of ids) {
     const row = sup.perScenario?.[id];
-    ok(row?.random && row?.expert && row?.reactive && row.retrieval === null && row["retrieval-ask"] === null, `${id}: no baseline row`);
+    ok(row?.random && row?.expert && row?.reactive && row["reactive-sidestep"] && row.retrieval === null && row["retrieval-ask"] === null, `${id}: no baseline row`);
     const live = (mk) => sup.scenarioConfig.seeds.filter((seed) => { const env = rbEnv(id, { seed }); return rbRollout(env, { seed, policy: mk(env, seed) }).summary.passed; }).length;
     const lr = live((env, seed) => colRandomPolicy(id, seed)), le = live((env, seed) => rbPolicy(env, { skill: 1, seed })), lx = live(() => rt7ReactivePolicy(id));
     ok(lr === row.random.passed && le === row.expert.passed && lx === row.reactive.passed && row.expert.of === sup.scenarioConfig.seeds.length, `${id}: file random ${row.random.passed} / reactive ${row.reactive.passed} / expert ${row.expert.passed}, live ${lr} / ${lx} / ${le}`);
-    out.push(`${id} random ${row.random.passed}/${row.random.of}, reactive ${row.reactive.passed}/${row.reactive.of}, expert ${row.expert.passed}/${row.expert.of}`);
+    // ROBOTRAIN-8: the reactive agent with wait-then-sidestep (and a two-cell pallet look-ahead), re-measured live too.
+    const ls = live(() => rt8ReactivePolicy(id));
+    ok(ls === row["reactive-sidestep"].passed, `${id}: file reactive-sidestep ${row["reactive-sidestep"].passed}, live ${ls}`);
+    out.push(`${id} random ${row.random.passed}/${row.random.of}, reactive ${row.reactive.passed}/${row.reactive.of}, reactive-sidestep ${row["reactive-sidestep"].passed}/${row["reactive-sidestep"].of}, expert ${row.expert.passed}/${row.expert.of}`);
   }
   // ROBOTRAIN-7: the reactive agent reads only its declared fields (the observation is cut down before any rule runs) and has no planner.
   const rsrc = readFileSync(join(ROOT, "WebXR/shared/rt7-learn.js"), "utf8").split("// ================================================================ a non-privileged reactive agent")[1].split("// ================================================================ robot-run ratings")[0];
   ok(Object.keys(RT7_REACTIVE_FIELDS).length === 3 && /const o = see\(o0\)/.test(rsrc) && !/expert|rbPolicy|queue|prev\.set|colPathMove|colDetour/.test(rsrc), "the reactive agent must read only the projected observation and carry no search or expert call");
-  return `${ids.length} of ${ids.length} hard variants baselined: ${out.join("; ")}; the reactive agent reads only its declared fields, with no planner; retrieval and retrieval-ask n/a (no step text in a gym observation)`;
+  const r8src = readFileSync(join(ROOT, "WebXR/shared/rt8-learn.js"), "utf8").split("// ================================================================ item 4: a reactive agent with wait-then-sidestep")[1]?.split("// ================================================================ end of the reactive agent")[0] ?? "";
+  ok(RT8_SIDESTEP_K === 3 && r8src.length > 500 && /const o = see\(o0\)/.test(r8src) && /RT7_REACTIVE_FIELDS\[sc\]/.test(r8src) && !/expert|rbPolicy|queue|prev\.set|colPathMove|colDetour|colPolicy|colTrain/.test(r8src), "the sidestep agent must read only the projected observation and carry no search, expert call or learning");
+  return `${ids.length} of ${ids.length} hard variants baselined: ${out.join("; ")}; the reactive agents read only their declared fields, with no planner (sidestep k = ${RT8_SIDESTEP_K}); retrieval and retrieval-ask n/a (no step text in a gym observation)`;
 });
 
 // 8. hygiene
