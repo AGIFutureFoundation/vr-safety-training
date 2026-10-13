@@ -54,7 +54,7 @@ Every line is still built from the station's own steps (title and cue) or the st
 
 - `check_lx` 17 passed, 0 failed. `check_lessons`: all pass. `check_newton` 60 checks, all pass. `check_imports`: all 1,148 modules pass.
 - `check_interface` (UX_PORT=9177): OK, **21 passed, 0 failed** (177.6 s at load 30; mounts 44/44 ids present, every mount reachable from its tab 21/21 with `menu-lx`).
-- `check_parse`: CHECK_PARSE
+- `check_parse`: all 2,733 shipped modules parse (run on 99454c74; the three later commits changed `lx-lessons.js` and `app.js` by a few lines, each passed `node --check`).
 - Not run: `tools/check_all.mjs` (the coordinator gates).
 
 ## Stills (`$SP/loop10/lx2/`, each looked at)
@@ -70,4 +70,4 @@ Every line is still built from the station's own steps (title and cue) or the st
   `corrections` and `hazards` per step; interruption misses are not mapped to steps.
 - Item 3's room figure is a software agent standing at the room's first agent spot; the lesson's station is the pack's pad station
   for that room (its deep link is on the pad). The hive's own room mounts (`hwSyncRoom`) are untouched and only apply to robotics rooms.
-- Item 5 is measured, not split. The saving (75 KB of a 8.9 MB page) is under 1 %.
+- Item 5 is measured, not split: the saving (75,505 B of an 8.9 MB page) is under 1 %, and the split needs a registry indirection in the data module (the bundler refuses an unlisted import). The design is in `lx2-next.md` item 1 for a round that wants it.
