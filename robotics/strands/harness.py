@@ -15,7 +15,10 @@ ARENA-2's committed declaration (docs/evals/arena-declared-r7.json) and this har
 
 Stations (STRANDS-2): the three robot stations run through the same bridge on development seeds only (the arena's
 own convention for stations in development is seeds 1-3). They were not in this harness's held-out declaration, so a
-held-out seed on a station is refused. Round 8's protocol-3 seeds 7241-7300 belong to ROBOLEARN-9 and are refused.
+held-out seed on a station is refused. Round 8's protocol-3 seeds 7241-7300 belong to ROBOLEARN-9: they are refused,
+except (STRANDS-3) for the one parity check its declaration (docs/evals/arena-declared-r8.json, commit ec8bf4c5,
+consumers.STRANDS-2) allows: bc and ra-lm-h on gym scenarios, with this harness's own committed declaration
+(docs/evals/strands-declared-r9.json) and the claw's committed record (docs/evals/claw3.json), once, never tuned.
 """
 
 from __future__ import annotations
@@ -55,6 +58,13 @@ STATION_RULES: List[Dict[str, Any]] = [
 ]
 STATION_DEV_SEEDS = [1, 2, 3]
 PROTOCOL3_SEEDS = list(range(7241, 7301))
+# STRANDS-3: the one protocol-3 parity check ec8bf4c5's consumers clause allows this harness.
+PROTOCOL3_ARENA_DECLARED = "docs/evals/arena-declared-r8.json"
+PROTOCOL3_ARENA_COMMIT = "ec8bf4c5"
+PROTOCOL3_CLAW = "docs/evals/claw3.json"
+PROTOCOL3_STRANDS_DECLARED = "docs/evals/strands-declared-r9.json"
+PROTOCOL3_POLICIES = ["bc", "ra-lm-h"]
+PROTOCOL3_BLOCK = "protocol3Parity"
 
 
 def pick_scenario(instruction: str, tool: Optional[SimRobot] = None) -> Dict[str, Any]:
@@ -180,13 +190,52 @@ def _committed(path: str) -> Optional[str]:
         return None
 
 
-def seed_gate(seeds: Sequence[int], scenarios: Optional[Sequence[str]] = None) -> Dict[str, Any]:
+def _is_ancestor(commit: str) -> bool:
+    try:
+        out = subprocess.run(["git", "merge-base", "--is-ancestor", commit, "HEAD"], cwd=str(ROOT), capture_output=True, text=True, timeout=20,
+                             env={"PATH": "/usr/bin:/bin:/usr/local/bin"})
+        return out.returncode == 0
+    except Exception:  # noqa: BLE001
+        return False
+
+
+def _protocol3_gate(s: set, stations: List[str], policies: Optional[Sequence[str]]) -> Dict[str, Any]:
+    """The one parity check ec8bf4c5 allows: bc and ra-lm-h, gym scenarios, seeds within 7241-7300, every cited file
+    committed (ec8bf4c5 an ancestor of HEAD), and no protocol3Parity block in strands.json yet. Anything else is refused."""
+    who = "seeds 7241-7300 are round 8's protocol-3 held-out seeds (ROBOLEARN-9, ec8bf4c5)"
+    if not s <= set(PROTOCOL3_SEEDS):
+        return {"ok": False, "reason": f"{who}; a run must stay within them"}
+    if stations:
+        return {"ok": False, "reason": f"{who}; the declared parity check is gym only ({', '.join(stations)} refused)"}
+    if policies is None or not policies or not set(policies) <= set(PROTOCOL3_POLICIES):
+        return {"ok": False, "reason": f"{who}; the declared parity check names only {', '.join(PROTOCOL3_POLICIES)} (got {', '.join(policies or []) or 'no policies'})"}
+    if not _is_ancestor(PROTOCOL3_ARENA_COMMIT):
+        return {"ok": False, "reason": f"{who}; the declaration {PROTOCOL3_ARENA_COMMIT} is not on this branch"}
+    claw, mine = _committed(PROTOCOL3_CLAW), _committed(PROTOCOL3_STRANDS_DECLARED)
+    if not claw:
+        return {"ok": False, "reason": f"{who}; the claw's record ({PROTOCOL3_CLAW}) is not committed, so there is nothing to compare with"}
+    if not mine:
+        return {"ok": False, "reason": f"{who}; this harness's declaration ({PROTOCOL3_STRANDS_DECLARED}) is not committed"}
+    try:
+        decl = json.loads((ROOT / PROTOCOL3_STRANDS_DECLARED).read_text())
+    except Exception:  # noqa: BLE001
+        decl = {}
+    if not str(decl.get("arenaDeclaration", {}).get("commit", "")).startswith(PROTOCOL3_ARENA_COMMIT):
+        return {"ok": False, "reason": f"{who}; this harness's declaration does not cite {PROTOCOL3_ARENA_COMMIT}"}
+    prev = json.loads(EVAL_PATH.read_text()) if EVAL_PATH.exists() else {}
+    if prev.get(PROTOCOL3_BLOCK):
+        return {"ok": False, "reason": f"the declared protocol-3 parity check has already run once (docs/evals/strands.json {PROTOCOL3_BLOCK}); it is never run again or tuned"}
+    return {"ok": True, "split": PROTOCOL3_BLOCK, "declarations": {"arena": PROTOCOL3_ARENA_COMMIT, "claw": claw, "strands": mine}}
+
+
+def seed_gate(seeds: Sequence[int], scenarios: Optional[Sequence[str]] = None, policies: Optional[Sequence[str]] = None) -> Dict[str, Any]:
     """Development seeds 1-20 always. Held-out 7181-7240 only with both declarations committed and no earlier run.
-    Stations: development seeds only (not in the held-out declaration). Protocol-3 seeds 7241-7300: never here."""
+    Stations: development seeds only (not in the held-out declaration). Protocol-3 seeds 7241-7300: only the one
+    declared parity check (_protocol3_gate), which needs ``policies``."""
     s = set(int(x) for x in seeds)
     stations = [sc for sc in (scenarios or []) if str(sc).startswith("rb-station-")]
     if s & set(PROTOCOL3_SEEDS):
-        return {"ok": False, "reason": "seeds 7241-7300 are round 8's protocol-3 held-out seeds; only ROBOLEARN-9 declares and runs them"}
+        return _protocol3_gate(s, stations, policies)
     if s <= set(DEV_SEEDS):
         return {"ok": True, "split": "dev"}
     if stations:
@@ -204,11 +253,52 @@ def seed_gate(seeds: Sequence[int], scenarios: Optional[Sequence[str]] = None) -
     return {"ok": False, "reason": "seeds must be development seeds 1-20, or exactly within the declared held-out range 7181-7240"}
 
 
+def parity_vs_claw(results: List[Dict[str, Any]], claw_path: Path = ROOT / PROTOCOL3_CLAW) -> Dict[str, Any]:
+    """Per (policy, scenario): the Python path's successes and rule breaks against the claw's record (claw3.json runs[].results[]),
+    as ec8bf4c5's consumers clause requires. Steps are reported beside them, not compared."""
+    claw = json.loads(claw_path.read_text())
+    rows, equal = [], 0
+    for r in results:
+        rec = next((x for run in claw.get("runs", []) if run.get("scenarioId") == r["scenarioId"] for x in run.get("results", []) if x.get("modelId") == r["modelId"]), None)
+        row = {"scenarioId": r["scenarioId"], "modelId": r["modelId"], "python": {"successes": r["successes"], "n": r["n"], "ruleBreaks": r["ruleBreaks"], "steps": r["stepsRun"]},
+               "claw": None if rec is None else {"successes": rec.get("k"), "n": rec.get("n"), "ruleBreaks": rec.get("ruleBreaks"), "steps": rec.get("steps")}}
+        row["equal"] = rec is not None and rec.get("k") == r["successes"] and rec.get("n") == r["n"] and rec.get("ruleBreaks") == r["ruleBreaks"]
+        equal += 1 if row["equal"] else 0
+        rows.append(row)
+    scs = sorted({r["scenarioId"] for r in results})
+    protocol = [s for s in claw.get("protocol", {}).get("scenarios", [])]
+    return {"record": PROTOCOL3_CLAW, "protocol": claw.get("protocol", {}).get("version"), "equal": equal, "of": len(rows), "rows": rows,
+            "scenariosCompared": scs, "scenariosNotRun": [s for s in protocol if s not in scs],
+            "note": "equal = successes, n and rule breaks match the claw's record for that policy and scenario; the scenarios not run have no simulated robot type in sim_robot.py"}
+
+
+def seed_sensitivity(results: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """Per (policy, station): the episode length per seed, how many distinct lengths there are, and how many seeds give a
+    different length or outcome from the first seed (STRANDS-3 item 2: do seeds change a station episode at all?)."""
+    out: Dict[str, Any] = {"rows": [], "seedsThatChangeAnEpisode": 0, "of": 0}
+    changed_seeds = set()
+    seeds_all = set()
+    for r in results:
+        per = r["perSeed"]
+        if not per:
+            continue
+        first = per[0]
+        steps = {str(p["seed"]): p["steps"] for p in per}
+        diff = [p["seed"] for p in per if p["steps"] != first["steps"] or p["success"] != first["success"] or p["ruleBreaks"] != first["ruleBreaks"]]
+        changed_seeds.update(diff)
+        seeds_all.update(p["seed"] for p in per)
+        out["rows"].append({"modelId": r["modelId"], "scenarioId": r["scenarioId"], "stepsBySeed": steps, "distinctLengths": len(set(steps.values())),
+                            "seedsDifferingFromFirst": len(diff), "of": len(per), "successes": r["successes"]})
+    out["seedsThatChangeAnEpisode"] = len(changed_seeds)
+    out["of"] = len(seeds_all)
+    return out
+
+
 def compare(policies: Sequence[str], scenarios: Sequence[str], seeds: Sequence[int], *, write: bool = True,
             path: Path = EVAL_PATH, log=None, block_key: Optional[str] = None) -> Dict[str, Any]:
     """Run every policy on every scenario over the seeds through the simulated robots; leaderboard rows to strands.json
     (in the block named by the seed split, or ``block_key``, e.g. "devStations")."""
-    gate = seed_gate(seeds, scenarios)
+    gate = seed_gate(seeds, scenarios, policies)
     if not gate["ok"]:
         raise PermissionError(gate["reason"])
     t0 = time.time()
@@ -244,6 +334,12 @@ def compare(policies: Sequence[str], scenarios: Sequence[str], seeds: Sequence[i
              "seconds": round(time.time() - t0, 1)}
     if gate["split"] == "heldOut":
         block["declarations"] = {"arena": gate["arenaDeclaration"], "strands": gate["strandsDeclaration"]}
+    if gate["split"] == PROTOCOL3_BLOCK:
+        block["declarations"] = gate["declarations"]
+        block["parity"] = parity_vs_claw(results)
+        block["once"] = "run once as declared in docs/evals/strands-declared-r9.json; never tuned; reported as measured"
+    if all(str(sc).startswith("rb-station-") for sc in scenarios):
+        block["seedSensitivity"] = seed_sensitivity(results)
     if write:
         doc = json.loads(path.read_text()) if path.exists() else {}
         doc.update({
