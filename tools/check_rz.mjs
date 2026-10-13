@@ -17,6 +17,14 @@
  *      than ATMOS's on any weather
  *   7. wiring: rz-surfaces.js before pa-palette.js in the bundle, the app applies the light table behind rzLevel()
  *
+ *   8. REALISM-2 street details (shared/rz-street.js): every chunk of every map on high and balanced inside the stated
+ *      budget (1 mesh; 1,500 / 600 triangles), 0 parts on a running lane, in water or in a building (re-tested here, not
+ *      trusted from the generator), the phone tier 0 parts, deterministic; one chunk's geometry on the vendored three.js;
+ *      the mount inert on the phone and in a headset browser; the app updates it beside the streets; the bundle order
+ *   9. REALISM-2 rooms and props: the pattern set's txSharedMat / paintedMat take the class on desktop high only through
+ *      the hook rzInstallSurfaces installs; off, they are byte for byte textures.js's defaults; explicit factors win;
+ *      the INTERIORS rooms' texture bytes are the same with the hook on and off
+ *
  *     node tools/check_rz.mjs
  */
 import { readFileSync } from "node:fs";
@@ -169,6 +177,131 @@ check(iZ > 0 && iL > 0 && iZ < iP, "bundle: rz-surfaces.js (and rz-light.js) bef
 const app = readFileSync(join(WEBXR, "parishes", "js", "app.js"), "utf8");
 check(/if \(rzLevel\(npTierName\)\) \{\s*\n\s*const rzL = rzLightFor\(/.test(app), "the app applies the exposure table behind rzLevel() (phone and headset keep their lights)");
 check(app.includes('sun.intensity = (night ? 0.12 : NP_TIMES[np.timeIdx] === "day" ? 1.1 : 0.6) * atDim;') && app.includes("hemi.intensity = (night ? 0.25 : 0.95) * atDim;"), "the phone's fixed lights are kept as they were");
+
+// 8. REALISM-2: street details
+const ST = await imp("shared/rz-street.js");
+{
+  const t8 = Date.now();
+  const BUD = ST.RZ_STREET_BUDGET.triangles;
+  let chunks = 0, withParts = 0, parts = { high: 0, balanced: 0, low: 0 }, worst = { high: 0, balanced: 0 }, badLane = 0, badWater = 0, badBuilding = 0, over = 0, notPrefix = 0, kinds = {};
+  const perMap = [];
+  for (const p of R.NP_PARISHES) {
+    let n = 0, w = 0;
+    for (let cz = 0; cz < E.NP_CHUNKS_PER_SIDE; cz++) for (let cx = 0; cx < E.NP_CHUNKS_PER_SIDE; cx++) {
+      chunks++;
+      const hi = ST.rzStreetForChunk(p, cx, cz, "high"), ba = ST.rzStreetForChunk(p, cx, cz, "balanced"), lo = ST.rzStreetForChunk(p, cx, cz, "low");
+      parts.high += hi.parts.length; parts.balanced += ba.parts.length; parts.low += lo.parts.length;
+      if (hi.parts.length) withParts++;
+      worst.high = Math.max(worst.high, hi.triangles); worst.balanced = Math.max(worst.balanced, ba.triangles);
+      if (hi.triangles > BUD.high || ba.triangles > BUD.balanced) over++;
+      for (const q of hi.parts) {
+        kinds[q.kind] = (kinds[q.kind] ?? 0) + 1;
+        if (E.npWaterAt(p, q.x, q.z)) badWater++;
+        if (ST.rzStreetOnLane(p, q.x, q.z, 0)) badLane++;
+        if (ST.rzStreetInBuilding(p, q.x, q.z, 0)) badBuilding++;
+      }
+      // balanced takes only the kinds its tier lists, each of them a part high also has
+      const hiKeys = new Set(hi.parts.map((q) => `${q.kind}|${q.x.toFixed(2)}|${q.z.toFixed(2)}`));
+      for (const q of ba.parts) if (!hiKeys.has(`${q.kind}|${q.x.toFixed(2)}|${q.z.toFixed(2)}`)) notPrefix++;
+      n += hi.parts.length; w = Math.max(w, hi.triangles);
+    }
+    perMap.push([p.id, n, w]);
+  }
+  check(over === 0, `street details: ${chunks} chunks over ${R.NP_PARISHES.length} maps, worst chunk high ${worst.high} <= ${BUD.high}, balanced ${worst.balanced} <= ${BUD.balanced} triangles (${over} over)`);
+  check(badLane === 0 && badWater === 0 && badBuilding === 0, `street details: ${parts.high} parts on high, 0 on a running lane (${badLane}), in water (${badWater}) or in a building (${badBuilding})`);
+  check(parts.low === 0 && BUD.low === 0 && ST.RZ_STREET_TIER_KINDS.low.length === 0, `street details: the phone tier places nothing (${parts.low})`);
+  check(notPrefix === 0 && parts.balanced <= parts.high, `street details: every balanced part is one of high's (${parts.balanced} of ${parts.high})`);
+  check(ST.RZ_STREET_BUDGET.meshes === 1, "street details: one mesh per chunk");
+  const empty = perMap.filter(([, n]) => n === 0).map(([id]) => id);
+  check(empty.length === 0, `street details: every map has parts (${perMap.length - empty.length} of ${perMap.length}${empty.length ? `; none on ${empty.join(", ")}` : ""})`);
+  const sorted = [...perMap].sort((a, b) => a[1] - b[1]);
+  note(`street details: ${withParts} of ${chunks} chunks carry parts; kinds ${JSON.stringify(kinds)}; fewest ${sorted[0][0]} ${sorted[0][1]}, most ${sorted[sorted.length - 1][0]} ${sorted[sorted.length - 1][1]}; ${Date.now() - t8} ms`);
+  for (const [id, n, w] of perMap.filter(([id]) => ["orleans", "sf-mission", "sf-marina"].includes(id))) note(`street details: ${id} ${n} parts, worst chunk ${w} triangles`);
+  // determinism and the geometry on the vendored three.js
+  const p0 = R.npParish("orleans"), a = ST.rzStreetForChunk(p0, 8, 8, "high"), b = ST.rzStreetForChunk(p0, 8, 8, "high");
+  check(JSON.stringify(a.parts) === JSON.stringify(b.parts), `street details: deterministic (orleans chunk 8,8: ${a.parts.length} parts, ${a.triangles} triangles)`);
+  let built = null, tri = 0;
+  for (const p of R.NP_PARISHES) { for (let cz = 0; cz < E.NP_CHUNKS_PER_SIDE && !built; cz++) for (let cx = 0; cx < E.NP_CHUNKS_PER_SIDE && !built; cx++) { const r = ST.rzStreetForChunk(p, cx, cz, "high"); if (r.parts.length >= 20) built = { p, cx, cz, r }; } if (built) break; }
+  if (built) {
+    const g = ST.rzStreetGeometry(THREE, built.r.parts);
+    tri = g.attributes.position.count / 3;
+    check(tri === built.r.triangles && !!g.attributes.color && !!g.attributes.normal, `street details: geometry of ${built.p.id} chunk ${built.cx},${built.cz} has ${tri} triangles = the declared ${built.r.triangles}, with colours and normals`);
+  } else check(false, "street details: a chunk with 20+ parts exists for the geometry test");
+  {
+    // contact AO: a bollard's and a drop kerb's ground vertices are darker than their top vertices
+    const g = ST.rzStreetGeometry(THREE, [{ kind: "bollard", x: 0, y: 0, z: 0, yaw: 0 }, { kind: "dropKerb", x: 5, y: 0, z: 0, yaw: 0, side: 1, top: 0.14 }]);
+    const P = g.attributes.position.array, C = g.attributes.color.array; let lo = 0, nLo = 0, hi = 0, nHi = 0;
+    for (let i = 0; i < P.length / 3; i++) { const y = P[i * 3 + 1], l = C[i * 3] + C[i * 3 + 1] + C[i * 3 + 2]; if (y < 0.02) { lo += l; nLo++; } else { hi += l; nHi++; } }
+    check(P.length / 9 === ST.RZ_STREET_PARTS.bollard.tris + ST.RZ_STREET_PARTS.dropKerb.tris && nLo > 0 && nHi > 0 && lo / nLo < (hi / nHi) * 0.9, `street details: contact AO baked (ground vertices ${(lo / nLo).toFixed(2)} vs upper ${(hi / nHi).toFixed(2)} summed RGB; ${P.length / 9} triangles)`);
+  }
+  // the mount
+  const root = new THREE.Group();
+  const mHi = ST.rzMountStreet({ THREE, root, parish: p0, tier: "high", ua: "Mozilla/5.0 (Windows NT 10.0)" });
+  mHi.update(E.npStartSite(p0).position[0], E.npStartSite(p0).position[1], 999);
+  const sHi = mHi.stats();
+  check(mHi.level === "high" && sHi.chunks === 25 && sHi.meshes <= sHi.chunks && sHi.parts > 0 && mHi.group.children.length === sHi.meshes, `street details mount (high, orleans start): ${sHi.chunks} chunks streamed, ${sHi.meshes} meshes, ${sHi.triangles} triangles, ${sHi.parts} parts`);
+  check(mHi.chunkStats().every((c) => c.meshes <= 1 && c.triangles <= BUD.high), "street details mount: every streamed chunk 1 mesh inside the budget");
+  check(mHi.group.children.every((m) => m.material.isMeshStandardMaterial && m.material.vertexColors && m.material.roughness === Z.RZ_SURFACES.concrete.rough), "street details mount: one Standard vertex-coloured material with concrete's roughness");
+  const mBa = ST.rzMountStreet({ THREE, root: new THREE.Group(), parish: p0, tier: "balanced", ua: "Mozilla/5.0 (Windows NT 10.0)" });
+  mBa.update(E.npStartSite(p0).position[0], E.npStartSite(p0).position[1], 999);
+  check(mBa.level === "balanced" && mBa.group.children.every((m) => m.material.isMeshLambertMaterial) && mBa.stats().triangles <= mHi.stats().triangles, `street details mount (balanced): Lambert, ${mBa.stats().triangles} triangles <= high's ${sHi.triangles}`);
+  const rLow = new THREE.Group(), mLo = ST.rzMountStreet({ THREE, root: rLow, parish: p0, tier: "low", ua: "Mozilla/5.0 (Windows NT 10.0)" });
+  mLo.update(0, 0, 999);
+  const rHs = new THREE.Group(), mHs = ST.rzMountStreet({ THREE, root: rHs, parish: p0, tier: "high", ua: "Mozilla/5.0 (X11; Linux x86_64) OculusBrowser/30.0" });
+  mHs.update(0, 0, 999);
+  check(mLo.level === null && rLow.children.length === 0 && mLo.stats().meshes === 0 && mHs.level === null && rHs.children.length === 0, "street details mount: inert on the phone and in a headset browser (no group added, no mesh)");
+  mHi.dispose(); check(mHi.group.children.length === 0 && root.children.length === 0, "street details mount: dispose removes everything");
+  // wiring
+  check(/const rzStreet = rzMountStreet\(\{ THREE, root, parish, tier: npTierName \}\);/.test(app) && (app.match(/rzStreet\.update\(/g) ?? []).length >= 5 && app.includes("rzStreet, // REALISM-2"), `the app mounts the street details beside the streets and updates them where the streets update (${(app.match(/rzStreet\.update\(/g) ?? []).length} calls)`);
+  const iS = bundler.indexOf('SHARED / "rz-street.js"'), iC = bundler.indexOf('SHARED / "cw-cityworks.js"'), iN = bundler.indexOf('SHARED / "np-parish.js"');
+  check(iS > iC && iS > iZ && iS > iN && iC > 0, "bundle: rz-street.js after cw-cityworks.js, rz-surfaces.js and np-parish.js");
+}
+
+// 9. REALISM-2: rooms and props through the pattern set
+{
+  const TX = await buildSuite(["shared/kit.js", "shared/textures.js", "shared/perf.js"], "export { txSharedMat, txMaterial, TX_SURFACE_HOOK, txResetTextures, textureStats, QUALITY, TX_PAINTERS, TX_PAINTER_IDS, PAINTER_IDS };", "rz-tx");
+  const H = TX.TX_SURFACE_HOOK;
+  const IX = await imp("shared/ix-interiors.js");
+  check(Z.rzInstallSurfaces("low", "", H) === null && H.classFor === null, "rooms/props: the hook is off on the phone tier");
+  check(Z.rzInstallSurfaces("balanced", "", H) === null && H.classFor === null, "rooms/props: the hook is off on balanced");
+  check(Z.rzInstallSurfaces("high", "Mozilla/5.0 (X11; Linux x86_64) OculusBrowser/30.0", H) === null && H.classFor === null, "rooms/props: the hook is off in a headset browser at high");
+  TX.txResetTextures();
+  const off = TX.txSharedMat("brickPaver", { seed: 3 }), offP = TX.txMaterial("teakDeck", { seed: 2 });
+  check(off.roughness === 0.9 && off.metalness === 0 && !off.userData.txSurface && offP.roughness === 0.8 && offP.metalness === 0.05 && !offP.userData.txSurface, `rooms/props: hook off, txSharedMat ${off.roughness}/${off.metalness} and txMaterial ${offP.roughness}/${offP.metalness} are textures.js's defaults`);
+  const statsOff = TX.textureStats();
+  const lvl = Z.rzInstallSurfaces("high", "Mozilla/5.0 (Windows NT 10.0)", H);
+  check(lvl === "high" && H.classFor === Z.rzSurfaceClass, "rooms/props: the hook is on for desktop high");
+  if (TX.QUALITY === "high") {
+    TX.txResetTextures();
+    const on = TX.txSharedMat("brickPaver", { seed: 3 }), onP = TX.txMaterial("teakDeck", { seed: 2 });
+    const statsOn = TX.textureStats(); // the same two materials as the off case, before anything else paints
+    const onM = TX.txSharedMat("rustPatina", { seed: 1 }), own = TX.txSharedMat("brickPaver", { seed: 3 }, { rough: 0.33, metal: 0.1 });
+    check(on.roughness === Z.RZ_SURFACES.brick.rough && on.metalness === Z.RZ_SURFACES.brick.metal && on.userData.txSurface === "brick", `rooms/props: txSharedMat("brickPaver") takes brick's ${on.roughness}/${on.metalness}`);
+    check(onP.roughness === Z.RZ_SURFACES.wood.rough && onP.metalness === Z.RZ_SURFACES.wood.metal && onP.userData.txSurface === "wood", `rooms/props: txMaterial("teakDeck") takes wood's ${onP.roughness}/${onP.metalness}`);
+    check(onM.roughness === Z.RZ_SURFACES.metal.rough && onM.metalness === Z.RZ_SURFACES.metal.metal, `rooms/props: txSharedMat("rustPatina") takes metal cladding's ${onM.roughness}/${onM.metalness}`);
+    check(own.roughness === 0.33 && own.metalness === 0.1 && !own.userData.txSurface, "rooms/props: a caller's own rough/metal win over the class");
+    const un = TX.txSharedMat("kelpBlade", { seed: 1 }); check(un.roughness === 0.9 && un.metalness === 0 && !un.userData.txSurface, "rooms/props: an unmapped painter (kelpBlade) keeps the defaults");
+    const idsMapped = TX.TX_PAINTER_IDS.filter((id) => !!Z.RZ_PAINTER_SURFACE[id]);
+    check(idsMapped.length >= 10 && idsMapped.every((id) => !!Z.RZ_SURFACES[Z.RZ_PAINTER_SURFACE[id]]), `rooms/props: ${idsMapped.length} of ${TX.TX_PAINTER_IDS.length} pattern-set painters map to a class, every class real`);
+    check(statsOn.pixels === statsOff.pixels && statsOn.canvases === statsOff.canvases, `rooms/props: the same materials paint the same texture bytes with the hook on and off (${statsOn.canvases} canvases, ${statsOn.pixels} pixels): the class changes factors, never a texture`);
+    const mapped = Object.keys(Z.RZ_PAINTER_SURFACE).filter((id) => !!TX.TX_PAINTERS?.[id] || Object.values(TX.PAINTER_IDS ?? {}).includes(id));
+    note(`rooms/props: ${mapped.length} pattern-set painters mapped to a class (${mapped.join(", ")})`);
+  } else note(`rooms/props: QUALITY is "${TX.QUALITY}" in this process; the on-case needs high (the app runs it at high)`);
+  // the INTERIORS rooms (ACCESS's shell, called not edited): their materials are their own, not the pattern set's, so the
+  // hook changes nothing in them — the same meshes, triangles and materials with it on and off, 0 materials classed
+  const roomsOf = () => { const site = { id: "t", name: "Test site", kind: "x", stations: ["s-a", "s-b"] }; const out = []; for (const id of Object.keys(IX.IX_STYLES)) { const room = IX.ixBuild(id, { three: THREE, tier: "high", site }); let mats = 0, classed = 0, tris = 0; room.group.traverse((o) => { if (o.isMesh && o.material) { mats++; if (o.material.userData?.txSurface) classed++; const g = o.geometry; tris += ((g.index ? g.index.count : g.attributes.position.count) / 3) * (o.isInstancedMesh ? o.count : 1); } }); out.push([id, room.meshes(), tris, mats, classed]); } return out; };
+  const rOn = roomsOf(); Z.rzInstallSurfaces("low", "", H); const rOff = roomsOf();
+  const sameRooms = JSON.stringify(rOn) === JSON.stringify(rOff), roomMats = rOn.reduce((a, r) => a + r[3], 0), roomClassed = rOn.reduce((a, r) => a + r[4], 0);
+  check(sameRooms, `rooms/props: the ${rOn.length} INTERIORS room styles build the same meshes, triangles and materials with the hook on and off (${roomMats} materials, ${roomClassed} through the pattern set; their factors are set by their own modules)`);
+  // the callers: how many pattern-set material calls take the class (no explicit rough and metal)
+  let calls = 0, take = 0;
+  for (const f of ["bayworld.js", "underwater.js", "fairway.js"]) {
+    const src = readFileSync(join(WEBXR, "shared", f), "utf8");
+    for (const m of src.matchAll(/tx(?:SharedMat|Material)\(\s*"([a-zA-Z]+)"/g)) { calls++; if (Z.RZ_PAINTER_SURFACE[m[1]]) take++; }
+  }
+  note(`rooms/props: ${take} of ${calls} pattern-set material calls with a literal painter (bayworld, underwater, fairway) name a mapped painter and take its class on desktop high unless they set their own factors`);
+  check(/rzInstallSurfaces\(npTierName, undefined, TX_SURFACE_HOOK\)/.test(app), "the app installs the class hook behind rzLevel (desktop high only)");
+}
 
 console.log(`check_rz: ${passes} passed, ${failures} failed (${Date.now() - t0} ms)`);
 process.exit(failures ? 1 : 0);

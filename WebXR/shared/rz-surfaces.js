@@ -3,13 +3,16 @@
 // the map from PALETTE's pixel painters (shared/textures.js TX_PX_PAINTERS) and the pattern set's painters to a class,
 // and one procedural, tileable detail map (canvas-free value noise, so it paints headless and in a worker alike).
 //
-// Seam (pure data and one painter; no three.js import, no DOM, no network):
+// Seam (pure data and one painter; no imports, no three.js, no DOM, no network):
 //   RZ_SURFACES[cls] -> { rough, metal, detail, grime, note }      the classes
 //   rzSurfaceOf(painterId) -> class id                               PALETTE pixel painter or pattern-set id -> class
 //   rzSurfaceFor(painterId) -> RZ_SURFACES entry (falls back to concrete)
 //   rzDetailPixels(px, seed) -> Uint8Array RGBA                      R fine grain, G grime blotches, B vertical streaks
 //   RZ_DETAIL_TIERS { high: 256, balanced: 0, low: 0 }               detail map size per tier (0: none)
 //   rzShade(h, s, streak, cls) -> factor                             the same grime/AO term the shader runs (for checks)
+//   rzInstallSurfaces(tier, ua, hook) -> "high" | null               REALISM-2: sets hook.classFor (textures.js's
+//                                                                    TX_SURFACE_HOOK) so txSharedMat / paintedMat take
+//                                                                    the class on desktop high; clears it elsewhere
 //
 // Budgets (stated here, measured by tools/check_rz.mjs): the high tier adds ONE detail map, 256 x 256 RGBA (256 KiB,
 // 341 KiB with mipmaps) shared by every textured facade material; balanced adds no texture (grime and contact shading
@@ -38,6 +41,10 @@ export const RZ_PAINTER_SURFACE = {
   // the older face painters' tile ids and the pattern set (textures.js PAINTER_TILE_IDS / TX_PAINTER_IDS)
   block: "concrete", concrete: "concrete", asphalt: "asphalt", grating: "metal", woodGrain: "wood", rust: "metal",
   stainless: "metal", plaster: "stucco", hardwoodCourt: "wood", laneAsphalt: "asphalt",
+  // REALISM-2: the pattern set's material-like painters (textures.js TX_PAINTERS). Fabrics, water, kelp, rock, turf and
+  // signs stay unmapped and keep textures.js's defaults.
+  teakDeck: "wood", brickPaver: "brick", tileMosaic: "tile", corrugatedRoof: "metal", glassCurtainWall: "glass",
+  stuccoWarm: "stucco", rustPatina: "metal", crosswalk: "asphalt", nonSkid: "asphalt", hullStripe: "metal",
 };
 
 export function rzSurfaceOf(painterId) { return RZ_PAINTER_SURFACE[painterId] ?? "concrete"; }
@@ -99,3 +106,13 @@ export const RZ_SHADE_GLSL = `float rzShadeF( float h, float s, float st, float 
   float sill = ( roof > 0.5 || h < ${(RZ_SHADE.floorH * 0.9).toFixed(3)} ) ? 0.0 : ( 1.0 - smoothstep( ${RZ_SHADE.sillLo.toFixed(3)}, ${RZ_SHADE.sillHi.toFixed(3)}, f ) ) * step( ${(RZ_SHADE.sillLo - 0.1).toFixed(3)}, f ) * ${RZ_SHADE.streak.toFixed(3)} * st * k;
   return contact * grime * ( 1.0 - sill );
 }`;
+
+/** REALISM-2: install (or clear) the pattern set's class hook for a tier. Only the desktop high tier gets it: the phone,
+ *  balanced and a headset keep textures.js's own defaults byte for byte. Returns the level installed. */
+export function rzInstallSurfaces(tier, ua, hook) {
+  const on = rzLevel(tier, ua) === "high";
+  if (hook && typeof hook === "object") hook.classFor = on ? rzSurfaceClass : null;
+  return on ? "high" : null;
+}
+/** The hook's answer: painter id -> { id: class, rough, metal } or null for an unmapped painter (keeps the defaults). */
+export function rzSurfaceClass(id) { const cls = RZ_PAINTER_SURFACE[id]; return cls ? { id: cls, rough: RZ_SURFACES[cls].rough, metal: RZ_SURFACES[cls].metal } : null; }

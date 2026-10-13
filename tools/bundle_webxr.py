@@ -947,6 +947,7 @@ APPS = {
             SHARED / "cw-streets-st-tammany.js",
             SHARED / "cw-cityworks.js",
             SHARED / "cw-streets-world.js",
+            SHARED / "rz-street.js",  # REALISM-2: street details per chunk (after cw-cityworks.js, rz-surfaces.js)
             SHARED / "at-atmos.js",  # ATMOS: weather, lamps, fog, sound mix (docs/consoles/ATMOS.md)
             SHARED / "at-world.js",
             SHARED / "at-sound.js",
