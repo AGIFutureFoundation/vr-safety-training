@@ -231,7 +231,16 @@ for rt, sc in scen.items():
 ok("published ra-lm build and ra-lm-h reproduce raRun on the gym scenarios", not gy_mism, f"{gy_n - len(gy_mism)} of {gy_n} (model x scenario, dev seeds 1-3)" + (f"; differ: {gy_mism}" if gy_mism else ""))
 ok("station policies listed", set(STATION_POLICY_IDS) <= set(policies.POLICY_IDS), ", ".join(STATION_POLICY_IDS))
 ok("seed gate: stations dev only, protocol-3 seeds refused", seed_gate([1, 2, 3], ["rb-station-cobot"])["ok"] and not seed_gate([7181], ["rb-station-cobot"])["ok"]
-   and not seed_gate([7241])["ok"] and not seed_gate([7300], ["rb-teleop-pick-place"])["ok"])
+   and not seed_gate([7241])["ok"] and not seed_gate([7300], ["rb-teleop-pick-place"])["ok"],
+   "undeclared uses of 7241-7300 refused (no policies; a station; a single seed)")
+# STRANDS-3: the one declared parity check (bc, ra-lm-h, gym, ec8bf4c5) is refused for any other policy or station, and refused
+# again once docs/evals/strands.json carries its protocol3Parity block (run once, never tuned).
+_p3 = list(range(7241, 7301))
+_p3_again = seed_gate(_p3, ["rb-port-gantry"], ["bc", "ra-lm-h"])
+_p3_block = bool(json.loads((ROOT / "docs" / "evals" / "strands.json").read_text()).get("protocol3Parity")) if (ROOT / "docs" / "evals" / "strands.json").exists() else False
+ok("seed gate: protocol-3 parity only as declared, once", not seed_gate(_p3, ["rb-port-gantry"], ["random"])["ok"] and not seed_gate(_p3, ["rb-station-cobot"], ["bc"])["ok"]
+   and not seed_gate([7241, 1], ["rb-port-gantry"], ["bc"])["ok"] and (not _p3_again["ok"] if _p3_block else True),
+   ("second run refused: " + _p3_again.get("reason", "")[:70]) if _p3_block else "not yet run")
 ok("station rule table", pick_scenario("run the cobot station drill")["scenario"] == "rb-station-cobot" and pick_scenario("robot cell lockout drill")["scenario"] == "rb-station-robot-cell"
    and pick_scenario("AMR fleet traffic station")["scenario"] == "rb-station-amr-fleet" and pick_scenario("pick up the red cube")["scenario"] == "rb-teleop-pick-place")
 

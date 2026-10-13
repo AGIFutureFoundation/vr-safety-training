@@ -49,7 +49,9 @@ const need = ["no third-party package imported", "physical dispatches 0", "seria
   "guards are live (credential read, device open, socket, serial use each caught when tripped)", "deterministic for a seed", "Python adapters reproduce raRun per seed", "compare rows valid (arena.json row shape, Wilson 95%)", "the sample runs",
   "no API key or credential read from the environment", "network calls 0 (Python sockets and the bridge)", "policies runnable through the Policy interface", "every step governor-checked",
   // STRANDS-2: stations through the bridge, the arena's published ra-lm build and ra-lm-h
-  "station scenarios through the bridge", "station parity with raRun per seed", "published ra-lm build and ra-lm-h reproduce raRun on the gym scenarios", "seed gate: stations dev only, protocol-3 seeds refused"];
+  "station scenarios through the bridge", "station parity with raRun per seed", "published ra-lm build and ra-lm-h reproduce raRun on the gym scenarios", "seed gate: stations dev only, protocol-3 seeds refused",
+  // STRANDS-3: the declared protocol-3 parity check is allowed once, for bc and ra-lm-h on gym scenarios only, and refused after
+  "seed gate: protocol-3 parity only as declared, once"];
 for (const n of need) check(`selftest: ${n}`, () => { const r = st?.results.find((x) => x.check === n); assert(r, "missing"); assert(r.ok, r.detail); return r.detail?.slice(0, 90); });
 
 // 2. weights
@@ -64,7 +66,7 @@ check("exported weights match a fresh build", () => {
 const ROW = ["rank", "modelId", "scenarios", "episodes", "success", "ci95", "ruleBreaks", "ruleBreaksPerEpisode", "meanSteps", "stops", "governorChecked", "physical", "perScenario"];
 check("docs/evals/strands.json rows valid, physical 0, every step governor-checked", () => {
   const d = JSON.parse(read("docs/evals/strands.json"));
-  const blocks = ["dev", "devStations", "heldOut"].filter((b) => d[b]);
+  const blocks = ["dev", "devStations", "devStationSeeds", "heldOut", "protocol3Parity"].filter((b) => d[b]);
   assert(d.dev, "no dev block");
   for (const b of blocks) {
     for (const r of d[b].leaderboard) {
@@ -75,8 +77,44 @@ check("docs/evals/strands.json rows valid, physical 0, every step governor-check
     assert(t.physical === 0 && t.stepsRun === t.stepsChecked && t.networkBlocked === 0 && t.auditChainsOk, `${b} totals`);
   }
   if (d.dev) assert(d.dev.results.every((r) => r.perSeed.every((p) => p.seed >= 1 && p.seed <= 20)), "dev seeds outside 1-20");
-  if (d.devStations) assert(d.devStations.results.every((r) => r.scenarioId.startsWith("rb-station-") && r.perSeed.every((p) => p.seed >= 1 && p.seed <= 20)), "devStations: a non-station row or a seed outside 1-20");
+  for (const b of ["devStations", "devStationSeeds"]) if (d[b]) assert(d[b].results.every((r) => r.scenarioId.startsWith("rb-station-") && r.perSeed.every((p) => p.seed >= 1 && p.seed <= 20)), `${b}: a non-station row or a seed outside 1-20`);
   return blocks.map((b) => `${b}: ${d[b].leaderboard.length} rows, ${d[b].totals.episodes} episodes`).join("; ");
+});
+// STRANDS-3: the one protocol-3 parity check ec8bf4c5's consumers clause allows, recomputed here against claw3.json.
+check("protocol-3 parity block: bc and ra-lm-h only, seeds 7241-7300, counts equal claw3.json, declarations cited", () => {
+  const d = JSON.parse(read("docs/evals/strands.json"));
+  if (!d.protocol3Parity) return "no protocol3Parity block (not run)";
+  const b = d.protocol3Parity, claw = JSON.parse(read("docs/evals/claw3.json")), sd = JSON.parse(read("docs/evals/strands-declared-r9.json"));
+  assert(b.policies.every((p) => ["bc", "ra-lm-h"].includes(p)), `policies ${b.policies.join(", ")}`);
+  assert(b.results.every((r) => !r.scenarioId.startsWith("rb-station-") && r.perSeed.length === 60 && r.perSeed.every((p) => p.seed >= 7241 && p.seed <= 7300)), "a station row, or seeds outside 7241-7300, or not 60");
+  assert(b.declarations?.arena === "ec8bf4c5" && sd.arenaDeclaration.commit === "ec8bf4c5" && sd.clawRecord.file === "docs/evals/claw3.json", "the block or the declaration does not cite ec8bf4c5 and claw3.json");
+  assert(claw.protocol?.seedSource?.commit === "ec8bf4c5" && /7241/.test(claw.protocol.seeds), "claw3.json is not the ec8bf4c5 protocol-3 record");
+  let equal = 0;
+  for (const r of b.results) {
+    const rec = claw.runs.find((x) => x.scenarioId === r.scenarioId)?.results.find((x) => x.modelId === r.modelId);
+    assert(rec, `${r.modelId} on ${r.scenarioId} is not in claw3.json`);
+    assert(rec.k === r.successes && rec.n === r.n && rec.ruleBreaks === r.ruleBreaks, `${r.modelId} on ${r.scenarioId}: Python ${r.successes}/${r.n} (${r.ruleBreaks} rule breaks) ≠ claw ${rec.k}/${rec.n} (${rec.ruleBreaks})`);
+    equal += 1;
+  }
+  assert(b.parity.equal === equal && b.parity.of === b.results.length && equal === b.results.length, "the block's own parity count disagrees");
+  assert(b.totals.physical === 0 && b.totals.networkBlocked === 0, "physical or network not 0");
+  // The gate refuses a second run (the block exists), in any checkout.
+  const gate = JSON.parse(execFileSync("python3", ["-c", "import json,sys; sys.path.insert(0, '.'); from robotics.strands.harness import seed_gate, PROTOCOL3_SEEDS; print(json.dumps(seed_gate(PROTOCOL3_SEEDS, ['rb-port-gantry'], ['bc', 'ra-lm-h'])))"], { cwd: ROOT, encoding: "utf8", env: ENV, timeout: 60000 }).trim());
+  assert(gate.ok === false && /already run once/.test(gate.reason), `the gate would allow a second protocol-3 run: ${JSON.stringify(gate)}`);
+  return `${equal} of ${b.results.length} (policy, scenario) counts equal claw3.json over ${b.totals.episodes} episodes; ${b.parity.scenariosCompared.length} of ${claw.protocol.scenarios.length} protocol scenarios (not run: ${b.parity.scenariosNotRun.join(", ")}); second run refused`;
+});
+check("station seed sensitivity block (devStationSeeds): expert and bc, seeds 1-20, per-seed lengths recorded", () => {
+  const d = JSON.parse(read("docs/evals/strands.json"));
+  if (!d.devStationSeeds) return "no devStationSeeds block";
+  const b = d.devStationSeeds, s = b.seedSensitivity;
+  assert(s && Array.isArray(s.rows) && s.rows.length === b.results.length, "no seedSensitivity table");
+  assert(b.results.every((r) => r.perSeed.length === 20 && r.perSeed.map((p) => p.seed).join() === Array.from({ length: 20 }, (_, i) => i + 1).join()), "not seeds 1-20");
+  for (const row of s.rows) {
+    const r = b.results.find((x) => x.modelId === row.modelId && x.scenarioId === row.scenarioId);
+    assert(r && Object.keys(row.stepsBySeed).length === 20 && r.perSeed.every((p) => row.stepsBySeed[String(p.seed)] === p.steps), `${row.modelId} ${row.scenarioId}: the table disagrees with perSeed`);
+    assert(row.distinctLengths === new Set(Object.values(row.stepsBySeed)).size, `${row.modelId} ${row.scenarioId}: distinct lengths`);
+  }
+  return `${s.seedsThatChangeAnEpisode} of ${s.of} seeds change an episode; ${s.rows.map((r) => `${r.modelId} ${r.scenarioId.replace("rb-station-", "")} ${r.distinctLengths} length${r.distinctLengths === 1 ? "" : "s"}`).join(", ")}`;
 });
 check("held-out rows only after both declarations were committed", () => {
   const d = JSON.parse(read("docs/evals/strands.json"));
