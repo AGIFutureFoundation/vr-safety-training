@@ -129,7 +129,7 @@ import { usSims } from "../../shared/us-unionsims.js";
 import { lpRegisterSims } from "../../shared/lp-programme.js";
 lpRegisterSims({ psRegisterSims, lookup: npParish });
 import { crMountClassrooms, crRegisterDressers, crRoomsFor } from "../../shared/cr-classrooms.js";
-import { accEntrances, accBuild, accRegisterSiteStyles, accStreetAt, accWireXR, ACC_INPUTS } from "../../shared/acc-access.js";
+import { accEntrances, accBuild, accRegisterSiteStyles, accStreetAt, accWireXR, accChunkTriangles, ACC_INPUTS } from "../../shared/acc-access.js";
 import { larRegisterDressers } from "../../shared/lar-rooms.js";
 import { hvMount } from "../../shared/hv-harvest.js";
 import { smilesMount } from "../../shared/sm-smiles.js";
@@ -1279,7 +1279,7 @@ window.__parishTest.hd6 = () => ({ cues: hd6Cues?.userData.hd6 ?? null, ultra: h
 // high and balanced; the phone tier and a headset browser build nothing).
 var accMesh = null;
 try { accMesh = accBuild({ THREE, parish, tier: npTierName }); if (accMesh) root.add(accMesh.group); } catch (e) { console.warn("acc-access:", e); }
-window.__parishTest.access = { entrances: () => accEntrances(parish), mesh: () => (accMesh ? { meshes: accMesh.meshes, triangles: accMesh.triangles, entrances: accMesh.entrances } : null), styled: accStyled, styleOf: (id) => IX_SITE_STYLE[id] ?? null, inputs: ACC_INPUTS, use: () => npUse(), xrBegin: (s) => npXRBegin(s), xrEnd: () => npXRTest.end() };
+window.__parishTest.access = { entrances: () => accEntrances(parish), mesh: () => (accMesh ? { meshes: accMesh.meshes, triangles: accMesh.triangles, entrances: accMesh.entrances } : null), chunks: () => accChunkTriangles(parish, npTierName), styled: accStyled, styleOf: (id) => IX_SITE_STYLE[id] ?? null, inputs: ACC_INPUTS, use: () => npUse(), xrBegin: (s) => npXRBegin(s), xrEnd: () => npXRTest.end() };
 /** ENV-HD-4: one of the six looks (HD4_LOOKS: dawn, day, dusk, night, fog at dawn, rain at dusk) through the page's own clock
  *  and weather; returns what it set: the fog's distances and density (ATMOS's atFog), wetness and the site light level. */
 function hd4ApplyLook(look) {

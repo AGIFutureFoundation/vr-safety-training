@@ -4,7 +4,10 @@
  *  1. Every enterable site building on every map: a marked door (contrasting jambs, head and sill), a lit entrance, a clear width
  *     for the walk collider, a ramp where the sill is raised (1:12 at most), a pictogram sign beside the facade, and a step-free
  *     route from the door spot (to a street, else an open apron) — N of M per map.
+ *     ACCESS-2: a recessed door panel inside every frame; where no straight path reaches a street, a path search over dry ground
+ *     to the nearest street (740 -> 829 of 863 with a street route), the remainder listed by reason.
  *  2. Budgets: meshes per map and triangles per entrance and per chunk on every tier; nothing on the phone tier or a headset.
+ *     ACCESS-2 (2b): the combined chunk count, FACADES + kind cues + entrances per cued chunk, balanced and high, inside FC_BUDGET.
  *  3. The four new interiors (acc-*) build inside the room budget (120 meshes, 6,000 / 3,000 triangles, 24 MiB high / 3 MiB
  *     balanced of texture), with station pads and two agent spots, and every pad and agent spot is reachable from the door
  *     (a grid search round the colliders, then NEWTON's walk along it).
@@ -30,17 +33,32 @@ const A = await imp("shared/acc-access.js");
 const IX = await imp("shared/ix-interiors.js");
 const NW = await imp("shared/nw-physics.js");
 const NP = await imp("shared/np-parish.js");
+const CW = await imp("shared/cw-cityworks.js");
+const F = await imp("shared/fc-facades.js");
+const K = await imp("shared/hd6-kinds.js");
 
 // 1. Entrances, per map.
-let M = 0, marked = 0, stepFree = 0, toStreet = 0, apron = 0, rampsNeeded = 0, rampsOk = 0;
-const perMap = [];
+let M = 0, marked = 0, stepFree = 0, toStreet = 0, byPath = 0, apron = 0, rampsNeeded = 0, rampsOk = 0, panelOk = 0;
+const perMap = [], noStreet = new Map(); // ACCESS-2: the remainder, listed by reason
 for (const p of R.NP_PARISHES) {
   const es = A.accEntrances(p);
   let n = 0;
   for (const e of es) {
     const parts = A.accParts(p, e, "high");
     const has = (k) => parts.some((q) => q.name === k);
-    const okMark = has("jamb") && has("head") && has("sill") && has("lit") && has("housing") && has("sign-panel") && parts.filter((q) => q.name === "glyph").length >= 5;
+    const okMark = has("jamb") && has("head") && has("sill") && has("lit") && has("housing") && has("sign-panel") && has("panel") && parts.filter((q) => q.name === "glyph").length >= 5;
+    // ACCESS-2: the door panel sits inside the frame, its face recessed 5 cm behind the jambs' (a real opening to read), darker than them.
+    { const pn = parts.find((q) => q.name === "panel"), jb = parts.find((q) => q.name === "jamb"), o = { n: [0, -1], s: [0, 1], e: [1, 0], w: [-1, 0] }[e.face];
+      const out = (q) => (q.x - e.door.x) * o[0] + (q.z - e.door.z) * o[1], depth = (q) => (Math.abs(o[0]) > 0.5 ? q.w : q.d);
+      const recess = (out(jb) + depth(jb) / 2) - (out(pn) + depth(pn) / 2);
+      if (pn && recess >= 0.05 - 1e-9 && out(pn) - depth(pn) / 2 >= -1e-9 && pn.w * pn.d * pn.h > 0 && pn.col < jb.col && Math.abs(pn.h - A.ACC_DOOR.height) < 1e-9) panelOk++; }
+    if (e.route.ok && e.route.via === "path") {
+      byPath++;
+      // the found path: every leg sampled clear (accStepFree did), the path starts at the door spot and ends on a street
+      const P = e.route.path; const near = CW.cwNearestLine(p, P[P.length - 1][0], P[P.length - 1][1], 5, (l) => l.cls !== "ferry" && !l.deck);
+      check(P[0][0] === e.spot.x && P[0][1] === e.spot.z && !!near && near.d < 1, `${p.id}/${e.site.id}: the path route runs from the door spot to a street (${Math.round(e.route.len)} m, ${P.length} points)`);
+    }
+    if (!e.route.ok) { const k = `${e.route.blocked}; path search: ${e.route.pathBlocked}`; noStreet.set(k, [...(noStreet.get(k) ?? []), `${p.id}/${e.site.id}`]); }
     const okWidth = e.width >= 2 * NW.NW_AVATAR.radius + 0.5;
     const needRamp = e.rise > A.ACC_RAMP.minRise;
     const okRamp = !needRamp || (has("ramp") && e.ramp.slope <= A.ACC_RAMP.maxSlope + 1e-9 && parts.filter((q) => q.name === "rail").length === 2);
@@ -57,7 +75,10 @@ for (const p of R.NP_PARISHES) {
 }
 check(M > 0 && marked === M, `every enterable building has a marked, lit, wide-enough door (${marked} of ${M})`);
 check(rampsOk === rampsNeeded, `a ramp (<= 1:12, two rails) wherever the sill is raised (${rampsOk} of ${rampsNeeded})`);
-note(`marked door + step-free route: ${stepFree} of ${M} (to a street ${toStreet}, open apron only ${apron}, neither ${M - toStreet - apron})`);
+check(panelOk === M, `every entrance has a recessed door panel inside the frame, 5 cm behind the jambs' face and darker (${panelOk} of ${M})`);
+note(`marked door + step-free route: ${stepFree} of ${M} (to a street ${toStreet}: straight or one corner ${toStreet - byPath}, by the dry-ground path search ${byPath}; open apron only ${apron}, neither ${M - toStreet - apron})`);
+check(toStreet >= 829, `entrances with a street route: ${toStreet} of ${M} (ACCESS: 740; ACCESS-2's path search: 829)`);
+for (const [why, ids] of noStreet) note(`no street route (${ids.length}): ${why} — ${ids.join(", ")}`);
 note(`per map: ${perMap.join(", ")}`);
 check(stepFree / M >= 0.95, `>= 95% of enterable buildings have a marked door and a step-free route (${(100 * stepFree / M).toFixed(1)}%)`);
 
@@ -79,6 +100,41 @@ for (const p of R.NP_PARISHES) {
     if (sample.includes(p) && tier !== "low") note(`${p.id}/${tier}: ${meshes} meshes, ${tris} triangles, ${ents} entrances`);
   }
   check(A.accBuild({ THREE, parish: p, tier: "high", ua: "Mozilla/5.0 (X11; Linux x86_64; Quest 3) OculusBrowser/35.0" }) === null, `${p.id}: a headset browser builds nothing`);
+}
+
+// 2b. ACCESS-2: the combined chunk count — FACADES' details + ENV-HD-6/7's kind cues (each site's cue charged to every chunk its
+//     footprint touches, as check_hd6 charges it, plus the board lamps there) + the entrance parts by the door's chunk — per cued
+//     chunk, balanced and high, against FC_BUDGET. The two entrance meshes are per map, so they add no mesh to a chunk.
+{
+  const boardsOf = (p) => NP.npPrepare(p).sites.map((s) => ({ site: s, x: s.position[0], z: s.position[1] + 6, y: NP.npHeightAt(p, s.position[0], s.position[1]) }));
+  let chunks = 0, over = 0, withEntrance = 0; const worst = { high: null, balanced: null };
+  for (const p of R.NP_PARISHES) {
+    const boards = boardsOf(p), sites = K.hd6KindSites(p);
+    if (!sites.length) continue;
+    for (const tier of ["balanced", "high"]) {
+      const taken = [], per = new Map();
+      for (const s of sites) {
+        const fit = K.hd6FitCue(p, s, tier, taken); const keys = new Set();
+        for (const q of fit.parts) { const f = K.hd6Footprint(q); for (const [x, z] of [[f[0], f[1]], [f[2], f[3]], [f[0], f[3]], [f[2], f[1]]]) keys.add(NP.npChunkOf(x, z).key); }
+        for (const key of keys) per.set(key, (per.get(key) ?? 0) + fit.parts.length * 12);
+      }
+      const acc = A.accChunkTriangles(p, tier);
+      for (const [key, cue] of per) {
+        const [cx, cz] = key.split(",").map(Number);
+        const spots = NP.npMassingForChunk(p, cx, cz).filter(CW.cwMassFilter(p));
+        const det = spots.length ? F.fcDetails({ THREE, parish: p, chunk: { cx, cz, key, ring: 0, lod: 0 }, spots, tier }) : null;
+        const dt = det?.userData.fc.triangles ?? 0, dm = det?.userData.fc.meshes ?? 0;
+        const lamps = boards.filter((bd) => NP.npChunkOf(bd.x, bd.z).key === key).length * 48;
+        const at = acc[key] ?? 0, total = dt + cue + lamps + at;
+        chunks++; if (at) withEntrance++;
+        if (total > F.FC_BUDGET.trianglesPerChunk[tier]) { over++; check(false, `${p.id}/${tier}: chunk ${key} FACADES ${dt} + cues ${cue + lamps} + entrances ${at} = ${total} triangles > FC_BUDGET ${F.FC_BUDGET.trianglesPerChunk[tier]}`); }
+        if (!worst[tier] || total > worst[tier].total) worst[tier] = { map: p.id, key, dt, cue: cue + lamps, at, total, dm };
+        det?.dispose?.();
+      }
+    }
+  }
+  check(chunks > 0 && over === 0, `combined chunk count: FACADES + kind cues + entrances inside FC_BUDGET on every cued chunk, balanced and high (${chunks - over} of ${chunks}; ${withEntrance} hold an entrance)`);
+  for (const tier of ["balanced", "high"]) { const w = worst[tier]; note(`${tier}: worst cued chunk ${w.map} ${w.key}: FACADES ${w.dt} + cues ${w.cue} + entrances ${w.at} = ${w.total} of ${F.FC_BUDGET.trianglesPerChunk[tier]} triangles (${w.dm} FACADES meshes + 1 cue mesh of ${F.FC_BUDGET.meshesPerChunk[tier]}; the 2 entrance meshes are per map)`); }
 }
 
 // 3. The four new interiors: budget, pads, agent spots, reachability.
