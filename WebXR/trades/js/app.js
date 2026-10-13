@@ -16,6 +16,7 @@ import { nextTask, recordTask, levelTag, readLevelRun, writeLevelRun, parseLevel
 import { createBroadcaster } from "../../shared/observer.js";
 import { createAnnouncer, createTargetCursor, describeTarget, reducedMotion, escapeHtml } from "../../shared/a11y.js";
 import { Perf } from "../../shared/perf.js";
+import { ecoAttachLearner } from "../../shared/eco-learn.js"; // ECOSYSTEM-3: station events to the in-memory eco-bus adapter, only under DATAWORKS consent
 import { detectDevice, applyProfile } from "../../shared/devices.js";
 import { buildHub } from "./hub.js";
 import { ROOM_ELECTRICAL } from "./rooms/electrical.js";
@@ -613,6 +614,10 @@ function enterRoom(id, { briefed = false } = {}) {
       showResults(s, summary);
     },
   });
+  // ECOSYSTEM-3 (docs/ecosystem.md): start / step / complete into the in-memory eco-bus adapter, as the smartcity app does —
+  // inert (null) unless dx-data.js's dxCollecting(); consent is re-read at every event and its loss deletes what was held.
+  // Nothing is sent or stored.
+  try { state.ecoLearn = ecoAttachLearner(state.session, { station: room.id, skills: room.skills ?? [], tier: renderer.xr.isPresenting ? "headset" : "standard" }); } catch (_) { state.ecoLearn = null; }
   state.session.start();
   faceFirstTask();
   setRail("neutral", `<b>${room.title}</b> — ${room.tagline}. Follow the procedure in order; the room will tell you why each step matters.`);

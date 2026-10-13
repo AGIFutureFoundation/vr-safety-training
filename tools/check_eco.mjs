@@ -342,20 +342,41 @@ await check("8. learner events into the in-memory adapter only under DATAWORKS c
   return `opted in: ${heldOn}/${heldOn} held events valid (start, a hazard as a wrong step, 2 steps, and a fail, since a hazard was hit), ${live}; held 0 signed out, 0 demo, 0 not opted in, 0 K-12; ${before} → 0 after revoke; attaches refused ${st.refusedAttach}; network 0`;
 });
 
-// 9. The learner path in the BUILT smartcity page (the integration rule: measure the combined case where it runs). A real
-// station (?sim=valve-vault) is opened, entered with "Free explore" and stepped through window.__smartcityTest; what the page holds is read through
-// eco-learn.js's read-only window.__ecoLearnTest. The opted-in profile is made in this process by the real dxOptIn over
-// storage stand-ins and copied into the page's localStorage before load. Cases: opted in (held, every event valid), then
-// consent removed in the page (0); signed in without opting in (0); the demo (0); a K-12 surface (0). Needs Playwright.
-await check("9. the learner path in the built smartcity page: held only when opted in, every event valid, 0 otherwise", async () => {
+// 9. The learner path in the BUILT pages (the integration rule: measure the combined case where it runs). A real station is
+// opened in each wired app (smartcity ?sim=valve-vault, trades ?room=electrical), entered on screen and stepped through the
+// app's window.__<app>Test probe; what the page holds is read through eco-learn.js's read-only window.__ecoLearnTest. The
+// opted-in profile is made in this process by the real dxOptIn over storage stand-ins and copied into the page's localStorage
+// before load. Four page loads (round 9 made it cheaper: round 8 loaded the smartcity page four times for one app):
+//   smartcity, opted in: held, every event valid; then the demo flag set in the page → 0 held and the store wiped;
+//   smartcity, signed in but not opted in: 0 (nothing attaches);
+//   trades, opted in: held, every event valid; then the consent key removed in the page → 0 (revoke mid-run);
+//   trades, opted in on a K-12 surface (&audience=k12): 0.
+// The demo and revoke flips are in-page because dx-data.js re-reads both live; K-12 is a URL state, so it is its own load.
+// Needs Playwright.
+await check("9. the learner path in the built smartcity and trades pages: held only when opted in, every event valid, 0 otherwise", async () => {
   const { createServer } = await import("node:http");
   const { extname, normalize } = await import("node:path");
   const PWL = await imp(join(ROOT, "tools/lib/pw.mjs"));
   let pw; try { pw = await PWL.pwModule(); } catch (e) { console.log(`     (browser leg skipped: ${e.message})`); return "SKIP"; }
   const DX = await imp(join(ROOT, "WebXR/shared/dx-data.js"));
-  const WEBXR = join(ROOT, "WebXR"), PAGE = "smartcity/dist/smartcity-x.html";
-  ok(existsSync(join(WEBXR, PAGE)), `${PAGE} missing — run python3 tools/bundle_webxr.py smartcity`);
-  ok(readFileSync(join(WEBXR, PAGE), "utf8").includes("__ecoLearnTest"), "the built smartcity page has no eco-learn.js — the dist is stale: run python3 tools/bundle_webxr.py smartcity");
+  const WEBXR = join(ROOT, "WebXR");
+  // The two wired apps (eco2-next 2): each opens straight into one station, enters on screen, starts from the pre-brief and
+  // exposes its Session through a window.__<app>Test probe. The trades bundle also has to carry dx-data.js (round 9 added it).
+  const APPS = {
+    smartcity: { page: "smartcity/dist/smartcity-x.html", query: "?sim=valve-vault", station: "valve-vault", probe: "__smartcityTest", bundle: "smartcity" },
+    trades: { page: "trades/dist/trade-skills-simulator.html", query: "?room=electrical", station: "electrical", probe: "__tradesTest", bundle: "trades" },
+  };
+  for (const a of Object.values(APPS)) {
+    ok(existsSync(join(WEBXR, a.page)), `${a.page} missing — run python3 tools/bundle_webxr.py ${a.bundle}`);
+    const html = readFileSync(join(WEBXR, a.page), "utf8");
+    ok(html.includes("__ecoLearnTest") && html.includes("ecoAttachLearner(") && html.includes("function dxCollecting"), `the built ${a.bundle} page lacks eco-learn.js or dx-data.js — the dist is stale: run python3 tools/bundle_webxr.py ${a.bundle}`);
+  }
+  const bundle = read("tools/bundle_webxr.py");
+  for (const list of ["trades", "smartcity"]) {
+    const at = bundle.indexOf(`"${list}": {`), end = bundle.indexOf('"entry":', at), seg = bundle.slice(at, end);
+    const i = (n) => seg.indexOf(`"${n}"`);
+    ok(i("dx-data.js") > 0 && i("dx-data.js") < i("eco-bus.js") && i("eco-bus.js") < i("eco-learn.js") && i("eco-learn.js") < i(`${list}/js/app.js`), `${list} bundle: dx-data.js, eco-bus.js, eco-learn.js must come in that order before app.js`);
+  }
   // the storage of a signed-in adult who opted in, made by the real consent code
   const Mem = globalThis.localStorage.constructor;
   globalThis.localStorage = new Mem(); globalThis.sessionStorage = new Mem();
@@ -377,8 +398,8 @@ await check("9. the learner path in the built smartcity page: held only when opt
   const browser = await pw.chromium.launch({ executablePath: PWL.pwExecutable(), args: ["--no-sandbox", "--use-gl=swiftshader", "--enable-unsafe-swiftshader"] });
   const ecoErrors = [];
   const run = async (opts) => { try { return await runOne(opts); } catch (e) { throw new Error(`${opts.label}: ${e.message.split("\n")[0]}`); } };
-  const runOne = async ({ local, demo = false, query = "" }) => {
-    const ctx = await browser.newContext({ viewport: { width: 1100, height: 760 } });
+  const runOne = async ({ local, demo = false, query = "", app = APPS.smartcity, then = null }) => {
+    const ctx = await browser.newContext({ viewport: { width: 800, height: 600 } }); // a small viewport: SwiftShader frames cost by the pixel
     await ctx.addInitScript(({ local, demo }) => { try { for (const [k, v] of Object.entries(local)) localStorage.setItem(k, v); if (demo) sessionStorage.setItem("vr-training-demo-v1", "1"); } catch (_) { /* no storage */ } }, { local, demo });
     const page = await ctx.newPage();
     page.on("pageerror", (e) => { if (/eco/i.test(String(e.message))) ecoErrors.push(String(e.message)); });
@@ -390,43 +411,57 @@ await check("9. the learner path in the built smartcity page: held only when opt
       if (rx) return route.fulfill({ status: 200, contentType: "application/javascript", body: readFileSync(join(WEBXR, "vendor/react/dist", rx[1]), "utf8") });
       return route.abort();
     });
-    await page.goto(`${origin}/${PAGE}?sim=valve-vault${query}`, { waitUntil: "load", timeout: 90000 });
+    await page.goto(`${origin}/${app.page}${app.query}${query}`, { waitUntil: "domcontentloaded", timeout: 90000 }); // the selector waits below do the rest
     // "Free explore" is the desktop way in; the station's Session starts on it.
     await page.waitForSelector("#enter-flat", { state: "visible", timeout: 90000 });
     await page.click("#enter-flat");
     // A first run on screen offers the station's pre-brief; its own Start button builds the station and starts the run.
     await page.waitForSelector("#prebrief-start", { state: "visible", timeout: 90000 });
     await page.evaluate(() => document.getElementById("prebrief-start").click());
-    await page.waitForFunction(() => !!(window.__ecoLearnTest && window.__smartcityTest && window.__smartcityTest.session()), null, { timeout: 90000, polling: 250 });
-    const r = await page.evaluate(() => {
-      const T = window.__smartcityTest, s = T.session();
+    await page.waitForFunction((probe) => !!(window.__ecoLearnTest && window[probe] && window[probe].session()), app.probe, { timeout: 90000, polling: 250 });
+    const r = await page.evaluate((probe) => {
+      const T = window[probe], s = T.session();
       let stepped = 0;
       for (let i = 0; i < 12 && !s.finished; i += 1) {
         const st = s.step; if (!st || st.kind !== "select" || !st.target) break;
         T.select(st.target); stepped += 1;
       }
       return { station: s.room?.id ?? null, stepped, held: window.__ecoLearnTest.held(), messages: window.__ecoLearnTest.messages() };
-    });
-    const afterRevoke = await page.evaluate(() => {
-      for (const k of Object.keys(localStorage)) if (k.includes("dx-consent-v1")) localStorage.removeItem(k);
-      return { held: window.__ecoLearnTest.held(), messages: window.__ecoLearnTest.messages().length };
-    });
+    }, app.probe);
+    // an in-page gate flip after the run (the gate is re-read at every count), read back through the probe
+    const after = then ? await page.evaluate(then) : null;
     await ctx.close();
-    return { ...r, afterRevoke };
+    return { ...r, after };
+  };
+  const flipDemo = () => {
+    sessionStorage.setItem("vr-training-demo-v1", "1");
+    const demo = { held: window.__ecoLearnTest.held(), messages: window.__ecoLearnTest.messages().length, wiped: window.__ecoLearnTest.stats().wiped };
+    sessionStorage.removeItem("vr-training-demo-v1");
+    return { ...demo, cleared: window.__ecoLearnTest.held() }; // the run stopped reporting when the gate closed, so still 0
+  };
+  const flipRevoke = () => {
+    for (const k of Object.keys(localStorage)) if (k.includes("dx-consent-v1")) localStorage.removeItem(k);
+    return { held: window.__ecoLearnTest.held(), messages: window.__ecoLearnTest.messages().length, wiped: window.__ecoLearnTest.stats().wiped };
+  };
+  const validHeld = (label, v, station) => {
+    ok(v.station === station && v.stepped >= 1, `${label}: the station did not run (${v.station}, ${v.stepped} steps)`);
+    ok(v.held === v.messages.length && v.held === v.stepped + 1, `${label}: held ${v.held} for start + ${v.stepped} steps`);
+    for (const m of v.messages) { const p = BUS.ecoValidateMessage(m); ok(!p.length, `${label}: held message ${m.event_id}: ${p.join("; ")}`); }
+    ok(v.messages.every((m) => m.payload.context.module_id === station && !JSON.stringify(m).includes("learner-eco-page")), `${label}: module id or a leaked account id`);
   };
   try {
-    const on = await run({ label: "opted in", local: optedIn });
-    ok(on.station === "valve-vault" && on.stepped >= 1, `the station did not run (${on.station}, ${on.stepped} steps)`);
-    ok(on.held === on.messages.length && on.held === on.stepped + 1, `opted in: held ${on.held} for start + ${on.stepped} steps`);
-    for (const m of on.messages) { const p = BUS.ecoValidateMessage(m); ok(!p.length, `held message ${m.event_id}: ${p.join("; ")}`); }
-    ok(on.messages.every((m) => m.payload.context.module_id === "valve-vault" && !JSON.stringify(m).includes("learner-eco-page")), "module id or a leaked account id");
-    ok(on.afterRevoke.held === 0 && on.afterRevoke.messages === 0, `after consent was removed: ${on.afterRevoke.held} held`);
-    const off = await run({ label: "not opted in", local: signedIn });
-    const demo = await run({ label: "demo", local: optedIn, demo: true });
-    const k12 = await run({ label: "K-12", local: optedIn, query: "&audience=k12" });
-    for (const [k, v] of Object.entries({ "not opted in": off, demo, "K-12": k12 })) ok(v.held === 0 && v.messages.length === 0 && v.stepped >= 1, `${k}: held ${v.held} after ${v.stepped} steps`);
+    const on = await run({ label: "smartcity, opted in", local: optedIn, then: flipDemo });
+    validHeld("smartcity, opted in", on, "valve-vault");
+    ok(on.after.held === 0 && on.after.messages === 0 && on.after.wiped >= 1 && on.after.cleared === 0, `smartcity, demo flag set in the page: ${on.after.held} held, wiped ${on.after.wiped}, after clearing it ${on.after.cleared}`);
+    const off = await run({ label: "smartcity, not opted in", local: signedIn });
+    ok(off.held === 0 && off.messages.length === 0 && off.stepped >= 1, `smartcity, not opted in: held ${off.held} after ${off.stepped} steps`);
+    const tOn = await run({ label: "trades, opted in", local: optedIn, app: APPS.trades, then: flipRevoke });
+    validHeld("trades, opted in", tOn, "electrical");
+    ok(tOn.after.held === 0 && tOn.after.messages === 0 && tOn.after.wiped >= 1, `trades, consent removed in the page: ${tOn.after.held} held`);
+    const k12 = await run({ label: "trades, K-12", local: optedIn, app: APPS.trades, query: "&audience=k12" });
+    ok(k12.held === 0 && k12.messages.length === 0 && k12.stepped >= 1, `trades, K-12: held ${k12.held} after ${k12.stepped} steps`);
     ok(ecoErrors.length === 0, `eco page errors: ${ecoErrors.slice(0, 2).join(" | ")}`);
-    return `built page, valve-vault: opted in ${on.held}/${on.held} held events valid (start + ${on.stepped} steps), 0 after consent removed; not opted in 0, demo 0, K-12 0 (each after ${off.stepped} steps); eco page errors 0`;
+    return `4 page loads — smartcity valve-vault: opted in ${on.held}/${on.held} held events valid (start + ${on.stepped} steps), 0 once the demo flag is set in the page (wiped ${on.after.wiped}); not opted in 0 after ${off.stepped} steps; trades electrical: opted in ${tOn.held}/${tOn.held} valid (start + ${tOn.stepped} steps), 0 once consent is removed in the page; K-12 surface 0 after ${k12.stepped} steps; eco page errors 0`;
   } finally { await browser.close(); server.close(); }
 });
 

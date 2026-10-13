@@ -65,6 +65,12 @@ APPS = {
             SHARED / "ladder.js",
             SHARED / "observer.js",
             SHARED / "perf.js",
+            # DATAWORKS: the consent gate (reads profiles.js above). It was not in this bundle before round 9.
+            SHARED / "dx-data.js",
+            # ECOSYSTEM-3 (docs/ecosystem.md): the SmartCiti.X-shaped bus adapter and the learner path into it, in memory
+            # only and only while dx-data.js above says the learner opted in.
+            SHARED / "eco-bus.js",
+            SHARED / "eco-learn.js",
             # Hard Hat Hunt (docs/easter-egg.md): welding.js and plumbing.js
             # each plant one hard hat.
             SHARED / "eggs.js",
