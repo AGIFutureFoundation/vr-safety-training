@@ -77,7 +77,7 @@ check(M > 0 && marked === M, `every enterable building has a marked, lit, wide-e
 check(rampsOk === rampsNeeded, `a ramp (<= 1:12, two rails) wherever the sill is raised (${rampsOk} of ${rampsNeeded})`);
 check(panelOk === M, `every entrance has a recessed door panel inside the frame, 5 cm behind the jambs' face and darker (${panelOk} of ${M})`);
 note(`marked door + step-free route: ${stepFree} of ${M} (to a street ${toStreet}: straight or one corner ${toStreet - byPath}, by the dry-ground path search ${byPath}; open apron only ${apron}, neither ${M - toStreet - apron})`);
-check(toStreet >= 829, `entrances with a street route: ${toStreet} of ${M} (ACCESS: 740; ACCESS-2's path search: 829)`);
+check(toStreet >= 839, `entrances with a street route: ${toStreet} of ${M} (ACCESS: 740; ACCESS-2's dry-ground path search: 839)`);
 for (const [why, ids] of noStreet) note(`no street route (${ids.length}): ${why} — ${ids.join(", ")}`);
 note(`per map: ${perMap.join(", ")}`);
 check(stepFree / M >= 0.95, `>= 95% of enterable buildings have a marked door and a step-free route (${(100 * stepFree / M).toFixed(1)}%)`);
