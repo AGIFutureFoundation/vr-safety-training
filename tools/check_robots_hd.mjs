@@ -253,8 +253,45 @@ console.log("3c. the panel's preview frames and its real governor run agree step
     }
     perJob.push(`${Q[j].seed}: ${jobAgree}/${jobSteps} over ${n + 1} runs`);
   }
-  if (hadDoc) globalThis.document = prevDoc; else delete globalThis.document;
   console.log(`  per job: ${perJob.join("; ")}`);
+  // (ROBOTS-HD-4) the one known divergence: a consented take recorded between approve() and finish. vb-colearn's local source
+  // then hands the provider a new tag, so an un-pinned real run would train on a model the preview never saw. The panel pins
+  // the provider's answer at approve(), so the audited run keeps the preview's policy. For each colearn job the governor lets
+  // through: approve, let a take arrive mid-run (a clean pass as the learner's own, under its own tag), then E-stop at a few
+  // steps or run clean; the real run must equal the preview step for step, while the provider itself has visibly changed.
+  {
+    const COL = await imp("shared/col-learn.js");
+    const takes = new Map(); let asked = null;
+    const prov2 = VBC.vbColearnProvider({ demosFor: (sc) => takes.get(sc) ?? null });
+    const mount2 = () => VBP.vbMountDispatch(el(), { reducedMotion: true, policyFor: (p, env, seed) => { asked = env?.scenario?.id ?? asked; return prov2.policyFor(p, env, seed); }, providerLabel: (sc) => prov2.describe(sc) });
+    const panelAt2 = (j) => { const p = mount2(); for (let i = 0; i < j; i++) { const jb = p.next(); if (jb.phase !== "NEGOTIATION") continue; p.approve(); let g = 0; while (p.state().run && g++ < 500) p.step(); } return p; };
+    let steps2 = 0, agree2 = 0, runs2 = 0, changed = 0, unpinnedDiff = 0, jobs2 = 0, takeN = 0; const bad2 = [], rows2 = [];
+    for (let j = 0; j < Q.length; j++) {
+      if (Q[j].request.policyId !== VBC.VB_COLEARN_POLICY_ID) continue;
+      takes.clear(); const probe = panelAt2(j); if (probe.next().phase !== "NEGOTIATION") { rows2.push(`${Q[j].seed}: refused`); continue; }
+      probe.approve(); const n = probe.state().run?.of ?? 0; if (!n) continue; jobs2++;
+      let jobSteps = 0, jobAgree = 0;
+      for (const k of [...new Set([0, Math.floor(n / 2), n - 1, n])]) {
+        takes.clear(); const p = panelAt2(j); p.next(); p.approve(); runs2++;
+        const copy = JSON.parse(JSON.stringify(p.state().job)), sc = asked, before = prov2.modelFor(sc)?.provenance?.own;
+        // the take lands mid-run: the learner's own clean pass, under the local source's own-tag form
+        takeN++; takes.set(sc, { demos: COL.colDemosFromEpisodes(COL.colSyntheticDemos(sc, { n: 6, seed: 900 + k, skill: 1 }), sc).demos, tag: `own:1:take-${Q[j].seed}-${k}` });
+        const nowOwn = prov2.modelFor(sc)?.provenance?.own; if (before === false && nowOwn === true) changed++; else bad2.push(`${Q[j].seed}@${k}: provider did not change (${before} -> ${nowOwn})`);
+        const preview = []; for (let i = 0; i < k && p.state().run; i++) { preview.push(p.state().run.action); p.step(); }
+        if (k < n) { preview.push(p.state().run.action); p.estop(); }
+        const real = p.state().job.deliverable.episode.steps.map((s) => s.info.governor), upto = k < n ? k : Math.max(preview.length, real.length); // before the supervisor's stop, as above
+        if (k < n && !(real.length === k + 1 && real[k] === "estop")) bad2.push(`${Q[j].seed}@${k}: real run ${real.length} steps ending ${real[real.length - 1]}`);
+        for (let i = 0; i < upto; i++) { steps2++; jobSteps++; if (preview[i] === real[i]) { agree2++; jobAgree++; } else if (bad2.length < 6) bad2.push(`${Q[j].seed}@${k} step ${i}: preview ${preview[i]} / real ${real[i]}`); }
+        // for the record: the same run un-pinned, straight from the changed provider, as the panel ran it before the pin
+        const un = VBB.vbRun(copy, VBG.vbGovernor(), { estopAtStep: k < n ? k : null, policyFor: prov2.policyFor });
+        const pact = (s) => JSON.stringify(s.action), pv = p.state().job.deliverable.episode.steps.map(pact), uv = un.deliverable.episode.steps.map(pact);
+        if (JSON.stringify(pv) !== JSON.stringify(uv)) unpinnedDiff++;
+      }
+      rows2.push(`${Q[j].seed} (${asked}): ${jobAgree}/${jobSteps}`);
+    }
+    check(jobs2 >= 2 && steps2 > 0 && agree2 === steps2 && changed === runs2, `a consented take recorded mid-run: the real run still equals the preview step for step, ${agree2} of ${steps2} steps over ${runs2} runs of ${jobs2} colearn jobs (${rows2.join("; ")}); the take changed the provider's model every time (${changed} of ${runs2}: synthetic -> the learner's own); un-pinned, the real run's actions would have differed in ${unpinnedDiff} of ${runs2}`, bad2.join(" | "));
+  }
+  if (hadDoc) globalThis.document = prevDoc; else delete globalThis.document;
   check(jobsRun >= 5 && perJob.length === Q.length && steps > 0 && agree === steps, `the preview's governor decision equals the real run's at every step before the stop: ${agree} of ${steps} steps over ${jobsRun} jobs the governor let through (of ${Q.length} queued; the rest refused before any run) and ${stops + clean} runs`, bad.join(" | "));
   check(stopsOk === stops && cleanOk === clean, `the real run stops at the supervisor's E-stop step with "estop" (${stopsOk} of ${stops}) and a clean run is as long as its preview (${cleanOk} of ${clean})`, bad.join(" | "));
 }
@@ -358,6 +395,50 @@ check(L1.every((x) => x === "protective-stop") && L2.every((x) => x === null) &&
       `the port control room's straddle carrier: ${q.robot.triangles} triangles, ${q.robot.calls} draw calls (<= ${SB.triangles} / ${SB.calls}); a relief ${(bx.max.z - bx.min.z).toFixed(3)} m deep between the window picture (z ${win.position.z}) and the mullions, y ${bx.min.y.toFixed(2)}-${bx.max.y.toFixed(2)} inside the picture, clear of ${mull.length} mullions; beacons ${lit[0]} / ${red[0]} / dark with no state; no floor zone; room ${mp.meshes} meshes / ${mp.triangles} tris`);
   }
   check(amrR.triangles <= BR.triangles && amrR.calls <= BR.calls && amrR.triangles < amrF.triangles && JSON.stringify(Object.keys(amrR.links)) === JSON.stringify(Object.keys(amrF.links)) && wh.rhd.robots.every((q) => q.robot.triangles === amrR.triangles), `the AMR's room level: ${amrF.triangles} -> ${amrR.triangles} triangles, ${amrR.calls} draw calls (<= ${BR.triangles} / ${BR.calls}), same links and light; both warehouse AMRs use it; outdoors keeps the full AMR (§1)`);
+}
+
+// ------------------------------------------------------------------- 5a. the yard carrier travels its lane (ROBOTS-HD-4)
+console.log("5a. the port yard's carrier moves only while the site is running");
+{
+  // A headless walk of the port site's state: the carrier (a lane robot) must move exactly on the steps its beacons are green,
+  // hold on a protective stop, an e-stop and with no state (the site on another map), stay in its pane clear of the mullions
+  // at every step, and turn back inside its lane; every other room's robots never move (ROBO-INTERIORS' rule).
+  const pr = build("ixr-port-control", "high", roomsWith({ rhd: true })); pr.group.updateMatrixWorld(true);
+  const q = pr.rhd.robots[0], win = pr.group.getObjectByName("ixr-window-wall"), winH = win.geometry.parameters.height;
+  const mull = []; pr.group.traverse((o) => { if (o.isInstancedMesh && o.userData.ixrTags) { const m4 = new THREE.Matrix4(), p = new THREE.Vector3(); o.userData.ixrTags.forEach((t, i) => { if (t === "mullions") { o.getMatrixAt(i, m4); p.setFromMatrixPosition(m4); mull.push(p.x); } }); } });
+  const states = { running: { mode: "full", estopped: false, locked: false }, reduced: { mode: "reduced", estopped: false, locked: false }, stop: { mode: "stop", estopped: false, locked: false }, estop: { mode: "full", estopped: true, locked: false }, locked: { mode: "full", estopped: false, locked: true }, none: null };
+  const names = Object.keys(states); let sd = 23; const rnd = () => { sd = (sd * 1664525 + 1013904223) >>> 0; return sd / 4294967296; };
+  const bbox = () => { pr.group.updateMatrixWorld(true); return new THREE.Box3().setFromObject(q.robot.group); };
+  const inPane = (bx) => bx.min.z > win.position.z && bx.max.z < win.position.z + 0.12 && bx.min.y >= win.position.y - winH / 2 && bx.max.y <= win.position.y + winH / 2 && mull.every((x) => x + 0.04 < bx.min.x || x - 0.04 > bx.max.x);
+  const N = 900, dt = 1 / 30; let okMove = 0, okPane = 0, greenSteps = 0, greenMoved = 0, heldSteps = 0, turns = 0, red = 0, redN = 0, lastDir = 0; const perState = {};
+  let name = "running";
+  for (let k = 0; k < N; k++) {
+    if (k % 45 === 0) name = names[Math.floor(rnd() * names.length)];
+    const x0 = q.drive.x, p0 = q.drive.pos;
+    const light = RHD.rhdRoomLights(pr, states[name], { x: 0, z: 0 }, dt)[0];
+    const moved = q.drive.x !== x0, green = light === "running";
+    perState[name] = (perState[name] ?? 0) + (moved ? 1 : 0);
+    if (moved === green) okMove++;
+    if (green) { greenSteps++; if (moved) greenMoved++; } else heldSteps++;
+    if (name === "estop" || name === "locked") { redN++; if (light === "e-stop") red++; }
+    const dir = Math.sign(q.drive.pos - p0); if (dir && lastDir && dir !== lastDir) turns++; if (dir) lastDir = dir;
+    if (inPane(bbox()) && Math.abs(q.drive.pos) <= q.lane.length / 2 + 1e-9) okPane++;
+  }
+  const still = RHD.rhdRoomLights(pr, states.running, { x: 0, z: 0 }, 0)[0] === "running" && q.drive.x === q.drive.x && !q.drive.moving;
+  check(okMove === N && greenMoved === greenSteps && greenSteps > 0 && heldSteps > 0 && red === redN && redN > 0, `the carrier moves exactly on the green steps: ${okMove} of ${N} steps follow the site's state (green ${greenMoved} of ${greenSteps} moved; amber, red or no state ${heldSteps} held; e-stop or lock-out red ${red} of ${redN}); moved steps by state ${Object.entries(perState).map(([s, n]) => `${s} ${n}`).join(", ")}`);
+  check(okPane === N && turns >= 2 && still, `the carrier stays in its pane clear of ${mull.length} mullions and inside its ${q.lane.length} m lane at every step (${okPane} of ${N}); turned back ${turns} times at ${q.lane.speed} m/s; a zero time step moves nothing`);
+  // The built page passes no dt: the room's own clock moves the carrier between two calls and caps a long gap at 0.1 s.
+  const pr2 = build("ixr-port-control", "high", roomsWith({ rhd: true })), q2 = pr2.rhd.robots[0];
+  RHD.rhdRoomLights(pr2, states.running); const xa = q2.drive.x; pr2.rhd.clock -= 5; RHD.rhdRoomLights(pr2, states.running); const gap = Math.abs(q2.drive.pos);
+  const pr3 = build("ixr-port-control", "high", roomsWith({ rhd: true, ua: DESK })), q3 = pr3.rhd.robots[0]; pr3.rhd.reducedMotion = true; RHD.rhdRoomLights(pr3, states.running, null, 1);
+  check(q2.drive.x !== xa && Math.abs(gap - 0.1 * q2.lane.speed) < 1e-9 && q3.drive.pos === 0, `with no dt the room's own clock drives it (a 5 s gap moves ${gap.toFixed(3)} m = 0.1 s x ${q2.lane.speed} m/s, capped); with reduced motion it stands still (${q3.drive.pos} m after 1 s)`);
+  let stillN = 0, stillOk = 0;
+  for (const st of Object.keys(RHD.RHD_ROOM_ROBOTS).filter((s) => s !== "ixr-port-control")) {
+    const room = build(st, "high", roomsWith({ rhd: true })), at = room.rhd.robots.map((r) => r.robot.group.position.toArray().join(","));
+    for (let k = 0; k < 60; k++) RHD.rhdRoomLights(room, states.running, { x: 0, z: 0 }, dt);
+    room.rhd.robots.forEach((r, i) => { stillN++; if (r.robot.group.position.toArray().join(",") === at[i] && !r.drive) stillOk++; });
+  }
+  check(stillN > 0 && stillOk === stillN, `every other room's robots never move (no lane): ${stillOk} of ${stillN} robots in place after 60 running steps`);
 }
 
 // ------------------------------------------------------------------------------- 5b. the floor zone indoors (ROBOTS-HD-2)

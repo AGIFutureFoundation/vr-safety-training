@@ -84,10 +84,15 @@ export function vbMountDispatch(el, { reducedMotion = false, ent3 = null, statio
     const v = gov.verify(); lines.push(`Audit: ${v.lines} line(s), chain ${v.ok ? "intact" : "BROKEN"}`);
     card.textContent = lines.join("\n");
   };
-  const finish = (estopAt) => { clearInterval(timer); vbRun(job, gov, { estopAtStep: estopAt, policyFor }); vbEvaluate(job, { note: estopAt != null ? "stopped by the supervisor" : "" }); frames = []; show(); };
+  // ROBOTS-HD-4: the provider's answer is pinned at approve(). The preview and the real run (finish) ask the same wrapper, which
+  // hands the real run the very policy the preview ran, so a consented take recorded mid-run (vb-colearn's local source then
+  // retrains under a new tag) cannot make the audited run differ from the frames the supervisor watched; the next job asks afresh.
+  let pinned = null;
+  const pinProvider = () => { if (!policyFor) return null; const got = new Map(); return (pid, env, seed) => { const k = `${pid}|${env?.scenario?.id ?? ""}|${seed}`; if (!got.has(k)) got.set(k, policyFor(pid, env, seed) ?? null); return got.get(k); }; };
+  const finish = (estopAt) => { clearInterval(timer); vbRun(job, gov, { estopAtStep: estopAt, policyFor: pinned ?? policyFor }); vbEvaluate(job, { note: estopAt != null ? "stopped by the supervisor" : "" }); frames = []; pinned = null; show(); };
   const api = {
     next() {
-      clearInterval(timer); frames = [];
+      clearInterval(timer); frames = []; pinned = null;
       qi = (qi + 1) % VB_PANEL_QUEUE.length;
       const spec = VB_PANEL_QUEUE[qi]; burstNote = "";
       if (spec.burst) {
@@ -102,7 +107,7 @@ export function vbMountDispatch(el, { reducedMotion = false, ent3 = null, statio
       if (!job || job.phase !== "NEGOTIATION") return null;
       vbApprove(job, { supervisor: "Supervisor (this device)", approve: true });
       const preview = JSON.parse(JSON.stringify(job));
-      vbRun(preview, vbGovernor(), { policyFor });
+      pinned = pinProvider(); vbRun(preview, vbGovernor(), { policyFor: pinned });
       frames = preview.deliverable.episode.steps; fi = 0; show();
       if (!reducedMotion) timer = setInterval(() => { if (fi < frames.length - 1) { fi += 1; show(); } else finish(null); }, 350);
       return job;

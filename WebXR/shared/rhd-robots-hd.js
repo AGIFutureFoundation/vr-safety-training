@@ -30,7 +30,9 @@
 //                                                           governor decision (vb-panel.js state().run), a halted run's last one
 //   rhdMountRobots({ THREE, robotics, tier, ua, reducedMotion, jobs }) -> { on, robots, tick(dt, px, pz), measure(), run() }
 //   rhdDressRoom({ three, group, room, tier, ua })       -> the room's HD robots (INTERIORS dresser, after ixr's)
-//   rhdRoomLights(room, siteState, pose?)                -> the room robots' lights, and their floor zones by the room-local pose
+//   rhdRoomLights(room, siteState, pose?, dt?)           -> the room robots' lights, their floor zones by the room-local pose, and
+//                                                           (ROBOTS-HD-4) a lane robot's travel: dt seconds, or its own clock when
+//                                                           none is given; room.rhd.motion() reads where each one stands
 //   rhdRegisterDressers(ix, { ua })                      -> styles registered
 
 import { RB_SSM } from "./rb-robotics-data.js";
@@ -543,7 +545,11 @@ export const RHD_ROOM_ROBOTS = {
   "ixr-cell-hall": { strip: [["cell robot", () => true]], robots: [{ kind: "cell-arm", x: 0, y: 0, z: -4, yaw: 0, light: "site" }] },
   "ixr-cobot-lab": { strip: [["cobot arm", () => true], ["second cobot cell", (y) => y > 0.95]], robots: [{ kind: "cobot", x: -0.4, y: 0.9, z: -2.2, yaw: 0, light: "site", scale: 0.85, pedestal: false }, { kind: "cobot", x: -5.12, y: 0.9, z: -4.2, yaw: 0, light: "site", scale: 0.7, pedestal: false }] },
   "ixr-amr-warehouse": { strip: [["AMR", () => true], ["docked AMR", () => true]], robots: [{ kind: "amr", x: -3.5, y: 0, z: -3.0, yaw: 0, light: "site" }, { kind: "amr", x: -10.9, y: 0, z: 3.5, yaw: Math.PI / 2, light: "site" }] },
-  "ixr-port-control": { strip: [], robots: [{ kind: "straddle", x: -5.69, y: 1.18, z: -5.95, yaw: -0.55, light: "site", zone: false, relief: { scale: 1 / 16, depth: 0.07 } }] },
+  // ROBOTS-HD-4: the carrier travels a yard lane (`lane`: yard metres along the room's x, back and forth, m/s) only while its
+  // beacons are green — the room robots' rule for a moving robot: amber, red or dark (the site on another map) holds it. The
+  // relief shows the travel at its scale: the carrier's relief is 0.80 m wide in a 1.545 m clear pane, so 5.5 m each way in
+  // the yard is 0.344 m in the pane, 19 mm short of each mullion (measured: 5.81 m would touch).
+  "ixr-port-control": { strip: [], robots: [{ kind: "straddle", x: -5.69, y: 1.18, z: -5.95, yaw: -0.55, light: "site", zone: false, relief: { scale: 1 / 16, depth: 0.07 }, lane: { length: 11, speed: 1.5 } }] },
   "ixr-drilling-deck": { strip: [["drilling robot", () => true], ["robot battery", () => true]], robots: [{ kind: "drill", x: 0, y: 0, z: -3.5, yaw: 0, light: "site" }] },
   "ixr-maint-bay": { strip: [["robot arm on the stand", () => true], ["AMR on the lift", () => true]], robots: [{ kind: "cell-arm", x: 3.6, y: 0.9, z: -3.2, yaw: 0, light: null, scale: 0.75, pedestal: false, parked: true }, { kind: "amr", x: 5.8, y: 0.7, z: -0.2, yaw: Math.PI / 2, light: null }] },
 };
@@ -565,8 +571,11 @@ function rhdStrip(im, rules, THREE) {
   return dropped;
 }
 
+/** ROBOTS-HD-4: the viewer's reduced-motion preference (a lane robot then stands still); false where there is no page. */
+function rhdPrefersStill() { try { return typeof matchMedia === "function" && !!matchMedia("(prefers-reduced-motion: reduce)")?.matches; } catch (_) { return false; } }
+
 /** INTERIORS dresser (runs after ixr's): the room's HD robots on the desktop high tier; elsewhere nothing. */
-export function rhdDressRoom({ three: THREE, group, room, tier = "high", ua = typeof navigator !== "undefined" ? navigator.userAgent : "" }) {
+export function rhdDressRoom({ three: THREE, group, room, tier = "high", ua = typeof navigator !== "undefined" ? navigator.userAgent : "", reducedMotion = rhdPrefersStill() }) {
   const spec = RHD_ROOM_ROBOTS[room?.id];
   if (!THREE || !spec || !rhdAllowed(tier, ua)) return null;
   let dropped = 0;
@@ -579,6 +588,7 @@ export function rhdDressRoom({ three: THREE, group, room, tier = "high", ua = ty
     const r = rhdBuildRobot(THREE, q.kind, { scale: q.scale ?? 1, pedestal: q.pedestal !== false, zone: !!floor, ground: floor, detail: q.kind === "amr" ? "room" : "full" });
     r.pose(q.parked ? 2.2 : 0);
     r.setLight(null); // dark until the app gives it the site's state (rhdRoomLights); a robot locked out on a stand stays dark
+    let mover = r.group;
     if (q.relief) {
       // ROBOTS-HD-3: a relief in the window band. The holder scales the robot down and flattens it along the room's z (the
       // window's normal); the robot turns inside it, so its depth is squeezed after the turn and it stays inside `depth`.
@@ -586,23 +596,66 @@ export function rhdDressRoom({ three: THREE, group, room, tier = "high", ua = ty
       r.group.rotation.y = q.yaw; r.group.updateMatrixWorld(true);
       const box = new THREE.Box3().setFromObject(r.group), deep = Math.max(1e-6, box.max.z - box.min.z);
       holder.scale.set(q.relief.scale, q.relief.scale, q.relief.depth / deep);
-      holder.add(r.group); group.add(holder);
+      holder.add(r.group); group.add(holder); mover = holder;
     } else { r.group.position.set(q.x, q.y ?? 0, q.z); r.group.rotation.y = q.yaw; group.add(r.group); }
-    return { ...q, robot: r };
+    const drive = q.lane ? rhdLaneDrive(q.lane, mover, q.relief?.scale ?? 1) : null; // ROBOTS-HD-4: the yard carrier's lane
+    return { ...q, robot: r, drive };
   });
-  room.rhd = { robots, dropped, triangles: robots.reduce((a, q) => a + q.robot.triangles, 0) };
+  room.rhd = {
+    robots, dropped, triangles: robots.reduce((a, q) => a + q.robot.triangles, 0),
+    reducedMotion: !!reducedMotion, clock: null,
+    /** ROBOTS-HD-4: where each lane robot stands (yard metres from its mark, signed), whether its last tick moved it, and
+     *  the room-x it is drawn at; rooms whose robots never move return []. */
+    motion: () => robots.filter((q) => q.drive).map((q) => ({ kind: q.kind, pos: q.drive.pos, moving: q.drive.moving, travelled: q.drive.travelled, x: q.drive.x })),
+  };
   return room.rhd;
+}
+
+/** ROBOTS-HD-4: a robot that travels a lane — the port yard's straddle carrier. It moves only while its light is "running"
+ *  (the room robots' rule for a moving robot: a protective stop, an e-stop or no state holds it where it is), back and forth
+ *  over `length` yard metres along the room's x at `speed` m/s; `scale` is how the room shows the yard (1 at full size, the
+ *  relief's 1/16 in the pane). `mover` is the object that carries the robot (the relief holder, or the robot's own group). */
+function rhdLaneDrive(lane, mover, scale = 1) {
+  const half = Math.max(0, (lane.length ?? 0) / 2), speed = Math.max(0, lane.speed ?? 0), x0 = mover.position.x;
+  let pos = Math.max(-half, Math.min(half, lane.start ?? 0)), dir = lane.start > 0 ? -1 : 1, moving = false, travelled = 0;
+  mover.position.x = x0 + pos * scale;
+  return {
+    get pos() { return pos; }, get moving() { return moving; }, get travelled() { return travelled; }, get x() { return mover.position.x; },
+    /** Advance by dt seconds under the light shown; returns the metres moved (0 when held). */
+    tick(dt, light) {
+      moving = false;
+      if (light !== "running" || !(dt > 0) || !speed || !half) return 0;
+      let step = Math.min(dt, 0.1) * speed; // a long frame never jumps the carrier more than a tenth of a second's travel
+      const before = pos;
+      pos += dir * step;
+      if (pos > half) { pos = half - (pos - half); dir = -1; } else if (pos < -half) { pos = -half - (pos + half); dir = 1; }
+      pos = Math.max(-half, Math.min(half, pos));
+      step = Math.abs(pos - before); travelled += step; moving = step > 0;
+      mover.position.x = x0 + pos * scale;
+      return step;
+    },
+  };
 }
 
 /** The room robots' lights from the room's site state (only robots marked "site"; a robot on a stand stays dark), and
  *  (ROBOTS-HD-2) each one's floor zone from the learner's room-local pose by rbSsmMode — the same rule as outdoors —
  *  shown only while the room has its site's state (dark when the site is on another map). */
-export function rhdRoomLights(room, state, pose = null) {
+export function rhdRoomLights(room, state, pose = null, dt = undefined) {
   const out = [];
   const live = !!state && typeof state === "object" && typeof state.mode === "string";
-  for (const q of room?.rhd?.robots ?? []) {
-    out.push(q.robot.setLight(q.light === "site" ? rhdLightState(state) : null));
+  const rhd = room?.rhd;
+  // ROBOTS-HD-4: the lane robots' time step. The page's call carries no dt, so the room keeps its own clock (capped at a tenth
+  // of a second, so a pause or a tab switch never jumps the carrier); a caller that passes dt (a check) drives it exactly.
+  let step = dt;
+  if (rhd && step === undefined) {
+    const now = (typeof performance !== "undefined" && typeof performance.now === "function" ? performance.now() : Date.now()) / 1000;
+    step = rhd.clock == null ? 0 : Math.min(0.1, Math.max(0, now - rhd.clock)); rhd.clock = now;
+  }
+  for (const q of rhd?.robots ?? []) {
+    const light = q.robot.setLight(q.light === "site" ? rhdLightState(state) : null);
+    out.push(light);
     if (q.robot.zone) q.robot.setZone(live && pose && Number.isFinite(pose.x) && Number.isFinite(pose.z) ? rbSsmMode(Math.hypot(pose.x - q.x, pose.z - q.z)).mode : "full");
+    if (q.drive) q.drive.tick(rhd.reducedMotion ? 0 : step, light);
   }
   return out;
 }
