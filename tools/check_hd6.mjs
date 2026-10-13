@@ -198,8 +198,10 @@ check(cued === 4, `presets with a cue: ${cued} of 4`);
     }
     return [...out];
   };
+  const hd6MeshCache = new Map();
+  const hd6Mesh = (p, tier) => { const k = `${p.id}/${tier}`; if (!hd6MeshCache.has(k)) hd6MeshCache.set(k, K.hd6Build({ THREE, parish: p, boards: [], tier, ua: "Mozilla/5.0 (X11; Linux x86_64) Chrome/126.0" })); return hd6MeshCache.get(k); };
   for (const tier of ["balanced", "high"]) {
-    let before = 0, after = 0, n = 0, unchanged = 0, moved = [];
+    let before = 0, after = 0, n = 0, unchanged = 0, moved = [], cueN = 0, cueAfter = 0, cueMoved = 0;
     for (const spec of H3.HD3_SCENE_SITES) {
       const p = R.npParish(spec.parish), i = p.sites.findIndex((s) => s.id === spec.id), s = p.sites[i], b = CW.cwSiteBuilding(p, i);
       const vehicles = MW.mvPlacements(p, N.nwParishWorld(p), { tier, lots: DT.dtLotRects(p) });
@@ -215,14 +217,30 @@ check(cued === 4, `presets with a cue: ${cued} of 4`);
       n++; if (o0.length) before++; if (o1.length || inside) after++;
       if (c1.position.some((v, k) => Math.abs(v - c0.position[k]) > 1e-6)) moved.push(`${spec.id} ${c0.position[0].toFixed(1)}, ${c0.position[2].toFixed(1)} -> ${c1.position[0].toFixed(1)}, ${c1.position[2].toFixed(1)} (was hidden by: ${o0.join(", ") || "none"})`);
       if (spec.id === "mission-school-campus" && tier === "high") check(o0.length > 0 && o1.length === 0, `mission-school-campus: the parked vehicles hid part of the school from ENV-HD-7's camera (${o0.join(", ")}); with the app's placements passed, none do`);
+      // ENV-HD-9: the site's cue as subject too (the app passes hd6Build's site footprint): the school's play yard stood behind
+      // the bus from ENV-HD-8's camera; with the outline passed no vehicle hides building, board or cue, and a camera whose cue
+      // was already unhidden does not move
+      const fp = hd6Mesh(p, tier)?.userData.hd6.sites.find((q) => q.id === spec.id)?.footprint ?? null;
+      const outline = fp ? [[fp[0], fp[1]], [fp[2], fp[1]], [fp[2], fp[3]], [fp[0], fp[3]]] : null;
+      const c2 = H3.hd3Scene(p, spec.id, "street", { vehicles, subject: outline });
+      const cueHidden1 = outline ? occludes(vehicles, c1.position[0], c1.position[2], outline) : [], cueHidden2 = outline ? occludes(vehicles, c2.position[0], c2.position[2], outline) : [];
+      const o2 = [...new Set([...occludes(vehicles, c2.position[0], c2.position[2], subj), ...occludes(vehicles, c2.position[0], c2.position[2], [board, [board[0] + 0.01, board[1]]]), ...cueHidden2])];
+      const moved2 = c2.position.some((v, k) => Math.abs(v - c1.position[k]) > 1e-6);
+      if (o2.length || H3.hd3VehicleHit(vehicles, c2.position[0], c2.position[2], 0)) cueAfter++;
+      if (!cueHidden1.length && moved2) cueMoved++;
+      cueN++;
+      if (spec.id === "mission-school-campus" && tier === "high") check(cueHidden1.length > 0 && !cueHidden2.length && !o2.length && moved2, `mission-school-campus: the play yard was hidden from ENV-HD-8's camera (${cueHidden1.join(", ")}); with the cue outline passed the camera moves (${c1.position[0].toFixed(1)}, ${c1.position[2].toFixed(1)} -> ${c2.position[0].toFixed(1)}, ${c2.position[2].toFixed(1)}) and building, board and yard are all unhidden`);
+      if (!outline) check(!moved2, `${spec.id}: no cue on this site, the camera is ENV-HD-8's`);
     }
+    check(cueAfter === 0 && cueMoved === 0, `${tier}: street cameras with the cue outline passed — building, board and cue unhidden ${cueN - cueAfter} of ${cueN}; cameras whose cue was already unhidden moved: ${cueMoved}`);
     check(after === 0, `${tier}: street cameras with no parked vehicle hiding the building or its board, with the placements fixture: ${n - after} of ${n} (without the vehicles: ${n - before} of ${n}); camera inside a vehicle 0`);
     check(unchanged === n, `${tier}: with no vehicles passed (or an empty list), the seven street cameras are ENV-HD-7's (${unchanged} of ${n})`);
     note(`${tier}: street cameras clear of parked vehicles (building and board unhidden): ${n - before} of ${n} -> ${n - after} of ${n}`);
     if (tier === "high") note(`street cameras moved by the parked vehicles: ${moved.join("; ") || "none"}`);
   }
   const app = readFileSync(join(WEBXR, "parishes/js/app.js"), "utf8");
-  check(/hd3Scene\(parish, siteId, shot, \{ vehicles: \(mvPark\?\.parked \?\? \[\]\)\.filter\(\(v\) => !v\.hidden\) \}\)/.test(app), "the parishes app passes the vehicles MOTORWORKS parked (shown ones) to the street solver");
+  // ENV-HD-9: the regex takes the subject (the site's cue footprint from hd6Build's record) beside the vehicles
+  check(/hd3Scene\(parish, siteId, shot, \{ vehicles: \(mvPark\?\.parked \?\? \[\]\)\.filter\(\(v\) => !v\.hidden\), subject: hd6Fp \? \[/.test(app) && /hd6Cues\?\.userData\.hd6\?\.sites\?\.find\(\(q\) => q\.id === siteId\)\?\.footprint/.test(app), "the parishes app passes the vehicles MOTORWORKS parked (shown ones) and the site's cue footprint to the street solver");
 }
 note(`cue triangles per preset (balanced / high): ${perSite.map((r) => `${r.kind} ${r.balanced} / ${r.high}`).join(", ")} (budget ${B.trianglesPerSite.balanced} / ${B.trianglesPerSite.high})`);
 note(`sites cued by kind (ENV-HD-6: 1 each of four): ${K.HD6_CUED_KINDS.map((k) => `${k} ${tally[k].cued} of ${tally[k].sites}`).join(", ")}`);
