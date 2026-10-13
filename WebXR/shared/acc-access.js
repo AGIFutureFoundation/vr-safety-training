@@ -27,7 +27,7 @@ import { NW_AVATAR } from "./nw-physics.js";
 import { ixDoorSpot } from "./ix-interiors.js";
 
 /** The marked door: clear width at least the walk collider's diameter plus 0.25 m each side. */
-export const ACC_DOOR = { width: 1.2, height: 2.3, frame: 0.12 };
+export const ACC_DOOR = { width: 1.2, height: 2.3, frame: 0.12, proud: 0.18 /* just past CITYWORKS' door box, 0.01–0.17 m out (cw-streets-world.js) */ };
 /** A ramp where the door sill stands above the spot's ground: 1:12 at most, 1.2 m wide, a 1.2 m landing, rails both sides. */
 export const ACC_RAMP = { maxSlope: 1 / 12, minRise: 0.02, width: 1.2, landing: 1.2, rail: 0.9 };
 /** Stated budget (measured by check_acc): meshes per map and triangles per entrance; no texture, no light. */
@@ -242,15 +242,18 @@ export function accParts(parish, e, tier = "high") {
     const alongX = Math.abs(a[0]) > 0.5;
     parts.push({ x, y, z, w: alongX ? su : sv, h: sy, d: alongX ? sv : su, col, name });
   };
-  // The marked door: two jambs and a head in a contrasting colour, 4 cm proud of the facade; a contrasting sill strip.
-  box(-(W / 2 + F / 2), 0.04, y0 + H / 2, F, 0.08, H, ACC_COL.jamb, "jamb");
-  box(W / 2 + F / 2, 0.04, y0 + H / 2, F, 0.08, H, ACC_COL.jamb, "jamb");
-  box(0, 0.04, y0 + H + F / 2, W + 2 * F, 0.08, F, ACC_COL.frame, "head");
+  // The marked door: two jambs and a head in a contrasting colour, 4 cm proud of CITYWORKS' own door box (ACC_DOOR.proud: the
+  // box cw-streets-world draws on the facade is 1.6 x 2.4 m and 0.16 m deep, and hid the frame in ACCESS's still); a
+  // contrasting sill strip on the ground.
+  const P = ACC_DOOR.proud;
+  box(-(W / 2 + F / 2), P + 0.04, y0 + H / 2, F, 0.08, H, ACC_COL.jamb, "jamb");
+  box(W / 2 + F / 2, P + 0.04, y0 + H / 2, F, 0.08, H, ACC_COL.jamb, "jamb");
+  box(0, P + 0.04, y0 + H + F / 2, W + 2 * F, 0.08, F, ACC_COL.frame, "head");
   box(0, 0.35, y0 + 0.01, W + 0.4, 0.7, 0.02, ACC_COL.sill, "sill");
   // ACCESS-2: a real opening to read: a dark door panel inside the frame, its face 5 cm behind the jambs' (recessed), and on
   // high a push bar across it at hand height (a horizontal rail; no words, no emblem).
-  box(0, 0.015, y0 + H / 2, W, 0.03, H, ACC_COL.door, "panel");
-  if (hi) box(0, 0.05, y0 + 1.0, W - 0.2, 0.04, 0.05, ACC_COL.bar, "push-bar");
+  box(0, P + 0.015, y0 + H / 2, W, 0.03, H, ACC_COL.door, "panel");
+  if (hi) box(0, P + 0.05, y0 + 1.0, W - 0.2, 0.04, 0.05, ACC_COL.bar, "push-bar");
   // The lit entrance: a housing on a short arm over the head, its lit face below (the lit faces are their own unlit mesh).
   box(0, 0.25, y0 + H + 0.45, 0.6, 0.5, 0.12, ACC_COL.housing, "housing");
   box(0, 0.25, y0 + H + 0.38, 0.5, 0.4, 0.02, ACC_COL.lit, "lit");
