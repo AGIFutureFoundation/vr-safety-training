@@ -92,7 +92,32 @@ function swpList(page, heading) {
   }
   return out;
 }
-const swpClaimList = (claims) => `      <ul class="swp-claims">\n${claims.map((c) => `        <li class="swp-claim">${c.html} ${swpCites(c.cites)}</li>`).join("\n")}\n      </ul>`;
+/**
+ * The committed primary file behind a wiki bullet that names none (the console note or doc the bullet was written from),
+ * by the bullet's first words. It is cited before the wiki page, so a reader has the file the wiki summarised. A wiki
+ * bullet with no entry here and no file of its own stops the build: a claim never cites only docs/wiki/.
+ */
+const SWP_PRIMARY = [
+  ["351 episodes in the trainable set", ["docs/consoles/ROBO-ARENA.md"]],
+  ["A measured study with real, opted-in adults", ["docs/consoles/COLEARN.md", "docs/consoles/ROBOTRAIN-5.md"]],
+  ["A measured study of how learners use the hive", ["docs/consoles/HIVE-IN-WORLD.md", "docs/omega-hive.md"]],
+  ["A native speaker’s review of the hive’s Spanish", ["docs/consoles/HIVE-3.md"]],
+  ["A rated robot run that carries a signal", ["docs/consoles/ROBOTRAIN-7.md", "docs/consoles/ROBOTRAIN-8.md"]],
+  ["The agents’ mouths against a real on-device voice", ["docs/consoles/AVATARS-HD.md"]],
+  ["A headset session on hardware for the teleoperation pad", ["docs/consoles/ROBOTRAIN-2.md", "docs/consoles/ROBOTRAIN-3.md"]],
+  ["A bench pilot", ["docs/bench-protocol.md"]],
+  ["Virtuals Protocol", ["docs/virtuals-bridge.md", "docs/agent-roadmap.md"]],
+];
+const swpIsWiki = (p) => p.startsWith("docs/wiki/");
+/** A claim's cites with its primary file first; throws when every cite would be a wiki page. */
+function swpNoteFirst(text, cites) {
+  const plain = text.replace(/<[^>]+>/g, "").replace(/^\s*(Built|Planned)\s+/, "").trim();
+  const hit = SWP_PRIMARY.find(([lead]) => plain.startsWith(lead));
+  const all = [...(hit ? hit[1] : []), ...cites].filter(swpIsFile);
+  if (!all.some((p) => !swpIsWiki(p))) throw new Error(`gen_whitepaper_page: "${plain.slice(0, 60)}" would cite only docs/wiki/ (add its primary file to SWP_PRIMARY)`);
+  return [...all.filter((p) => !swpIsWiki(p)), ...all.filter(swpIsWiki)];
+}
+const swpClaimList = (claims) => `      <ul class="swp-claims">\n${claims.map((c) => `        <li class="swp-claim">${c.html} ${swpCites(swpNoteFirst(c.html, c.cites))}</li>`).join("\n")}\n      </ul>`;
 
 /** The loop-ten rows of the wiki's measured table, one per console, by round. */
 function swpLoopTen() {
@@ -165,8 +190,8 @@ const SWP_SECTION_DEFS = [
   { id: "problem", nav: "Problem", h2: "The dangerous moments need practice without the danger", parts: () => [
 `      <p>People who work beside robots — apprentices, robot technicians, the specialists who collect and review demonstrations — need to practise the dangerous moments without the danger. The teams building robot and software-agent behaviour need demonstrations with the safety rules built in, gathered with consent. Today these are two separate efforts. This platform makes them one practice, with the teaching job first.</p>
       <ul class="swp-claims">
-        <li class="swp-claim">Who it is for: apprentices and robot technicians who need robot-safety training; AI-training specialists who collect and review demonstrations; robotics and software-agent teams who want a gym with safety rules built in. No union, employer or robot maker is named as a partner, because there is none. <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/wiki/Executive-Summary.md">docs/wiki/Executive-Summary.md</a></cite></li>
-        <li class="swp-claim">Every demonstration measured so far is synthetic or a labelled scripted stand-in; a measured study with real, opted-in adults is planned, not built. <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/wiki/Executive-Summary.md">docs/wiki/Executive-Summary.md</a></cite></li>
+        <li class="swp-claim">Who it is for: apprentices and robot technicians who need robot-safety training; AI-training specialists who collect and review demonstrations; robotics and software-agent teams who want a gym with safety rules built in. No union, employer or robot maker is named as a partner, because there is none. ${swpCites(["docs/robotics-programme.md", "docs/wiki/Executive-Summary.md"])}</li>
+        <li class="swp-claim">Every demonstration measured so far is synthetic or a labelled scripted stand-in; a measured study with real, opted-in adults is planned, not built. ${swpCites(["docs/consoles/ROBOTRAIN-5.md", "docs/consoles/COLEARN.md", "docs/wiki/Executive-Summary.md"])}</li>
       </ul>`,
   ] },
   { id: "platform", nav: "Platform", h2: "A training catalogue, a robot gym and a safety governor", parts: () => [
@@ -174,8 +199,8 @@ const SWP_SECTION_DEFS = [
       <ul class="swp-claims">
         <li class="swp-claim">742 stations in 61 programmes, scored by the platform's own content evaluation: mean 95.8 out of 100, 612 at 95 or more. <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/investor/platform-summary.json">docs/investor/platform-summary.json</a></cite> <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/wiki/Executive-Summary.md">docs/wiki/Executive-Summary.md</a></cite></li>
         <li class="swp-claim">Stations are taught against a registry of 513 standards, codes and programmes, named by title and never quoted. <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/investor/platform-summary.json">docs/investor/platform-summary.json</a></cite></li>
-        <li class="swp-claim">The learning loop runs in the app: demonstrate, consent, train, evaluate, and the robot demonstrates back (5 of 5 steps live). <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/wiki/Executive-Summary.md">docs/wiki/Executive-Summary.md</a></cite></li>
-        <li class="swp-claim">A safety governor between software agents and simulated robots: e-stop first, 11 refusal reasons including a per-agent rate limit and a learned anomaly check that can only add a refusal, and a hash-chained audit log. <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/wiki/Executive-Summary.md">docs/wiki/Executive-Summary.md</a></cite></li>
+        <li class="swp-claim">The learning loop runs in the app: demonstrate, consent, train, evaluate, and the robot demonstrates back (5 of 5 steps live). ${swpCites(["docs/robotics-programme.md", "docs/wiki/Executive-Summary.md"])}</li>
+        <li class="swp-claim">A safety governor between software agents and simulated robots: e-stop first, 11 refusal reasons including a per-agent rate limit and a learned anomaly check that can only add a refusal, and a hash-chained audit log. ${swpCites(["docs/consoles/VBRIDGE.md", "docs/consoles/GOVERNOR-2.md", "docs/wiki/Executive-Summary.md"])}</li>
         <li class="swp-claim">Learner data stays in the browser it was made in; nothing leaves the device without the learner's explicit action. <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/WebXR/privacy.html">WebXR/privacy.html</a></cite></li>
       </ul>`,
   ] },
@@ -184,7 +209,7 @@ const SWP_SECTION_DEFS = [
       <ul class="swp-tiles" aria-label="Omega Hive figures">
         <li class="swp-tile swp-claim"><b>0.950</b><span>accuracy naming the speaking agent on 5,686 held-out lines; chance 0.143</span> <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/consoles/OMEGA-HIVE.md">docs/consoles/OMEGA-HIVE.md</a></cite></li>
         <li class="swp-tile swp-claim"><b>13.715 → 0.034</b><span>mean steps from a job's announcement to its award: one dispatcher, then the hive</span> <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/consoles/OMEGA-HIVE.md">docs/consoles/OMEGA-HIVE.md</a></cite></li>
-        <li class="swp-tile swp-claim"><b>10 of 10</b><span>approval requests asked of the learner wherever the physical path is named</span> <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/wiki/Roadmap-and-Changelog.md">docs/wiki/Roadmap-and-Changelog.md</a></cite></li>
+        <li class="swp-tile swp-claim"><b>10 of 10</b><span>approval requests asked of the learner wherever the physical path is named</span> ${swpCites(["docs/consoles/OMEGA-HIVE.md", "docs/wiki/Roadmap-and-Changelog.md"])}</li>
       </ul>
       <ul class="swp-claims">
         <li class="swp-claim">The agents talk to each other at handoffs: 0 → 258 agent-to-agent exchanges in a seeded day, with 516 of 516 lines whose facts come from the award, the bid or the chain, and the governor still checking 161 of 161 jobs. <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/consoles/HIVE-4.md">docs/consoles/HIVE-4.md</a></cite></li>
@@ -235,7 +260,7 @@ const SWP_SECTION_DEFS = [
         <li class="swp-claim">Its learned check caught 66 of 100 rule-legal anomalous jobs that the rules alone passed, with 0 of 200 held-out safe jobs wrongly refused. <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/consoles/GOVERNOR-2.md">docs/consoles/GOVERNOR-2.md</a></cite></li>
         <li class="swp-claim">On the hard fleet-routing variant, the gap to the scripted expert went from 0.583 to 0.017 after 5 rounds of corrections with features that read the other robots; the expert's labels are not a person's. <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/evals/colearn.json">docs/evals/colearn.json</a></cite> <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/wiki/Roadmap-and-Changelog.md">docs/wiki/Roadmap-and-Changelog.md</a></cite></li>
         <li class="swp-claim">A reactive agent that waits, then sidesteps, passes 55 of 60 fresh held-out seeds where the earlier one passed 26 of 60 — no search, no planner, no learning. On the same seeds a clone given no planner output ends a gap of 0.683, and a reward for steps still trails the plain rule filter (0.517 against 0.650). <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/consoles/ROBOTRAIN-8.md">docs/consoles/ROBOTRAIN-8.md</a></cite></li>
-        <li class="swp-claim">The best text-reading software agent passes 11.5% of 721 stations, against 100% for a scripted expert that sees the targets. <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/wiki/Executive-Summary.md">docs/wiki/Executive-Summary.md</a></cite> <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/perf/agent-baselines.json">docs/perf/agent-baselines.json</a></cite></li>
+        <li class="swp-claim">The best text-reading software agent passes 11.5% of 721 stations, against 100% for a scripted expert that sees the targets. ${swpCites(["docs/perf/agent-baselines.json", "docs/wiki/Executive-Summary.md"])}</li>
         <li class="swp-claim">Labelled synthetic datasets ship with a dataset card in the LeRobot-style and RLDS-style layouts, licence <code>CC0-1.0</code>. <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/robot-datasets.md">docs/robot-datasets.md</a></cite></li>
       </ul>`,
   ] },
@@ -292,10 +317,10 @@ const SWP_SECTION_DEFS = [
   ] },
   { id: "roadmap", nav: "Roadmap", h2: "What is built, and what is only planned", parts: () => [
     `      <ul class="swp-claims">`,
-`        <li class="swp-claim"><span class="swp-tag built">Built</span> A robot gym: 6 simulated scenarios, scripted experts and a behaviour-cloning learner, scored on held-out seeds beside a random floor. <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/wiki/Executive-Summary.md">docs/wiki/Executive-Summary.md</a></cite></li>
-        <li class="swp-claim"><span class="swp-tag built">Built</span> Consent, dataset cards and lineage: a revoke marks dependent policies stale, and the registry moves between devices as a file whose tampering is refused by name. <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/wiki/Executive-Summary.md">docs/wiki/Executive-Summary.md</a></cite></li>
-        <li class="swp-claim"><span class="swp-tag built">Built</span> A pilot kit: 30 cohort templates, the instructor console, the consent flow with its draft terms, and a bench protocol that is a method (0 hardware runs). <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/wiki/Executive-Summary.md">docs/wiki/Executive-Summary.md</a></cite></li>`,
-    ...swpList("Executive-Summary.md", "Planned, not built").map((t) => `        <li class="swp-claim"><span class="swp-tag planned">Planned</span> ${swpInline(t)} ${swpCites(["docs/wiki/Executive-Summary.md"])}</li>`),
+`        <li class="swp-claim"><span class="swp-tag built">Built</span> A robot gym: 6 simulated scenarios, scripted experts and a behaviour-cloning learner, scored on held-out seeds beside a random floor. ${swpCites(["docs/robot-training.md", "docs/consoles/COLEARN.md", "docs/wiki/Executive-Summary.md"])}</li>
+        <li class="swp-claim"><span class="swp-tag built">Built</span> Consent, dataset cards and lineage: a revoke marks dependent policies stale, and the registry moves between devices as a file whose tampering is refused by name. ${swpCites(["docs/robotics-programme.md", "docs/robot-datasets.md", "docs/wiki/Executive-Summary.md"])}</li>
+        <li class="swp-claim"><span class="swp-tag built">Built</span> A pilot kit: 30 cohort templates, the instructor console, the consent flow with its draft terms, and a bench protocol that is a method (0 hardware runs). ${swpCites(["docs/instructor-console.md", "docs/bench-protocol.md", "docs/wiki/Executive-Summary.md"])}</li>`,
+    ...swpList("Executive-Summary.md", "Planned, not built").map((t) => `        <li class="swp-claim"><span class="swp-tag planned">Planned</span> ${swpInline(t)} ${swpCites(swpNoteFirst(t, ["docs/wiki/Executive-Summary.md"]))}</li>`),
     `      </ul>`,
 `      <p class="swp-note">The robots are simulated; no hardware result is stated. No partnership, customer or commercial figure appears on this page. Standards are named, never quoted, and nothing here claims compliance. The full evidence table and changelog are in the repository's wiki. <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/wiki/Evidence.md">docs/wiki/Evidence.md</a></cite></p>`,
   ] },

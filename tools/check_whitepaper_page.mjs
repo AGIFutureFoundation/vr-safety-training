@@ -139,6 +139,12 @@ for (const c of swpClaimsAll) {
   }
 }
 swpCheck(!swpBadCites.size, "every cited file exists and is committed", [...swpBadCites].join(", "));
+// The note first: a wiki page summarises; the console note or doc it was written from is the primary file, and it is cited
+// first, so a reader has the file to check (console SEO-WHITEPAPER-3).
+const swpWikiOnly = swpClaimsAll.filter((c) => c.cites.length && c.cites.every((p) => p.startsWith("docs/wiki/")));
+const swpWikiFirst = swpClaimsAll.filter((c) => c.cites.length && c.cites[0].startsWith("docs/wiki/"));
+swpCheck(!swpWikiOnly.length && !swpWikiFirst.length, `every claim cites a file outside docs/wiki/, and cites it first: ${swpClaimsAll.length - swpWikiOnly.length} of ${swpClaimsAll.length}`,
+  [...swpWikiOnly, ...swpWikiFirst].map((c) => c.text.slice(0, 40)).join(" | "));
 swpCheck(!swpUncited.length, "every claim with a figure cites a file", swpUncited.join(" | "));
 swpCheck(swpFigures > 0 && swpFound === swpFigures, `figures present in their cited committed files: ${swpFound} of ${swpFigures}`, swpMissing.slice(0, 8).join("; "));
 // The tighter rule bites: a planted wrong small number fails where the old lexical rule passed it.
