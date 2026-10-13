@@ -10,9 +10,11 @@
  *     sits inside a claim (.swp-claim), and each number of a claim appears in
  *     one of the files the claim cites; each cited file is committed (tracked
  *     by git). A small number (0 to 9) counts only where it stands as a number
- *     of its own in the cited file with a word it shares with the claim within
- *     SWP_NEAR words either side, so "0" or "6" cannot pass by appearing
+ *     of its own on one line of the cited file (a table row or a sentence)
+ *     with SWP_SHARED words it shares with the claim within SWP_NEAR words
+ *     either side on that line, so "0" or "6" cannot pass by appearing
  *     anywhere (a planted wrong small number is a negative case below).
+ *     Every claim cites a file outside docs/wiki/, and cites it first.
  *     Numbers inside <code>, <cite>, <svg>, <script>, <style> and attributes
  *     are names, not figures. The page is what tools/gen_whitepaper_page.mjs
  *     builds (a staleness check).
@@ -59,14 +61,15 @@ export function swpText(html) {
     .replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&#39;|&rsquo;/g, "'")
     .replace(/\s+/g, " ").trim();
 }
-/** Numbers in text: 3,631 · 0.950 · 5 · 11.5 (a range like 496–524 is two). */
-export const swpNumbers = (text) => text.match(/\d+(?:[.,]\d+)*/g) ?? [];
+/** Numbers in text: 3,631 · 0.950 · 5 · 11.5 (a range like 496–524 is two); a digit inside a name (depth-1, retest8) is not one. */
+export const swpNumbers = (text) => swpTokens(text).filter((t) => /^\d/.test(t));
 /** A small number's context: the nearest this many content words either side (numbers and short or common words skipped), in the claim and in the cited file. */
 export const SWP_NEAR = 4;
 /** How many content words a small number's two windows must share (fewer only when the claim has fewer beside it). */
 export const SWP_SHARED = 2;
 const SWP_STOP = new Set("the and of a an in on to for with at by is are was were it its as or from that this than be no not into each every all now per so one two".split(" "));
-const swpTokens = (text) => text.match(/\d+(?:[.,]\d+)*|[A-Za-z][A-Za-z'\u2019-]*/g) ?? [];
+// A word keeps its digits (ROBOTS-HD-2, H.264 aside), so a name's trailing digit is not a standalone figure.
+const swpTokens = (text) => text.match(/\d+(?:[.,]\d+)*|[A-Za-z][A-Za-z0-9'\u2019-]*/g) ?? [];
 const swpStem = (w) => w.toLowerCase().replace(/[\u2019']s$/, "").replace(/s$/, "");
 const swpContent = (tok) => /^[A-Za-z]/.test(tok) && tok.length > 2 && !SWP_STOP.has(tok.toLowerCase());
 /** For each standalone occurrence of the small number n in text: the set of its SWP_NEAR nearest content words either side. */
@@ -83,12 +86,41 @@ function swpWindows(text, n) {
   });
   return out;
 }
-/** Is the number n of a claim's text found in a cited file's text? A small number needs a shared word beside it. */
-export function swpFigureIn(n, claimText, fileText) {
+/**
+ * Is the number n of a claim's text found in a cited file's text? A small number is read line by line (a table row, or a
+ * sentence of a note): it counts only where SWP_SHARED of the claim's nearest words stand beside it on the same line. The
+ * window never crosses a line, so a long page's digits beside "page" or "checks" on other rows do not stand in for the
+ * figure (console SEO-WHITEPAPER-3; the round-eight rule read the whole file as one text, and a planted wrong digit on the
+ * round-seven drive row was rejected 1 time in 9; line by line it is 9 in 9, and the page's 974 figures still pass; three
+ * shared words would reject 12 true figures, so SWP_SHARED stays 2).
+ */
+export function swpFigureIn(n, claimText, fileText, rows = []) {
   const plain = n.replace(/,/g, "");
   if (!/^\d$/.test(n)) return fileText.includes(n) || fileText.includes(plain);
   const mine = new Set(swpWindows(claimText, n).flatMap((s) => [...s]));
-  return swpWindows(fileText, n).some((near) => [...near].filter((w) => mine.has(w)).length >= Math.max(1, Math.min(SWP_SHARED, mine.size)));
+  const need = Math.max(1, Math.min(SWP_SHARED, mine.size));
+  const measures = swpMeasures(rows, n);
+  return fileText.split("\n").some((line) => {
+    const wins = swpWindows(line, n);
+    if (!wins.length) return false;
+    if (measures.length) { const words = new Set(swpTokens(line).filter(swpContent).map(swpStem)); if (!measures.some((m) => m.every((w) => words.has(w)))) return false; }
+    return wins.some((near) => [...near].filter((w) => mine.has(w)).length >= need);
+  });
+}
+/**
+ * The measures of a table figure: the tables' rows are the generator's "measure: figure" pairs (one `.swp-row` span each,
+ * pairs split by ";"), so the SWP_NEAR last content words of a label before "n" must stand on the same line of the cited
+ * file as the figure (one of them, where a row writes n for several measures). "Still-only drive: checks passed: 5" needs
+ * "still-only drive checks passed" on the digit's line, which only the drive row carries; prose claims have no such pair
+ * and keep the line-bound rule alone.
+ */
+function swpMeasures(rows, n) {
+  const out = [];
+  for (const row of rows) for (const seg of row.split(/;\s*/)) {
+    const m = seg.match(new RegExp(`^(.*): ${n}(?![\\d.,])`));
+    if (m) out.push(swpTokens(m[1]).filter(swpContent).map(swpStem).slice(-SWP_NEAR));
+  }
+  return out;
 }
 /** The claims of a page: each element whose class names swp-claim, with its cited paths. */
 export function swpClaims(html) {
@@ -96,7 +128,8 @@ export function swpClaims(html) {
   for (const m of html.matchAll(/<(li|tr|p)\b([^>]*\bclass="[^"]*\bswp-claim\b[^"]*"[^>]*)>([\s\S]*?)<\/\1>/g)) {
     const inner = m[3];
     const cites = [...inner.matchAll(/<cite>\s*<a href="([^"]+)"/g)].map((c) => c[1].startsWith(SWP_REPO_BLOB) ? c[1].slice(SWP_REPO_BLOB.length) : c[1]);
-    out.push({ whole: m[0], inner, text: swpText(inner), cites });
+    const rows = [...inner.matchAll(/<span class="swp-row">([\s\S]*?)<\/span>/g)].map((r) => swpText(r[1]));
+    out.push({ whole: m[0], inner, text: swpText(inner), cites, rows });
   }
   return out;
 }
@@ -134,7 +167,7 @@ for (const c of swpClaimsAll) {
   if (nums.length && !c.cites.length) swpUncited.push(c.text.slice(0, 60));
   for (const n of nums) {
     swpFigures += 1;
-    const hit = c.cites.some((p) => { const s = swpFile(p); return s && swpFigureIn(n, c.text, s); });
+    const hit = c.cites.some((p) => { const s = swpFile(p); return s && swpFigureIn(n, c.text, s, c.rows); });
     if (hit) swpFound += 1; else swpMissing.push(`${n} in "${c.text.slice(0, 50)}…" (${c.cites.join(", ")})`);
   }
 }
@@ -155,11 +188,14 @@ const swpReal = swpClaimsAll.find((c) => /Still-only drive/.test(c.text));
 // Which wrong digit the wiki happens to hold elsewhere changes when the wiki is rebuilt, so try each digit the file holds
 // (other than the true 5): the case needs at least one planted wrong digit that the tighter rule rejects.
 const swpRealFile = swpFile("docs/wiki/Roadmap-and-Changelog.md") ?? "";
-const swpRealPlants = swpReal ? ["1", "2", "3", "4", "6", "7", "8", "9"].filter((d) => swpRealFile.includes(d)) : [];
-const swpRealCaught = swpRealPlants.find((d) => !swpFigureIn(d, swpReal.text.replace("checks passed: 5", `checks passed: ${d}`), swpRealFile));
-swpCheck(!!swpReal && swpFigureIn("5", swpReal.text, swpRealFile) && !!swpRealCaught,
-  "negative case: the round-seven drive row with a planted wrong digit for its 5 checks passed fails against its cited wiki page, which holds that digit elsewhere",
-  swpRealCaught ? `planted ${swpRealCaught}` : `none of ${swpRealPlants.join(", ")} is rejected`);
+const swpRealPlants = swpReal ? ["0", "1", "2", "3", "4", "6", "7", "8", "9"].filter((d) => swpRealFile.includes(d)) : [];
+const swpPlanted = (d) => (t) => t.replace("checks passed: 5", `checks passed: ${d}`);
+const swpRealCaught = swpRealPlants.filter((d) => !swpFigureIn(d, swpPlanted(d)(swpReal.text), swpRealFile, swpReal.rows.map(swpPlanted(d))));
+// Every planted digit that is not itself on the drive row must fail: the measure "checks passed" stands on that row alone, so
+// only a digit the row holds for another measure (its two 0s) can still pass there. The lexical rule narrows; it does not prove.
+swpCheck(!!swpReal && swpFigureIn("5", swpReal.text, swpRealFile, swpReal.rows) && swpRealPlants.length > 0 && swpRealCaught.length >= swpRealPlants.length - 1,
+  `negative case: the round-seven drive row with a planted wrong digit for its 5 checks passed fails against its cited wiki page, which holds every digit elsewhere: ${swpRealCaught.length} of ${swpRealPlants.length} planted digits rejected`,
+  `passed: ${swpRealPlants.filter((d) => !swpRealCaught.includes(d)).join(", ") || "none"}`);
 // The page is the generator's output.
 let swpGen = "";
 try { swpGen = swpBuildPage(); } catch (e) { swpGen = `error: ${e.message}`; }
