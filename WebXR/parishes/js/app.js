@@ -1501,6 +1501,7 @@ function lxRoomSync() {
   if (!st) return null;
   try {
     const lesson = lxAgentLesson(st.id, lxRoster(), { leader: st.leader });
+    try { window.__parishTest.lxMenu?.run()?.stop?.(); window.__parishTest.lxRun?.stop?.(); } catch (_) { /* no outdoor lesson running */ } // one lesson at a time: the room's replaces an outdoor one
     lxRoomRun = lxRoomLesson({ room: cur, three: THREE, mount: aaRoomMount, lesson, tier: npTierName, reducedMotion: npReduced, caption: (c) => npToast(c, 4200) });
   } catch (_) { lxRoomRun = null; }
   return lxRoomRun;
