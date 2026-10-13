@@ -34,10 +34,13 @@ const assert = (c, m) => { if (!c) throw new Error(m); };
 const read = (p) => readFileSync(join(ROOT, p), "utf8");
 const git = (...a) => execFileSync("git", a, { cwd: ROOT, encoding: "utf8" }).trim();
 const ENV = { PATH: process.env.PATH ?? "/usr/bin:/bin" };
+// --quick (development only, never in check_all): skip the slow legs (the selftest, the weights rebuild, the full dataset build).
+const QUICK = process.argv.includes("--quick");
+const slow = (name, fn) => (QUICK ? console.log(`skip ${name} — --quick`) : check(name, fn));
 
 // 1. the selftest
 let st = null;
-check("python3 robotics/strands/selftest.py passes with no third-party package", () => {
+slow("python3 robotics/strands/selftest.py passes with no third-party package", () => {
   let out;
   try { out = execFileSync("python3", ["robotics/strands/selftest.py"], { cwd: ROOT, encoding: "utf8", env: ENV, timeout: 300000 }); }
   catch (e) { out = e.stdout ?? ""; }
@@ -51,11 +54,11 @@ const need = ["no third-party package imported", "physical dispatches 0", "seria
   // STRANDS-2: stations through the bridge, the arena's published ra-lm build and ra-lm-h
   "station scenarios through the bridge", "station parity with raRun per seed", "published ra-lm build and ra-lm-h reproduce raRun on the gym scenarios", "seed gate: stations dev only, protocol-3 seeds refused",
   // STRANDS-3: the declared protocol-3 parity check is allowed once, for bc and ra-lm-h on gym scenarios only, and refused after
-  "seed gate: protocol-3 parity only as declared, once"];
-for (const n of need) check(`selftest: ${n}`, () => { const r = st?.results.find((x) => x.check === n); assert(r, "missing"); assert(r.ok, r.detail); return r.detail?.slice(0, 90); });
+  "seed gate: protocol-3 parity only as declared, once", "tanh argmax agreement Python vs V8 (sample of the training rows)"];
+for (const n of need) slow(`selftest: ${n}`, () => { const r = st?.results.find((x) => x.check === n); assert(r, "missing"); assert(r.ok, r.detail); return r.detail?.slice(0, 90); });
 
 // 2. weights
-check("exported weights match a fresh build", () => {
+slow("exported weights match a fresh build", () => {
   const out = execFileSync("node", ["tools/ra_export_weights.mjs", "--check"], { cwd: ROOT, encoding: "utf8", env: ENV, timeout: 300000 });
   assert(/weights match a fresh build/.test(out), out.split("\n").filter((l) => /DIFFERS/.test(l)).join(", "));
   const files = readdirSync(join(ROOT, "robotics", "strands", "weights"));
@@ -102,6 +105,16 @@ check("protocol-3 parity block: bc and ra-lm-h only, seeds 7241-7300, counts equ
   const gate = JSON.parse(execFileSync("python3", ["-c", "import json,sys; sys.path.insert(0, '.'); from robotics.strands.harness import seed_gate, PROTOCOL3_SEEDS; print(json.dumps(seed_gate(PROTOCOL3_SEEDS, ['rb-port-gantry'], ['bc', 'ra-lm-h'])))"], { cwd: ROOT, encoding: "utf8", env: ENV, timeout: 60000 }).trim());
   assert(gate.ok === false && /already run once/.test(gate.reason), `the gate would allow a second protocol-3 run: ${JSON.stringify(gate)}`);
   return `${equal} of ${b.results.length} (policy, scenario) counts equal claw3.json over ${b.totals.episodes} episodes; ${b.parity.scenariosCompared.length} of ${claw.protocol.scenarios.length} protocol scenarios (not run: ${b.parity.scenariosNotRun.join(", ")}); second run refused`;
+});
+check("tanh agreement block: every training row of ra-lm-h compared, Python argmax = V8 argmax, 0 flips", () => {
+  const d = JSON.parse(read("docs/evals/strands.json"));
+  const t = d.tanhAgreement;
+  assert(t, "no tanhAgreement block (python3 robotics/strands/tanh_agreement.py)");
+  assert(t.model === "ra-lm-h" && t.limitPerTask === 0 && t.rowsEqualTraining === true && t.rows === t.trainRows, `not every training row (${t.rows} of ${t.trainRows})`);
+  assert(t.compared === t.rows && !t.skippedTasks.length, `tasks not exported: ${t.skippedTasks.join(", ")}`);
+  assert(t.flips === 0 && t.agree === t.compared, `${t.flips} flips: ${JSON.stringify(t.flipExamples[0] ?? null).slice(0, 160)}`);
+  assert(t.network === 0, "network not 0");
+  return `${t.agree} of ${t.compared} rows agree over ${Object.keys(t.byTask).length} tasks; V8 training accuracy ${t.trainAccuracyV8} (recomputed ${t.trainAccuracyV8Recomputed}), Python ${t.trainAccuracyPython}`;
 });
 check("station seed sensitivity block (devStationSeeds): expert and bc, seeds 1-20, per-seed lengths recorded", () => {
   const d = JSON.parse(read("docs/evals/strands.json"));
@@ -177,7 +190,7 @@ check("LeRobot-style JSONL exporter: committed sample round-trips, rows valid, l
   try { const r = lrRun(["exports/robotics/arena", join(tmp, "out"), "--sample"]); assert(r.ok, r.problems.join("; ")); return `${r.episodes} episodes, ${r.frames} frames, rows ${r.rowsValid}, leakage ${r.leakage}`; }
   finally { rmSync(tmp, { recursive: true, force: true }); }
 });
-check("LeRobot-style JSONL exporter: full set counts equal index.json, rows valid, leakage 0", () => {
+slow("LeRobot-style JSONL exporter: full set counts equal index.json, rows valid, leakage 0", () => {
   const tmp = mkdtempSync(join(tmpdir(), "st2-lr-"));
   try {
     execFileSync("node", ["tools/ra_dataset.mjs", "--full", "--out", join(tmp, "ds")], { cwd: ROOT, encoding: "utf8", env: ENV, timeout: 300000 });
@@ -192,6 +205,65 @@ check("the exporter takes no new dependency", () => {
   const extra = mods.filter((m) => !std.has(m));
   assert(!extra.length, `imports ${extra.join(", ")}`);
   return `imports: ${[...new Set(mods)].join(", ")}`;
+});
+
+// 7. STRANDS-3: the page-side LeRobot-style exporter for the learner's own consented takes (DATAWORKS rules), on a fixture
+//    with a take that has a receipt, one without (refused) and a revoke (0 after).
+async function acheck(name, fn) {
+  try { const note = await fn(); passes += 1; console.log(`ok   ${name}${note ? ` — ${note}` : ""}`); }
+  catch (e) { failures += 1; console.log(`FAIL ${name} — ${e?.message ?? e}`); }
+}
+await acheck("page-side LeRobot-style takes export: signed out 0; opted in 1 with its receipt on every frame, 1 refused without; K-12 0; revoke 0", async () => {
+  // The consent lives in profile storage (shared/profiles.js gtStorage over localStorage); Node has none, so a Map-backed one
+  // stands in for this process only. The episodes themselves go through the memory backend below.
+  if (!globalThis.localStorage) {
+    const m = new Map();
+    globalThis.localStorage = { getItem: (k) => (m.has(k) ? m.get(k) : null), setItem: (k, v) => { m.set(k, String(v)); }, removeItem: (k) => { m.delete(k); }, clear: () => m.clear(), key: (i) => [...m.keys()][i] ?? null, get length() { return m.size; } };
+  }
+  const { dxMakeStore, dxMemBackend, dxOptIn, dxRevoke, dxMakeEpisode, dxConsent } = await import("../WebXR/shared/dx-data.js");
+  const { st3LerobotTakesExport, ST3_FRAME_FIELDS } = await import("../WebXR/shared/st3-lerobot-takes.js");
+  const { colSyntheticDemos } = await import("../WebXR/shared/col-learn.js");
+  const syn = colSyntheticDemos("rb-cell-entry", { n: 1, seed: 1, skill: 0.85, noise: 0.3 })[0];
+  const backend = dxMemBackend(), store = dxMakeStore(backend);
+  const sig = { demo: false, signedIn: true, k12: false };
+  assert(dxOptIn({ licence: "CC-BY-4.0", adult: true, signals: sig }).ok, "fixture opt-in");
+  const c = dxConsent();
+  // dxMakeEpisode fills a missing receipt from the stored consent, so the take without one is given consent null explicitly.
+  const take = (consent) => ({ ...dxMakeEpisode({ source: "human", world: "robotics", kind: "robot-game", scenario: "rb-cell-entry", episodeId: `st3-take-${consent ? "ok" : "none"}`, summary: syn.summary, consent: consent ?? undefined }, syn.steps), consent });
+  // A human take without a receipt, written straight into the backend (the store's put refuses it): the export must refuse it.
+  await backend.save([...(await backend.all()), take(null)]);
+  // Signed out (the signals say so, whatever is stored): nothing.
+  const r0 = await st3LerobotTakesExport({ store, signals: { demo: false, signedIn: false, k12: false, adult: true } });
+  assert(r0.ok === false && r0.takes === 0 && r0.frames === 0 && !Object.keys(r0.files).length, "signed out must export nothing");
+  await store.put(take({ consentId: c.id, at: c.at, licence: c.licence, adult: true, statementHash: c.statementHash }));
+  const r1 = await st3LerobotTakesExport({ store, signals: { ...sig, adult: true } });
+  assert(r1.ok && r1.takes === 1 && r1.refused.length === 1 && /consent/.test(r1.refused[0].why), `opted in: ${r1.takes} takes, ${r1.refused.length} refused`);
+  const paths = Object.keys(r1.files);
+  for (const p of ["meta/info.json", "meta/tasks.jsonl", "meta/episodes.jsonl", "meta/actions.jsonl", "data/chunk-000/episode_000000.jsonl"]) assert(paths.includes(p), `missing ${p}`);
+  const frames = r1.files["data/chunk-000/episode_000000.jsonl"].trim().split("\n").map((l) => JSON.parse(l));
+  assert(frames.length === syn.steps.length && r1.frames === frames.length, `frames ${frames.length} ≠ steps ${syn.steps.length}`);
+  for (const f of frames) {
+    assert(ST3_FRAME_FIELDS.every((k) => k in f) && Object.keys(f).length === ST3_FRAME_FIELDS.length, "frame fields");
+    assert(f.source === "human" && f.consent?.consentId === c.id && f.consent.adult === true && f.consent.licence === "CC-BY-4.0" && f.split === "train", "a frame without the receipt");
+  }
+  const info = JSON.parse(r1.files["meta/info.json"]);
+  assert(info.total_episodes === 1 && info.total_frames === frames.length && /1 human episode/.test(info.provenance), "info.json counts");
+  const bundle = JSON.parse(r1.bundle);
+  assert(Object.keys(bundle.files).length === paths.length && bundle.files["meta/info.json"] === r1.files["meta/info.json"], "the bundle differs from the files");
+  assert((await st3LerobotTakesExport({ store, signals: { ...sig, adult: true, k12: true } })).takes === 0 && (await st3LerobotTakesExport({ store, signals: { ...sig, adult: true, demo: true } })).takes === 0, "K-12 or demo must export 0");
+  await dxRevoke({ store });
+  const r2 = await st3LerobotTakesExport({ store, signals: { ...sig, adult: true } });
+  assert(r2.takes === 0 && r2.frames === 0 && (await store.list()).length === 0, "revoke must delete the takes");
+  return `signed out 0; opted in 1 take, ${frames.length} frames in ${paths.length} files, receipt ${String(c.id).slice(0, 4)}… on every frame, 1 refused without a receipt; K-12 0, demo 0; after revoke 0`;
+});
+check("the page-side exporter is on the data page and in the bundler's list; prefix st3 on every top-level name", () => {
+  assert(/st3-lerobot-takes\.js/.test(read("WebXR/data/index.html")), "not mounted on WebXR/data/index.html");
+  assert(/"st3-lerobot-takes\.js"/.test(read("tools/bundle_webxr.py")), "not in tools/bundle_webxr.py");
+  const s = read("WebXR/shared/st3-lerobot-takes.js");
+  const names = [...s.matchAll(/^export (?:async )?(?:function|const|let) ([A-Za-z0-9_]+)/gm)].map((m) => m[1]);
+  assert(names.length && names.every((n) => /^(st3|ST3_)/.test(n)), `names without the prefix: ${names.filter((n) => !/^(st3|ST3_)/.test(n)).join(", ")}`);
+  assert(!/import\s+\{[^}]*\bas\b/.test(s) && !/from "node:/.test(s), "an import alias or a node: import");
+  return `${names.length} exports`;
 });
 
 console.log(`\ncheck_strands: ${passes} pass, ${failures} fail (${((Date.now() - t0) / 1000).toFixed(1)} s)`);

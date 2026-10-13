@@ -1602,6 +1602,8 @@ DIST_SHARED = [
     # ARENA-2: the data page's "Export my takes to the arena set" button (ra-takes.js) and what it imports: COLEARN's
     # colLocalDemos and feature tables, and the robot env they read (no network; the learner saves the file).
     "ra-takes.js", "col-learn.js", "rb-env.js", "robot.js", "robot-embodiment.js", "rb-robotics-data.js",
+    # STRANDS-3: the same takes in the LeRobot-style JSONL layout (st3-lerobot-takes.js, over ra-takes.js above).
+    "st3-lerobot-takes.js",
     # AGENTGYM's walkthrough page (WebXR/agentgym/index.html): recorded agent runs and consented ratings.
     "ag-feedback.js",
     "ag-walkthroughs.js",

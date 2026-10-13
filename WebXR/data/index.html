@@ -142,6 +142,13 @@ const raTakesBox = raTakesMount(document);
 raTakesBox.id = "ra-takes"; raTakesBox.style.cssText = "margin:var(--at-sp-10, 24px) auto;max-width:960px;padding:0 16px;box-sizing:border-box";
 document.querySelector("main")?.appendChild(raTakesBox);
 </script>
+<script type="module">
+// STRANDS-3: the same consented takes in the LeRobot-style JSONL layout (shared/st3-lerobot-takes.js): 0 unless opted in as an adult; saved on this device.
+import { st3LerobotTakesMount } from "../shared/st3-lerobot-takes.js";
+const st3Box = st3LerobotTakesMount(document);
+st3Box.id = "st3-lerobot-takes"; st3Box.style.cssText = "margin:var(--at-sp-10, 24px) auto;max-width:960px;padding:0 16px;box-sizing:border-box";
+document.querySelector("main")?.appendChild(st3Box);
+</script>
 <script type="module">import { ctlMount } from "../shared/controls.js"; ctlMount({ world: "the DATAWORKS analysis page", except: { move: "A page, not a world: Tab walks the tables.", look: "Scroll the page." } });</script>
 <script type="module">import { gdMount } from "../shared/guide.js"; gdMount({ root: "../" });</script>
 </body>

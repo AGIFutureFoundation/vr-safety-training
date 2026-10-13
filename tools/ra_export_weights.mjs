@@ -32,7 +32,7 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { gzipSync, gunzipSync } from "node:zlib";
 import { raBuild, raModels, RA_DEMOS, RA_STATION_DEMOS, RA_DAGGER, RA_VERSION } from "../WebXR/shared/ra-arena.js";
-import { raLmTaskTexts, RA_LM_VERSION, RA_LM_H_VERSION, RA_LM_STATION_TASKS } from "../WebXR/shared/ra-lm.js";
+import { raLmTaskTexts, RA_LM_VERSION, RA_LM_H_VERSION, RA_LM_TASKS, RA_LM_STATION_TASKS } from "../WebXR/shared/ra-lm.js";
 import { colF, colHash, colTrain, colPolicy, colSyntheticDemos, colDemosFromEpisodes } from "../WebXR/shared/col-learn.js";
 import { rbEnv } from "../WebXR/shared/rb-env.js";
 import { rng } from "../WebXR/shared/robot.js";
@@ -105,7 +105,9 @@ function stLmStations(modelId, envs, texts) {
   const stationFor = (sc) => envs[sc] ?? null;
   const lm = raBuild(modelId, ST_STATIONS[0], { station: envs[ST_STATIONS[0]], lmOptions: { texts, stationFor } })?.model;
   if (!lm) return null;
-  const all = [...ST_SCENARIOS, ...ST_VARIANTS, ...ST_STATIONS], own = [...ST_SCENARIOS, ...ST_STATIONS];
+  // STRANDS-3: every task the model trained on (RA_LM_TASKS adds rb-cell-entry and rb-construction-drilling, which no simulated
+  // robot type runs here) so the Python side can label every training row for the tanh agreement check.
+  const own = [...new Set([...ST_SCENARIOS, ...RA_LM_TASKS, ...ST_STATIONS])], all = [...new Set([...own, ...ST_VARIANTS])];
   const tv = {};
   for (const sc of all) tv[sc] = lm._tv.task[sc] ?? lm._tv.task[sc.split("#")[0]];
   const fw = Object.fromEntries(own.map((sc) => { const F = colF(sc); return [sc, F.weights ?? F.names.map(() => 1)]; }));

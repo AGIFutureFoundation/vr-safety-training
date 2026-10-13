@@ -30371,5 +30371,74 @@
    "seedsThatChangeAnEpisode": 0,
    "of": 20
   }
+ },
+ "tanhAgreement": {
+  "model": "ra-lm-h",
+  "build": "stations (the arena's published build)",
+  "H": 24,
+  "rows": 12818,
+  "trainRows": 12818,
+  "rowsEqualTraining": true,
+  "compared": 12818,
+  "agree": 12818,
+  "flips": 0,
+  "flipExamples": [],
+  "skippedTasks": [],
+  "byTask": {
+   "rb-teleop-pick-place": {
+    "rows": 984,
+    "agree": 984,
+    "flips": 0
+   },
+   "rb-amr-fleet-routing": {
+    "rows": 1168,
+    "agree": 1168,
+    "flips": 0
+   },
+   "rb-cobot-zone-setup": {
+    "rows": 241,
+    "agree": 241,
+    "flips": 0
+   },
+   "rb-cell-entry": {
+    "rows": 584,
+    "agree": 584,
+    "flips": 0
+   },
+   "rb-construction-drilling": {
+    "rows": 320,
+    "agree": 320,
+    "flips": 0
+   },
+   "rb-port-gantry": {
+    "rows": 623,
+    "agree": 623,
+    "flips": 0
+   },
+   "rb-station-robot-cell": {
+    "rows": 3717,
+    "agree": 3717,
+    "flips": 0
+   },
+   "rb-station-amr-fleet": {
+    "rows": 1680,
+    "agree": 1680,
+    "flips": 0
+   },
+   "rb-station-cobot": {
+    "rows": 3501,
+    "agree": 3501,
+    "flips": 0
+   }
+  },
+  "trainAccuracyV8": 0.8744,
+  "trainAccuracyV8Recomputed": 0.8744,
+  "trainAccuracyPython": 0.8744,
+  "python": "math.tanh (3.11.15)",
+  "v8": "Math.tanh (node)",
+  "limitPerTask": 0,
+  "network": 0,
+  "seconds": 72.3,
+  "note": "a flip is a training row where the Python adapter's argmax differs from V8's on the same exported weights; 0 flips means the two tanh implementations never changed a label on these rows"
  }
 }

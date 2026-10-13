@@ -230,6 +230,15 @@ for rt, sc in scen.items():
             gy_mism.append(f"{pid}@{sc}")
 ok("published ra-lm build and ra-lm-h reproduce raRun on the gym scenarios", not gy_mism, f"{gy_n - len(gy_mism)} of {gy_n} (model x scenario, dev seeds 1-3)" + (f"; differ: {gy_mism}" if gy_mism else ""))
 ok("station policies listed", set(STATION_POLICY_IDS) <= set(policies.POLICY_IDS), ", ".join(STATION_POLICY_IDS))
+# STRANDS-3: Python's math.tanh against V8's Math.tanh on ra-lm-h's own training rows (a sample per task here; every row in
+# robotics/strands/tanh_agreement.py, recorded in docs/evals/strands.json tanhAgreement). The oracle bridge has the model cached.
+try:
+    from robotics.strands.tanh_agreement import measure as st_tanh_measure  # noqa: E402
+    tanh = st_tanh_measure("ra-lm-h", limit=40, bridge=oracle)
+    ok("tanh argmax agreement Python vs V8 (sample of the training rows)", tanh["flips"] == 0 and not tanh["skippedTasks"] and tanh["compared"] > 0,
+       f"{tanh['agree']} of {tanh['compared']} rows agree over {len(tanh['byTask'])} tasks; flips {tanh['flips']}" + (f"; tasks not exported: {tanh['skippedTasks']}" if tanh["skippedTasks"] else ""))
+except Exception as e:  # noqa: BLE001
+    ok("tanh argmax agreement Python vs V8 (sample of the training rows)", False, str(e)[:160])
 ok("seed gate: stations dev only, protocol-3 seeds refused", seed_gate([1, 2, 3], ["rb-station-cobot"])["ok"] and not seed_gate([7181], ["rb-station-cobot"])["ok"]
    and not seed_gate([7241])["ok"] and not seed_gate([7300], ["rb-teleop-pick-place"])["ok"],
    "undeclared uses of 7241-7300 refused (no policies; a station; a single seed)")
