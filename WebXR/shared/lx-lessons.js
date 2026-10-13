@@ -333,10 +333,11 @@ export function lxDebriefAtRobotSite(world, sites, stationId, { records = [], st
  */
 export function lxArmLesson(el, { sites = [], start = () => null, where = () => null, at = (s) => (s?.position ? { x: s.position[0], z: s.position[1] } : null), playing = () => true, within = 9, poll = 500, toast = () => {}, schedule = globalThis.setInterval?.bind(globalThis) ?? null, cancel = globalThis.clearInterval?.bind(globalThis) ?? null, names = (id) => id } = {}) {
   const list = (sites ?? []).filter((s) => s?.id && s.station);
+  const label = (s) => s.name ?? names(s.station); // a robot site's own name, else its station's
   let armed = null, timer = null, run = null;
   const api = {
     armed: () => armed,
-    arm(siteId) { const s = list.find((x) => x.id === siteId); if (!s) return false; armed = s; run = null; try { toast(`Lesson armed: walk to ${s.name ?? s.id}; ${names(s.station)} starts when you arrive.`); } catch (_) { /* ignore */ } render(); return true; },
+    arm(siteId) { const s = list.find((x) => x.id === siteId); if (!s) return false; armed = s; run = null; try { toast(`Lesson armed: walk to ${label(s)}; ${names(s.station)} starts when you arrive.`); } catch (_) { /* ignore */ } render(); return true; },
     disarm() { armed = null; render(); },
     tick() {
       if (!armed || !playing()) return null;
@@ -351,7 +352,7 @@ export function lxArmLesson(el, { sites = [], start = () => null, where = () => 
     dispose() { if (timer && cancel) cancel(timer); timer = null; armed = null; },
   };
   const buttons = [];
-  function render() { for (const [b, s] of buttons) { b.setAttribute("aria-pressed", armed?.id === s.id ? "true" : "false"); b.textContent = armed?.id === s.id ? `Armed: walk to ${s.name ?? s.id}` : `Lesson with the site's agent: ${s.name ?? s.id}`; } }
+  function render() { for (const [b, s] of buttons) { b.setAttribute("aria-pressed", armed?.id === s.id ? "true" : "false"); b.textContent = armed?.id === s.id ? `Armed: walk to ${label(s)}` : `Lesson with the site's agent: ${label(s)}`; } }
   if (el && typeof document !== "undefined") {
     el.textContent = "";
     if (list.length) {
