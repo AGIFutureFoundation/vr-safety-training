@@ -1089,6 +1089,9 @@ APPS = {
             SHARED / "rt8-learn.js",
             SHARED / "ra-lm.js",
             SHARED / "ra-arena.js",
+            # ROBOLEARN-10: the learner's own consented takes joining a declared, dev-seed-only training run of ra-lm-h (imports
+            # ra-lm.js, ra-arena.js, col-learn.js and dx-data.js, all above).
+            SHARED / "ra-takes-train.js",
             SHARED / "oc-claw.js",
             SHARED / "oc-world.js",
             SHARED / "oc-claw-record.js",
