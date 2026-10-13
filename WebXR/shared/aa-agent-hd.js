@@ -94,9 +94,14 @@ export const AA_HD_STOP_POSE = Object.freeze({ sh: Object.freeze([-0.687, 0.225,
  * most the fastest trait tempo, 1.3; the mount keeps the idle phase continuous across the change). concerned: the head a little lower
  * (+0.05 rad, half the traits' head-pitch span of 0.1) and the hands closer (arms out to 0.6 of the trait's abduction, never under its
  * 0.03 floor). relieved: the shoulders a little lower (1.2 cm). The gestures are posed after the mood, so a refusal's stop hand is the
- * same pose in every mood. */
+ * same pose in every mood.
+ * MOODS (loop 10 round 9): one cue that reads from the door. concerned also brings the hands to rest low in front: an agent with a
+ * tablet lowers it from the chest to the hip (the left arm's shoulder and elbow move to tabletLow, inside the range the rest arms
+ * already span: shoulder x in [-0.34, 0.04], elbow x in [-1.36, -0.14]); an agent without one clasps its hands in front (the formal
+ * agents' own rest pose, clasp k = 1). Never the face; the right arm's stop pose is the same in every mood (the gesture lerps to
+ * AA_HD_STOP_POSE at its full pose). check_agent_avatars §9m measures the wrists' displacement and what it subtends at 8 m. */
 export const AA_HD_MOODS = Object.freeze(["calm", "busy", "concerned", "relieved"]);
-export const AA_HD_MOOD_POSE = Object.freeze({ busyTempo: 1.12, tempoMax: 1.3, concernedHead: 0.05, concernedAbduct: 0.6, abductMin: 0.03, relievedShoulder: 0.012 });
+export const AA_HD_MOOD_POSE = Object.freeze({ busyTempo: 1.12, tempoMax: 1.3, concernedHead: 0.05, concernedAbduct: 0.6, abductMin: 0.03, relievedShoulder: 0.012, tabletLow: Object.freeze({ sh: -0.08, el: -0.5 }), concernedClasp: 1 });
 /** AVATARS-HD-4: the idle tempo factor for a mood (1 unless busy), capped so the agent's tempo stays inside the traits' range. */
 export function aaHdMoodTempo(spec, mood) { if (mood !== "busy") return 1; const t0 = spec?.posture?.tempo ?? 1; return Math.max(1, Math.min(AA_HD_MOOD_POSE.busyTempo, AA_HD_MOOD_POSE.tempoMax / t0)); }
 const aaHdClamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -334,10 +339,11 @@ export function aaHdPose(spec, st = {}) {
   const abd = mood === "concerned" ? Math.max(M.abductMin, P.abduct * M.concernedAbduct) : P.abduct; // AVATARS-HD-4: hands closer
   let L = { sh: [0.04, 0, abd], el: [-0.14 - idle, -P.palms, 0], wr: [0, 0, 0] };
   let R = { sh: [0.04, 0, -abd], el: [-0.14 - idle * 0.8, P.palms, 0], wr: [0, 0, 0] };
-  if (P.clasp > 0) {
-    const k = P.clasp; L = { sh: aaHdLerp3(L.sh, [-0.34, -0.72, -0.08], k), el: aaHdLerp3(L.el, [-1.32, 0, 0], k), wr: L.wr }; R = { sh: aaHdLerp3(R.sh, [-0.34, 0.72, 0.08], k), el: aaHdLerp3(R.el, [-1.32, 0, 0], k), wr: R.wr };
+  const clasp = mood === "concerned" && !spec.tablet ? Math.max(P.clasp, M.concernedClasp) : P.clasp; // MOODS: concerned, free hands clasped in front
+  if (clasp > 0) {
+    const k = clasp; L = { sh: aaHdLerp3(L.sh, [-0.34, -0.72, -0.08], k), el: aaHdLerp3(L.el, [-1.32, 0, 0], k), wr: L.wr }; R = { sh: aaHdLerp3(R.sh, [-0.34, 0.72, 0.08], k), el: aaHdLerp3(R.el, [-1.32, 0, 0], k), wr: R.wr };
   }
-  if (spec.tablet) L = { sh: [-0.32, -0.38, Math.min(abd, 0.12)], el: [-1.36, 0, 0], wr: [0, 0, 0] };
+  if (spec.tablet) L = mood === "concerned" ? { sh: [M.tabletLow.sh, -0.2, Math.min(abd, 0.12)], el: [M.tabletLow.el, 0, 0], wr: [0, 0, 0] } /* MOODS: the tablet lowered to the hip */ : { sh: [-0.32, -0.38, Math.min(abd, 0.12)], el: [-1.36, 0, 0], wr: [0, 0, 0] };
   // speaking: beat gestures on each word, bigger for a verbose agent (the tablet hand stays on the tablet)
   if (st.speaking && !red) {
     const b = aaHdC01(Number(st.beat) || 0) * P.handMotion;

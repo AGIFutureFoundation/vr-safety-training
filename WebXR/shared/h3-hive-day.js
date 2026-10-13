@@ -19,7 +19,9 @@
 //   4. "A day in the hive" (H3_SCENE, h3SceneJobs, h3SceneHive): the scripted, seeded scene the parishes app plays on
 //      sf-downtown for the reel (window.__parishTest.hiveScene()): a job arrives, the agents bid and one wins and walks out of
 //      the cell hall's door to its site, the governor refuses one unsafe request (its reason captioned), and the learner
-//      approves one job that names a robot (the simulated job runs; the physical path stays disabled).
+//      approves one job that names a robot (the simulated job runs; the physical path stays disabled). MOODS: the page's
+//      hiveScene({ seed, hold }) can stop the scene's clock once a named beat has played (a capture of a mood in the scene);
+//      without `hold` the scene is what it was. The relay's mood(id) seeds a figure built mid-scene (aa-agent-avatars' aaMoodOf).
 //
 // SEAMS (every top-level name carries the h3/H3_ prefix: the bundler shares one scope):
 //   H3_ROOM_FIGURES                         3: figures a robotics room holds at once

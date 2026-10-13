@@ -104,6 +104,9 @@ export function hwMountRoomAgents({ three = null, room = null, agents = [], sour
   const relay = source && typeof source.on === "function" ? { // everything but the hive's own moves (the room has its own)
     on: (type, fn) => { if (type !== "move") source.on(type, fn); },
     off: (type, fn) => { if (type !== "move") source.off?.(type, fn); },
+    // MOODS (loop 10 round 9): the source's current mood passes through (the hive's mood(id), or a scene relay's released mood), so a
+    // figure built mid-day or mid-scene seeds its posture from it (aa-agent-avatars' aaMoodOf); without one the figures start calm as before
+    ...(typeof source.mood === "function" ? { mood: (id) => source.mood(id) } : typeof source.hive?.mood === "function" ? { mood: (id) => source.hive.mood(id) } : {}),
   } : null;
   const avatars = roster.length ? mount({
     three, parent: room.group, agents: roster, source: relay, tier, reducedMotion,

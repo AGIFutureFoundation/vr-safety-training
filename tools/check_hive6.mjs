@@ -550,7 +550,7 @@ await check("11 HIVE-8: the page's hives with moods on: the scene's hive (h3Scen
   const fake = () => { const ctx = new Proxy({}, { get: (_t, k) => (k === "measureText" ? (s) => ({ width: String(s).length * 6 }) : typeof k === "string" && k.startsWith("create") ? () => ({ addColorStop() {} }) : k === "getImageData" ? (x, y, w, h) => ({ data: new Uint8ClampedArray(Math.max(4, 4 * (w | 0) * (h | 0))) }) : () => {}), set: () => true }); return { width: 0, height: 0, getContext: () => ctx }; };
   const dressers = (() => { const d = {}; const r = { ixRegisterDresser: (st, fn) => (d[st] ??= []).push(fn) }; IXR.ixrRegisterDressers(r); HD4.hd4RegisterDressers(r, { ultra: false, ua: DESK }); HD2.hd2RegisterSkins(r); return d; })();
   const rb = RB.RB_SITES.find((s) => s.id === H3.H3_SCENE.site);
-  const figs = { off: 0, on: 0, agree: 0, checks: 0, budget: 0, beats: 0 };
+  const figs = { off: 0, on: 0, agree: 0, checks: 0, budget: 0, beats: 0, reopen: 0, reopenAgree: 0, reopenNonCalm: 0, reopenFirst: null };
   globalThis.document = { createElement: fake };
   try {
     for (const moods of [false, true]) for (const seed of SEEDS) {
@@ -558,7 +558,20 @@ await check("11 HIVE-8: the page's hives with moods on: the scene's hive (h3Scen
       scene(seed, moods, (R) => {
         room = IX.ixBuild(H3.H3_SCENE.style, { three: THREE, tier: "high", site: IXR.ixrSiteFor(rb, null), dressers });
         mount = HW.hwSyncRoom(null, { room, three: THREE, agents: R.agents, source: R, tier: "high", mount: AA.aaRoomAvatarMount() });
-        return { after: () => {
+        return { after: (b) => {
+          // MOODS: the page reopens the cell hall at the "approved" beat (h3SceneRoom builds the room anew after the outside shots), so the
+          // figures are built mid-scene, after the refusal's moods: at their first frame each posture names the relay's released mood. At
+          // "approved" only the calm home agents stand there, so the room is also reopened at "walk-in" and "run", when the busy planner is in it.
+          if (moods && (b.id === "approved" || b.id === "walk-in" || b.id === "run")) {
+            figs.on += mount.avatars.moodLog().length; // the first mount's mood events count before it goes
+            mount.dispose(); mount = HW.hwSyncRoom(null, { room, three: THREE, agents: R.agents, source: R, tier: "high", mount: AA.aaRoomAvatarMount() });
+            t += 0.5; mount.animate(t, 0);
+            for (const a of R.agents) {
+              if (!mount.avatars.figure(a.id)) continue;
+              const want = R.mood(a.id)?.mood ?? "calm", got = mount.avatars.state(a.id).mood ?? "calm";
+              figs.reopen += 1; if (want !== "calm") figs.reopenNonCalm += 1; if (want === got) figs.reopenAgree += 1; else figs.reopenFirst ??= { seed, beat: b.id, agent: a.id, want, got };
+            }
+          }
           for (let k = 0; k < 4; k += 1) { t += 0.5; mount.animate(t, 0.5); }
           figs.beats += 1; const m = IXR.ixrMeasure(room); if (m.triangles <= IX.IX_BUDGET.triangles.high && m.meshes <= IX.IX_BUDGET.meshes) figs.budget += 1;
           if (moods) for (const a of R.agents) { const s = mount.avatars.state(a.id); if (!mount.avatars.figure(a.id) || s?.mood == null) continue; figs.checks += 1; if (s.mood === R.mood(a.id)?.mood) figs.agree += 1; }
@@ -571,7 +584,10 @@ await check("11 HIVE-8: the page's hives with moods on: the scene's hive (h3Scen
   ok(figs.off === 0 && figs.on > 0, `the cell hall's figures received mood events: ${figs.off} (moods off) -> ${figs.on} (moods on), seeds ${SEEDS.join(", ")}`);
   ok(figs.checks > 0 && figs.agree === figs.checks, `a figure that took a mood shows the relay's released mood: ${figs.agree} of ${figs.checks} beat-checks`);
   ok(figs.budget === figs.beats, `the cell hall with the scene's figures inside IX_BUDGET (high): ${figs.budget} of ${figs.beats} beats`);
-  evals.push(`the page's scene hive with moods on (h3SceneHive moods, seeds ${SEEDS.join(", ")}): mood events to the relay ${moodsOn}; the cell hall's figures received ${figs.off} -> ${figs.on} (headless, room open through every beat), figure mood = released mood ${figs.agree} of ${figs.checks}; beats unchanged ${same} of ${SEEDS.length}; the default call byte-identical ${SEEDS.length} of ${SEEDS.length}`);
+  ok(figs.reopen > 0 && figs.reopenNonCalm > 0 && figs.reopenAgree === figs.reopen, `MOODS: the cell hall reopened mid-scene (at the "approved", "walk-in" and "run" beats, after the refusal and the award): at the figures' first frame posture = relay.mood(id) ${figs.reopenAgree} of ${figs.reopen} (${figs.reopenNonCalm} not calm)${figs.reopenFirst ? ` first miss ${JSON.stringify(figs.reopenFirst)}` : ""}`);
+  // MOODS: the page's scene can hold at a beat for a capture (hiveScene({ seed, hold }) + hiveSceneResume()); without hold the scene is what it was
+  ok(/hiveScene = \(\{ seed = 1, hold = null \} = \{\}\) =>/.test(app) && /if \(S\.hold && b\.id === S\.hold\) \{ S\.held = true; S\.heldAt = S\.t; break; \}/.test(app) && /S\.t = S\.held \? S\.heldAt : nowS - S\.t0;/.test(app) && /if \(!S\.held\) while \(S\.next < H3_SCENE\.beats\.length/.test(app) && /if \(S\.held\) \{ S\.t0 = nowS - S\.heldAt; return; \}/.test(app) && /hiveSceneResume = \(\) => \{ const S = h3Scene; if \(!S\?\.held\) return false;/.test(app), "MOODS: the page's scene holds at a named beat for a capture (hold, held, heldAt; hiveSceneResume; no beat plays while held, even on a slow frame whose clock is past the next beat) and is unchanged without hold");
+  evals.push(`the page's scene hive with moods on (h3SceneHive moods, seeds ${SEEDS.join(", ")}): mood events to the relay ${moodsOn}; the cell hall's figures received ${figs.off} -> ${figs.on} (headless, room open through every beat), figure mood = released mood ${figs.agree} of ${figs.checks}; reopened mid-scene, first-frame posture = relay.mood ${figs.reopenAgree} of ${figs.reopen} (${figs.reopenNonCalm} not calm); beats unchanged ${same} of ${SEEDS.length}; the default call byte-identical ${SEEDS.length} of ${SEEDS.length}`);
   return `default byte-identical ${SEEDS.length}/${SEEDS.length}; beats unchanged ${same}/${SEEDS.length}; relay mood events ${moodsOn}; figures ${figs.off} -> ${figs.on}, agree ${figs.agree}/${figs.checks}; relay mood(id) = hive ${endEq}/${endN}; cell hall in budget ${figs.budget}/${figs.beats}`;
 });
 
