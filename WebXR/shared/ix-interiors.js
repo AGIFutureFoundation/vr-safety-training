@@ -8,7 +8,7 @@
 //   IX_AGENT_SPOTS                  plain data: two agent spots per ACCESS room -> room.agentSpots [{ id, x, z, yaw }]
 //   ixStyleFor(kind, siteId?)       -> style id (never null: an unknown kind gets "civic-lobby")
 //   ixBuild(styleId, { three, tier = "high", site = null, dressers = IX_DRESSERS })
-//                                   -> room { group, style, w, d, h, door: {x, z}, colliders: [{min, max}], actions: [...],
+//                                   -> room { group, style, w, d, h, door: {x, z}, colliders: [{min, max}], openings: [...], actions: [...],
 //                                             addAction({ id, kind, x, z, r = 1.4, label, run }), meshes() }
 //   ixRegisterDresser(styleId, fn)  another console (CLASSROOMS `cr`) furnishes a style: fn({ three, group, room, site, tier })
 //                                   adds its meshes to `group` and calls room.addAction(...) for anything the learner can use.
@@ -213,6 +213,13 @@ export function ixStyleFor(kind, siteId = null) { return (siteId && IX_SITE_STYL
 
 /** The door spot of a site building: `out` metres outside CITYWORKS' door (cwDoorOf) on its face, clear of the footprint. */
 export const IX_DOOR_OUT = { n: [0, -1], s: [0, 1], e: [1, 0], w: [-1, 0] };
+
+/** ENV-HD-9: real openings in a room's shell, room-local metres (wall 0 is the north / back wall at z = -d/2, wall 1 the door
+ *  wall). The port control room's window onto the container yard: 13 x 2 m, sill at 1.0 m, head at 3.0 m, through the 0.3 m wall
+ *  (inner face z -6.0, outer face z -6.3), the same span as ROBO-INTERIORS' picture plane (z -5.99) and its nine mullions at
+ *  x = -6.5 + i x 1.625, so the picture covers the hole until the yard is built beyond it. The room reports them as
+ *  `room.openings` ({ wall, side, x0, x1, y0, y1, zIn, zOut, w, h }) for the dressers that put something in the view. */
+export const IX_OPENINGS = { "ixr-port-control": [{ wall: 0, x0: -6.5, x1: 6.5, y0: 1.0, y1: 3.0 }] };
 export function ixDoorSpot(door, out = 1.4) {
   const o = IX_DOOR_OUT[door?.face] ?? [0, 1];
   return { x: door.x + o[0] * out, z: door.z + o[1] * out, face: door?.face ?? "s" };
@@ -276,9 +283,20 @@ export function ixBuild(styleId, { three: THREE, tier = "high", site = null, tit
   boxMesh(w, 0.2, d, 0, h + 0.1, 0, mat(style.ceiling), "ix-ceiling");
   const wallM = mat(style.wall), T = 0.3;
   const walls = [[w + 2 * T, h, T, 0, -d / 2 - T / 2], [w + 2 * T, h, T, 0, d / 2 + T / 2], [T, h, d, -w / 2 - T / 2, 0], [T, h, d, w / 2 + T / 2, 0]];
-  const colliders = [];
+  const colliders = [], openings = [];
   walls.forEach(([ww, hh, dd, x, z], i) => {
-    boxMesh(ww, hh, dd, x, hh / 2, z, wallM, `ix-wall-${i}`);
+    // ENV-HD-9: a wall with a real opening (IX_OPENINGS; the port control room's window onto the yard) is built as a sill, a
+    // lintel and two piers round the hole, all on the wall material (the skins find the sill as `ix-wall-<i>` and retexture
+    // the shared material). The collider stays the whole wall, so the walk is as before. Only the two x-running walls (0, 1).
+    const op = i < 2 ? (IX_OPENINGS[styleId] ?? []).find((o) => o.wall === i) : null;
+    if (op) {
+      const x0 = Math.max(x - ww / 2 + 0.3, op.x0), x1 = Math.min(x + ww / 2 - 0.3, op.x1), y0 = Math.max(0.2, op.y0), y1 = Math.min(hh - 0.2, op.y1);
+      boxMesh(ww, y0, dd, x, y0 / 2, z, wallM, `ix-wall-${i}`);
+      boxMesh(ww, hh - y1, dd, x, (hh + y1) / 2, z, wallM, `ix-wall-${i}-lintel`);
+      boxMesh(x0 - (x - ww / 2), y1 - y0, dd, (x - ww / 2 + x0) / 2, (y0 + y1) / 2, z, wallM, `ix-wall-${i}-pier-a`);
+      boxMesh(x + ww / 2 - x1, y1 - y0, dd, (x1 + x + ww / 2) / 2, (y0 + y1) / 2, z, wallM, `ix-wall-${i}-pier-b`);
+      openings.push({ wall: i, side: i === 0 ? "n" : "s", x0, x1, y0, y1, zIn: +(z - (i === 0 ? -dd / 2 : dd / 2)).toFixed(3), zOut: +(z + (i === 0 ? -dd / 2 : dd / 2)).toFixed(3), w: x1 - x0, h: y1 - y0 });
+    } else boxMesh(ww, hh, dd, x, hh / 2, z, wallM, `ix-wall-${i}`);
     colliders.push({ min: [x - ww / 2, 0, z - dd / 2], max: [x + ww / 2, hh, z + dd / 2], kind: "ix-wall" });
   });
   // The trim band: a BackSide box whose top and bottom faces are hidden (per-face materials +x −x +y −y +z −z), so its bottom
@@ -334,7 +352,7 @@ export function ixBuild(styleId, { three: THREE, tier = "high", site = null, tit
   // The site's job board beside the door, and the room's honesty sign on the back wall.
   const actions = [];
   const room = {
-    id: styleId, style, group, w, d, h, door, colliders, actions, site, tier,
+    id: styleId, style, group, w, d, h, door, colliders, actions, site, tier, openings,
     addAction(a) { const act = { r: 1.4, kind: "use", ...a }; actions.push(act); return act; },
     meshes() { let n = 0; group.traverse((o) => { if (o.isMesh) n++; }); return n; },
   };
