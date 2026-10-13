@@ -155,6 +155,18 @@ export const RP_TRACKS = [
 ];
 
 /**
+ * Gym scenarios no track teaches on the people side, each with the stated reason (ROBOLEARN-10, loop 10 round 9). The claw's
+ * side-by-side table (oc-claw.js ocScenarioDrills) shows such a scenario as a programme gap; check_robotics_programme holds every
+ * gym scenario to either a track's `scenario` or an entry here, and every entry here to a gym scenario no track covers.
+ */
+export const RP_SCENARIO_GAPS = Object.freeze({
+  "rb-port-gantry": Object.freeze({
+    reason: "No catalog station teaches the human side of the port automation lane: keeping out of an automated stacking gantry's travel lane, the crossing's stop zone, lashing-platform access and the hand-over to remote operation. The mobile-AMR track's port stations (cp-charging-yard-connectors-and-e-stops, cp-high-voltage-lockout-on-electric-cargo-equipment) teach charging-yard connectors and high-voltage lockout, not gantry work, and the gym scenario's own text station (ad-amr-fleet-traffic-and-estop-drill) is an AMR drill; mapping either would overstate the people side. A port-gantry station needs the station brief (12–15 steps, at least 5 kinds, 4 hazards, 2 armed interruptions, `why` on every step) and 95+ on eval_content, which is a content round of its own.",
+    needs: "a port-gantry learner station authored to the station brief and registered in the catalog, then a track (or the mobile-AMR track's operator and technician levels) that names it with scenario rb-port-gantry; until then only the robot side of rb-port-gantry is measured.",
+  }),
+});
+
+/**
  * The loop inside every AI-training level — named mechanisms only. Each step names the module and function that does it
  * (guarded: the programme resolves a step as live only when that function exists in the tree) and the station that teaches
  * the human side of it.

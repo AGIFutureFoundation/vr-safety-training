@@ -15,9 +15,9 @@
 // Only competency.js is imported, so the page and the checker load this without the engine.
 
 import { COMPETENCY_BY_ID } from "./competency.js";
-import { RP_NAME, RP_BRAND, RP_NO_PARTNERSHIP, RP_STANDARDS, RP_LEVELS, RP_ROBOT_STATIONS, RP_NEW_STATIONS, RP_GAP_STATIONS, RP_TELEOP_RECORDER, RP_TRACKS, RP_LOOP } from "./rp-programme-data.js";
+import { RP_NAME, RP_BRAND, RP_NO_PARTNERSHIP, RP_STANDARDS, RP_LEVELS, RP_ROBOT_STATIONS, RP_NEW_STATIONS, RP_GAP_STATIONS, RP_TELEOP_RECORDER, RP_TRACKS, RP_LOOP, RP_SCENARIO_GAPS } from "./rp-programme-data.js";
 
-export { RP_NAME, RP_BRAND, RP_NO_PARTNERSHIP, RP_STANDARDS, RP_LEVELS, RP_ROBOT_STATIONS, RP_NEW_STATIONS, RP_GAP_STATIONS, RP_TELEOP_RECORDER, RP_TRACKS, RP_LOOP };
+export { RP_NAME, RP_BRAND, RP_NO_PARTNERSHIP, RP_STANDARDS, RP_LEVELS, RP_ROBOT_STATIONS, RP_NEW_STATIONS, RP_GAP_STATIONS, RP_TELEOP_RECORDER, RP_TRACKS, RP_LOOP, RP_SCENARIO_GAPS };
 export function rpTracks() { return RP_TRACKS; }
 export function rpTrack(id) { return RP_TRACKS.find((t) => t.id === id) ?? null; }
 export function rpLevel(id) { return RP_LEVELS.find((l) => l.id === id) ?? null; }
