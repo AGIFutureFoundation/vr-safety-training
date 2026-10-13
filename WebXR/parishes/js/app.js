@@ -1630,15 +1630,16 @@ function h3SceneTick(nowS) {
   const S = h3Scene; if (!S || S.done) return;
   if (S.t0 == null) S.t0 = nowS;
   const dt = h3SceneLastT == null ? 0 : Math.max(0, Math.min(0.1, nowS - h3SceneLastT)); h3SceneLastT = nowS;
-  S.t = nowS - S.t0;
+  S.t = S.held ? S.heldAt : nowS - S.t0; // MOODS: a held scene's clock stands still
   try {
-    while (S.next < H3_SCENE.beats.length && S.t >= H3_SCENE.beats[S.next].at) {
+    // MOODS: while held no beat plays, even when a slow frame's clock is already past the next beat's start (the first drive saw walk-out play)
+    if (!S.held) while (S.next < H3_SCENE.beats.length && S.t >= H3_SCENE.beats[S.next].at) {
       const b = H3_SCENE.beats[S.next]; h3SceneBeat(b); S.next += 1;
       if (S.hold && b.id === S.hold) { S.held = true; S.heldAt = S.t; break; } // MOODS: hold at this beat (a capture); the clock stops here until hiveSceneResume()
     }
     h3SceneCamera(dt);
   } catch (e) { S.errors += 1; console.warn("hive scene:", e); }
-  if (S.held) { S.t0 = nowS - S.heldAt; S.t = S.heldAt; return; } // the scene's clock stands still; the room's figures keep animating in their mood
+  if (S.held) { S.t0 = nowS - S.heldAt; return; } // the room's figures keep animating in their mood; the next beat waits for hiveSceneResume()
   if (S.t >= H3_SCENE.duration + 1) h3SceneStop();
 }
 function h3SceneStop() {
