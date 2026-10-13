@@ -51,6 +51,16 @@
   h1 { margin: 0 0 14px; font: 700 clamp(32px, 5.4vw, 56px)/1.04 var(--cond); text-transform: uppercase; letter-spacing: .01em; }
   .swp-lead { margin: 0 0 18px; color: var(--muted); font-size: 19px; max-width: 60ch; }
   .swp-hero svg { width: 100%; height: auto; display: block; }
+  /* The diagram paints from the same roles as the page, so the design system's light scheme (:root[data-theme="light"] in shared/design.css) recolours it too. */
+  .swp-hero svg .swp-d-card { fill: var(--at-raised, #0a121b); stroke: var(--line); }
+  .swp-hero svg .swp-d-glow { stop-color: var(--accent); }
+  .swp-hero svg .swp-d-ring { stroke: var(--line); fill: none; }
+  .swp-hero svg .swp-d-gov { fill: var(--panel); stroke: var(--ok); }
+  .swp-hero svg .swp-d-tick { stroke: var(--ok); fill: none; }
+  .swp-hero svg .swp-d-agent { fill: var(--panel); stroke: var(--accent); }
+  .swp-hero svg .swp-d-dot { fill: var(--accent); }
+  .swp-hero svg .swp-d-site { fill: var(--at-surface-2, #16283a); stroke: var(--warn); }
+  .swp-hero svg .swp-d-wire, .swp-hero svg .swp-d-glyph { stroke: var(--warn); fill: none; }
   .swp-cta { display: flex; flex-wrap: wrap; gap: 10px; }
   .swp-btn { display: inline-flex; align-items: center; min-height: 48px; padding: 0 18px; border-radius: var(--at-r-md, 10px); border: 1px solid var(--line); background: var(--panel); color: var(--ink); text-decoration: none; font: 700 15px/1 var(--cond); letter-spacing: .05em; text-transform: uppercase; }
   .swp-btn.primary { background: var(--accent); color: var(--at-on-primary, #03202b); border-color: var(--accent); }
@@ -138,27 +148,27 @@
       </div>
       <svg viewBox="0 0 440 340" role="img" aria-label="Diagram: software agents around a safety governor, which stands between them and the simulated robot sites">
         <defs>
-          <radialGradient id="swp-glow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#4fd1ff" stop-opacity=".35"/><stop offset="1" stop-color="#4fd1ff" stop-opacity="0"/></radialGradient>
+          <radialGradient id="swp-glow" cx="50%" cy="50%" r="50%"><stop class="swp-d-glow" offset="0" stop-opacity=".35"/><stop class="swp-d-glow" offset="1" stop-opacity="0"/></radialGradient>
         </defs>
-        <rect x="0" y="0" width="440" height="340" rx="16" fill="#0a121b" stroke="#2c4458"/>
+        <rect class="swp-d-card" x="0" y="0" width="440" height="340" rx="16"/>
         <circle cx="220" cy="150" r="128" fill="url(#swp-glow)"/>
-        <g stroke="#2c4458" stroke-width="1.5" fill="none">
+        <g class="swp-d-ring" stroke-width="1.5">
           <circle cx="220" cy="150" r="96"/>
           <path d="M220 69 L220 116 M283.3 99.5 L246.6 128.8 M299 168.1 L253.1 157.6 M255.1 223 L234.7 180.6 M184.9 223 L205.3 180.6 M141 168.1 L186.9 157.6 M156.7 99.5 L193.4 128.8"/>
         </g>
-        <polygon points="220,116 249,133 249,167 220,184 191,167 191,133" fill="#101e2b" stroke="#6fdc9a" stroke-width="3"/>
-        <path d="M208 150 l8 8 l16 -18" stroke="#6fdc9a" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-        <g fill="#101e2b" stroke="#4fd1ff" stroke-width="2.5">
+        <polygon class="swp-d-gov" points="220,116 249,133 249,167 220,184 191,167 191,133" stroke-width="3"/>
+        <path class="swp-d-tick" d="M208 150 l8 8 l16 -18" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <g class="swp-d-agent" stroke-width="2.5">
           <circle cx="220" cy="54" r="15"/><circle cx="295" cy="90.1" r="15"/><circle cx="313.6" cy="171.4" r="15"/><circle cx="261.6" cy="236.5" r="15"/>
           <circle cx="178.4" cy="236.5" r="15"/><circle cx="126.4" cy="171.4" r="15"/><circle cx="145" cy="90.1" r="15"/>
         </g>
-        <g fill="#4fd1ff"><circle cx="220" cy="50" r="4"/><circle cx="295" cy="86.1" r="4"/><circle cx="313.6" cy="167.4" r="4"/><circle cx="261.6" cy="232.5" r="4"/><circle cx="178.4" cy="232.5" r="4"/><circle cx="126.4" cy="167.4" r="4"/><circle cx="145" cy="86.1" r="4"/></g>
-        <g fill="#16283a" stroke="#ffc861" stroke-width="2">
+        <g class="swp-d-dot"><circle cx="220" cy="50" r="4"/><circle cx="295" cy="86.1" r="4"/><circle cx="313.6" cy="167.4" r="4"/><circle cx="261.6" cy="232.5" r="4"/><circle cx="178.4" cy="232.5" r="4"/><circle cx="126.4" cy="167.4" r="4"/><circle cx="145" cy="86.1" r="4"/></g>
+        <g class="swp-d-site" stroke-width="2">
           <rect x="28" y="286" width="52" height="34" rx="4"/><rect x="96" y="286" width="52" height="34" rx="4"/><rect x="164" y="286" width="52" height="34" rx="4"/>
           <rect x="232" y="286" width="52" height="34" rx="4"/><rect x="300" y="286" width="52" height="34" rx="4"/><rect x="368" y="286" width="52" height="34" rx="4"/>
         </g>
-        <g stroke="#ffc861" stroke-width="2" stroke-dasharray="4 5" fill="none"><path d="M220 184 L220 262 M54 286 L54 274 L394 274 L394 286 M122 274 v12 M190 274 v12 M258 274 v12 M326 274 v12"/></g>
-        <g stroke="#ffc861" stroke-width="2.5" fill="none" stroke-linecap="round">
+        <g class="swp-d-wire" stroke-width="2" stroke-dasharray="4 5"><path d="M220 184 L220 262 M54 286 L54 274 L394 274 L394 286 M122 274 v12 M190 274 v12 M258 274 v12 M326 274 v12"/></g>
+        <g class="swp-d-glyph" stroke-width="2.5" stroke-linecap="round">
           <path d="M44 312 l8 -12 l10 6 l6 -10"/><path d="M110 312 h24 M116 312 v-12 h12 v12"/><path d="M178 296 h24 M190 296 v18"/>
           <path d="M246 300 h24 v12 h-24 z"/><path d="M314 312 l10 -14 l10 14"/><path d="M382 300 h24 M382 312 h24"/>
         </g>

@@ -250,7 +250,34 @@ if (WF_WHITEPAPER.video) {
   swpCheck(art["@type"] === "VideoObject" && art.contentUrl === v.file && art.thumbnailUrl === v.poster && !!art.uploadDate && !!art.name && !!art.description,
     "the TechArticle's VideoObject names the published clip, its poster, an upload date, a name and a description");
   swpCheck(swpSrc.includes(`<source src="./${v.file}" type="video/mp4">`) && swpSrc.includes(`poster="./${v.poster}"`), "the page shows the same clip with its poster");
+  // The page addresses media as the published layout serves it (./media/ beside whitepaper.html, the canonical layout); in the
+  // repository layout the source sits at WebXR/home/media/, so ./media/ does not resolve there. Accepted and stated here:
+  // the two layouts' files are the same bytes (checked above), and the homepage's own media/ links read the same way.
+  const swpMediaRefs = [...swpSrc.matchAll(/(?:src|poster)="\.\/(media\/[^"]+)"/g)].map((m) => m[1]);
+  swpCheck(swpMediaRefs.length > 0 && swpMediaRefs.every((f) => existsSync(join(SWP_DIST, f)) && existsSync(join(SWP_WEBXR, "home", f))),
+    `every ./media/ path resolves in the published layout and has its source under WebXR/home/ (the repository layout serves it from there, not from ./media/): ${swpMediaRefs.length} paths`,
+    swpMediaRefs.join(", "));
 }
+
+// ------------------------------------------------------------ 4b. both schemes (console SEO-WHITEPAPER-3)
+// The page paints only from the design system's roles (its --swp vars fall back to --at-* tokens), so the light scheme that
+// shared/design.css defines under :root[data-theme="light"] applies to it too. Every pair of roles the page sets against
+// each other meets WCAG AA in both schemes, read from the design system's own role tables.
+const { AT_ROLES, thContrast } = await import(new URL("../WebXR/shared/theme.js", import.meta.url).href);
+const SWP_PAIRS = [
+  ["on-surface", "bg", 4.5], ["on-surface", "surface", 4.5], ["on-surface", "raised", 4.5], // body, tiles and notes, header and code
+  ["on-surface-muted", "bg", 4.5], ["on-surface-muted", "surface", 4.5], ["on-surface-muted", "raised", 4.5], // lead, cites, kickers, brand
+  ["primary", "bg", 4.5], ["primary", "surface", 4.5], ["on-primary", "primary", 4.5], // links, h3, the primary button
+  ["success", "bg", 4.5], ["success", "surface", 4.5], ["warning", "bg", 4.5], ["warning", "surface", 4.5], // the Built and Planned tags
+];
+const swpLowContrast = [];
+for (const scheme of ["dark", "light"]) for (const [fg, bg, min] of SWP_PAIRS) {
+  const r = thContrast(AT_ROLES[scheme][fg], AT_ROLES[scheme][bg]);
+  if (!(r >= min)) swpLowContrast.push(`${scheme} ${fg} on ${bg} ${r.toFixed(2)}:1 < ${min}`);
+}
+swpCheck(!swpLowContrast.length, `the page's ${SWP_PAIRS.length} role pairs meet WCAG AA in both schemes (${SWP_PAIRS.length * 2} pairs)`, swpLowContrast.join("; "));
+const swpHardColours = [...swpSrc.slice(swpSrc.indexOf("<body")).matchAll(/(?:fill|stroke|stop-color)="#[0-9a-fA-F]{3,8}"/g)].map((m) => m[0]);
+swpCheck(!swpHardColours.length, "the diagram carries no hard-coded colour: every fill and stroke is a design-system role", swpHardColours.slice(0, 5).join(", "));
 const swpOg = join(SWP_DIST, WF_WHITEPAPER.og);
 const swpOgSrc = join(SWP_WEBXR, "assets", "wf", `og-${WF_WHITEPAPER.og.split("/").pop()}`);
 function swpJpegSize(file) {
