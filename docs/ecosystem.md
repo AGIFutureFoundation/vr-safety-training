@@ -65,6 +65,14 @@ The adapter keeps SmartCiti.X's guards as written there. It dedupes on `event_id
 
 `tools/check_eco.mjs` validates every event against the documented shapes. When a read-only SmartCiti.X clone is present, it also pushes the messages through SmartCiti.X's real `Bus` (strict) and `extractSignals`, and the audit entries through its `AuditLog`. It imports those modules at run time from the clone and copies nothing.
 
+**The cross-repo fixture (round 9, ECOSYSTEM-3).** `docs/ecosystem/bus-fixture.jsonl` is the adapter's output for one seeded, synthetic run, committed so the SmartCiti.X brief (`tools/briefs/ecosystem/smartcitix-adopt-bus-adapter.md`, item 4) has real bytes to replay through `bus/test.mjs`:
+
+- **Line 1** is a header: the generator, the row count, the SmartCiti.X commit the shapes come from, the inputs and their seeds, the fixed clock, and the rules the file keeps.
+- **Every other line** is `{ "kind": "message", "message": … }` (a `telemetry.event` bus message carrying an ACP-01 envelope) or `{ "kind": "audit", "entry": … }` (an audit entry with `learner: null`).
+- **Inputs, all synthetic.** The first 8 ticks of the round-7 hive day (`ohHive`, seed 3, a 160-tick day: the same day `check_eco` leg 4 replays in full; the whole day is about 724 KB, over the 50 KB limit), three governor decisions (one simulated dispatch allowed, a physical target refused, an unknown site refused), two arena rows, and two runs of a two-step check room by a synthetic learner through the real `game.js` Session wired by `eco-learn.js`, with injected probes: consent on, the fixed pseudonym `fx-learner-000001`, a fixed clock. No real person's events are read and `dx-data.js`'s stores are never touched.
+- **Generator.** `node tools/eco_fixture.mjs` writes the file; `--stdout` prints the same bytes. The output is deterministic.
+- **Check.** `check_eco` leg 10 regenerates it in a child process and requires the committed bytes, validates every line against the documented shapes, checks the header, the fixed pseudonym, no stripped field, `physical` 0, both governor outcomes, the size limit, and that the SmartCiti.X brief names the file; with the read-only clone present, every message goes through SmartCiti.X's real `Bus` and `extractSignals`, and every entry through its `AuditLog`.
+
 ### 5. Agents registry
 
 SmartCiti.X keeps advisors and crews as JSON registries with `contract`, `honesty` and `standing` (`agents/registry/*.json`). This repo's agents are `agents/smartcitix/agent.json` (with `offerings/*.json`) and the Omega Hive roster `OH_AGENTS` (`oh-hive-data.js`). All of this repo's agents are labelled "software agent". The two registries are not merged. The SmartCiti.X brief proposes reading `OH_AGENTS` as one more crew, with the governor's refusal rules attached.
