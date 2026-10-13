@@ -105,7 +105,7 @@ import { vcMountVoiceSettings } from "../../shared/vc-voices.js";
 import { vbColearnProvider, vbColearnLocalSource } from "../../shared/vb-colearn.js";
 // AGENT-AVATARS: the software agents embodied at the robot sites.
 import { aaMountAgentAvatars, aaVbridgeAgents, aaVbridgeSource, aaRoomAvatarMount, aaCrowdAvatarMount, aaMoodOf } from "../../shared/aa-agent-avatars.js";
-import { lxLessonAtRobotSite } from "../../shared/lx-lessons.js"; // LESSONS-X: agent-led lessons at the robot sites
+import { lxLessonAtRobotSite, lxArmLesson, lxDebriefAtRobotSite, lxRoomLesson, lxRoomStation, lxAgentLesson, lxRoster } from "../../shared/lx-lessons.js"; // LESSONS-X: agent-led lessons at the robot sites; LESSONS-X-2: the menu entry, the real try's debrief, lessons in ACCESS's rooms
 // HIVE-IN-WORLD: the hive's agents inside the robotics rooms, one door with the exterior, and the return into the room.
 import { hwSyncRoom, hwFxDoorAt, hwReturnHash, hwRoomFromHash, hwRouter, hwBoxesIn } from "../../shared/hw-hive-world.js";
 import { h5IsOpsRoom } from "../../shared/h5-ops-room.js";
@@ -1482,6 +1482,31 @@ if (npParams.get("lxLesson")) window.__parishTest.lxRun = window.__parishTest.lx
 var hwRoomMount = null;
 // AVATARS-HD-2: the rooms' figures are the room level of the high-detail figure on high (inside IX_BUDGET), and wait for the voice too.
 var aaRoomMount = aaRoomAvatarMount({ voiced: aaVoiced });
+// LESSONS-X-2 (docs/consoles/LESSONS-X-2.md). (1) The menu entry: "Lesson with the site's agent" under Learn (#menu-lx) arms a robot
+// site; the lesson starts when the learner reaches it (9 m, polled while playing and outdoors), not at load. (2) The real try feeds the
+// debrief: back from a robot site's station (the passport's return site), the newest passport record for that station becomes the
+// lesson's result and the site's agent gives the debrief alone — only for an opted-in adult (lxProgressStore / dxCollecting), else nothing
+// is read and nothing stored. (3) Lessons in ACCESS's rooms: inside one of the four walk-in rooms the interiors pack's station lesson runs
+// with the leader at room.agentSpots[0] through the room figure mount (the room level inside IX_BUDGET). Captions in the toast; voice off.
+window.__parishTest.lxMenu = (() => { try { return lxArmLesson($("menu-lx"), { sites: rbWorld?.sites ?? [], start: (id) => window.__parishTest.lxLesson(id), where: () => ({ x: np.x, z: np.z }), playing: () => np.playing === true && !ixWorld.inside() && !lxRoom?.inside, toast: (t) => npToast(t, 5200), names: (id) => lxRoster().find((s) => s.id === id)?.name ?? id }); } catch (_) { return null; } })();
+window.__parishTest.lxDebrief = null;
+if (npReturnSiteId) { try { const rs = (rbWorld?.sites ?? []).find((s) => s.id === npReturnSiteId); if (rs?.station) setTimeout(() => { try { window.__parishTest.lxDebrief = lxDebriefAtRobotSite(aaWorld, rbWorld.sites, rs.station, { records: ppRecords(), caption: (c) => npToast(c, 4200) }); } catch (_) { window.__parishTest.lxDebrief = null; } }, 2500); } catch (_) { /* no robot site */ } }
+var lxRoomSeen = null, lxRoomRun = null;
+function lxRoomSync() {
+  const cur = ixWorld.room ?? null;
+  if (cur === lxRoomSeen) return lxRoomRun;
+  lxRoomSeen = cur;
+  try { lxRoomRun?.stop(); } catch (_) { /* gone */ } lxRoomRun = null;
+  const st = cur ? lxRoomStation(cur.id) : null;
+  if (!st) return null;
+  try {
+    const lesson = lxAgentLesson(st.id, lxRoster(), { leader: st.leader });
+    lxRoomRun = lxRoomLesson({ room: cur, three: THREE, mount: aaRoomMount, lesson, tier: npTierName, reducedMotion: npReduced, caption: (c) => npToast(c, 4200) });
+  } catch (_) { lxRoomRun = null; }
+  return lxRoomRun;
+}
+setInterval(() => { try { lxRoomSync(); } catch (_) { /* never breaks the frame */ } }, 1000);
+window.__parishTest.lxRoom = { sync: lxRoomSync, run: () => lxRoomRun };
 // AVATARS-HD-3: the hive's operations room gets the crowd level on high (seven figures and the room inside IX_BUDGET; balanced keeps
 // HIVE-5's lightened standard figure), and its walks between the door and the consoles go round the room's colliders. One per room.
 // AVATARS-HD-4: the console nearest the learner as they enter gets the room level (one room-level and six crowd figures inside IX_BUDGET).

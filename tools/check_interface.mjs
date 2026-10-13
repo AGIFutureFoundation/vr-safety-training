@@ -36,7 +36,7 @@ function check(ok, what, detail = "") {
 // The menu's mounts at 793d16d (other consoles write into these) and the reserved ones INTERFACE adds.
 export const UX_HEADER = ["menu", "menu-eyebrow", "menu-parish", "menu-blurb", "menu-count", "menu-start"];
 export const UX_TAB_MOUNTS = {
-  learn: ["menu-storyline", "menu-dean", "menu-paths", "menu-cognition", "menu-drills", "menu-sims", "menu-ps", "menu-packs"],
+  learn: ["menu-storyline", "menu-dean", "menu-paths", "menu-cognition", "menu-lx" /* LESSONS-X-2: the agent-led lesson entry */, "menu-drills", "menu-sims", "menu-ps", "menu-packs"],
   play: ["menu-ledger", "menu-motorpool", "menu-krewe", "menu-bayquest", "bq-board", "menu-harvest", "menu-smiles"],
   map: ["menu-parishes", "wk-atlas"],
   me: ["menu-passport", "menu-dataworks", "menu-sound"],

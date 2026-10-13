@@ -272,6 +272,130 @@ section("6b. revoke deletes; revoke elsewhere deletes on the next read; the assi
   if (LX.lxAssign("lx-pack-nope", { packs }).ok) errs.push("assigned a pack that does not exist");
 });
 
+// LESSONS-X-2 (round 9): the four VBRIDGE personas, the menu entry, the real try in the debrief, lessons in ACCESS's rooms, page weight.
+section("8. all four VBRIDGE personas take part in every VBRIDGE-led lesson; a hive lesson keeps one voice", (errs) => {
+  const vb = new Set(AA_VBRIDGE_PERSONAS.map((a) => a.id));
+  let vbLessons = 0, full = 0, oneVoice = 0, hiveLessons = 0;
+  for (const [p, l] of lessons) {
+    if (l.refused) continue;
+    const speakers = new Set(l.lines.map((x) => x.agent));
+    if (p.leader === "vbridge") {
+      vbLessons += 1;
+      if (speakers.size === 4 && [...speakers].every((id) => vb.has(id))) full += 1; else errs.push(`${l.id}: speakers ${[...speakers].join(", ")}`);
+      const part = (ph) => new Set(l.lines.filter((x) => x.phase === ph).map((x) => x.agent));
+      if (![...part("demo")].every((id) => id === "agent-provider")) errs.push(`${l.id}: the demonstration is not the provider's`);
+      if (![...part("debrief")].every((id) => id === "agent-evaluator")) errs.push(`${l.id}: the debrief is not the evaluator's`);
+      if (l.lines[0].agent !== "agent-governor" || (l.station.standards.length && !l.lines[0].text.includes(l.station.standards[0]))) errs.push(`${l.id}: the governor does not state the standards in the brief`);
+      if (![...part("try")].every((id) => id === "agent-client")) errs.push(`${l.id}: the try handoff is not the client's`);
+      if (l.leader.id !== "agent-evaluator" || (l.cast ?? []).length !== 4) errs.push(`${l.id}: leader ${l.leader.id}, cast ${(l.cast ?? []).length}`);
+      for (const line of l.lines) { const who = AA_VBRIDGE_PERSONAS.find((a) => a.id === line.agent); if (!who || !line.caption.startsWith(`${who.name} (software agent)`)) errs.push(`${l.id}: caption not the speaker's: ${line.caption.slice(0, 50)}`); }
+    } else { hiveLessons += 1; if (speakers.size === 1 && speakers.has(l.leader.id)) oneVoice += 1; else errs.push(`${l.id}: ${speakers.size} speakers on a hive lesson`); }
+  }
+  return `${full} of ${vbLessons} VBRIDGE lessons with all four personas (governor: standards; provider: demo; client: try; evaluator: order and debrief); ${oneVoice} of ${hiveLessons} hive lessons one voice`;
+});
+
+section("9. the menu entry arms a lesson that starts when the learner reaches the site, not at load", (errs) => {
+  const started = [], toasts = [];
+  const sites = [{ id: "rb-site-soma-robot-cell", name: "Robot cell", station: "ad-robot-cell-lockout-and-safe-reentry", position: [100, 40] }, { id: "rb-site-no-station", name: "No station" }];
+  const me = { x: 0, z: 0 };
+  let playing = false;
+  const arm = LX.lxArmLesson(null, { sites, start: (id) => { started.push(id); return { ok: true }; }, where: () => me, playing: () => playing, toast: (t) => toasts.push(t), schedule: null });
+  if (arm.tick() !== null || started.length) errs.push("ran before anything was armed");
+  if (arm.arm("rb-site-no-station")) errs.push("armed a site with no station");
+  if (!arm.arm("rb-site-soma-robot-cell")) errs.push("could not arm the robot cell");
+  if (started.length) errs.push("started at arm time (should wait for arrival)");
+  arm.tick(); if (started.length) errs.push("started while not playing (the menu still open)");
+  playing = true; arm.tick(); if (started.length) errs.push("started 108 m away");
+  me.x = 94; me.z = 40; const r = arm.tick();
+  if (started.length !== 1 || started[0] !== "ad-robot-cell-lockout-and-safe-reentry" || !r) errs.push(`started ${started.length} at 6 m`);
+  if (arm.armed()) errs.push("still armed after the start");
+  arm.tick(); if (started.length !== 1) errs.push("started twice");
+  if (!toasts[0]?.includes("Robot cell")) errs.push("no toast naming the site");
+  const app = readFileSync(join(ROOT, "WebXR/parishes/js/app.js"), "utf8");
+  const html = readFileSync(join(ROOT, "WebXR/parishes/parishes.html"), "utf8");
+  if (!/id="menu-lx"/.test(html)) errs.push("parishes.html has no #menu-lx mount");
+  if (!/lxArmLesson\(\$\("menu-lx"\)/.test(app)) errs.push("the parishes app does not mount lxArmLesson into #menu-lx");
+  const ci = readFileSync(join(ROOT, "tools/check_interface.mjs"), "utf8");
+  if (!/"menu-lx"/.test(ci)) errs.push("check_interface does not list #menu-lx under a tab");
+  return `armed, waited (menu open, 108 m), started once at 6 m; #menu-lx in the Learn tab`;
+});
+
+section("10. the real try feeds the debrief: missed steps named N of N; nothing read or stored for K-12, demo or signed-out", (errs) => {
+  const stationId = "ad-robot-cell-lockout-and-safe-reentry";
+  const steps = LX_STATION_STEPS[stationId];
+  const sites = [{ id: "rb-site-soma-robot-cell", station: stationId }];
+  const consentOn = { id: "c", adult: true, schema: "smartcitix.holodeck.episode" };
+  const mkStore = (signals, consent) => LX.lxProgressStore({ signals, consent: () => consent, collecting: (s) => !!consent && consent.adult === true && dxEligibility(s).eligible, revoke: async () => ({ ok: true }) });
+  const adult = { demo: false, signedIn: true, k12: false, adult: true };
+  // The passport record of a real run: the station's own step log, two steps with corrections, one with a hazard, one never reached.
+  const log = steps.slice(0, -1).map((s, i) => ({ id: s.id, title: s.title, seconds: 4, corrections: i === 1 ? 2 : 0, hazards: i === 3 ? 1 : 0, clean: !(i === 1 || i === 3), points: 100 }));
+  const records = [{ simId: stationId, score: 120, debrief: { steps: [] } }, { simId: "other-station", score: 999, debrief: { steps: [] } }, { simId: stationId, score: 540, passed: false, debrief: { steps: log } }];
+  const expectMissed = [steps[1].id, steps[3].id, steps[steps.length - 1].id];
+  const res = LX.lxResultOf(LX.lxLatestRecord(stationId, records), stationId);
+  if (res?.score !== 540 || res.missed.join() !== expectMissed.join()) errs.push(`result ${JSON.stringify(res)}`);
+  store.clear();
+  const caps = [], heard = [];
+  const world = { agents: () => [], addAgents: () => {}, attach: (s) => s.on("speak", (e) => heard.push(e)), detach: () => {} };
+  const run = LX.lxDebriefAtRobotSite(world, sites, stationId, { records, store: mkStore(adult, consentOn), caption: (c) => caps.push(c), schedule: (fn) => { fn(); return 1; }, cancel: () => {} });
+  if (run.refused) errs.push(`refused: ${run.reasons}`);
+  const named = expectMissed.filter((id) => run.lesson?.lines.some((l) => l.phase === "debrief" && l.ground.step === id && l.text.includes(steps.find((s) => s.id === id).cue)));
+  if (named.length !== expectMissed.length) errs.push(`missed steps named ${named.length} of ${expectMissed.length}`);
+  if (heard.some((e) => e.lx.phase !== "debrief")) errs.push("the debrief run spoke other phases");
+  if (!caps[0]?.includes("You scored 540") || !caps[0].includes(String(run.lesson.points.target))) errs.push(`first caption: ${caps[0]}`);
+  if (run.stored < 1) errs.push("the attempt was not recorded under its pack");
+  const kept = JSON.parse(store.get(LX.LX_PROGRESS_KEY) ?? "{}");
+  if (!Object.values(kept).some((l) => l.some((r) => r.simId === stationId && r.score === 540))) errs.push("progress does not hold the real score");
+  let gated = 0;
+  for (const [what, signals, consent] of [["K-12", { ...adult, k12: true }, consentOn], ["demo", { ...adult, demo: true }, consentOn], ["signed-out", { ...adult, signedIn: false }, consentOn], ["not opted in", adult, null]]) {
+    store.clear(); const c2 = [];
+    const r = LX.lxDebriefAtRobotSite(world, sites, stationId, { records, store: mkStore(signals, consent), caption: (c) => c2.push(c), schedule: (fn) => { fn(); return 1; }, cancel: () => {} });
+    if (r.refused && !r.stored && !store.has(LX.LX_PROGRESS_KEY) && !c2.length && !r.result) gated += 1; else errs.push(`${what}: refused ${r.refused}, stored ${r.stored}, captions ${c2.length}`);
+  }
+  // A record with points but no step log: the points line only, no "every step held".
+  const l2 = LX.lxAgentLesson(stationId, roster, { site: sites[0].id, result: LX.lxResultOf({ simId: stationId, score: 300, debrief: { steps: [] } }) });
+  if (l2.lines.filter((l) => l.phase === "debrief").length !== 1) errs.push("a record without steps got step lines");
+  const app = readFileSync(join(ROOT, "WebXR/parishes/js/app.js"), "utf8");
+  if (!/lxDebriefAtRobotSite\(aaWorld/.test(app) || !/ppRecords\(\)/.test(app)) errs.push("the parishes page does not feed the passport record into the debrief on return");
+  return `missed steps named ${named.length} of ${expectMissed.length} from a real record (score 540); stored under ${run.stored} pack; ${gated} of 4 ineligible sessions read nothing and stored nothing`;
+});
+
+section("11. lessons in ACCESS's rooms: the leader stands at agentSpots[0] through the room figure mount, 4 of 4 rooms", (errs) => {
+  const ix = readFileSync(join(ROOT, "WebXR/shared/ix-interiors.js"), "utf8");
+  const spotsSrc = ix.match(/export const IX_AGENT_SPOTS[\s\S]*?\n\};/)?.[0] ?? "";
+  let rooms = 0;
+  for (const style of ["acc-fire-bay", "acc-drop-off-lobby", "acc-classroom-wing", "acc-park-pavilion"]) {
+    const st = LX.lxRoomStation(style);
+    if (!st) { errs.push(`${style}: no pack station`); continue; }
+    const m = spotsSrc.match(new RegExp(`"${style}":\\s*\\[\\[([^\\]]*)\\]`));
+    if (!m) { errs.push(`${style}: no agent spots in ix-interiors.js`); continue; }
+    const [x, z, yaw] = m[1].split(",").map(Number);
+    const room = { id: style, group: { kind: "group" }, agentSpots: [{ id: "agent-1", x, z, yaw }, { id: "agent-2", x: -x, z, yaw }] };
+    const pack = packs.find((p) => p.id === st.pack);
+    const lesson = LX.lxAgentLesson(st.id, roster, { leader: pack?.leader ?? "hive" });
+    let got = null; const heard = [];
+    const mount = (o) => { got = o; o.source.on("speak", (e) => heard.push(e)); return { dispose() {} }; };
+    const run = LX.lxRoomLesson({ room, three: {}, mount, lesson, caption: () => {}, schedule: (fn) => { fn(); return 1; }, cancel: () => {} });
+    if (!run || !got) { errs.push(`${style}: the mount was not called`); continue; }
+    if (got.parent !== room.group) errs.push(`${style}: figure not in the room's group`);
+    const spot = got.spotFor(null, got.agents[0].homeSite);
+    if (got.agents[0].id !== lesson.leader.id || !spot || spot.x !== x || spot.z !== z) errs.push(`${style}: leader not at agentSpots[0] (${JSON.stringify(spot)})`);
+    if (got.siteAt(got.agents[0].homeSite) === null || got.siteAt("rb-site-soma-robot-cell") !== null) errs.push(`${style}: siteAt does not keep the figure in the room`);
+    if (heard.length !== lesson.lines.length) errs.push(`${style}: ${heard.length} lines reached the figure of ${lesson.lines.length}`);
+    rooms += 1;
+  }
+  if (LX.lxRoomLesson({ room: { id: "x", group: {}, agentSpots: [] }, mount: () => ({}), lesson: lessons[0][1] }) !== null) errs.push("a room without agent spots mounted a figure");
+  const app = readFileSync(join(ROOT, "WebXR/parishes/js/app.js"), "utf8");
+  if (!/lxRoomLesson\(/.test(app) || !/aaRoomMount/.test(app)) errs.push("the parishes page does not run the room lesson through aaRoomAvatarMount");
+  return `in-room lessons 0 → ${rooms} of 4 (leader at agentSpots[0], in the room's group, every line to the figure)`;
+});
+
+section("12. page weight: the pack data's bytes in each bundle that carries it", () => {
+  const py = readFileSync(join(ROOT, "tools/bundle_webxr.py"), "utf8");
+  const bytes = (f) => { try { return readFileSync(join(ROOT, "WebXR/shared", f)).length; } catch { return 0; } };
+  const carried = ["lx-packs-data.js", "lx-lessons.js", "lx-panel.js"].map((f) => `${f} ${bytes(f).toLocaleString("en-US")} B × ${(py.match(new RegExp(`"${f.replace(".", "\\.")}"`, "g")) ?? []).length} bundles`);
+  return carried.join("; ");
+});
+
 section("7. wiring: bundle lists, the instructor tab, check_all and the baseline", (errs) => {
   const py = readFileSync(join(ROOT, "tools/bundle_webxr.py"), "utf8");
   for (const m of ["lx-packs-data.js", "lx-lessons.js"]) if (!py.includes(`"${m}"`)) errs.push(`${m} not in tools/bundle_webxr.py`);
