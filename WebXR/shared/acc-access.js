@@ -21,13 +21,13 @@
 // headset browser build nothing, so their budgets do not change.
 
 import { cwSiteBuilding, cwDoorOf, cwNearestLine } from "./cw-cityworks.js";
-import { npHeightAt, npPrepare } from "./np-parish.js";
+import { npHeightAt, npPrepare, npChunkOf, NP_SIZE } from "./np-parish.js";
 import { tfWaterDepthAt } from "./tf-terraform.js";
 import { NW_AVATAR } from "./nw-physics.js";
 import { ixDoorSpot } from "./ix-interiors.js";
 
 /** The marked door: clear width at least the walk collider's diameter plus 0.25 m each side. */
-export const ACC_DOOR = { width: 1.2, height: 2.3, frame: 0.12 };
+export const ACC_DOOR = { width: 1.2, height: 2.3, frame: 0.12, proud: 0.18 /* just past CITYWORKS' door box, 0.01–0.17 m out (cw-streets-world.js) */ };
 /** A ramp where the door sill stands above the spot's ground: 1:12 at most, 1.2 m wide, a 1.2 m landing, rails both sides. */
 export const ACC_RAMP = { maxSlope: 1 / 12, minRise: 0.02, width: 1.2, landing: 1.2, rail: 0.9 };
 /** Stated budget (measured by check_acc): meshes per map and triangles per entrance; no texture, no light. */
@@ -39,14 +39,13 @@ export const ACC_BUDGET = {
 };
 export const ACC_KIND_STYLE = { "fire-station": "acc-fire-bay", hospital: "acc-drop-off-lobby", school: "acc-classroom-wing", park: "acc-park-pavilion" };
 const ACC_COL = { frame: 0xf2c14b, jamb: 0xf7f8f9, sill: 0xf2c14b, housing: 0x3a3f45, lit: 0xfff4d6, ramp: 0xb9b5ad, rail: 0x8a9096,
-  post: 0x5c6167, panel: 0x1f4e79, glyph: 0xf7f8f9, arrow: 0xf2c14b };
+  post: 0x5c6167, panel: 0x1f4e79, glyph: 0xf7f8f9, arrow: 0xf2c14b, door: 0x23272c, bar: 0xb9bcc0 };
 
 /** The walk from the door spot to the nearest street: out from the door, then straight or round one corner, each leg sampled
  *  every metre clear of every site footprint (+ the avatar radius) and out of water. The first clear path counts. */
 export function accStepFree(parish, e, blds = null) {
   blds ??= (parish.sites ?? []).map((_, i) => { try { return cwSiteBuilding(parish, i); } catch { return null; } }).filter(Boolean);
-  const near = cwNearestLine(parish, e.spot.x, e.spot.z, 400, (l) => l.cls !== "ferry" && !l.deck);
-  if (!near) return { ok: false, len: 0, blocked: "no street within 400 m", approach: accApproach(parish, e, blds) };
+  const near = cwNearestLine(parish, e.spot.x, e.spot.z, ACC_ROUTE.straight, (l) => l.cls !== "ferry" && !l.deck);
   const r = NW_AVATAR.radius, o = { n: [0, -1], s: [0, 1], e: [1, 0], w: [-1, 0] }[e.face] ?? [0, 1];
   const leg = (x0, z0, x1, z1) => {
     const len = Math.hypot(x1 - x0, z1 - z0), n = Math.max(1, Math.ceil(len));
@@ -63,6 +62,11 @@ export function accStepFree(parish, e, blds = null) {
   // Street points to reach: the nearest street to probes out from the door and along the face (a street may run under a site
   // footprint, so a target inside any footprint is skipped).
   const inFoot = (x, z) => blds.some((b) => Math.abs(x - b.cx) < b.w / 2 + r && Math.abs(z - b.cz) < b.d / 2 + r);
+  if (!near) { // ACCESS-2: no street within the straight reach: search for a path over dry ground to the nearest one further out
+    const pr = accPathRoute(parish, e, blds, leg, inFoot);
+    if (pr.ok) return pr;
+    return { ok: false, len: 0, blocked: `no street within ${ACC_ROUTE.straight} m`, pathBlocked: pr.blocked, approach: accApproach(parish, e, blds) };
+  }
   const targets = [];
   for (const dir of [o, a, [-a[0], -a[1]]]) for (const k of [0, 3, 6, 12, 24]) {
     const q = cwNearestLine(parish, S.x + dir[0] * k, S.z + dir[1] * k, 400, (l) => l.cls !== "ferry" && !l.deck);
@@ -77,10 +81,79 @@ export function accStepFree(parish, e, blds = null) {
   for (const path of paths) {
     let why = null, len = 0;
     for (let i = 1; i < path.length && !why; i++) { why = leg(path[i - 1][0], path[i - 1][1], path[i][0], path[i][1]); len += Math.hypot(path[i][0] - path[i - 1][0], path[i][1] - path[i - 1][1]); }
-    if (!why) return { ok: true, len, blocked: null, path };
+    if (!why) return { ok: true, len, blocked: null, path, via: "straight" };
     first ??= why;
   }
-  return { ok: false, len: near.d, blocked: first, approach: accApproach(parish, e, blds) };
+  // ACCESS-2: the straight and one-corner paths all fail (water, a footprint): search for a path over dry ground instead.
+  const pr = accPathRoute(parish, e, blds, leg, inFoot);
+  if (pr.ok) return pr;
+  return { ok: false, len: near.d, blocked: first, pathBlocked: pr.blocked, approach: accApproach(parish, e, blds) };
+}
+
+/** ACCESS-2: the path search's reach (metres to the nearest street), its grid cell, the cap on cells it may open and how many
+ *  times a path whose metre-sampled leg fails is closed off and searched again. */
+export const ACC_ROUTE = { straight: 400, reach: 1500, cell: 4, maxOpen: 250000, retries: 8 };
+/** Where no straight or one-corner path reaches a street: an A* search over dry ground on ACC_ROUTE.cell m cells, to the nearest
+ *  street point within ACC_ROUTE.reach m, each cell clear of every site footprint (+ the avatar radius), out of water and inside
+ *  the map. The found path is then sampled every metre like the straight legs (a cell centre can miss a narrow stream); a leg
+ *  that fails closes its cells and the search runs again, three times at most. */
+function accPathRoute(parish, e, blds, leg, inFoot) {
+  const S = e.spot, c = ACC_ROUTE.cell;
+  const near = cwNearestLine(parish, S.x, S.z, ACC_ROUTE.reach, (l) => l.cls !== "ferry" && !l.deck);
+  if (!near) return { ok: false, blocked: `no street within ${ACC_ROUTE.reach} m` };
+  // The goals: the nearest street point, and the nearest street points to probes 300 and 600 m out in four directions (the
+  // nearest street may lie across water while another is reachable over dry ground); any goal within one cell ends the search.
+  const goals = [];
+  for (const [dx, dz] of [[0, 0], [1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [-1, -1], [1, -1], [-1, 1]]) for (const k of dx || dz ? [300, 600] : [0]) {
+    const q = dx || dz ? cwNearestLine(parish, S.x + dx * k, S.z + dz * k, ACC_ROUTE.reach, (l) => l.cls !== "ferry" && !l.deck) : near;
+    if (q && !inFoot(q.px, q.pz) && Math.hypot(q.px - S.x, q.pz - S.z) <= ACC_ROUTE.reach && !goals.some((t) => Math.hypot(t[0] - q.px, t[1] - q.pz) < 2)) goals.push([q.px, q.pz]);
+  }
+  if (!goals.length) return { ok: false, blocked: "every reachable street point is under a site footprint" };
+  const half = Math.max(...goals.map((t) => Math.hypot(t[0] - S.x, t[1] - S.z))) + 120, n = Math.ceil((2 * half) / c) + 1, ox = S.x - half, oz = S.z - half;
+  const lim = NP_SIZE / 2 - 2, state = new Uint8Array(n * n); // 0 unknown, 1 free, 2 blocked
+  const wx = (i) => ox + i * c, wz = (j) => oz + j * c;
+  const free = (i, j) => {
+    const k = i * n + j;
+    if (!state[k]) {
+      const x = wx(i), z = wz(j);
+      let wd = 0; try { wd = tfWaterDepthAt(parish, x, z); } catch { wd = 0; }
+      state[k] = Math.abs(x) > lim || Math.abs(z) > lim || inFoot(x, z) || wd > 0.02 ? 2 : 1;
+    }
+    return state[k] === 1;
+  };
+  const si = Math.round((S.x - ox) / c), sj = Math.round((S.z - oz) / c);
+  const gi = goals.map((t) => Math.round((t[0] - ox) / c)), gj = goals.map((t) => Math.round((t[1] - oz) / c));
+  const h = (i, j) => { let m = Infinity; for (let k = 0; k < goals.length; k++) m = Math.min(m, Math.hypot(i - gi[k], j - gj[k])); return m * c; };
+  const atGoal = (i, j) => { for (let k = 0; k < goals.length; k++) if (Math.abs(i - gi[k]) <= 1 && Math.abs(j - gj[k]) <= 1) return goals[k]; return null; };
+  let why = "no dry path", detail = null;
+  for (let attempt = 0; attempt < ACC_ROUTE.retries; attempt++) {
+    const g = new Float32Array(n * n).fill(Infinity), prev = new Int32Array(n * n).fill(-1), closed = new Uint8Array(n * n);
+    const heap = []; // [f, id]
+    const push = (f, id) => { heap.push([f, id]); let a = heap.length - 1; while (a > 0) { const p = (a - 1) >> 1; if (heap[p][0] <= heap[a][0]) break; [heap[p], heap[a]] = [heap[a], heap[p]]; a = p; } };
+    const pop = () => { const top = heap[0], last = heap.pop(); if (heap.length) { heap[0] = last; let a = 0; for (;;) { const l = 2 * a + 1, r = l + 1; let m = a; if (l < heap.length && heap[l][0] < heap[m][0]) m = l; if (r < heap.length && heap[r][0] < heap[m][0]) m = r; if (m === a) break; [heap[m], heap[a]] = [heap[a], heap[m]]; a = m; } } return top; };
+    const s0 = si * n + sj; g[s0] = 0; push(h(si, sj), s0);
+    let goal = -1, opened = 0, T = null;
+    while (heap.length && goal < 0 && opened < ACC_ROUTE.maxOpen) {
+      const [, id] = pop(); if (closed[id]) continue; closed[id] = 1; opened++;
+      const i = Math.floor(id / n), j = id % n;
+      if ((T = atGoal(i, j))) { goal = id; break; }
+      for (const [di, dj] of [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [1, -1], [-1, 1], [-1, -1]]) {
+        const ni = i + di, nj = j + dj; if (ni < 0 || nj < 0 || ni >= n || nj >= n) continue;
+        const nid = ni * n + nj; if (closed[nid] || !free(ni, nj)) continue;
+        const ng = g[id] + (di && dj ? c * Math.SQRT2 : c);
+        if (ng < g[nid]) { g[nid] = ng; prev[nid] = id; push(ng + h(ni, nj), nid); }
+      }
+    }
+    if (goal < 0) { why = opened >= ACC_ROUTE.maxOpen ? "path search capped" : "no dry path to any street point"; detail = { goals: goals.length, reachable: opened }; break; }
+    const cells = []; for (let k = goal; k >= 0; k = prev[k]) cells.push(k);
+    const path = [[S.x, S.z], ...cells.reverse().slice(1).map((k) => [wx(Math.floor(k / n)), wz(k % n)]), T];
+    let bad = -1, len = 0;
+    for (let i = 1; i < path.length && bad < 0; i++) { if (leg(path[i - 1][0], path[i - 1][1], path[i][0], path[i][1])) bad = i; len += Math.hypot(path[i][0] - path[i - 1][0], path[i][1] - path[i - 1][1]); }
+    if (bad < 0) return { ok: true, len, blocked: null, path, via: "path", cells: cells.length };
+    for (const k of [cells[bad - 1], cells[bad]]) if (k != null && k !== s0) state[k] = 2; // close the cells the failing leg crossed
+    why = "a sampled leg of every found path crossed water or a footprint"; detail = { attempts: attempt + 1 };
+  }
+  return { ok: false, blocked: why, detail };
 }
 
 /** Where no street reaches: the 6 m apron straight out from the door, clear of footprints and water (an open approach). */
@@ -169,11 +242,18 @@ export function accParts(parish, e, tier = "high") {
     const alongX = Math.abs(a[0]) > 0.5;
     parts.push({ x, y, z, w: alongX ? su : sv, h: sy, d: alongX ? sv : su, col, name });
   };
-  // The marked door: two jambs and a head in a contrasting colour, 4 cm proud of the facade; a contrasting sill strip.
-  box(-(W / 2 + F / 2), 0.04, y0 + H / 2, F, 0.08, H, ACC_COL.jamb, "jamb");
-  box(W / 2 + F / 2, 0.04, y0 + H / 2, F, 0.08, H, ACC_COL.jamb, "jamb");
-  box(0, 0.04, y0 + H + F / 2, W + 2 * F, 0.08, F, ACC_COL.frame, "head");
+  // The marked door: two jambs and a head in a contrasting colour, 4 cm proud of CITYWORKS' own door box (ACC_DOOR.proud: the
+  // box cw-streets-world draws on the facade is 1.6 x 2.4 m and 0.16 m deep, and hid the frame in ACCESS's still); a
+  // contrasting sill strip on the ground.
+  const P = ACC_DOOR.proud;
+  box(-(W / 2 + F / 2), P + 0.04, y0 + H / 2, F, 0.08, H, ACC_COL.jamb, "jamb");
+  box(W / 2 + F / 2, P + 0.04, y0 + H / 2, F, 0.08, H, ACC_COL.jamb, "jamb");
+  box(0, P + 0.04, y0 + H + F / 2, W + 2 * F, 0.08, F, ACC_COL.frame, "head");
   box(0, 0.35, y0 + 0.01, W + 0.4, 0.7, 0.02, ACC_COL.sill, "sill");
+  // ACCESS-2: a real opening to read: a dark door panel inside the frame, its face 5 cm behind the jambs' (recessed), and on
+  // high a push bar across it at hand height (a horizontal rail; no words, no emblem).
+  box(0, P + 0.015, y0 + H / 2, W, 0.03, H, ACC_COL.door, "panel");
+  if (hi) box(0, P + 0.05, y0 + 1.0, W - 0.2, 0.04, 0.05, ACC_COL.bar, "push-bar");
   // The lit entrance: a housing on a short arm over the head, its lit face below (the lit faces are their own unlit mesh).
   box(0, 0.25, y0 + H + 0.45, 0.6, 0.5, 0.12, ACC_COL.housing, "housing");
   box(0, 0.25, y0 + H + 0.38, 0.5, 0.4, 0.02, ACC_COL.lit, "lit");
@@ -203,6 +283,15 @@ function rampBox(e, o, a, mid, L, yg, y0) {
   const x = e.door.x + o[0] * mid, z = e.door.z + o[1] * mid, alongX = Math.abs(a[0]) > 0.5;
   const pitch = Math.atan2(y0 - yg, L);
   return { x, y: (yg + y0) / 2 - 0.05, z, w: alongX ? ACC_RAMP.width : L, h: 0.1, d: alongX ? L : ACC_RAMP.width, pitch, out: o };
+}
+
+/** ACCESS-2: the entrance triangles charged to each chunk (by the door's chunk), for the combined count with FACADES and the kind
+ *  cues: { "cx,cz": triangles }. The two entrance meshes are per map, so they add no mesh to any chunk. */
+export function accChunkTriangles(parish, tier = "high") {
+  const out = {};
+  if (tier === "low") return out;
+  for (const e of accEntrances(parish)) { const k = npChunkOf(e.door.x, e.door.z).key; out[k] = (out[k] ?? 0) + accParts(parish, e, tier).length * 12; }
+  return out;
 }
 
 /** A headset browser builds nothing (its budget stays as it was). */
