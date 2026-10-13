@@ -1632,9 +1632,13 @@ function h3SceneTick(nowS) {
   const dt = h3SceneLastT == null ? 0 : Math.max(0, Math.min(0.1, nowS - h3SceneLastT)); h3SceneLastT = nowS;
   S.t = nowS - S.t0;
   try {
-    while (S.next < H3_SCENE.beats.length && S.t >= H3_SCENE.beats[S.next].at) { h3SceneBeat(H3_SCENE.beats[S.next]); S.next += 1; }
+    while (S.next < H3_SCENE.beats.length && S.t >= H3_SCENE.beats[S.next].at) {
+      const b = H3_SCENE.beats[S.next]; h3SceneBeat(b); S.next += 1;
+      if (S.hold && b.id === S.hold) { S.held = true; S.heldAt = S.t; break; } // MOODS: hold at this beat (a capture); the clock stops here until hiveSceneResume()
+    }
     h3SceneCamera(dt);
   } catch (e) { S.errors += 1; console.warn("hive scene:", e); }
+  if (S.held) { S.t0 = nowS - S.heldAt; S.t = S.heldAt; return; } // the scene's clock stands still; the room's figures keep animating in their mood
   if (S.t >= H3_SCENE.duration + 1) h3SceneStop();
 }
 function h3SceneStop() {
@@ -1648,21 +1652,26 @@ function h3SceneStop() {
   S.resolve?.(out);
   return out;
 }
-window.__parishTest.hiveScene = ({ seed = 1 } = {}) => {
+// MOODS (docs/consoles/MOODS.md): `hold: "<beat id>"` stops the scene's clock once that beat has played (its events released, its
+// caption up), so a capture can be taken of a mood in the scene (the busy planner at the award); hiveSceneResume() lets it run on.
+// Without `hold` the scene is what it was.
+window.__parishTest.hiveScene = ({ seed = 1, hold = null } = {}) => {
   if (parish.id !== H3_SCENE.parish) return { ok: false, reason: `the scene plays on ${H3_SCENE.parish}`, href: `?parish=${H3_SCENE.parish}&hivescene=${encodeURIComponent(seed)}` };
   if (!window.__parishTest.hive) return { ok: false, reason: "the Omega Hive is not mounted in this session (signed out, K-12 or the demo)" };
   if (h3Scene) h3SceneStop();
   const hive = h3SceneHive(ohHive, { seed: Number(seed) || 1, moods: true }); // HIVE-8: the scene's hive with moods on, like the panel's (its figures and glow receive mood events)
   for (let i = 0; i < H3_SCENE_PROLOGUE_STEPS; i += 1) hive.step(); // before the clock: the planner is in the cell hall
-  h3Scene = { seed: Number(seed) || 1, hive, relay: h3SceneRelay(hive), t0: null, t: 0, next: 0, follow: null, walker: null, outdoor: null, pendingJob: null, yaw: null, log: [], captions: [], errors: 0, done: false, el: h3SceneOverlay() };
+  const holdAt = typeof hold === "string" && H3_SCENE.beats.some((b) => b.id === hold) ? hold : null;
+  h3Scene = { seed: Number(seed) || 1, hive, relay: h3SceneRelay(hive), t0: null, t: 0, next: 0, follow: null, walker: null, outdoor: null, pendingJob: null, yaw: null, log: [], captions: [], errors: 0, done: false, el: h3SceneOverlay(), hold: holdAt, held: false, heldAt: 0 };
   const room = h3SceneRoom();
   npKeys.clear();
   const done = new Promise((resolve) => { h3Scene.resolve = resolve; });
   window.__parishTest.hiveSceneDone = done;
-  return { ok: !!room, seed: h3Scene.seed, duration: H3_SCENE.duration, beats: H3_SCENE.beats.map((x) => ({ id: x.id, at: x.at, shot: x.shot })), stop: () => h3SceneStop() };
+  return { ok: !!room, seed: h3Scene.seed, duration: H3_SCENE.duration, hold: holdAt, beats: H3_SCENE.beats.map((x) => ({ id: x.id, at: x.at, shot: x.shot })), stop: () => h3SceneStop(), resume: () => window.__parishTest.hiveSceneResume() };
 };
 window.__parishTest.hiveSceneStop = () => h3SceneStop();
-window.__parishTest.hiveSceneState = () => (h3Scene ? { t: h3Scene.t, next: h3Scene.next, beats: h3Scene.log.length, follow: h3Scene.follow, room: hwRoomMount ? { placed: hwRoomMount.placed.map((p) => p.agent.id), leaving: hwRoomMount.leaving() } : null } : null);
+window.__parishTest.hiveSceneResume = () => { const S = h3Scene; if (!S?.held) return false; S.held = false; S.hold = null; return true; }; // MOODS: the held scene runs on from where it stood
+window.__parishTest.hiveSceneState = () => (h3Scene ? { t: h3Scene.t, next: h3Scene.next, beats: h3Scene.log.length, follow: h3Scene.follow, hold: h3Scene.hold, held: h3Scene.held, moods: Object.fromEntries((h3Scene.hive?.agents ?? []).map((a) => [a.id, h3Scene.relay.mood(a.id)?.mood ?? null])), room: hwRoomMount ? { placed: hwRoomMount.placed.map((p) => p.agent.id), leaving: hwRoomMount.leaving(), posture: Object.fromEntries(hwRoomMount.placed.filter((p) => hwRoomMount.avatars?.figure?.(p.agent.id)).map((p) => [p.agent.id, hwRoomMount.avatars.state(p.agent.id)?.mood ?? null])) } : null } : null);
 { const q = npParams.get("hivescene"); if (q) setTimeout(() => { try { window.__parishTest.hiveScene({ seed: Number(q) || 1 }); } catch (e) { console.warn("hive scene:", e); } }, 1500); }
 window.__parishTest.vbLocal = vbLocal;
 window.__parishTest.xr = npXRTest;
