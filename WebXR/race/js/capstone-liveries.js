@@ -310,5 +310,25 @@ export const CAPSTONE_LIVERIES = [
     "programme": "k12-literacy-and-life-skills",
     "name": "K-12 Literacy and Life Skills",
     "accent": "#9a6ad0"
+  },
+  {
+    "programme": "nonprofit-operations-and-volunteers",
+    "name": "Non-Profit Operations and Volunteers — Entry Point",
+    "accent": "#8fbf7a"
+  },
+  {
+    "programme": "ethics-and-responsible-automation",
+    "name": "Ethics and Responsible Automation — Entry Point",
+    "accent": "#b07ad6"
+  },
+  {
+    "programme": "youth-club-leadership",
+    "name": "Youth Club Leadership and Coaching — Entry Point",
+    "accent": "#f2b84b"
+  },
+  {
+    "programme": "robot-control-basics",
+    "name": "Robot Control Basics — Entry Point",
+    "accent": "#4fb6c9"
   }
 ];
