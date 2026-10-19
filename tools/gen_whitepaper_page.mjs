@@ -92,7 +92,32 @@ function swpList(page, heading) {
   }
   return out;
 }
-const swpClaimList = (claims) => `      <ul class="swp-claims">\n${claims.map((c) => `        <li class="swp-claim">${c.html} ${swpCites(c.cites)}</li>`).join("\n")}\n      </ul>`;
+/**
+ * The committed primary file behind a wiki bullet that names none (the console note or doc the bullet was written from),
+ * by the bullet's first words. It is cited before the wiki page, so a reader has the file the wiki summarised. A wiki
+ * bullet with no entry here and no file of its own stops the build: a claim never cites only docs/wiki/.
+ */
+const SWP_PRIMARY = [
+  ["351 episodes in the trainable set", ["docs/consoles/ROBO-ARENA.md"]],
+  ["A measured study with real, opted-in adults", ["docs/consoles/COLEARN.md", "docs/consoles/ROBOTRAIN-5.md"]],
+  ["A measured study of how learners use the hive", ["docs/consoles/HIVE-IN-WORLD.md", "docs/omega-hive.md"]],
+  ["A native speaker’s review of the hive’s Spanish", ["docs/consoles/HIVE-3.md"]],
+  ["A rated robot run that carries a signal", ["docs/consoles/ROBOTRAIN-7.md", "docs/consoles/ROBOTRAIN-8.md"]],
+  ["The agents’ mouths against a real on-device voice", ["docs/consoles/AVATARS-HD.md"]],
+  ["A headset session on hardware for the teleoperation pad", ["docs/consoles/ROBOTRAIN-2.md", "docs/consoles/ROBOTRAIN-3.md"]],
+  ["A bench pilot", ["docs/bench-protocol.md"]],
+  ["Virtuals Protocol", ["docs/virtuals-bridge.md", "docs/agent-roadmap.md"]],
+];
+const swpIsWiki = (p) => p.startsWith("docs/wiki/");
+/** A claim's cites with its primary file first; throws when every cite would be a wiki page. */
+function swpNoteFirst(text, cites) {
+  const plain = text.replace(/<[^>]+>/g, "").replace(/^\s*(Built|Planned)\s+/, "").trim();
+  const hit = SWP_PRIMARY.find(([lead]) => plain.startsWith(lead));
+  const all = [...(hit ? hit[1] : []), ...cites].filter(swpIsFile);
+  if (!all.some((p) => !swpIsWiki(p))) throw new Error(`gen_whitepaper_page: "${plain.slice(0, 60)}" would cite only docs/wiki/ (add its primary file to SWP_PRIMARY)`);
+  return [...all.filter((p) => !swpIsWiki(p)), ...all.filter(swpIsWiki)];
+}
+const swpClaimList = (claims) => `      <ul class="swp-claims">\n${claims.map((c) => `        <li class="swp-claim">${c.html} ${swpCites(swpNoteFirst(c.html, c.cites))}</li>`).join("\n")}\n      </ul>`;
 
 /** The loop-ten rows of the wiki's measured table, one per console, by round. */
 function swpLoopTen() {
@@ -165,8 +190,8 @@ const SWP_SECTION_DEFS = [
   { id: "problem", nav: "Problem", h2: "The dangerous moments need practice without the danger", parts: () => [
 `      <p>People who work beside robots — apprentices, robot technicians, the specialists who collect and review demonstrations — need to practise the dangerous moments without the danger. The teams building robot and software-agent behaviour need demonstrations with the safety rules built in, gathered with consent. Today these are two separate efforts. This platform makes them one practice, with the teaching job first.</p>
       <ul class="swp-claims">
-        <li class="swp-claim">Who it is for: apprentices and robot technicians who need robot-safety training; AI-training specialists who collect and review demonstrations; robotics and software-agent teams who want a gym with safety rules built in. No union, employer or robot maker is named as a partner, because there is none. <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/wiki/Executive-Summary.md">docs/wiki/Executive-Summary.md</a></cite></li>
-        <li class="swp-claim">Every demonstration measured so far is synthetic or a labelled scripted stand-in; a measured study with real, opted-in adults is planned, not built. <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/wiki/Executive-Summary.md">docs/wiki/Executive-Summary.md</a></cite></li>
+        <li class="swp-claim">Who it is for: apprentices and robot technicians who need robot-safety training; AI-training specialists who collect and review demonstrations; robotics and software-agent teams who want a gym with safety rules built in. No union, employer or robot maker is named as a partner, because there is none. ${swpCites(["docs/robotics-programme.md", "docs/wiki/Executive-Summary.md"])}</li>
+        <li class="swp-claim">Every demonstration measured so far is synthetic or a labelled scripted stand-in; a measured study with real, opted-in adults is planned, not built. ${swpCites(["docs/consoles/ROBOTRAIN-5.md", "docs/consoles/COLEARN.md", "docs/wiki/Executive-Summary.md"])}</li>
       </ul>`,
   ] },
   { id: "platform", nav: "Platform", h2: "A training catalogue, a robot gym and a safety governor", parts: () => [
@@ -174,8 +199,8 @@ const SWP_SECTION_DEFS = [
       <ul class="swp-claims">
         <li class="swp-claim">742 stations in 61 programmes, scored by the platform's own content evaluation: mean 95.8 out of 100, 612 at 95 or more. <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/investor/platform-summary.json">docs/investor/platform-summary.json</a></cite> <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/wiki/Executive-Summary.md">docs/wiki/Executive-Summary.md</a></cite></li>
         <li class="swp-claim">Stations are taught against a registry of 513 standards, codes and programmes, named by title and never quoted. <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/investor/platform-summary.json">docs/investor/platform-summary.json</a></cite></li>
-        <li class="swp-claim">The learning loop runs in the app: demonstrate, consent, train, evaluate, and the robot demonstrates back (5 of 5 steps live). <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/wiki/Executive-Summary.md">docs/wiki/Executive-Summary.md</a></cite></li>
-        <li class="swp-claim">A safety governor between software agents and simulated robots: e-stop first, 11 refusal reasons including a per-agent rate limit and a learned anomaly check that can only add a refusal, and a hash-chained audit log. <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/wiki/Executive-Summary.md">docs/wiki/Executive-Summary.md</a></cite></li>
+        <li class="swp-claim">The learning loop runs in the app: demonstrate, consent, train, evaluate, and the robot demonstrates back (5 of 5 steps live). ${swpCites(["docs/robotics-programme.md", "docs/wiki/Executive-Summary.md"])}</li>
+        <li class="swp-claim">A safety governor between software agents and simulated robots: e-stop first, 11 refusal reasons including a per-agent rate limit and a learned anomaly check that can only add a refusal, and a hash-chained audit log. ${swpCites(["docs/consoles/VBRIDGE.md", "docs/consoles/GOVERNOR-2.md", "docs/wiki/Executive-Summary.md"])}</li>
         <li class="swp-claim">Learner data stays in the browser it was made in; nothing leaves the device without the learner's explicit action. <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/WebXR/privacy.html">WebXR/privacy.html</a></cite></li>
       </ul>`,
   ] },
@@ -184,7 +209,7 @@ const SWP_SECTION_DEFS = [
       <ul class="swp-tiles" aria-label="Omega Hive figures">
         <li class="swp-tile swp-claim"><b>0.950</b><span>accuracy naming the speaking agent on 5,686 held-out lines; chance 0.143</span> <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/consoles/OMEGA-HIVE.md">docs/consoles/OMEGA-HIVE.md</a></cite></li>
         <li class="swp-tile swp-claim"><b>13.715 → 0.034</b><span>mean steps from a job's announcement to its award: one dispatcher, then the hive</span> <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/consoles/OMEGA-HIVE.md">docs/consoles/OMEGA-HIVE.md</a></cite></li>
-        <li class="swp-tile swp-claim"><b>10 of 10</b><span>approval requests asked of the learner wherever the physical path is named</span> <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/wiki/Roadmap-and-Changelog.md">docs/wiki/Roadmap-and-Changelog.md</a></cite></li>
+        <li class="swp-tile swp-claim"><b>10 of 10</b><span>approval requests asked of the learner wherever the physical path is named</span> ${swpCites(["docs/consoles/OMEGA-HIVE.md", "docs/wiki/Roadmap-and-Changelog.md"])}</li>
       </ul>
       <ul class="swp-claims">
         <li class="swp-claim">The agents talk to each other at handoffs: 0 → 258 agent-to-agent exchanges in a seeded day, with 516 of 516 lines whose facts come from the award, the bid or the chain, and the governor still checking 161 of 161 jobs. <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/consoles/HIVE-4.md">docs/consoles/HIVE-4.md</a></cite></li>
@@ -235,7 +260,7 @@ const SWP_SECTION_DEFS = [
         <li class="swp-claim">Its learned check caught 66 of 100 rule-legal anomalous jobs that the rules alone passed, with 0 of 200 held-out safe jobs wrongly refused. <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/consoles/GOVERNOR-2.md">docs/consoles/GOVERNOR-2.md</a></cite></li>
         <li class="swp-claim">On the hard fleet-routing variant, the gap to the scripted expert went from 0.583 to 0.017 after 5 rounds of corrections with features that read the other robots; the expert's labels are not a person's. <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/evals/colearn.json">docs/evals/colearn.json</a></cite> <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/wiki/Roadmap-and-Changelog.md">docs/wiki/Roadmap-and-Changelog.md</a></cite></li>
         <li class="swp-claim">A reactive agent that waits, then sidesteps, passes 55 of 60 fresh held-out seeds where the earlier one passed 26 of 60 — no search, no planner, no learning. On the same seeds a clone given no planner output ends a gap of 0.683, and a reward for steps still trails the plain rule filter (0.517 against 0.650). <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/consoles/ROBOTRAIN-8.md">docs/consoles/ROBOTRAIN-8.md</a></cite></li>
-        <li class="swp-claim">The best text-reading software agent passes 11.5% of 721 stations, against 100% for a scripted expert that sees the targets. <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/wiki/Executive-Summary.md">docs/wiki/Executive-Summary.md</a></cite> <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/perf/agent-baselines.json">docs/perf/agent-baselines.json</a></cite></li>
+        <li class="swp-claim">The best text-reading software agent passes 11.5% of 721 stations, against 100% for a scripted expert that sees the targets. ${swpCites(["docs/perf/agent-baselines.json", "docs/wiki/Executive-Summary.md"])}</li>
         <li class="swp-claim">Labelled synthetic datasets ship with a dataset card in the LeRobot-style and RLDS-style layouts, licence <code>CC0-1.0</code>. <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/robot-datasets.md">docs/robot-datasets.md</a></cite></li>
       </ul>`,
   ] },
@@ -267,6 +292,8 @@ const SWP_SECTION_DEFS = [
   ] },
   { id: "loop10", nav: "Loop ten", h2: "Agents with faces, voices and personalities; robot buildings inside and out", parts: () => [
     `      <p>Loop ten gave the robots' software agents a hive, gave the six robot sites real buildings, and closed the roadmap's next robot-learning items with measured results. It ran in rounds; each console committed a note with its own before-and-after table. The rows below are the wiki's measured table, one row per console, each citing the files it names.</p>`,
+    // The clip and poster are addressed as the published layout serves them (./media/, copied by the bundler from
+    // WebXR/home/media/); in the repository layout the same files sit under home/media/. Accepted, and the checker says so.
     `      <figure class="swp-video">
         <video controls muted playsinline preload="none" poster="./${WF_WHITEPAPER.video.poster}" width="960" height="540" aria-label="${swpEsc(WF_WHITEPAPER.video.name)}">
           <source src="./${WF_WHITEPAPER.video.file}" type="video/mp4">
@@ -292,10 +319,10 @@ const SWP_SECTION_DEFS = [
   ] },
   { id: "roadmap", nav: "Roadmap", h2: "What is built, and what is only planned", parts: () => [
     `      <ul class="swp-claims">`,
-`        <li class="swp-claim"><span class="swp-tag built">Built</span> A robot gym: 6 simulated scenarios, scripted experts and a behaviour-cloning learner, scored on held-out seeds beside a random floor. <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/wiki/Executive-Summary.md">docs/wiki/Executive-Summary.md</a></cite></li>
-        <li class="swp-claim"><span class="swp-tag built">Built</span> Consent, dataset cards and lineage: a revoke marks dependent policies stale, and the registry moves between devices as a file whose tampering is refused by name. <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/wiki/Executive-Summary.md">docs/wiki/Executive-Summary.md</a></cite></li>
-        <li class="swp-claim"><span class="swp-tag built">Built</span> A pilot kit: 30 cohort templates, the instructor console, the consent flow with its draft terms, and a bench protocol that is a method (0 hardware runs). <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/wiki/Executive-Summary.md">docs/wiki/Executive-Summary.md</a></cite></li>`,
-    ...swpList("Executive-Summary.md", "Planned, not built").map((t) => `        <li class="swp-claim"><span class="swp-tag planned">Planned</span> ${swpInline(t)} ${swpCites(["docs/wiki/Executive-Summary.md"])}</li>`),
+`        <li class="swp-claim"><span class="swp-tag built">Built</span> A robot gym: 6 simulated scenarios, scripted experts and a behaviour-cloning learner, scored on held-out seeds beside a random floor. ${swpCites(["docs/robot-training.md", "docs/consoles/COLEARN.md", "docs/wiki/Executive-Summary.md"])}</li>
+        <li class="swp-claim"><span class="swp-tag built">Built</span> Consent, dataset cards and lineage: a revoke marks dependent policies stale, and the registry moves between devices as a file whose tampering is refused by name. ${swpCites(["docs/robotics-programme.md", "docs/robot-datasets.md", "docs/wiki/Executive-Summary.md"])}</li>
+        <li class="swp-claim"><span class="swp-tag built">Built</span> A pilot kit: 30 cohort templates, the instructor console, the consent flow with its draft terms, and a bench protocol that is a method (0 hardware runs). ${swpCites(["docs/instructor-console.md", "docs/bench-protocol.md", "docs/wiki/Executive-Summary.md"])}</li>`,
+    ...swpList("Executive-Summary.md", "Planned, not built").map((t) => `        <li class="swp-claim"><span class="swp-tag planned">Planned</span> ${swpInline(t)} ${swpCites(swpNoteFirst(t, ["docs/wiki/Executive-Summary.md"]))}</li>`),
     `      </ul>`,
 `      <p class="swp-note">The robots are simulated; no hardware result is stated. No partnership, customer or commercial figure appears on this page. Standards are named, never quoted, and nothing here claims compliance. The full evidence table and changelog are in the repository's wiki. <cite><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/wiki/Evidence.md">docs/wiki/Evidence.md</a></cite></p>`,
   ] },
@@ -345,6 +372,16 @@ ${wfBlock(page, WF_WHITEPAPER.key)}
   h1 { margin: 0 0 14px; font: 700 clamp(32px, 5.4vw, 56px)/1.04 var(--cond); text-transform: uppercase; letter-spacing: .01em; }
   .swp-lead { margin: 0 0 18px; color: var(--muted); font-size: 19px; max-width: 60ch; }
   .swp-hero svg { width: 100%; height: auto; display: block; }
+  /* The diagram paints from the same roles as the page, so the design system's light scheme (:root[data-theme="light"] in shared/design.css) recolours it too. */
+  .swp-hero svg .swp-d-card { fill: var(--at-raised, #0a121b); stroke: var(--line); }
+  .swp-hero svg .swp-d-glow { stop-color: var(--accent); }
+  .swp-hero svg .swp-d-ring { stroke: var(--line); fill: none; }
+  .swp-hero svg .swp-d-gov { fill: var(--panel); stroke: var(--ok); }
+  .swp-hero svg .swp-d-tick { stroke: var(--ok); fill: none; }
+  .swp-hero svg .swp-d-agent { fill: var(--panel); stroke: var(--accent); }
+  .swp-hero svg .swp-d-dot { fill: var(--accent); }
+  .swp-hero svg .swp-d-site { fill: var(--at-surface-2, #16283a); stroke: var(--warn); }
+  .swp-hero svg .swp-d-wire, .swp-hero svg .swp-d-glyph { stroke: var(--warn); fill: none; }
   .swp-cta { display: flex; flex-wrap: wrap; gap: 10px; }
   .swp-btn { display: inline-flex; align-items: center; min-height: 48px; padding: 0 18px; border-radius: var(--at-r-md, 10px); border: 1px solid var(--line); background: var(--panel); color: var(--ink); text-decoration: none; font: 700 15px/1 var(--cond); letter-spacing: .05em; text-transform: uppercase; }
   .swp-btn.primary { background: var(--accent); color: var(--at-on-primary, #03202b); border-color: var(--accent); }
@@ -421,27 +458,27 @@ ${nav}
       </div>
       <svg viewBox="0 0 440 340" role="img" aria-label="Diagram: software agents around a safety governor, which stands between them and the simulated robot sites">
         <defs>
-          <radialGradient id="swp-glow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#4fd1ff" stop-opacity=".35"/><stop offset="1" stop-color="#4fd1ff" stop-opacity="0"/></radialGradient>
+          <radialGradient id="swp-glow" cx="50%" cy="50%" r="50%"><stop class="swp-d-glow" offset="0" stop-opacity=".35"/><stop class="swp-d-glow" offset="1" stop-opacity="0"/></radialGradient>
         </defs>
-        <rect x="0" y="0" width="440" height="340" rx="16" fill="#0a121b" stroke="#2c4458"/>
+        <rect class="swp-d-card" x="0" y="0" width="440" height="340" rx="16"/>
         <circle cx="220" cy="150" r="128" fill="url(#swp-glow)"/>
-        <g stroke="#2c4458" stroke-width="1.5" fill="none">
+        <g class="swp-d-ring" stroke-width="1.5">
           <circle cx="220" cy="150" r="96"/>
           <path d="M220 69 L220 116 M283.3 99.5 L246.6 128.8 M299 168.1 L253.1 157.6 M255.1 223 L234.7 180.6 M184.9 223 L205.3 180.6 M141 168.1 L186.9 157.6 M156.7 99.5 L193.4 128.8"/>
         </g>
-        <polygon points="220,116 249,133 249,167 220,184 191,167 191,133" fill="#101e2b" stroke="#6fdc9a" stroke-width="3"/>
-        <path d="M208 150 l8 8 l16 -18" stroke="#6fdc9a" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-        <g fill="#101e2b" stroke="#4fd1ff" stroke-width="2.5">
+        <polygon class="swp-d-gov" points="220,116 249,133 249,167 220,184 191,167 191,133" stroke-width="3"/>
+        <path class="swp-d-tick" d="M208 150 l8 8 l16 -18" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <g class="swp-d-agent" stroke-width="2.5">
           <circle cx="220" cy="54" r="15"/><circle cx="295" cy="90.1" r="15"/><circle cx="313.6" cy="171.4" r="15"/><circle cx="261.6" cy="236.5" r="15"/>
           <circle cx="178.4" cy="236.5" r="15"/><circle cx="126.4" cy="171.4" r="15"/><circle cx="145" cy="90.1" r="15"/>
         </g>
-        <g fill="#4fd1ff"><circle cx="220" cy="50" r="4"/><circle cx="295" cy="86.1" r="4"/><circle cx="313.6" cy="167.4" r="4"/><circle cx="261.6" cy="232.5" r="4"/><circle cx="178.4" cy="232.5" r="4"/><circle cx="126.4" cy="167.4" r="4"/><circle cx="145" cy="86.1" r="4"/></g>
-        <g fill="#16283a" stroke="#ffc861" stroke-width="2">
+        <g class="swp-d-dot"><circle cx="220" cy="50" r="4"/><circle cx="295" cy="86.1" r="4"/><circle cx="313.6" cy="167.4" r="4"/><circle cx="261.6" cy="232.5" r="4"/><circle cx="178.4" cy="232.5" r="4"/><circle cx="126.4" cy="167.4" r="4"/><circle cx="145" cy="86.1" r="4"/></g>
+        <g class="swp-d-site" stroke-width="2">
           <rect x="28" y="286" width="52" height="34" rx="4"/><rect x="96" y="286" width="52" height="34" rx="4"/><rect x="164" y="286" width="52" height="34" rx="4"/>
           <rect x="232" y="286" width="52" height="34" rx="4"/><rect x="300" y="286" width="52" height="34" rx="4"/><rect x="368" y="286" width="52" height="34" rx="4"/>
         </g>
-        <g stroke="#ffc861" stroke-width="2" stroke-dasharray="4 5" fill="none"><path d="M220 184 L220 262 M54 286 L54 274 L394 274 L394 286 M122 274 v12 M190 274 v12 M258 274 v12 M326 274 v12"/></g>
-        <g stroke="#ffc861" stroke-width="2.5" fill="none" stroke-linecap="round">
+        <g class="swp-d-wire" stroke-width="2" stroke-dasharray="4 5"><path d="M220 184 L220 262 M54 286 L54 274 L394 274 L394 286 M122 274 v12 M190 274 v12 M258 274 v12 M326 274 v12"/></g>
+        <g class="swp-d-glyph" stroke-width="2.5" stroke-linecap="round">
           <path d="M44 312 l8 -12 l10 6 l6 -10"/><path d="M110 312 h24 M116 312 v-12 h12 v12"/><path d="M178 296 h24 M190 296 v18"/>
           <path d="M246 300 h24 v12 h-24 z"/><path d="M314 312 l10 -14 l10 14"/><path d="M382 300 h24 M382 312 h24"/>
         </g>
