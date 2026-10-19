@@ -33,7 +33,15 @@ export const REGION_TRAINING = [
       "water-and-gas-utility-crews"
     ],
     "k12": [
-      "k12-literacy-and-life-skills"
+      "k12-by-a-streetcar-timetable",
+      "k12-by-what-a-pump-station-does-in-the-rain",
+      "k12-literacy-and-life-skills",
+      "k12-reading-a-map-scale-in-bay-world"
+    ],
+    "k12Stations": [
+      "k12-by-a-streetcar-timetable",
+      "k12-by-what-a-pump-station-does-in-the-rain",
+      "k12-reading-a-map-scale-in-bay-world"
     ],
     "robot": [],
     "unions": [
@@ -103,7 +111,15 @@ export const REGION_TRAINING = [
       "yacht-and-charter-crew"
     ],
     "k12": [
-      "k12-literacy-and-life-skills"
+      "k12-by-wetlands-as-a-storms-speed-bump",
+      "k12-how-a-local-council-meeting-works",
+      "k12-literacy-and-life-skills",
+      "k12-simple-machines-at-a-crane"
+    ],
+    "k12Stations": [
+      "k12-by-wetlands-as-a-storms-speed-bump",
+      "k12-how-a-local-council-meeting-works",
+      "k12-simple-machines-at-a-crane"
     ],
     "robot": [],
     "unions": [
@@ -166,7 +182,16 @@ export const REGION_TRAINING = [
       "warehouse-and-logistics-automation",
       "water-and-gas-utility-crews"
     ],
-    "k12": [],
+    "k12": [
+      "k12-a-controlled-experiment",
+      "k12-es-too-much-of-a-good-thing",
+      "k12-water-cycle-and-filtration"
+    ],
+    "k12Stations": [
+      "k12-a-controlled-experiment",
+      "k12-es-too-much-of-a-good-thing",
+      "k12-water-cycle-and-filtration"
+    ],
     "robot": [
       "warehouse-and-logistics-automation"
     ],
@@ -209,7 +234,16 @@ export const REGION_TRAINING = [
       "warehouse-and-logistics-automation",
       "water-and-gas-utility-crews"
     ],
-    "k12": [],
+    "k12": [
+      "k12-by-wetlands-as-a-storms-speed-bump",
+      "k12-by-what-a-pump-station-does-in-the-rain",
+      "k12-water-cycle-and-filtration"
+    ],
+    "k12Stations": [
+      "k12-by-wetlands-as-a-storms-speed-bump",
+      "k12-by-what-a-pump-station-does-in-the-rain",
+      "k12-water-cycle-and-filtration"
+    ],
     "robot": [
       "warehouse-and-logistics-automation"
     ],
@@ -248,7 +282,16 @@ export const REGION_TRAINING = [
       "warehouse-and-logistics-automation",
       "water-and-gas-utility-crews"
     ],
-    "k12": [],
+    "k12": [
+      "k12-a-controlled-experiment",
+      "k12-es-mud-on-the-move",
+      "k12-es-where-the-storm-drain-goes"
+    ],
+    "k12Stations": [
+      "k12-a-controlled-experiment",
+      "k12-es-mud-on-the-move",
+      "k12-es-where-the-storm-drain-goes"
+    ],
     "robot": [
       "warehouse-and-logistics-automation"
     ],
@@ -281,7 +324,16 @@ export const REGION_TRAINING = [
       "marine-ecology-and-restoration",
       "ports-maritime-ecology"
     ],
-    "k12": [],
+    "k12": [
+      "k12-by-how-a-levee-holds-water-back",
+      "k12-by-wetlands-as-a-storms-speed-bump",
+      "k12-graphing-tide-readings-at-the-pier"
+    ],
+    "k12Stations": [
+      "k12-by-how-a-levee-holds-water-back",
+      "k12-by-wetlands-as-a-storms-speed-bump",
+      "k12-graphing-tide-readings-at-the-pier"
+    ],
     "robot": [],
     "unions": [
       "afscme",
@@ -328,7 +380,16 @@ export const REGION_TRAINING = [
       "transit-ramp",
       "water-and-gas-utility-crews"
     ],
-    "k12": [],
+    "k12": [
+      "k12-by-how-a-levee-holds-water-back",
+      "k12-circuits-at-the-electrical-bench",
+      "k12-simple-machines-at-a-crane"
+    ],
+    "k12Stations": [
+      "k12-by-how-a-levee-holds-water-back",
+      "k12-circuits-at-the-electrical-bench",
+      "k12-simple-machines-at-a-crane"
+    ],
     "robot": [],
     "unions": [
       "afscme",
@@ -380,7 +441,16 @@ export const REGION_TRAINING = [
       "warehouse-and-logistics-automation",
       "water-and-gas-utility-crews"
     ],
-    "k12": [],
+    "k12": [
+      "k12-by-the-rivers-current-and-a-pilots-job",
+      "k12-es-who-does-this-work",
+      "k12-reading-instructions-and-safety-labels"
+    ],
+    "k12Stations": [
+      "k12-by-the-rivers-current-and-a-pilots-job",
+      "k12-es-who-does-this-work",
+      "k12-reading-instructions-and-safety-labels"
+    ],
     "robot": [
       "warehouse-and-logistics-automation"
     ],
@@ -436,7 +506,16 @@ export const REGION_TRAINING = [
       "warehouse-and-logistics-automation",
       "water-and-gas-utility-crews"
     ],
-    "k12": [],
+    "k12": [
+      "k12-by-how-a-levee-holds-water-back",
+      "k12-map-literacy-across-eras",
+      "k12-simple-machines-at-a-crane"
+    ],
+    "k12Stations": [
+      "k12-by-how-a-levee-holds-water-back",
+      "k12-map-literacy-across-eras",
+      "k12-simple-machines-at-a-crane"
+    ],
     "robot": [
       "warehouse-and-logistics-automation"
     ],
@@ -486,7 +565,16 @@ export const REGION_TRAINING = [
       "warehouse-and-logistics-automation",
       "water-and-gas-utility-crews"
     ],
-    "k12": [],
+    "k12": [
+      "k12-es-who-does-this-work",
+      "k12-reading-a-map-scale-in-bay-world",
+      "k12-reading-instructions-and-safety-labels"
+    ],
+    "k12Stations": [
+      "k12-es-who-does-this-work",
+      "k12-reading-a-map-scale-in-bay-world",
+      "k12-reading-instructions-and-safety-labels"
+    ],
     "robot": [
       "warehouse-and-logistics-automation"
     ],
@@ -552,7 +640,15 @@ export const REGION_TRAINING = [
       "yacht-and-charter-crew"
     ],
     "k12": [
-      "k12-literacy-and-life-skills"
+      "k12-literacy-and-life-skills",
+      "k12-reading-a-map-scale-in-bay-world",
+      "k12-reading-instructions-and-safety-labels",
+      "k12-water-cycle-and-filtration"
+    ],
+    "k12Stations": [
+      "k12-reading-a-map-scale-in-bay-world",
+      "k12-reading-instructions-and-safety-labels",
+      "k12-water-cycle-and-filtration"
     ],
     "robot": [
       "warehouse-and-logistics-automation"
@@ -620,7 +716,16 @@ export const REGION_TRAINING = [
       "warehouse-and-logistics-automation",
       "water-and-gas-utility-crews"
     ],
-    "k12": [],
+    "k12": [
+      "k12-circuits-at-the-electrical-bench",
+      "k12-es-where-the-storm-drain-goes",
+      "k12-slope-and-angles-on-a-ramp"
+    ],
+    "k12Stations": [
+      "k12-circuits-at-the-electrical-bench",
+      "k12-es-where-the-storm-drain-goes",
+      "k12-slope-and-angles-on-a-ramp"
+    ],
     "robot": [
       "aerospace-defense-and-robotics",
       "warehouse-and-logistics-automation"
@@ -674,7 +779,16 @@ export const REGION_TRAINING = [
       "warehouse-and-logistics-automation",
       "water-and-gas-utility-crews"
     ],
-    "k12": [],
+    "k12": [
+      "k12-by-wetlands-as-a-storms-speed-bump",
+      "k12-es-clean-air-at-the-port",
+      "k12-simple-machines-at-a-crane"
+    ],
+    "k12Stations": [
+      "k12-by-wetlands-as-a-storms-speed-bump",
+      "k12-es-clean-air-at-the-port",
+      "k12-simple-machines-at-a-crane"
+    ],
     "robot": [
       "warehouse-and-logistics-automation"
     ],
@@ -727,7 +841,16 @@ export const REGION_TRAINING = [
       "warehouse-and-logistics-automation",
       "wind-and-data-infrastructure"
     ],
-    "k12": [],
+    "k12": [
+      "k12-by-how-a-levee-holds-water-back",
+      "k12-simple-machines-at-a-crane",
+      "k12-water-cycle-and-filtration"
+    ],
+    "k12Stations": [
+      "k12-by-how-a-levee-holds-water-back",
+      "k12-simple-machines-at-a-crane",
+      "k12-water-cycle-and-filtration"
+    ],
     "robot": [
       "warehouse-and-logistics-automation"
     ],
@@ -783,7 +906,16 @@ export const REGION_TRAINING = [
       "warehouse-and-logistics-automation",
       "wind-and-data-infrastructure"
     ],
-    "k12": [],
+    "k12": [
+      "k12-circuits-at-the-electrical-bench",
+      "k12-es-where-the-storm-drain-goes",
+      "k12-simple-machines-at-a-crane"
+    ],
+    "k12Stations": [
+      "k12-circuits-at-the-electrical-bench",
+      "k12-es-where-the-storm-drain-goes",
+      "k12-simple-machines-at-a-crane"
+    ],
     "robot": [
       "warehouse-and-logistics-automation"
     ],
@@ -837,7 +969,16 @@ export const REGION_TRAINING = [
       "water-and-gas-utility-crews",
       "yacht-and-charter-crew"
     ],
-    "k12": [],
+    "k12": [
+      "k12-by-how-a-levee-holds-water-back",
+      "k12-circuits-at-the-electrical-bench",
+      "k12-simple-machines-at-a-crane"
+    ],
+    "k12Stations": [
+      "k12-by-how-a-levee-holds-water-back",
+      "k12-circuits-at-the-electrical-bench",
+      "k12-simple-machines-at-a-crane"
+    ],
     "robot": [
       "aerospace-defense-and-robotics",
       "warehouse-and-logistics-automation"
@@ -896,7 +1037,16 @@ export const REGION_TRAINING = [
       "stationary-engineer",
       "warehouse-and-logistics-automation"
     ],
-    "k12": [],
+    "k12": [
+      "k12-by-how-a-levee-holds-water-back",
+      "k12-by-the-rivers-current-and-a-pilots-job",
+      "k12-reading-instructions-and-safety-labels"
+    ],
+    "k12Stations": [
+      "k12-by-how-a-levee-holds-water-back",
+      "k12-by-the-rivers-current-and-a-pilots-job",
+      "k12-reading-instructions-and-safety-labels"
+    ],
     "robot": [
       "warehouse-and-logistics-automation"
     ],
@@ -958,7 +1108,16 @@ export const REGION_TRAINING = [
       "warehouse-and-logistics-automation",
       "wind-and-data-infrastructure"
     ],
-    "k12": [],
+    "k12": [
+      "k12-by-wetlands-as-a-storms-speed-bump",
+      "k12-graphing-tide-readings-at-the-pier",
+      "k12-simple-machines-at-a-crane"
+    ],
+    "k12Stations": [
+      "k12-by-wetlands-as-a-storms-speed-bump",
+      "k12-graphing-tide-readings-at-the-pier",
+      "k12-simple-machines-at-a-crane"
+    ],
     "robot": [
       "aerospace-defense-and-robotics",
       "warehouse-and-logistics-automation"
@@ -1021,7 +1180,15 @@ export const REGION_TRAINING = [
       "water-and-gas-utility-crews"
     ],
     "k12": [
-      "k12-literacy-and-life-skills"
+      "k12-es-count-it-a-fair-survey",
+      "k12-es-who-does-this-work",
+      "k12-literacy-and-life-skills",
+      "k12-simple-machines-at-a-crane"
+    ],
+    "k12Stations": [
+      "k12-es-count-it-a-fair-survey",
+      "k12-es-who-does-this-work",
+      "k12-simple-machines-at-a-crane"
     ],
     "robot": [
       "warehouse-and-logistics-automation"
@@ -1086,7 +1253,15 @@ export const REGION_TRAINING = [
       "water-and-gas-utility-crews"
     ],
     "k12": [
-      "k12-literacy-and-life-skills"
+      "k12-by-how-a-levee-holds-water-back",
+      "k12-literacy-and-life-skills",
+      "k12-reading-a-map-scale-in-bay-world",
+      "k12-simple-machines-at-a-crane"
+    ],
+    "k12Stations": [
+      "k12-by-how-a-levee-holds-water-back",
+      "k12-reading-a-map-scale-in-bay-world",
+      "k12-simple-machines-at-a-crane"
     ],
     "robot": [
       "warehouse-and-logistics-automation"
@@ -1146,7 +1321,16 @@ export const REGION_TRAINING = [
       "warehouse-and-logistics-automation",
       "yacht-and-charter-crew"
     ],
-    "k12": [],
+    "k12": [
+      "k12-by-wetlands-as-a-storms-speed-bump",
+      "k12-graphing-tide-readings-at-the-pier",
+      "k12-simple-machines-at-a-crane"
+    ],
+    "k12Stations": [
+      "k12-by-wetlands-as-a-storms-speed-bump",
+      "k12-graphing-tide-readings-at-the-pier",
+      "k12-simple-machines-at-a-crane"
+    ],
     "robot": [
       "warehouse-and-logistics-automation"
     ],
@@ -1211,7 +1395,15 @@ export const REGION_TRAINING = [
       "yacht-and-charter-crew"
     ],
     "k12": [
-      "k12-literacy-and-life-skills"
+      "k12-by-how-a-levee-holds-water-back",
+      "k12-es-where-the-storm-drain-goes",
+      "k12-literacy-and-life-skills",
+      "k12-simple-machines-at-a-crane"
+    ],
+    "k12Stations": [
+      "k12-by-how-a-levee-holds-water-back",
+      "k12-es-where-the-storm-drain-goes",
+      "k12-simple-machines-at-a-crane"
     ],
     "robot": [],
     "unions": [
@@ -1274,7 +1466,15 @@ export const REGION_TRAINING = [
       "water-and-gas-utility-crews"
     ],
     "k12": [
+      "k12-buoyancy-and-pressure-in-the-deep",
+      "k12-by-wetlands-as-a-storms-speed-bump",
+      "k12-es-where-the-storm-drain-goes",
       "k12-literacy-and-life-skills"
+    ],
+    "k12Stations": [
+      "k12-buoyancy-and-pressure-in-the-deep",
+      "k12-by-wetlands-as-a-storms-speed-bump",
+      "k12-es-where-the-storm-drain-goes"
     ],
     "robot": [
       "warehouse-and-logistics-automation"
@@ -1336,7 +1536,15 @@ export const REGION_TRAINING = [
       "water-and-gas-utility-crews"
     ],
     "k12": [
-      "k12-literacy-and-life-skills"
+      "k12-by-how-a-levee-holds-water-back",
+      "k12-by-the-rivers-current-and-a-pilots-job",
+      "k12-literacy-and-life-skills",
+      "k12-reading-instructions-and-safety-labels"
+    ],
+    "k12Stations": [
+      "k12-by-how-a-levee-holds-water-back",
+      "k12-by-the-rivers-current-and-a-pilots-job",
+      "k12-reading-instructions-and-safety-labels"
     ],
     "robot": [
       "warehouse-and-logistics-automation"
@@ -1409,7 +1617,13 @@ export const REGION_TRAINING = [
       "yacht-and-charter-crew"
     ],
     "k12": [
-      "k12-literacy-and-life-skills"
+      "k12-literacy-and-life-skills",
+      "k12-reading-instructions-and-safety-labels",
+      "k12-simple-machines-at-a-crane"
+    ],
+    "k12Stations": [
+      "k12-reading-instructions-and-safety-labels",
+      "k12-simple-machines-at-a-crane"
     ],
     "robot": [],
     "unions": [
@@ -1482,7 +1696,12 @@ export const REGION_TRAINING = [
       "water-and-gas-utility-crews",
       "yacht-and-charter-crew"
     ],
-    "k12": [],
+    "k12": [
+      "k12-reading-instructions-and-safety-labels"
+    ],
+    "k12Stations": [
+      "k12-reading-instructions-and-safety-labels"
+    ],
     "robot": [],
     "unions": [
       "afscme",
@@ -1550,7 +1769,11 @@ export const REGION_TRAINING = [
       "water-and-gas-utility-crews"
     ],
     "k12": [
-      "k12-literacy-and-life-skills"
+      "k12-literacy-and-life-skills",
+      "k12-reading-instructions-and-safety-labels"
+    ],
+    "k12Stations": [
+      "k12-reading-instructions-and-safety-labels"
     ],
     "robot": [],
     "unions": [
@@ -1618,7 +1841,11 @@ export const REGION_TRAINING = [
       "water-and-gas-utility-crews"
     ],
     "k12": [
-      "k12-literacy-and-life-skills"
+      "k12-literacy-and-life-skills",
+      "k12-reading-instructions-and-safety-labels"
+    ],
+    "k12Stations": [
+      "k12-reading-instructions-and-safety-labels"
     ],
     "robot": [],
     "unions": [
@@ -1683,7 +1910,18 @@ export const REGION_TRAINING = [
       "transit-ramp",
       "yacht-and-charter-crew"
     ],
-    "k12": [],
+    "k12": [
+      "k12-fractions-in-the-kitchen",
+      "k12-how-a-local-council-meeting-works",
+      "k12-slope-and-angles-on-a-ramp",
+      "k12-water-cycle-and-filtration"
+    ],
+    "k12Stations": [
+      "k12-fractions-in-the-kitchen",
+      "k12-how-a-local-council-meeting-works",
+      "k12-slope-and-angles-on-a-ramp",
+      "k12-water-cycle-and-filtration"
+    ],
     "robot": [],
     "unions": [
       "afm",
@@ -1749,7 +1987,15 @@ export const REGION_TRAINING = [
       "yacht-and-charter-crew"
     ],
     "k12": [
-      "k12-literacy-and-life-skills"
+      "k12-by-a-streetcar-timetable",
+      "k12-how-a-local-council-meeting-works",
+      "k12-literacy-and-life-skills",
+      "k12-water-cycle-and-filtration"
+    ],
+    "k12Stations": [
+      "k12-by-a-streetcar-timetable",
+      "k12-how-a-local-council-meeting-works",
+      "k12-water-cycle-and-filtration"
     ],
     "robot": [
       "aerospace-defense-and-robotics",
@@ -1815,7 +2061,18 @@ export const REGION_TRAINING = [
       "water-and-gas-utility-crews",
       "yacht-and-charter-crew"
     ],
-    "k12": [],
+    "k12": [
+      "k12-by-wetlands-as-a-storms-speed-bump",
+      "k12-graphing-tide-readings-at-the-pier",
+      "k12-household-budget-and-first-paycheck",
+      "k12-reading-instructions-and-safety-labels"
+    ],
+    "k12Stations": [
+      "k12-by-wetlands-as-a-storms-speed-bump",
+      "k12-graphing-tide-readings-at-the-pier",
+      "k12-household-budget-and-first-paycheck",
+      "k12-reading-instructions-and-safety-labels"
+    ],
     "robot": [
       "warehouse-and-logistics-automation"
     ],
@@ -1879,7 +2136,18 @@ export const REGION_TRAINING = [
       "transit-ramp",
       "warehouse-and-logistics-automation"
     ],
-    "k12": [],
+    "k12": [
+      "k12-by-a-streetcar-timetable",
+      "k12-by-sorting-containers-at-the-port",
+      "k12-public-speaking-at-the-hall",
+      "k12-simple-machines-at-a-crane"
+    ],
+    "k12Stations": [
+      "k12-by-a-streetcar-timetable",
+      "k12-by-sorting-containers-at-the-port",
+      "k12-public-speaking-at-the-hall",
+      "k12-simple-machines-at-a-crane"
+    ],
     "robot": [
       "warehouse-and-logistics-automation"
     ],
@@ -1957,7 +2225,21 @@ export const REGION_TRAINING = [
       "yacht-and-charter-crew"
     ],
     "k12": [
-      "k12-literacy-and-life-skills"
+      "k12-ecosystems-at-the-kelp-transect",
+      "k12-literacy-and-life-skills",
+      "k12-reading-a-map-scale-in-bay-world",
+      "k12-simple-machines-at-a-crane",
+      "k12-slope-and-angles-on-a-ramp",
+      "k12-water-cycle-and-filtration",
+      "k12-weather-and-the-sky"
+    ],
+    "k12Stations": [
+      "k12-ecosystems-at-the-kelp-transect",
+      "k12-reading-a-map-scale-in-bay-world",
+      "k12-simple-machines-at-a-crane",
+      "k12-slope-and-angles-on-a-ramp",
+      "k12-water-cycle-and-filtration",
+      "k12-weather-and-the-sky"
     ],
     "robot": [
       "warehouse-and-logistics-automation"
@@ -2036,9 +2318,17 @@ export const REGION_TRAINING = [
       "yacht-and-charter-crew"
     ],
     "k12": [
+      "k12-building-a-timeline-from-documents",
       "k12-history-and-civics",
       "k12-literacy-and-life-skills",
-      "k12-practical-math"
+      "k12-practical-math",
+      "k12-reading-a-map-scale-in-bay-world",
+      "k12-water-cycle-and-filtration"
+    ],
+    "k12Stations": [
+      "k12-building-a-timeline-from-documents",
+      "k12-reading-a-map-scale-in-bay-world",
+      "k12-water-cycle-and-filtration"
     ],
     "robot": [],
     "unions": [
@@ -2107,7 +2397,19 @@ export const REGION_TRAINING = [
       "transit-ramp"
     ],
     "k12": [
-      "k12-literacy-and-life-skills"
+      "k12-a-controlled-experiment",
+      "k12-ecosystems-at-the-kelp-transect",
+      "k12-literacy-and-life-skills",
+      "k12-measuring-and-scaling-the-court",
+      "k12-reading-instructions-and-safety-labels",
+      "k12-water-cycle-and-filtration"
+    ],
+    "k12Stations": [
+      "k12-a-controlled-experiment",
+      "k12-ecosystems-at-the-kelp-transect",
+      "k12-measuring-and-scaling-the-court",
+      "k12-reading-instructions-and-safety-labels",
+      "k12-water-cycle-and-filtration"
     ],
     "robot": [
       "aerospace-defense-and-robotics"
@@ -2186,7 +2488,17 @@ export const REGION_TRAINING = [
       "yacht-and-charter-crew"
     ],
     "k12": [
-      "k12-literacy-and-life-skills"
+      "k12-graphing-tide-readings-at-the-pier",
+      "k12-literacy-and-life-skills",
+      "k12-public-speaking-at-the-hall",
+      "k12-simple-machines-at-a-crane",
+      "k12-slope-and-angles-on-a-ramp"
+    ],
+    "k12Stations": [
+      "k12-graphing-tide-readings-at-the-pier",
+      "k12-public-speaking-at-the-hall",
+      "k12-simple-machines-at-a-crane",
+      "k12-slope-and-angles-on-a-ramp"
     ],
     "robot": [
       "aerospace-defense-and-robotics",
@@ -2260,7 +2572,16 @@ export const REGION_TRAINING = [
       "water-and-gas-utility-crews",
       "yacht-and-charter-crew"
     ],
-    "k12": [],
+    "k12": [
+      "k12-energy-transfer-at-the-wind-farm",
+      "k12-first-aid-awareness-call-for-help",
+      "k12-water-cycle-and-filtration"
+    ],
+    "k12Stations": [
+      "k12-energy-transfer-at-the-wind-farm",
+      "k12-first-aid-awareness-call-for-help",
+      "k12-water-cycle-and-filtration"
+    ],
     "robot": [],
     "unions": [
       "aaup",
@@ -2319,7 +2640,15 @@ export const REGION_TRAINING = [
       "water-and-gas-utility-crews"
     ],
     "k12": [
-      "k12-literacy-and-life-skills"
+      "k12-by-a-streetcar-timetable",
+      "k12-by-the-water-cycle-from-lake-to-tap",
+      "k12-literacy-and-life-skills",
+      "k12-slope-and-angles-on-a-ramp"
+    ],
+    "k12Stations": [
+      "k12-by-a-streetcar-timetable",
+      "k12-by-the-water-cycle-from-lake-to-tap",
+      "k12-slope-and-angles-on-a-ramp"
     ],
     "robot": [],
     "unions": [
@@ -2386,7 +2715,19 @@ export const REGION_TRAINING = [
       "yacht-and-charter-crew"
     ],
     "k12": [
-      "k12-literacy-and-life-skills"
+      "k12-first-aid-awareness-call-for-help",
+      "k12-graphing-tide-readings-at-the-pier",
+      "k12-literacy-and-life-skills",
+      "k12-reading-a-map-scale-in-bay-world",
+      "k12-simple-machines-at-a-crane",
+      "k12-weather-and-the-sky"
+    ],
+    "k12Stations": [
+      "k12-first-aid-awareness-call-for-help",
+      "k12-graphing-tide-readings-at-the-pier",
+      "k12-reading-a-map-scale-in-bay-world",
+      "k12-simple-machines-at-a-crane",
+      "k12-weather-and-the-sky"
     ],
     "robot": [],
     "unions": [
@@ -2462,7 +2803,15 @@ export const REGION_TRAINING = [
       "water-and-gas-utility-crews"
     ],
     "k12": [
-      "k12-literacy-and-life-skills"
+      "k12-literacy-and-life-skills",
+      "k12-reading-instructions-and-safety-labels",
+      "k12-simple-machines-at-a-crane",
+      "k12-teamwork-and-feedback"
+    ],
+    "k12Stations": [
+      "k12-reading-instructions-and-safety-labels",
+      "k12-simple-machines-at-a-crane",
+      "k12-teamwork-and-feedback"
     ],
     "robot": [
       "aerospace-defense-and-robotics"
@@ -2539,7 +2888,15 @@ export const REGION_TRAINING = [
       "yacht-and-charter-crew"
     ],
     "k12": [
-      "k12-literacy-and-life-skills"
+      "k12-fractions-in-the-kitchen",
+      "k12-literacy-and-life-skills",
+      "k12-reading-instructions-and-safety-labels",
+      "k12-simple-machines-at-a-crane"
+    ],
+    "k12Stations": [
+      "k12-fractions-in-the-kitchen",
+      "k12-reading-instructions-and-safety-labels",
+      "k12-simple-machines-at-a-crane"
     ],
     "robot": [],
     "unions": [
@@ -2595,7 +2952,16 @@ export const REGION_TRAINING = [
       "transit-ramp",
       "water-and-gas-utility-crews"
     ],
-    "k12": [],
+    "k12": [
+      "k12-reading-instructions-and-safety-labels",
+      "k12-teamwork-and-feedback",
+      "k12-water-cycle-and-filtration"
+    ],
+    "k12Stations": [
+      "k12-reading-instructions-and-safety-labels",
+      "k12-teamwork-and-feedback",
+      "k12-water-cycle-and-filtration"
+    ],
     "robot": [],
     "unions": [
       "afscme",
@@ -2643,7 +3009,15 @@ export const REGION_TRAINING = [
       "water-and-gas-utility-crews"
     ],
     "k12": [
+      "k12-by-what-a-pump-station-does-in-the-rain",
+      "k12-ecosystems-at-the-kelp-transect",
+      "k12-first-aid-awareness-call-for-help",
       "k12-literacy-and-life-skills"
+    ],
+    "k12Stations": [
+      "k12-by-what-a-pump-station-does-in-the-rain",
+      "k12-ecosystems-at-the-kelp-transect",
+      "k12-first-aid-awareness-call-for-help"
     ],
     "robot": [],
     "unions": [
@@ -2684,7 +3058,20 @@ export const REGION_TRAINING = [
       "dental-careers-unspoken-smiles",
       "dental-hygiene-unspoken-smiles"
     ],
-    "k12": [],
+    "k12": [
+      "k12-by-the-water-cycle-from-lake-to-tap",
+      "k12-es-who-does-this-work",
+      "k12-first-aid-awareness-call-for-help",
+      "k12-fractions-in-the-kitchen",
+      "k12-reading-instructions-and-safety-labels"
+    ],
+    "k12Stations": [
+      "k12-by-the-water-cycle-from-lake-to-tap",
+      "k12-es-who-does-this-work",
+      "k12-first-aid-awareness-call-for-help",
+      "k12-fractions-in-the-kitchen",
+      "k12-reading-instructions-and-safety-labels"
+    ],
     "robot": [],
     "unions": [
       "afscme",
@@ -2730,8 +3117,16 @@ export const REGION_TRAINING = [
       "yacht-and-charter-crew"
     ],
     "k12": [
+      "k12-buoyancy-and-pressure-in-the-deep",
       "k12-history-and-civics",
-      "k12-literacy-and-life-skills"
+      "k12-literacy-and-life-skills",
+      "k12-primary-and-secondary-sources",
+      "k12-reading-instructions-and-safety-labels"
+    ],
+    "k12Stations": [
+      "k12-buoyancy-and-pressure-in-the-deep",
+      "k12-primary-and-secondary-sources",
+      "k12-reading-instructions-and-safety-labels"
     ],
     "robot": [],
     "unions": [
@@ -2799,8 +3194,16 @@ export const REGION_TRAINING = [
       "yacht-and-charter-crew"
     ],
     "k12": [
+      "k12-a-controlled-experiment",
       "k12-literacy-and-life-skills",
-      "k12-practical-math"
+      "k12-practical-math",
+      "k12-teamwork-and-feedback",
+      "k12-weather-and-the-sky"
+    ],
+    "k12Stations": [
+      "k12-a-controlled-experiment",
+      "k12-teamwork-and-feedback",
+      "k12-weather-and-the-sky"
     ],
     "robot": [
       "warehouse-and-logistics-automation"

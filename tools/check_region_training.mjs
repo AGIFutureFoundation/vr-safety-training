@@ -43,7 +43,9 @@ check(unresolvedU.length === 0, `every union id resolves in the registry${unreso
 
 // 5 the lists are sound: programmes from the catalog, K-12 tracks are k12-, robot programmes are the named ones
 check(fresh.every((r) => r.programmes.every((p) => REGION_CATALOG.programmes.has(p))), "every listed programme is a catalog programme");
-check(fresh.every((r) => r.k12.every((p) => p.startsWith("k12-"))), "every K-12 entry is a K-12 track");
+check(fresh.every((r) => r.k12.every((p) => p.startsWith("k12-"))), "every K-12 entry is a K-12 track or station");
+check(fresh.every((r) => r.k12Stations.every((id) => REGION_CATALOG.stations.has(id))), "every K-12 station a field lesson names is a catalog station");
+check(fresh.every((r) => r.k12Stations.every((id) => r.k12.includes(id))), "every linked K-12 station is listed among the K-12 entries");
 check(fresh.every((r) => r.robot.every((p) => ROBOT_PROGRAMMES.includes(p))), "every robot entry is one of the named robot programmes");
 check(ROBOT_PROGRAMMES.every((p) => REGION_CATALOG.programmes.has(p)), "the named robot programmes exist in the catalog");
 
