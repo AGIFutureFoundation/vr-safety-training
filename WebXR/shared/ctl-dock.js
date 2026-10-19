@@ -5,9 +5,11 @@
 // blocked just means the choice lasts this visit.
 //
 // Seams:
-//   ctlDock(panel, { key, title }) -> { collapse(), expand(), move(x, y), state() }
+//   ctlDock(panel, { key, title, defaultCollapsed }) -> { collapse(), expand(), move(x, y), state() }
 //     `panel` is an element already on the page. The module adds its own
 //     header row (a toggle and a grip) before the panel's first child.
+//     `defaultCollapsed` closes the panel until the viewer opens it; a choice the
+//     viewer has made is kept over the default.
 //   ctlDockClamp(x, y, w, h, vw, vh) -> { x, y }
 //     keeps a dragged panel fully inside the viewport. Pure, so a checker can
 //     run it without a browser.
@@ -47,7 +49,7 @@ export function ctlDockClamp(x, y, w, h, vw, vh) {
   return { x: Math.round(cx), y: Math.round(cy) };
 }
 
-export function ctlDock(panel, { key = null, title = "Panel" } = {}) {
+export function ctlDock(panel, { key = null, title = "Panel", defaultCollapsed = false } = {}) {
   ctlDockStyle();
   panel.classList.add("ctl-dock");
   const bodyId = panel.id ? `${panel.id}-body` : null;
@@ -125,7 +127,7 @@ export function ctlDock(panel, { key = null, title = "Panel" } = {}) {
     grip.addEventListener("pointercancel", onUp);
   });
 
-  collapsed = !!saved?.collapsed;
+  collapsed = saved && "collapsed" in saved ? !!saved.collapsed : defaultCollapsed;
   paint();
   if (saved?.moved && Number.isFinite(saved.x) && Number.isFinite(saved.y)) move(saved.x, saved.y);
 

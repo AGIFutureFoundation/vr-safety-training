@@ -90,6 +90,10 @@ for (const id of ["hud-where", "hud-stats", "hud-keys"]) {
   check(APP.includes(`["${id}"`), `parishes docks ${id}`);
 }
 check(/key: `ctl-dock-parishes-\$\{id\}`/.test(APP), "each docked panel stores its state under its own key");
+check(/defaultCollapsed: true/.test(APP), "the HUD panels start closed so the scene is not covered");
+const d3 = ctlDock(makeEl("hud-keys"), { key: "k3", title: "Keys", defaultCollapsed: true });
+check(d3.state().collapsed === true, "a panel with defaultCollapsed starts closed");
+check(ctlDock(makeEl("hud-keys"), { key: "k3", title: "Keys", defaultCollapsed: true }).state().collapsed === true, "the default holds on a later visit with no saved choice");
 
 console.log(`check_dock: ${failed === 0 ? "all" : failed} ${failed === 0 ? "checks pass" : "failed"} (${passed} passed, ${failed} failed)`);
 if (failed) process.exit(1);

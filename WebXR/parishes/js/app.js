@@ -998,8 +998,8 @@ try {
   });
 } catch { /* no touch layer */ }
 tcMountQuality?.($("hud-stats"), (q) => tcApplyRenderer(npRenderer, tcTier(q)));
-// The HUD panels cover the scene: each folds away or moves, and the choice is remembered per viewer.
-for (const [id, title] of [["hud-where", "Where"], ["hud-stats", "State"], ["hud-keys", "Keys"]]) ctlDock($(id), { key: `ctl-dock-parishes-${id}`, title });
+// The HUD panels cover the scene, so they start closed: each opens from its header, moves, and the choice is remembered per viewer.
+for (const [id, title] of [["hud-where", "Where"], ["hud-stats", "State"], ["hud-keys", "Keys"]]) ctlDock($(id), { key: `ctl-dock-parishes-${id}`, title, defaultCollapsed: true });
 
 gdMount();
 ctlMount({
