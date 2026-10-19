@@ -203,6 +203,7 @@ const CHECKERS = [
   // DEAN: versions, modules, the world apply step and the Trade Craft Academy shared export (docs/modules.md).
   "check_dean.mjs",
   "check_dock.mjs",
+  "check_a11y.mjs",
   "check_bridge.mjs",
   // Enterprise seat billing: the payments block, the adapter and mock, the budget agent, the Billing tab, the Worker handler (docs/payments.md).
   "check_payments.mjs",
