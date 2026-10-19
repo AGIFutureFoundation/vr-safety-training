@@ -47,8 +47,11 @@
       "id": "coalition-building-table"
     }
   ],
-  "unions": [],
-  "unionLine": "Community organisations and non-profit staff, and the volunteers who run their programmes; no union apprenticeship",
+  "unions": [
+    "seiu",
+    "afscme"
+  ],
+  "unionLine": "SEIU and AFSCME community-service and public-sector staff, and the volunteers who run their programmes; taught as a civic course, not a union apprenticeship",
   "k12Bands": [],
   "path": "union-trades",
   "alsoPaths": [],
@@ -109,7 +112,7 @@
     "coalition-building-table": "Coalition Building Table"
   },
   "version": "1.0.0",
-  "contentHash": "b9a19edb",
+  "contentHash": "aa8a287c",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

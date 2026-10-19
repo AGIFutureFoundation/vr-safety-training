@@ -31,8 +31,11 @@
       "id": "ad-amr-fleet-traffic-and-estop-drill"
     }
   ],
-  "unions": [],
-  "unionLine": "Robot technicians, integrators and the operators who teach and supervise a cell; no union apprenticeship",
+  "unions": [
+    "ibew",
+    "iuoe"
+  ],
+  "unionLine": "IBEW and IUOE technicians and the operators who teach and supervise a robot cell; taught against the safety standards, not a union apprenticeship",
   "k12Bands": [],
   "path": "union-trades",
   "alsoPaths": [],
@@ -45,7 +48,7 @@
     "ad-amr-fleet-traffic-and-estop-drill": "AMR Fleet Traffic & E-stop Drill"
   },
   "version": "1.0.0",
-  "contentHash": "ea13faf3",
+  "contentHash": "068bd642",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

@@ -42577,6 +42577,8 @@ const S = (id, body, title, scope, source = "verified") => ({ id, body, title, s
  * body+title slug the shared registry will use, so the two can be joined.
  */
 const STANDARDS = Object.fromEntries([
+  S("irs-501c3-rules", "IRS", "IRS rules for organisations exempt under section 501(c)(3): the bar on campaign intervention, the limits on lobbying and private benefit, and the nonpartisan conduct of voter education", ["Community Environmental Justice"], "unverified"),
+  S("municipal-ethics-code", "municipal ethics code", "A city or county ethics code and the charter's ethics provisions: gifts from interested parties, disclosure and recusal", ["Civic Leadership"], "unverified"),
   S("osha-1910-147", "OSHA", "29 CFR 1910.147 The control of hazardous energy (lockout/tagout)", ["Energy & Power", "Manufacturing", "Food Service"]),
   S("osha-1910-146", "OSHA", "29 CFR 1910.146 Permit-required confined spaces", ["Water & Environmental", "Manufacturing"]),
   S("osha-1910-134", "OSHA", "29 CFR 1910.134 Respiratory protection", ["Hazmat & Environmental", "Emergency Response"]),
@@ -43500,6 +43502,51 @@ const PROGRAMME_COMPETENCIES = [
       "ws-data-hall-busway-install-and-torque-signoff", "ws-raised-floor-tile-lift-and-cable-tray-safety", "ws-crah-alarm-response-in-a-live-hall", "ws-ocean-pod-retrieval-and-hatch-opening"
     ],
     require: 4,
+  },
+  {
+    id: "nonprofit-operations-and-volunteers",
+    title: "Run a non-profit board in public and account for every grant dollar",
+    kind: "programme",
+    standards: ["irs-501c3-rules", "municipal-ethics-code"],
+    stations: [
+      "civic-principles-briefing", "community-listening-session", "cv-open-meeting-law-and-agenda-notice", "ethics-and-conflict-of-interest",
+      "constituent-service-desk", "cv-grant-application-and-nonprofit-compliance", "cv-voter-registration-drive-and-nonpartisan-conduct", "cv-neighborhood-emergency-block-captain",
+      "coalition-building-table"
+    ],
+    require: 5,
+  },
+  {
+    id: "ethics-and-responsible-automation",
+    title: "Decide what an automated site may do, and say so plainly when it stops",
+    kind: "programme",
+    standards: ["municipal-ethics-code"],
+    stations: [
+      "ethics-and-conflict-of-interest", "public-meeting-chair", "crisis-communication-podium", "community-listening-session",
+      "cv-difficult-conversation-across-difference", "ei-giving-and-taking-feedback", "ad-amr-fleet-traffic-and-estop-drill"
+    ],
+    require: 4,
+  },
+  {
+    id: "youth-club-leadership",
+    title: "Coach a youth session nobody gets hurt in, and hand the role on",
+    kind: "programme",
+    standards: ["usa-basketball-youth-guidelines", "safesport-code", "cdc-heads-up"],
+    stations: [
+      "bb-warmup-injury-prevention-and-hydration", "bb-coach-feedback-and-growth-mindset", "bb-teammate-conflict-and-accountability", "bb-losing-well-and-film-review",
+      "wellness-peer-support-conversation", "wp-graduation-and-alumni-mentors", "conflict-mediation-room", "mentorship-and-succession"
+    ],
+    require: 4,
+  },
+  {
+    id: "robot-control-basics",
+    title: "Jog, bound and restart a robot cell without ever entering its reach unsafely",
+    kind: "programme",
+    standards: ["iso-10218", "ansi-r15-06"],
+    stations: [
+      "rt-teach-pendant-safe-jogging", "rt-cobot-power-force-limit-check", "rt-speed-separation-monitoring-setup", "rt-robot-estop-recovery-and-restart",
+      "ad-amr-fleet-traffic-and-estop-drill"
+    ],
+    require: 3,
   },
 ];
 
@@ -45665,6 +45712,10 @@ const PP_PROGRAMMES = {
   "k12-science": { name: "K-12 Science", stations: ["k12-water-cycle-and-filtration","k12-buoyancy-and-pressure-in-the-deep","k12-circuits-at-the-electrical-bench","k12-energy-transfer-at-the-wind-farm","k12-ecosystems-at-the-kelp-transect","k12-weather-and-the-sky","k12-simple-machines-at-a-crane","k12-a-controlled-experiment","k12-by-how-a-levee-holds-water-back","k12-by-what-a-pump-station-does-in-the-rain","k12-by-wetlands-as-a-storms-speed-bump","k12-by-the-rivers-current-and-a-pilots-job","k12-by-the-water-cycle-from-lake-to-tap","k12-es-where-the-storm-drain-goes","k12-es-what-a-trash-capture-device-does","k12-es-rain-gardens-a-sponge-in-the-sidewalk","k12-es-the-tidal-marsh-nursery","k12-es-mud-on-the-move","k12-es-too-much-of-a-good-thing","k12-es-the-bay-food-web","k12-es-plastics-and-the-bay","k12-es-clean-air-at-the-port","k12-sil-dust-you-cannot-see-at-a-building-site","k12-rp-how-a-robot-knows-to-stop","k12-lk-building-new-marsh-on-the-coast","k12-lk-where-a-data-center-gets-its-power","k12-lk-how-a-wing-lifts-an-aircraft","k12-lk-why-a-steel-boat-floats","k12-rt-a-robot-waits-for-a-grown-ups-ok"] },
   "k12-history-and-civics": { name: "K-12 History and Civics", stations: ["k12-primary-and-secondary-sources","k12-building-a-timeline-from-documents","k12-how-a-local-council-meeting-works","k12-oral-history-interview-skills","k12-guilds-and-the-history-of-work","k12-map-literacy-across-eras"] },
   "k12-literacy-and-life-skills": { name: "K-12 Literacy and Life Skills", stations: ["k12-reading-instructions-and-safety-labels","k12-writing-a-clear-incident-report","k12-first-aid-awareness-call-for-help","k12-public-speaking-at-the-hall","k12-digital-citizenship-and-online-safety","k12-teamwork-and-feedback","k12-by-a-family-readiness-plan","k12-es-who-does-this-work","k12-lk-the-crews-behind-a-big-build"] },
+  "nonprofit-operations-and-volunteers": { name: "Non-Profit Operations and Volunteers — Entry Point", stations: ["civic-principles-briefing","community-listening-session","cv-open-meeting-law-and-agenda-notice","ethics-and-conflict-of-interest","constituent-service-desk","cv-grant-application-and-nonprofit-compliance","cv-voter-registration-drive-and-nonpartisan-conduct","cv-neighborhood-emergency-block-captain","coalition-building-table"] },
+  "ethics-and-responsible-automation": { name: "Ethics and Responsible Automation — Entry Point", stations: ["ethics-and-conflict-of-interest","public-meeting-chair","crisis-communication-podium","community-listening-session","cv-difficult-conversation-across-difference","ei-giving-and-taking-feedback","ad-amr-fleet-traffic-and-estop-drill"] },
+  "youth-club-leadership": { name: "Youth Club Leadership and Coaching — Entry Point", stations: ["bb-warmup-injury-prevention-and-hydration","bb-coach-feedback-and-growth-mindset","bb-teammate-conflict-and-accountability","bb-losing-well-and-film-review","wellness-peer-support-conversation","wp-graduation-and-alumni-mentors","conflict-mediation-room","mentorship-and-succession"] },
+  "robot-control-basics": { name: "Robot Control Basics — Entry Point", stations: ["rt-teach-pendant-safe-jogging","rt-cobot-power-force-limit-check","rt-speed-separation-monitoring-setup","rt-robot-estop-recovery-and-restart","ad-amr-fleet-traffic-and-estop-drill"] },
 };
 
 
@@ -90070,7 +90121,9 @@ function fillPickers() {
   if (!programme.options.length && catalog?.programmes?.length) {
     // A deployment that enables some programmes only (docs/enterprise.md) offers those.
     const enabled = new Set(enEnabledProgrammes(Auth.config?.enterprise));
-    for (const p of catalog.programmes.filter((x) => enabled.has(x.id) || !(x.id in PP_PROGRAMMES))) {
+    const listed = Auth.config?.enterprise?.programmes;
+    const offered = (x) => (Array.isArray(listed) ? listed.includes(x.id) : enabled.has(x.id) || !(x.id in PP_PROGRAMMES));
+    for (const p of catalog.programmes.filter(offered)) {
       const opt = el("option", null, p.name);
       opt.value = p.id;
       programme.append(opt);

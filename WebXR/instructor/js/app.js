@@ -379,7 +379,9 @@ function fillPickers() {
   if (!programme.options.length && catalog?.programmes?.length) {
     // A deployment that enables some programmes only (docs/enterprise.md) offers those.
     const enabled = new Set(enEnabledProgrammes(Auth.config?.enterprise));
-    for (const p of catalog.programmes.filter((x) => enabled.has(x.id) || !(x.id in PP_PROGRAMMES))) {
+    const listed = Auth.config?.enterprise?.programmes;
+    const offered = (x) => (Array.isArray(listed) ? listed.includes(x.id) : enabled.has(x.id) || !(x.id in PP_PROGRAMMES));
+    for (const p of catalog.programmes.filter(offered)) {
       const opt = el("option", null, p.name);
       opt.value = p.id;
       programme.append(opt);

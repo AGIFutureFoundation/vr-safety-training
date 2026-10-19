@@ -19,6 +19,7 @@
     "hunters-point-can-we-live",
     "property-management",
     "rigging-lifting",
+    "robot-control-basics",
     "stationary-engineer",
     "wind-and-data-infrastructure"
   ],
@@ -118,6 +119,22 @@
     {
       "app": "smartcity",
       "id": "concrete-pour"
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-speed-separation-monitoring-setup"
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-robot-estop-recovery-and-restart"
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-cobot-power-force-limit-check"
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-teach-pendant-safe-jogging"
     },
     {
       "app": "smartcity",
@@ -846,6 +863,10 @@
     {
       "app": "smartcity",
       "id": "uw-rov-pre-dive-and-tether-management"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-amr-fleet-traffic-and-estop-drill"
     },
     {
       "app": "smartcity",
@@ -1738,6 +1759,10 @@
     "confined-rescue": "Confined Rescue",
     "cooling-tower": "Cooling Tower",
     "concrete-pour": "Concrete Pour",
+    "rt-speed-separation-monitoring-setup": "Setting Up Speed-and-Separation Monitoring",
+    "rt-robot-estop-recovery-and-restart": "Bringing a Robot Back After an E-stop",
+    "rt-cobot-power-force-limit-check": "Measuring a Cobot's Contact Forces",
+    "rt-teach-pendant-safe-jogging": "Teaching a Robot from the Pendant",
     "sil-concrete-drilling-and-silica-dust-cues": "Concrete Drilling & Silica Dust Cues",
     "bk-wastewater-nutrient-chemical-feed": "Nutrient Reduction Chemical Feed and Aeration",
     "bk-street-drain-trash-capture-cleanout": "Street Drain Trash Capture Cleanout",
@@ -1920,6 +1945,7 @@
     "uw-underwater-concrete-and-bag-placement": "Underwater Concrete & Bag Placement",
     "uw-pipeline-crossing-inspection-dive": "Pipeline Crossing Inspection Dive",
     "uw-rov-pre-dive-and-tether-management": "ROV Pre-Dive & Tether Management",
+    "ad-amr-fleet-traffic-and-estop-drill": "AMR Fleet Traffic & E-stop Drill",
     "ws-ocean-pod-retrieval-and-hatch-opening": "Ocean Pod Retrieval & Hatch Opening",
     "ws-crah-alarm-response-in-a-live-hall": "CRAH Alarm Response in a Live Hall",
     "ws-raised-floor-tile-lift-and-cable-tray-safety": "Raised-Floor Tile Lift & Cable Tray Safety",
@@ -1930,7 +1956,7 @@
     "ws-turbine-climb-and-rescue-kit-check": "Turbine Climb & Rescue-Kit Check"
   },
   "version": "1.0.0",
-  "contentHash": "2e0d58c5",
+  "contentHash": "fc1a2b48",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

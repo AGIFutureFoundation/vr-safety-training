@@ -23,7 +23,9 @@
 import { readFileSync, writeFileSync, readdirSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
-export const GD_KB_CAP = 680 * 1024;
+// Raised from 680 KB when four entry-point packs (non-profit, ethics, youth club, robot control) and their
+// programme docs joined the catalog; the rows themselves are unchanged.
+export const GD_KB_CAP = 690 * 1024;
 
 const here = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(here, "..");

@@ -10,6 +10,7 @@
     "electrical-first-period",
     "energy-transition",
     "ports-maritime-ecology",
+    "robot-control-basics",
     "situational-awareness",
     "transit-ramp",
     "water-and-gas-utility-crews",
@@ -127,6 +128,22 @@
     {
       "app": "smartcity",
       "id": "airport-ramp"
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-speed-separation-monitoring-setup"
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-robot-estop-recovery-and-restart"
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-cobot-power-force-limit-check"
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-teach-pendant-safe-jogging"
     },
     {
       "app": "smartcity",
@@ -263,6 +280,10 @@
     {
       "app": "smartcity",
       "id": "ut-water-main-break-emergency-shutdown-and-excavation"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-amr-fleet-traffic-and-estop-drill"
     },
     {
       "app": "smartcity",
@@ -1001,6 +1022,10 @@
     "battery-yard": "Battery Yard",
     "confined-rescue": "Confined Rescue",
     "airport-ramp": "Airport Ramp",
+    "rt-speed-separation-monitoring-setup": "Setting Up Speed-and-Separation Monitoring",
+    "rt-robot-estop-recovery-and-restart": "Bringing a Robot Back After an E-stop",
+    "rt-cobot-power-force-limit-check": "Measuring a Cobot's Contact Forces",
+    "rt-teach-pendant-safe-jogging": "Teaching a Robot from the Pendant",
     "lp-marine-vessel-electrical-safety": "Marine Vessel Electrical Safety",
     "battery-storage-container-commissioning": "Battery Storage Container Commissioning",
     "bus-yard-fuelling-and-brake-check": "Bus Yard Fuelling & Brake Check",
@@ -1035,6 +1060,7 @@
     "ut-service-line-locate-and-hand-dig-near-gas-main": "Service-Line Locate & Hand-Dig Near a Marked Gas Main",
     "ut-hydrant-flow-test-and-flushing-with-traffic-control": "Hydrant Flow Test & Flushing With Traffic Control",
     "ut-water-main-break-emergency-shutdown-and-excavation": "Water Main Break Emergency Shutdown & Excavation",
+    "ad-amr-fleet-traffic-and-estop-drill": "AMR Fleet Traffic & E-stop Drill",
     "ws-ocean-pod-retrieval-and-hatch-opening": "Ocean Pod Retrieval & Hatch Opening",
     "ws-crah-alarm-response-in-a-live-hall": "CRAH Alarm Response in a Live Hall",
     "ws-raised-floor-tile-lift-and-cable-tray-safety": "Raised-Floor Tile Lift & Cable Tray Safety",
@@ -1051,7 +1077,7 @@
     "welding": "Weld Bay"
   },
   "version": "1.0.0",
-  "contentHash": "15c1b71e",
+  "contentHash": "1e44d60f",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

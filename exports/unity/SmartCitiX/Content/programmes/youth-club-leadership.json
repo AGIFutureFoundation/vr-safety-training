@@ -1,0 +1,126 @@
+{
+  "accent": "#f2b84b",
+  "anchors": [
+    {
+      "id": "coliseum-arena",
+      "name": "Coliseum Arena",
+      "position": [
+        568,
+        399
+      ],
+      "stations": [
+        "bb-warmup-injury-prevention-and-hydration",
+        "bb-stance-and-ball-handling",
+        "k12-measuring-and-scaling-the-court",
+        "k12-teamwork-and-feedback"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "coliseum"
+    },
+    {
+      "id": "ct-notice-board-coliseum-arena",
+      "name": "Union hall notice board · Coliseum Arena",
+      "position": [
+        561.2,
+        380.2
+      ],
+      "stations": [
+        "bb-warmup-injury-prevention-and-hydration",
+        "bb-stance-and-ball-handling",
+        "k12-measuring-and-scaling-the-court",
+        "k12-teamwork-and-feedback"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "coliseum"
+    }
+  ],
+  "certification": "The national youth-development guidelines for sport, the SafeSport code for keeping athletes safe from abuse, the CDC Heads Up concussion training, and trauma-informed practice",
+  "competency": {
+    "id": "youth-club-leadership",
+    "kind": "programme",
+    "require": 4,
+    "standards": [
+      "usa-basketball-youth-guidelines",
+      "safesport-code",
+      "cdc-heads-up"
+    ],
+    "stations": [
+      "bb-warmup-injury-prevention-and-hydration",
+      "bb-coach-feedback-and-growth-mindset",
+      "bb-teammate-conflict-and-accountability",
+      "bb-losing-well-and-film-review",
+      "wellness-peer-support-conversation",
+      "wp-graduation-and-alumni-mentors",
+      "conflict-mediation-room",
+      "mentorship-and-succession"
+    ],
+    "title": "Coach a youth session nobody gets hurt in, and hand the role on"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "afscme-training",
+    "usa-basketball-youth-guidelines",
+    "safesport-code",
+    "cdc-heads-up",
+    "samhsa-trauma-informed"
+  ],
+  "id": "youth-club-leadership",
+  "ladder": {
+    "atBar": 20,
+    "lessonBar": 75,
+    "lessons": 1601,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 0,
+    "stationsNeeded": 0,
+    "tasks": 120
+  },
+  "name": "Youth Club Leadership and Coaching — Entry Point",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "bb-warmup-injury-prevention-and-hydration",
+      "why": "The shared opener: the floor walked, the emergency plan read and the warm-up done in order before anyone runs."
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-coach-feedback-and-growth-mindset",
+      "why": "Feedback that makes a young player want the next rep."
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-teammate-conflict-and-accountability",
+      "why": "Two teammates in conflict, handled with accountability rather than favour."
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-losing-well-and-film-review",
+      "why": "A loss reviewed with the players in a way that keeps them in the gym next week."
+    },
+    {
+      "app": "smartcity",
+      "id": "wellness-peer-support-conversation",
+      "why": "A young person who says they are struggling, heard and referred on, not handled alone."
+    },
+    {
+      "app": "smartcity",
+      "id": "wp-graduation-and-alumni-mentors",
+      "why": "The club's older members returning as mentors, with the same safeguards as the coaches."
+    },
+    {
+      "app": "smartcity",
+      "id": "conflict-mediation-room",
+      "why": "Mediating between two families, hearing each side before any decision."
+    },
+    {
+      "app": "smartcity",
+      "id": "mentorship-and-succession",
+      "why": "The programme ends where the leadership does, with the role handed to someone who can do it."
+    }
+  ],
+  "summary": "The entry point for a youth club's coaches and mentors: a session started with the floor checked and the warm-up done, feedback that grows a young player, a teammate conflict handled with accountability, and a mentor who hands the role on. It shares its court stations with the basketball programme, so a club that runs both trains the same coach.",
+  "union": "AFSCME and SEIU parks-and-recreation staff who run youth programmes; taught against the youth-sport and child-safety guidelines, not a union apprenticeship"
+}

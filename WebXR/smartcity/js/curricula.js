@@ -1504,7 +1504,7 @@ export const CURRICULA = [
   {
     id: "nonprofit-operations-and-volunteers",
     name: "Non-Profit Operations and Volunteers — Entry Point",
-    union: "Community organisations and non-profit staff, and the volunteers who run their programmes; no union apprenticeship",
+    union: "SEIU and AFSCME community-service and public-sector staff, and the volunteers who run their programmes; taught as a civic course, not a union apprenticeship",
     certification: "The federal 501(c)(3) rules for charitable organisations, the open-meeting and conflict-of-interest rules that apply to public boards, and the municipal ethics code",
     guides: ["seiu-training", "irs-501c3-rules", "municipal-ethics-code", "nims-ics", "red-cross-disaster-services"],
     summary: "The entry point for running a non-profit well: a mission stated plainly, a board that meets in public, volunteers kept safe and trusted, grants asked for and accounted for. It shares its ethics and community stations with the other packs, so a learner who starts here meets the same standards again on the robot floor and the youth court.",
@@ -1524,7 +1524,7 @@ export const CURRICULA = [
   {
     id: "ethics-and-responsible-automation",
     name: "Ethics and Responsible Automation — Entry Point",
-    union: "Site managers, supervisors and the public-facing staff who answer for an automated site; no union apprenticeship",
+    union: "AFSCME and SEIU public-service staff, and the site supervisors who answer for an automated site; taught as a civic course, not a union apprenticeship",
     certification: "The municipal ethics code, the conflict-of-interest rules that bind public officials, and the crisis-communication practice a public body is held to",
     guides: ["municipal-ethics-code", "nasw-code-of-ethics", "nims-ics"],
     summary: "The entry point for deciding what a robot on a site is allowed to do, who answers for it, and what is said to the public when something goes wrong. Its stations are the governance and communication ones; the robot-control stations sit in the control entry point, so the two packs teach the same stop rule from two sides.",
@@ -1542,7 +1542,7 @@ export const CURRICULA = [
   {
     id: "youth-club-leadership",
     name: "Youth Club Leadership and Coaching — Entry Point",
-    union: "Youth-program coaches, mentors and club volunteers, taught against the youth-sport and child-safety guidelines; no union apprenticeship",
+    union: "AFSCME and SEIU parks-and-recreation staff who run youth programmes; taught against the youth-sport and child-safety guidelines, not a union apprenticeship",
     certification: "The national youth-development guidelines for sport, the SafeSport code for keeping athletes safe from abuse, the CDC Heads Up concussion training, and trauma-informed practice",
     guides: ["afscme-training", "usa-basketball-youth-guidelines", "safesport-code", "cdc-heads-up", "samhsa-trauma-informed"],
     summary: "The entry point for a youth club's coaches and mentors: a session started with the floor checked and the warm-up done, feedback that grows a young player, a teammate conflict handled with accountability, and a mentor who hands the role on. It shares its court stations with the basketball programme, so a club that runs both trains the same coach.",
@@ -1561,7 +1561,7 @@ export const CURRICULA = [
   {
     id: "robot-control-basics",
     name: "Robot Control Basics — Entry Point",
-    union: "Robot technicians, integrators and the operators who teach and supervise a cell; no union apprenticeship",
+    union: "IBEW and IUOE technicians and the operators who teach and supervise a robot cell; taught against the safety standards, not a union apprenticeship",
     certification: "ISO 10218 for the safety of industrial robots, ANSI/RIA R15.06 for their adoption in North America, and the teach-pendant and e-stop rules a cell is commissioned against",
     guides: ["ibew-local6-training", "iso-10218", "ansi-r15-06"],
     summary: "The entry point for controlling a robot safely: jog it from the pendant at a safe speed, measure what a cobot may touch, set up speed and separation monitoring, and bring it back after an e-stop. The stations are the robot-control ones and the stop rule they all share; the ROS-specific stations are not written yet, and this pack says so rather than claim them.",

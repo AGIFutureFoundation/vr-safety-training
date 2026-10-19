@@ -5432,6 +5432,342 @@ export const SIDE_QUESTS = [
     }
   },
   {
+    "id": "bw-side-nonprofit-operations-and-volunteers-opener",
+    "title": "Non-Profit Operations and Volunteers — Entry Point — First Shift",
+    "giver": "the programme's training lead",
+    "site": "Non-Profit Operations and Volunteers — Entry Point",
+    "kind": "side",
+    "tier": 1,
+    "requires": null,
+    "programmeId": "nonprofit-operations-and-volunteers",
+    "role": "opener",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Non-Profit Operations and Volunteers — Entry Point",
+        "text": "The training lead meets you at Non-Profit Operations and Volunteers — Entry Point and points you to the first bench."
+      },
+      {
+        "type": "station",
+        "target": "civic-principles-briefing",
+        "text": "The shared opener: the principles a public-minded organisation states honestly before anything else is run."
+      },
+      {
+        "type": "station",
+        "target": "community-listening-session",
+        "text": "Bringing people in rather than shutting them out, before the programme is designed around them."
+      },
+      {
+        "type": "station",
+        "target": "cv-open-meeting-law-and-agenda-notice",
+        "text": "The board's open meeting, where the agenda and notice keep the organisation trusted."
+      },
+      {
+        "type": "talk",
+        "target": "training-lead",
+        "text": "\"The entry point for running a non-profit well: a mission stated plainly, a board that meets in public, volunteers kept safe and trusted, grants asked for and accounted for. It shares its ethics and community stations with the other packs, so a learner who starts here meets the same standards again on the robot floor and the youth court.\""
+      }
+    ],
+    "reward": {
+      "xp": 100,
+      "badge": "Non-Profit Operations and Volunteers — Entry Point — Opener"
+    }
+  },
+  {
+    "id": "bw-side-nonprofit-operations-and-volunteers-capstone",
+    "title": "Non-Profit Operations and Volunteers — Entry Point — Capstone",
+    "giver": "the programme's certifying evaluator",
+    "site": "Non-Profit Operations and Volunteers — Entry Point",
+    "kind": "side",
+    "tier": 2,
+    "requires": "bw-side-nonprofit-operations-and-volunteers-opener",
+    "programmeId": "nonprofit-operations-and-volunteers",
+    "role": "capstone",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Non-Profit Operations and Volunteers — Entry Point",
+        "text": "The certifying evaluator is waiting at the last bench, sign-off sheet in hand."
+      },
+      {
+        "type": "station",
+        "target": "cv-voter-registration-drive-and-nonpartisan-conduct",
+        "text": "A community drive run on a plaza, with nonpartisan conduct kept at the table."
+      },
+      {
+        "type": "station",
+        "target": "cv-neighborhood-emergency-block-captain",
+        "text": "Volunteers placed where they are needed after a disaster, inside the emergency command structure."
+      },
+      {
+        "type": "station",
+        "target": "coalition-building-table",
+        "text": "Finding the interest behind each partner's position and counting support honestly."
+      },
+      {
+        "type": "talk",
+        "target": "certifying-evaluator",
+        "text": "\"Certified under: The federal 501(c)(3) rules for charitable organisations, the open-meeting and conflict-of-interest rules that apply to public boards, and the municipal ethics code\""
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": "Non-Profit Operations and Volunteers — Entry Point — Capstone"
+    }
+  },
+  {
+    "id": "bw-side-ethics-and-responsible-automation-opener",
+    "title": "Ethics and Responsible Automation — Entry Point — First Shift",
+    "giver": "the programme's training lead",
+    "site": "Ethics and Responsible Automation — Entry Point",
+    "kind": "side",
+    "tier": 1,
+    "requires": null,
+    "programmeId": "ethics-and-responsible-automation",
+    "role": "opener",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Ethics and Responsible Automation — Entry Point",
+        "text": "The training lead meets you at Ethics and Responsible Automation — Entry Point and points you to the first bench."
+      },
+      {
+        "type": "station",
+        "target": "ethics-and-conflict-of-interest",
+        "text": "The shared opener: a vendor, a contract and a decision that must not be made by the person who benefits."
+      },
+      {
+        "type": "station",
+        "target": "public-meeting-chair",
+        "text": "Every speaker heard before a robot's rollout is approved, with the minutes that show it."
+      },
+      {
+        "type": "station",
+        "target": "crisis-communication-podium",
+        "text": "When a robot stops in front of the public: confirm first, then speak, and say what is not yet known."
+      },
+      {
+        "type": "talk",
+        "target": "training-lead",
+        "text": "\"The entry point for deciding what a robot on a site is allowed to do, who answers for it, and what is said to the public when something goes wrong. Its stations are the governance and communication ones; the robot-control stations sit in the control entry point, so the two packs teach the same stop rule from two sides.\""
+      }
+    ],
+    "reward": {
+      "xp": 100,
+      "badge": "Ethics and Responsible Automation — Entry Point — Opener"
+    }
+  },
+  {
+    "id": "bw-side-ethics-and-responsible-automation-capstone",
+    "title": "Ethics and Responsible Automation — Entry Point — Capstone",
+    "giver": "the programme's certifying evaluator",
+    "site": "Ethics and Responsible Automation — Entry Point",
+    "kind": "side",
+    "tier": 2,
+    "requires": "bw-side-ethics-and-responsible-automation-opener",
+    "programmeId": "ethics-and-responsible-automation",
+    "role": "capstone",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Ethics and Responsible Automation — Entry Point",
+        "text": "The certifying evaluator is waiting at the last bench, sign-off sheet in hand."
+      },
+      {
+        "type": "station",
+        "target": "cv-difficult-conversation-across-difference",
+        "text": "Owning a harm the automation caused, without deflecting it."
+      },
+      {
+        "type": "station",
+        "target": "ei-giving-and-taking-feedback",
+        "text": "A supervisor's feedback on a near-miss, named to the behaviour rather than the person."
+      },
+      {
+        "type": "station",
+        "target": "ad-amr-fleet-traffic-and-estop-drill",
+        "text": "The site-wide stop, drilled so the people in the aisle know what the robots will do when it is pressed."
+      },
+      {
+        "type": "talk",
+        "target": "certifying-evaluator",
+        "text": "\"Certified under: The municipal ethics code, the conflict-of-interest rules that bind public officials, and the crisis-communication practice a public body is held to\""
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": "Ethics and Responsible Automation — Entry Point — Capstone"
+    }
+  },
+  {
+    "id": "bw-side-youth-club-leadership-opener",
+    "title": "Youth Club Leadership and Coaching — Entry Point — First Shift",
+    "giver": "the programme's training lead",
+    "site": "Youth Club Leadership and Coaching — Entry Point",
+    "kind": "side",
+    "tier": 1,
+    "requires": null,
+    "programmeId": "youth-club-leadership",
+    "role": "opener",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Youth Club Leadership and Coaching — Entry Point",
+        "text": "The training lead meets you at Youth Club Leadership and Coaching — Entry Point and points you to the first bench."
+      },
+      {
+        "type": "station",
+        "target": "bb-warmup-injury-prevention-and-hydration",
+        "text": "The shared opener: the floor walked, the emergency plan read and the warm-up done in order before anyone runs."
+      },
+      {
+        "type": "station",
+        "target": "bb-coach-feedback-and-growth-mindset",
+        "text": "Feedback that makes a young player want the next rep."
+      },
+      {
+        "type": "station",
+        "target": "bb-teammate-conflict-and-accountability",
+        "text": "Two teammates in conflict, handled with accountability rather than favour."
+      },
+      {
+        "type": "talk",
+        "target": "training-lead",
+        "text": "\"The entry point for a youth club's coaches and mentors: a session started with the floor checked and the warm-up done, feedback that grows a young player, a teammate conflict handled with accountability, and a mentor who hands the role on. It shares its court stations with the basketball programme, so a club that runs both trains the same coach.\""
+      }
+    ],
+    "reward": {
+      "xp": 100,
+      "badge": "Youth Club Leadership and Coaching — Entry Point — Opener"
+    }
+  },
+  {
+    "id": "bw-side-youth-club-leadership-capstone",
+    "title": "Youth Club Leadership and Coaching — Entry Point — Capstone",
+    "giver": "the programme's certifying evaluator",
+    "site": "Youth Club Leadership and Coaching — Entry Point",
+    "kind": "side",
+    "tier": 2,
+    "requires": "bw-side-youth-club-leadership-opener",
+    "programmeId": "youth-club-leadership",
+    "role": "capstone",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Youth Club Leadership and Coaching — Entry Point",
+        "text": "The certifying evaluator is waiting at the last bench, sign-off sheet in hand."
+      },
+      {
+        "type": "station",
+        "target": "wp-graduation-and-alumni-mentors",
+        "text": "The club's older members returning as mentors, with the same safeguards as the coaches."
+      },
+      {
+        "type": "station",
+        "target": "conflict-mediation-room",
+        "text": "Mediating between two families, hearing each side before any decision."
+      },
+      {
+        "type": "station",
+        "target": "mentorship-and-succession",
+        "text": "The programme ends where the leadership does, with the role handed to someone who can do it."
+      },
+      {
+        "type": "talk",
+        "target": "certifying-evaluator",
+        "text": "\"Certified under: The national youth-development guidelines for sport, the SafeSport code for keeping athletes safe from abuse, the CDC Heads Up concussion training, and trauma-informed practice\""
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": "Youth Club Leadership and Coaching — Entry Point — Capstone"
+    }
+  },
+  {
+    "id": "bw-side-robot-control-basics-opener",
+    "title": "Robot Control Basics — Entry Point — First Shift",
+    "giver": "the programme's training lead",
+    "site": "Robot Control Basics — Entry Point",
+    "kind": "side",
+    "tier": 1,
+    "requires": null,
+    "programmeId": "robot-control-basics",
+    "role": "opener",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Robot Control Basics — Entry Point",
+        "text": "The training lead meets you at Robot Control Basics — Entry Point and points you to the first bench."
+      },
+      {
+        "type": "station",
+        "target": "rt-teach-pendant-safe-jogging",
+        "text": "The shared opener: the pendant in hand, the speed held low and the deadman switch respected."
+      },
+      {
+        "type": "station",
+        "target": "rt-cobot-power-force-limit-check",
+        "text": "Measuring what a cobot may touch before a person works beside it."
+      },
+      {
+        "type": "station",
+        "target": "rt-speed-separation-monitoring-setup",
+        "text": "Setting the zones so the robot slows before a person reaches them."
+      },
+      {
+        "type": "talk",
+        "target": "training-lead",
+        "text": "\"The entry point for controlling a robot safely: jog it from the pendant at a safe speed, measure what a cobot may touch, set up speed and separation monitoring, and bring it back after an e-stop. The stations are the robot-control ones and the stop rule they all share; the ROS-specific stations are not written yet, and this pack says so rather than claim them.\""
+      }
+    ],
+    "reward": {
+      "xp": 100,
+      "badge": "Robot Control Basics — Entry Point — Opener"
+    }
+  },
+  {
+    "id": "bw-side-robot-control-basics-capstone",
+    "title": "Robot Control Basics — Entry Point — Capstone",
+    "giver": "the programme's certifying evaluator",
+    "site": "Robot Control Basics — Entry Point",
+    "kind": "side",
+    "tier": 2,
+    "requires": "bw-side-robot-control-basics-opener",
+    "programmeId": "robot-control-basics",
+    "role": "capstone",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Robot Control Basics — Entry Point",
+        "text": "The certifying evaluator is waiting at the last bench, sign-off sheet in hand."
+      },
+      {
+        "type": "station",
+        "target": "rt-speed-separation-monitoring-setup",
+        "text": "Setting the zones so the robot slows before a person reaches them."
+      },
+      {
+        "type": "station",
+        "target": "rt-robot-estop-recovery-and-restart",
+        "text": "Bringing a robot back after an e-stop only once the cause is cleared."
+      },
+      {
+        "type": "station",
+        "target": "ad-amr-fleet-traffic-and-estop-drill",
+        "text": "The site stop drilled for a mobile fleet, shared with the ethics entry point."
+      },
+      {
+        "type": "talk",
+        "target": "certifying-evaluator",
+        "text": "\"Certified under: ISO 10218 for the safety of industrial robots, ANSI/RIA R15.06 for their adoption in North America, and the teach-pendant and e-stop rules a cell is commissioned against\""
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": "Robot Control Basics — Entry Point — Capstone"
+    }
+  },
+  {
     "id": "bw-side-teamwork-opener",
     "title": "Teamwork — Talk Before You Move",
     "giver": "the college's team captain",

@@ -102,6 +102,8 @@ const S = (id, body, title, scope, source = "verified") => ({ id, body, title, s
  * body+title slug the shared registry will use, so the two can be joined.
  */
 export const STANDARDS = Object.fromEntries([
+  S("irs-501c3-rules", "IRS", "IRS rules for organisations exempt under section 501(c)(3): the bar on campaign intervention, the limits on lobbying and private benefit, and the nonpartisan conduct of voter education", ["Community Environmental Justice"], "unverified"),
+  S("municipal-ethics-code", "municipal ethics code", "A city or county ethics code and the charter's ethics provisions: gifts from interested parties, disclosure and recusal", ["Civic Leadership"], "unverified"),
   S("osha-1910-147", "OSHA", "29 CFR 1910.147 The control of hazardous energy (lockout/tagout)", ["Energy & Power", "Manufacturing", "Food Service"]),
   S("osha-1910-146", "OSHA", "29 CFR 1910.146 Permit-required confined spaces", ["Water & Environmental", "Manufacturing"]),
   S("osha-1910-134", "OSHA", "29 CFR 1910.134 Respiratory protection", ["Hazmat & Environmental", "Emergency Response"]),
@@ -1025,6 +1027,51 @@ export const PROGRAMME_COMPETENCIES = [
       "ws-data-hall-busway-install-and-torque-signoff", "ws-raised-floor-tile-lift-and-cable-tray-safety", "ws-crah-alarm-response-in-a-live-hall", "ws-ocean-pod-retrieval-and-hatch-opening"
     ],
     require: 4,
+  },
+  {
+    id: "nonprofit-operations-and-volunteers",
+    title: "Run a non-profit board in public and account for every grant dollar",
+    kind: "programme",
+    standards: ["irs-501c3-rules", "municipal-ethics-code"],
+    stations: [
+      "civic-principles-briefing", "community-listening-session", "cv-open-meeting-law-and-agenda-notice", "ethics-and-conflict-of-interest",
+      "constituent-service-desk", "cv-grant-application-and-nonprofit-compliance", "cv-voter-registration-drive-and-nonpartisan-conduct", "cv-neighborhood-emergency-block-captain",
+      "coalition-building-table"
+    ],
+    require: 5,
+  },
+  {
+    id: "ethics-and-responsible-automation",
+    title: "Decide what an automated site may do, and say so plainly when it stops",
+    kind: "programme",
+    standards: ["municipal-ethics-code"],
+    stations: [
+      "ethics-and-conflict-of-interest", "public-meeting-chair", "crisis-communication-podium", "community-listening-session",
+      "cv-difficult-conversation-across-difference", "ei-giving-and-taking-feedback", "ad-amr-fleet-traffic-and-estop-drill"
+    ],
+    require: 4,
+  },
+  {
+    id: "youth-club-leadership",
+    title: "Coach a youth session nobody gets hurt in, and hand the role on",
+    kind: "programme",
+    standards: ["usa-basketball-youth-guidelines", "safesport-code", "cdc-heads-up"],
+    stations: [
+      "bb-warmup-injury-prevention-and-hydration", "bb-coach-feedback-and-growth-mindset", "bb-teammate-conflict-and-accountability", "bb-losing-well-and-film-review",
+      "wellness-peer-support-conversation", "wp-graduation-and-alumni-mentors", "conflict-mediation-room", "mentorship-and-succession"
+    ],
+    require: 4,
+  },
+  {
+    id: "robot-control-basics",
+    title: "Jog, bound and restart a robot cell without ever entering its reach unsafely",
+    kind: "programme",
+    standards: ["iso-10218", "ansi-r15-06"],
+    stations: [
+      "rt-teach-pendant-safe-jogging", "rt-cobot-power-force-limit-check", "rt-speed-separation-monitoring-setup", "rt-robot-estop-recovery-and-restart",
+      "ad-amr-fleet-traffic-and-estop-drill"
+    ],
+    require: 3,
   },
 ];
 

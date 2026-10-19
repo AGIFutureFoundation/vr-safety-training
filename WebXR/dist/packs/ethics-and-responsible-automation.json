@@ -39,8 +39,11 @@
       "id": "ad-amr-fleet-traffic-and-estop-drill"
     }
   ],
-  "unions": [],
-  "unionLine": "Site managers, supervisors and the public-facing staff who answer for an automated site; no union apprenticeship",
+  "unions": [
+    "afscme",
+    "seiu"
+  ],
+  "unionLine": "AFSCME and SEIU public-service staff, and the site supervisors who answer for an automated site; taught as a civic course, not a union apprenticeship",
   "k12Bands": [],
   "path": "union-trades",
   "alsoPaths": [],
@@ -106,7 +109,7 @@
     "ad-amr-fleet-traffic-and-estop-drill": "AMR Fleet Traffic & E-stop Drill"
   },
   "version": "1.0.0",
-  "contentHash": "e95db693",
+  "contentHash": "0c7bc46d",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
