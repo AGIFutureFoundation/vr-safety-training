@@ -38,7 +38,10 @@ export function dxMountConsent(el, { btnClass = "btn", dataHref = "../data/index
       let n = 0; try { n = (await dxStore.list()).length; } catch (_) { n = 0; }
       row.appendChild(dxEl("span", { class: "note", text: `${n} episode${n === 1 ? "" : "s"} stored in this browser.` }));
       const stop = dxEl("button", { class: btnClass, type: "button", id: "dx-revoke", text: "Stop and delete everything" });
-      stop.addEventListener("click", async () => { await dxRevoke(); onChange?.("revoked"); render(); });
+      // ROBOLEARN-10 (loop 10 round 9): dxRevoke deletes the consent key before its first await, so the panel shows OFF at once
+      // and the store's clean-up (serial IndexedDB opens, 1–2 s each under load in the built page) finishes behind it;
+      // onChange fires, and the panel redraws its count, once the deletion is done.
+      stop.addEventListener("click", async () => { const done = dxRevoke(); render(); await done; onChange?.("revoked"); render(); });
       row.appendChild(stop);
       if (dataHref) row.appendChild(dxEl("a", { class: btnClass, href: dataHref, text: "Data page" }));
     } else if (!offer.eligible) {

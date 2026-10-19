@@ -132,6 +132,7 @@
       <div id="menu-storyline"></div>
       <div id="menu-paths"></div>
       <div id="menu-cognition"></div>
+      <div id="menu-lx"></div>
       <div id="menu-drills"></div>
       <div id="menu-sims" data-ux-reserved="PROJECTSIM"><div id="menu-ps"></div></div>
       <div id="menu-packs"></div>
@@ -42260,13 +42261,17 @@ function paintedMat(tex, o = {}) {
   if (QUALITY === "high" && tex?.userData?.roughnessMap?.isTexture) {
     extra.roughnessMap = tex.userData.roughnessMap;
   }
+  // REALISM-2: a pattern-set texture names its painter (txTexture sets userData.txPattern); the class hook, when the
+  // app installed it (desktop high only), gives that painter's roughness and metalness unless the caller set its own.
+  const sf = txSurfaceFor(tex?.userData?.txPattern, o);
   const m = new THREE.MeshStandardMaterial({
-    map: tex, color: o.color ?? 0xffffff, roughness: o.rough ?? 0.8, metalness: o.metal ?? 0.05,
+    map: tex, color: o.color ?? 0xffffff, roughness: o.rough ?? sf?.rough ?? 0.8, metalness: o.metal ?? sf?.metal ?? 0.05,
     emissive: o.emissive ?? 0x000000, emissiveIntensity: o.ei ?? 1, emissiveMap: o.glow ? tex : null,
     ...extra,
   });
   m.userData.ownMaterial = true;
   m.userData.ownTexture = true;
+  if (sf) m.userData.txSurface = sf.id;
   return m;
 }
 
@@ -43300,14 +43305,26 @@ function txSharedMat(id, o = {}, m = {}) {
   const key = `${id}|${JSON.stringify(o)}|${JSON.stringify(m)}`;
   let mat = _txSharedMats.get(key);
   if (!mat) {
+    const sf = txSurfaceFor(id, m);
     mat = new THREE.MeshStandardMaterial({
-      map: txTexture(id, o), color: m.color ?? 0xffffff, roughness: m.rough ?? 0.9, metalness: m.metal ?? 0,
+      map: txTexture(id, o), color: m.color ?? 0xffffff, roughness: m.rough ?? sf?.rough ?? 0.9, metalness: m.metal ?? sf?.metal ?? 0,
       transparent: (m.opacity ?? 1) < 1, opacity: m.opacity ?? 1,
     });
     mat.userData.txShared = key;
+    if (sf) mat.userData.txSurface = sf.id;
     _txSharedMats.set(key, mat);
   }
   return mat;
+}
+/** REALISM-2: the surface-class hook. `classFor(painterId) -> { id, rough, metal } | null` is installed by the parishes
+ *  app (shared/rz-surfaces.js's rzInstallSurfaces) on the desktop high tier only; null everywhere else, so the phone and
+ *  a headset build byte-identical materials. Explicit `rough`/`metal` options always win over the class. */
+const TX_SURFACE_HOOK = { classFor: null };
+function txSurfaceFor(id, m = {}) {
+  if (QUALITY !== "high" || typeof TX_SURFACE_HOOK.classFor !== "function" || !id) return null;
+  if (m.rough !== undefined && m.metal !== undefined) return null;
+  const s = TX_SURFACE_HOOK.classFor(id);
+  return s && typeof s.rough === "number" && typeof s.metal === "number" ? s : null;
 }
 /** A painted material from the pattern set: txTexture() + paintedMat(). */
 function txMaterial(id, o = {}, m = {}) { return paintedMat(txTexture(id, o), m); }
@@ -77674,13 +77691,16 @@ function paInstanceColour(category, spot) {
 // the map from PALETTE's pixel painters (shared/textures.js TX_PX_PAINTERS) and the pattern set's painters to a class,
 // and one procedural, tileable detail map (canvas-free value noise, so it paints headless and in a worker alike).
 //
-// Seam (pure data and one painter; no three.js import, no DOM, no network):
+// Seam (pure data and one painter; no imports, no three.js, no DOM, no network):
 //   RZ_SURFACES[cls] -> { rough, metal, detail, grime, note }      the classes
 //   rzSurfaceOf(painterId) -> class id                               PALETTE pixel painter or pattern-set id -> class
 //   rzSurfaceFor(painterId) -> RZ_SURFACES entry (falls back to concrete)
 //   rzDetailPixels(px, seed) -> Uint8Array RGBA                      R fine grain, G grime blotches, B vertical streaks
 //   RZ_DETAIL_TIERS { high: 256, balanced: 0, low: 0 }               detail map size per tier (0: none)
 //   rzShade(h, s, streak, cls) -> factor                             the same grime/AO term the shader runs (for checks)
+//   rzInstallSurfaces(tier, ua, hook) -> "high" | null               REALISM-2: sets hook.classFor (textures.js's
+//                                                                    TX_SURFACE_HOOK) so txSharedMat / paintedMat take
+//                                                                    the class on desktop high; clears it elsewhere
 //
 // Budgets (stated here, measured by tools/check_rz.mjs): the high tier adds ONE detail map, 256 x 256 RGBA (256 KiB,
 // 341 KiB with mipmaps) shared by every textured facade material; balanced adds no texture (grime and contact shading
@@ -77709,6 +77729,10 @@ const RZ_PAINTER_SURFACE = {
   // the older face painters' tile ids and the pattern set (textures.js PAINTER_TILE_IDS / TX_PAINTER_IDS)
   block: "concrete", concrete: "concrete", asphalt: "asphalt", grating: "metal", woodGrain: "wood", rust: "metal",
   stainless: "metal", plaster: "stucco", hardwoodCourt: "wood", laneAsphalt: "asphalt",
+  // REALISM-2: the pattern set's material-like painters (textures.js TX_PAINTERS). Fabrics, water, kelp, rock, turf and
+  // signs stay unmapped and keep textures.js's defaults.
+  teakDeck: "wood", brickPaver: "brick", tileMosaic: "tile", corrugatedRoof: "metal", glassCurtainWall: "glass",
+  stuccoWarm: "stucco", rustPatina: "metal", crosswalk: "asphalt", nonSkid: "asphalt", hullStripe: "metal",
 };
 
 function rzSurfaceOf(painterId) { return RZ_PAINTER_SURFACE[painterId] ?? "concrete"; }
@@ -77770,6 +77794,16 @@ const RZ_SHADE_GLSL = `float rzShadeF( float h, float s, float st, float k, floa
   float sill = ( roof > 0.5 || h < ${(RZ_SHADE.floorH * 0.9).toFixed(3)} ) ? 0.0 : ( 1.0 - smoothstep( ${RZ_SHADE.sillLo.toFixed(3)}, ${RZ_SHADE.sillHi.toFixed(3)}, f ) ) * step( ${(RZ_SHADE.sillLo - 0.1).toFixed(3)}, f ) * ${RZ_SHADE.streak.toFixed(3)} * st * k;
   return contact * grime * ( 1.0 - sill );
 }`;
+
+/** REALISM-2: install (or clear) the pattern set's class hook for a tier. Only the desktop high tier gets it: the phone,
+ *  balanced and a headset keep textures.js's own defaults byte for byte. Returns the level installed. */
+function rzInstallSurfaces(tier, ua, hook) {
+  const on = rzLevel(tier, ua) === "high";
+  if (hook && typeof hook === "object") hook.classFor = on ? rzSurfaceClass : null;
+  return on ? "high" : null;
+}
+/** The hook's answer: painter id -> { id: class, rough, metal } or null for an unmapped painter (keeps the defaults). */
+function rzSurfaceClass(id) { const cls = RZ_PAINTER_SURFACE[id]; return cls ? { id: cls, rough: RZ_SURFACES[cls].rough, metal: RZ_SURFACES[cls].metal } : null; }
 
 
 /* ===== shared/rz-light.js ===== */
@@ -82275,6 +82309,256 @@ function cwMountStreets({ THREE, root, parish, tier = "high" }) {
     return { chunks: loaded.size, meshes, triangles: Math.round(triangles), lights: poles.count, crosswalks: crosswalks.length };
   }
   return { update, setNight, stats, chunkStats, group, lights, crosswalks };
+}
+
+
+/* ===== shared/rz-street.js ===== */
+// REALISM-2 (docs/consoles/REALISM-2.md): street details that read as a kept street — drop kerbs at the zebra crossings,
+// bollards beside them, gutter drains along the carriageway, utility covers and tree pits on the sidewalks. One merged,
+// vertex-coloured mesh per streamed chunk (one draw call), built from CITYWORKS' pure answers (cwLines, cwSegmentGrid,
+// cwCrosswalkNodes, cwColliders) so a new map gets them too. Contact AO is baked into the vertex colours where a part
+// meets the ground. Procedural and generic by kind; never data.
+//
+// Seams (pure except the mount):
+//   rzStreetForChunk(parish, cx, cz, tier) -> { parts: [{ kind, x, y, z, yaw, line }], triangles, candidates, dropped }
+//       deterministic; tier picks the budget ("low": nothing). A lower tier's parts are a prefix of the higher's.
+//   rzStreetGeometry(THREE, parts) -> BufferGeometry (position, normal, color) or null
+//   rzStreetOnLane(parish, x, z, r) / rzStreetInBuilding(parish, x, z, r)   the placement tests the checker re-runs
+//   rzMountStreet({ THREE, root, parish, tier, ua }) -> { update(x, z, budget), stats(), chunkStats(), group, level, dispose() }
+//       mounted beside cwMountStreets (DETAIL holds NP_MASSING_HOOKS' streaming hooks); call update(x, z) where the
+//       streets are updated. Inert (no mesh, no material) when rzLevel(tier, ua) is null: the phone and a headset.
+//
+// Budget per chunk (stated here, measured by tools/check_rz.mjs on every chunk of every map): high 1 mesh / 1,500
+// triangles, balanced 1 mesh / 600, phone nothing. Candidates are ordered drop kerbs, bollards, drains, covers, tree
+// pits and cut at the budget, so what matters at a crossing is kept first.
+
+
+
+
+/** The per-chunk budget per tier (meshes, triangles). */
+const RZ_STREET_BUDGET = { meshes: 1, triangles: { high: 1500, balanced: 600, low: 0 } };
+/** The gutter strip beside the kerb (m): drains sit in it; nothing REALISM places goes nearer the centreline. */
+const RZ_GUTTER = 0.6;
+/** The parts: triangles each, the kinds a tier takes, spacing along a sidewalk line (m). */
+const RZ_STREET_PARTS = {
+  dropKerb: { tris: 4, note: "a flush ramp through the kerb at each end of a zebra crossing; procedural" },
+  bollard: { tris: 10, note: "a short post beside the drop kerb; procedural" },
+  drain: { tris: 2, note: "a gutter grate flush with the carriageway edge; procedural" },
+  cover: { tris: 8, note: "a round utility cover on the sidewalk; procedural" },
+  treePit: { tris: 10, note: "a soil square with a kerb frame on the sidewalk; procedural" },
+};
+const RZ_STREET_TIER_KINDS = { high: ["dropKerb", "bollard", "drain", "cover", "treePit"], balanced: ["dropKerb", "bollard", "drain"], low: [] };
+const RZ_STREET_SPACING = { drain: 23, cover: 41, treePit: 19 };
+const RZ_ORDER = ["dropKerb", "bollard", "drain", "cover", "treePit"];
+/** Colours (linear RGB-ish hex): the kerb's concrete, cast iron, soil, a painted bollard. */
+const RZ_STREET_COL = { kerb: 0x9a9690, iron: 0x3a3d40, soil: 0x4a3b2c, bollard: 0x2f3338, bollardCap: 0xb9bec4, frame: 0x8c8880 };
+/** The contact AO at the ground (a part's lowest vertices are this much of their colour). */
+const RZ_STREET_AO = 0.62;
+/** Named roads (no fabric sidewalk) keep a clear shoulder beyond their width (m). */
+const RZ_SHOULDER = 1;
+
+const rzGridCache = new WeakMap(), rzCrossCache = new WeakMap(), rzLenCache = new WeakMap();
+function rzGrid(parish) { let g = rzGridCache.get(parish); if (!g) { g = cwSegmentGrid(cwLines(parish)); rzGridCache.set(parish, g); } return g; }
+function rzCrossings(parish) { let c = rzCrossCache.get(parish); if (!c) { c = cwCrosswalkNodes(parish); rzCrossCache.set(parish, c); } return c; }
+/** Cumulative length at each vertex of a line (so spacing phases are continuous across chunks). */
+function rzLengths(line) {
+  let L = rzLenCache.get(line);
+  if (!L) { L = [0]; for (let i = 1; i < line.pts.length; i++) L.push(L[i - 1] + Math.hypot(line.pts[i][0] - line.pts[i - 1][0], line.pts[i][1] - line.pts[i - 1][1])); rzLenCache.set(line, L); }
+  return L;
+}
+function rzStrHash(s) { let h = 2166136261 >>> 0; for (const c of String(s)) h = Math.imul(h ^ c.charCodeAt(0), 16777619) >>> 0; return h; }
+
+/** True when (x, z) with radius r lies on any line's running lanes (inside width/2 − gutter), or a named road's shoulder. */
+function rzStreetOnLane(parish, x, z, r = 0.3) {
+  for (const s of rzGrid(parish).query(x, z, 24)) {
+    const { d } = cwSegDist(x, z, s.a, s.b);
+    const edge = s.line.sidewalk ? s.line.width / 2 - RZ_GUTTER : s.line.width / 2 + RZ_SHOULDER;
+    if (d - r < edge) return true;
+  }
+  return false;
+}
+/** True when (x, z) with radius r lies inside a building box of its chunk or a neighbour (CITYWORKS' colliders). */
+function rzStreetInBuilding(parish, x, z, r = 0.3) {
+  const cx = Math.floor((x + NP_SIZE / 2) / NP_CHUNK), cz = Math.floor((z + NP_SIZE / 2) / NP_CHUNK);
+  for (let dz = -1; dz <= 1; dz++) for (let dx = -1; dx <= 1; dx++) {
+    for (const b of cwColliders(parish, `${cx + dx},${cz + dz}`)) if (x > b.min[0] - r && x < b.max[0] + r && z > b.min[2] - r && z < b.max[2] + r) return true;
+  }
+  return false;
+}
+const rzPlaceable = (parish, x, z, r) => Math.abs(x) < NP_SIZE / 2 - 4 && Math.abs(z) < NP_SIZE / 2 - 4 && !npWaterAt(parish, x, z) && !rzStreetOnLane(parish, x, z, r) && !rzStreetInBuilding(parish, x, z, r);
+const rzRadius = { dropKerb: 0.6, bollard: 0.15, drain: 0.25, cover: 0.35, treePit: 0.7 };
+
+/**
+ * The parts of one chunk, deterministic, inside the tier's budget. Crossings: at each zebra crossing's two ends (8 m
+ * from the node along each sidewalk line, as CITYWORKS draws them) a drop kerb straddles the kerb and two bollards
+ * stand behind it. Along every sidewalk line: a drain in the gutter every 23 m (sides alternating), a cover on the
+ * sidewalk every 41 m, and on lines with lanes (avenues, arterials) a tree pit every 19 m near the kerb.
+ */
+function rzStreetForChunk(parish, cx, cz, tier = "high") {
+  const kinds = RZ_STREET_TIER_KINDS[tier] ?? [];
+  const budget = RZ_STREET_BUDGET.triangles[tier] ?? 0;
+  const out = { parts: [], triangles: 0, candidates: 0, dropped: 0 };
+  if (!kinds.length || budget <= 0) return out;
+  const x0 = -NP_SIZE / 2 + cx * NP_CHUNK, z0 = -NP_SIZE / 2 + cz * NP_CHUNK, x1 = x0 + NP_CHUNK, z1 = z0 + NP_CHUNK;
+  const inChunk = (x, z) => x >= x0 && x < x1 && z >= z0 && z < z1;
+  const grid = rzGrid(parish);
+  const cand = { dropKerb: [], bollard: [], drain: [], cover: [], treePit: [] };
+  const yOf = (x, z, lift) => npHeightAt(parish, x, z) + lift;
+  // crossings whose ends may fall in this chunk (a node up to 10 m outside still reaches in)
+  for (const c of rzCrossings(parish)) {
+    if (c.x < x0 - 12 || c.x >= x1 + 12 || c.z < z0 - 12 || c.z >= z1 + 12) continue;
+    for (const s of grid.query(c.x, c.z, 14)) {
+      if (!s.line.sidewalk || s.line.deck) continue;
+      const L = Math.hypot(s.b[0] - s.a[0], s.b[1] - s.a[1]); if (L < 1) continue;
+      const ux = (s.b[0] - s.a[0]) / L, uz = (s.b[1] - s.a[1]) / L, nx = -uz, nz = ux, w = s.line.width / 2;
+      const yaw = Math.atan2(ux, uz);
+      for (const sg of [1, -1]) {
+        const px = c.x + ux * 8 * sg, pz = c.z + uz * 8 * sg;
+        if (cwSegDist(px, pz, s.a, s.b).d > 0.8) continue;
+        for (const side of [1, -1]) {
+          const kx = px + nx * side * (w + 0.6), kz = pz + nz * side * (w + 0.6);
+          if (inChunk(kx, kz)) cand.dropKerb.push({ kind: "dropKerb", x: kx, z: kz, y: yOf(kx, kz, CW_STREET_LIFT), yaw, line: s.line.id, side, top: CW_SIDEWALK_LIFT - CW_STREET_LIFT });
+          const bd = w + CW_KERB + 0.9;
+          for (const o of [1.4, -1.4]) {
+            const bx = px + ux * o + nx * side * bd, bz = pz + uz * o + nz * side * bd;
+            if (inChunk(bx, bz)) cand.bollard.push({ kind: "bollard", x: bx, z: bz, y: yOf(bx, bz, CW_SIDEWALK_LIFT), yaw, line: s.line.id });
+          }
+        }
+      }
+    }
+  }
+  // along the sidewalk lines that touch this chunk
+  const seen = new Set();
+  for (const s of grid.query((x0 + x1) / 2, (z0 + z1) / 2, NP_CHUNK * 0.71 + 8)) {
+    const l = s.line;
+    if (!l.sidewalk || l.deck || seen.has(l.id)) continue;
+    seen.add(l.id);
+    const Ls = rzLengths(l), total = Ls[Ls.length - 1], h = rzStrHash(l.id), [i0] = cwSidewalkBand(l), w = l.width / 2;
+    const walk = (kind, spacing, lateral, lift, both) => {
+      if (!kinds.includes(kind)) return;
+      let acc = (h % 1000) / 1000 * spacing + spacing * 0.5, k = 0;
+      for (let i = 1; i < l.pts.length; i++) {
+        const a = l.pts[i - 1], b = l.pts[i], L = Ls[i] - Ls[i - 1]; if (L < 1e-6) continue;
+        const ux = (b[0] - a[0]) / L, uz = (b[1] - a[1]) / L, nx = -uz, nz = ux, yaw = Math.atan2(ux, uz);
+        while (acc < Ls[i]) {
+          const t = acc - Ls[i - 1], side = both ? 1 : (k % 2 ? -1 : 1);
+          const px = a[0] + ux * t, pz = a[1] + uz * t;
+          const sides = both ? [1, -1] : [side];
+          for (const sd of sides) {
+            const x = px + nx * sd * lateral, z = pz + nz * sd * lateral;
+            if (inChunk(x, z) && t > 2 && t < L - 2 && acc > 10 && acc < total - 10) cand[kind].push({ kind, x, z, y: yOf(x, z, lift), yaw, line: l.id, side: sd });
+          }
+          acc += spacing; k++;
+        }
+      }
+    };
+    walk("drain", RZ_STREET_SPACING.drain, w - 0.3, l.named ? 0.3 : CW_STREET_LIFT, false);
+    walk("cover", RZ_STREET_SPACING.cover, i0 + 1.0, CW_SIDEWALK_LIFT, false);
+    if (l.lanes) walk("treePit", RZ_STREET_SPACING.treePit, i0 + CW_SIDEWALK - 1.0, CW_SIDEWALK_LIFT, true);
+  }
+  // keep what fits, in priority order; every kept part passes the placement tests (drive lane, water, building)
+  for (const kind of RZ_ORDER) {
+    if (!kinds.includes(kind)) continue;
+    const list = cand[kind].sort((p, q) => p.x - q.x || p.z - q.z);
+    for (const p of list) {
+      out.candidates++;
+      if (!rzPlaceable(parish, p.x, p.z, rzRadius[kind])) { out.dropped++; continue; }
+      const tris = RZ_STREET_PARTS[kind].tris;
+      if (out.triangles + tris > budget) { out.dropped++; continue; }
+      out.parts.push(p); out.triangles += tris;
+    }
+  }
+  return out;
+}
+
+// ------------------------------------------------------------------ geometry
+
+function rzCol(hex, k = 1) { return [((hex >> 16) & 255) / 255 * k, ((hex >> 8) & 255) / 255 * k, (hex & 255) / 255 * k]; }
+/** Merges the parts into one vertex-coloured, flat-normal geometry (contact AO on each part's ground vertices). */
+function rzStreetGeometry(THREE, parts) {
+  if (!parts?.length) return null;
+  const pos = [], col = [], nrm = [];
+  const tri = (a, b, c, ca, cb, cc) => {
+    const ux = b[0] - a[0], uy = b[1] - a[1], uz = b[2] - a[2], vx = c[0] - a[0], vy = c[1] - a[1], vz = c[2] - a[2];
+    let nx = uy * vz - uz * vy, ny = uz * vx - ux * vz, nz = ux * vy - uy * vx; const L = Math.hypot(nx, ny, nz) || 1; nx /= L; ny /= L; nz /= L;
+    pos.push(...a, ...b, ...c); col.push(...ca, ...cb, ...cc); for (let i = 0; i < 3; i++) nrm.push(nx, ny, nz);
+  };
+  const quad = (a, b, c, d, ca, cb, cc, cd) => { tri(a, b, c, ca, cb, cc); tri(a, c, d, ca, cc, cd); };
+  for (const p of parts) {
+    const cy = Math.cos(p.yaw), sy = Math.sin(p.yaw);
+    // local u along the line, v across (toward the part's side), to world
+    const W = (u, v, y) => [p.x + u * sy + v * cy, y, p.z + u * cy - v * sy];
+    const side = p.side ?? 1;
+    if (p.kind === "dropKerb") {
+      // a ramp 1.6 m along the kerb, from the gutter (flush) up to the sidewalk, 1.4 m deep; two side triangles
+      const lo = p.y + 0.01, hi = p.y + (p.top ?? 0.14) + 0.01, hu = 0.8, dv = 0.7;
+      const g = rzCol(RZ_STREET_COL.kerb, RZ_STREET_AO), k = rzCol(RZ_STREET_COL.kerb);
+      const a = W(-hu, -dv * side, lo), b = W(hu, -dv * side, lo), c = W(hu, dv * side, hi), d = W(-hu, dv * side, hi);
+      if (side > 0) quad(a, b, c, d, g, g, k, k); else quad(b, a, d, c, g, g, k, k);
+      const e = W(-hu, dv * side, lo), f = W(hu, dv * side, lo);
+      if (side > 0) { tri(a, d, e, g, k, g); tri(b, f, c, g, g, k); } else { tri(a, e, d, g, g, k); tri(b, c, f, g, k, g); }
+    } else if (p.kind === "bollard") {
+      const r = 0.12, hgt = 0.95, y0 = p.y, y1 = p.y + hgt;
+      const lo = rzCol(RZ_STREET_COL.bollard, RZ_STREET_AO), hiC = rzCol(RZ_STREET_COL.bollard), cap = rzCol(RZ_STREET_COL.bollardCap);
+      const c4 = [[-r, -r], [r, -r], [r, r], [-r, r]];
+      for (let i = 0; i < 4; i++) { const [u0, v0] = c4[i], [u1, v1] = c4[(i + 1) % 4]; quad(W(u0, v0, y0), W(u1, v1, y0), W(u1, v1, y1), W(u0, v0, y1), lo, lo, hiC, hiC); }
+      quad(W(-r, -r, y1), W(-r, r, y1), W(r, r, y1), W(r, -r, y1), cap, cap, cap, cap);
+    } else if (p.kind === "drain") {
+      const y = p.y + 0.03, c = rzCol(RZ_STREET_COL.iron);
+      quad(W(-0.45, -0.2, y), W(-0.45, 0.2, y), W(0.45, 0.2, y), W(0.45, -0.2, y), c, c, c, c);
+    } else if (p.kind === "cover") {
+      const y = p.y + 0.03, r = 0.35, c = rzCol(RZ_STREET_COL.iron), ce = rzCol(RZ_STREET_COL.iron, 0.8), n = 8;
+      for (let i = 0; i < n; i++) { const a0 = (i / n) * Math.PI * 2, a1 = ((i + 1) / n) * Math.PI * 2; tri(W(0, 0, y), W(Math.cos(a1) * r, Math.sin(a1) * r, y), W(Math.cos(a0) * r, Math.sin(a0) * r, y), c, ce, ce); }
+    } else if (p.kind === "treePit") {
+      const y = p.y + 0.03, y2 = y + 0.05, ro = 0.7, ri = 0.55, s = rzCol(RZ_STREET_COL.soil, 0.85), f = rzCol(RZ_STREET_COL.frame), fa = rzCol(RZ_STREET_COL.frame, RZ_STREET_AO);
+      quad(W(-ri, -ri, y), W(-ri, ri, y), W(ri, ri, y), W(ri, -ri, y), s, s, s, s);
+      const o = [[-ro, -ro], [-ro, ro], [ro, ro], [ro, -ro]], iN = [[-ri, -ri], [-ri, ri], [ri, ri], [ri, -ri]];
+      for (let i = 0; i < 4; i++) { const j = (i + 1) % 4; quad(W(o[i][0], o[i][1], y2), W(o[j][0], o[j][1], y2), W(iN[j][0], iN[j][1], y2), W(iN[i][0], iN[i][1], y2), fa, fa, f, f); }
+    }
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+  g.setAttribute("normal", new THREE.Float32BufferAttribute(nrm, 3));
+  g.setAttribute("color", new THREE.Float32BufferAttribute(col, 3));
+  g.computeBoundingSphere?.();
+  return g;
+}
+
+// ------------------------------------------------------------------ mount
+
+/** SEAM — the street details under `root`, streamed by update(x, z) like CITYWORKS' streets. Inert off the desktop tiers. */
+function rzMountStreet({ THREE, root, parish, tier = "high", ua } = {}) {
+  const level = rzLevel(tier, ua);
+  const group = new THREE.Group(); group.name = "rz-street";
+  const loaded = new Map();
+  if (!level) return { level: null, group, update() {}, stats: () => ({ level: null, chunks: 0, meshes: 0, triangles: 0, parts: 0 }), chunkStats: () => [], dispose() {} };
+  root.add(group);
+  const radius = CW_STREET_RADIUS[tier] ?? 2;
+  const mat = level === "high"
+    ? new THREE.MeshStandardMaterial({ vertexColors: true, roughness: RZ_SURFACES.concrete.rough, metalness: 0 })
+    : new THREE.MeshLambertMaterial({ vertexColors: true });
+  mat.name = `rz-street-${level}`;
+  function drop(k) { const c = loaded.get(k); if (c?.mesh) { group.remove(c.mesh); c.mesh.geometry.dispose(); } loaded.delete(k); }
+  function update(x, z, budget = 2) {
+    const want = npChunksAround(x, z, radius).sort((a, b) => a.ring - b.ring);
+    const keep = new Set(want.map((w) => w.key));
+    for (const k of [...loaded.keys()]) if (!keep.has(k)) drop(k);
+    let built = 0;
+    for (const w of want) {
+      if (loaded.has(w.key)) continue;
+      if (built >= budget) break;
+      const r = rzStreetForChunk(parish, w.cx, w.cz, tier);
+      const geo = rzStreetGeometry(THREE, r.parts);
+      let mesh = null;
+      if (geo) { mesh = new THREE.Mesh(geo, mat); mesh.name = `rz-street-${w.key}`; mesh.frustumCulled = true; group.add(mesh); }
+      loaded.set(w.key, { mesh, triangles: r.triangles, parts: r.parts.length });
+      built++;
+    }
+  }
+  const chunkStats = () => [...loaded.entries()].map(([key, c]) => ({ key, meshes: c.mesh ? 1 : 0, triangles: c.triangles, parts: c.parts }));
+  const stats = () => { let meshes = 0, triangles = 0, parts = 0; for (const c of loaded.values()) { if (c.mesh) meshes++; triangles += c.triangles; parts += c.parts; } return { level, chunks: loaded.size, meshes, triangles, parts }; };
+  function dispose() { for (const k of [...loaded.keys()]) drop(k); root.remove(group); mat.dispose(); }
+  return { level, group, update, stats, chunkStats, dispose };
 }
 
 
@@ -98536,7 +98820,7 @@ const MV_RULE_DRIVABLES = [...new Set(MV_SITE_RULES.flatMap((r) => r.drivables))
 //   IX_AGENT_SPOTS                  plain data: two agent spots per ACCESS room -> room.agentSpots [{ id, x, z, yaw }]
 //   ixStyleFor(kind, siteId?)       -> style id (never null: an unknown kind gets "civic-lobby")
 //   ixBuild(styleId, { three, tier = "high", site = null, dressers = IX_DRESSERS })
-//                                   -> room { group, style, w, d, h, door: {x, z}, colliders: [{min, max}], actions: [...],
+//                                   -> room { group, style, w, d, h, door: {x, z}, colliders: [{min, max}], openings: [...], actions: [...],
 //                                             addAction({ id, kind, x, z, r = 1.4, label, run }), meshes() }
 //   ixRegisterDresser(styleId, fn)  another console (CLASSROOMS `cr`) furnishes a style: fn({ three, group, room, site, tier })
 //                                   adds its meshes to `group` and calls room.addAction(...) for anything the learner can use.
@@ -98740,6 +99024,13 @@ function ixStyleFor(kind, siteId = null) { return (siteId && IX_SITE_STYLE[siteI
 
 /** The door spot of a site building: `out` metres outside CITYWORKS' door (cwDoorOf) on its face, clear of the footprint. */
 const IX_DOOR_OUT = { n: [0, -1], s: [0, 1], e: [1, 0], w: [-1, 0] };
+
+/** ENV-HD-9: real openings in a room's shell, room-local metres (wall 0 is the north / back wall at z = -d/2, wall 1 the door
+ *  wall). The port control room's window onto the container yard: 13 x 2 m, sill at 1.0 m, head at 3.0 m, through the 0.3 m wall
+ *  (inner face z -6.0, outer face z -6.3), the same span as ROBO-INTERIORS' picture plane (z -5.99) and its nine mullions at
+ *  x = -6.5 + i x 1.625, so the picture covers the hole until the yard is built beyond it. The room reports them as
+ *  `room.openings` ({ wall, side, x0, x1, y0, y1, zIn, zOut, w, h }) for the dressers that put something in the view. */
+const IX_OPENINGS = { "ixr-port-control": [{ wall: 0, x0: -6.5, x1: 6.5, y0: 1.0, y1: 3.0 }] };
 function ixDoorSpot(door, out = 1.4) {
   const o = IX_DOOR_OUT[door?.face] ?? [0, 1];
   return { x: door.x + o[0] * out, z: door.z + o[1] * out, face: door?.face ?? "s" };
@@ -98803,9 +99094,20 @@ function ixBuild(styleId, { three: THREE, tier = "high", site = null, title = nu
   boxMesh(w, 0.2, d, 0, h + 0.1, 0, mat(style.ceiling), "ix-ceiling");
   const wallM = mat(style.wall), T = 0.3;
   const walls = [[w + 2 * T, h, T, 0, -d / 2 - T / 2], [w + 2 * T, h, T, 0, d / 2 + T / 2], [T, h, d, -w / 2 - T / 2, 0], [T, h, d, w / 2 + T / 2, 0]];
-  const colliders = [];
+  const colliders = [], openings = [];
   walls.forEach(([ww, hh, dd, x, z], i) => {
-    boxMesh(ww, hh, dd, x, hh / 2, z, wallM, `ix-wall-${i}`);
+    // ENV-HD-9: a wall with a real opening (IX_OPENINGS; the port control room's window onto the yard) is built as a sill, a
+    // lintel and two piers round the hole, all on the wall material (the skins find the sill as `ix-wall-<i>` and retexture
+    // the shared material). The collider stays the whole wall, so the walk is as before. Only the two x-running walls (0, 1).
+    const op = i < 2 ? (IX_OPENINGS[styleId] ?? []).find((o) => o.wall === i) : null;
+    if (op) {
+      const x0 = Math.max(x - ww / 2 + 0.3, op.x0), x1 = Math.min(x + ww / 2 - 0.3, op.x1), y0 = Math.max(0.2, op.y0), y1 = Math.min(hh - 0.2, op.y1);
+      boxMesh(ww, y0, dd, x, y0 / 2, z, wallM, `ix-wall-${i}`);
+      boxMesh(ww, hh - y1, dd, x, (hh + y1) / 2, z, wallM, `ix-wall-${i}-lintel`);
+      boxMesh(x0 - (x - ww / 2), y1 - y0, dd, (x - ww / 2 + x0) / 2, (y0 + y1) / 2, z, wallM, `ix-wall-${i}-pier-a`);
+      boxMesh(x + ww / 2 - x1, y1 - y0, dd, (x1 + x + ww / 2) / 2, (y0 + y1) / 2, z, wallM, `ix-wall-${i}-pier-b`);
+      openings.push({ wall: i, side: i === 0 ? "n" : "s", x0, x1, y0, y1, zIn: +(z - (i === 0 ? -dd / 2 : dd / 2)).toFixed(3), zOut: +(z + (i === 0 ? -dd / 2 : dd / 2)).toFixed(3), w: x1 - x0, h: y1 - y0 });
+    } else boxMesh(ww, hh, dd, x, hh / 2, z, wallM, `ix-wall-${i}`);
     colliders.push({ min: [x - ww / 2, 0, z - dd / 2], max: [x + ww / 2, hh, z + dd / 2], kind: "ix-wall" });
   });
   // The trim band: a BackSide box whose top and bottom faces are hidden (per-face materials +x −x +y −y +z −z), so its bottom
@@ -98861,7 +99163,7 @@ function ixBuild(styleId, { three: THREE, tier = "high", site = null, title = nu
   // The site's job board beside the door, and the room's honesty sign on the back wall.
   const actions = [];
   const room = {
-    id: styleId, style, group, w, d, h, door, colliders, actions, site, tier,
+    id: styleId, style, group, w, d, h, door, colliders, actions, site, tier, openings,
     addAction(a) { const act = { r: 1.4, kind: "use", ...a }; actions.push(act); return act; },
     meshes() { let n = 0; group.traverse((o) => { if (o.isMesh) n++; }); return n; },
   };
@@ -157553,6 +157855,9 @@ function fxMountExteriors({ THREE, root, parish, tier = "high", hour = 12, atlas
 //                                       [{ x, z, heading, dims: [w, h, l] }]); a street camera stands clear of them and its sight line
 //                                       passes none of them (first pass); absent or empty = the camera ENV-HD-7 chose
 //   HD3_VEH_MARGIN, hd3VehicleHit(vehicles, x, z, m)  ENV-HD-8: is (x, z) within m of a parked vehicle's footprint (oriented)
+//   hd3Scene(parish, siteId, shot, { vehicles, subject })  ENV-HD-9: optional — the site's cue outline ([[x, z], ...], hd6Build's site
+//                                       footprint corners); the street camera keeps ENV-HD-8's spot unless a vehicle hides part of the cue
+//                                       from it, then the first candidate (plus spots farther along the street) showing all of it
 //   The parishes app routes `window.__parishTest.scene(siteId, shot)` (and `?scene=<siteId>:<shot>`) here for these sites.
 
 
@@ -157671,7 +157976,7 @@ function hd3Clear(parish, x, z, m, skip) {
 }
 
 /** The camera for one preset (see SEAMS), or null for a site or shot this module does not frame. */
-function hd3Scene(parish, siteId, shot = "wide", { vehicles = null } = {}) {
+function hd3Scene(parish, siteId, shot = "wide", { vehicles = null, subject: cueOutline = null } = {}) {
   const spec = HD3_SCENE_SITES.find((s) => s.id === siteId);
   if (!spec || !HD3_SHOTS.includes(shot) || parish?.id !== spec.parish) return null;
   const i = (parish.sites ?? []).findIndex((s) => s.id === siteId);
@@ -157714,14 +158019,43 @@ function hd3Scene(parish, siteId, shot = "wide", { vehicles = null } = {}) {
   const propFree = (px, pz) => [0, 0.2, 0.35, 0.5, 0.65, 0.8].every((t) => { const x = px + (tx - px) * t, z = pz + (tz - pz) * t; return !props.some((r) => hd3Hit([x - 0.8, z - 0.8, x + 0.8, z + 0.8], r)); });
   // ENV-HD-8: the vehicles count in the first two passes (with NEWTON's cars, then alone); with none passed, the second pass
   // is ENV-HD-7's second pass and every camera is unchanged
-  for (const [m, own, clearProps, clearVeh] of [[3.5, 12, true, true], [3.5, 12, false, true], [3.5, 12, false, false], [1.2, 0, false, false]]) for (const [px, pz] of cands) {
-    if (ownD(px, pz) < own || !hd3Clear(parish, px, pz, m, -1)) continue;
-    if (![0.2, 0.35, 0.5, 0.65].every((t) => hd3Clear(parish, px + (tx - px) * t, pz + (tz - pz) * t, 0.8, -1))) continue;
-    if (clearVeh && !vehFree(px, pz)) continue;
-    if (clearProps && !propFree(px, pz)) continue;
-    return out([px, Math.max(y, npHeightAt(parish, px, pz)) + 1.7, pz], y + 3.2, 62);
+  const lineOk = (px, pz) => [0.2, 0.35, 0.5, 0.65].every((t) => hd3Clear(parish, px + (tx - px) * t, pz + (tz - pz) * t, 0.8, -1));
+  let chosen = null;
+  for (const [m, own, clearProps, clearVeh] of [[3.5, 12, true, true], [3.5, 12, false, true], [3.5, 12, false, false], [1.2, 0, false, false]]) {
+    for (const [px, pz] of cands) {
+      if (ownD(px, pz) < own || !hd3Clear(parish, px, pz, m, -1)) continue;
+      if (!lineOk(px, pz)) continue;
+      if (clearVeh && !vehFree(px, pz)) continue;
+      if (clearProps && !propFree(px, pz)) continue;
+      chosen = [px, pz]; break;
+    }
+    if (chosen) break;
   }
-  const px = tx + ux * back, pz = tz + uz * back;
+  if (!chosen) chosen = [tx + ux * back, tz + uz * back];
+  // ENV-HD-9: the site's cue (the school's play yard, a park's pavilion ...) as extra subject — `subject` is its ground outline
+  // ([[x, z], ...], from hd6Build's site footprint). The camera above stays unless a parked vehicle hides part of the cue from it;
+  // then the first candidate (the street's own set, plus spots farther along it) that shows the building, the board and the
+  // cue unhidden takes over; none = the camera above. With no `subject` (or no vehicles) nothing here runs: every camera is ENV-HD-8's.
+  const extra = Array.isArray(cueOutline) ? cueOutline.filter((q) => Array.isArray(q) && Number.isFinite(q[0]) && Number.isFinite(q[1])) : [];
+  if (extra.length && veh.length) {
+    const all = [...subject, ...extra];
+    const cueFree = (px, pz) => !hd3VehicleHit(veh, px, pz, HD3_VEH_MARGIN.camera) && !hd3Occluders(veh, px, pz, all).length;
+    if (!cueFree(chosen[0], chosen[1])) {
+      const far = [];
+      for (const lat of [23, -23, 29, -29, 35, -35]) for (const ex of [0, -3, 3]) far.push([tx + ux * (back + ex) + vx * lat, tz + uz * (back + ex) + vz * lat]);
+      let found = null;
+      for (const clearProps of [true, false]) {
+        for (const [px, pz] of [...cands, ...far]) {
+          if (ownD(px, pz) < 12 || !hd3Clear(parish, px, pz, 3.5, -1) || !lineOk(px, pz) || !cueFree(px, pz)) continue;
+          if (clearProps && !propFree(px, pz)) continue;
+          found = [px, pz]; break;
+        }
+        if (found) break;
+      }
+      if (found) chosen = found;
+    }
+  }
+  const [px, pz] = chosen;
   return out([px, Math.max(y, npHeightAt(parish, px, pz)) + 1.7, pz], y + 3.2, 62);
 }
 
@@ -165531,7 +165865,10 @@ function dxMountConsent(el, { btnClass = "btn", dataHref = "../data/index.html",
       let n = 0; try { n = (await dxStore.list()).length; } catch (_) { n = 0; }
       row.appendChild(dxEl("span", { class: "note", text: `${n} episode${n === 1 ? "" : "s"} stored in this browser.` }));
       const stop = dxEl("button", { class: btnClass, type: "button", id: "dx-revoke", text: "Stop and delete everything" });
-      stop.addEventListener("click", async () => { await dxRevoke(); onChange?.("revoked"); render(); });
+      // ROBOLEARN-10 (loop 10 round 9): dxRevoke deletes the consent key before its first await, so the panel shows OFF at once
+      // and the store's clean-up (serial IndexedDB opens, 1–2 s each under load in the built page) finishes behind it;
+      // onChange fires, and the panel redraws its count, once the deletion is done.
+      stop.addEventListener("click", async () => { const done = dxRevoke(); render(); await done; onChange?.("revoked"); render(); });
       row.appendChild(stop);
       if (dataHref) row.appendChild(dxEl("a", { class: btnClass, href: dataHref, text: "Data page" }));
     } else if (!offer.eligible) {
@@ -168356,10 +168693,15 @@ function vbMountDispatch(el, { reducedMotion = false, ent3 = null, stationHref =
     const v = gov.verify(); lines.push(`Audit: ${v.lines} line(s), chain ${v.ok ? "intact" : "BROKEN"}`);
     card.textContent = lines.join("\n");
   };
-  const finish = (estopAt) => { clearInterval(timer); vbRun(job, gov, { estopAtStep: estopAt, policyFor }); vbEvaluate(job, { note: estopAt != null ? "stopped by the supervisor" : "" }); frames = []; show(); };
+  // ROBOTS-HD-4: the provider's answer is pinned at approve(). The preview and the real run (finish) ask the same wrapper, which
+  // hands the real run the very policy the preview ran, so a consented take recorded mid-run (vb-colearn's local source then
+  // retrains under a new tag) cannot make the audited run differ from the frames the supervisor watched; the next job asks afresh.
+  let pinned = null;
+  const pinProvider = () => { if (!policyFor) return null; const got = new Map(); return (pid, env, seed) => { const k = `${pid}|${env?.scenario?.id ?? ""}|${seed}`; if (!got.has(k)) got.set(k, policyFor(pid, env, seed) ?? null); return got.get(k); }; };
+  const finish = (estopAt) => { clearInterval(timer); vbRun(job, gov, { estopAtStep: estopAt, policyFor: pinned ?? policyFor }); vbEvaluate(job, { note: estopAt != null ? "stopped by the supervisor" : "" }); frames = []; pinned = null; show(); };
   const api = {
     next() {
-      clearInterval(timer); frames = [];
+      clearInterval(timer); frames = []; pinned = null;
       qi = (qi + 1) % VB_PANEL_QUEUE.length;
       const spec = VB_PANEL_QUEUE[qi]; burstNote = "";
       if (spec.burst) {
@@ -168374,7 +168716,7 @@ function vbMountDispatch(el, { reducedMotion = false, ent3 = null, stationHref =
       if (!job || job.phase !== "NEGOTIATION") return null;
       vbApprove(job, { supervisor: "Supervisor (this device)", approve: true });
       const preview = JSON.parse(JSON.stringify(job));
-      vbRun(preview, vbGovernor(), { policyFor });
+      pinned = pinProvider(); vbRun(preview, vbGovernor(), { policyFor: pinned });
       frames = preview.deliverable.episode.steps; fi = 0; show();
       if (!reducedMotion) timer = setInterval(() => { if (fi < frames.length - 1) { fi += 1; show(); } else finish(null); }, 350);
       return job;
@@ -168488,9 +168830,14 @@ const AA_HD_STOP_POSE = Object.freeze({ sh: Object.freeze([-0.687, 0.225, 0.3]),
  * most the fastest trait tempo, 1.3; the mount keeps the idle phase continuous across the change). concerned: the head a little lower
  * (+0.05 rad, half the traits' head-pitch span of 0.1) and the hands closer (arms out to 0.6 of the trait's abduction, never under its
  * 0.03 floor). relieved: the shoulders a little lower (1.2 cm). The gestures are posed after the mood, so a refusal's stop hand is the
- * same pose in every mood. */
+ * same pose in every mood.
+ * MOODS (loop 10 round 9): one cue that reads from the door. concerned also brings the hands to rest low in front: an agent with a
+ * tablet lowers it from the chest to the hip (the left arm's shoulder and elbow move to tabletLow, inside the range the rest arms
+ * already span: shoulder x in [-0.34, 0.04], elbow x in [-1.36, -0.14]); an agent without one clasps its hands in front (the formal
+ * agents' own rest pose, clasp k = 1). Never the face; the right arm's stop pose is the same in every mood (the gesture lerps to
+ * AA_HD_STOP_POSE at its full pose). check_agent_avatars §9m measures the wrists' displacement and what it subtends at 8 m. */
 const AA_HD_MOODS = Object.freeze(["calm", "busy", "concerned", "relieved"]);
-const AA_HD_MOOD_POSE = Object.freeze({ busyTempo: 1.12, tempoMax: 1.3, concernedHead: 0.05, concernedAbduct: 0.6, abductMin: 0.03, relievedShoulder: 0.012 });
+const AA_HD_MOOD_POSE = Object.freeze({ busyTempo: 1.12, tempoMax: 1.3, concernedHead: 0.05, concernedAbduct: 0.6, abductMin: 0.03, relievedShoulder: 0.012, tabletLow: Object.freeze({ sh: -0.08, el: -0.5 }), concernedClasp: 1 });
 /** AVATARS-HD-4: the idle tempo factor for a mood (1 unless busy), capped so the agent's tempo stays inside the traits' range. */
 function aaHdMoodTempo(spec, mood) { if (mood !== "busy") return 1; const t0 = spec?.posture?.tempo ?? 1; return Math.max(1, Math.min(AA_HD_MOOD_POSE.busyTempo, AA_HD_MOOD_POSE.tempoMax / t0)); }
 const aaHdClamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -168728,10 +169075,11 @@ function aaHdPose(spec, st = {}) {
   const abd = mood === "concerned" ? Math.max(M.abductMin, P.abduct * M.concernedAbduct) : P.abduct; // AVATARS-HD-4: hands closer
   let L = { sh: [0.04, 0, abd], el: [-0.14 - idle, -P.palms, 0], wr: [0, 0, 0] };
   let R = { sh: [0.04, 0, -abd], el: [-0.14 - idle * 0.8, P.palms, 0], wr: [0, 0, 0] };
-  if (P.clasp > 0) {
-    const k = P.clasp; L = { sh: aaHdLerp3(L.sh, [-0.34, -0.72, -0.08], k), el: aaHdLerp3(L.el, [-1.32, 0, 0], k), wr: L.wr }; R = { sh: aaHdLerp3(R.sh, [-0.34, 0.72, 0.08], k), el: aaHdLerp3(R.el, [-1.32, 0, 0], k), wr: R.wr };
+  const clasp = mood === "concerned" && !spec.tablet ? Math.max(P.clasp, M.concernedClasp) : P.clasp; // MOODS: concerned, free hands clasped in front
+  if (clasp > 0) {
+    const k = clasp; L = { sh: aaHdLerp3(L.sh, [-0.34, -0.72, -0.08], k), el: aaHdLerp3(L.el, [-1.32, 0, 0], k), wr: L.wr }; R = { sh: aaHdLerp3(R.sh, [-0.34, 0.72, 0.08], k), el: aaHdLerp3(R.el, [-1.32, 0, 0], k), wr: R.wr };
   }
-  if (spec.tablet) L = { sh: [-0.32, -0.38, Math.min(abd, 0.12)], el: [-1.36, 0, 0], wr: [0, 0, 0] };
+  if (spec.tablet) L = mood === "concerned" ? { sh: [M.tabletLow.sh, -0.2, Math.min(abd, 0.12)], el: [M.tabletLow.el, 0, 0], wr: [0, 0, 0] } /* MOODS: the tablet lowered to the hip */ : { sh: [-0.32, -0.38, Math.min(abd, 0.12)], el: [-1.36, 0, 0], wr: [0, 0, 0] };
   // speaking: beat gestures on each word, bigger for a verbose agent (the tablet hand stays on the tablet)
   if (st.speaking && !red) {
     const b = aaHdC01(Number(st.beat) || 0) * P.handMotion;
@@ -171187,7 +171535,9 @@ function ohHiveDay(seed = 1, opts = {}) {
 //   4. "A day in the hive" (H3_SCENE, h3SceneJobs, h3SceneHive): the scripted, seeded scene the parishes app plays on
 //      sf-downtown for the reel (window.__parishTest.hiveScene()): a job arrives, the agents bid and one wins and walks out of
 //      the cell hall's door to its site, the governor refuses one unsafe request (its reason captioned), and the learner
-//      approves one job that names a robot (the simulated job runs; the physical path stays disabled).
+//      approves one job that names a robot (the simulated job runs; the physical path stays disabled). MOODS: the page's
+//      hiveScene({ seed, hold }) can stop the scene's clock once a named beat has played (a capture of a mood in the scene);
+//      without `hold` the scene is what it was. The relay's mood(id) seeds a figure built mid-scene (aa-agent-avatars' aaMoodOf).
 //
 // SEAMS (every top-level name carries the h3/H3_ prefix: the bundler shares one scope):
 //   H3_ROOM_FIGURES                         3: figures a robotics room holds at once
@@ -172946,6 +173296,85 @@ function raLeaderboard(results) {
   }));
   rows.sort((a, b) => b.success - a.success || a.ruleBreaksPerEpisode - b.ruleBreaksPerEpisode || (a.modelId < b.modelId ? -1 : 1));
   return rows.map((r, i) => ({ rank: i + 1, ...r }));
+}
+
+
+/* ===== shared/ra-takes-train.js ===== */
+// ROBOLEARN-10 (docs/consoles/ROBOLEARN-10.md): a learner's OWN consented takes joining a training run of the small model, on
+// the device only. SmartCiti.X Holodeck · Powered by AGI Corp.
+//
+// What it does, plainly:
+//   * It trains ra-lm-h (the small language-conditioned model trained here; not a large language model) on the arena's
+//     development-seed synthetic demonstrations (RA_DEMOS, seed 1 → episode seeds 100004…) PLUS the learner's own takes from
+//     the local DX store. The takes are read through COLEARN's colLocalDemos, which returns nothing unless DATAWORKS'
+//     dxCollecting() holds right now: an eligible session (signed in, not the demo, not K-12 or a classroom) and the learner's
+//     own adult (18+) opt-in. Signed out, demo, K-12 or not opted in: 0 takes, no model, and the result says why.
+//   * Every take passes dxValidateEpisode and must carry an adult consent receipt; a take without one is refused and listed.
+//   * Provenance: one row per take (episode, task, steps, consent receipt id, licence) and, inside the model, raLmTrain's
+//     per-sample counts (rows from synthetic demonstrations, rows from the learner's takes, refused episodes, by task).
+//   * Declared, development seeds only: docs/evals/arena-takes-declared-r9.json. No held-out seed is touched — the run has
+//     no evaluation step at all; it builds a model and reports what went into it. Nothing is sent anywhere.
+//   * Revoking consent (dxRevoke) deletes the stored takes; the next run finds 0 and rebuilds the model without them,
+//     byte for byte the model built before any take existed (check_arena 12 holds this).
+// Browser-safe (no node: imports). Every top-level name starts with `ra`/`RA_`; imports are plain (no alias).
+
+
+
+
+
+/** The declaration this run is made under (committed before the first run; check_arena 12 reads the file). */
+const RA_TAKES_TRAIN = Object.freeze({
+  model: "ra-lm-h", version: RA_LM_H_VERSION, declaration: "docs/evals/arena-takes-declared-r9.json",
+  demos: Object.freeze({ ...RA_DEMOS, episodeSeeds: `${RA_DEMOS.seed * 100003 + 1}–${RA_DEMOS.seed * 100003 + RA_DEMOS.n}` }),
+  heldOut: "none: no held-out seed is run; the model is built and described, never evaluated here",
+  where: "on the device, from the local DX store, only while dxCollecting() holds",
+});
+
+/**
+ * Collect the learner's own consented takes for the gym tasks: { takes: episodes, provenance, refused }. [] unless collecting.
+ * `tasks` narrows the gym tasks (tests); the default is every gym task the small model trains on.
+ */
+async function raTakesCollect({ store = dxStore, signals = null, tasks = RA_LM_TASKS } = {}) {
+  const seen = new Set(), takes = [], provenance = [], refused = [];
+  if (!dxCollecting(signals)) return { takes, provenance, refused };
+  for (const sc of tasks) {
+    for (const ep of await colLocalDemos(sc, { store, signals })) {
+      if (!ep || seen.has(ep.episodeId)) continue;
+      seen.add(ep.episodeId);
+      const v = dxValidateEpisode(ep);
+      if (!v.ok) { refused.push({ episode: ep.episodeId ?? "?", why: v.errors[0] }); continue; }
+      if (!(ep.consent?.consentId && ep.consent?.adult === true)) { refused.push({ episode: ep.episodeId, why: "no adult consent receipt" }); continue; }
+      takes.push(ep);
+      provenance.push({ episode: ep.episodeId, scenario: sc, steps: ep.steps.length, consentId: ep.consent.consentId, licence: ep.consent.licence, adult: true, source: "human" });
+    }
+  }
+  return { takes, provenance, refused };
+}
+
+/** The arena's development-seed demonstrations for a gym task (RA_DEMOS; the same call ra-arena.js makes). */
+function raTakesDevDemos(sc) {
+  return colDemosFromEpisodes(colSyntheticDemos(sc, { n: RA_DEMOS.n, seed: RA_DEMOS.seed, skill: RA_DEMOS.skill, noise: RA_DEMOS.noise }), sc).demos;
+}
+
+/**
+ * Train ra-lm-h on the development-seed demonstrations plus the learner's own consented takes. Returns
+ * { ok, reason, takes, provenance, refused, model, hash, declared }: ok false with 0 takes and no model unless collecting.
+ * `texts` (raLmTaskTexts) and `tasks` are for tests; the page passes nothing. The model's `provenance` carries the
+ * per-sample counts (synthetic rows, human rows, refused episodes, by task); `hash` is colHash of the weights.
+ */
+async function raTakesTrain({ store = dxStore, signals = null, texts = null, tasks = RA_LM_TASKS } = {}) {
+  if (!dxCollecting(signals)) {
+    return { ok: false, reason: "Not collecting: sign in, outside the demo and any K-12 or classroom session, and opt in as an adult (18+) in the consent panel. No model is trained.", takes: 0, provenance: [], refused: [], model: null, hash: null, declared: RA_TAKES_TRAIN };
+  }
+  const { takes, provenance, refused } = await raTakesCollect({ store, signals, tasks });
+  const model = raLmTrain({ demosFor: raTakesDevDemos, texts: texts ?? raLmTaskTexts(() => null), consented: takes, tasks, opts: RA_LM_H_TRAIN });
+  if (!model) return { ok: false, reason: "Nothing to train on.", takes: takes.length, provenance, refused, model: null, hash: null, declared: RA_TAKES_TRAIN };
+  return {
+    ok: true, reason: provenance.length ? "ok" : "Collecting, but no robot take is stored yet: the model holds synthetic rows only.",
+    takes: takes.length, provenance, refused, model, hash: colHash(model.w),
+    rows: { total: model.rows, synthetic: model.provenance.synthetic, human: model.provenance.human, refusedEpisodes: model.provenance.refusedEpisodes },
+    declared: RA_TAKES_TRAIN,
+  };
 }
 
 
@@ -176203,7 +176632,9 @@ function ixrMeasure(room) {
 //                                                           governor decision (vb-panel.js state().run), a halted run's last one
 //   rhdMountRobots({ THREE, robotics, tier, ua, reducedMotion, jobs }) -> { on, robots, tick(dt, px, pz), measure(), run() }
 //   rhdDressRoom({ three, group, room, tier, ua })       -> the room's HD robots (INTERIORS dresser, after ixr's)
-//   rhdRoomLights(room, siteState, pose?)                -> the room robots' lights, and their floor zones by the room-local pose
+//   rhdRoomLights(room, siteState, pose?, dt?)           -> the room robots' lights, their floor zones by the room-local pose, and
+//                                                           (ROBOTS-HD-4) a lane robot's travel: dt seconds, or its own clock when
+//                                                           none is given; room.rhd.motion() reads where each one stands
 //   rhdRegisterDressers(ix, { ua })                      -> styles registered
 
 
@@ -176715,7 +177146,11 @@ const RHD_ROOM_ROBOTS = {
   "ixr-cell-hall": { strip: [["cell robot", () => true]], robots: [{ kind: "cell-arm", x: 0, y: 0, z: -4, yaw: 0, light: "site" }] },
   "ixr-cobot-lab": { strip: [["cobot arm", () => true], ["second cobot cell", (y) => y > 0.95]], robots: [{ kind: "cobot", x: -0.4, y: 0.9, z: -2.2, yaw: 0, light: "site", scale: 0.85, pedestal: false }, { kind: "cobot", x: -5.12, y: 0.9, z: -4.2, yaw: 0, light: "site", scale: 0.7, pedestal: false }] },
   "ixr-amr-warehouse": { strip: [["AMR", () => true], ["docked AMR", () => true]], robots: [{ kind: "amr", x: -3.5, y: 0, z: -3.0, yaw: 0, light: "site" }, { kind: "amr", x: -10.9, y: 0, z: 3.5, yaw: Math.PI / 2, light: "site" }] },
-  "ixr-port-control": { strip: [], robots: [{ kind: "straddle", x: -5.69, y: 1.18, z: -5.95, yaw: -0.55, light: "site", zone: false, relief: { scale: 1 / 16, depth: 0.07 } }] },
+  // ROBOTS-HD-4: the carrier travels a yard lane (`lane`: yard metres along the room's x, back and forth, m/s) only while its
+  // beacons are green — the room robots' rule for a moving robot: amber, red or dark (the site on another map) holds it. The
+  // relief shows the travel at its scale: the carrier's relief is 0.80 m wide in a 1.545 m clear pane, so 5.5 m each way in
+  // the yard is 0.344 m in the pane, 19 mm short of each mullion (measured: 5.81 m would touch).
+  "ixr-port-control": { strip: [], robots: [{ kind: "straddle", x: -5.69, y: 1.18, z: -5.95, yaw: -0.55, light: "site", zone: false, relief: { scale: 1 / 16, depth: 0.07 }, lane: { length: 11, speed: 1.5 } }] },
   "ixr-drilling-deck": { strip: [["drilling robot", () => true], ["robot battery", () => true]], robots: [{ kind: "drill", x: 0, y: 0, z: -3.5, yaw: 0, light: "site" }] },
   "ixr-maint-bay": { strip: [["robot arm on the stand", () => true], ["AMR on the lift", () => true]], robots: [{ kind: "cell-arm", x: 3.6, y: 0.9, z: -3.2, yaw: 0, light: null, scale: 0.75, pedestal: false, parked: true }, { kind: "amr", x: 5.8, y: 0.7, z: -0.2, yaw: Math.PI / 2, light: null }] },
 };
@@ -176737,8 +177172,11 @@ function rhdStrip(im, rules, THREE) {
   return dropped;
 }
 
+/** ROBOTS-HD-4: the viewer's reduced-motion preference (a lane robot then stands still); false where there is no page. */
+function rhdPrefersStill() { try { return typeof matchMedia === "function" && !!matchMedia("(prefers-reduced-motion: reduce)")?.matches; } catch (_) { return false; } }
+
 /** INTERIORS dresser (runs after ixr's): the room's HD robots on the desktop high tier; elsewhere nothing. */
-function rhdDressRoom({ three: THREE, group, room, tier = "high", ua = typeof navigator !== "undefined" ? navigator.userAgent : "" }) {
+function rhdDressRoom({ three: THREE, group, room, tier = "high", ua = typeof navigator !== "undefined" ? navigator.userAgent : "", reducedMotion = rhdPrefersStill() }) {
   const spec = RHD_ROOM_ROBOTS[room?.id];
   if (!THREE || !spec || !rhdAllowed(tier, ua)) return null;
   let dropped = 0;
@@ -176751,6 +177189,7 @@ function rhdDressRoom({ three: THREE, group, room, tier = "high", ua = typeof na
     const r = rhdBuildRobot(THREE, q.kind, { scale: q.scale ?? 1, pedestal: q.pedestal !== false, zone: !!floor, ground: floor, detail: q.kind === "amr" ? "room" : "full" });
     r.pose(q.parked ? 2.2 : 0);
     r.setLight(null); // dark until the app gives it the site's state (rhdRoomLights); a robot locked out on a stand stays dark
+    let mover = r.group;
     if (q.relief) {
       // ROBOTS-HD-3: a relief in the window band. The holder scales the robot down and flattens it along the room's z (the
       // window's normal); the robot turns inside it, so its depth is squeezed after the turn and it stays inside `depth`.
@@ -176758,23 +177197,66 @@ function rhdDressRoom({ three: THREE, group, room, tier = "high", ua = typeof na
       r.group.rotation.y = q.yaw; r.group.updateMatrixWorld(true);
       const box = new THREE.Box3().setFromObject(r.group), deep = Math.max(1e-6, box.max.z - box.min.z);
       holder.scale.set(q.relief.scale, q.relief.scale, q.relief.depth / deep);
-      holder.add(r.group); group.add(holder);
+      holder.add(r.group); group.add(holder); mover = holder;
     } else { r.group.position.set(q.x, q.y ?? 0, q.z); r.group.rotation.y = q.yaw; group.add(r.group); }
-    return { ...q, robot: r };
+    const drive = q.lane ? rhdLaneDrive(q.lane, mover, q.relief?.scale ?? 1) : null; // ROBOTS-HD-4: the yard carrier's lane
+    return { ...q, robot: r, drive };
   });
-  room.rhd = { robots, dropped, triangles: robots.reduce((a, q) => a + q.robot.triangles, 0) };
+  room.rhd = {
+    robots, dropped, triangles: robots.reduce((a, q) => a + q.robot.triangles, 0),
+    reducedMotion: !!reducedMotion, clock: null,
+    /** ROBOTS-HD-4: where each lane robot stands (yard metres from its mark, signed), whether its last tick moved it, and
+     *  the room-x it is drawn at; rooms whose robots never move return []. */
+    motion: () => robots.filter((q) => q.drive).map((q) => ({ kind: q.kind, pos: q.drive.pos, moving: q.drive.moving, travelled: q.drive.travelled, x: q.drive.x })),
+  };
   return room.rhd;
+}
+
+/** ROBOTS-HD-4: a robot that travels a lane — the port yard's straddle carrier. It moves only while its light is "running"
+ *  (the room robots' rule for a moving robot: a protective stop, an e-stop or no state holds it where it is), back and forth
+ *  over `length` yard metres along the room's x at `speed` m/s; `scale` is how the room shows the yard (1 at full size, the
+ *  relief's 1/16 in the pane). `mover` is the object that carries the robot (the relief holder, or the robot's own group). */
+function rhdLaneDrive(lane, mover, scale = 1) {
+  const half = Math.max(0, (lane.length ?? 0) / 2), speed = Math.max(0, lane.speed ?? 0), x0 = mover.position.x;
+  let pos = Math.max(-half, Math.min(half, lane.start ?? 0)), dir = lane.start > 0 ? -1 : 1, moving = false, travelled = 0;
+  mover.position.x = x0 + pos * scale;
+  return {
+    get pos() { return pos; }, get moving() { return moving; }, get travelled() { return travelled; }, get x() { return mover.position.x; },
+    /** Advance by dt seconds under the light shown; returns the metres moved (0 when held). */
+    tick(dt, light) {
+      moving = false;
+      if (light !== "running" || !(dt > 0) || !speed || !half) return 0;
+      let step = Math.min(dt, 0.1) * speed; // a long frame never jumps the carrier more than a tenth of a second's travel
+      const before = pos;
+      pos += dir * step;
+      if (pos > half) { pos = half - (pos - half); dir = -1; } else if (pos < -half) { pos = -half - (pos + half); dir = 1; }
+      pos = Math.max(-half, Math.min(half, pos));
+      step = Math.abs(pos - before); travelled += step; moving = step > 0;
+      mover.position.x = x0 + pos * scale;
+      return step;
+    },
+  };
 }
 
 /** The room robots' lights from the room's site state (only robots marked "site"; a robot on a stand stays dark), and
  *  (ROBOTS-HD-2) each one's floor zone from the learner's room-local pose by rbSsmMode — the same rule as outdoors —
  *  shown only while the room has its site's state (dark when the site is on another map). */
-function rhdRoomLights(room, state, pose = null) {
+function rhdRoomLights(room, state, pose = null, dt = undefined) {
   const out = [];
   const live = !!state && typeof state === "object" && typeof state.mode === "string";
-  for (const q of room?.rhd?.robots ?? []) {
-    out.push(q.robot.setLight(q.light === "site" ? rhdLightState(state) : null));
+  const rhd = room?.rhd;
+  // ROBOTS-HD-4: the lane robots' time step. The page's call carries no dt, so the room keeps its own clock (capped at a tenth
+  // of a second, so a pause or a tab switch never jumps the carrier); a caller that passes dt (a check) drives it exactly.
+  let step = dt;
+  if (rhd && step === undefined) {
+    const now = (typeof performance !== "undefined" && typeof performance.now === "function" ? performance.now() : Date.now()) / 1000;
+    step = rhd.clock == null ? 0 : Math.min(0.1, Math.max(0, now - rhd.clock)); rhd.clock = now;
+  }
+  for (const q of rhd?.robots ?? []) {
+    const light = q.robot.setLight(q.light === "site" ? rhdLightState(state) : null);
+    out.push(light);
     if (q.robot.zone) q.robot.setZone(live && pose && Number.isFinite(pose.x) && Number.isFinite(pose.z) ? rbSsmMode(Math.hypot(pose.x - q.x, pose.z - q.z)).mode : "full");
+    if (q.drive) q.drive.tick(rhd.reducedMotion ? 0 : step, light);
   }
   return out;
 }
@@ -177833,7 +178315,8 @@ function hd4RegisterDressers(ix, { ultra = false, ua = typeof navigator !== "und
 //   HD6_SMALL                         ENV-HD-8: the groups with a smaller variant (hd6CueParts(..., side, "small")), tried on both
 //                                       sides after the full group and before skipping; hd6FitCue's result adds `small: [groups]`
 //   hd6LampParts(board)               -> the boxes of one board lamp's post (pure)
-//   hd6Build({ THREE, parish, boards, tier, ua }) -> THREE.Mesh "hd6-kind-cues" | null (userData.hd6 = { sites, lamps, triangles })
+//   hd6Build({ THREE, parish, boards, tier, ua }) -> THREE.Mesh "hd6-kind-cues" | null (userData.hd6 = { sites, lamps, triangles });
+//                                       ENV-HD-9: each site record carries `footprint` [x0, z0, x1, z1] (its cue's ground bbox) or null
 //   hd6UltraShells({ THREE, parish, doc }) -> THREE.Mesh "hd6-ultra-kinds" | null (userData.hd6 = { atlasPx, textureBytes, triangles })
 
 
@@ -178260,7 +178743,9 @@ function hd6Build({ THREE, parish, boards = [], tier = "high", ua = typeof navig
   const parts = [], sites = [], taken = [];
   for (const s of hd6KindSites(parish)) {
     const fit = hd6FitCue(parish, s, tier, taken), { parts: p, skipped } = fit;
-    sites.push({ id: s.id, kind: s.kind, hero: s.hero, parts: p.length, triangles: p.length * 12, skipped, small: fit.small });
+    // ENV-HD-9: the cue's ground footprint (the bbox of its parts, world x/z), so the street camera can count it as subject
+    const fp = p.length ? p.map(hd6Footprint).reduce((a, r) => [Math.min(a[0], r[0]), Math.min(a[1], r[1]), Math.max(a[2], r[2]), Math.max(a[3], r[3])]) : null;
+    sites.push({ id: s.id, kind: s.kind, hero: s.hero, parts: p.length, triangles: p.length * 12, skipped, small: fit.small, footprint: fp });
     parts.push(...p);
   }
   for (const bd of boards) parts.push(...hd6LampParts(bd));
@@ -178379,7 +178864,7 @@ function hd6UltraShells({ THREE, parish, doc = typeof document !== "undefined" ?
 
 
 /** The marked door: clear width at least the walk collider's diameter plus 0.25 m each side. */
-const ACC_DOOR = { width: 1.2, height: 2.3, frame: 0.12 };
+const ACC_DOOR = { width: 1.2, height: 2.3, frame: 0.12, proud: 0.18 /* just past CITYWORKS' door box, 0.01–0.17 m out (cw-streets-world.js) */ };
 /** A ramp where the door sill stands above the spot's ground: 1:12 at most, 1.2 m wide, a 1.2 m landing, rails both sides. */
 const ACC_RAMP = { maxSlope: 1 / 12, minRise: 0.02, width: 1.2, landing: 1.2, rail: 0.9 };
 /** Stated budget (measured by check_acc): meshes per map and triangles per entrance; no texture, no light. */
@@ -178391,14 +178876,13 @@ const ACC_BUDGET = {
 };
 const ACC_KIND_STYLE = { "fire-station": "acc-fire-bay", hospital: "acc-drop-off-lobby", school: "acc-classroom-wing", park: "acc-park-pavilion" };
 const ACC_COL = { frame: 0xf2c14b, jamb: 0xf7f8f9, sill: 0xf2c14b, housing: 0x3a3f45, lit: 0xfff4d6, ramp: 0xb9b5ad, rail: 0x8a9096,
-  post: 0x5c6167, panel: 0x1f4e79, glyph: 0xf7f8f9, arrow: 0xf2c14b };
+  post: 0x5c6167, panel: 0x1f4e79, glyph: 0xf7f8f9, arrow: 0xf2c14b, door: 0x23272c, bar: 0xb9bcc0 };
 
 /** The walk from the door spot to the nearest street: out from the door, then straight or round one corner, each leg sampled
  *  every metre clear of every site footprint (+ the avatar radius) and out of water. The first clear path counts. */
 function accStepFree(parish, e, blds = null) {
   blds ??= (parish.sites ?? []).map((_, i) => { try { return cwSiteBuilding(parish, i); } catch { return null; } }).filter(Boolean);
-  const near = cwNearestLine(parish, e.spot.x, e.spot.z, 400, (l) => l.cls !== "ferry" && !l.deck);
-  if (!near) return { ok: false, len: 0, blocked: "no street within 400 m", approach: accApproach(parish, e, blds) };
+  const near = cwNearestLine(parish, e.spot.x, e.spot.z, ACC_ROUTE.straight, (l) => l.cls !== "ferry" && !l.deck);
   const r = NW_AVATAR.radius, o = { n: [0, -1], s: [0, 1], e: [1, 0], w: [-1, 0] }[e.face] ?? [0, 1];
   const leg = (x0, z0, x1, z1) => {
     const len = Math.hypot(x1 - x0, z1 - z0), n = Math.max(1, Math.ceil(len));
@@ -178415,6 +178899,11 @@ function accStepFree(parish, e, blds = null) {
   // Street points to reach: the nearest street to probes out from the door and along the face (a street may run under a site
   // footprint, so a target inside any footprint is skipped).
   const inFoot = (x, z) => blds.some((b) => Math.abs(x - b.cx) < b.w / 2 + r && Math.abs(z - b.cz) < b.d / 2 + r);
+  if (!near) { // ACCESS-2: no street within the straight reach: search for a path over dry ground to the nearest one further out
+    const pr = accPathRoute(parish, e, blds, leg, inFoot);
+    if (pr.ok) return pr;
+    return { ok: false, len: 0, blocked: `no street within ${ACC_ROUTE.straight} m`, pathBlocked: pr.blocked, approach: accApproach(parish, e, blds) };
+  }
   const targets = [];
   for (const dir of [o, a, [-a[0], -a[1]]]) for (const k of [0, 3, 6, 12, 24]) {
     const q = cwNearestLine(parish, S.x + dir[0] * k, S.z + dir[1] * k, 400, (l) => l.cls !== "ferry" && !l.deck);
@@ -178429,10 +178918,79 @@ function accStepFree(parish, e, blds = null) {
   for (const path of paths) {
     let why = null, len = 0;
     for (let i = 1; i < path.length && !why; i++) { why = leg(path[i - 1][0], path[i - 1][1], path[i][0], path[i][1]); len += Math.hypot(path[i][0] - path[i - 1][0], path[i][1] - path[i - 1][1]); }
-    if (!why) return { ok: true, len, blocked: null, path };
+    if (!why) return { ok: true, len, blocked: null, path, via: "straight" };
     first ??= why;
   }
-  return { ok: false, len: near.d, blocked: first, approach: accApproach(parish, e, blds) };
+  // ACCESS-2: the straight and one-corner paths all fail (water, a footprint): search for a path over dry ground instead.
+  const pr = accPathRoute(parish, e, blds, leg, inFoot);
+  if (pr.ok) return pr;
+  return { ok: false, len: near.d, blocked: first, pathBlocked: pr.blocked, approach: accApproach(parish, e, blds) };
+}
+
+/** ACCESS-2: the path search's reach (metres to the nearest street), its grid cell, the cap on cells it may open and how many
+ *  times a path whose metre-sampled leg fails is closed off and searched again. */
+const ACC_ROUTE = { straight: 400, reach: 1500, cell: 4, maxOpen: 250000, retries: 8 };
+/** Where no straight or one-corner path reaches a street: an A* search over dry ground on ACC_ROUTE.cell m cells, to the nearest
+ *  street point within ACC_ROUTE.reach m, each cell clear of every site footprint (+ the avatar radius), out of water and inside
+ *  the map. The found path is then sampled every metre like the straight legs (a cell centre can miss a narrow stream); a leg
+ *  that fails closes its cells and the search runs again, three times at most. */
+function accPathRoute(parish, e, blds, leg, inFoot) {
+  const S = e.spot, c = ACC_ROUTE.cell;
+  const near = cwNearestLine(parish, S.x, S.z, ACC_ROUTE.reach, (l) => l.cls !== "ferry" && !l.deck);
+  if (!near) return { ok: false, blocked: `no street within ${ACC_ROUTE.reach} m` };
+  // The goals: the nearest street point, and the nearest street points to probes 300 and 600 m out in four directions (the
+  // nearest street may lie across water while another is reachable over dry ground); any goal within one cell ends the search.
+  const goals = [];
+  for (const [dx, dz] of [[0, 0], [1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [-1, -1], [1, -1], [-1, 1]]) for (const k of dx || dz ? [300, 600] : [0]) {
+    const q = dx || dz ? cwNearestLine(parish, S.x + dx * k, S.z + dz * k, ACC_ROUTE.reach, (l) => l.cls !== "ferry" && !l.deck) : near;
+    if (q && !inFoot(q.px, q.pz) && Math.hypot(q.px - S.x, q.pz - S.z) <= ACC_ROUTE.reach && !goals.some((t) => Math.hypot(t[0] - q.px, t[1] - q.pz) < 2)) goals.push([q.px, q.pz]);
+  }
+  if (!goals.length) return { ok: false, blocked: "every reachable street point is under a site footprint" };
+  const half = Math.max(...goals.map((t) => Math.hypot(t[0] - S.x, t[1] - S.z))) + 120, n = Math.ceil((2 * half) / c) + 1, ox = S.x - half, oz = S.z - half;
+  const lim = NP_SIZE / 2 - 2, state = new Uint8Array(n * n); // 0 unknown, 1 free, 2 blocked
+  const wx = (i) => ox + i * c, wz = (j) => oz + j * c;
+  const free = (i, j) => {
+    const k = i * n + j;
+    if (!state[k]) {
+      const x = wx(i), z = wz(j);
+      let wd = 0; try { wd = tfWaterDepthAt(parish, x, z); } catch { wd = 0; }
+      state[k] = Math.abs(x) > lim || Math.abs(z) > lim || inFoot(x, z) || wd > 0.02 ? 2 : 1;
+    }
+    return state[k] === 1;
+  };
+  const si = Math.round((S.x - ox) / c), sj = Math.round((S.z - oz) / c);
+  const gi = goals.map((t) => Math.round((t[0] - ox) / c)), gj = goals.map((t) => Math.round((t[1] - oz) / c));
+  const h = (i, j) => { let m = Infinity; for (let k = 0; k < goals.length; k++) m = Math.min(m, Math.hypot(i - gi[k], j - gj[k])); return m * c; };
+  const atGoal = (i, j) => { for (let k = 0; k < goals.length; k++) if (Math.abs(i - gi[k]) <= 1 && Math.abs(j - gj[k]) <= 1) return goals[k]; return null; };
+  let why = "no dry path", detail = null;
+  for (let attempt = 0; attempt < ACC_ROUTE.retries; attempt++) {
+    const g = new Float32Array(n * n).fill(Infinity), prev = new Int32Array(n * n).fill(-1), closed = new Uint8Array(n * n);
+    const heap = []; // [f, id]
+    const push = (f, id) => { heap.push([f, id]); let a = heap.length - 1; while (a > 0) { const p = (a - 1) >> 1; if (heap[p][0] <= heap[a][0]) break; [heap[p], heap[a]] = [heap[a], heap[p]]; a = p; } };
+    const pop = () => { const top = heap[0], last = heap.pop(); if (heap.length) { heap[0] = last; let a = 0; for (;;) { const l = 2 * a + 1, r = l + 1; let m = a; if (l < heap.length && heap[l][0] < heap[m][0]) m = l; if (r < heap.length && heap[r][0] < heap[m][0]) m = r; if (m === a) break; [heap[m], heap[a]] = [heap[a], heap[m]]; a = m; } } return top; };
+    const s0 = si * n + sj; g[s0] = 0; push(h(si, sj), s0);
+    let goal = -1, opened = 0, T = null;
+    while (heap.length && goal < 0 && opened < ACC_ROUTE.maxOpen) {
+      const [, id] = pop(); if (closed[id]) continue; closed[id] = 1; opened++;
+      const i = Math.floor(id / n), j = id % n;
+      if ((T = atGoal(i, j))) { goal = id; break; }
+      for (const [di, dj] of [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [1, -1], [-1, 1], [-1, -1]]) {
+        const ni = i + di, nj = j + dj; if (ni < 0 || nj < 0 || ni >= n || nj >= n) continue;
+        const nid = ni * n + nj; if (closed[nid] || !free(ni, nj)) continue;
+        const ng = g[id] + (di && dj ? c * Math.SQRT2 : c);
+        if (ng < g[nid]) { g[nid] = ng; prev[nid] = id; push(ng + h(ni, nj), nid); }
+      }
+    }
+    if (goal < 0) { why = opened >= ACC_ROUTE.maxOpen ? "path search capped" : "no dry path to any street point"; detail = { goals: goals.length, reachable: opened }; break; }
+    const cells = []; for (let k = goal; k >= 0; k = prev[k]) cells.push(k);
+    const path = [[S.x, S.z], ...cells.reverse().slice(1).map((k) => [wx(Math.floor(k / n)), wz(k % n)]), T];
+    let bad = -1, len = 0;
+    for (let i = 1; i < path.length && bad < 0; i++) { if (leg(path[i - 1][0], path[i - 1][1], path[i][0], path[i][1])) bad = i; len += Math.hypot(path[i][0] - path[i - 1][0], path[i][1] - path[i - 1][1]); }
+    if (bad < 0) return { ok: true, len, blocked: null, path, via: "path", cells: cells.length };
+    for (const k of [cells[bad - 1], cells[bad]]) if (k != null && k !== s0) state[k] = 2; // close the cells the failing leg crossed
+    why = "a sampled leg of every found path crossed water or a footprint"; detail = { attempts: attempt + 1 };
+  }
+  return { ok: false, blocked: why, detail };
 }
 
 /** Where no street reaches: the 6 m apron straight out from the door, clear of footprints and water (an open approach). */
@@ -178521,11 +179079,18 @@ function accParts(parish, e, tier = "high") {
     const alongX = Math.abs(a[0]) > 0.5;
     parts.push({ x, y, z, w: alongX ? su : sv, h: sy, d: alongX ? sv : su, col, name });
   };
-  // The marked door: two jambs and a head in a contrasting colour, 4 cm proud of the facade; a contrasting sill strip.
-  box(-(W / 2 + F / 2), 0.04, y0 + H / 2, F, 0.08, H, ACC_COL.jamb, "jamb");
-  box(W / 2 + F / 2, 0.04, y0 + H / 2, F, 0.08, H, ACC_COL.jamb, "jamb");
-  box(0, 0.04, y0 + H + F / 2, W + 2 * F, 0.08, F, ACC_COL.frame, "head");
+  // The marked door: two jambs and a head in a contrasting colour, 4 cm proud of CITYWORKS' own door box (ACC_DOOR.proud: the
+  // box cw-streets-world draws on the facade is 1.6 x 2.4 m and 0.16 m deep, and hid the frame in ACCESS's still); a
+  // contrasting sill strip on the ground.
+  const P = ACC_DOOR.proud;
+  box(-(W / 2 + F / 2), P + 0.04, y0 + H / 2, F, 0.08, H, ACC_COL.jamb, "jamb");
+  box(W / 2 + F / 2, P + 0.04, y0 + H / 2, F, 0.08, H, ACC_COL.jamb, "jamb");
+  box(0, P + 0.04, y0 + H + F / 2, W + 2 * F, 0.08, F, ACC_COL.frame, "head");
   box(0, 0.35, y0 + 0.01, W + 0.4, 0.7, 0.02, ACC_COL.sill, "sill");
+  // ACCESS-2: a real opening to read: a dark door panel inside the frame, its face 5 cm behind the jambs' (recessed), and on
+  // high a push bar across it at hand height (a horizontal rail; no words, no emblem).
+  box(0, P + 0.015, y0 + H / 2, W, 0.03, H, ACC_COL.door, "panel");
+  if (hi) box(0, P + 0.05, y0 + 1.0, W - 0.2, 0.04, 0.05, ACC_COL.bar, "push-bar");
   // The lit entrance: a housing on a short arm over the head, its lit face below (the lit faces are their own unlit mesh).
   box(0, 0.25, y0 + H + 0.45, 0.6, 0.5, 0.12, ACC_COL.housing, "housing");
   box(0, 0.25, y0 + H + 0.38, 0.5, 0.4, 0.02, ACC_COL.lit, "lit");
@@ -178555,6 +179120,15 @@ function rampBox(e, o, a, mid, L, yg, y0) {
   const x = e.door.x + o[0] * mid, z = e.door.z + o[1] * mid, alongX = Math.abs(a[0]) > 0.5;
   const pitch = Math.atan2(y0 - yg, L);
   return { x, y: (yg + y0) / 2 - 0.05, z, w: alongX ? ACC_RAMP.width : L, h: 0.1, d: alongX ? L : ACC_RAMP.width, pitch, out: o };
+}
+
+/** ACCESS-2: the entrance triangles charged to each chunk (by the door's chunk), for the combined count with FACADES and the kind
+ *  cues: { "cx,cz": triangles }. The two entrance meshes are per map, so they add no mesh to any chunk. */
+function accChunkTriangles(parish, tier = "high") {
+  const out = {};
+  if (tier === "low") return out;
+  for (const e of accEntrances(parish)) { const k = npChunkOf(e.door.x, e.door.z).key; out[k] = (out[k] ?? 0) + accParts(parish, e, tier).length * 12; }
+  return out;
 }
 
 /** A headset browser builds nothing (its budget stays as it was). */
@@ -179223,6 +179797,9 @@ function hwMountRoomAgents({ three = null, room = null, agents = [], source = nu
   const relay = source && typeof source.on === "function" ? { // everything but the hive's own moves (the room has its own)
     on: (type, fn) => { if (type !== "move") source.on(type, fn); },
     off: (type, fn) => { if (type !== "move") source.off?.(type, fn); },
+    // MOODS (loop 10 round 9): the source's current mood passes through (the hive's mood(id), or a scene relay's released mood), so a
+    // figure built mid-day or mid-scene seeds its posture from it (aa-agent-avatars' aaMoodOf); without one the figures start calm as before
+    ...(typeof source.mood === "function" ? { mood: (id) => source.mood(id) } : typeof source.hive?.mood === "function" ? { mood: (id) => source.hive.mood(id) } : {}),
   } : null;
   const avatars = roster.length ? mount({
     three, parent: room.group, agents: roster, source: relay, tier, reducedMotion,
@@ -180282,8 +180859,29 @@ function lxAgentView(a, from) {
 const lxCap = (s) => String(s ?? "").replace(/[.\s]+$/, "");
 
 /**
+ * LESSONS-X-2: the cast of a VBRIDGE-led lesson, all four personas (aa-agent-portraits.js), each with its own part. The safety
+ * governor states the station's standards in the brief, the robot-site (provider) agent demonstrates, the client agent hands the
+ * learner the try, and the evaluator (the leader) orders the brief and gives the debrief against the station's own rubric.
+ * A hive-led lesson keeps one voice: the site's home agent speaks every part.
+ */
+const LX_VBRIDGE_PARTS = Object.freeze({ standards: "agent-governor", order: "agent-evaluator", demo: "agent-provider", try: "agent-client", debrief: "agent-evaluator" });
+function lxCastFor(leaderView, { leader = "hive" } = {}) {
+  if (leader !== "vbridge") return { parts: {}, cast: [leaderView] };
+  const parts = {}, cast = [];
+  for (const [part, id] of Object.entries(LX_VBRIDGE_PARTS)) {
+    const v = id === leaderView.id ? leaderView : lxAgentView(lxPersona(id), "vbridge");
+    parts[part] = v ?? leaderView;
+    if (v && !cast.some((c) => c.id === v.id)) cast.push(v);
+  }
+  if (!cast.some((c) => c.id === leaderView.id)) cast.unshift(leaderView);
+  return { parts, cast };
+}
+
+/**
  * Build one agent-led lesson at a station, or refuse. `result` (optional) is the learner's try:
- * `{ score, missed: [stepId] }`; without it the debrief states the target only.
+ * `{ score, missed: [stepId] }`; without it the debrief states the target only. A result whose `missed` is not an array
+ * (the record kept the points but not the steps) gets the points line alone. Every line's `agent` is who says it; on a
+ * VBRIDGE pack the four personas share the lesson (`cast`), on a hive pack the leader says every line.
  */
 function lxAgentLesson(stationId, roster, { leader = "hive", site = null, pass = 0.7, result = null } = {}) {
   const st = (roster ?? []).find((s) => s.id === stationId);
@@ -180293,32 +180891,57 @@ function lxAgentLesson(stationId, roster, { leader = "hive", site = null, pass =
   if (!steps.length) reasons.push(`${stationId} has no steps to ground a lesson in`);
   if (reasons.length) return { refused: true, reasons };
   const who = lxLeaderFor(st, { leader, site });
+  const { parts, cast } = lxCastFor(who, { leader });
+  const by = (part) => parts[part] ?? who;
   const stds = standardsOf(st);
   const perfect = (st.stepCount || steps.length) * 100 + (st.interruptCount ?? 0) * 120;
   const target = Math.round(perfect * pass);
   const lines = [];
-  const say = (phase, text, ground) => lines.push({ phase, agent: who.id, text, caption: `${who.name} (${LX_LABEL}): ${text}`, label: LX_LABEL, ground: { station: st.id, ...ground } });
+  const say = (phase, text, ground, speaker = who) => lines.push({ phase, agent: speaker.id, text, caption: `${speaker.name} (${LX_LABEL}): ${text}`, label: LX_LABEL, ground: { station: st.id, ...ground } });
 
-  // Brief: what the station is, what it is scored against, and the order of its steps.
+  // Brief: what the station is, what it is scored against (the governor's part on a VBRIDGE pack), and the order of its steps.
   const last = steps[steps.length - 1];
   say("brief", `${st.name}: ${steps.length} steps, from ${lxCap(steps[0].title).toLowerCase()} to ${lxCap(last.title).toLowerCase()}. ${stds.length ? `Scored against ${stds.join(", ")}.` : "Scored on the station's own steps."}`,
-    { steps: [steps[0].id, last.id], ...(stds.length ? { standards: stds } : {}) });
+    { steps: [steps[0].id, last.id], ...(stds.length ? { standards: stds } : {}) }, by("standards"));
   const first = steps.slice(0, 3);
-  say("brief", `In order: ${first.map((s) => lxCap(s.title)).join("; ")}${steps.length > 3 ? `; then ${steps.length - 3} more` : ""}.`, { steps: first.map((s) => s.id) });
-  // Demonstration at the station: each step's title and its own cue.
-  steps.forEach((s, i) => say("demo", `Step ${i + 1}, ${lxCap(s.title)}: ${s.cue}`, { step: s.id }));
-  // The learner's try: the agent hands over and stays quiet until the run ends.
-  say("try", `Your turn. Start with ${lxCap(steps[0].title).toLowerCase()}; I stay quiet until you finish.`, { step: steps[0].id });
-  // Debrief: the points against the target, and the steps to repeat by name.
+  say("brief", `In order: ${first.map((s) => lxCap(s.title)).join("; ")}${steps.length > 3 ? `; then ${steps.length - 3} more` : ""}.`, { steps: first.map((s) => s.id) }, by("order"));
+  // Demonstration at the station: each step's title and its own cue (the provider's part).
+  steps.forEach((s, i) => say("demo", `Step ${i + 1}, ${lxCap(s.title)}: ${s.cue}`, { step: s.id }, by("demo")));
+  // The learner's try: the agent hands over and stays quiet until the run ends (the client's part).
+  say("try", `Your turn. Start with ${lxCap(steps[0].title).toLowerCase()}; I stay quiet until you finish.`, { step: steps[0].id }, by("try"));
+  // Debrief: the points against the target, and the steps to repeat by name (the evaluator's part).
   if (result && Number.isFinite(result.score)) {
-    const missed = steps.filter((s) => (result.missed ?? []).includes(s.id));
-    say("debrief", `You scored ${result.score} of ${perfect}; the target is ${target}. ${result.score >= target ? "That clears it." : "Not yet."}`, { points: { score: result.score, target, perfect } });
-    if (missed.length) for (const s of missed) say("debrief", `Repeat ${lxCap(s.title).toLowerCase()}: ${s.cue}`, { step: s.id });
-    else say("debrief", `Every step held, from ${lxCap(steps[0].title).toLowerCase()} to ${lxCap(steps[steps.length - 1].title).toLowerCase()}.`, { steps: [steps[0].id, steps[steps.length - 1].id] });
+    const known = Array.isArray(result.missed);
+    const missed = known ? steps.filter((s) => result.missed.includes(s.id)) : [];
+    say("debrief", `You scored ${result.score} of ${perfect}; the target is ${target}. ${result.score >= target ? "That clears it." : "Not yet."}`, { points: { score: result.score, target, perfect } }, by("debrief"));
+    if (missed.length) for (const s of missed) say("debrief", `Repeat ${lxCap(s.title).toLowerCase()}: ${s.cue}`, { step: s.id }, by("debrief"));
+    else if (known) say("debrief", `Every step held, from ${lxCap(steps[0].title).toLowerCase()} to ${lxCap(steps[steps.length - 1].title).toLowerCase()}.`, { steps: [steps[0].id, steps[steps.length - 1].id] }, by("debrief"));
   } else {
-    say("debrief", `A clean run is ${perfect} points; the target is ${target}. I will name any step to repeat.`, { points: { target, perfect } });
+    say("debrief", `A clean run is ${perfect} points; the target is ${target}. I will name any step to repeat.`, { points: { target, perfect } }, by("debrief"));
   }
-  return { id: `lx-${st.id}`, station: { id: st.id, name: st.name, standards: stds }, leader: who, site, points: { perfect, target, pass }, lines };
+  return { id: `lx-${st.id}`, station: { id: st.id, name: st.name, standards: stds }, leader: who, cast, site, points: { perfect, target, pass }, lines };
+}
+
+/**
+ * LESSONS-X-2: the learner's real try as a lesson result. `record` is the passport's station record (shared/passport.js
+ * ppRecordStation: `score`, and `debrief.steps` from the station's own step log — id, corrections, hazards, clean). Missed
+ * steps are the ones the log marks not clean, plus the station's steps the log never reached. A record with no step log
+ * keeps the points and says the steps are unknown (`missed: null`).
+ */
+function lxResultOf(record, stationId = record?.simId) {
+  if (!record || !Number.isFinite(Number(record.score))) return null;
+  const steps = lxStepsOf(stationId);
+  const log = Array.isArray(record.debrief?.steps) ? record.debrief.steps : null;
+  if (!log || !log.length) return { score: Number(record.score), missed: null, simId: stationId };
+  const seen = new Set(log.map((s) => s.id));
+  const missed = steps.filter((s) => { const e = log.find((x) => x.id === s.id); return e ? e.clean === false || (e.corrections | 0) > 0 || (e.hazards | 0) > 0 : !seen.has(s.id); }).map((s) => s.id);
+  return { score: Number(record.score), missed, simId: stationId };
+}
+
+/** The newest passport record for a station (ppRecords() keeps attempts in order; the last one is the run just finished). */
+function lxLatestRecord(stationId, records = []) {
+  const mine = (records ?? []).filter((r) => r?.simId === stationId);
+  return mine.length ? mine[mine.length - 1] : null;
 }
 
 /** A prompt against one world's pack stations: composeLesson over that roster, refused when the world cannot satisfy it. */
@@ -180341,11 +180964,12 @@ function lxEmitter() {
  * The lesson as a contract source for the figure mount (aaMountAgentAvatars' `source`: anything with on(type, fn)).
  * step() emits the next event: first a move to the station's site, then one speak event per line, then complete.
  */
-function lxLessonSource(lesson, { siteId = lesson?.site ?? null } = {}) {
+function lxLessonSource(lesson, { siteId = lesson?.site ?? null, phases = null } = {}) {
   const em = lxEmitter();
   const queue = [];
-  if (siteId) queue.push({ type: "move", agent: lesson.leader.id, to: siteId });
-  for (const l of lesson.lines) queue.push({ type: "speak", agent: l.agent, text: l.text, caption: l.caption, lx: { phase: l.phase, ground: l.ground } });
+  const keep = Array.isArray(phases) ? new Set(phases) : null;
+  if (siteId) for (const a of lesson.cast ?? [lesson.leader]) queue.push({ type: "move", agent: a.id, to: siteId });
+  for (const l of lesson.lines) if (!keep || keep.has(l.phase)) queue.push({ type: "speak", agent: l.agent, text: l.text, caption: l.caption, lx: { phase: l.phase, ground: l.ground } });
   queue.push({ type: "complete", agent: lesson.leader.id });
   const log = [];
   let t = 0, i = 0;
@@ -180365,11 +180989,56 @@ function lxLessonSource(lesson, { siteId = lesson?.site ?? null } = {}) {
  * aaRoomAvatarMount()); the rest is passed through (three, parent, siteAt, tier, reducedMotion, voiced). Guarded:
  * a missing mount returns null and the captions still run.
  */
-function lxMountLessonFigure({ mount = null, lesson, siteId = lesson?.site ?? null, ...opts } = {}) {
-  const source = lxLessonSource(lesson, { siteId });
+function lxMountLessonFigure({ mount = null, lesson, siteId = lesson?.site ?? null, phases = null, ...opts } = {}) {
+  const source = lxLessonSource(lesson, { siteId, phases });
   let world = null;
-  try { world = typeof mount === "function" ? mount({ ...opts, agents: [{ ...lesson.leader, homeSite: siteId }], source }) : null; } catch (_) { world = null; }
+  const agents = (lesson?.cast ?? [lesson?.leader]).filter(Boolean).map((a) => ({ ...a, homeSite: siteId }));
+  try { world = typeof mount === "function" ? mount({ ...opts, agents, source }) : null; } catch (_) { world = null; }
   return { world, source };
+}
+
+/**
+ * LESSONS-X-2: the lesson figure inside one of ACCESS's walk-in rooms (ix-interiors.js builds `room.agentSpots`, two per ACCESS
+ * room). The leader stands at `room.agentSpots[0]` (the cast's others at the spots that follow), in the room's own group, through
+ * the room figure mount (`aaRoomAvatarMount()`, the room level inside IX_BUDGET: it counts the room's triangles before it builds).
+ * The room's id is one of ACCESS's styles; the lesson is the interiors pack's station for that room, else null. Nothing here
+ * edits the room: this calls the figure API only. Returns { world, source, lesson, voice, stop() } like lxRunInWorld, or null.
+ */
+function lxRoomLesson({ room = null, three = null, mount = null, lesson = null, tier = "high", reducedMotion = false, caption = () => {}, voice = null, schedule = (fn, ms) => setTimeout(fn, ms), cancel = (h) => clearTimeout(h), phases = null } = {}) {
+  if (!room?.group || !lesson || lesson.refused || typeof mount !== "function") return null;
+  const spots = Array.isArray(room.agentSpots) ? room.agentSpots : [];
+  if (!spots.length) return null;
+  const P = "lx-room:";
+  const place = new Map();
+  const cast = (lesson.cast ?? [lesson.leader]).filter(Boolean);
+  cast.forEach((a, i) => { const s = spots[Math.min(i, spots.length - 1)]; place.set(`${P}${a.id}`, { x: s.x, y: 0, z: s.z, yaw: Number(s.yaw) || 0 }); });
+  const source = lxLessonSource(lesson, { siteId: null, phases });
+  const relay = { on: (t, fn) => source.on(t, fn), off: (t, fn) => source.off(t, fn) };
+  let world = null;
+  try {
+    world = mount({ three, parent: room.group, tier, reducedMotion, source: relay,
+      agents: cast.map((a) => ({ ...a, homeSite: `${P}${a.id}` })),
+      siteAt: (id) => (place.has(id) ? { x: 0, y: 0, z: 0 } : null),
+      spotFor: (_a, id) => place.get(id) ?? null });
+  } catch (_) { world = null; }
+  const v = voice ?? lxVoice({ caption });
+  let handle = null, stopped = false;
+  const next = () => {
+    if (stopped) return;
+    const ev = source.step();
+    if (!ev) return;
+    let ms = 400;
+    if (ev.type === "speak") { const line = lesson.lines.find((l) => l.text === ev.text && l.phase === ev.lx.phase); if (line) v.say(line, cast.find((a) => a.id === line.agent) ?? lesson.leader); ms = lxLineMs(ev.text); }
+    handle = schedule(next, ms);
+  };
+  next();
+  return { world, source, lesson, voice: v, spot: spots[0], stop() { stopped = true; try { cancel(handle); } catch (_) { /* none */ } try { world?.dispose?.(); } catch (_) { /* gone */ } } };
+}
+
+/** The interiors pack's station for an ACCESS room (its style id), from the declared packs: `{ id, site, pad, interior }` or null. */
+function lxRoomStation(styleId, decls = LX_PACK_DECLS) {
+  for (const d of decls) for (const s of d.stations ?? []) if (s.interior === styleId) return { ...s, pack: d.id, leader: d.leader };
+  return null;
 }
 
 /** How long a line stays up before the next: the figures' reading pace (165 words a minute), 1.5 to 12 s. */
@@ -180381,23 +181050,25 @@ function lxLineMs(text) { const w = String(text ?? "").split(/\s+/).filter(Boole
  * source is attached, and one event goes out per line at the reading pace (`schedule` is setTimeout unless given). Every
  * line's caption goes to `caption` (always); the voice speaks only when `voice.on`. Returns { source, lesson, voice, stop() }.
  */
-function lxRunInWorld(world, lesson, { siteId = lesson?.site ?? null, caption = () => {}, voice = null, schedule = (fn, ms) => setTimeout(fn, ms), cancel = (h) => clearTimeout(h) } = {}) {
+function lxRunInWorld(world, lesson, { siteId = lesson?.site ?? null, caption = () => {}, voice = null, schedule = (fn, ms) => setTimeout(fn, ms), cancel = (h) => clearTimeout(h), phases = null, onDone = null } = {}) {
   if (!world || !lesson || lesson.refused) return null;
+  const cast = (lesson.cast ?? [lesson.leader]).filter(Boolean);
   try {
     const have = typeof world.agents === "function" ? world.agents() : [];
     const ids = new Set((have ?? []).map((a) => a?.id ?? a));
-    if (!ids.has(lesson.leader.id)) world.addAgents?.([{ ...lesson.leader, homeSite: siteId }]);
+    const missing = cast.filter((a) => !ids.has(a.id)).map((a) => ({ ...a, homeSite: siteId }));
+    if (missing.length) world.addAgents?.(missing);
   } catch (_) { /* the captions still run */ }
-  const source = lxLessonSource(lesson, { siteId });
+  const source = lxLessonSource(lesson, { siteId, phases });
   try { world.attach?.(source); } catch (_) { /* no figure: captions only */ }
   const v = voice ?? lxVoice({ caption });
   let handle = null, stopped = false;
   const next = () => {
     if (stopped) return;
     const ev = source.step();
-    if (!ev) { try { world.detach?.(source); } catch (_) { /* gone */ } return; }
+    if (!ev) { try { world.detach?.(source); } catch (_) { /* gone */ } try { onDone?.(); } catch (_) { /* ignore */ } return; }
     let ms = 400;
-    if (ev.type === "speak") { const line = lesson.lines.find((l) => l.text === ev.text && l.phase === ev.lx.phase); if (line) v.say(line, lesson.leader); ms = lxLineMs(ev.text); }
+    if (ev.type === "speak") { const line = lesson.lines.find((l) => l.text === ev.text && l.phase === ev.lx.phase); if (line) v.say(line, cast.find((a) => a.id === line.agent) ?? lesson.leader); ms = lxLineMs(ev.text); }
     handle = schedule(next, ms);
   };
   next();
@@ -180407,9 +181078,70 @@ function lxRunInWorld(world, lesson, { siteId = lesson?.site ?? null, caption = 
 /** The parishes page's entry: a lesson at the robot site whose station is `stationId` (else that station's lesson with no site). */
 function lxLessonAtRobotSite(world, sites, stationId, opts = {}) {
   const site = (sites ?? []).find((s) => s.station === stationId) ?? null;
-  const lesson = lxAgentLesson(stationId, lxRoster(), { leader: "hive", site: site?.id ?? null });
+  const lesson = lxAgentLesson(stationId, lxRoster(), { leader: "hive", site: site?.id ?? null, result: opts.result ?? null });
   if (lesson.refused) { try { opts.caption?.(`No agent-led lesson: ${lesson.reasons.join("; ")}`); } catch (_) { /* ignore */ } return { refused: true, reasons: lesson.reasons }; }
   return lxRunInWorld(world, lesson, { ...opts, siteId: site?.id ?? null });
+}
+
+/**
+ * LESSONS-X-2: the real try feeds the debrief. When the learner comes back from a robot site's station, its passport record
+ * (`records`: ppRecords(), the newest for the station) becomes the lesson's result and the site's agent gives the debrief alone:
+ * the points against the target and the missed steps by name. DATAWORKS rules: only while `store.allowed()` (an opted-in adult;
+ * never K-12, demo or signed-out) — otherwise nothing is read into a lesson and nothing is stored, and the call says why. The
+ * attempt is recorded under every composed pack that holds the station, through the same store.
+ */
+function lxDebriefAtRobotSite(world, sites, stationId, { records = [], store = null, packs = null, ...opts } = {}) {
+  const ps = store ?? lxProgressStore();
+  if (!ps.allowed()) return { refused: true, stored: false, reasons: ["not collecting: opted-in adults only (never K-12, demo or signed-out)"] };
+  const rec = lxLatestRecord(stationId, records);
+  const result = lxResultOf(rec, stationId);
+  if (!result) return { refused: true, stored: false, reasons: [`no record of a try at ${stationId}`] };
+  const list = packs ?? lxPacks(lxRoster()).packs;
+  let stored = 0;
+  for (const p of list) if (p.stations.some((s) => s.id === stationId)) { if (ps.record(p.id, { simId: stationId, score: result.score }).stored) stored += 1; }
+  const run = lxLessonAtRobotSite(world, sites, stationId, { ...opts, result, phases: ["debrief"] });
+  return run && !run.refused ? { ...run, result, stored, refused: false } : { refused: true, stored, reasons: run?.reasons ?? ["no run"], result };
+}
+
+/**
+ * LESSONS-X-2: the menu entry. `lxArmLesson` renders "Lesson with the site's agent" into a menu mount (one button per robot site
+ * with a station) and arms the chosen site: the lesson starts when the learner reaches it (`within` metres, polled by `poll` while
+ * `playing()`), not at load. `start(stationId)` is the page's lxLesson; `where()` gives the learner's x, z; `at(site)` the site's.
+ * Returns { armed(), arm(siteId), disarm(), tick(), dispose() }; tick() is what the poll calls and the headless check drives.
+ */
+function lxArmLesson(el, { sites = [], start = () => null, where = () => null, at = (s) => (s?.position ? { x: s.position[0], z: s.position[1] } : null), playing = () => true, within = 9, poll = 500, toast = () => {}, schedule = globalThis.setInterval?.bind(globalThis) ?? null, cancel = globalThis.clearInterval?.bind(globalThis) ?? null, names = (id) => id } = {}) {
+  const list = (sites ?? []).filter((s) => s?.id && s.station);
+  const label = (s) => s.name ?? names(s.station); // a robot site's own name, else its station's
+  let armed = null, timer = null, run = null;
+  const api = {
+    armed: () => armed,
+    arm(siteId) { const s = list.find((x) => x.id === siteId); if (!s) return false; armed = s; run = null; try { toast(`Lesson armed: walk to ${label(s)}; ${names(s.station)} starts when you arrive.`); } catch (_) { /* ignore */ } render(); return true; },
+    disarm() { armed = null; render(); },
+    tick() {
+      if (!armed || !playing()) return null;
+      const me = where(), p = at(armed);
+      if (!me || !p) return null;
+      if (Math.hypot(me.x - p.x, me.z - p.z) > within) return null;
+      const s = armed; armed = null;
+      run = start(s.station) ?? null; render();
+      return run;
+    },
+    run: () => run,
+    dispose() { if (timer && cancel) cancel(timer); timer = null; armed = null; },
+  };
+  const buttons = [];
+  function render() { for (const [b, s] of buttons) { b.setAttribute("aria-pressed", armed?.id === s.id ? "true" : "false"); b.textContent = armed?.id === s.id ? `Armed: walk to ${label(s)}` : `Lesson with the site's agent: ${label(s)}`; } }
+  if (el && typeof document !== "undefined") {
+    el.textContent = "";
+    if (list.length) {
+      const h = document.createElement("p"); h.className = "fine"; h.id = "menu-lx-note"; h.textContent = "Agent-led lessons at the robot sites: a software agent gives the brief, the demonstration and the debrief at its site. The lesson starts when you reach the site. Captions always; voice off unless you turn it on."; el.append(h);
+      const row = document.createElement("div"); row.className = "row"; el.append(row);
+      for (const s of list) { const b = document.createElement("button"); b.type = "button"; b.className = "btn"; b.dataset.lxSite = s.id; b.addEventListener("click", () => (armed?.id === s.id ? api.disarm() : api.arm(s.id))); row.append(b); buttons.push([b, s]); }
+      render();
+    }
+  }
+  if (schedule && poll > 0) timer = schedule(() => { try { api.tick(); } catch (_) { /* never breaks the frame */ } }, poll);
+  return api;
 }
 
 /** Captions always; the voice only when the learner turned it on (on-device voices only, via ohSpeakAs). */
@@ -180494,6 +181226,8 @@ function lxAssigned({ storage = globalThis.localStorage ?? null } = {}) { return
 
 
 
+
+// REALISM-2: drop kerbs, bollards, drains, covers and tree pits, one merged mesh per chunk beside the streets (desktop tiers only).
 
 
 
@@ -180642,6 +181376,7 @@ const rlRelief = mapboxToken() ? await rlPrepareRelief(parish, { tier: npTierNam
 void fcDetails; // registered on import, before the first chunk builds
 // PALETTE (docs/consoles/PALETTE.md): colour categories and one textured material per building kind (none on the phone).
 const paPalette = paMount({ tier: npTierName });
+rzInstallSurfaces(npTierName, undefined, TX_SURFACE_HOOK); // REALISM-2: the pattern set's props take the surface classes on desktop high only
 const dtPool = dtMountDetail(root, THREE, parish, { tier: npTierName });
 const world = npBuildParish(root, THREE, parish, { tier: npTierName, start: [np.x, np.z], massFilter: cwMassFilter(parish) });
 // LANDMARKS-2: doors at walk-in kit landmarks; INTERIORS' shell (globalThis.IX_INTERIORS) is used when it lands, guarded.
@@ -180652,6 +181387,8 @@ const lxRoom = typeof lxWalkin === "function" ? lxWalkin({ three: THREE, scene, 
 // site doors, streamed with the chunks; the massing keeps off the streets and the walk stops at walls (docs/consoles/CITYWORKS.md).
 const cwStreetsMount = cwMountStreets({ THREE, root, parish, tier: npTierName });
 cwStreetsMount.update(np.x, np.z, 999);
+const rzStreet = rzMountStreet({ THREE, root, parish, tier: npTierName });
+rzStreet.update(np.x, np.z, 999);
 // KREWE's kits by district character and site kind: one InstancedMesh per kit (docs/consoles/KREWE.md).
 const kwDress = kwDressParish(root, THREE, parish, { tier: npTierName });
 // TERRAFORM: streams, ditches and culverts, animated water, wind-swayed grass, bushes and litter per chunk (docs/consoles/TERRAFORM.md).
@@ -181303,7 +182040,7 @@ function frame(now) {
   if (!ixCam) {
   // One stream step a frame (SMOOTH: a merge had left LANDMARKS-2's unguarded pair above this guarded one, so every frame
   // streamed twice — up to four chunk builds and two detail budgets a frame — and streamed inside a walk-in room too).
-  if (!lxRoom?.inside) { world.update(np.x, np.z, 2); cwStreetsMount.update(np.x, np.z, 1); }
+  if (!lxRoom?.inside) { world.update(np.x, np.z, 2); cwStreetsMount.update(np.x, np.z, 1); rzStreet.update(np.x, np.z, 1); }
   world.animate(dt);
   tfLand.update(np.x, np.z, 1);
   tfLand.animate(now / 1000, dt);
@@ -181613,9 +182350,10 @@ window.__parishTest = {
   THREE, camera, scene, npRenderer, world, np, parish,
   // LANDMARKS-2: the walk-in doors and room controller, and Use (E), for headless tests.
   walkin: { doors: lxDoors, room: lxRoom, use: () => npUse(), near: () => npNearest() },
-  teleport(x, z, yaw = np.yaw, pitch = np.pitch) { np.x = x; np.z = z; np.yaw = yaw; np.pitch = pitch; world.update(x, z, 999); tfLand.update(x, z, 99); cwStreetsMount.update(x, z, 999); },
+  teleport(x, z, yaw = np.yaw, pitch = np.pitch) { np.x = x; np.z = z; np.yaw = yaw; np.pitch = pitch; world.update(x, z, 999); tfLand.update(x, z, 99); cwStreetsMount.update(x, z, 999); rzStreet.update(x, z, 999); },
   terraform: { land: tfLand, rain: tfRain, wind: tfWind, depthAt: (x, z) => tfWaterDepthAt(parish, x, z), flowAt: (x, z) => tfFlowAt(parish, x, z), litterAt: (key) => tfLitterAt(parish, key) },
   cityworks: cwStreetsMount,
+  rzStreet, // REALISM-2: the street details (stats(), chunkStats(), level)
   atmos: { world: atmos, sound: atSound, weather: () => atWeatherNow },
   projectsim: psWorld,
   classrooms: crWorld,
@@ -181719,7 +182457,7 @@ window.__parishTest.hd6 = () => ({ cues: hd6Cues?.userData.hd6 ?? null, ultra: h
 // high and balanced; the phone tier and a headset browser build nothing).
 var accMesh = null;
 try { accMesh = accBuild({ THREE, parish, tier: npTierName }); if (accMesh) root.add(accMesh.group); } catch (e) { console.warn("acc-access:", e); }
-window.__parishTest.access = { entrances: () => accEntrances(parish), mesh: () => (accMesh ? { meshes: accMesh.meshes, triangles: accMesh.triangles, entrances: accMesh.entrances } : null), styled: accStyled, styleOf: (id) => IX_SITE_STYLE[id] ?? null, inputs: ACC_INPUTS, use: () => npUse(), xrBegin: (s) => npXRBegin(s), xrEnd: () => npXRTest.end() };
+window.__parishTest.access = { entrances: () => accEntrances(parish), mesh: () => (accMesh ? { meshes: accMesh.meshes, triangles: accMesh.triangles, entrances: accMesh.entrances } : null), chunks: () => accChunkTriangles(parish, npTierName), styled: accStyled, styleOf: (id) => IX_SITE_STYLE[id] ?? null, inputs: ACC_INPUTS, use: () => npUse(), xrBegin: (s) => npXRBegin(s), xrEnd: () => npXRTest.end() };
 /** ENV-HD-4: one of the six looks (HD4_LOOKS: dawn, day, dusk, night, fog at dawn, rain at dusk) through the page's own clock
  *  and weather; returns what it set: the fog's distances and density (ATMOS's atFog), wetness and the site light level. */
 function hd4ApplyLook(look) {
@@ -181745,10 +182483,12 @@ const fxSceneHandle = (siteId, shot = "wide", look = null) => {
   if (hd3) {
     if (hd3.parish !== parish.id) return { ok: false, parish: hd3.parish, href: `?parish=${encodeURIComponent(hd3.parish)}&scene=${encodeURIComponent(siteId)}:${shot}${look ? `:${look}` : ""}` };
     // ENV-HD-8: the vehicles MOTORWORKS parked on this page (shown ones), so the street camera frames past them
-    const sc = hd3Scene(parish, siteId, shot, { vehicles: (mvPark?.parked ?? []).filter((v) => !v.hidden) });
+    // ENV-HD-9: and the site's kind cue (its play yard, pavilion ...) as subject, so a parked vehicle does not hide it either
+    const hd6Fp = hd6Cues?.userData.hd6?.sites?.find((q) => q.id === siteId)?.footprint ?? null;
+    const sc = hd3Scene(parish, siteId, shot, { vehicles: (mvPark?.parked ?? []).filter((v) => !v.hidden), subject: hd6Fp ? [[hd6Fp[0], hd6Fp[1]], [hd6Fp[2], hd6Fp[1]], [hd6Fp[2], hd6Fp[3]], [hd6Fp[0], hd6Fp[3]]] : null });
     if (!sc) return { ok: false, reason: `unknown shot (${HD3_SHOTS.join(", ")})` };
     np.x = sc.target[0]; np.z = sc.target[2];
-    world.update(np.x, np.z, 999); cwStreetsMount.update(np.x, np.z, 999); tfLand.update(np.x, np.z, 99); atmos.update(np.x, np.z);
+    world.update(np.x, np.z, 999); cwStreetsMount.update(np.x, np.z, 999); rzStreet.update(np.x, np.z, 999); tfLand.update(np.x, np.z, 99); atmos.update(np.x, np.z);
     fxShot = sc;
     const menu = document.getElementById("menu"); if (menu && !np.playing) menu.hidden = true;
     document.getElementById("toast")?.classList.remove("on");
@@ -181761,7 +182501,7 @@ const fxSceneHandle = (siteId, shot = "wide", look = null) => {
   const sc = fxScene(parish, siteId, shot);
   if (!sc) return { ok: false, reason: `unknown shot (${FX_SHOTS.join(", ")})` };
   np.x = sc.target[0]; np.z = sc.target[2];
-  world.update(np.x, np.z, 999); cwStreetsMount.update(np.x, np.z, 999); tfLand.update(np.x, np.z, 99); atmos.update(np.x, np.z);
+  world.update(np.x, np.z, 999); cwStreetsMount.update(np.x, np.z, 999); rzStreet.update(np.x, np.z, 999); tfLand.update(np.x, np.z, 99); atmos.update(np.x, np.z);
   fxShot = sc;
   const menu = document.getElementById("menu"); if (menu && !np.playing) menu.hidden = true; // a clean frame for the reel (Esc brings the menu back)
   return { ok: true, ...sc, ...hd4ApplyLook(look) };
@@ -181840,7 +182580,7 @@ window.__parishTest.hd2 = {
     if (!sc) return { ok: false };
     const dx = sc.position[0] - sc.target[0], dz = sc.position[2] - sc.target[2], L = Math.hypot(dx, dz) || 1;
     np.x = sc.target[0]; np.z = sc.target[2];
-    world.update(np.x, np.z, 999); cwStreetsMount.update(np.x, np.z, 999); tfLand.update(np.x, np.z, 99); atmos.update(np.x, np.z);
+    world.update(np.x, np.z, 999); cwStreetsMount.update(np.x, np.z, 999); rzStreet.update(np.x, np.z, 999); tfLand.update(np.x, np.z, 99); atmos.update(np.x, np.z);
     fxShot = { ...sc, position: [sc.target[0] + dx / L * back, sc.target[1] + up, sc.target[2] + dz / L * back] };
     const menu = document.getElementById("menu"); if (menu && !np.playing) menu.hidden = true;
     return { ok: true, ...fxShot };
@@ -181922,6 +182662,32 @@ if (npParams.get("lxLesson")) window.__parishTest.lxRun = window.__parishTest.lx
 var hwRoomMount = null;
 // AVATARS-HD-2: the rooms' figures are the room level of the high-detail figure on high (inside IX_BUDGET), and wait for the voice too.
 var aaRoomMount = aaRoomAvatarMount({ voiced: aaVoiced });
+// LESSONS-X-2 (docs/consoles/LESSONS-X-2.md). (1) The menu entry: "Lesson with the site's agent" under Learn (#menu-lx) arms a robot
+// site; the lesson starts when the learner reaches it (9 m, polled while playing and outdoors), not at load. (2) The real try feeds the
+// debrief: back from a robot site's station (the passport's return site), the newest passport record for that station becomes the
+// lesson's result and the site's agent gives the debrief alone — only for an opted-in adult (lxProgressStore / dxCollecting), else nothing
+// is read and nothing stored. (3) Lessons in ACCESS's rooms: inside one of the four walk-in rooms the interiors pack's station lesson runs
+// with the leader at room.agentSpots[0] through the room figure mount (the room level inside IX_BUDGET). Captions in the toast; voice off.
+window.__parishTest.lxMenu = (() => { try { return lxArmLesson($("menu-lx"), { sites: rbWorld?.sites ?? [], start: (id) => window.__parishTest.lxLesson(id), where: () => ({ x: np.x, z: np.z }), playing: () => np.playing === true && !ixWorld.inside() && !lxRoom?.inside, toast: (t) => npToast(t, 5200), names: (id) => lxRoster().find((s) => s.id === id)?.name ?? id }); } catch (_) { return null; } })();
+window.__parishTest.lxDebrief = null;
+if (npReturnSiteId) { try { const rs = (rbWorld?.sites ?? []).find((s) => s.id === npReturnSiteId); if (rs?.station) setTimeout(() => { try { window.__parishTest.lxDebrief = lxDebriefAtRobotSite(aaWorld, rbWorld.sites, rs.station, { records: ppRecords(), caption: (c) => npToast(c, 4200) }); } catch (_) { window.__parishTest.lxDebrief = null; } }, 2500); } catch (_) { /* no robot site */ } }
+var lxRoomSeen = null, lxRoomRun = null;
+function lxRoomSync() {
+  const cur = ixWorld.room ?? null;
+  if (cur === lxRoomSeen) return lxRoomRun;
+  lxRoomSeen = cur;
+  try { lxRoomRun?.stop(); } catch (_) { /* gone */ } lxRoomRun = null;
+  const st = cur ? lxRoomStation(cur.id) : null;
+  if (!st) return null;
+  try {
+    const lesson = lxAgentLesson(st.id, lxRoster(), { leader: st.leader });
+    try { window.__parishTest.lxMenu?.run()?.stop?.(); window.__parishTest.lxRun?.stop?.(); } catch (_) { /* no outdoor lesson running */ } // one lesson at a time: the room's replaces an outdoor one
+    lxRoomRun = lxRoomLesson({ room: cur, three: THREE, mount: aaRoomMount, lesson, tier: npTierName, reducedMotion: npReduced, caption: (c) => npToast(c, 4200) });
+  } catch (_) { lxRoomRun = null; }
+  return lxRoomRun;
+}
+setInterval(() => { try { lxRoomSync(); } catch (_) { /* never breaks the frame */ } }, 1000);
+window.__parishTest.lxRoom = { sync: lxRoomSync, run: () => lxRoomRun };
 // AVATARS-HD-3: the hive's operations room gets the crowd level on high (seven figures and the room inside IX_BUDGET; balanced keeps
 // HIVE-5's lightened standard figure), and its walks between the door and the consoles go round the room's colliders. One per room.
 // AVATARS-HD-4: the console nearest the learner as they enter gets the room level (one room-level and six crowd figures inside IX_BUDGET).
@@ -182070,11 +182836,16 @@ function h3SceneTick(nowS) {
   const S = h3Scene; if (!S || S.done) return;
   if (S.t0 == null) S.t0 = nowS;
   const dt = h3SceneLastT == null ? 0 : Math.max(0, Math.min(0.1, nowS - h3SceneLastT)); h3SceneLastT = nowS;
-  S.t = nowS - S.t0;
+  S.t = S.held ? S.heldAt : nowS - S.t0; // MOODS: a held scene's clock stands still
   try {
-    while (S.next < H3_SCENE.beats.length && S.t >= H3_SCENE.beats[S.next].at) { h3SceneBeat(H3_SCENE.beats[S.next]); S.next += 1; }
+    // MOODS: while held no beat plays, even when a slow frame's clock is already past the next beat's start (the first drive saw walk-out play)
+    if (!S.held) while (S.next < H3_SCENE.beats.length && S.t >= H3_SCENE.beats[S.next].at) {
+      const b = H3_SCENE.beats[S.next]; h3SceneBeat(b); S.next += 1;
+      if (S.hold && b.id === S.hold) { S.held = true; S.heldAt = S.t; break; } // MOODS: hold at this beat (a capture); the clock stops here until hiveSceneResume()
+    }
     h3SceneCamera(dt);
   } catch (e) { S.errors += 1; console.warn("hive scene:", e); }
+  if (S.held) { S.t0 = nowS - S.heldAt; return; } // the room's figures keep animating in their mood; the next beat waits for hiveSceneResume()
   if (S.t >= H3_SCENE.duration + 1) h3SceneStop();
 }
 function h3SceneStop() {
@@ -182088,21 +182859,26 @@ function h3SceneStop() {
   S.resolve?.(out);
   return out;
 }
-window.__parishTest.hiveScene = ({ seed = 1 } = {}) => {
+// MOODS (docs/consoles/MOODS.md): `hold: "<beat id>"` stops the scene's clock once that beat has played (its events released, its
+// caption up), so a capture can be taken of a mood in the scene (the busy planner at the award); hiveSceneResume() lets it run on.
+// Without `hold` the scene is what it was.
+window.__parishTest.hiveScene = ({ seed = 1, hold = null } = {}) => {
   if (parish.id !== H3_SCENE.parish) return { ok: false, reason: `the scene plays on ${H3_SCENE.parish}`, href: `?parish=${H3_SCENE.parish}&hivescene=${encodeURIComponent(seed)}` };
   if (!window.__parishTest.hive) return { ok: false, reason: "the Omega Hive is not mounted in this session (signed out, K-12 or the demo)" };
   if (h3Scene) h3SceneStop();
   const hive = h3SceneHive(ohHive, { seed: Number(seed) || 1, moods: true }); // HIVE-8: the scene's hive with moods on, like the panel's (its figures and glow receive mood events)
   for (let i = 0; i < H3_SCENE_PROLOGUE_STEPS; i += 1) hive.step(); // before the clock: the planner is in the cell hall
-  h3Scene = { seed: Number(seed) || 1, hive, relay: h3SceneRelay(hive), t0: null, t: 0, next: 0, follow: null, walker: null, outdoor: null, pendingJob: null, yaw: null, log: [], captions: [], errors: 0, done: false, el: h3SceneOverlay() };
+  const holdAt = typeof hold === "string" && H3_SCENE.beats.some((b) => b.id === hold) ? hold : null;
+  h3Scene = { seed: Number(seed) || 1, hive, relay: h3SceneRelay(hive), t0: null, t: 0, next: 0, follow: null, walker: null, outdoor: null, pendingJob: null, yaw: null, log: [], captions: [], errors: 0, done: false, el: h3SceneOverlay(), hold: holdAt, held: false, heldAt: 0 };
   const room = h3SceneRoom();
   npKeys.clear();
   const done = new Promise((resolve) => { h3Scene.resolve = resolve; });
   window.__parishTest.hiveSceneDone = done;
-  return { ok: !!room, seed: h3Scene.seed, duration: H3_SCENE.duration, beats: H3_SCENE.beats.map((x) => ({ id: x.id, at: x.at, shot: x.shot })), stop: () => h3SceneStop() };
+  return { ok: !!room, seed: h3Scene.seed, duration: H3_SCENE.duration, hold: holdAt, beats: H3_SCENE.beats.map((x) => ({ id: x.id, at: x.at, shot: x.shot })), stop: () => h3SceneStop(), resume: () => window.__parishTest.hiveSceneResume() };
 };
 window.__parishTest.hiveSceneStop = () => h3SceneStop();
-window.__parishTest.hiveSceneState = () => (h3Scene ? { t: h3Scene.t, next: h3Scene.next, beats: h3Scene.log.length, follow: h3Scene.follow, room: hwRoomMount ? { placed: hwRoomMount.placed.map((p) => p.agent.id), leaving: hwRoomMount.leaving() } : null } : null);
+window.__parishTest.hiveSceneResume = () => { const S = h3Scene; if (!S?.held) return false; S.held = false; S.hold = null; return true; }; // MOODS: the held scene runs on from where it stood
+window.__parishTest.hiveSceneState = () => (h3Scene ? { t: h3Scene.t, next: h3Scene.next, beats: h3Scene.log.length, follow: h3Scene.follow, hold: h3Scene.hold, held: h3Scene.held, moods: Object.fromEntries((h3Scene.hive?.agents ?? []).map((a) => [a.id, h3Scene.relay.mood(a.id)?.mood ?? null])), room: hwRoomMount ? { placed: hwRoomMount.placed.map((p) => p.agent.id), leaving: hwRoomMount.leaving(), posture: Object.fromEntries(hwRoomMount.placed.filter((p) => hwRoomMount.avatars?.figure?.(p.agent.id)).map((p) => [p.agent.id, hwRoomMount.avatars.state(p.agent.id)?.mood ?? null])) } : null } : null);
 { const q = npParams.get("hivescene"); if (q) setTimeout(() => { try { window.__parishTest.hiveScene({ seed: Number(q) || 1 }); } catch (e) { console.warn("hive scene:", e); } }, 1500); }
 window.__parishTest.vbLocal = vbLocal;
 window.__parishTest.xr = npXRTest;

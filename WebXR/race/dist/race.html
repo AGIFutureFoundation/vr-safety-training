@@ -41720,13 +41720,17 @@ function paintedMat(tex, o = {}) {
   if (QUALITY === "high" && tex?.userData?.roughnessMap?.isTexture) {
     extra.roughnessMap = tex.userData.roughnessMap;
   }
+  // REALISM-2: a pattern-set texture names its painter (txTexture sets userData.txPattern); the class hook, when the
+  // app installed it (desktop high only), gives that painter's roughness and metalness unless the caller set its own.
+  const sf = txSurfaceFor(tex?.userData?.txPattern, o);
   const m = new THREE.MeshStandardMaterial({
-    map: tex, color: o.color ?? 0xffffff, roughness: o.rough ?? 0.8, metalness: o.metal ?? 0.05,
+    map: tex, color: o.color ?? 0xffffff, roughness: o.rough ?? sf?.rough ?? 0.8, metalness: o.metal ?? sf?.metal ?? 0.05,
     emissive: o.emissive ?? 0x000000, emissiveIntensity: o.ei ?? 1, emissiveMap: o.glow ? tex : null,
     ...extra,
   });
   m.userData.ownMaterial = true;
   m.userData.ownTexture = true;
+  if (sf) m.userData.txSurface = sf.id;
   return m;
 }
 
@@ -42760,14 +42764,26 @@ function txSharedMat(id, o = {}, m = {}) {
   const key = `${id}|${JSON.stringify(o)}|${JSON.stringify(m)}`;
   let mat = _txSharedMats.get(key);
   if (!mat) {
+    const sf = txSurfaceFor(id, m);
     mat = new THREE.MeshStandardMaterial({
-      map: txTexture(id, o), color: m.color ?? 0xffffff, roughness: m.rough ?? 0.9, metalness: m.metal ?? 0,
+      map: txTexture(id, o), color: m.color ?? 0xffffff, roughness: m.rough ?? sf?.rough ?? 0.9, metalness: m.metal ?? sf?.metal ?? 0,
       transparent: (m.opacity ?? 1) < 1, opacity: m.opacity ?? 1,
     });
     mat.userData.txShared = key;
+    if (sf) mat.userData.txSurface = sf.id;
     _txSharedMats.set(key, mat);
   }
   return mat;
+}
+/** REALISM-2: the surface-class hook. `classFor(painterId) -> { id, rough, metal } | null` is installed by the parishes
+ *  app (shared/rz-surfaces.js's rzInstallSurfaces) on the desktop high tier only; null everywhere else, so the phone and
+ *  a headset build byte-identical materials. Explicit `rough`/`metal` options always win over the class. */
+const TX_SURFACE_HOOK = { classFor: null };
+function txSurfaceFor(id, m = {}) {
+  if (QUALITY !== "high" || typeof TX_SURFACE_HOOK.classFor !== "function" || !id) return null;
+  if (m.rough !== undefined && m.metal !== undefined) return null;
+  const s = TX_SURFACE_HOOK.classFor(id);
+  return s && typeof s.rough === "number" && typeof s.metal === "number" ? s : null;
 }
 /** A painted material from the pattern set: txTexture() + paintedMat(). */
 function txMaterial(id, o = {}, m = {}) { return paintedMat(txTexture(id, o), m); }
