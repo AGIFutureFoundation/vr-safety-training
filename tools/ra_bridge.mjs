@@ -20,6 +20,10 @@
  *   {"op":"check","target":"sim"|"physical",...}     -> the governor's check() decision (a physical target is refused
  *                                                       with the governor's own reason and text)
  *   {"op":"js_run","model","scenario","seeds"}       -> the arena's own raRun on the same seeds (parity checks only)
+ *   {"op":"js_lm_rows","model","limit"?}             -> STRANDS-3: the small model's own training rows (the arena's published
+ *                                                       stations build) with V8's argmax label per row, for the Python-vs-V8
+ *                                                       tanh agreement check (robotics/strands/tanh_agreement.py); `limit`
+ *                                                       caps the rows per task (the selftest's quick sample)
  *   {"op":"bye"}                                     -> { ok, network } and exit
  *
  * No network: fetch, net, tls, http, https and dgram are replaced at start with functions that throw and count; the
@@ -56,8 +60,9 @@ const { rbEnv, rbScenario } = await import("../WebXR/shared/rb-env.js");
 const { colF, colBase, colAction } = await import("../WebXR/shared/col-learn.js");
 const { vbGovernor } = await import("../WebXR/shared/vb-governor.js");
 const { VB_RIG_LIMITS, VB_TASKS } = await import("../WebXR/shared/vb-shared-data.js");
-const { raSiteFor, raScenarios, raRun } = await import("../WebXR/shared/ra-arena.js");
-const { raLmTaskTexts } = await import("../WebXR/shared/ra-lm.js");
+const { raSiteFor, raScenarios, raRun, raBuild, RA_DEMOS, RA_STATION_DEMOS } = await import("../WebXR/shared/ra-arena.js");
+const { raLmTaskTexts, RA_LM_TASKS, RA_LM_STATION_TASKS } = await import("../WebXR/shared/ra-lm.js");
+const { colRows, colSyntheticDemos, colDemosFromEpisodes } = await import("../WebXR/shared/col-learn.js");
 
 export const ST_BRIDGE_VERSION = "st-bridge/2";
 let stEnvsP = null;
@@ -159,6 +164,52 @@ async function stJsRun({ model, scenario, seeds, build = "gym" }) {
   return { ok: true, build, result: { ...r, perSeed: r.perSeed.map((p) => ({ seed: p.seed, success: p.success, steps: p.steps, ruleBreaks: p.ruleBreaks, stopped: p.stopped })) } };
 }
 
+// STRANDS-3: the training rows of the arena's published ra-lm / ra-lm-h build, labelled by V8's own forward pass. The
+// arithmetic below is ra-lm.js raLmTrain's row construction and raLmHidden / raLmLogit / raLmT, written out here because
+// those helpers are not exported (ra-lm.js is the arena console's). Math.tanh is V8's; Python's math.tanh is the other side.
+const stLmScene = (D, x) => { const s = new Array(D + 1).fill(0); for (let i = 0; i < Math.min(x.length, D); i++) s[i] = Math.max(-4, Math.min(4, x[i])); s[D] = 1; return s; };
+const stLmHidden = (V, H, s) => { const Sin = s.length, h = new Array(H + 1); for (let j = 0; j < H; j++) { let u = 0; const o = j * Sin; for (let c = 0; c < Sin; c++) u += V[o + c] * s[c]; h[j] = Math.tanh(u); } h[H] = 1; return h; };
+const stLmLogit = (w, off, t, s, S) => { let z = 0; for (let a = 0; a < t.length; a++) { const ta = t[a]; if (!ta) continue; const o = off + a * S; let u = 0; for (let b = 0; b < S; b++) u += w[o + b] * s[b]; z += ta * u; } return z; };
+function stLmT(tv, sc, obs, T) {
+  const base = tv.task[sc] ?? tv.task[colBase(sc)] ?? new Array(T).fill(0);
+  const stp = obs?.stepId && tv.step[sc]?.[obs.stepId];
+  const itx = tv.int && obs?.interrupt?.id ? tv.int[sc]?.[obs.interrupt.id] : null;
+  if (!stp && !itx) return base;
+  const v = base.map((x, i) => x + (stp ? stp[i] : 0) + (itx ? itx[i] : 0)); const n = Math.hypot(...v) || 1;
+  return v.map((x) => x / n);
+}
+async function stJsLmRows({ model = "ra-lm-h", limit = 0 }) {
+  const id = String(model);
+  if (!/^ra-lm(-h)?$/.test(id)) return { ok: false, error: `js_lm_rows: ${id} is not ra-lm or ra-lm-h` };
+  const st = await stEnvs(), stationFor = (x) => st.envs[x] ?? null;
+  const first = RA_LM_STATION_TASKS[0];
+  const m = raBuild(id, first, { station: st.envs[first], lmOptions: { texts: st.texts, stationFor } })?.model;
+  if (!m) return { ok: false, error: "js_lm_rows: the model did not build" };
+  const H = m.H | 0, S = H ? H + 1 : m.D + 1, P = m.T * S, cap = Number(limit) > 0 ? Number(limit) : Infinity;
+  const data = [];
+  for (const sc of [...RA_LM_TASKS, ...RA_LM_STATION_TASKS]) {
+    const station = isStation(sc) ? stationFor(sc) : null;
+    // raDemos' construction (ra-arena.js): the seeded synthetic demonstrations through colDemosFromEpisodes, successful and clean.
+    const demos = colDemosFromEpisodes(colSyntheticDemos(sc, { n: station ? RA_STATION_DEMOS : RA_DEMOS.n, seed: RA_DEMOS.seed, skill: RA_DEMOS.skill, noise: RA_DEMOS.noise, station }), sc).demos.filter((d) => d.success && d.clean);
+    const mask = (m.labelsByTask[sc] ?? []).map((l) => m.labels.indexOf(l));
+    let n = 0;
+    for (const d of demos) {
+      for (const stp of d.steps) {
+        for (const r of colRows(sc, stp.observation, stp.action)) {
+          if (r.label === "wait" && !(colBase(sc) === "rb-amr-fleet-routing" || isStation(sc))) continue;
+          if (n >= cap) break;
+          const t = stLmT(m._tv, sc, stp.observation, m.T), s0 = stLmScene(m.D, r.x), s = H ? stLmHidden(m.V, H, s0) : s0;
+          let best = -Infinity, bl = -1;
+          for (const l of mask) { const v = stLmLogit(m.w, l * P, t, s, S); if (v > best) { best = v; bl = l; } }
+          data.push({ sc, x: r.x, text_keys: { stepId: stp.observation?.stepId ?? null, interruptId: stp.observation?.interrupt?.id ?? null }, demo: r.label, js: bl >= 0 ? m.labels[bl] : "wait" });
+          n += 1;
+        }
+      }
+    }
+  }
+  return { ok: true, model: id, H, rows: data.length, trainRows: m.rows, trainAccuracy: m.trainAccuracy, hash: m.hash ?? null, data, physical: 0 };
+}
+
 async function stHandle(msg) {
   switch (msg.op) {
     case "hello": return { ok: true, version: ST_BRIDGE_VERSION, scenarios: raScenarios().map((s) => s.id), physical: 0 };
@@ -167,6 +218,7 @@ async function stHandle(msg) {
     case "summary": return stSummary();
     case "check": return stCheck(msg);
     case "js_run": return stJsRun(msg);
+    case "js_lm_rows": return stJsLmRows(msg);
     case "bye": return { ok: true, network: stNetwork, bye: true };
     default: return { ok: false, error: `unknown op ${msg.op}` };
   }
