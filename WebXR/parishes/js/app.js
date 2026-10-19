@@ -29,7 +29,8 @@ import { fcDetails } from "../../shared/fc-facades.js";
 // DETAIL: seeded instanced scatter (street kit, yards, roofs, vegetation, marsh, farm, industry, site clutter), one pool.
 import { dtMountDetail, dtLotRects } from "../../shared/dt-detail.js";
 import { paMount } from "../../shared/pa-palette.js";
-import { rzLevel } from "../../shared/rz-surfaces.js";
+import { rzLevel, rzInstallSurfaces } from "../../shared/rz-surfaces.js";
+import { TX_SURFACE_HOOK } from "../../shared/textures.js"; // REALISM-2: the pattern set's class hook (desktop high only)
 import { rzLightFor } from "../../shared/rz-light.js";
 import { PA_CATEGORIES } from "../../shared/pa-palette-data.js";
 // LANDMARKS-2: walk-in landmark interiors (market hall, lamp room, pier shed, glasshouse) — generic, schematic rooms.
@@ -44,6 +45,8 @@ import { ixrRegisterDressers, ixrDoorsFor, ixrSceneSite, ixrMeasure, ixrWalkAll,
 import { hd2RegisterSkins, HD2_SKIN_STYLES } from "../../shared/hd2-room-skins.js";
 import { rbSitesFor } from "../../shared/rb-world.js";
 import { cwMountStreets } from "../../shared/cw-streets-world.js";
+// REALISM-2: drop kerbs, bollards, drains, covers and tree pits, one merged mesh per chunk beside the streets (desktop tiers only).
+import { rzMountStreet } from "../../shared/rz-street.js";
 import { grMount } from "../../shared/npc.js";
 import { dvMountMotorPool } from "../../shared/drivables-board.js";
 import { dvById } from "../../shared/drivables-data.js";
@@ -202,6 +205,7 @@ const rlRelief = mapboxToken() ? await rlPrepareRelief(parish, { tier: npTierNam
 void fcDetails; // registered on import, before the first chunk builds
 // PALETTE (docs/consoles/PALETTE.md): colour categories and one textured material per building kind (none on the phone).
 const paPalette = paMount({ tier: npTierName });
+rzInstallSurfaces(npTierName, undefined, TX_SURFACE_HOOK); // REALISM-2: the pattern set's props take the surface classes on desktop high only
 const dtPool = dtMountDetail(root, THREE, parish, { tier: npTierName });
 const world = npBuildParish(root, THREE, parish, { tier: npTierName, start: [np.x, np.z], massFilter: cwMassFilter(parish) });
 // LANDMARKS-2: doors at walk-in kit landmarks; INTERIORS' shell (globalThis.IX_INTERIORS) is used when it lands, guarded.
@@ -212,6 +216,8 @@ const lxRoom = typeof lxWalkin === "function" ? lxWalkin({ three: THREE, scene, 
 // site doors, streamed with the chunks; the massing keeps off the streets and the walk stops at walls (docs/consoles/CITYWORKS.md).
 const cwStreetsMount = cwMountStreets({ THREE, root, parish, tier: npTierName });
 cwStreetsMount.update(np.x, np.z, 999);
+const rzStreet = rzMountStreet({ THREE, root, parish, tier: npTierName });
+rzStreet.update(np.x, np.z, 999);
 // KREWE's kits by district character and site kind: one InstancedMesh per kit (docs/consoles/KREWE.md).
 const kwDress = kwDressParish(root, THREE, parish, { tier: npTierName });
 // TERRAFORM: streams, ditches and culverts, animated water, wind-swayed grass, bushes and litter per chunk (docs/consoles/TERRAFORM.md).
@@ -863,7 +869,7 @@ function frame(now) {
   if (!ixCam) {
   // One stream step a frame (SMOOTH: a merge had left LANDMARKS-2's unguarded pair above this guarded one, so every frame
   // streamed twice — up to four chunk builds and two detail budgets a frame — and streamed inside a walk-in room too).
-  if (!lxRoom?.inside) { world.update(np.x, np.z, 2); cwStreetsMount.update(np.x, np.z, 1); }
+  if (!lxRoom?.inside) { world.update(np.x, np.z, 2); cwStreetsMount.update(np.x, np.z, 1); rzStreet.update(np.x, np.z, 1); }
   world.animate(dt);
   tfLand.update(np.x, np.z, 1);
   tfLand.animate(now / 1000, dt);
@@ -1173,9 +1179,10 @@ window.__parishTest = {
   THREE, camera, scene, npRenderer, world, np, parish,
   // LANDMARKS-2: the walk-in doors and room controller, and Use (E), for headless tests.
   walkin: { doors: lxDoors, room: lxRoom, use: () => npUse(), near: () => npNearest() },
-  teleport(x, z, yaw = np.yaw, pitch = np.pitch) { np.x = x; np.z = z; np.yaw = yaw; np.pitch = pitch; world.update(x, z, 999); tfLand.update(x, z, 99); cwStreetsMount.update(x, z, 999); },
+  teleport(x, z, yaw = np.yaw, pitch = np.pitch) { np.x = x; np.z = z; np.yaw = yaw; np.pitch = pitch; world.update(x, z, 999); tfLand.update(x, z, 99); cwStreetsMount.update(x, z, 999); rzStreet.update(x, z, 999); },
   terraform: { land: tfLand, rain: tfRain, wind: tfWind, depthAt: (x, z) => tfWaterDepthAt(parish, x, z), flowAt: (x, z) => tfFlowAt(parish, x, z), litterAt: (key) => tfLitterAt(parish, key) },
   cityworks: cwStreetsMount,
+  rzStreet, // REALISM-2: the street details (stats(), chunkStats(), level)
   atmos: { world: atmos, sound: atSound, weather: () => atWeatherNow },
   projectsim: psWorld,
   classrooms: crWorld,
@@ -1310,7 +1317,7 @@ const fxSceneHandle = (siteId, shot = "wide", look = null) => {
     const sc = hd3Scene(parish, siteId, shot, { vehicles: (mvPark?.parked ?? []).filter((v) => !v.hidden), subject: hd6Fp ? [[hd6Fp[0], hd6Fp[1]], [hd6Fp[2], hd6Fp[1]], [hd6Fp[2], hd6Fp[3]], [hd6Fp[0], hd6Fp[3]]] : null });
     if (!sc) return { ok: false, reason: `unknown shot (${HD3_SHOTS.join(", ")})` };
     np.x = sc.target[0]; np.z = sc.target[2];
-    world.update(np.x, np.z, 999); cwStreetsMount.update(np.x, np.z, 999); tfLand.update(np.x, np.z, 99); atmos.update(np.x, np.z);
+    world.update(np.x, np.z, 999); cwStreetsMount.update(np.x, np.z, 999); rzStreet.update(np.x, np.z, 999); tfLand.update(np.x, np.z, 99); atmos.update(np.x, np.z);
     fxShot = sc;
     const menu = document.getElementById("menu"); if (menu && !np.playing) menu.hidden = true;
     document.getElementById("toast")?.classList.remove("on");
@@ -1323,7 +1330,7 @@ const fxSceneHandle = (siteId, shot = "wide", look = null) => {
   const sc = fxScene(parish, siteId, shot);
   if (!sc) return { ok: false, reason: `unknown shot (${FX_SHOTS.join(", ")})` };
   np.x = sc.target[0]; np.z = sc.target[2];
-  world.update(np.x, np.z, 999); cwStreetsMount.update(np.x, np.z, 999); tfLand.update(np.x, np.z, 99); atmos.update(np.x, np.z);
+  world.update(np.x, np.z, 999); cwStreetsMount.update(np.x, np.z, 999); rzStreet.update(np.x, np.z, 999); tfLand.update(np.x, np.z, 99); atmos.update(np.x, np.z);
   fxShot = sc;
   const menu = document.getElementById("menu"); if (menu && !np.playing) menu.hidden = true; // a clean frame for the reel (Esc brings the menu back)
   return { ok: true, ...sc, ...hd4ApplyLook(look) };
@@ -1402,7 +1409,7 @@ window.__parishTest.hd2 = {
     if (!sc) return { ok: false };
     const dx = sc.position[0] - sc.target[0], dz = sc.position[2] - sc.target[2], L = Math.hypot(dx, dz) || 1;
     np.x = sc.target[0]; np.z = sc.target[2];
-    world.update(np.x, np.z, 999); cwStreetsMount.update(np.x, np.z, 999); tfLand.update(np.x, np.z, 99); atmos.update(np.x, np.z);
+    world.update(np.x, np.z, 999); cwStreetsMount.update(np.x, np.z, 999); rzStreet.update(np.x, np.z, 999); tfLand.update(np.x, np.z, 99); atmos.update(np.x, np.z);
     fxShot = { ...sc, position: [sc.target[0] + dx / L * back, sc.target[1] + up, sc.target[2] + dz / L * back] };
     const menu = document.getElementById("menu"); if (menu && !np.playing) menu.hidden = true;
     return { ok: true, ...fxShot };
