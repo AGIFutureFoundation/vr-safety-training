@@ -136,6 +136,7 @@ import { accEntrances, accBuild, accRegisterSiteStyles, accStreetAt, accWireXR, 
 import { larRegisterDressers } from "../../shared/lar-rooms.js";
 import { hvMount } from "../../shared/hv-harvest.js";
 import { smilesMount } from "../../shared/sm-smiles.js";
+import { ctlDock } from "../../shared/ctl-dock.js";
 
 // The parishes — the app: a first-person walker over one streamed parish
 // (`?parish=<id>`), the parish selector, the HUD with its map of districts
@@ -997,6 +998,8 @@ try {
   });
 } catch { /* no touch layer */ }
 tcMountQuality?.($("hud-stats"), (q) => tcApplyRenderer(npRenderer, tcTier(q)));
+// The HUD panels cover the scene: each folds away or moves, and the choice is remembered per viewer.
+for (const [id, title] of [["hud-where", "Where"], ["hud-stats", "State"], ["hud-keys", "Keys"]]) ctlDock($(id), { key: `ctl-dock-parishes-${id}`, title });
 
 gdMount();
 ctlMount({

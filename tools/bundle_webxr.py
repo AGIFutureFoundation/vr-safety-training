@@ -1035,6 +1035,8 @@ APPS = {
             SHARED / "lp-programme-data.js", SHARED / "lp-programme.js",
             # SMILES: the Unspoken Smiles District's dental-health games (pure; mounted in the Play tab on that map only).
             SHARED / "sm-smiles.js",
+            # DOCK: the HUD panels that fold away and move (the panels are docked in parishes/app.js).
+            SHARED / "ctl-dock.js",
             # PACKS: the Holodeck Packs registry (generated data, then the pure registry) for the menu's pack chips.
             SHARED / "pk-packs-data.js",
             SHARED / "pk-packs.js",
