@@ -295,6 +295,8 @@ if (!only || only === "port") {
   // e-stop the port site through its own act(): the beacons go red; reset.
   const red = await page.evaluate(async () => { const T = window.__parishTest, id = window.ixWorld.room.ixr.site; T.robotics.act(id, "press-estop"); await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))); const l = window.ixWorld.room.rhd.robots[0].robot.lightState; return { l, st: T.robotics.state(id) }; });
   say(red.l === "e-stop" && red.st?.estopped, `the port site's e-stop pressed: the carrier's beacons -> ${red.l}`);
+  const hold = await sample(40);
+  say(hold.light === "e-stop" && hold.moved === 0 && hold.from === hold.to, `the carrier holds after the e-stop: ${hold.moved} of ${hold.frames} frames moved it, at ${hold.to.toFixed(2)} m (beacons ${hold.light})`);
   if (outDir) {
     // close: the learner at the centre desk looking at the pane the carrier stands in
     await page.evaluate(() => { const P = window.ixWorld.pose; P.x = -7.25; P.z = -4.0; });
