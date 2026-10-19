@@ -65,6 +65,14 @@ The adapter keeps SmartCiti.X's guards as written there. It dedupes on `event_id
 
 `tools/check_eco.mjs` validates every event against the documented shapes. When a read-only SmartCiti.X clone is present, it also pushes the messages through SmartCiti.X's real `Bus` (strict) and `extractSignals`, and the audit entries through its `AuditLog`. It imports those modules at run time from the clone and copies nothing.
 
+**The cross-repo fixture (round 9, ECOSYSTEM-3).** `docs/ecosystem/bus-fixture.jsonl` is the adapter's output for one seeded, synthetic run, committed so the SmartCiti.X brief (`tools/briefs/ecosystem/smartcitix-adopt-bus-adapter.md`, item 4) has real bytes to replay through `bus/test.mjs`:
+
+- **Line 1** is a header: the generator, the row count, the SmartCiti.X commit the shapes come from, the inputs and their seeds, the fixed clock, and the rules the file keeps.
+- **Every other line** is `{ "kind": "message", "message": … }` (a `telemetry.event` bus message carrying an ACP-01 envelope) or `{ "kind": "audit", "entry": … }` (an audit entry with `learner: null`).
+- **Inputs, all synthetic.** The first 8 ticks of the round-7 hive day (`ohHive`, seed 3, a 160-tick day: the same day `check_eco` leg 4 replays in full; the whole day is about 724 KB, over the 50 KB limit), three governor decisions (one simulated dispatch allowed, a physical target refused, an unknown site refused), two arena rows, and two runs of a two-step check room by a synthetic learner through the real `game.js` Session wired by `eco-learn.js`, with injected probes: consent on, the fixed pseudonym `fx-learner-000001`, a fixed clock. No real person's events are read and `dx-data.js`'s stores are never touched.
+- **Generator.** `node tools/eco_fixture.mjs` writes the file; `--stdout` prints the same bytes. The output is deterministic.
+- **Check.** `check_eco` leg 10 regenerates it in a child process and requires the committed bytes, validates every line against the documented shapes, checks the header, the fixed pseudonym, no stripped field, `physical` 0, both governor outcomes, the size limit, and that the SmartCiti.X brief names the file; with the read-only clone present, every message goes through SmartCiti.X's real `Bus` and `extractSignals`, and every entry through its `AuditLog`.
+
 ### 5. Agents registry
 
 SmartCiti.X keeps advisors and crews as JSON registries with `contract`, `honesty` and `standing` (`agents/registry/*.json`). This repo's agents are `agents/smartcitix/agent.json` (with `offerings/*.json`) and the Omega Hive roster `OH_AGENTS` (`oh-hive-data.js`). All of this repo's agents are labelled "software agent". The two registries are not merged. The SmartCiti.X brief proposes reading `OH_AGENTS` as one more crew, with the governor's refusal rules attached.
@@ -94,6 +102,16 @@ SmartCiti.X keeps advisors and crews as JSON registries with `contract`, `honest
   | `civic-advocacy` | coalition table, community listening, public comment, public meeting chair, budget hearing, voter registration drive, fluoridation advocacy (7) | Non-Profit Practice · Nonprofit Advocacy & Systems Change, External Relations & Public Advocacy, Partnership Development & Coalition Building | These are civic advocacy and coalition work. The constituent desk and open-meeting-law stations are left unmatched: they are public service, not advocacy. |
 
   A 25-row sample of the new rows was read by hand. It is recorded in `docs/consoles/ECOSYSTEM-2.md`.
+
+- **The three borderline rows, decided (round 9, ECOSYSTEM-3).** The round-8 hand read left three rows as "borderline, kept". Each was re-read against the station's own metadata (`WebXR/smartcity/js/sims-meta.js`) and every adult-band block in Cognition.X at 47c1820 that names the subject. Every one is **kept**, with the row unchanged, so the 285 mapped stations and the round-7 and round-8 rows stay as they were (`check_eco` 2 and 2b). The decisions:
+
+  | Station | Rule → first block | Decision | Why, and what would change it |
+  |---|---|---|---|
+  | Endodontic Assisting | `patient-safety` → Healthcare Adverse Events & Patient Safety Reporting | **kept** | The station is a chairside clinical-care procedure whose certification text names the credential's infection-control component and the practice act's allowable-duties list; an error in it is a reportable patient-safety event, which is what the block practises. Cognition.X has no adult-band dental, chairside or infection-prevention block at 47c1820: its only dental blocks are the "Oral Health Peer" track in school bands (K–2 to 11–12), which no rule may admit. If an adult dental-assisting or infection-prevention credential appears, a new rule appended after this one moves these rows to it; this rule does not change. |
+  | Four-Handed Dentistry | `patient-safety` → the same | **kept** | The same reasoning: a chairside assisting procedure (instrument transfer and the operating field) whose failures are patient-safety events, with no closer adult block in the dataset. Same condition for moving it. |
+  | Budget Tradeoff Hearing | `civic-advocacy` → Nonprofit Advocacy & Systems Change Leadership / Identify policy priorities | **kept** | The learner chairs a public budget hearing (trade: budget committee chair) where advocates bring trade-offs; the block practises the priorities those advocates bring, so the station and the block are two sides of one table. The alternatives were weighed and rejected: Non-Profit Practice's Financial Management & Fiscal Accountability blocks are a nonprofit's own books, not a public body's budget; Civic & Leadership's "Fiscal notes" block is in a school band (11–12), which no rule may admit. If Cognition.X adds an adult-band public-finance or local-government block, a new rule appended after this one takes the hearing. |
+
+  None of the three is wrong, and none is a safety-critical mismatch (no station is sent to a block that would teach a different hazard). The rows are read-only suggestions in the instructor console, labelled as the adjacent adult practice.
 - **Shown** read-only in the instructor console's **Ecosystem** tab: "next blocks for this skill", with each block's band, credential and transfer check.
 - Rebuild the extract with `node tools/eco_extract.mjs [path/to/cognition.x]`. The output is deterministic, with no timestamps.
 
