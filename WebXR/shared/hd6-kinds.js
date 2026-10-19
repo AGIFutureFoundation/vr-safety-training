@@ -37,7 +37,8 @@
 //   HD6_SMALL                         ENV-HD-8: the groups with a smaller variant (hd6CueParts(..., side, "small")), tried on both
 //                                       sides after the full group and before skipping; hd6FitCue's result adds `small: [groups]`
 //   hd6LampParts(board)               -> the boxes of one board lamp's post (pure)
-//   hd6Build({ THREE, parish, boards, tier, ua }) -> THREE.Mesh "hd6-kind-cues" | null (userData.hd6 = { sites, lamps, triangles })
+//   hd6Build({ THREE, parish, boards, tier, ua }) -> THREE.Mesh "hd6-kind-cues" | null (userData.hd6 = { sites, lamps, triangles });
+//                                       ENV-HD-9: each site record carries `footprint` [x0, z0, x1, z1] (its cue's ground bbox) or null
 //   hd6UltraShells({ THREE, parish, doc }) -> THREE.Mesh "hd6-ultra-kinds" | null (userData.hd6 = { atlasPx, textureBytes, triangles })
 
 import { cwSiteBuilding, cwDoorOf, cwMassFilter, cwSpotBoxes, cwNearestLine } from "./cw-cityworks.js";
@@ -465,7 +466,9 @@ export function hd6Build({ THREE, parish, boards = [], tier = "high", ua = typeo
   const parts = [], sites = [], taken = [];
   for (const s of hd6KindSites(parish)) {
     const fit = hd6FitCue(parish, s, tier, taken), { parts: p, skipped } = fit;
-    sites.push({ id: s.id, kind: s.kind, hero: s.hero, parts: p.length, triangles: p.length * 12, skipped, small: fit.small });
+    // ENV-HD-9: the cue's ground footprint (the bbox of its parts, world x/z), so the street camera can count it as subject
+    const fp = p.length ? p.map(hd6Footprint).reduce((a, r) => [Math.min(a[0], r[0]), Math.min(a[1], r[1]), Math.max(a[2], r[2]), Math.max(a[3], r[3])]) : null;
+    sites.push({ id: s.id, kind: s.kind, hero: s.hero, parts: p.length, triangles: p.length * 12, skipped, small: fit.small, footprint: fp });
     parts.push(...p);
   }
   for (const bd of boards) parts.push(...hd6LampParts(bd));

@@ -28,6 +28,9 @@
 //                                       [{ x, z, heading, dims: [w, h, l] }]); a street camera stands clear of them and its sight line
 //                                       passes none of them (first pass); absent or empty = the camera ENV-HD-7 chose
 //   HD3_VEH_MARGIN, hd3VehicleHit(vehicles, x, z, m)  ENV-HD-8: is (x, z) within m of a parked vehicle's footprint (oriented)
+//   hd3Scene(parish, siteId, shot, { vehicles, subject })  ENV-HD-9: optional — the site's cue outline ([[x, z], ...], hd6Build's site
+//                                       footprint corners); the street camera keeps ENV-HD-8's spot unless a vehicle hides part of the cue
+//                                       from it, then the first candidate (plus spots farther along the street) showing all of it
 //   The parishes app routes `window.__parishTest.scene(siteId, shot)` (and `?scene=<siteId>:<shot>`) here for these sites.
 
 import { npHeightAt, npWaterAt, npChunkOf, npMassingForChunk, NP_SIZE } from "./np-parish.js";
@@ -147,7 +150,7 @@ function hd3Clear(parish, x, z, m, skip) {
 }
 
 /** The camera for one preset (see SEAMS), or null for a site or shot this module does not frame. */
-export function hd3Scene(parish, siteId, shot = "wide", { vehicles = null } = {}) {
+export function hd3Scene(parish, siteId, shot = "wide", { vehicles = null, subject: cueOutline = null } = {}) {
   const spec = HD3_SCENE_SITES.find((s) => s.id === siteId);
   if (!spec || !HD3_SHOTS.includes(shot) || parish?.id !== spec.parish) return null;
   const i = (parish.sites ?? []).findIndex((s) => s.id === siteId);
@@ -190,13 +193,42 @@ export function hd3Scene(parish, siteId, shot = "wide", { vehicles = null } = {}
   const propFree = (px, pz) => [0, 0.2, 0.35, 0.5, 0.65, 0.8].every((t) => { const x = px + (tx - px) * t, z = pz + (tz - pz) * t; return !props.some((r) => hd3Hit([x - 0.8, z - 0.8, x + 0.8, z + 0.8], r)); });
   // ENV-HD-8: the vehicles count in the first two passes (with NEWTON's cars, then alone); with none passed, the second pass
   // is ENV-HD-7's second pass and every camera is unchanged
-  for (const [m, own, clearProps, clearVeh] of [[3.5, 12, true, true], [3.5, 12, false, true], [3.5, 12, false, false], [1.2, 0, false, false]]) for (const [px, pz] of cands) {
-    if (ownD(px, pz) < own || !hd3Clear(parish, px, pz, m, -1)) continue;
-    if (![0.2, 0.35, 0.5, 0.65].every((t) => hd3Clear(parish, px + (tx - px) * t, pz + (tz - pz) * t, 0.8, -1))) continue;
-    if (clearVeh && !vehFree(px, pz)) continue;
-    if (clearProps && !propFree(px, pz)) continue;
-    return out([px, Math.max(y, npHeightAt(parish, px, pz)) + 1.7, pz], y + 3.2, 62);
+  const lineOk = (px, pz) => [0.2, 0.35, 0.5, 0.65].every((t) => hd3Clear(parish, px + (tx - px) * t, pz + (tz - pz) * t, 0.8, -1));
+  let chosen = null;
+  for (const [m, own, clearProps, clearVeh] of [[3.5, 12, true, true], [3.5, 12, false, true], [3.5, 12, false, false], [1.2, 0, false, false]]) {
+    for (const [px, pz] of cands) {
+      if (ownD(px, pz) < own || !hd3Clear(parish, px, pz, m, -1)) continue;
+      if (!lineOk(px, pz)) continue;
+      if (clearVeh && !vehFree(px, pz)) continue;
+      if (clearProps && !propFree(px, pz)) continue;
+      chosen = [px, pz]; break;
+    }
+    if (chosen) break;
   }
-  const px = tx + ux * back, pz = tz + uz * back;
+  if (!chosen) chosen = [tx + ux * back, tz + uz * back];
+  // ENV-HD-9: the site's cue (the school's play yard, a park's pavilion ...) as extra subject — `subject` is its ground outline
+  // ([[x, z], ...], from hd6Build's site footprint). The camera above stays unless a parked vehicle hides part of the cue from it;
+  // then the first candidate (the street's own set, plus spots farther along it) that shows the building, the board and the
+  // cue unhidden takes over; none = the camera above. With no `subject` (or no vehicles) nothing here runs: every camera is ENV-HD-8's.
+  const extra = Array.isArray(cueOutline) ? cueOutline.filter((q) => Array.isArray(q) && Number.isFinite(q[0]) && Number.isFinite(q[1])) : [];
+  if (extra.length && veh.length) {
+    const all = [...subject, ...extra];
+    const cueFree = (px, pz) => !hd3VehicleHit(veh, px, pz, HD3_VEH_MARGIN.camera) && !hd3Occluders(veh, px, pz, all).length;
+    if (!cueFree(chosen[0], chosen[1])) {
+      const far = [];
+      for (const lat of [23, -23, 29, -29, 35, -35]) for (const ex of [0, -3, 3]) far.push([tx + ux * (back + ex) + vx * lat, tz + uz * (back + ex) + vz * lat]);
+      let found = null;
+      for (const clearProps of [true, false]) {
+        for (const [px, pz] of [...cands, ...far]) {
+          if (ownD(px, pz) < 12 || !hd3Clear(parish, px, pz, 3.5, -1) || !lineOk(px, pz) || !cueFree(px, pz)) continue;
+          if (clearProps && !propFree(px, pz)) continue;
+          found = [px, pz]; break;
+        }
+        if (found) break;
+      }
+      if (found) chosen = found;
+    }
+  }
+  const [px, pz] = chosen;
   return out([px, Math.max(y, npHeightAt(parish, px, pz)) + 1.7, pz], y + 3.2, 62);
 }
