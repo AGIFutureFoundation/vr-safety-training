@@ -211,7 +211,7 @@ const pc = vbc.vbProviderCompare({ jobsPerTask: 10 });
 check(pc.governor.everyStep && pc.totals.colearn.completed >= pc.totals.scripted.completed - 4 && pc.totals.colearn.completed > 0, "provider", `COLEARN completed ${pc.totals.colearn.completed}/${pc.totals.colearn.of} vs scripted ${pc.totals.scripted.completed}/${pc.totals.scripted.of}; governor on every step ${pc.governor.everyStep}`);
 check(Object.values(pc.tasks).every((t) => /synthetic human stand-in/.test(t.colearn.trainedOn?.source ?? "")), "provider", "the provider's training data is labelled as the synthetic stand-in");
 const PANEL = read("WebXR/shared/vb-panel.js");
-check(/policyFor = null/.test(PANEL) && /vbRun\(preview, vbGovernor\(\), \{ policyFor \}\)/.test(PANEL) && /estopAtStep: estopAt, policyFor/.test(PANEL) && PANEL.includes('policyId: "vb-colearn-bc-knn"'), "provider", "the panel runs jobs through policyFor and queues a COLEARN-provided job");
+check(/policyFor = null/.test(PANEL) && /vbRun\(preview, vbGovernor\(\), \{ policyFor: pinned \}\)/.test(PANEL) && /policyFor: pinned \?\? policyFor/.test(PANEL) && /estopAtStep: estopAt, policyFor/.test(PANEL) && PANEL.includes('policyId: "vb-colearn-bc-knn"'), "provider", "the panel runs jobs through policyFor and queues a COLEARN-provided job");
 check(/vbColearnProvider/.test(APP) && /policyFor: vbProvider \?/.test(APP) && read("tools/bundle_webxr.py").includes('SHARED / "vb-colearn.js"'), "provider", "the app mounts the provider guarded and the bundle list carries vb-colearn.js");
 // 7e the K-12 lesson "a robot waits for a grown-up's OK" follows the Louisiana-lesson pattern
 const LK = await imp("WebXR/shared/lk-la-lessons.js"), LCO = await imp("WebXR/shared/lco-la-flows.js");
