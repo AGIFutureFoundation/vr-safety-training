@@ -24,6 +24,9 @@
  *  11. retest8 (ROBOLEARN-9, protocol 3): declared in arena-declared-r8.json before the claw's one run; ra-lm-h48 is
  *      ra-lm-h with 48 hidden units only; seeds disjoint from training and earlier ranges; retest8 equals claw3.json;
  *      a live row equals the file
+ *  12. consented takes into training (ROBOLEARN-10): declared in arena-takes-declared-r9.json, development seeds only, no
+ *      held-out seed; a receipted take joins ra-lm-h with provenance; K-12/demo/signed out 0; revoke deletes it and the
+ *      rebuilt model equals the no-takes model byte for byte
  *
  *     node tools/check_arena.mjs
  */
@@ -38,6 +41,7 @@ import { raDsBuild, RA_DS_OUT, RA_DS_SPLITS, RA_DS_SCHEMA } from "./ra_dataset.m
 import { RX_FOREIGN } from "./rb_export.mjs";
 import { DX_CARD_SECTIONS, dxMakeStore, dxMemBackend, dxOptIn, dxRevoke, dxMakeEpisode, dxConsent } from "../WebXR/shared/dx-data.js";
 import { raTakesExport, raTakesLine, RA_TAKES_SCHEMA } from "../WebXR/shared/ra-takes.js";
+import { raTakesTrain, RA_TAKES_TRAIN } from "../WebXR/shared/ra-takes-train.js";
 import { colSyntheticDemos } from "../WebXR/shared/col-learn.js";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -306,6 +310,42 @@ await check("consented takes (ARENA-2): signed out 0, opted in N with provenance
   const r2 = await raTakesExport({ store, signals: { ...sig, adult: true } });
   ok(r2.takes === 0 && (await store.list()).length === 0, "revoke must delete the takes");
   return `signed out ${r0.takes}; opted in ${r1.takes} take (${r1.lines} lines, receipt ${String(c.id).slice(0, 4)}…, ${r1.refused.length} refused without a receipt); K-12 0, demo 0; after revoke ${r2.takes}; line parity with ra_dataset.mjs`;
+});
+
+// 12 — consented takes INTO TRAINING (ROBOLEARN-10, loop 10 round 9): declared first (arena-takes-declared-r9.json), development
+// seeds only, no held-out seed; a take joins the model with provenance; revoke deletes it and the rebuilt model is the no-takes
+// model, byte for byte. One gym task only here (tasks: rb-cell-entry) so the check stays cheap; the module's default is every gym task.
+await check("12 consented takes into training: declared, dev seeds only; signed out 0; opted in N with provenance; K-12/demo 0; revoke → 0 and the model rebuilt without them", async () => {
+  const decl = JSON.parse(readFileSync(join(ROOT, RA_TAKES_TRAIN.declaration), "utf8"));
+  ok(/^ra-lm-h\b/.test(decl.run?.model ?? "") && /no held-out seed/i.test(decl.declared) && decl.run.evaluation.startsWith("none"), "the declaration names ra-lm-h, no held-out seed and no evaluation");
+  const first = raFirstCommit(RA_TAKES_TRAIN.declaration);
+  ok(first === null || first.length > 0, "the declaration is committed (or no git here)");
+  // The demonstration seeds (RA_DEMOS) are disjoint from every held-out range, spent or fresh.
+  const lo = RA_DEMOS.seed * 100003 + 1, hi = RA_DEMOS.seed * 100003 + RA_DEMOS.n;
+  ok(hi < 7121 || lo > 7360, `demonstration seeds ${lo}–${hi} overlap a held-out range`);
+  const syn = colSyntheticDemos("rb-cell-entry", { n: 1, seed: 1, skill: 0.85, noise: 0.3 })[0];
+  const backend = dxMemBackend(), store = dxMakeStore(backend);
+  const tasks = ["rb-cell-entry"];
+  const out = { demo: false, signedIn: false, k12: false, adult: null };
+  const r0 = await raTakesTrain({ store, signals: out, tasks });
+  ok(r0.ok === false && r0.takes === 0 && r0.model === null, "signed out must train nothing");
+  const sig = { demo: false, signedIn: true, k12: false, adult: true };
+  ok(dxOptIn({ licence: "CC-BY-4.0", adult: true, signals: sig }).ok, "fixture opt-in");
+  const c = dxConsent();
+  const base = await raTakesTrain({ store, signals: sig, tasks });
+  ok(base.ok && base.takes === 0 && base.rows.human === 0 && base.rows.synthetic > 0 && base.hash, "opted in with no take: the synthetic-only model");
+  await store.put(dxMakeEpisode({ source: "human", world: "robotics", kind: "robot-game", scenario: "rb-cell-entry", episodeId: "ra-take-train", summary: syn.summary, consent: { consentId: c.id, at: c.at, licence: c.licence, adult: true, statementHash: c.statementHash } }, syn.steps));
+  const r1 = await raTakesTrain({ store, signals: sig, tasks });
+  ok(r1.ok && r1.takes === 1 && r1.provenance[0].consentId === c.id && r1.provenance[0].episode === "ra-take-train" && r1.rows.human > 0 && r1.rows.synthetic === base.rows.synthetic, `opted in: 1 take with its receipt joins the model (got ${r1.takes}, human rows ${r1.rows?.human})`);
+  ok(r1.hash !== base.hash && r1.model.v === RA_TAKES_TRAIN.version && r1.model.provenance.byTask["rb-cell-entry"].sources.includes("human"), "the take changes the model and is recorded as a human source");
+  ok((await raTakesTrain({ store, signals: { ...sig, k12: true }, tasks })).takes === 0 && (await raTakesTrain({ store, signals: { ...sig, demo: true }, tasks })).takes === 0, "K-12 or demo must train on 0 takes");
+  await dxRevoke({ store });
+  ok(!dxConsent() && (await store.list()).length === 0, "revoke deletes the take and the consent");
+  ok(dxOptIn({ licence: "CC-BY-4.0", adult: true, signals: sig }).ok, "fixture opt-in again");
+  const r2 = await raTakesTrain({ store, signals: sig, tasks });
+  ok(r2.ok && r2.takes === 0 && r2.rows.human === 0 && r2.hash === base.hash, `after revoke the model is rebuilt without the take, byte for byte (takes ${r2.takes}, hash equal ${r2.hash === base.hash})`);
+  await dxRevoke({ store });
+  return `declared ${RA_TAKES_TRAIN.declaration}${first ? ` (first commit ${first.slice(0, 8)})` : ""}; dev demo seeds ${lo}–${hi}; signed out 0; opted in ${r1.takes} take → human rows ${r1.rows.human} of ${r1.rows.total} (synthetic ${r1.rows.synthetic}); K-12 0, demo 0; after revoke 0 takes, human rows 0, hash = no-takes model`;
 });
 
 console.log(`\ncheck_arena: ${passes} passed, ${failures} failed (${Date.now() - t0} ms)`);

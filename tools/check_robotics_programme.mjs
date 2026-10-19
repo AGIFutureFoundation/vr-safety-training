@@ -63,6 +63,14 @@ const rbData = await imp("WebXR/shared/rb-robotics-data.js");
 const rbScen = new Set(rbData.RB_SCENARIOS.map((s) => s.id)), rbSites = new Set(rbData.RB_SITES.map((s) => s.id));
 for (const t of rp.RP_TRACKS) { check(rbScen.has(t.scenario), "tracks", `${t.id}: scenario ${t.scenario} not in RB_SCENARIOS`); for (const s of t.rbSites) check(rbSites.has(s), "tracks", `${t.id}: robot site ${s} not in RB_SITES`); }
 for (const id of Object.keys(rp.RP_ROBOT_STATIONS)) check(stations.has(id), "tracks", `robot station ${id} not in the catalog`);
+// ROBOLEARN-10: every gym scenario is either a track's scenario or a stated gap (RP_SCENARIO_GAPS, with its reason), and every
+// stated gap is a gym scenario that no track covers — so a gap cannot be both claimed and taught.
+{
+  const trackScen = new Set(rp.RP_TRACKS.map((t) => t.scenario)), gaps = rp.RP_SCENARIO_GAPS ?? {};
+  for (const s of rbData.RB_SCENARIOS.filter((x) => x.kind === "game")) check(trackScen.has(s.id) || (typeof gaps[s.id]?.reason === "string" && gaps[s.id].reason.length > 80), "tracks", `gym scenario ${s.id}: no track teaches it and no reason is stated in RP_SCENARIO_GAPS`);
+  for (const id of Object.keys(gaps)) check(rbScen.has(id) && !trackScen.has(id) && typeof gaps[id].needs === "string", "tracks", `RP_SCENARIO_GAPS ${id}: must be a gym scenario no track covers, with what it needs`);
+  console.log(`  gym scenarios with a learner track: ${rbData.RB_SCENARIOS.filter((x) => x.kind === "game" && trackScen.has(x.id)).length} of ${rbData.RB_SCENARIOS.filter((x) => x.kind === "game").length}; stated gaps: ${Object.keys(gaps).join(", ") || "none"}`);
+}
 
 // ---------------------------------------------------------------- 2 ladder
 let levels = 0, earnable = 0;

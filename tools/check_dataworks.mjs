@@ -115,6 +115,19 @@ check(r.ok && r.remaining === 0 && (await store.list()).length === 0, "revoke de
 check(!dx.dxConsent() && !dx.dxCollecting(), "revoke deletes the consent; collection stops");
 check(localStorage.getItem(gtKeyFor("vr-training-episodes-v1")) == null && localStorage.getItem("vr-training-share-consent-v1") == null, "revoke also deletes the legacy episode log and the share consent");
 check(liveEp == null && (await store.list()).length === 0, "a recorder live during revoke stores nothing");
+// ROBOLEARN-10 (loop 10 round 9): in the built parishes page, headless under load, Revoke took 5.1 s to show OFF — three serial
+// IndexedDB opens (clear's transaction, deleteDatabase, the re-read) at 1–2 s each, queued behind the boot reads; no deadlock.
+// The consent key must be gone before dxRevoke's first await, and the consent panel must redraw before it awaits the clean-up.
+{
+  dx.dxOptIn({ licence: "CC0-1.0", adult: true, signals: { demo: false, signedIn: true, k12: false } });
+  const slow = { kind: "slow", async all() { await new Promise((r) => setTimeout(r, 60)); return []; }, async save() {}, async clear() { await new Promise((r) => setTimeout(r, 60)); } };
+  const pending = dx.dxRevoke({ store: dx.dxMakeStore(slow) });
+  const goneAtOnce = !dx.dxConsent() && !dx.dxCollecting({ demo: false, signedIn: true, k12: false, adult: true });
+  const t1 = Date.now(); const rr = await pending;
+  check(goneAtOnce && rr.ok && rr.remaining === 0, "revoke deletes the consent before its first await, so a panel can show OFF while a slow store is still being cleared", `gone at once ${goneAtOnce}, clean-up ${Date.now() - t1} ms`);
+  const ui = readFileSync(join(SHARED, "dx-consent-ui.js"), "utf8");
+  check(/const done = dxRevoke\(\);\s*render\(\);\s*await done;\s*onChange\?\.\("revoked"\);\s*render\(\);/.test(ui), "the consent panel redraws OFF before awaiting revoke's clean-up, and again (with onChange) when it is done");
+}
 
 // 5 storage
 console.log("5 storage");
