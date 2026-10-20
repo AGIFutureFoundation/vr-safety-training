@@ -807,6 +807,7 @@ export const NP_SF_NORTH_BEACH = {
     "rigging-lifting"
    ],
    "stations": [
+    "rt-speed-separation-monitoring-setup",
     "mooring-line",
     "vessel-gangway-and-hatch-cover-safety",
     "pt-dock-fender-and-bollard-inspection",

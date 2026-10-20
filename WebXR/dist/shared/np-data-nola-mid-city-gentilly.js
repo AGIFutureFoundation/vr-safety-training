@@ -1826,6 +1826,7 @@ export const NP_NOLA_MID_CITY_GENTILLY = {
     "electrical-first-period"
    ],
    "stations": [
+    "rt-robot-estop-recovery-and-restart",
     "temporary-site-power",
     "substation-switching",
     "line-truck",

@@ -1487,6 +1487,7 @@ export const NP_PLAQUEMINES = {
     "plumbers-and-pipefitters"
    ],
    "stations": [
+    "rt-speed-separation-monitoring-setup",
     "shipyard-hotwork",
     "uw-pipeline-crossing-inspection-dive",
     "pl-natural-gas-pressure-test-and-leak-check",

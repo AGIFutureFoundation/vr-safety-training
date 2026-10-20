@@ -1600,6 +1600,7 @@ export const NP_NOLA_UPTOWN_GARDEN = {
     "rigging-lifting"
    ],
    "stations": [
+    "rt-speed-separation-monitoring-setup",
     "mooring-line",
     "vessel-gangway-and-hatch-cover-safety",
     "pt-dock-fender-and-bollard-inspection",

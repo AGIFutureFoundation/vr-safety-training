@@ -1288,6 +1288,7 @@ export const NP_NOLA_FRENCH_QUARTER_CBD = {
     "port-operations"
    ],
    "stations": [
+    "rt-speed-separation-monitoring-setup",
     "dock-crane",
     "container-lashing",
     "mooring-line",

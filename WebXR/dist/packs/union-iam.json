@@ -191,6 +191,20 @@
     },
     {
       "world": "parishes",
+      "parish": "st-bernard",
+      "sites": [
+        "sb-sw-arabi-and-chalmette-grocery-distribution-centre"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "plaquemines",
+      "sites": [
+        "pq-pipeline-yard"
+      ]
+    },
+    {
+      "world": "parishes",
       "parish": "st-tammany",
       "sites": [
         "st-timber-yard"
@@ -221,6 +235,7 @@
       "parish": "sf-golden-gate-park",
       "sites": [
         "ocean-beach-streetcar-terminal",
+        "gg-sw-sunset-grocery-distribution-centre",
         "gg-sw-sunset-bus-yard"
       ]
     },
@@ -228,7 +243,8 @@
       "world": "parishes",
       "parish": "sf-marina",
       "sites": [
-        "cow-hollow-bus-yard"
+        "cow-hollow-bus-yard",
+        "ma-sw-inner-richmond-substation"
       ]
     },
     {
@@ -267,6 +283,7 @@
       "world": "parishes",
       "parish": "sf-sunset-south",
       "sites": [
+        "stonestown-grocery-dock",
         "nineteenth-avenue-line-crew"
       ]
     },
@@ -283,7 +300,8 @@
       "world": "parishes",
       "parish": "oak-downtown-lake",
       "sites": [
-        "uptown-bus-operations-yard"
+        "uptown-bus-operations-yard",
+        "lakeside-tower-plant-room"
       ]
     },
     {
@@ -310,6 +328,7 @@
       "parish": "bay-san-pablo",
       "sites": [
         "richmond-transit-station",
+        "richmond-shipyard-crew",
         "richmond-rail-yard"
       ]
     },
@@ -452,6 +471,7 @@
       "parish": "nola-french-quarter-cbd",
       "sites": [
         "nfq-riverfront-streetcar-track",
+        "nfq-river-wharf-crew",
         "nfq-canal-streetcar-track"
       ]
     },
@@ -470,20 +490,23 @@
       "parish": "nola-mid-city-gentilly",
       "sites": [
         "nmc-canal-streetcar-track",
-        "nmc-carrollton-streetcar-wire"
+        "nmc-carrollton-streetcar-wire",
+        "nmc-substation"
       ]
     },
     {
       "world": "parishes",
       "parish": "nola-bywater-lower-ninth",
       "sites": [
-        "nbw-st-claude-streetcar-track"
+        "nbw-st-claude-streetcar-track",
+        "nbw-wharf-crew"
       ]
     },
     {
       "world": "parishes",
       "parish": "br-downtown-riverfront",
       "sites": [
+        "brd-substation",
         "brd-transit-stop-build",
         "brd-traffic-signal-crew"
       ]
@@ -548,7 +571,7 @@
     "vb-supervising-agent-dispatched-robots": "Supervising Robots Dispatched by Software Agents"
   },
   "version": "1.0.0",
-  "contentHash": "812e9981",
+  "contentHash": "4983efb7",
   "brand": "SmartCiti.X · Powered by AGI Corp",
   "generator": "tools/gen_packs.mjs",
   "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."

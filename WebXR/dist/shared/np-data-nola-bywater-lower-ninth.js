@@ -1795,6 +1795,7 @@ export const NP_NOLA_BYWATER_LOWER_NINTH = {
     "port-operations"
    ],
    "stations": [
+    "rt-speed-separation-monitoring-setup",
     "dock-crane",
     "container-lashing",
     "mooring-line",

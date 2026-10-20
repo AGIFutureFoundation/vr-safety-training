@@ -813,6 +813,7 @@ export const NP_SF_SUNSET_SOUTH = {
     "grocery-and-meatpacking"
    ],
    "stations": [
+    "ad-amr-fleet-traffic-and-estop-drill",
     "gr-produce-receiving-cold-chain-and-pallet-jack",
     "gr-night-stocking-baler-and-compactor-lockout",
     "gr-deli-slicer-sanitation-and-allergen-line",
