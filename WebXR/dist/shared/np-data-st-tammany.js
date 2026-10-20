@@ -942,7 +942,8 @@ export const NP_ST_TAMMANY = {
     "siu"
    ],
    "programmes": [
-    "yacht-and-charter-crew"
+    "yacht-and-charter-crew",
+    "hazmat-environmental"
    ],
    "stations": [
     "yc-line-handling-and-docking-in-crosswind",
@@ -1076,11 +1077,13 @@ export const NP_ST_TAMMANY = {
    "trades": [
     "ibb",
     "carpenters",
-    "ibu"
+    "ibu",
+    "liuna"
    ],
    "programmes": [
     "insulators-and-boilermakers",
-    "commercial-diving-and-scientific-scuba"
+    "commercial-diving-and-scientific-scuba",
+    "hazmat-environmental"
    ],
    "stations": [
     "shipyard-hotwork",

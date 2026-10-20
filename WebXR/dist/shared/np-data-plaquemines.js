@@ -1273,7 +1273,8 @@ export const NP_PLAQUEMINES = {
     "meba"
    ],
    "programmes": [
-    "port-operations"
+    "port-operations",
+    "hazmat-environmental"
    ],
    "stations": [
     "mw-ferry-deckhand-and-passenger-safety",
@@ -1343,7 +1344,8 @@ export const NP_PLAQUEMINES = {
     "meba"
    ],
    "programmes": [
-    "port-operations"
+    "port-operations",
+    "hazmat-environmental"
    ],
    "stations": [
     "mw-ferry-deckhand-and-passenger-safety",
@@ -1361,10 +1363,12 @@ export const NP_PLAQUEMINES = {
    "trades": [
     "ila",
     "iuoe",
-    "meba"
+    "meba",
+    "liuna"
    ],
    "programmes": [
-    "port-operations"
+    "port-operations",
+    "hazmat-environmental"
    ],
    "stations": [
     "mooring-line",
@@ -1457,7 +1461,8 @@ export const NP_PLAQUEMINES = {
    ],
    "programmes": [
     "yacht-and-charter-crew",
-    "commercial-diving-and-scientific-scuba"
+    "commercial-diving-and-scientific-scuba",
+    "hazmat-environmental"
    ],
    "stations": [
     "yc-pre-departure-safety-briefing-and-guest-count",
@@ -1479,12 +1484,14 @@ export const NP_PLAQUEMINES = {
     "ibb",
     "ua",
     "ironworkers",
-    "iupat"
+    "iupat",
+    "liuna"
    ],
    "programmes": [
     "robot-control-basics",
     "insulators-and-boilermakers",
-    "plumbers-and-pipefitters"
+    "plumbers-and-pipefitters",
+    "hazmat-environmental"
    ],
    "stations": [
     "rt-speed-separation-monitoring-setup",

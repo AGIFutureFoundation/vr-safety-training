@@ -1282,12 +1282,14 @@ export const NP_NOLA_FRENCH_QUARTER_CBD = {
     "ila",
     "iuoe",
     "teamsters",
-    "ilwu"
+    "ilwu",
+    "liuna"
    ],
    "programmes": [
     "robot-control-basics",
     "rigging-lifting",
-    "port-operations"
+    "port-operations",
+    "hazmat-environmental"
    ],
    "stations": [
     "rt-speed-separation-monitoring-setup",
@@ -1297,7 +1299,7 @@ export const NP_NOLA_FRENCH_QUARTER_CBD = {
     "po-yard-hostler-and-pedestrian-separation",
     "vessel-gangway-and-hatch-cover-safety"
    ],
-   "blurb": "A working wharf below the CBD: the crane, the lashing gear, the lines and the gangway."
+   "blurb": "A working wharf below the CBD: the crane, the lashing gear, the lines and the gangway. Its clean-up work is taught here too: the fence-line air, waste drums staged by class, and the outfall sampled when it rains."
   },
   {
    "id": "nfq-ferry-landing",
@@ -1315,14 +1317,15 @@ export const NP_NOLA_FRENCH_QUARTER_CBD = {
    "programmes": [
     "port-operations",
     "bay-area-union-edition",
-    "yacht-and-charter-crew"
+    "yacht-and-charter-crew",
+    "hazmat-environmental"
    ],
    "stations": [
     "mw-ferry-deckhand-and-passenger-safety",
     "yc-man-overboard-recovery-drill",
     "vessel-gangway-and-hatch-cover-safety"
    ],
-   "blurb": "The landing at the foot of Canal Street for the ferry across to Algiers: the gangway, passengers and a man-overboard drill."
+   "blurb": "The landing at the foot of Canal Street for the ferry across to Algiers: the gangway, passengers and a man-overboard drill. The berths' own clean-up is taught here too: spill drums staged by class and the outfall sampled when it rains."
   },
   {
    "id": "nfq-high-rise-build",

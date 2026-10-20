@@ -34,14 +34,15 @@ export const CLEANUP_PHASES = [
   { id: "community", label: "Community oversight", stations: ["parcel-status-walk", "public-comment-prep", "community-soil-split", "odor-complaint-log", "dust-plan-review", "garden-soil-screen"] },
 ];
 
-// Region files on the San Francisco Bay maps, and the site kinds counted as the Bay's working waterfront.
+// Region files on the San Francisco Bay maps, and the site kinds counted as working waterfront and industry (on the
+// Bay maps and on every other map).
 export const BAY_REGION_FILE = /^np-data-(bay|bp|oak|sf)-/;
-export const WATERFRONT_KINDS = ["port", "shipyard", "harbour", "marina", "ferry", "landing", "boat-landing", "boatyard", "dredge", "fuel-farm", "tank-farm", "refinery"];
+export const WATERFRONT_KINDS = ["port", "shipyard", "harbour", "marina", "ferry", "landing", "boat-landing", "boatyard", "dredge", "fuel-farm", "tank-farm", "refinery", "chemical"];
 
 // The phases a waterfront site of each kind should train: industrial yards the full sequence of survey, removal
 // and the shoreline; berths for boats the shoreline work at their own piles and marsh.
 const INDUSTRIAL = ["survey", "removal", "shoreline"];
-export const WATERFRONT_PHASES = { port: INDUSTRIAL, shipyard: INDUSTRIAL, boatyard: INDUSTRIAL, refinery: INDUSTRIAL, "fuel-farm": INDUSTRIAL, "tank-farm": INDUSTRIAL, dredge: ["shoreline"], harbour: ["shoreline"], marina: ["shoreline"], ferry: ["shoreline"], landing: ["shoreline"], "boat-landing": ["shoreline"] };
+export const WATERFRONT_PHASES = { port: INDUSTRIAL, shipyard: INDUSTRIAL, boatyard: INDUSTRIAL, refinery: INDUSTRIAL, chemical: INDUSTRIAL, "fuel-farm": INDUSTRIAL, "tank-farm": INDUSTRIAL, dredge: ["shoreline"], harbour: ["shoreline"], marina: ["shoreline"], ferry: ["shoreline"], landing: ["shoreline"], "boat-landing": ["shoreline"] };
 
 const phaseOf = new Map(CLEANUP_PHASES.flatMap((p) => p.stations.map((s) => [s, p.id])));
 
@@ -59,7 +60,7 @@ export function cleanupSite(file, region, site, programmeStations = PROGRAMME_ST
   const cleanupProgrammes = (site.programmes ?? []).filter((id) => phasesIn(programmeStations.get(id) ?? []).length);
   const offered = phasesIn(cleanupProgrammes.flatMap((id) => programmeStations.get(id) ?? []));
   const bay = BAY_REGION_FILE.test(file);
-  const waterfront = bay && WATERFRONT_KINDS.includes(site.kind);
+  const waterfront = WATERFRONT_KINDS.includes(site.kind);
   if (!phases.length && !offered.length && !waterfront) return null;
   return {
     region: region.id,
@@ -96,11 +97,12 @@ export async function buildCleanupAtlas() {
       unions: [...new Set(at.flatMap((s) => s.unions))].sort(),
     };
   });
-  const waterfront = sites.filter((s) => s.waterfront);
+  const waterfront = sites.filter((s) => s.waterfront).map((s) => ({ ...s, missing: WATERFRONT_PHASES[s.kind].filter((p) => !s.phases.includes(p) && !s.offered.includes(p)) }));
   return {
     phases,
     sites: sites.filter((s) => s.phases.length || s.offered.length),
-    bayWaterfront: waterfront.map((s) => ({ ...s, missing: WATERFRONT_PHASES[s.kind].filter((p) => !s.phases.includes(p) && !s.offered.includes(p)) })),
+    bayWaterfront: waterfront.filter((s) => s.bay),
+    otherWaterfront: waterfront.filter((s) => !s.bay),
   };
 }
 
@@ -128,6 +130,14 @@ function writeAll(atlas) {
     "|---|---|---|---|---|---|---|",
     ...atlas.bayWaterfront.map((s) => `| ${s.name} | ${s.region} | ${s.kind} | ${s.phases.join(", ") || "none"} | ${s.offered.join(", ") || "none"} | ${s.missing.join(", ") || "none"} | ${s.unions.join(", ")} |`),
     "",
+    "## Waterfront and industry on the other maps",
+    "",
+    "The same kinds of site on the Louisiana and other maps, with the same phases required for their kind.",
+    "",
+    "| Site | Region | Kind | Phases trained | Offered in a programme | Missing | Unions |",
+    "|---|---|---|---|---|---|---|",
+    ...atlas.otherWaterfront.map((s) => `| ${s.name} | ${s.region} | ${s.kind} | ${s.phases.join(", ") || "none"} | ${s.offered.join(", ") || "none"} | ${s.missing.join(", ") || "none"} | ${s.unions.join(", ")} |`),
+    "",
     "## Every site that trains or offers a cleanup phase",
     "",
     "| Site | Region | Phases trained | Offered in a programme |",
@@ -141,6 +151,6 @@ function writeAll(atlas) {
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   const atlas = await buildCleanupAtlas();
   writeAll(atlas);
-  const full = atlas.bayWaterfront.filter((s) => !s.missing.length).length;
-  console.log(`Wrote ${CLEANUP_ATLAS_FILE.replace(ROOT + "/", "")} — ${atlas.sites.length} cleanup sites; Bay waterfront ${atlas.bayWaterfront.length} sites, ${full} training every phase their kind needs.`);
+  const full = (list) => list.filter((s) => !s.missing.length).length;
+  console.log(`Wrote ${CLEANUP_ATLAS_FILE.replace(ROOT + "/", "")} — ${atlas.sites.length} cleanup sites; Bay waterfront ${full(atlas.bayWaterfront)} of ${atlas.bayWaterfront.length} and other maps ${full(atlas.otherWaterfront)} of ${atlas.otherWaterfront.length} training every phase their kind needs.`);
 }

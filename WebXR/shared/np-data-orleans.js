@@ -2010,12 +2010,14 @@ export const NP_ORLEANS = {
     "ila",
     "iuoe",
     "teamsters",
-    "ilwu"
+    "ilwu",
+    "liuna"
    ],
    "programmes": [
     "rigging-lifting",
     "port-operations",
-    "bay-area-union-edition"
+    "bay-area-union-edition",
+    "hazmat-environmental"
    ],
    "stations": [
     "dock-crane",
@@ -2025,7 +2027,7 @@ export const NP_ORLEANS = {
     "po-lashing-gear-inspection-and-tagging",
     "vessel-gangway-and-hatch-cover-safety"
    ],
-   "blurb": "The wharves on the river's east bank: gantry cranes, lashing gangs, the mooring lines and the yard's hostlers."
+   "blurb": "The wharves on the river's east bank: gantry cranes, lashing gangs, the mooring lines and the yard's hostlers. Its clean-up work is taught here too: the fence-line air, waste drums staged by class, and the outfall sampled when it rains."
   },
   {
    "id": "levee-floodwall",
@@ -2356,14 +2358,15 @@ export const NP_ORLEANS = {
    "programmes": [
     "port-operations",
     "bay-area-union-edition",
-    "yacht-and-charter-crew"
+    "yacht-and-charter-crew",
+    "hazmat-environmental"
    ],
    "stations": [
     "mw-ferry-deckhand-and-passenger-safety",
     "yc-man-overboard-recovery-drill",
     "vessel-gangway-and-hatch-cover-safety"
    ],
-   "blurb": "The ferry landing at the foot of Canal Street: the deckhand's passenger safety, the gangway and the overboard drill."
+   "blurb": "The ferry landing at the foot of Canal Street: the deckhand's passenger safety, the gangway and the overboard drill. The berths' own clean-up is taught here too: spill drums staged by class and the outfall sampled when it rains."
   },
   {
    "id": "bridge-crew",
@@ -2410,7 +2413,7 @@ export const NP_ORLEANS = {
   {"id":"no-sw-algiers-park-grounds-yard","name":"Algiers Park Grounds Yard","kind":"park","position":[-140,1440],"trades":["afscme","liuna","seiu"],"programmes":["grounds-and-landscaping"],"stations":["gk-string-trimmer-and-blower-ppe-and-bystander-zone","gk-tree-work-pole-saw-and-drop-zone","gk-irrigation-controller-valve-box-and-backflow-check","gk-chainsaw-start-and-limbing-on-the-ground"],"blurb":"A procedural park grounds yard in Algiers: mowers, trimmers, tree work and the irrigation boxes."},
   {"id":"no-sw-treme-restaurant-kitchen","name":"Tremé Restaurant Kitchen","kind":"hospitality","position":[-440,200],"trades":["unite-here"],"programmes":["culinary-kitchen","bartending-course"],"stations":["grease-trap","hood-suppression","kitchen","knife-skills"],"blurb":"A procedural restaurant kitchen in Tremé: the line cooks, the dish pit, the walk-in and the bar well."},
   {"id":"no-sw-lakeview-and-gentilly-pumping-station","name":"Lakeview and Gentilly Pumping Station","kind":"pump","position":[180,-640],"trades":["iuoe","ibew","uwua","afscme"],"programmes":["water-and-gas-utility-crews","confined-space","electrical-first-period"],"stations":["valve-vault","cs-permit-entry-and-attendant-duties","motor-control-center","ut-night-storm-response-crew-and-portable-generator"],"blurb":"A procedural pumping station in Lakeview, Gentilly and the lakefront: the lift station, the valve vault under a permit, the motor controls and the storm generator."},
-  {"id":"no-sw-industrial-canal-boat-repair-yard","name":"Industrial Canal Boat Repair Yard","kind":"shipyard","position":[900,40],"trades":["ibb","ironworkers","ua","iupat"],"programmes":["insulators-and-boilermakers","commercial-diving-and-scientific-scuba"],"stations":["shipyard-hotwork","ib-pressure-vessel-confined-entry-and-hot-work","tank-lining","cd-pier-piling-inspection-and-wrap-repair"],"blurb":"A procedural boat repair yard in the Inner Harbor along the Industrial Canal: hot work on the hull, tank lining, the piling divers and the boilermakers."},
+  {"id":"no-sw-industrial-canal-boat-repair-yard","name":"Industrial Canal Boat Repair Yard","kind":"shipyard","position":[900,40],"trades":["ibb","ironworkers","ua","iupat","liuna"],"programmes":["insulators-and-boilermakers","commercial-diving-and-scientific-scuba","hazmat-environmental"],"stations":["shipyard-hotwork","ib-pressure-vessel-confined-entry-and-hot-work","tank-lining","cd-pier-piling-inspection-and-wrap-repair"],"blurb":"A procedural boat repair yard in the Inner Harbor along the Industrial Canal: hot work on the hull, tank lining, the piling divers and the boilermakers. Its clean-up work is taught here too: the fence-line air, waste drums staged by class, and the outfall sampled when it rains."},
   {"id":"no-sw-lower-ninth-ward-community-clinic","name":"Lower Ninth Ward Community Clinic","kind":"hospital","position":[1780,140],"trades":["nnu","seiu","afscme"],"programmes":["healthcare-support","first-responders"],"stations":["hc-hazardous-drug-spill-kit-response","hc-dietary-tray-line-and-allergy-flags","hc-code-response-support-and-crash-cart-check","hc-patient-transport-and-safe-handling"],"blurb":"A procedural community clinic in Lower Ninth Ward and Holy Cross: patient transport, room turnover, regulated waste and the front desk."},
   {"id":"no-sw-mid-city-recreation-centre","name":"Mid-City Recreation Centre","kind":"recreation","position":[-1180,-320],"trades":["afscme","seiu"],"programmes":["basketball-fundamentals","property-management"],"stations":["pm-pool-and-spa-chemistry","pm-community-room-and-events","ed-playground-equipment-inspection","bb-passing-and-catching"],"blurb":"A procedural recreation centre in Mid-City: the gym floor, the pool chemistry, the community room and the playground."},
   // sw:end

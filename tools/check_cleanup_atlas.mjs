@@ -38,7 +38,7 @@ check(fresh.phases.every((p) => p.sites > 0), "every phase is trained at one map
 // 3 every atlas site is a map site, with its own stations and trades, and every union is a registry union
 const regions = await loadRegions();
 const siteAt = new Map(regions.flatMap(({ region }) => region.sites.map((s) => [`${region.id}/${s.id}`, s])));
-const bad = [...fresh.sites, ...fresh.bayWaterfront].filter((e) => {
+const bad = [...fresh.sites, ...fresh.bayWaterfront, ...fresh.otherWaterfront].filter((e) => {
   const s = siteAt.get(`${e.region}/${e.site}`);
   return !s || !e.stations.every((x) => s.stations.includes(x)) || JSON.stringify([...s.trades].sort()) !== JSON.stringify(e.unions);
 });
@@ -50,6 +50,10 @@ check(fresh.bayWaterfront.length >= 20, `the Bay waterfront lists its ports, yar
 check(fresh.bayWaterfront.every((s) => s.bay && G.WATERFRONT_PHASES[s.kind]), "every waterfront site is on a Bay map and has phases set for its kind");
 const short = fresh.bayWaterfront.filter((s) => s.missing.length);
 check(short.length === 0, `every Bay waterfront site trains every phase its kind needs${short.length ? ` (${short.slice(0, 4).map((s) => `${s.site}: ${s.missing.join("/")}`).join(", ")})` : ""}`);
+// ... and so do the same kinds of site on every other map
+check(fresh.otherWaterfront.length > 0 && fresh.otherWaterfront.every((s) => !s.bay && G.WATERFRONT_PHASES[s.kind]), `waterfront and industry on the other maps are listed with phases for their kind (${fresh.otherWaterfront.length})`);
+const otherShort = fresh.otherWaterfront.filter((s) => s.missing.length);
+check(otherShort.length === 0, `every waterfront and industrial site on the other maps trains every phase its kind needs${otherShort.length ? ` (${otherShort.slice(0, 4).map((s) => `${s.site}: ${s.missing.join("/")}`).join(", ")})` : ""}`);
 
 // 5 the atlas states no figure, status or partnership of its own
 check(!/\$|\bmillion\b|\bpartner(ship)?\b|\bcustomer\b|\bNPL\b/i.test(JSON.stringify(CLEANUP_ATLAS)), "the atlas states no figure, NPL status or partnership");
@@ -74,6 +78,6 @@ check(refused, "a CSV without a site-name or state column is refused");
 // 7 deterministic
 check(JSON.stringify(await G.buildCleanupAtlas()) === JSON.stringify(fresh), "two builds give the same atlas");
 
-console.log(`  · ${fresh.sites.length} map sites train or offer a cleanup phase; ${fresh.bayWaterfront.length} Bay waterfront sites, ${short.length} short of a phase`);
+console.log(`  · ${fresh.sites.length} map sites train or offer a cleanup phase; ${fresh.bayWaterfront.length} Bay waterfront sites and ${fresh.otherWaterfront.length} on other maps, ${short.length + otherShort.length} short of a phase`);
 console.log(`check_cleanup_atlas: ${failed === 0 ? "all" : failed} ${failed === 0 ? "checks pass" : "failed"} (${passed} passed, ${failed} failed)`);
 if (failed) process.exit(1);

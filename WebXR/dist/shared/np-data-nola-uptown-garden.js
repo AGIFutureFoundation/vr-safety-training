@@ -1592,12 +1592,14 @@ export const NP_NOLA_UPTOWN_GARDEN = {
    "trades": [
     "ila",
     "ilwu",
-    "iuoe"
+    "iuoe",
+    "liuna"
    ],
    "programmes": [
     "robot-control-basics",
     "port-operations",
-    "rigging-lifting"
+    "rigging-lifting",
+    "hazmat-environmental"
    ],
    "stations": [
     "rt-speed-separation-monitoring-setup",
@@ -1606,7 +1608,7 @@ export const NP_NOLA_UPTOWN_GARDEN = {
     "pt-dock-fender-and-bollard-inspection",
     "forklift-dock"
    ],
-   "blurb": "A wharf on the river bend: lines, gangways, fenders and the forklift lane."
+   "blurb": "A wharf on the river bend: lines, gangways, fenders and the forklift lane. Its clean-up work is taught here too: the fence-line air, waste drums staged by class, and the outfall sampled when it rains."
   },
   {
    "id": "nup-live-oak-crew",

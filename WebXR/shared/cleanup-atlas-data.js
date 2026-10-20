@@ -13,7 +13,7 @@ export const CLEANUP_ATLAS = {
       "unresolved": [],
       "sites": 9,
       "baySites": 1,
-      "offeredAt": 84,
+      "offeredAt": 129,
       "unions": [
         "carpenters",
         "ibew",
@@ -37,7 +37,7 @@ export const CLEANUP_ATLAS = {
       "unresolved": [],
       "sites": 11,
       "baySites": 8,
-      "offeredAt": 85,
+      "offeredAt": 130,
       "unions": [
         "afscme",
         "iam",
@@ -72,7 +72,7 @@ export const CLEANUP_ATLAS = {
       "unresolved": [],
       "sites": 18,
       "baySites": 11,
-      "offeredAt": 85,
+      "offeredAt": 130,
       "unions": [
         "iaff",
         "iam",
@@ -131,7 +131,7 @@ export const CLEANUP_ATLAS = {
       "unresolved": [],
       "sites": 81,
       "baySites": 39,
-      "offeredAt": 84,
+      "offeredAt": 129,
       "unions": [
         "afge",
         "afscme",
@@ -556,6 +556,30 @@ export const CLEANUP_ATLAS = {
       ],
       "unions": [
         "teamsters"
+      ]
+    },
+    {
+      "region": "bp-nutrient-pilot",
+      "site": "npp-chemical-feed-building",
+      "name": "Chemical Feed Building",
+      "kind": "chemical",
+      "bay": true,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "afscme",
+        "iuoe",
+        "liuna"
       ]
     },
     {
@@ -1275,6 +1299,29 @@ export const CLEANUP_ATLAS = {
     },
     {
       "region": "br-downtown-riverfront",
+      "site": "brd-port-allen-landing",
+      "name": "Port Allen Riverbank Landing",
+      "kind": "landing",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibu",
+        "iuoe"
+      ]
+    },
+    {
+      "region": "br-downtown-riverfront",
       "site": "brd-storm-drain-crew",
       "name": "Storm Drain Crew",
       "kind": "stormwater",
@@ -1357,6 +1404,31 @@ export const CLEANUP_ATLAS = {
     },
     {
       "region": "br-north-industrial",
+      "site": "brn-river-terminal",
+      "name": "River Terminal Dock",
+      "kind": "port",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibu",
+        "ila",
+        "iuoe",
+        "liuna"
+      ]
+    },
+    {
+      "region": "br-north-industrial",
       "site": "brn-storm-drain-crew",
       "name": "Storm Drain Crew",
       "kind": "stormwater",
@@ -1381,7 +1453,7 @@ export const CLEANUP_ATLAS = {
       "name": "Tank Farm Maintenance Crew",
       "kind": "chemical",
       "bay": false,
-      "waterfront": false,
+      "waterfront": true,
       "phases": [],
       "offered": [
         "record",
@@ -1489,6 +1561,31 @@ export const CLEANUP_ATLAS = {
       ]
     },
     {
+      "region": "br-riverplex-ascension",
+      "site": "brr-river-dock",
+      "name": "River Dock Build",
+      "kind": "port",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "carpenters",
+        "ila",
+        "iuoe",
+        "liuna"
+      ]
+    },
+    {
       "region": "hammond-downtown",
       "site": "ham-drainage-canal",
       "name": "Drainage Canal Crew",
@@ -1509,12 +1606,160 @@ export const CLEANUP_ATLAS = {
       ]
     },
     {
+      "region": "jefferson",
+      "site": "jf-gretna-landing",
+      "name": "Gretna Riverfront Landing",
+      "kind": "landing",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibu",
+        "meba",
+        "siu"
+      ]
+    },
+    {
+      "region": "jefferson",
+      "site": "jf-harvey-canal-yard",
+      "name": "Harvey Canal Marine Yard",
+      "kind": "shipyard",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibb",
+        "ibu",
+        "ironworkers",
+        "liuna",
+        "meba"
+      ]
+    },
+    {
+      "region": "jefferson",
+      "site": "jf-sw-west-bank-waterfront-boat-harbour",
+      "name": "West Bank Waterfront Boat Harbour",
+      "kind": "harbour",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibu",
+        "siu"
+      ]
+    },
+    {
+      "region": "jefferson",
+      "site": "jf-sw-west-bank-waterfront-boat-repair-yard",
+      "name": "West Bank Waterfront Boat Repair Yard",
+      "kind": "shipyard",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibb",
+        "ironworkers",
+        "iupat",
+        "liuna",
+        "ua"
+      ]
+    },
+    {
+      "region": "jefferson",
+      "site": "jf-sw-west-bank-waterfront-cargo-terminal",
+      "name": "West Bank Waterfront Cargo Terminal",
+      "kind": "port",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ila",
+        "iuoe",
+        "liuna",
+        "teamsters"
+      ]
+    },
+    {
+      "region": "jefferson",
+      "site": "jf-sw-west-bank-waterfront-workboat-landing",
+      "name": "West Bank Waterfront Workboat Landing",
+      "kind": "landing",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibu",
+        "meba",
+        "siu"
+      ]
+    },
+    {
       "region": "la-avex-new-iberia",
       "site": "lav-fuel-farm",
       "name": "Fuel Farm",
       "kind": "fuel-farm",
       "bay": false,
-      "waterfront": false,
+      "waterfront": true,
       "phases": [],
       "offered": [
         "record",
@@ -1561,7 +1806,7 @@ export const CLEANUP_ATLAS = {
       "name": "Paint Mix Room",
       "kind": "chemical",
       "bay": false,
-      "waterfront": false,
+      "waterfront": true,
       "phases": [],
       "offered": [
         "record",
@@ -1594,6 +1839,31 @@ export const CLEANUP_ATLAS = {
         "stormwater-outfall"
       ],
       "unions": [
+        "iuoe",
+        "liuna"
+      ]
+    },
+    {
+      "region": "la-black-bayou-cameron",
+      "site": "lbb-barge-landing",
+      "name": "Barge Landing",
+      "kind": "port",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibu",
+        "ila",
         "iuoe",
         "liuna"
       ]
@@ -1825,6 +2095,105 @@ export const CLEANUP_ATLAS = {
       ]
     },
     {
+      "region": "la-saronic-franklin",
+      "site": "lsf-hull-fabrication",
+      "name": "Hull Fabrication Hall",
+      "kind": "shipyard",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibb",
+        "ironworkers",
+        "liuna",
+        "usw"
+      ]
+    },
+    {
+      "region": "la-saronic-franklin",
+      "site": "lsf-large-vessel-line",
+      "name": "Large-Vessel Line",
+      "kind": "shipyard",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibb",
+        "ironworkers",
+        "iuoe",
+        "liuna"
+      ]
+    },
+    {
+      "region": "la-saronic-franklin",
+      "site": "lsf-launch-and-test",
+      "name": "Launch and Test Berth",
+      "kind": "port",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibu",
+        "ila",
+        "iuoe",
+        "liuna"
+      ]
+    },
+    {
+      "region": "la-saronic-franklin",
+      "site": "lsf-outfitting-pier",
+      "name": "Outfitting Pier",
+      "kind": "landing",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibb",
+        "ibew",
+        "ua"
+      ]
+    },
+    {
       "region": "la-shintech-plaquemine",
       "site": "lsp-emergency-response-station",
       "name": "Emergency Response Station",
@@ -1881,11 +2250,36 @@ export const CLEANUP_ATLAS = {
     },
     {
       "region": "la-shintech-plaquemine",
+      "site": "lsp-river-dock",
+      "name": "River Dock",
+      "kind": "port",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ila",
+        "iuoe",
+        "liuna",
+        "siu"
+      ]
+    },
+    {
+      "region": "la-shintech-plaquemine",
       "site": "lsp-tank-farm",
       "name": "Tank Farm",
       "kind": "chemical",
       "bay": false,
-      "waterfront": false,
+      "waterfront": true,
       "phases": [
         "survey"
       ],
@@ -1955,7 +2349,7 @@ export const CLEANUP_ATLAS = {
       "name": "Marsh Creation Dredge Line",
       "kind": "dredge",
       "bay": false,
-      "waterfront": false,
+      "waterfront": true,
       "phases": [
         "shoreline"
       ],
@@ -1996,7 +2390,7 @@ export const CLEANUP_ATLAS = {
       "name": "Propellant Tank Farm Build",
       "kind": "tank-farm",
       "bay": false,
-      "waterfront": false,
+      "waterfront": true,
       "phases": [],
       "offered": [
         "record",
@@ -2012,6 +2406,30 @@ export const CLEANUP_ATLAS = {
         "ibb",
         "insulators",
         "ua"
+      ]
+    },
+    {
+      "region": "la-starbase-vermilion",
+      "site": "lsb-shipping-dock",
+      "name": "Shipping Dock",
+      "kind": "port",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ila",
+        "iuoe",
+        "liuna"
       ]
     },
     {
@@ -2189,7 +2607,7 @@ export const CLEANUP_ATLAS = {
       "name": "Berth Dredge Crew",
       "kind": "landing",
       "bay": false,
-      "waterfront": false,
+      "waterfront": true,
       "phases": [
         "shoreline"
       ],
@@ -2200,6 +2618,31 @@ export const CLEANUP_ATLAS = {
       ],
       "unions": [
         "ibu",
+        "iuoe",
+        "liuna"
+      ]
+    },
+    {
+      "region": "lc-calcasieu-channel",
+      "site": "lcc-marine-offload",
+      "name": "Marine Offload Berth",
+      "kind": "port",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ila",
+        "ironworkers",
         "iuoe",
         "liuna"
       ]
@@ -2226,6 +2669,30 @@ export const CLEANUP_ATLAS = {
     },
     {
       "region": "lc-calcasieu-channel",
+      "site": "lcc-waterway-landing",
+      "name": "Waterway Crew Landing",
+      "kind": "landing",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "afscme",
+        "ibu",
+        "sup"
+      ]
+    },
+    {
+      "region": "lc-calcasieu-channel",
       "site": "lcc-workforce-parking",
       "name": "Workforce Parking and Orientation",
       "kind": "office",
@@ -2248,6 +2715,30 @@ export const CLEANUP_ATLAS = {
     },
     {
       "region": "lc-lakefront-downtown",
+      "site": "lcd-marina-dock",
+      "name": "the Lakefront Boat Launch",
+      "kind": "marina",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "afscme",
+        "ibu",
+        "sup"
+      ]
+    },
+    {
+      "region": "lc-lakefront-downtown",
       "site": "lcd-storm-drain-crew",
       "name": "Storm Drain and Outfall Crew",
       "kind": "pump",
@@ -2265,6 +2756,31 @@ export const CLEANUP_ATLAS = {
         "afscme",
         "iuoe",
         "uwua"
+      ]
+    },
+    {
+      "region": "lc-lakefront-downtown",
+      "site": "lcd-westlake-yard",
+      "name": "Westlake River Yard",
+      "kind": "port",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ila",
+        "iuoe",
+        "liuna",
+        "teamsters"
       ]
     },
     {
@@ -2291,11 +2807,36 @@ export const CLEANUP_ATLAS = {
     },
     {
       "region": "lc-port-of-vinton",
+      "site": "lpv-barge-berth-build",
+      "name": "Barge Berth Build",
+      "kind": "port",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "carpenters",
+        "ironworkers",
+        "iuoe",
+        "liuna"
+      ]
+    },
+    {
+      "region": "lc-port-of-vinton",
       "site": "lpv-berth-dredge",
       "name": "Berth Dredge Crew",
       "kind": "landing",
       "bay": false,
-      "waterfront": false,
+      "waterfront": true,
       "phases": [
         "shoreline"
       ],
@@ -2353,6 +2894,30 @@ export const CLEANUP_ATLAS = {
     },
     {
       "region": "lc-port-of-vinton",
+      "site": "lpv-mooring-dolphins",
+      "name": "Mooring Dolphin Crew",
+      "kind": "landing",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "carpenters",
+        "ibu",
+        "iuoe"
+      ]
+    },
+    {
+      "region": "lc-port-of-vinton",
       "site": "lpv-port-office",
       "name": "Port Office and Orientation",
       "kind": "office",
@@ -2396,6 +2961,56 @@ export const CLEANUP_ATLAS = {
     },
     {
       "region": "monroe-west-monroe",
+      "site": "mon-boat-launch-rebuild",
+      "name": "Boat Launch Rebuild",
+      "kind": "landing",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibu",
+        "iuoe",
+        "liuna"
+      ]
+    },
+    {
+      "region": "monroe-west-monroe",
+      "site": "mon-mill-turnaround-staging",
+      "name": "Mill Turnaround Staging Area",
+      "kind": "refinery",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibb",
+        "insulators",
+        "liuna",
+        "ua",
+        "usw"
+      ]
+    },
+    {
+      "region": "monroe-west-monroe",
       "site": "mon-workforce-centre",
       "name": "Monroe Workforce Centre",
       "kind": "civic",
@@ -2414,6 +3029,30 @@ export const CLEANUP_ATLAS = {
         "ibew",
         "liuna",
         "ua"
+      ]
+    },
+    {
+      "region": "nola-bywater-lower-ninth",
+      "site": "nbw-algiers-ferry-landing",
+      "name": "the Algiers Point Ferry Landing Crew",
+      "kind": "ferry",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibu",
+        "mmp",
+        "siu"
       ]
     },
     {
@@ -2486,6 +3125,33 @@ export const CLEANUP_ATLAS = {
       ]
     },
     {
+      "region": "nola-bywater-lower-ninth",
+      "site": "nbw-wharf-crew",
+      "name": "a Bywater Riverfront Wharf Crew",
+      "kind": "port",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "afl-cio-metal-trades",
+        "ila",
+        "ilwu",
+        "iuoe",
+        "liuna",
+        "teamsters"
+      ]
+    },
+    {
       "region": "nola-french-quarter-cbd",
       "site": "nfq-drainage-line-replacement",
       "name": "a Quarter Drainage Line Replacement",
@@ -2504,6 +3170,56 @@ export const CLEANUP_ATLAS = {
         "afscme",
         "liuna",
         "uwua"
+      ]
+    },
+    {
+      "region": "nola-french-quarter-cbd",
+      "site": "nfq-ferry-landing",
+      "name": "the Canal Street Ferry Landing Crew",
+      "kind": "ferry",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibu",
+        "mmp",
+        "siu"
+      ]
+    },
+    {
+      "region": "nola-french-quarter-cbd",
+      "site": "nfq-river-wharf-crew",
+      "name": "a Riverfront Wharf Crew",
+      "kind": "port",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ila",
+        "ilwu",
+        "iuoe",
+        "liuna",
+        "teamsters"
       ]
     },
     {
@@ -2596,6 +3312,31 @@ export const CLEANUP_ATLAS = {
         "afscme",
         "liuna",
         "uwua"
+      ]
+    },
+    {
+      "region": "nola-uptown-garden",
+      "site": "nup-river-wharf",
+      "name": "an Uptown River Wharf Crew",
+      "kind": "port",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ila",
+        "ilwu",
+        "iuoe",
+        "liuna"
       ]
     },
     {
@@ -3007,6 +3748,30 @@ export const CLEANUP_ATLAS = {
     },
     {
       "region": "orleans",
+      "site": "ferry-landing",
+      "name": "Canal Street Ferry Landing",
+      "kind": "ferry",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibu",
+        "mmp",
+        "siu"
+      ]
+    },
+    {
+      "region": "orleans",
       "site": "lakefront-levee",
       "name": "Lakefront Levee and Seawall",
       "kind": "levee",
@@ -3057,6 +3822,60 @@ export const CLEANUP_ATLAS = {
     },
     {
       "region": "orleans",
+      "site": "no-sw-industrial-canal-boat-repair-yard",
+      "name": "Industrial Canal Boat Repair Yard",
+      "kind": "shipyard",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibb",
+        "ironworkers",
+        "iupat",
+        "liuna",
+        "ua"
+      ]
+    },
+    {
+      "region": "orleans",
+      "site": "port-terminal",
+      "name": "Riverfront Wharves Terminal",
+      "kind": "port",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "afl-cio-maritime-trades",
+        "amo",
+        "ila",
+        "ilwu",
+        "iuoe",
+        "liuna",
+        "teamsters"
+      ]
+    },
+    {
+      "region": "orleans",
       "site": "wetland-restoration",
       "name": "Bayou Wetland Restoration Site",
       "kind": "wetland",
@@ -3087,11 +3906,34 @@ export const CLEANUP_ATLAS = {
     },
     {
       "region": "plaquemines",
+      "site": "pq-belle-chasse-ferry",
+      "name": "Belle Chasse Ferry Landing",
+      "kind": "ferry",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibu",
+        "meba"
+      ]
+    },
+    {
+      "region": "plaquemines",
       "site": "pq-empire-harbour",
       "name": "Empire Shrimp & Oyster Harbour",
       "kind": "harbour",
       "bay": false,
-      "waterfront": false,
+      "waterfront": true,
       "phases": [
         "shoreline"
       ],
@@ -3133,6 +3975,105 @@ export const CLEANUP_ATLAS = {
         "carpenters",
         "iuoe",
         "liuna"
+      ]
+    },
+    {
+      "region": "plaquemines",
+      "site": "pq-pipeline-yard",
+      "name": "Pipeline & Marine Fabrication Yard",
+      "kind": "shipyard",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibb",
+        "ironworkers",
+        "iupat",
+        "liuna",
+        "ua"
+      ]
+    },
+    {
+      "region": "plaquemines",
+      "site": "pq-pointe-a-la-hache-ferry",
+      "name": "Pointe à la Hache Ferry",
+      "kind": "ferry",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibu",
+        "meba"
+      ]
+    },
+    {
+      "region": "plaquemines",
+      "site": "pq-port-sulphur-terminal",
+      "name": "River Terminal at Port Sulphur",
+      "kind": "port",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ila",
+        "iuoe",
+        "liuna",
+        "meba"
+      ]
+    },
+    {
+      "region": "plaquemines",
+      "site": "pq-venice-marina",
+      "name": "Venice Marina at the End of the Road",
+      "kind": "marina",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibu",
+        "meba",
+        "mmp",
+        "siu"
       ]
     },
     {
@@ -3812,6 +4753,29 @@ export const CLEANUP_ATLAS = {
     },
     {
       "region": "st-bernard",
+      "site": "sb-chalmette-ferry",
+      "name": "Chalmette Ferry Landing",
+      "kind": "ferry",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibu",
+        "meba"
+      ]
+    },
+    {
+      "region": "st-bernard",
       "site": "sb-fire-station",
       "name": "Parish Fire Station",
       "kind": "fire-station",
@@ -3831,11 +4795,37 @@ export const CLEANUP_ATLAS = {
     },
     {
       "region": "st-bernard",
+      "site": "sb-refinery",
+      "name": "Refinery Corridor Turnaround",
+      "kind": "refinery",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibb",
+        "insulators",
+        "liuna",
+        "ua",
+        "usw"
+      ]
+    },
+    {
+      "region": "st-bernard",
       "site": "sb-shell-beach",
       "name": "Shell Beach Oyster & Shrimp Harbour",
       "kind": "harbour",
       "bay": false,
-      "waterfront": false,
+      "waterfront": true,
       "phases": [
         "shoreline"
       ],
@@ -3868,6 +4858,79 @@ export const CLEANUP_ATLAS = {
         "carpenters",
         "iuoe",
         "liuna"
+      ]
+    },
+    {
+      "region": "st-bernard",
+      "site": "sb-sw-shell-beach-boat-harbour",
+      "name": "Shell Beach Boat Harbour",
+      "kind": "harbour",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibu",
+        "siu"
+      ]
+    },
+    {
+      "region": "st-bernard",
+      "site": "sb-sw-shell-beach-boat-repair-yard",
+      "name": "Shell Beach Boat Repair Yard",
+      "kind": "shipyard",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibb",
+        "ironworkers",
+        "iupat",
+        "liuna",
+        "ua"
+      ]
+    },
+    {
+      "region": "st-bernard",
+      "site": "sb-sw-shell-beach-workboat-landing",
+      "name": "Shell Beach Workboat Landing",
+      "kind": "landing",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibu",
+        "meba",
+        "siu"
       ]
     },
     {
@@ -3908,6 +4971,54 @@ export const CLEANUP_ATLAS = {
       "unions": [
         "afge",
         "liuna"
+      ]
+    },
+    {
+      "region": "st-tammany",
+      "site": "st-madisonville-boatyard",
+      "name": "Tchefuncte River Boatyard",
+      "kind": "shipyard",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "carpenters",
+        "ibb",
+        "ibu",
+        "liuna"
+      ]
+    },
+    {
+      "region": "st-tammany",
+      "site": "st-mandeville-harbour",
+      "name": "Mandeville Lakefront & Harbour",
+      "kind": "harbour",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibu",
+        "siu"
       ]
     }
   ],
@@ -4014,6 +5125,31 @@ export const CLEANUP_ATLAS = {
         "iupat",
         "liuna",
         "ua"
+      ],
+      "missing": []
+    },
+    {
+      "region": "bp-nutrient-pilot",
+      "site": "npp-chemical-feed-building",
+      "name": "Chemical Feed Building",
+      "kind": "chemical",
+      "bay": true,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "afscme",
+        "iuoe",
+        "liuna"
       ],
       "missing": []
     },
@@ -4438,6 +5574,1374 @@ export const CLEANUP_ATLAS = {
         "ibu",
         "ilwu",
         "sup"
+      ],
+      "missing": []
+    }
+  ],
+  "otherWaterfront": [
+    {
+      "region": "br-downtown-riverfront",
+      "site": "brd-port-allen-landing",
+      "name": "Port Allen Riverbank Landing",
+      "kind": "landing",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibu",
+        "iuoe"
+      ],
+      "missing": []
+    },
+    {
+      "region": "br-north-industrial",
+      "site": "brn-river-terminal",
+      "name": "River Terminal Dock",
+      "kind": "port",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibu",
+        "ila",
+        "iuoe",
+        "liuna"
+      ],
+      "missing": []
+    },
+    {
+      "region": "br-north-industrial",
+      "site": "brn-tank-farm-maintenance",
+      "name": "Tank Farm Maintenance Crew",
+      "kind": "chemical",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ua",
+        "usw"
+      ],
+      "missing": []
+    },
+    {
+      "region": "br-riverplex-ascension",
+      "site": "brr-river-dock",
+      "name": "River Dock Build",
+      "kind": "port",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "carpenters",
+        "ila",
+        "iuoe",
+        "liuna"
+      ],
+      "missing": []
+    },
+    {
+      "region": "jefferson",
+      "site": "jf-gretna-landing",
+      "name": "Gretna Riverfront Landing",
+      "kind": "landing",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibu",
+        "meba",
+        "siu"
+      ],
+      "missing": []
+    },
+    {
+      "region": "jefferson",
+      "site": "jf-harvey-canal-yard",
+      "name": "Harvey Canal Marine Yard",
+      "kind": "shipyard",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibb",
+        "ibu",
+        "ironworkers",
+        "liuna",
+        "meba"
+      ],
+      "missing": []
+    },
+    {
+      "region": "jefferson",
+      "site": "jf-sw-west-bank-waterfront-boat-harbour",
+      "name": "West Bank Waterfront Boat Harbour",
+      "kind": "harbour",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibu",
+        "siu"
+      ],
+      "missing": []
+    },
+    {
+      "region": "jefferson",
+      "site": "jf-sw-west-bank-waterfront-boat-repair-yard",
+      "name": "West Bank Waterfront Boat Repair Yard",
+      "kind": "shipyard",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibb",
+        "ironworkers",
+        "iupat",
+        "liuna",
+        "ua"
+      ],
+      "missing": []
+    },
+    {
+      "region": "jefferson",
+      "site": "jf-sw-west-bank-waterfront-cargo-terminal",
+      "name": "West Bank Waterfront Cargo Terminal",
+      "kind": "port",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ila",
+        "iuoe",
+        "liuna",
+        "teamsters"
+      ],
+      "missing": []
+    },
+    {
+      "region": "jefferson",
+      "site": "jf-sw-west-bank-waterfront-workboat-landing",
+      "name": "West Bank Waterfront Workboat Landing",
+      "kind": "landing",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibu",
+        "meba",
+        "siu"
+      ],
+      "missing": []
+    },
+    {
+      "region": "la-avex-new-iberia",
+      "site": "lav-fuel-farm",
+      "name": "Fuel Farm",
+      "kind": "fuel-farm",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "iam",
+        "teamsters",
+        "ua"
+      ],
+      "missing": []
+    },
+    {
+      "region": "la-avex-new-iberia",
+      "site": "lav-paint-mix-room",
+      "name": "Paint Mix Room",
+      "kind": "chemical",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "iupat",
+        "teamsters"
+      ],
+      "missing": []
+    },
+    {
+      "region": "la-black-bayou-cameron",
+      "site": "lbb-barge-landing",
+      "name": "Barge Landing",
+      "kind": "port",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibu",
+        "ila",
+        "iuoe",
+        "liuna"
+      ],
+      "missing": []
+    },
+    {
+      "region": "la-saronic-franklin",
+      "site": "lsf-hull-fabrication",
+      "name": "Hull Fabrication Hall",
+      "kind": "shipyard",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibb",
+        "ironworkers",
+        "liuna",
+        "usw"
+      ],
+      "missing": []
+    },
+    {
+      "region": "la-saronic-franklin",
+      "site": "lsf-large-vessel-line",
+      "name": "Large-Vessel Line",
+      "kind": "shipyard",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibb",
+        "ironworkers",
+        "iuoe",
+        "liuna"
+      ],
+      "missing": []
+    },
+    {
+      "region": "la-saronic-franklin",
+      "site": "lsf-launch-and-test",
+      "name": "Launch and Test Berth",
+      "kind": "port",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibu",
+        "ila",
+        "iuoe",
+        "liuna"
+      ],
+      "missing": []
+    },
+    {
+      "region": "la-saronic-franklin",
+      "site": "lsf-outfitting-pier",
+      "name": "Outfitting Pier",
+      "kind": "landing",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibb",
+        "ibew",
+        "ua"
+      ],
+      "missing": []
+    },
+    {
+      "region": "la-shintech-plaquemine",
+      "site": "lsp-river-dock",
+      "name": "River Dock",
+      "kind": "port",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ila",
+        "iuoe",
+        "liuna",
+        "siu"
+      ],
+      "missing": []
+    },
+    {
+      "region": "la-shintech-plaquemine",
+      "site": "lsp-tank-farm",
+      "name": "Tank Farm",
+      "kind": "chemical",
+      "bay": false,
+      "waterfront": true,
+      "phases": [
+        "survey"
+      ],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [
+        "drum-sampling-and-overpack"
+      ],
+      "unions": [
+        "ibb",
+        "iupat",
+        "ua"
+      ],
+      "missing": []
+    },
+    {
+      "region": "la-starbase-vermilion",
+      "site": "lsb-marsh-creation-dredge",
+      "name": "Marsh Creation Dredge Line",
+      "kind": "dredge",
+      "bay": false,
+      "waterfront": true,
+      "phases": [
+        "shoreline"
+      ],
+      "offered": [],
+      "programmes": [],
+      "stations": [
+        "dredge-barge"
+      ],
+      "unions": [
+        "ibu",
+        "iuoe",
+        "liuna"
+      ],
+      "missing": []
+    },
+    {
+      "region": "la-starbase-vermilion",
+      "site": "lsb-propellant-tank-farm",
+      "name": "Propellant Tank Farm Build",
+      "kind": "tank-farm",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibb",
+        "insulators",
+        "ua"
+      ],
+      "missing": []
+    },
+    {
+      "region": "la-starbase-vermilion",
+      "site": "lsb-shipping-dock",
+      "name": "Shipping Dock",
+      "kind": "port",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ila",
+        "iuoe",
+        "liuna"
+      ],
+      "missing": []
+    },
+    {
+      "region": "lc-calcasieu-channel",
+      "site": "lcc-berth-dredge",
+      "name": "Berth Dredge Crew",
+      "kind": "landing",
+      "bay": false,
+      "waterfront": true,
+      "phases": [
+        "shoreline"
+      ],
+      "offered": [],
+      "programmes": [],
+      "stations": [
+        "dredge-barge"
+      ],
+      "unions": [
+        "ibu",
+        "iuoe",
+        "liuna"
+      ],
+      "missing": []
+    },
+    {
+      "region": "lc-calcasieu-channel",
+      "site": "lcc-marine-offload",
+      "name": "Marine Offload Berth",
+      "kind": "port",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ila",
+        "ironworkers",
+        "iuoe",
+        "liuna"
+      ],
+      "missing": []
+    },
+    {
+      "region": "lc-calcasieu-channel",
+      "site": "lcc-waterway-landing",
+      "name": "Waterway Crew Landing",
+      "kind": "landing",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "afscme",
+        "ibu",
+        "sup"
+      ],
+      "missing": []
+    },
+    {
+      "region": "lc-lakefront-downtown",
+      "site": "lcd-marina-dock",
+      "name": "the Lakefront Boat Launch",
+      "kind": "marina",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "afscme",
+        "ibu",
+        "sup"
+      ],
+      "missing": []
+    },
+    {
+      "region": "lc-lakefront-downtown",
+      "site": "lcd-westlake-yard",
+      "name": "Westlake River Yard",
+      "kind": "port",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ila",
+        "iuoe",
+        "liuna",
+        "teamsters"
+      ],
+      "missing": []
+    },
+    {
+      "region": "lc-port-of-vinton",
+      "site": "lpv-barge-berth-build",
+      "name": "Barge Berth Build",
+      "kind": "port",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "carpenters",
+        "ironworkers",
+        "iuoe",
+        "liuna"
+      ],
+      "missing": []
+    },
+    {
+      "region": "lc-port-of-vinton",
+      "site": "lpv-berth-dredge",
+      "name": "Berth Dredge Crew",
+      "kind": "landing",
+      "bay": false,
+      "waterfront": true,
+      "phases": [
+        "shoreline"
+      ],
+      "offered": [],
+      "programmes": [],
+      "stations": [
+        "dredge-barge"
+      ],
+      "unions": [
+        "ibu",
+        "iuoe",
+        "liuna"
+      ],
+      "missing": []
+    },
+    {
+      "region": "lc-port-of-vinton",
+      "site": "lpv-mooring-dolphins",
+      "name": "Mooring Dolphin Crew",
+      "kind": "landing",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "carpenters",
+        "ibu",
+        "iuoe"
+      ],
+      "missing": []
+    },
+    {
+      "region": "monroe-west-monroe",
+      "site": "mon-boat-launch-rebuild",
+      "name": "Boat Launch Rebuild",
+      "kind": "landing",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibu",
+        "iuoe",
+        "liuna"
+      ],
+      "missing": []
+    },
+    {
+      "region": "monroe-west-monroe",
+      "site": "mon-mill-turnaround-staging",
+      "name": "Mill Turnaround Staging Area",
+      "kind": "refinery",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibb",
+        "insulators",
+        "liuna",
+        "ua",
+        "usw"
+      ],
+      "missing": []
+    },
+    {
+      "region": "nola-bywater-lower-ninth",
+      "site": "nbw-algiers-ferry-landing",
+      "name": "the Algiers Point Ferry Landing Crew",
+      "kind": "ferry",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibu",
+        "mmp",
+        "siu"
+      ],
+      "missing": []
+    },
+    {
+      "region": "nola-bywater-lower-ninth",
+      "site": "nbw-wharf-crew",
+      "name": "a Bywater Riverfront Wharf Crew",
+      "kind": "port",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "afl-cio-metal-trades",
+        "ila",
+        "ilwu",
+        "iuoe",
+        "liuna",
+        "teamsters"
+      ],
+      "missing": []
+    },
+    {
+      "region": "nola-french-quarter-cbd",
+      "site": "nfq-ferry-landing",
+      "name": "the Canal Street Ferry Landing Crew",
+      "kind": "ferry",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibu",
+        "mmp",
+        "siu"
+      ],
+      "missing": []
+    },
+    {
+      "region": "nola-french-quarter-cbd",
+      "site": "nfq-river-wharf-crew",
+      "name": "a Riverfront Wharf Crew",
+      "kind": "port",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ila",
+        "ilwu",
+        "iuoe",
+        "liuna",
+        "teamsters"
+      ],
+      "missing": []
+    },
+    {
+      "region": "nola-uptown-garden",
+      "site": "nup-river-wharf",
+      "name": "an Uptown River Wharf Crew",
+      "kind": "port",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ila",
+        "ilwu",
+        "iuoe",
+        "liuna"
+      ],
+      "missing": []
+    },
+    {
+      "region": "orleans",
+      "site": "ferry-landing",
+      "name": "Canal Street Ferry Landing",
+      "kind": "ferry",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibu",
+        "mmp",
+        "siu"
+      ],
+      "missing": []
+    },
+    {
+      "region": "orleans",
+      "site": "no-sw-industrial-canal-boat-repair-yard",
+      "name": "Industrial Canal Boat Repair Yard",
+      "kind": "shipyard",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibb",
+        "ironworkers",
+        "iupat",
+        "liuna",
+        "ua"
+      ],
+      "missing": []
+    },
+    {
+      "region": "orleans",
+      "site": "port-terminal",
+      "name": "Riverfront Wharves Terminal",
+      "kind": "port",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "afl-cio-maritime-trades",
+        "amo",
+        "ila",
+        "ilwu",
+        "iuoe",
+        "liuna",
+        "teamsters"
+      ],
+      "missing": []
+    },
+    {
+      "region": "plaquemines",
+      "site": "pq-belle-chasse-ferry",
+      "name": "Belle Chasse Ferry Landing",
+      "kind": "ferry",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibu",
+        "meba"
+      ],
+      "missing": []
+    },
+    {
+      "region": "plaquemines",
+      "site": "pq-empire-harbour",
+      "name": "Empire Shrimp & Oyster Harbour",
+      "kind": "harbour",
+      "bay": false,
+      "waterfront": true,
+      "phases": [
+        "shoreline"
+      ],
+      "offered": [],
+      "programmes": [],
+      "stations": [
+        "oyster-reef-monitoring"
+      ],
+      "unions": [
+        "ibu",
+        "siu"
+      ],
+      "missing": []
+    },
+    {
+      "region": "plaquemines",
+      "site": "pq-pipeline-yard",
+      "name": "Pipeline & Marine Fabrication Yard",
+      "kind": "shipyard",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibb",
+        "ironworkers",
+        "iupat",
+        "liuna",
+        "ua"
+      ],
+      "missing": []
+    },
+    {
+      "region": "plaquemines",
+      "site": "pq-pointe-a-la-hache-ferry",
+      "name": "Pointe à la Hache Ferry",
+      "kind": "ferry",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibu",
+        "meba"
+      ],
+      "missing": []
+    },
+    {
+      "region": "plaquemines",
+      "site": "pq-port-sulphur-terminal",
+      "name": "River Terminal at Port Sulphur",
+      "kind": "port",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ila",
+        "iuoe",
+        "liuna",
+        "meba"
+      ],
+      "missing": []
+    },
+    {
+      "region": "plaquemines",
+      "site": "pq-venice-marina",
+      "name": "Venice Marina at the End of the Road",
+      "kind": "marina",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibu",
+        "meba",
+        "mmp",
+        "siu"
+      ],
+      "missing": []
+    },
+    {
+      "region": "st-bernard",
+      "site": "sb-chalmette-ferry",
+      "name": "Chalmette Ferry Landing",
+      "kind": "ferry",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibu",
+        "meba"
+      ],
+      "missing": []
+    },
+    {
+      "region": "st-bernard",
+      "site": "sb-refinery",
+      "name": "Refinery Corridor Turnaround",
+      "kind": "refinery",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibb",
+        "insulators",
+        "liuna",
+        "ua",
+        "usw"
+      ],
+      "missing": []
+    },
+    {
+      "region": "st-bernard",
+      "site": "sb-shell-beach",
+      "name": "Shell Beach Oyster & Shrimp Harbour",
+      "kind": "harbour",
+      "bay": false,
+      "waterfront": true,
+      "phases": [
+        "shoreline"
+      ],
+      "offered": [],
+      "programmes": [],
+      "stations": [
+        "oyster-reef-monitoring"
+      ],
+      "unions": [
+        "ibu",
+        "siu"
+      ],
+      "missing": []
+    },
+    {
+      "region": "st-bernard",
+      "site": "sb-sw-shell-beach-boat-harbour",
+      "name": "Shell Beach Boat Harbour",
+      "kind": "harbour",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibu",
+        "siu"
+      ],
+      "missing": []
+    },
+    {
+      "region": "st-bernard",
+      "site": "sb-sw-shell-beach-boat-repair-yard",
+      "name": "Shell Beach Boat Repair Yard",
+      "kind": "shipyard",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibb",
+        "ironworkers",
+        "iupat",
+        "liuna",
+        "ua"
+      ],
+      "missing": []
+    },
+    {
+      "region": "st-bernard",
+      "site": "sb-sw-shell-beach-workboat-landing",
+      "name": "Shell Beach Workboat Landing",
+      "kind": "landing",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibu",
+        "meba",
+        "siu"
+      ],
+      "missing": []
+    },
+    {
+      "region": "st-tammany",
+      "site": "st-madisonville-boatyard",
+      "name": "Tchefuncte River Boatyard",
+      "kind": "shipyard",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "carpenters",
+        "ibb",
+        "ibu",
+        "liuna"
+      ],
+      "missing": []
+    },
+    {
+      "region": "st-tammany",
+      "site": "st-mandeville-harbour",
+      "name": "Mandeville Lakefront & Harbour",
+      "kind": "harbour",
+      "bay": false,
+      "waterfront": true,
+      "phases": [],
+      "offered": [
+        "record",
+        "survey",
+        "removal",
+        "shoreline"
+      ],
+      "programmes": [
+        "hazmat-environmental"
+      ],
+      "stations": [],
+      "unions": [
+        "ibu",
+        "siu"
       ],
       "missing": []
     }
