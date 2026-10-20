@@ -962,11 +962,13 @@ export const NP_SF_BAYVIEW = {
     "mfow",
     "ilwu",
     "iuoe",
-    "teamsters"
+    "teamsters",
+    "liuna"
    ],
    "programmes": [
     "port-operations",
-    "rigging-lifting"
+    "rigging-lifting",
+    "hazmat-environmental"
    ],
    "stations": [
     "dock-crane",
@@ -976,7 +978,7 @@ export const NP_SF_BAYVIEW = {
     "po-lashing-gear-inspection-and-tagging",
     "pt-dock-fender-and-bollard-inspection"
    ],
-   "blurb": "The port's southern terminals north of Islais Creek: cranes over the berths, lashing gangs, the mooring lines and the hostlers in the yard."
+   "blurb": "The port's southern terminals north of Islais Creek: cranes over the berths, lashing gangs, the mooring lines and the hostlers in the yard. Its clean-up work is taught here too: the fence-line air, waste drums staged by class, and the outfall sampled when it rains."
   },
   {
    "id": "islais-rail-yard",

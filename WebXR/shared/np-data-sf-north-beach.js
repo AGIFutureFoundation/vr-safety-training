@@ -752,7 +752,8 @@ export const NP_SF_NORTH_BEACH = {
    ],
    "programmes": [
     "ports-maritime-ecology",
-    "yacht-and-charter-crew"
+    "yacht-and-charter-crew",
+    "hazmat-environmental"
    ],
    "stations": [
     "mooring-line",
@@ -761,7 +762,7 @@ export const NP_SF_NORTH_BEACH = {
     "yc-engine-room-pre-start-and-bilge-check",
     "spill-boom-deploy"
    ],
-   "blurb": "The fishing boats' berths behind the wharf: lines in a crosswind, the fuel dock, the bilge check before the boats go out."
+   "blurb": "The fishing boats' berths behind the wharf: lines in a crosswind, the fuel dock, the bilge check before the boats go out. The berths' own clean-up is taught here too: spill drums staged by class and the outfall sampled when it rains."
   },
   {
    "id": "wharf-seafood-dock",
@@ -799,12 +800,14 @@ export const NP_SF_NORTH_BEACH = {
    "trades": [
     "ila",
     "ilwu",
-    "iuoe"
+    "iuoe",
+    "liuna"
    ],
    "programmes": [
     "robot-control-basics",
     "port-operations",
-    "rigging-lifting"
+    "rigging-lifting",
+    "hazmat-environmental"
    ],
    "stations": [
     "rt-speed-separation-monitoring-setup",
@@ -813,7 +816,7 @@ export const NP_SF_NORTH_BEACH = {
     "pt-dock-fender-and-bollard-inspection",
     "forklift-dock"
    ],
-   "blurb": "A working pier shed on the waterfront: lines, gangways, fenders and the forklift lane."
+   "blurb": "A working pier shed on the waterfront: lines, gangways, fenders and the forklift lane. Its clean-up work is taught here too: the fence-line air, waste drums staged by class, and the outfall sampled when it rains."
   },
   {
    "id": "hyde-street-cable-car-crew",

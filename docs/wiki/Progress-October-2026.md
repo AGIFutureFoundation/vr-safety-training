@@ -18,6 +18,16 @@ What the builds of 19 and 20 October 2026 added, each with the file that holds i
 | Robot-control training and a robot station pad at one industrial site in each region that had none (a warehouse, shipyard, port, plant or substation) | `WebXR/shared/np-data-*.js` | `tools/check_parishes.mjs`, `tools/check_parish_data.mjs` |
 | Unions on the maps: every union whose training fund covers a category a site's stations fall in now sits in that site's trades, weighted towards sites that match its own work; numbered locals stay in their own area. Three are left out, with the reasons in commit 82fb5b70: FOP (no scope), NTEU (no site fits its work), UMWA (no mine site) | `WebXR/shared/np-data-*.js` | `tools/check_parish_data.mjs`, `tools/check_signage.mjs`, `tools/check_region_training.mjs` |
 
+## Cleanup sites, the Bay waterfront and federal sites
+
+| Added | Where it lives | Checked by |
+|---|---|---|
+| A cleanup atlas: the six phases of a hazardous-site cleanup in the order the Hunters Point programme teaches them (the record, survey, removal and haul, groundwater, the shoreline, community oversight), every map site that trains or offers a phase, and the unions training each phase on a map | `tools/gen_cleanup_atlas.mjs`, `WebXR/shared/cleanup-atlas-data.js`, `docs/cleanup-atlas.md` | `tools/check_cleanup_atlas.mjs` |
+| The Bay's working waterfront (ports, shipyards, the boatyard, the refinery yard, marinas, the ferry landing and a small-boat landing, 20 sites) now offers the hazmat and environmental programme where it taught no cleanup phase, with LIUNA added at the industrial yards | `WebXR/shared/np-data-*.js` | `tools/check_cleanup_atlas.mjs`, `tools/check_parish_data.mjs` |
+| An importer for EPA's Superfund National Priorities List export: it keeps only what the CSV says and adds a site type read from the name, marked as such, with the phases that type calls for | `tools/import_npl_csv.mjs` | `tools/check_cleanup_atlas.mjs` (fictional test rows) |
+
+The national list itself is not in the repository yet: this session's network policy blocks www.epa.gov. A CSV exported from EPA's site search, or allowing that host, lets `node tools/import_npl_csv.mjs <file.csv>` write `docs/cleanup/npl-sites.json`.
+
 ## Interiors and the interface
 
 | Added | Where it lives | Checked by |

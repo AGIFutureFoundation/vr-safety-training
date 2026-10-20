@@ -940,7 +940,8 @@ export const NP_SF_MARINA = {
    ],
    "programmes": [
     "yacht-and-charter-crew",
-    "ports-maritime-ecology"
+    "ports-maritime-ecology",
+    "hazmat-environmental"
    ],
    "stations": [
     "yc-line-handling-and-docking-in-crosswind",
@@ -949,7 +950,7 @@ export const NP_SF_MARINA = {
     "yc-engine-room-pre-start-and-bilge-check",
     "yc-pre-departure-safety-briefing-and-guest-count"
    ],
-   "blurb": "The small-craft harbour behind the breakwater: the fuel dock, the shore power posts and the crews who bring boats in on a crosswind."
+   "blurb": "The small-craft harbour behind the breakwater: the fuel dock, the shore power posts and the crews who bring boats in on a crosswind. The berths' own clean-up is taught here too: spill drums staged by class and the outfall sampled when it rains."
   },
   {
    "id": "crissy-rescue-station",
