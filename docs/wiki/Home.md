@@ -11,6 +11,7 @@ The robots are simulated and every result in this wiki is a simulation, seeded-r
 - **[A day in the Holodeck: three personas](Personas.md)**: Three walkthroughs, each a real path through existing stations: an apprentice laborer, a robot technician, an AI-training specialist.
 - **[Evidence: every measured number with its file](Evidence.md)**: The single table of every number the whitepaper uses, with the repository file it comes from and what kind of number it is.
 - **[Roadmap and changelog](Roadmap-and-Changelog.md)**: What is built, what is next, and what each build loop added, measured before and after.
+- **[Progress, October 2026](Progress-October-2026.md)**: What the builds of 19 and 20 October added, each with the file that holds it and the checker that proves it.
 - **[Learner-data terms, in plain language](Learner-Data-Terms.md)**: A plain-language summary of `docs/learner-data-terms.md`, a draft for counsel that says only what the code enforces.
 - **[What a robotics pilot needs, and what exists](Pilot-Kit.md)**: A cohort pilot at a union hall, school or employer, mapped to what the repository already holds and what it does not.
 - **[The Omega Hive: the agents that manage the robots](Omega-Hive.md)**: Seven software agents, each with a persona, an on-device voice and an avatar, coordinate every simulated robot job through the safety governor.
