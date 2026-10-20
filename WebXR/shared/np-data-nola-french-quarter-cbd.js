@@ -1283,6 +1283,7 @@ export const NP_NOLA_FRENCH_QUARTER_CBD = {
     "ilwu"
    ],
    "programmes": [
+    "robot-control-basics",
     "rigging-lifting",
     "port-operations"
    ],

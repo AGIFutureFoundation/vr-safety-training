@@ -1821,6 +1821,7 @@ export const NP_NOLA_MID_CITY_GENTILLY = {
     "ibew"
    ],
    "programmes": [
+    "robot-control-basics",
     "energy-transition",
     "electrical-first-period"
    ],

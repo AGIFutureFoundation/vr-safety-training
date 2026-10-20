@@ -802,6 +802,7 @@ export const NP_SF_NORTH_BEACH = {
     "iuoe"
    ],
    "programmes": [
+    "robot-control-basics",
     "port-operations",
     "rigging-lifting"
    ],

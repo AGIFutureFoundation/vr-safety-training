@@ -1790,6 +1790,7 @@ export const NP_NOLA_BYWATER_LOWER_NINTH = {
     "ilwu"
    ],
    "programmes": [
+    "robot-control-basics",
     "rigging-lifting",
     "port-operations"
    ],

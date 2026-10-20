@@ -26,6 +26,10 @@ export const REGION_PATHS = [
       {
         "kind": "programme",
         "id": "bay-program-projects"
+      },
+      {
+        "kind": "robot",
+        "id": "robot-control-basics"
       }
     ]
   },
@@ -108,6 +112,10 @@ export const REGION_PATHS = [
       {
         "kind": "programme",
         "id": "bay-restoration-maritime-underwater"
+      },
+      {
+        "kind": "robot",
+        "id": "robot-control-basics"
       }
     ]
   },
@@ -374,6 +382,10 @@ export const REGION_PATHS = [
       {
         "kind": "programme",
         "id": "bridge-and-structural"
+      },
+      {
+        "kind": "robot",
+        "id": "robot-control-basics"
       }
     ]
   },
@@ -424,6 +436,10 @@ export const REGION_PATHS = [
       {
         "kind": "programme",
         "id": "bartending-course"
+      },
+      {
+        "kind": "robot",
+        "id": "robot-control-basics"
       }
     ]
   },
@@ -438,6 +454,10 @@ export const REGION_PATHS = [
       {
         "kind": "programme",
         "id": "bartending-course"
+      },
+      {
+        "kind": "robot",
+        "id": "robot-control-basics"
       }
     ]
   },
@@ -452,6 +472,10 @@ export const REGION_PATHS = [
       {
         "kind": "programme",
         "id": "bay-restoration-maritime-underwater"
+      },
+      {
+        "kind": "robot",
+        "id": "robot-control-basics"
       }
     ]
   },
@@ -466,6 +490,10 @@ export const REGION_PATHS = [
       {
         "kind": "programme",
         "id": "bartending-course"
+      },
+      {
+        "kind": "robot",
+        "id": "robot-control-basics"
       }
     ]
   },
@@ -480,6 +508,10 @@ export const REGION_PATHS = [
       {
         "kind": "programme",
         "id": "bay-area-union-edition"
+      },
+      {
+        "kind": "robot",
+        "id": "robot-control-basics"
       }
     ]
   },
@@ -566,6 +598,10 @@ export const REGION_PATHS = [
       {
         "kind": "programme",
         "id": "bay-restoration-maritime-underwater"
+      },
+      {
+        "kind": "robot",
+        "id": "robot-control-basics"
       }
     ]
   },
@@ -616,6 +652,10 @@ export const REGION_PATHS = [
       {
         "kind": "programme",
         "id": "basketball-fundamentals"
+      },
+      {
+        "kind": "robot",
+        "id": "robot-control-basics"
       }
     ]
   },
@@ -644,6 +684,10 @@ export const REGION_PATHS = [
       {
         "kind": "programme",
         "id": "bartending-course"
+      },
+      {
+        "kind": "robot",
+        "id": "robot-control-basics"
       }
     ]
   },
@@ -676,6 +720,10 @@ export const REGION_PATHS = [
       {
         "kind": "programme",
         "id": "bartending-course"
+      },
+      {
+        "kind": "robot",
+        "id": "robot-control-basics"
       }
     ]
   },
@@ -704,6 +752,10 @@ export const REGION_PATHS = [
       {
         "kind": "programme",
         "id": "bay-restoration-maritime-underwater"
+      },
+      {
+        "kind": "robot",
+        "id": "robot-control-basics"
       }
     ]
   },
@@ -732,6 +784,10 @@ export const REGION_PATHS = [
       {
         "kind": "programme",
         "id": "basketball-fundamentals"
+      },
+      {
+        "kind": "robot",
+        "id": "robot-control-basics"
       }
     ]
   },

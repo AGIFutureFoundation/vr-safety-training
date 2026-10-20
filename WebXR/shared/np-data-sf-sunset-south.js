@@ -809,6 +809,7 @@ export const NP_SF_SUNSET_SOUTH = {
     "teamsters"
    ],
    "programmes": [
+    "robot-control-basics",
     "grocery-and-meatpacking"
    ],
    "stations": [

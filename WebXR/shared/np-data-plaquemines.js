@@ -1482,6 +1482,7 @@ export const NP_PLAQUEMINES = {
     "iupat"
    ],
    "programmes": [
+    "robot-control-basics",
     "insulators-and-boilermakers",
     "plumbers-and-pipefitters"
    ],

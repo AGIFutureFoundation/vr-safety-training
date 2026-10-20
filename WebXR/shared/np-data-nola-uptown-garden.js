@@ -1595,6 +1595,7 @@ export const NP_NOLA_UPTOWN_GARDEN = {
     "iuoe"
    ],
    "programmes": [
+    "robot-control-basics",
     "port-operations",
     "rigging-lifting"
    ],

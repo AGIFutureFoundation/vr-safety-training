@@ -105,6 +105,7 @@ export const REGION_TRAINING = [
       "port-operations",
       "ports-maritime-ecology",
       "railroad-crafts",
+      "robot-control-basics",
       "situational-awareness",
       "transit-ramp",
       "water-and-gas-utility-crews",
@@ -121,7 +122,9 @@ export const REGION_TRAINING = [
       "k12-how-a-local-council-meeting-works",
       "k12-simple-machines-at-a-crane"
     ],
-    "robot": [],
+    "robot": [
+      "robot-control-basics"
+    ],
     "unions": [
       "afscme",
       "aft",
@@ -376,6 +379,7 @@ export const REGION_TRAINING = [
       "port-operations",
       "ports-maritime-ecology",
       "rigging-lifting",
+      "robot-control-basics",
       "roofers-and-waterproofers",
       "transit-ramp",
       "water-and-gas-utility-crews"
@@ -390,7 +394,9 @@ export const REGION_TRAINING = [
       "k12-circuits-at-the-electrical-bench",
       "k12-simple-machines-at-a-crane"
     ],
-    "robot": [],
+    "robot": [
+      "robot-control-basics"
+    ],
     "unions": [
       "afscme",
       "atu",
@@ -1389,6 +1395,7 @@ export const REGION_TRAINING = [
       "ports-maritime-ecology",
       "railroad-crafts",
       "rigging-lifting",
+      "robot-control-basics",
       "roofers-and-waterproofers",
       "transit-ramp",
       "water-and-gas-utility-crews",
@@ -1405,7 +1412,9 @@ export const REGION_TRAINING = [
       "k12-es-where-the-storm-drain-goes",
       "k12-simple-machines-at-a-crane"
     ],
-    "robot": [],
+    "robot": [
+      "robot-control-basics"
+    ],
     "unions": [
       "afscme",
       "aft",
@@ -1611,6 +1620,7 @@ export const REGION_TRAINING = [
       "port-operations",
       "railroad-crafts",
       "rigging-lifting",
+      "robot-control-basics",
       "roofers-and-waterproofers",
       "transit-ramp",
       "water-and-gas-utility-crews",
@@ -1625,7 +1635,9 @@ export const REGION_TRAINING = [
       "k12-reading-instructions-and-safety-labels",
       "k12-simple-machines-at-a-crane"
     ],
-    "robot": [],
+    "robot": [
+      "robot-control-basics"
+    ],
     "unions": [
       "afscme",
       "aft",
@@ -1691,6 +1703,7 @@ export const REGION_TRAINING = [
       "port-operations",
       "railroad-crafts",
       "rigging-lifting",
+      "robot-control-basics",
       "roofers-and-waterproofers",
       "transit-ramp",
       "water-and-gas-utility-crews",
@@ -1702,7 +1715,9 @@ export const REGION_TRAINING = [
     "k12Stations": [
       "k12-reading-instructions-and-safety-labels"
     ],
-    "robot": [],
+    "robot": [
+      "robot-control-basics"
+    ],
     "unions": [
       "afscme",
       "atu",
@@ -1763,6 +1778,7 @@ export const REGION_TRAINING = [
       "plumbers-and-pipefitters",
       "property-management",
       "railroad-crafts",
+      "robot-control-basics",
       "roofers-and-waterproofers",
       "stationary-engineer",
       "transit-ramp",
@@ -1775,7 +1791,9 @@ export const REGION_TRAINING = [
     "k12Stations": [
       "k12-reading-instructions-and-safety-labels"
     ],
-    "robot": [],
+    "robot": [
+      "robot-control-basics"
+    ],
     "unions": [
       "aaup",
       "afscme",
@@ -1835,6 +1853,7 @@ export const REGION_TRAINING = [
       "property-management",
       "railroad-crafts",
       "rigging-lifting",
+      "robot-control-basics",
       "roofers-and-waterproofers",
       "stationary-engineer",
       "transit-ramp",
@@ -1847,7 +1866,9 @@ export const REGION_TRAINING = [
     "k12Stations": [
       "k12-reading-instructions-and-safety-labels"
     ],
-    "robot": [],
+    "robot": [
+      "robot-control-basics"
+    ],
     "unions": [
       "aaup",
       "afscme",
@@ -1905,6 +1926,7 @@ export const REGION_TRAINING = [
       "marine-ecology-and-restoration",
       "plumbers-and-pipefitters",
       "property-management",
+      "robot-control-basics",
       "screen-and-media-crafts",
       "stationary-engineer",
       "transit-ramp",
@@ -1922,7 +1944,9 @@ export const REGION_TRAINING = [
       "k12-slope-and-angles-on-a-ramp",
       "k12-water-cycle-and-filtration"
     ],
-    "robot": [],
+    "robot": [
+      "robot-control-basics"
+    ],
     "unions": [
       "afm",
       "afscme",
@@ -2314,6 +2338,7 @@ export const REGION_TRAINING = [
       "marine-ecology-and-restoration",
       "plumbers-and-pipefitters",
       "port-operations",
+      "robot-control-basics",
       "water-and-gas-utility-crews",
       "yacht-and-charter-crew"
     ],
@@ -2330,7 +2355,9 @@ export const REGION_TRAINING = [
       "k12-reading-a-map-scale-in-bay-world",
       "k12-water-cycle-and-filtration"
     ],
-    "robot": [],
+    "robot": [
+      "robot-control-basics"
+    ],
     "unions": [
       "afscme",
       "aft",
@@ -2567,6 +2594,7 @@ export const REGION_TRAINING = [
       "healthcare-support",
       "property-management",
       "railroad-crafts",
+      "robot-control-basics",
       "stationary-engineer",
       "transit-ramp",
       "water-and-gas-utility-crews",
@@ -2582,7 +2610,9 @@ export const REGION_TRAINING = [
       "k12-first-aid-awareness-call-for-help",
       "k12-water-cycle-and-filtration"
     ],
-    "robot": [],
+    "robot": [
+      "robot-control-basics"
+    ],
     "unions": [
       "aaup",
       "afscme",
@@ -2708,6 +2738,7 @@ export const REGION_TRAINING = [
       "plumbers-and-pipefitters",
       "ports-maritime-ecology",
       "property-management",
+      "robot-control-basics",
       "roofers-and-waterproofers",
       "sewing-garment-trades",
       "transit-ramp",
@@ -2729,7 +2760,9 @@ export const REGION_TRAINING = [
       "k12-simple-machines-at-a-crane",
       "k12-weather-and-the-sky"
     ],
-    "robot": [],
+    "robot": [
+      "robot-control-basics"
+    ],
     "unions": [
       "afscme",
       "aft",
@@ -2882,6 +2915,7 @@ export const REGION_TRAINING = [
       "ports-maritime-ecology",
       "railroad-crafts",
       "rigging-lifting",
+      "robot-control-basics",
       "roofers-and-waterproofers",
       "transit-ramp",
       "water-and-gas-utility-crews",
@@ -2898,7 +2932,9 @@ export const REGION_TRAINING = [
       "k12-reading-instructions-and-safety-labels",
       "k12-simple-machines-at-a-crane"
     ],
-    "robot": [],
+    "robot": [
+      "robot-control-basics"
+    ],
     "unions": [
       "afscme",
       "aft",
@@ -3004,6 +3040,7 @@ export const REGION_TRAINING = [
       "marine-ecology-and-restoration",
       "property-management",
       "railroad-crafts",
+      "robot-control-basics",
       "stationary-engineer",
       "transit-ramp",
       "water-and-gas-utility-crews"
@@ -3019,7 +3056,9 @@ export const REGION_TRAINING = [
       "k12-ecosystems-at-the-kelp-transect",
       "k12-first-aid-awareness-call-for-help"
     ],
-    "robot": [],
+    "robot": [
+      "robot-control-basics"
+    ],
     "unions": [
       "aaup",
       "afscme",
@@ -3114,6 +3153,7 @@ export const REGION_TRAINING = [
       "port-operations",
       "ports-maritime-ecology",
       "property-management",
+      "robot-control-basics",
       "yacht-and-charter-crew"
     ],
     "k12": [
@@ -3128,7 +3168,9 @@ export const REGION_TRAINING = [
       "k12-primary-and-secondary-sources",
       "k12-reading-instructions-and-safety-labels"
     ],
-    "robot": [],
+    "robot": [
+      "robot-control-basics"
+    ],
     "unions": [
       "afge",
       "afscme",
