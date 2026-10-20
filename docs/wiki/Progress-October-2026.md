@@ -16,7 +16,7 @@ What the builds of 19 and 20 October 2026 added, each with the file that holds i
 | A training table for every mapped region: its programmes, unions, K-12 entries (tracks and the K-12 station each field lesson links) and robot programmes | `WebXR/shared/region-training-data.js`, `docs/region-training.md` | `tools/check_region_training.mjs` |
 | A short ordered route per region: a K-12 entry, a trade programme, then a robot programme where the region offers one | `WebXR/shared/region-paths-data.js` | `tools/check_region_paths.mjs` |
 | Robot-control training and a robot station pad at one industrial site in each region that had none (a warehouse, shipyard, port, plant or substation) | `WebXR/shared/np-data-*.js` | `tools/check_parishes.mjs`, `tools/check_parish_data.mjs` |
-| Unions on the maps: every union whose training fund covers a category a site's stations fall in now sits in that site's trades, weighted towards sites that match its own work; numbered locals stay in their own area. Three are left out with the reason in the generator (no scope, no site that fits its work, no mine site) | `WebXR/shared/np-data-*.js` | `tools/check_parish_data.mjs`, `tools/check_signage.mjs`, `tools/check_region_training.mjs` |
+| Unions on the maps: every union whose training fund covers a category a site's stations fall in now sits in that site's trades, weighted towards sites that match its own work; numbered locals stay in their own area. Three are left out, with the reasons in commit 82fb5b70: FOP (no scope), NTEU (no site fits its work), UMWA (no mine site) | `WebXR/shared/np-data-*.js` | `tools/check_parish_data.mjs`, `tools/check_signage.mjs`, `tools/check_region_training.mjs` |
 
 ## Interiors and the interface
 
