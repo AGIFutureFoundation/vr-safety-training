@@ -985,6 +985,8 @@ export const NP_SF_MARINA = {
     -216
    ],
    "trades": [
+    "carpenters-local22",
+    "ibew-local6",
     "ironworkers",
     "iupat",
     "iuoe"

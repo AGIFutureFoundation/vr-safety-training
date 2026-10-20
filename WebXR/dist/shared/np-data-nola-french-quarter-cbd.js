@@ -1206,6 +1206,8 @@ export const NP_NOLA_FRENCH_QUARTER_CBD = {
     0
    ],
    "trades": [
+    "rwdsu",
+    "bctgm",
     "unite-here"
    ],
    "programmes": [
@@ -1454,6 +1456,8 @@ export const NP_NOLA_FRENCH_QUARTER_CBD = {
     749
    ],
    "trades": [
+    "wga-west",
+    "wga-east",
     "iatse",
     "seiu",
     "unite-here",

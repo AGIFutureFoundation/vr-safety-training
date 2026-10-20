@@ -1784,6 +1784,7 @@ export const NP_NOLA_BYWATER_LOWER_NINTH = {
     45
    ],
    "trades": [
+    "afl-cio-metal-trades",
     "ila",
     "iuoe",
     "teamsters",

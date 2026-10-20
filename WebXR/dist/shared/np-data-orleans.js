@@ -2005,6 +2005,8 @@ export const NP_ORLEANS = {
     1315
    ],
    "trades": [
+    "afl-cio-maritime-trades",
+    "amo",
     "ila",
     "iuoe",
     "teamsters",
@@ -2145,6 +2147,8 @@ export const NP_ORLEANS = {
     568
    ],
    "trades": [
+    "dpe",
+    "upte-cwa",
     "nnu",
     "seiu",
     "afscme",
@@ -2204,6 +2208,8 @@ export const NP_ORLEANS = {
     779
    ],
    "trades": [
+    "aea",
+    "sag-aftra",
     "iatse",
     "seiu",
     "unite-here",
@@ -2260,6 +2266,7 @@ export const NP_ORLEANS = {
     -16
    ],
    "trades": [
+    "nffe",
     "liuna",
     "iuoe",
     "afscme"

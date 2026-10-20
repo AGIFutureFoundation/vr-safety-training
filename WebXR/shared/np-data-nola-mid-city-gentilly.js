@@ -1695,6 +1695,8 @@ export const NP_NOLA_MID_CITY_GENTILLY = {
     1781
    ],
    "trades": [
+    "fast",
+    "ulstd",
     "unite-here"
    ],
    "programmes": [

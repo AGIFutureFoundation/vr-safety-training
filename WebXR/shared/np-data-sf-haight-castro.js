@@ -832,6 +832,7 @@ export const NP_SF_HAIGHT_CASTRO = {
     245
    ],
    "trades": [
+    "afm-local6",
     "iatse"
    ],
    "programmes": [
