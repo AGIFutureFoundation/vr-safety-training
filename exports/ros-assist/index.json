@@ -1,0 +1,796 @@
+{
+  "version": "ros-assist/1",
+  "synthetic": true,
+  "consent": null,
+  "hardware_run": false,
+  "layout": "ROS 2 message type names, compact columnar JSON per topic; not a rosbag; ROS not required",
+  "hz": 10,
+  "steps": 40,
+  "governor": {
+    "protective_stop_m": 0.5,
+    "reduced_zone_m": 1.5,
+    "reduced_speed_mps": 0.25,
+    "estop": "zero speed while held"
+  },
+  "styles": {
+    "cobot-arm": {
+      "label": "Collaborative arm",
+      "max_speed_mps": 0.5,
+      "topics": {
+        "/joint_states": "sensor_msgs/msg/JointState",
+        "/safety/human_distance": "sensor_msgs/msg/Range",
+        "/estop": "std_msgs/msg/Bool"
+      },
+      "episodes": 66,
+      "file": "cobot-arm.json"
+    },
+    "amr": {
+      "label": "Autonomous mobile robot",
+      "max_speed_mps": 1.2,
+      "topics": {
+        "/cmd_vel": "geometry_msgs/msg/Twist",
+        "/odom": "nav_msgs/msg/Odometry",
+        "/safety/human_distance": "sensor_msgs/msg/Range",
+        "/estop": "std_msgs/msg/Bool"
+      },
+      "episodes": 118,
+      "file": "amr.json"
+    },
+    "gantry": {
+      "label": "Gantry hoist",
+      "max_speed_mps": 0.8,
+      "topics": {
+        "/trolley/position": "std_msgs/msg/Float64",
+        "/hoist/load": "std_msgs/msg/Float64",
+        "/safety/human_distance": "sensor_msgs/msg/Range",
+        "/estop": "std_msgs/msg/Bool"
+      },
+      "episodes": 54,
+      "file": "gantry.json"
+    },
+    "quadruped": {
+      "label": "Inspection quadruped",
+      "max_speed_mps": 1,
+      "topics": {
+        "/cmd_vel": "geometry_msgs/msg/Twist",
+        "/inspection/reading": "std_msgs/msg/Float64",
+        "/safety/human_distance": "sensor_msgs/msg/Range",
+        "/estop": "std_msgs/msg/Bool"
+      },
+      "episodes": 68,
+      "file": "quadruped.json"
+    }
+  },
+  "style_by_category": {
+    "Manufacturing & Automation": "cobot-arm",
+    "Culinary & Hospitality": "cobot-arm",
+    "Sewing & Garment Trades": "cobot-arm",
+    "Surface Prep & Coatings": "cobot-arm",
+    "Mobility & Transit": "amr",
+    "Construction & Structural Trades": "amr",
+    "Healthcare Support": "amr",
+    "Grounds & Landscaping": "amr",
+    "Maritime & Ports": "gantry",
+    "Entertainment & Live Events": "gantry",
+    "Building Systems & Facilities": "quadruped",
+    "Energy & Power": "quadruped",
+    "Water & Environmental": "quadruped",
+    "Environmental Monitoring": "quadruped",
+    "Emergency Services": "quadruped",
+    "Connectivity & Telecom": "quadruped"
+  },
+  "coverage": [
+    {
+      "union": "aaup",
+      "styles": [
+        "cobot-arm",
+        "quadruped"
+      ]
+    },
+    {
+      "union": "aea",
+      "styles": [
+        "gantry"
+      ]
+    },
+    {
+      "union": "afa-cwa",
+      "styles": [
+        "amr"
+      ]
+    },
+    {
+      "union": "afge",
+      "styles": [
+        "amr",
+        "quadruped"
+      ]
+    },
+    {
+      "union": "afl-cio-maritime-trades",
+      "styles": [
+        "gantry"
+      ]
+    },
+    {
+      "union": "afl-cio-metal-trades",
+      "styles": [
+        "cobot-arm",
+        "gantry"
+      ]
+    },
+    {
+      "union": "afm",
+      "styles": [
+        "gantry"
+      ]
+    },
+    {
+      "union": "afm-local6",
+      "styles": [
+        "gantry"
+      ]
+    },
+    {
+      "union": "afsa",
+      "styles": [
+        "cobot-arm",
+        "amr"
+      ]
+    },
+    {
+      "union": "afscme",
+      "styles": [
+        "cobot-arm",
+        "amr"
+      ]
+    },
+    {
+      "union": "afscme-local3299",
+      "styles": [
+        "amr",
+        "quadruped"
+      ]
+    },
+    {
+      "union": "aft",
+      "styles": [
+        "cobot-arm",
+        "amr"
+      ]
+    },
+    {
+      "union": "alpa",
+      "styles": [
+        "amr"
+      ]
+    },
+    {
+      "union": "amo",
+      "styles": [
+        "gantry"
+      ]
+    },
+    {
+      "union": "apwu",
+      "styles": [
+        "cobot-arm",
+        "amr"
+      ]
+    },
+    {
+      "union": "atu",
+      "styles": [
+        "amr"
+      ]
+    },
+    {
+      "union": "atu-local192",
+      "styles": [
+        "amr"
+      ]
+    },
+    {
+      "union": "atu-local265",
+      "styles": [
+        "amr"
+      ]
+    },
+    {
+      "union": "bac",
+      "styles": [
+        "cobot-arm",
+        "amr"
+      ]
+    },
+    {
+      "union": "bac-local3-ca",
+      "styles": [
+        "cobot-arm",
+        "amr"
+      ]
+    },
+    {
+      "union": "bctgm",
+      "styles": [
+        "cobot-arm"
+      ]
+    },
+    {
+      "union": "blet",
+      "styles": [
+        "amr"
+      ]
+    },
+    {
+      "union": "bmwed",
+      "styles": [
+        "amr"
+      ]
+    },
+    {
+      "union": "brs",
+      "styles": [
+        "amr"
+      ]
+    },
+    {
+      "union": "carpenters",
+      "styles": [
+        "amr",
+        "gantry"
+      ]
+    },
+    {
+      "union": "carpenters-local22",
+      "styles": [
+        "amr",
+        "quadruped"
+      ]
+    },
+    {
+      "union": "cna",
+      "styles": []
+    },
+    {
+      "union": "csea",
+      "styles": [
+        "cobot-arm",
+        "amr"
+      ]
+    },
+    {
+      "union": "cwa",
+      "styles": [
+        "gantry",
+        "quadruped"
+      ]
+    },
+    {
+      "union": "dpe",
+      "styles": [
+        "amr",
+        "gantry"
+      ]
+    },
+    {
+      "union": "fast",
+      "styles": [
+        "cobot-arm"
+      ]
+    },
+    {
+      "union": "fop",
+      "styles": []
+    },
+    {
+      "union": "iaff",
+      "styles": [
+        "quadruped"
+      ]
+    },
+    {
+      "union": "iam",
+      "styles": [
+        "cobot-arm",
+        "amr"
+      ]
+    },
+    {
+      "union": "iatse",
+      "styles": [
+        "gantry"
+      ]
+    },
+    {
+      "union": "iatse-local16",
+      "styles": [
+        "gantry"
+      ]
+    },
+    {
+      "union": "ibb",
+      "styles": [
+        "quadruped"
+      ]
+    },
+    {
+      "union": "ibew",
+      "styles": [
+        "cobot-arm",
+        "amr"
+      ]
+    },
+    {
+      "union": "ibew-local1245",
+      "styles": [
+        "quadruped"
+      ]
+    },
+    {
+      "union": "ibew-local595",
+      "styles": [
+        "amr",
+        "quadruped"
+      ]
+    },
+    {
+      "union": "ibew-local6",
+      "styles": [
+        "amr",
+        "quadruped"
+      ]
+    },
+    {
+      "union": "ibu",
+      "styles": [
+        "gantry",
+        "quadruped"
+      ]
+    },
+    {
+      "union": "ifpte",
+      "styles": [
+        "cobot-arm"
+      ]
+    },
+    {
+      "union": "ifpte-local21",
+      "styles": [
+        "quadruped"
+      ]
+    },
+    {
+      "union": "ila",
+      "styles": [
+        "gantry"
+      ]
+    },
+    {
+      "union": "ilwu",
+      "styles": [
+        "gantry",
+        "quadruped"
+      ]
+    },
+    {
+      "union": "insulators",
+      "styles": [
+        "quadruped"
+      ]
+    },
+    {
+      "union": "ironworkers",
+      "styles": [
+        "amr",
+        "gantry"
+      ]
+    },
+    {
+      "union": "ironworkers-local377",
+      "styles": [
+        "amr"
+      ]
+    },
+    {
+      "union": "iue-cwa",
+      "styles": [
+        "cobot-arm",
+        "quadruped"
+      ]
+    },
+    {
+      "union": "iuec",
+      "styles": [
+        "quadruped"
+      ]
+    },
+    {
+      "union": "iuec-local8",
+      "styles": [
+        "quadruped"
+      ]
+    },
+    {
+      "union": "iuoe",
+      "styles": [
+        "amr",
+        "gantry"
+      ]
+    },
+    {
+      "union": "iuoe-local3",
+      "styles": [
+        "amr",
+        "quadruped"
+      ]
+    },
+    {
+      "union": "iupat",
+      "styles": [
+        "cobot-arm",
+        "amr"
+      ]
+    },
+    {
+      "union": "iupat-dc16",
+      "styles": [
+        "amr",
+        "quadruped"
+      ]
+    },
+    {
+      "union": "liuna",
+      "styles": [
+        "cobot-arm",
+        "amr"
+      ]
+    },
+    {
+      "union": "meba",
+      "styles": [
+        "gantry"
+      ]
+    },
+    {
+      "union": "mfow",
+      "styles": [
+        "gantry"
+      ]
+    },
+    {
+      "union": "mmp",
+      "styles": [
+        "gantry"
+      ]
+    },
+    {
+      "union": "nabtu",
+      "styles": [
+        "amr",
+        "gantry"
+      ]
+    },
+    {
+      "union": "naemt",
+      "styles": [
+        "quadruped"
+      ]
+    },
+    {
+      "union": "nage",
+      "styles": []
+    },
+    {
+      "union": "nalc",
+      "styles": [
+        "amr"
+      ]
+    },
+    {
+      "union": "napfe",
+      "styles": [
+        "amr"
+      ]
+    },
+    {
+      "union": "nasw",
+      "styles": [
+        "quadruped"
+      ]
+    },
+    {
+      "union": "natca",
+      "styles": [
+        "amr"
+      ]
+    },
+    {
+      "union": "nea",
+      "styles": [
+        "cobot-arm",
+        "amr"
+      ]
+    },
+    {
+      "union": "newsguild-cwa",
+      "styles": [
+        "gantry"
+      ]
+    },
+    {
+      "union": "nffe",
+      "styles": [
+        "amr",
+        "quadruped"
+      ]
+    },
+    {
+      "union": "nnu",
+      "styles": []
+    },
+    {
+      "union": "npmhu",
+      "styles": [
+        "cobot-arm",
+        "amr"
+      ]
+    },
+    {
+      "union": "nrlca",
+      "styles": [
+        "amr"
+      ]
+    },
+    {
+      "union": "nteu",
+      "styles": [
+        "quadruped"
+      ]
+    },
+    {
+      "union": "nuhw",
+      "styles": [
+        "amr"
+      ]
+    },
+    {
+      "union": "opcmia",
+      "styles": [
+        "amr"
+      ]
+    },
+    {
+      "union": "pass-union",
+      "styles": [
+        "amr"
+      ]
+    },
+    {
+      "union": "rwdsu",
+      "styles": [
+        "cobot-arm"
+      ]
+    },
+    {
+      "union": "sag-aftra",
+      "styles": [
+        "gantry"
+      ]
+    },
+    {
+      "union": "seiu",
+      "styles": [
+        "cobot-arm",
+        "amr"
+      ]
+    },
+    {
+      "union": "seiu-1021",
+      "styles": [
+        "amr",
+        "quadruped"
+      ]
+    },
+    {
+      "union": "seiu-uhw",
+      "styles": [
+        "amr"
+      ]
+    },
+    {
+      "union": "seiu-uswtw",
+      "styles": [
+        "quadruped"
+      ]
+    },
+    {
+      "union": "siu",
+      "styles": [
+        "gantry"
+      ]
+    },
+    {
+      "union": "smart",
+      "styles": [
+        "cobot-arm",
+        "amr"
+      ]
+    },
+    {
+      "union": "smart-local104",
+      "styles": [
+        "amr",
+        "quadruped"
+      ]
+    },
+    {
+      "union": "smart-td",
+      "styles": [
+        "amr"
+      ]
+    },
+    {
+      "union": "spfpa",
+      "styles": [
+        "quadruped"
+      ]
+    },
+    {
+      "union": "sup",
+      "styles": [
+        "gantry"
+      ]
+    },
+    {
+      "union": "tcu",
+      "styles": [
+        "amr"
+      ]
+    },
+    {
+      "union": "teamsters",
+      "styles": [
+        "cobot-arm",
+        "amr"
+      ]
+    },
+    {
+      "union": "ttd",
+      "styles": [
+        "amr",
+        "gantry"
+      ]
+    },
+    {
+      "union": "twu",
+      "styles": [
+        "amr"
+      ]
+    },
+    {
+      "union": "twu-local250a",
+      "styles": [
+        "amr"
+      ]
+    },
+    {
+      "union": "ua",
+      "styles": [
+        "cobot-arm",
+        "amr"
+      ]
+    },
+    {
+      "union": "ua-local483",
+      "styles": [
+        "amr",
+        "quadruped"
+      ]
+    },
+    {
+      "union": "uaw",
+      "styles": [
+        "cobot-arm"
+      ]
+    },
+    {
+      "union": "ufcw",
+      "styles": [
+        "cobot-arm"
+      ]
+    },
+    {
+      "union": "ulstd",
+      "styles": [
+        "cobot-arm",
+        "quadruped"
+      ]
+    },
+    {
+      "union": "umwa",
+      "styles": [
+        "cobot-arm"
+      ]
+    },
+    {
+      "union": "unac-uhcp",
+      "styles": [
+        "amr"
+      ]
+    },
+    {
+      "union": "unite-here",
+      "styles": [
+        "cobot-arm",
+        "quadruped"
+      ]
+    },
+    {
+      "union": "unite-here-local2850",
+      "styles": [
+        "cobot-arm"
+      ]
+    },
+    {
+      "union": "upte-cwa",
+      "styles": [
+        "amr",
+        "quadruped"
+      ]
+    },
+    {
+      "union": "urw",
+      "styles": [
+        "amr"
+      ]
+    },
+    {
+      "union": "usw",
+      "styles": [
+        "cobot-arm",
+        "quadruped"
+      ]
+    },
+    {
+      "union": "usw-local5",
+      "styles": [
+        "cobot-arm",
+        "quadruped"
+      ]
+    },
+    {
+      "union": "uwua",
+      "styles": [
+        "quadruped"
+      ]
+    },
+    {
+      "union": "wga-east",
+      "styles": [
+        "gantry"
+      ]
+    },
+    {
+      "union": "wga-west",
+      "styles": [
+        "gantry"
+      ]
+    },
+    {
+      "union": "workers-united",
+      "styles": [
+        "cobot-arm",
+        "amr"
+      ]
+    }
+  ],
+  "languages": [
+    "en"
+  ],
+  "not_included": [
+    "translated instructions (need a reviewed source)",
+    "any brand, model or company",
+    "any hardware run"
+  ]
+}
