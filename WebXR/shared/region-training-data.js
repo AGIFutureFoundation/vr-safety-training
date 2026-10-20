@@ -27,6 +27,7 @@ export const REGION_TRAINING = [
       "plumbers-and-pipefitters",
       "property-management",
       "railroad-crafts",
+      "robot-control-basics",
       "situational-awareness",
       "stationary-engineer",
       "transit-ramp",
@@ -43,7 +44,9 @@ export const REGION_TRAINING = [
       "k12-by-what-a-pump-station-does-in-the-rain",
       "k12-reading-a-map-scale-in-bay-world"
     ],
-    "robot": [],
+    "robot": [
+      "robot-control-basics"
+    ],
     "unions": [
       "aaup",
       "afscme",
@@ -2717,6 +2720,7 @@ export const REGION_TRAINING = [
       "live-events",
       "plumbers-and-pipefitters",
       "railroad-crafts",
+      "robot-control-basics",
       "roofers-and-waterproofers",
       "screen-and-media-crafts",
       "transit-ramp",
@@ -2733,7 +2737,9 @@ export const REGION_TRAINING = [
       "k12-by-the-water-cycle-from-lake-to-tap",
       "k12-slope-and-angles-on-a-ramp"
     ],
-    "robot": [],
+    "robot": [
+      "robot-control-basics"
+    ],
     "unions": [
       "afm-local6",
       "afscme",
@@ -3045,6 +3051,7 @@ export const REGION_TRAINING = [
       "heavy-equipment-operators",
       "hunters-point-bay-restoration",
       "plumbers-and-pipefitters",
+      "robot-control-basics",
       "situational-awareness",
       "transit-ramp",
       "water-and-gas-utility-crews"
@@ -3059,7 +3066,9 @@ export const REGION_TRAINING = [
       "k12-teamwork-and-feedback",
       "k12-water-cycle-and-filtration"
     ],
-    "robot": [],
+    "robot": [
+      "robot-control-basics"
+    ],
     "unions": [
       "afscme",
       "aft",

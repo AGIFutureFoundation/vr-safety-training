@@ -12,6 +12,10 @@ export const REGION_PATHS = [
       {
         "kind": "programme",
         "id": "aviation-maintenance-and-ground"
+      },
+      {
+        "kind": "robot",
+        "id": "robot-control-basics"
       }
     ]
   },
@@ -670,6 +674,10 @@ export const REGION_PATHS = [
       {
         "kind": "programme",
         "id": "bartending-course"
+      },
+      {
+        "kind": "robot",
+        "id": "robot-control-basics"
       }
     ]
   },
@@ -738,6 +746,10 @@ export const REGION_PATHS = [
       {
         "kind": "programme",
         "id": "bay-program-projects"
+      },
+      {
+        "kind": "robot",
+        "id": "robot-control-basics"
       }
     ]
   },

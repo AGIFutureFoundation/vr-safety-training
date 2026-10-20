@@ -711,15 +711,17 @@ export const NP_SF_HAIGHT_CASTRO = {
    "programmes": [
     "plumbers-and-pipefitters",
     "insulators-and-boilermakers",
-    "roofers-and-waterproofers"
+    "roofers-and-waterproofers",
+    "robot-control-basics"
    ],
    "stations": [
     "ib-asbestos-glovebag-removal-on-a-pipe",
     "pl-water-heater-and-tpr-valve-replacement",
     "rf-skylight-and-hatch-guarding",
-    "pl-natural-gas-pressure-test-and-leak-check"
+    "pl-natural-gas-pressure-test-and-leak-check",
+    "rt-robot-estop-recovery-and-restart"
    ],
-   "blurb": "An old house being made sound inside: lagged pipe removed by the book, a new water heater, the gas line tested."
+   "blurb": "An old house being made sound inside: lagged pipe removed by the book, a new water heater, the gas line tested. The renovation's site robot is brought back after an e-stop here, the cause found before it moves again."
   },
   {
    "id": "castro-victorian-repaint",
