@@ -99,6 +99,12 @@ export const IX_STYLES = {
   // ENV-HD-4 (docs/consoles/ENV-HD-4.md): the Omega Hive's operations room, generic by kind — a control room where the seven
   // software agents' consoles stand; hd4-rooms.js furnishes it (dresser) and its screens are the seam for the hive's console.
   "hd4-hive-ops":      { label: "Hive operations room", w: 18, d: 14, h: 4.2, wall: 0xd9dde2, floor: 0x4a535c, ceiling: 0xe4e7ea, trim: 0x2f6f8c, accent: 0x7b6cf0, lamp: 0xf2f6fa, dress: [] },
+  // ENV-DETAIL: a recreation centre's gym and a performance/event hall, generic by kind, so the parishes' recreation
+  // centres and their theatres, event venues and stadium concourses stop opening the civic lobby.
+  "rec-gym":      { label: "Recreation centre gym", w: 24, d: 18, h: 7, wall: 0xe4dccb, floor: 0xb98a55, ceiling: 0xcfd4d8, trim: 0x2f6f8c, accent: 0xe07a2f, lamp: 0xf6f8fa,
+    dress: [["bench", "wall:4"], ["locker", "back:6"], ["counter", "front"], ["crate", "row:2"]] },
+  "event-hall":   { label: "Performance and event hall", w: 22, d: 18, h: 6.5, wall: 0x3b3440, floor: 0x5a3f36, ceiling: 0x2a2530, trim: 0xc9a34a, accent: 0x9b2335, lamp: 0xfff0d8,
+    dress: [["stage", "front"], ["chair", "grid:5x6"], ["counter", "back:1"]] },
   "shop":         { label: "Rented shop", w: 11, d: 9, h: 3.6, wall: 0xf0ebe0, floor: 0x9a8f80, ceiling: 0xf4f1ea, trim: 0x2f6f8c, accent: 0xf2c14b, lamp: 0xfff4e0,
     dress: [["counter", "front"], ["rack", "wall:4"], ["crate", "row:2"]] },
 };
@@ -112,7 +118,7 @@ export function ixTycoonStyle(listing, business = null) {
 
 /** Every site kind on the 22 maps -> a generic style. Outdoor kinds (parks, levees, wetlands) get the field office they would have. */
 export const IX_KIND_STYLE = {
-  "union-hall": "union-hall", school: "classroom", campus: "classroom", nursery: "classroom", events: "civic-lobby",
+  "union-hall": "union-hall", school: "classroom", campus: "classroom", nursery: "classroom", events: "event-hall",
   "fire-station": "apparatus-bay", fire: "apparatus-bay", "rescue-station": "apparatus-bay", lifeguard: "apparatus-bay",
   hospital: "clinic", clinic: "clinic",
   workshop: "workshop", construction: "workshop", shipyard: "workshop", boatyard: "workshop", industrial: "workshop", "timber-yard": "workshop",
@@ -124,7 +130,7 @@ export const IX_KIND_STYLE = {
   streetcar: "transit-barn", rail: "transit-barn", transit: "transit-barn", "transit-barn": "transit-barn",
   port: "port-shed", harbour: "port-shed", marina: "port-shed", ferry: "port-shed", landing: "port-shed", boating: "port-shed", bridge: "port-shed",
   levee: "port-shed", seawall: "port-shed", floodwall: "port-shed", shoreline: "port-shed", shore: "port-shed", wetland: "port-shed",
-  civic: "civic-lobby", park: "civic-lobby", recreation: "civic-lobby", stadium: "civic-lobby", theatre: "civic-lobby", trail: "civic-lobby",
+  civic: "civic-lobby", park: "civic-lobby", recreation: "rec-gym", stadium: "event-hall", theatre: "event-hall", trail: "civic-lobby",
   // PROJECTLANDS' project sites (the Bay Program precincts, the representative plant and shoreline).
   aeration: "plant-room", chemical: "plant-room", digester: "plant-room", pilot: "plant-room", "energy-storage": "plant-room",
   "water-control": "plant-room", lab: "clinic", sampling: "clinic", decon: "clinic", charging: "workshop", excavation: "workshop",
@@ -197,6 +203,9 @@ export const IX_FEATURES = {
   "acc-drop-off-lobby": [[15.4, 0.5, 0.05, 0, 3.6, -0.99, "trim"], [0.25, 0.02, 9, 0, 0.01, 0.05, "accent"], [6, 0.9, 0.05, 0, 2.6, -0.99, "pale"], [0.05, 1.2, 4, 0.99, 1.6, -0.2, "pale"], [0.05, 1.2, 4, -0.99, 1.6, -0.2, "pale"]],
   "acc-classroom-wing": [[0.06, 2.1, 1.1, -0.99, 1.05, -0.55, "trim"], [0.06, 2.1, 1.1, 0.99, 1.05, -0.55, "trim"], [0.06, 2.1, 1.1, -0.99, 1.05, 0.2, "trim"], [0.06, 2.1, 1.1, 0.99, 1.05, 0.2, "trim"], [0.4, 0.02, 17, 0, 0.01, 0, "accent"], [4, 1.2, 0.04, 0, 1.6, -0.99, "pale"]],
   "acc-park-pavilion":  [[0.3, 4.4, 0.3, -0.97, 2.2, -0.95, "wood"], [0.3, 4.4, 0.3, 0.97, 2.2, -0.95, "wood"], [0.3, 4.4, 0.3, -0.97, 2.2, 0.95, "wood"], [0.3, 4.4, 0.3, 0.97, 2.2, 0.95, "wood"], [15.6, 0.3, 0.3, 0, 4.3, 0, "wood"], [0.05, 2.0, 8, -0.99, 1.9, 0, "pale"], [0.05, 2.0, 8, 0.99, 1.9, 0, "pale"]],
+  // ENV-DETAIL: court lines, a backboard and a scoreboard; a stage curtain, a lighting bar and an aisle runner.
+  "rec-gym":       [[0.12, 0.02, 16, -0.85, 0.01, 0, "accent"], [0.12, 0.02, 16, 0.85, 0.01, 0, "accent"], [20, 0.02, 0.12, 0, 0.01, 0, "accent"], [1.8, 1.05, 0.05, 0, 3.3, -0.97, "pale"], [3, 1.2, 0.05, 0.99, 4.6, 0, "dark"]],
+  "event-hall":    [[12, 4, 0.08, 0, 2.6, -0.99, "accent"], [14, 0.2, 0.2, 0, 5.6, -0.7, "metal"], [1.2, 0.02, 12, 0, 0.01, 0.2, "trim"]],
   // ENV-HD-4: the hive operations room's two video-wall bezels (either side of the honesty sign), acoustic panels and a cable tray.
   "hd4-hive-ops":      [[5.8, 2.5, 0.1, -0.565, 2.2, -0.99, "dark"], [5.8, 2.5, 0.1, 0.565, 2.2, -0.99, "dark"], [0.05, 1.4, 3.2, -0.99, 2.1, -0.2, "pale"], [0.05, 1.4, 3.2, 0.99, 2.1, -0.2, "pale"], [17.4, 0.1, 0.3, 0, 3.95, -0.6, "metal"]],
 };
