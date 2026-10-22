@@ -55,7 +55,7 @@ for (const probe of ["parameters={width,height,depth}", "parameters={radiusTop",
 }
 
 // Same concatenation as every checker, behind the richer stub.
-const MODULES = ["shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/a11y.js", "shared/weather.js", "shared/fleet.js", "shared/equipment.js", "shared/props.js", "shared/fairway-data.js", "shared/fairway.js", "shared/bayworld-data.js", "shared/bayworld.js", "shared/underwater-data.js", "shared/underwater.js", "smartcity/js/citykit.js", "smartcity/js/ambient.js",
+const MODULES = ["shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/a11y.js", "shared/weather.js", "shared/fleet.js", "shared/equipment.js", "shared/robot-models.js", "shared/props.js", "shared/fairway-data.js", "shared/fairway.js", "shared/bayworld-data.js", "shared/bayworld.js", "shared/underwater-data.js", "shared/underwater.js", "smartcity/js/citykit.js", "smartcity/js/ambient.js",
   "smartcity/js/apron.js", "smartcity/js/interiors.js", "smartcity/js/districts.js", "smartcity/js/stage.js"];
 // buildSuite() writes the plain stub; this suite is put together by hand so
 // it gets the one above.
@@ -347,7 +347,7 @@ let faultRows = 0;
   if (!/\?fault=/.test(docSrc)) fail("fault", "docs/districts.md does not document the ?fault= option");
   if (!/faultFromQuery\(location\.search\)/.test(appSrc) || !/faultedRoom\(room,/.test(appSrc) || !/onFault\?\.\(room\.activeFault\)/.test(appSrc)) fail("fault", "app.js does not read ?fault=, rewrite the step and call the station's onFault()");
   if (faulted.length) {
-    const FS = await buildSuite(["shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/fleet.js", "shared/equipment.js", "shared/toolkit.js", "shared/game.js", "smartcity/js/citykit.js", "smartcity/js/gamify.js", "shared/props.js", "shared/faults.js",
+    const FS = await buildSuite(["shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/fleet.js", "shared/equipment.js", "shared/robot-models.js", "shared/toolkit.js", "shared/game.js", "smartcity/js/citykit.js", "smartcity/js/gamify.js", "shared/props.js", "shared/faults.js",
       ...faulted.map((n) => `smartcity/js/sims/${n}`)],
     `export const FAULT_ROOMS = [${faulted.map((n) => readFileSync(join(simDir, n), "utf8").match(/export const (SIM_[A-Z0-9_]+)\s*=/)[1]).join(", ")}];\nexport { faultedRoom, faultAnswer, faultFromQuery, THREE as THREE_SUITE };`, "faults");
     if (FS.faultFromQuery("?sim=x&fault=yaw-brake-fault") !== "yaw-brake-fault" || FS.faultFromQuery("?fault=") !== null) fail("fault", "faultFromQuery does not read ?fault= cleanly");

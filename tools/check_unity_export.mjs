@@ -155,7 +155,7 @@ else {
 }
 
 // ------------------------------------------------------ 5. the models
-const kits = await buildSuite(["shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/fleet.js", "shared/equipment.js", "shared/toolkit.js"],
+const kits = await buildSuite(["shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/fleet.js", "shared/equipment.js", "shared/robot-models.js", "shared/toolkit.js"],
   "export { FLEET_BUDGET, EQUIPMENT_BUDGET, TOOLKIT_BUDGET };", "unity-check-kits");
 let modelsOk = 0, modelsTotal = 0, modelBytes = 0;
 const manifestPath = join(OUT, "Models", "MANIFEST.json");

@@ -36,7 +36,7 @@ const WEATHER_KINDS = (readFileSync(join(WEBXR, "shared/weather.js"), "utf8")
 if (!WEATHER_KINDS.length) throw new Error("could not read WEATHER_KINDS from weather.js");
 
 const MODULES = [
-  "shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/fleet.js", "shared/equipment.js", "shared/toolkit.js", "shared/game.js", "shared/props.js",
+  "shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/fleet.js", "shared/equipment.js", "shared/robot-models.js", "shared/toolkit.js", "shared/game.js", "shared/props.js",
   "shared/eggs.js",
   "smartcity/js/citykit.js", "smartcity/js/gamify.js",
   "smartcity/js/sims/charge-point.js", "smartcity/js/sims/signal-cabinet.js",
@@ -1103,7 +1103,7 @@ for (const sim of suite.SIMS) {
   });
   const laxDocument = globalThis.document;
   globalThis.document = { createElement: () => ({ width: 0, height: 0, getContext: () => strictCtx }) };
-  const STAGE_MODULES = ["shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/a11y.js", "shared/weather.js", "shared/fleet.js", "shared/equipment.js", "shared/props.js", "shared/fairway-data.js", "shared/fairway.js", "shared/bayworld-data.js", "shared/bayworld.js", "shared/underwater-data.js", "shared/underwater.js", "smartcity/js/citykit.js", "smartcity/js/ambient.js",
+  const STAGE_MODULES = ["shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/a11y.js", "shared/weather.js", "shared/fleet.js", "shared/equipment.js", "shared/robot-models.js", "shared/props.js", "shared/fairway-data.js", "shared/fairway.js", "shared/bayworld-data.js", "shared/bayworld.js", "shared/underwater-data.js", "shared/underwater.js", "smartcity/js/citykit.js", "smartcity/js/ambient.js",
     "smartcity/js/apron.js", "smartcity/js/interiors.js", "smartcity/js/districts.js", "smartcity/js/stage.js"];
   // The same stub check_districts builds the stage against (tools/lib/headless.mjs, with its Color, Fog and AmbientLight).
   // (plus an animated texture's offset and repeat, which a district's animate frame moves).

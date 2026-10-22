@@ -46628,7 +46628,8 @@ function rbShowZone(model, zone) {
   const P = model.userData.parts;
   if (P.fieldWarn) P.fieldWarn.visible = zone !== "normal" || P.fieldWarn.userData.always === true;
   if (P.fieldStop) P.fieldStop.visible = zone === "stop" || P.fieldStop.userData.always === true;
-  for (const r of P.ledRings ?? []) r.traverse((o) => { if (o.material?.emissive) o.material.emissive.setHex(zone === "stop" ? 0xff2a1e : zone === "reduced" ? 0xffab2e : RB_LED); });
+  const hex = zone === "stop" ? 0xff2a1e : zone === "reduced" ? 0xffab2e : RB_LED;
+  for (const r of P.ledRings ?? []) r.traverse?.((o) => { const e = o.material?.emissive; if (typeof e?.setHex === "function") e.setHex(hex); });
 }
 
 // ---------------------------------------------------------------- pieces

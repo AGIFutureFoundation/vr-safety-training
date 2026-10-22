@@ -728,7 +728,7 @@ const SIM_MODULES = [
   "smartcity/js/sims/vb-supervising-agent-dispatched-robots.js",
   "smartcity/js/sims/k12-rt-a-robot-waits-for-a-grown-ups-ok.js",
 ];
-const MODULES = ["shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/fleet.js", "shared/equipment.js", "shared/toolkit.js", "shared/game.js", "smartcity/js/citykit.js", "smartcity/js/gamify.js", ...SIM_MODULES, "shared/props.js"];
+const MODULES = ["shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/fleet.js", "shared/equipment.js", "shared/robot-models.js", "shared/toolkit.js", "shared/game.js", "smartcity/js/citykit.js", "smartcity/js/gamify.js", ...SIM_MODULES, "shared/props.js"];
 
 // A trimmed three.js stub — gen_sims_meta only calls each sim's own header
 // fields, never build(), so this needs far less than check_smartcity.mjs's.

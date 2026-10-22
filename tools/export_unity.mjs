@@ -220,7 +220,7 @@ export async function exportContent() {
   const catalog = JSON.parse(readFileSync(join(ROOT, "WebXR", "smartcity", "catalog.json"), "utf8"));
   const city = await loadSmartCity();
   const trades = await loadTrades();
-  const kits = await buildSuite(["shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/fleet.js", "shared/equipment.js", "shared/toolkit.js"],
+  const kits = await buildSuite(["shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/fleet.js", "shared/equipment.js", "shared/robot-models.js", "shared/toolkit.js"],
     "export { FLEET_BUDGET, EQUIPMENT_BUDGET, TOOLKIT_BUDGET };", "unity-kits");
   const idx = budgetIndex(kits);
   const cur = await buildSuite(["smartcity/js/curricula.js"], "export { CURRICULA };", "unity-curricula");
@@ -325,7 +325,7 @@ export async function exportModels(kits) {
   const dir = mkdtempSync(join(tmpdir(), "unity-models-"));
   process.on("exit", () => { try { rmSync(dir, { recursive: true, force: true }); } catch { /* scratch */ } });
   writeFileSync(join(dir, "three-real.mjs"), `export * from ${JSON.stringify(pathToFileURL(join(threeDir, "build", "three.module.js")).href)};\n`);
-  const parts = ["shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/fleet.js", "shared/equipment.js", "shared/toolkit.js"].map((rel) => strip(readFileSync(join(WEBXR, rel), "utf8")));
+  const parts = ["shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/fleet.js", "shared/equipment.js", "shared/robot-models.js", "shared/toolkit.js"].map((rel) => strip(readFileSync(join(WEBXR, rel), "utf8")));
   writeFileSync(join(dir, "suite.mjs"), `import * as THREE from "./three-real.mjs";\n\n${parts.join("\n\n")}\n\nexport { THREE, FLEET_BUDGET, EQUIPMENT_BUDGET, TOOLKIT_BUDGET, FLEET_BUILDERS, EQUIPMENT_BUILDERS, TOOLKIT_BUILDERS };`);
   const suite = await import(pathToFileURL(join(dir, "suite.mjs")).href);
   const { GLTFExporter } = await import(pathToFileURL(join(threeDir, "examples", "jsm", "exporters", "GLTFExporter.js")).href);

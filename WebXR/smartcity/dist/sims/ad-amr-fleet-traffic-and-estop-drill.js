@@ -211,7 +211,7 @@ export const SIM_AD_AMR_FLEET_TRAFFIC_AND_ESTOP_DRILL = {
     const faultLamp = ball(g, 0.07, 3.4, 2.0, -3.2, 0xd2312b, { emissive: 0xd2312b, ei: 1.6, seg: 12 });
     faultLamp.visible = false;
     const crew = standingFigure(g, -3.9, 1.2, { ry: 1.2, cloth: 0x2b3138, helmet: 0xf2f2f2 });
-    const picker = standingFigure(g, 0, -1.9, { ry: Math.PI, cloth: 0xf0b323, helmet: 0xf2f2f2 });
+    const picker = standingFigure(g, 0.9, -2.2, { ry: Math.PI, cloth: 0xf0b323, helmet: 0xf2f2f2 });
     holoTag(picker, "picker crossing the lane", 0, 1.95, 0.15, { css: "#4fd1ff", w: 0.42 });
     let drillHold = false, pauseUntil = 0, clock = 0, unit14Tripped = false;
     holoTag(crew, "fleet lead", 0, 1.95, 0.15, { css: "#4fd1ff", w: 0.34 });
@@ -246,7 +246,7 @@ export const SIM_AD_AMR_FLEET_TRAFFIC_AND_ESTOP_DRILL = {
         crew.userData.head.rotation.y = Math.sin(t * 0.5) * 0.3;
         clock = t;
         const cross = (Math.sin(t * 0.25) + 1) / 2;
-        picker.position.z = -1.9 - 3.0 * cross; picker.rotation.y = Math.cos(t * 0.25) > 0 ? Math.PI : 0;
+        picker.position.z = -2.2 - 2.6 * cross; picker.rotation.y = Math.cos(t * 0.25) > 0 ? Math.PI : 0;
         units.forEach((u, i) => {
           const held = drillHold || t < pauseUntil || (i === 1 && unit14Tripped);
           const d = Math.hypot(u.m.position.x - picker.position.x, u.m.position.z - picker.position.z);

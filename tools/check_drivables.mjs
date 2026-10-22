@@ -149,7 +149,7 @@ else {
   const dir = mkdtempSync(join(tmpdir(), "drivables-"));
   process.on("exit", () => { try { rmSync(dir, { recursive: true, force: true }); } catch { /* best effort */ } });
   writeFileSync(join(dir, "three-mock.mjs"), stubMatch[1]);
-  const parts = ["shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/fleet.js", "shared/equipment.js", "shared/drivables-data.js", "shared/drivables.js"].map((rel) => strip(readFileSync(join(WEBXR, rel), "utf8")));
+  const parts = ["shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/fleet.js", "shared/equipment.js", "shared/robot-models.js", "shared/drivables-data.js", "shared/drivables.js"].map((rel) => strip(readFileSync(join(WEBXR, rel), "utf8")));
   writeFileSync(join(dir, "suite.mjs"), `import * as THREE from "./three-mock.mjs";\nimport { __bounds } from "./three-mock.mjs";\n\n${parts.join("\n\n")}\n\nexport { THREE, __bounds, DV_DRIVABLES, DV_BUDGET, DV_BUILDERS, dvBuild, dvBudgetFor, dvUnresolved };`);
   const suite = await import(pathToFileURL(join(dir, "suite.mjs")).href);
   const mergedCount = (root) => {
