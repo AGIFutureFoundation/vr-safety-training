@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-12",
+  "generated": "2026-10-22",
   "weights": {
     "variety": 0.18,
     "decisions": 0.2,
@@ -3126,7 +3126,7 @@
         "scene": {
           "score": 0.9275,
           "meshes": 151,
-          "materials": 80,
+          "materials": 79,
           "interactables": 22
         },
         "originality": {
@@ -3593,8 +3593,8 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 193,
-          "materials": 84,
+          "meshes": 217,
+          "materials": 91,
           "interactables": 27
         },
         "originality": {
@@ -12394,58 +12394,6 @@
     },
     {
       "app": "smartcity",
-      "id": "tw-palletizer-cell-fenced-access-permit",
-      "name": "Palletizer Cell Fenced-Access Permit",
-      "category": "Manufacturing & Automation",
-      "steps": 13,
-      "score": 95,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 7,
-          "longestRun": 1
-        },
-        "decisions": {
-          "score": 0.9884615384615384,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 275,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 5
-        },
-        "standards": {
-          "score": 1,
-          "cited": 6,
-          "inScope": 6,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 10,
-          "got": 10
-        },
-        "scene": {
-          "score": 0.9525,
-          "meshes": 161,
-          "materials": 72,
-          "interactables": 24
-        },
-        "originality": {
-          "score": 0.04239130434782634,
-          "nearest": "ml-flat-sorter-guarding-and-lockout",
-          "similarity": 0.33152173913043476
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "tw-high-bay-order-picker-fall-protection",
       "name": "High-Bay Order Picker Fall Protection",
       "category": "Manufacturing & Automation",
@@ -13369,8 +13317,8 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 211,
-          "materials": 78,
+          "meshes": 304,
+          "materials": 100,
           "interactables": 29
         },
         "originality": {
@@ -14253,8 +14201,8 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 210,
-          "materials": 106,
+          "meshes": 234,
+          "materials": 112,
           "interactables": 28
         },
         "originality": {
@@ -14305,8 +14253,8 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 207,
-          "materials": 98,
+          "meshes": 231,
+          "materials": 104,
           "interactables": 26
         },
         "originality": {
@@ -22430,6 +22378,58 @@
     },
     {
       "app": "smartcity",
+      "id": "tw-palletizer-cell-fenced-access-permit",
+      "name": "Palletizer Cell Fenced-Access Permit",
+      "category": "Manufacturing & Automation",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 275,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 183,
+          "materials": 80,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.04239130434782634,
+          "nearest": "ml-flat-sorter-guarding-and-lockout",
+          "similarity": 0.33152173913043476
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "tw-battery-change-and-charging-bay-safety",
       "name": "Battery Change & Charging Bay Safety",
       "category": "Manufacturing & Automation",
@@ -23665,8 +23665,8 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 196,
-          "materials": 83,
+          "meshes": 218,
+          "materials": 93,
           "interactables": 30
         },
         "originality": {
@@ -32037,8 +32037,8 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 188,
-          "materials": 93,
+          "meshes": 210,
+          "materials": 103,
           "interactables": 24
         },
         "originality": {
@@ -32505,8 +32505,8 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 218,
-          "materials": 108,
+          "meshes": 259,
+          "materials": 125,
           "interactables": 27
         },
         "originality": {
@@ -32557,8 +32557,8 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 204,
-          "materials": 100,
+          "meshes": 226,
+          "materials": 109,
           "interactables": 28
         },
         "originality": {
@@ -37965,8 +37965,8 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 194,
-          "materials": 102,
+          "meshes": 216,
+          "materials": 112,
           "interactables": 29
         },
         "originality": {
@@ -38017,8 +38017,8 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 196,
-          "materials": 99,
+          "meshes": 255,
+          "materials": 120,
           "interactables": 28
         },
         "originality": {

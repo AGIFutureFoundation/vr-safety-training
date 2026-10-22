@@ -1,8 +1,8 @@
 # SmartCiti.X training series
 
-_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-10-19. 733 SmartCiti.X stations across 19 categories and 61 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
+_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-10-22. 733 SmartCiti.X stations across 19 categories and 65 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
 
-Every station is a real union procedure sited generically, built on the shared engine's eight step kinds (select, sequence, find, gauge, hold, track, turn, drag), with four scored hazards and two interruptions that must be noticed and answered while the hands are busy. Stations are driven end to end in a headless browser and pass 167 checkers before they ship; the content evaluation in `tools/eval_content.mjs` grades each one on variety, decisions, explanation, grounding, feedback, scene and originality.
+Every station is a real union procedure sited generically, built on the shared engine's eight step kinds (select, sequence, find, gauge, hold, track, turn, drag), with four scored hazards and two interruptions that must be noticed and answered while the hands are busy. Stations are driven end to end in a headless browser and pass 175 checkers before they ship; the content evaluation in `tools/eval_content.mjs` grades each one on variety, decisions, explanation, grounding, feedback, scene and originality.
 
 ## Contents
 
@@ -67,6 +67,10 @@ Every station is a real union procedure sited generically, built on the shared e
 - [K-12 Science](#k12-science)
 - [K-12 History and Civics](#k12-history-and-civics)
 - [K-12 Literacy and Life Skills](#k12-literacy-and-life-skills)
+- [Non-Profit Operations and Volunteers — Entry Point](#nonprofit-operations-and-volunteers)
+- [Ethics and Responsible Automation — Entry Point](#ethics-and-responsible-automation)
+- [Youth Club Leadership and Coaching — Entry Point](#youth-club-leadership)
+- [Robot Control Basics — Entry Point](#robot-control-basics)
 
 <a id="hunters-point-bay-restoration"></a>
 ## Hunters Point Clean-up and Bay Restoration
@@ -1407,7 +1411,7 @@ Eight jobs on a modern automated distribution floor: an AMR traffic zone entered
 | tw-3 | [High-Bay Order Picker Fall Protection](../../WebXR/smartcity/index.html?sim=tw-high-bay-order-picker-fall-protection) | Teamsters warehouse associate — high-bay order picker operator | indoor (shop) | 13 | 2 | 95 | The platform's own gate closes and the harness clips to the platform's own anchor before the platform ever leaves the ground, and the unclip waits until it is back down. |
 | tw-4 | [Dock Leveler & Trailer Restraint Check](../../WebXR/smartcity/index.html?sim=tw-dock-leveler-and-trailer-restraint-check) | Teamsters warehouse associate — dock leveler and trailer restraint | indoor (garage) | 13 | 2 | 96 | A trailer only gets crossed once it is backed flush to the bumpers, the ICC bar restraint is engaged, the wheels are chocked as the backup the restraint was never meant to be alone, and the dock light is read rather than assumed. |
 | tw-5 | [Battery Change & Charging Bay Safety](../../WebXR/smartcity/index.html?sim=tw-battery-change-and-charging-bay-safety) | Teamsters warehouse associate — lift-truck battery change | indoor (service) | 16 | 2 | 96 | The eyewash and the ventilation get confirmed clear before anything is unplugged, the truck is powered down before the spent battery is extracted, and the charge is proven inside its safe amperage band before it is trusted. |
-| tw-6 | [Palletizer Cell Fenced-Access Permit](../../WebXR/smartcity/index.html?sim=tw-palletizer-cell-fenced-access-permit) | Teamsters warehouse associate — palletizer cell entry | indoor (plant) | 13 | 2 | 95 | Entering a robotic palletizer cell means the light curtain and gate interlock are confirmed honest, the arm's power is isolated and locked, and the residual energy is proven at zero before anyone is inside the fence. |
+| tw-6 | [Palletizer Cell Fenced-Access Permit](../../WebXR/smartcity/index.html?sim=tw-palletizer-cell-fenced-access-permit) | Teamsters warehouse associate — palletizer cell entry | indoor (plant) | 13 | 2 | 96 | Entering a robotic palletizer cell means the light curtain and gate interlock are confirmed honest, the arm's power is isolated and locked, and the residual energy is proven at zero before anyone is inside the fence. |
 | tw-7 | [Cold-Storage PPE & Rotation](../../WebXR/smartcity/index.html?sim=tw-cold-storage-ppe-and-rotation) | Teamsters warehouse associate — cold-storage entry and stock rotation | indoor (clinic) | 12 | 2 | 97 | A cold room gets entered with a buddy actually checked in, the ice and the propped door and the torn seal caught before they become a fall or a temperature excursion, and the rotation-marked pallet pulled by date rather than convenience. |
 | tw-8 | [Pick-to-Light Ergonomics & Rotation](../../WebXR/smartcity/index.html?sim=tw-pick-to-light-ergonomics-and-rotation) | Teamsters warehouse associate — pick-to-light module | indoor (datahall) | 13 | 2 | 95 | A pick-to-light module is worked with the display confirmed over the light alone, a heavy case brought to waist height on the lift-assist table, and the scheduled rotation actually taken instead of skipped for one more cycle. |
 
@@ -1826,6 +1830,83 @@ Reading and speaking for life: instructions and safety labels, a clear incident 
 | 877 | [Who Does This Work](../../WebXR/smartcity/index.html?sim=k12-es-who-does-this-work) | Careers class at a union hall with trades crew members from Bay restoration and port work — learner and crew mentor | clear | 13 | 2 | 94 | The trades behind Bay restoration and clean port work matched job by job, the path from pre-apprenticeship to crew, and what the EPA and the Port of Oakland say, with each source named. |
 | 969 | [The Crews Behind a Big Build](../../WebXR/smartcity/index.html?sim=k12-lk-the-crews-behind-a-big-build) | Careers awareness at a workforce centre beside a large Louisiana development site — learner and apprenticeship coordinator | clear | 13 | 2 | 96 | Learners match trades to each stage of a big build and plan a path into an apprenticeship, careers awareness about kinds of work, never about any one employer. |
 
+<a id="nonprofit-operations-and-volunteers"></a>
+## Non-Profit Operations and Volunteers — Entry Point
+
+**Union:** SEIU and AFSCME community-service and public-sector staff, and the volunteers who run their programmes; taught as a civic course, not a union apprenticeship
+
+**Certifications and standards:** The federal 501(c)(3) rules for charitable organisations, the open-meeting and conflict-of-interest rules that apply to public boards, and the municipal ethics code
+
+The entry point for running a non-profit well: a mission stated plainly, a board that meets in public, volunteers kept safe and trusted, grants asked for and accounted for. It shares its ethics and community stations with the other packs, so a learner who starts here meets the same standards again on the robot floor and the youth court.
+
+| # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
+|---|---|---|---|---|---|---|---|
+| 226 | [Civic Principles Briefing](../../WebXR/smartcity/index.html?sim=civic-principles-briefing) | Civic leader — councillor, commissioner, organiser or public servant | clear | 13 | 0 | 90 | The shared opener: the principles a public-minded organisation states honestly before anything else is run. |
+| 223 | [Community Listening Session](../../WebXR/smartcity/index.html?sim=community-listening-session) | Community engagement facilitator | indoor (hotel) | 13 | 2 | 97 | Bringing people in rather than shutting them out, before the programme is designed around them. |
+| 318 | [Open Meeting Law and Agenda Notice](../../WebXR/smartcity/index.html?sim=cv-open-meeting-law-and-agenda-notice) | Clerk of the board — open-meeting compliance | indoor (service) | 14 | 2 | 97 | The board's open meeting, where the agenda and notice keep the organisation trusted. |
+| 221 | [Ethics and Conflict of Interest](../../WebXR/smartcity/index.html?sim=ethics-and-conflict-of-interest) | Appointed commissioner — ethics and disclosure | indoor (service) | 13 | 2 | 97 | Disclosure, gifts and recusal for every board member and volunteer leader. |
+| 218 | [Constituent Service Desk](../../WebXR/smartcity/index.html?sim=constituent-service-desk) | District office caseworker | indoor (service) | 14 | 2 | 98 | Keeping a promise to one client at a time, with a date you can keep. |
+| 322 | [Grant Application and Nonprofit Compliance](../../WebXR/smartcity/index.html?sim=cv-grant-application-and-nonprofit-compliance) | Programme and grants manager — community nonprofit | indoor (service) | 14 | 2 | 98 | Asking for money and accounting for every dollar of it. |
+| 319 | [Voter Registration Drive](../../WebXR/smartcity/index.html?sim=cv-voter-registration-drive-and-nonpartisan-conduct) | Voter registration drive lead — nonpartisan community organisation | clear | 14 | 2 | 98 | A community drive run on a plaza, with nonpartisan conduct kept at the table. |
+| 320 | [Neighborhood Emergency Block Captain](../../WebXR/smartcity/index.html?sim=cv-neighborhood-emergency-block-captain) | Neighbourhood emergency block captain — CERT-trained volunteer | overcast | 14 | 2 | 99 | Volunteers placed where they are needed after a disaster, inside the emergency command structure. |
+| 219 | [Coalition Building Table](../../WebXR/smartcity/index.html?sim=coalition-building-table) | Community organiser — coalition convenor | indoor (hotel) | 13 | 2 | 97 | Finding the interest behind each partner's position and counting support honestly. |
+
+<a id="ethics-and-responsible-automation"></a>
+## Ethics and Responsible Automation — Entry Point
+
+**Union:** AFSCME and SEIU public-service staff, and the site supervisors who answer for an automated site; taught as a civic course, not a union apprenticeship
+
+**Certifications and standards:** The municipal ethics code, the conflict-of-interest rules that bind public officials, and the crisis-communication practice a public body is held to
+
+The entry point for deciding what a robot on a site is allowed to do, who answers for it, and what is said to the public when something goes wrong. Its stations are the governance and communication ones; the robot-control stations sit in the control entry point, so the two packs teach the same stop rule from two sides.
+
+| # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
+|---|---|---|---|---|---|---|---|
+| 221 | [Ethics and Conflict of Interest](../../WebXR/smartcity/index.html?sim=ethics-and-conflict-of-interest) | Appointed commissioner — ethics and disclosure | indoor (service) | 13 | 2 | 97 | The shared opener: a vendor, a contract and a decision that must not be made by the person who benefits. |
+| 217 | [Public Meeting Chair](../../WebXR/smartcity/index.html?sim=public-meeting-chair) | Presiding officer — council or commission chair | indoor (service) | 13 | 2 | 97 | Every speaker heard before a robot's rollout is approved, with the minutes that show it. |
+| 222 | [Crisis Communication Podium](../../WebXR/smartcity/index.html?sim=crisis-communication-podium) | Public information officer — city spokesperson | smoke, Community Environmental Justice | 13 | 2 | 98 | When a robot stops in front of the public: confirm first, then speak, and say what is not yet known. |
+| 223 | [Community Listening Session](../../WebXR/smartcity/index.html?sim=community-listening-session) | Community engagement facilitator | indoor (hotel) | 13 | 2 | 97 | The people who live beside the site are asked before it changes, not after. |
+| 323 | [Difficult Conversation Across Difference](../../WebXR/smartcity/index.html?sim=cv-difficult-conversation-across-difference) | Neighbourhood services liaison — repair conversation | indoor (service) | 14 | 2 | 97 | Owning a harm the automation caused, without deflecting it. |
+| 731 | [Giving and Taking Feedback](../../WebXR/smartcity/index.html?sim=ei-giving-and-taking-feedback) | City parks crew — senior worker and apprentice | overcast | 13 | 2 | 97 | A supervisor's feedback on a near-miss, named to the behaviour rather than the person. |
+| ad-3 | [AMR Fleet Traffic & E-stop Drill](../../WebXR/smartcity/index.html?sim=ad-amr-fleet-traffic-and-estop-drill) | Automation technician, AMR fleet traffic and e-stop — UAW/IAM | overcast, robotics-factory | 14 | 2 | 95 | The site-wide stop, drilled so the people in the aisle know what the robots will do when it is pressed. |
+
+<a id="youth-club-leadership"></a>
+## Youth Club Leadership and Coaching — Entry Point
+
+**Union:** AFSCME and SEIU parks-and-recreation staff who run youth programmes; taught against the youth-sport and child-safety guidelines, not a union apprenticeship
+
+**Certifications and standards:** The national youth-development guidelines for sport, the SafeSport code for keeping athletes safe from abuse, the CDC Heads Up concussion training, and trauma-informed practice
+
+The entry point for a youth club's coaches and mentors: a session started with the floor checked and the warm-up done, feedback that grows a young player, a teammate conflict handled with accountability, and a mentor who hands the role on. It shares its court stations with the basketball programme, so a club that runs both trains the same coach.
+
+| # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
+|---|---|---|---|---|---|---|---|
+| 331 | [Warm-Up, Injury Prevention and Hydration](../../WebXR/smartcity/index.html?sim=bb-warmup-injury-prevention-and-hydration) | Youth basketball coach | clear, gym-court | 14 | 2 | 97 | The shared opener: the floor walked, the emergency plan read and the warm-up done in order before anyone runs. |
+| 347 | [Coach Feedback and Growth Mindset](../../WebXR/smartcity/index.html?sim=bb-coach-feedback-and-growth-mindset) | Youth basketball coach | clear, gym-court | 14 | 2 | 96 | Feedback that makes a young player want the next rep. |
+| 346 | [Teammate Conflict and Accountability](../../WebXR/smartcity/index.html?sim=bb-teammate-conflict-and-accountability) | Youth basketball coach | clear, gym-court | 14 | 2 | 96 | Two teammates in conflict, handled with accountability rather than favour. |
+| 729 | [Losing Well and Film Review](../../WebXR/smartcity/index.html?sim=bb-losing-well-and-film-review) | Youth basketball player and coach | clear, gym-court | 13 | 2 | 96 | A loss reviewed with the players in a way that keeps them in the gym next week. |
+| 229 | [Wellness — Peer Support Conversation](../../WebXR/smartcity/index.html?sim=wellness-peer-support-conversation) | Pre-apprentice trained as a programme peer supporter | indoor (service) | 13 | 2 | 93 | A young person who says they are struggling, heard and referred on, not handled alone. |
+| 715 | [Graduation and Alumni-Mentor Day](../../WebXR/smartcity/index.html?sim=wp-graduation-and-alumni-mentors) | Pathway Edition — a graduation and alumni-mentor day | indoor (service) | 13 | 2 | 96 | The club's older members returning as mentors, with the same safeguards as the coaches. |
+| 224 | [Conflict Mediation Room](../../WebXR/smartcity/index.html?sim=conflict-mediation-room) | Community mediator | indoor (clinic) | 13 | 2 | 97 | Mediating between two families, hearing each side before any decision. |
+| 225 | [Mentorship and Succession](../../WebXR/smartcity/index.html?sim=mentorship-and-succession) | Outgoing commission chair — mentor | indoor (hotel) | 13 | 2 | 97 | The programme ends where the leadership does, with the role handed to someone who can do it. |
+
+<a id="robot-control-basics"></a>
+## Robot Control Basics — Entry Point
+
+**Union:** IBEW and IUOE technicians and the operators who teach and supervise a robot cell; taught against the safety standards, not a union apprenticeship
+
+**Certifications and standards:** ISO 10218 for the safety of industrial robots, ANSI/RIA R15.06 for their adoption in North America, and the teach-pendant and e-stop rules a cell is commissioned against
+
+The entry point for controlling a robot safely: jog it from the pendant at a safe speed, measure what a cobot may touch, set up speed and separation monitoring, and bring it back after an e-stop. The stations are the robot-control ones and the stop rule they all share; the ROS-specific stations are not written yet, and this pack says so rather than claim them.
+
+| # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
+|---|---|---|---|---|---|---|---|
+| rt-1 | [Teaching a Robot from the Pendant](../../WebXR/smartcity/index.html?sim=rt-teach-pendant-safe-jogging) | Robot programmer, teaching points inside a fenced industrial cell — UAW/IAM | clear, robotics-factory | 13 | 2 | 96 | The shared opener: the pendant in hand, the speed held low and the deadman switch respected. |
+| rt-2 | [Measuring a Cobot's Contact Forces](../../WebXR/smartcity/index.html?sim=rt-cobot-power-force-limit-check) | Cobot integrator, power-and-force-limiting verification on a shared bench — UAW/IAM | overcast, robotics-training-centre | 13 | 2 | 98 | Measuring what a cobot may touch before a person works beside it. |
+| rt-4 | [Setting Up Speed-and-Separation Monitoring](../../WebXR/smartcity/index.html?sim=rt-speed-separation-monitoring-setup) | Robot integrator, area-scanner fields for a shared cobot cell — UAW/IAM | overcast, robotics-training-centre | 13 | 2 | 98 | Setting the zones so the robot slows before a person reaches them. |
+| rt-3 | [Bringing a Robot Back After an E-stop](../../WebXR/smartcity/index.html?sim=rt-robot-estop-recovery-and-restart) | Robot operator, recovering a fenced cell after an emergency stop — UAW/IAM | clear, robotics-factory | 13 | 2 | 96 | Bringing a robot back after an e-stop only once the cause is cleared. |
+| ad-3 | [AMR Fleet Traffic & E-stop Drill](../../WebXR/smartcity/index.html?sim=ad-amr-fleet-traffic-and-estop-drill) | Automation technician, AMR fleet traffic and e-stop — UAW/IAM | overcast, robotics-factory | 14 | 2 | 95 | The site stop drilled for a mobile fleet, shared with the ethics entry point. |
+
 ## Real-world environments
 
 A station can stand inside a licensed real-world model instead of the generated district: a scanned street, a modelled terminal, a surveyed shoreline. The station declares `environment: { url, scale, position, rotationY }` or a reviewer previews any file with `?env=<url>` before it is committed; the loader hides the procedural skyline and district while the model is shown. Only CC0, CC-BY or marketplace-licensed models with an attribution line go under `WebXR/assets/env/` — game rips are not accepted. The hand-built sample street below is the placeholder every real model is judged against.
@@ -1834,7 +1915,7 @@ A station can stand inside a licensed real-world model instead of the generated 
 
 ## How a station is verified
 
-1. `node tools/check_all.mjs` — 167 checkers, among them: parse, imports, layout (every control reachable, crew figures clear of the work), budget (mesh count per headset frame), interruptions (each one fires, times out, scores and visibly changes the scene), crew roles, incident replay, curricula resolution, catalog freshness, devices, input, standards, console, competency and models.
+1. `node tools/check_all.mjs` — 175 checkers, among them: parse, imports, layout (every control reachable, crew figures clear of the work), budget (mesh count per headset frame), interruptions (each one fires, times out, scores and visibly changes the scene), crew roles, incident replay, curricula resolution, catalog freshness, devices, input, standards, console, competency and models.
 2. `python3 tools/bundle_webxr.py` — the single-file bundle the headset loads.
 3. A headless Chromium drive of every step, with both interruptions answered, and a screenshot from the spawn point that someone actually looks at.
 4. `node tools/eval_content.mjs` — the graded content review, used as the heartbeat between waves of stations rather than as a gate.
