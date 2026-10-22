@@ -1,0 +1,421 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "chute-room-clear",
+    "name": "Chute Room Clear",
+    "note": "A trash room run with no hand inside a live compactor, no needle touched and no fire door propped"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "OSHA 29 CFR 1910.147 (control of hazardous energy) for any reach into the compactor, 29 CFR 1910.212 for its guarding and hold-to-run control, 29 CFR 1910.1030 for a needle found in the trash, 29 CFR 1910.1200 for the cleaning chemicals, and 29 CFR 1910.138 and 29 CFR 1910.133 for cut-resistant gloves and eye protection; NFPA 25 for the sprinkler over the chute discharge and NFPA 101 for the chute's self-closing rated door; the state and local organics and recycling rules the building's carts are sorted to; SEIU contract language for building service staff; IUOE Local 39 for the engineers who repair the compactor.",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 101",
+        "id": "nfpa-101",
+        "title": "NFPA 101 — Life Safety Code"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 25",
+        "id": "nfpa-25",
+        "title": "NFPA 25 — Inspection, Testing and Maintenance of Water-Based Fire Protection Systems"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.133",
+        "id": "osha-1910-133",
+        "title": "29 CFR 1910.133 — Eye and face protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.138",
+        "id": "osha-1910-138",
+        "title": "29 CFR 1910.138 — Hand protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Property Management",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "hands-out",
+        "name": "Hands Out",
+        "note": "No unsafe action anywhere in the shift"
+      },
+      {
+        "id": "locked-first",
+        "name": "Locked First",
+        "note": "The compactor locked out on the first try"
+      },
+      {
+        "id": "steady-hook",
+        "name": "Steady Hook",
+        "note": "Every timed task carried through without a break"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-room-shift",
+        "name": "Clean Shift",
+        "note": "No corrections anywhere"
+      },
+      {
+        "id": "before-the-hauler",
+        "name": "Before the Hauler",
+        "note": "Inside 80% of par"
+      },
+      {
+        "id": "eight-in-a-row",
+        "name": "Eight in a Row",
+        "note": "Eight correct actions in a row"
+      }
+    ],
+    "currency": "BINS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Relief Porter",
+      "Porter",
+      "Lead Porter",
+      "Day Porter Lead",
+      "Chute Room Certified"
+    ],
+    "system": "Chute Room"
+  },
+  "hazards": {
+    "bag-squeeze": "You are pushing down on an overfull bag with your hand to make it fit. Residents throw needles, broken glass and razor blades into the chute; a bag compressed by hand is how they go through the plastic and into a palm. Bags are handled by the neck and never compressed against the body — 29 CFR 1910.1030 is written around injuries exactly like this.",
+    "bleach-ammonia": "You are pouring bleach into the bucket that already has the ammonia cleaner in it to kill the smell. Together they give off chloramine gas in a small room with one door. The SDS for each product under 29 CFR 1910.1200 says never to mix them; the bin wash uses one product, rinsed, then the other if at all.",
+    "chute-door-wedge": "You are wedging the chute discharge door open to stop it banging. That door is a rated fire door on a vertical shaft that runs through every floor; a trash fire under a propped door has a chimney straight up the building. NFPA 101 wants it self-closing, and the fusible link that shuts it in a fire cannot work while a wedge holds it.",
+    "ram-face-reach": "You are reaching into the compactor's charge box with the power still on. The ram can cycle from a photo-eye, a timer or someone else's hand on the button, and it exerts tons of force across the opening. 29 CFR 1910.147 exists for this exact reach: nothing goes past the guard until the disconnect is off and your lock is on it."
+  },
+  "id": "pm-trash-and-recycling-room",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "compactor-cycle",
+      "alert": "A resident walks in with a box of old paint cans, a car battery and two fluorescent tubes and heads for the landfill cart.",
+      "cue": "Stop the cycle, and direct it to the household hazardous waste cabinet instead of the cart.",
+      "delay": 2,
+      "id": "resident-hhw",
+      "kind": "Resident with hazardous waste",
+      "missNote": "The resident tipped the box into the landfill cart and left. A battery and two tubes are now headed for the compactor, and one of them is a fire waiting for the ram.",
+      "seconds": 12,
+      "target": "hhw-cabinet",
+      "why": "Batteries, solvent-based paint and fluorescent tubes are household hazardous waste: crushed in a compactor they leak, spark or release mercury, and batteries in particular start trash fires. The cabinet exists so a resident trying to do the right thing has somewhere to put them — directing them there politely is the whole answer.",
+      "wrongNote": "Not that. Point them to the household hazardous waste cabinet — batteries and tubes never go in a cart."
+    },
+    {
+      "after": "clear-jam",
+      "alert": "A city health inspector arrives following a resident's complaint about rats near the trash room and asks to see the pest control log.",
+      "cue": "Keep the compactor locked out, and hand over the pest control log.",
+      "delay": 3,
+      "id": "inspector-pests",
+      "kind": "Inspector arrives",
+      "missNote": "The inspector waited and left without the pest log. The complaint is now recorded as unanswered, whatever the exterminator actually did last week.",
+      "seconds": 12,
+      "target": "pest-log",
+      "why": "A pest complaint is answered with a record: when the bait stations were serviced, what was found, what was sealed. The pest log on the wall is the building's evidence that the room is managed rather than just emptied, and producing it immediately — while your lock stays on — tells the inspector both things at once.",
+      "wrongNote": "That is not what the inspector asked for. The pest control log is on the wall by the door."
+    }
+  ],
+  "lateNotes": {
+    "building-log": "The room goes into the log once the compactor is restored and the carts are sorted.",
+    "compactor-lock": "The lock goes on once the disconnect is off — a lock on a live disconnect is a tag on a machine that can still run.",
+    "jam-hook": "The jam is cleared only with the compactor locked out. Nothing reaches into that charge box while the disconnect is on."
+  },
+  "name": "Trash and Recycling Room",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "property-management"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "bag-squeeze",
+      "bagged-sprinkler",
+      "bleach-ammonia",
+      "building-log",
+      "chute-door-latch",
+      "chute-door-wedge",
+      "collection-schedule",
+      "compactor-disconnect",
+      "compactor-lock",
+      "compactor-run",
+      "crew-checkin-board",
+      "cut-gloves",
+      "hhw-cabinet",
+      "hydraulic-gauge",
+      "jam-hook",
+      "organics-plastic",
+      "pest-log",
+      "pizza-box",
+      "ram-face-reach",
+      "recycling-cardboard",
+      "safety-glasses",
+      "sharps-box-socket",
+      "sharps-tongs",
+      "unlabeled-jug"
+    ],
+    "meshes": 195
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check which streams are collected today and what the last shift wrote in the compactor log.",
+      "id": "collection-schedule",
+      "kind": "select",
+      "prompt": "Check which streams are collected today and what the last shift wrote in the compactor log.",
+      "target": "collection-schedule",
+      "title": "Read the hauler schedule and the compactor log",
+      "why": "The hauler's schedule decides which carts have to be at the curb and when, and the compactor log is where the last porter wrote that the ram hesitated or the container was nearly full. Starting from both means the room is worked to today's pickups instead of discovering at noon that the organics cart was due at seven."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Pull on the cut-resistant gloves and the safety glasses before you touch a bag or a cart.",
+      "id": "ppe-on",
+      "itemNames": {
+        "cut-gloves": "cut- and puncture-resistant gloves on",
+        "safety-glasses": "safety glasses on"
+      },
+      "kind": "sequence",
+      "prompt": "Pull on the cut-resistant gloves and the safety glasses before you touch a bag or a cart.",
+      "targets": [
+        "cut-gloves",
+        "safety-glasses"
+      ],
+      "title": "Glove up and put on eye protection",
+      "why": "Everything that comes down a chute arrives unsorted: broken glass, needles, cans cut open, liquids that splash when a bag splits. 29 CFR 1910.138 asks for hand protection matched to the hazard — here that means cut and puncture resistance — and 29 CFR 1910.133 asks for eye protection where a split bag can throw liquid or glass at your face."
+    },
+    {
+      "cue": "Three things in this room make a trash fire worse or a spill unknown. Find them.",
+      "id": "chute-room-walk",
+      "itemNames": {
+        "bagged-sprinkler": "sprinkler head over the chute bagged",
+        "chute-door-latch": "chute discharge door not latching",
+        "unlabeled-jug": "unlabelled jug beside the carts"
+      },
+      "itemNotes": {
+        "bagged-sprinkler": "Someone has put a plastic bag over the sprinkler head above the chute, probably after a nuisance drip. That head is the fire protection for the most likely fire in the building, and NFPA 25 treats an obstructed head as a deficiency to correct now.",
+        "chute-door-latch": "The discharge door swings back without latching. A rated door that does not close is not a fire door — log it for the engineer today.",
+        "unlabeled-jug": "An unlabelled jug of liquid has been left by the carts. Until somebody knows what it is, it does not go into any cart or down any drain — it goes to the hazardous waste cabinet."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things in this room make a trash fire worse or a spill unknown. Find them.",
+      "targets": [
+        "chute-door-latch",
+        "bagged-sprinkler",
+        "unlabeled-jug"
+      ],
+      "title": "Walk the chute room for fire faults",
+      "why": "Trash rooms are where building fires most often start, and the defences are simple and easy to defeat: a door that closes, a sprinkler that can reach the fire, and nothing unknown sitting beside the fuel. None of them shows on a panel. They are found by a porter who walks the room every morning and knows what right looks like."
+    },
+    {
+      "cue": "Watch the hydraulic gauge on the power unit and commit when it rests inside the operating band.",
+      "gauge": {
+        "green": [
+          0.45,
+          0.6
+        ],
+        "label": "COMPACTOR HYDRAULIC PRESSURE",
+        "missNote": "Outside the operating band. Low and the ram will stall mid-stroke; high and something in the power unit is failing. Read it again and commit only inside the band — or tag it for the engineer.",
+        "speed": 0.55
+      },
+      "id": "hydraulic-check",
+      "kind": "gauge",
+      "prompt": "Watch the hydraulic gauge on the power unit and commit when it rests inside the operating band.",
+      "target": "hydraulic-gauge",
+      "title": "Read the compactor's hydraulic pressure",
+      "why": "A compactor that builds too little pressure stalls with the ram half out and the charge box jammed; one that builds too much is a relief valve or a hose on its way to failing, and a hydraulic hose that lets go sprays oil hot enough and hard enough to injure. The gauge is the only look anyone gets inside the power unit before the ram moves."
+    },
+    {
+      "cue": "Close the charge-box gate and hold the run button through the full stroke — release stops the ram.",
+      "holdBreakNote": "You let go mid-stroke and the ram stopped across the opening. Hold the button through the whole cycle so the ram returns home.",
+      "id": "compactor-cycle",
+      "kind": "hold",
+      "prompt": "Close the charge-box gate and hold the run button through the full stroke — release stops the ram.",
+      "seconds": 5,
+      "target": "compactor-run",
+      "title": "Run a compaction cycle on the hold-to-run button",
+      "why": "A hold-to-run control means the ram moves only while a person is standing at the button watching the charge box, and 29 CFR 1910.212 expects the point of operation to be guarded in exactly this way. Holding it through a full stroke packs the container properly; letting it go halfway leaves the ram out across the opening, which is how the next jam begins."
+    },
+    {
+      "cue": "A needle is poking out of a split bag. Take it with the tongs and carry it to the sharps container.",
+      "drag": {
+        "missNote": "Not in the sharps container. Carry it all the way in and let go over the opening — a needle set down anywhere else is still loose.",
+        "radius": 0.5,
+        "to": "sharps-box-socket"
+      },
+      "id": "sharps-pickup",
+      "kind": "drag",
+      "prompt": "A needle is poking out of a split bag. Take it with the tongs and carry it to the sharps container.",
+      "target": "sharps-tongs",
+      "title": "Pick up the needle with tongs",
+      "why": "A found needle is handled as if it is contaminated, because there is no way to know it is not. 29 CFR 1910.1030 is built on never letting a hand get near the point: tongs to pick it up, a rigid sharps container to put it in, and the lid closed behind it. A stick from a discarded needle means months of testing and fear even when it comes to nothing."
+    },
+    {
+      "cue": "The charge box is jammed. Turn the compactor's disconnect handle to OFF before anything else.",
+      "id": "disconnect-off",
+      "kind": "turn",
+      "prompt": "The charge box is jammed. Turn the compactor's disconnect handle to OFF before anything else.",
+      "target": "compactor-disconnect",
+      "title": "Switch off the compactor at its disconnect",
+      "turn": {
+        "axis": "z",
+        "label": "COMPACTOR DISCONNECT",
+        "turns": 0.25
+      },
+      "why": "The run button is a control, not an isolation: a photo-eye, a timer or a second person can start the ram while the button is untouched. The disconnect cuts the power to the motor and the pump, and it is the energy-isolating device 29 CFR 1910.147 means. Turning it off is the first half of making the charge box a place a hand can go."
+    },
+    {
+      "cue": "Hang your own lock and tag on the disconnect handle.",
+      "id": "lock-tag",
+      "kind": "select",
+      "prompt": "Hang your own lock and tag on the disconnect handle.",
+      "target": "compactor-lock",
+      "title": "Apply your lock and tag",
+      "why": "A switched-off disconnect can be switched on by anyone who does not know you are reaching into the charge box. Your lock, with your name on the tag, is what makes the machine yours until you take it off; 29 CFR 1910.147 requires it to be the lock of the person exposed, not the room's shared padlock."
+    },
+    {
+      "cue": "Work the jammed bags free with the long hook in steady pulls — not yanks.",
+      "holdBreakNote": "The pull went out of the steady band. A yank splits bags and throws what is in them; ease it back to a steady draw.",
+      "id": "clear-jam",
+      "kind": "track",
+      "prompt": "Work the jammed bags free with the long hook in steady pulls — not yanks.",
+      "seconds": 6,
+      "target": "jam-hook",
+      "title": "Clear the jam with the hook",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.4,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "HOOK — PULL",
+        "rise": 0.45,
+        "start": 0.2
+      },
+      "why": "Even locked out, a jammed charge box holds stored energy: packed bags pressed against the ram spring back, and a hard yank brings glass and liquid with them. Steady pulls with the long-handled hook keep your body back from the opening and let the jam come loose a piece at a time instead of all at once in your face."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Take the plastic out of the organics, flatten the cardboard into recycling, and move the greasy box to organics.",
+      "id": "sort-contamination",
+      "itemNames": {
+        "organics-plastic": "plastic bag pulled from the organics cart",
+        "pizza-box": "greasy pizza box moved to organics",
+        "recycling-cardboard": "cardboard flattened into recycling"
+      },
+      "kind": "sequence",
+      "prompt": "Take the plastic out of the organics, flatten the cardboard into recycling, and move the greasy box to organics.",
+      "targets": [
+        "organics-plastic",
+        "recycling-cardboard",
+        "pizza-box"
+      ],
+      "title": "Pull the contamination out of the carts",
+      "why": "A cart that arrives contaminated can be refused or landfilled whole, and the building is the one charged for it under the state and local organics and recycling rules. A minute sorting the obvious mistakes — plastic in the organics, food grease on the cardboard — keeps the carts acceptable and the diversion numbers honest."
+    },
+    {
+      "cue": "With the charge box clear and nobody near it, take your lock off and turn the disconnect back ON.",
+      "id": "restore-disconnect",
+      "kind": "turn",
+      "prompt": "With the charge box clear and nobody near it, take your lock off and turn the disconnect back ON.",
+      "target": "compactor-disconnect",
+      "title": "Remove your lock and restore the compactor",
+      "turn": {
+        "axis": "z",
+        "label": "COMPACTOR DISCONNECT",
+        "turns": 0.25
+      },
+      "why": "Only the person whose lock it is takes it off, and only once the charge box is empty of people, hooks and tools. Restoring power is the moment a machine that has been safe for twenty minutes becomes dangerous again, so it is done deliberately, with a look into the opening first — not by the next person who notices the compactor is off."
+    },
+    {
+      "cue": "Log the chute door, the bagged sprinkler, the jam, the needle and the inspector's visit.",
+      "id": "building-log",
+      "kind": "select",
+      "prompt": "Log the chute door, the bagged sprinkler, the jam, the needle and the inspector's visit.",
+      "target": "building-log",
+      "title": "Write the room into the building log",
+      "why": "The chute door and the sprinkler are repairs for the engineer, the needle is a record the building should keep, and the jam tells the next shift how the compactor is behaving. Written in the building log, each one becomes a ticket someone owns; told to a co-worker in passing, each one becomes something everybody assumed somebody else reported."
+    },
+    {
+      "cue": "Ask the other porter how the needle and the rest of the shift sat with them, and name the member line.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Ask the other porter how the needle and the rest of the shift sat with them, and name the member line.",
+      "target": "crew-checkin-board",
+      "title": "Check in with your co-worker",
+      "why": "Finding a needle in a bag you nearly squeezed, or being on the receiving end of a resident's anger about the chute, stays with people more than they say. A short check-in at the end of the room, with the SEIU member assistance line named, is a small thing that keeps porters telling each other when something has rattled them."
+    }
+  ],
+  "supportLine": "the SEIU member assistance line or your employer's EAP — a needle in the trash is a scare even when nobody is stuck",
+  "tagline": "The room under the chute: schedule read, gloves and glasses on, fire faults found, the compactor read and run hold-to-run, a needle taken with tongs, the compactor locked out before the jam is cleared, the carts sorted, and power restored by the lock's owner",
+  "title": "SmartCiti.X~ Trash and Recycling Room VR",
+  "trade": "Porter and building service worker — SEIU building service members, with IUOE Local 39 engineers for the compactor's electrical and hydraulic repairs",
+  "underwater": null,
+  "weather": null
+}

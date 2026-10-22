@@ -1,0 +1,419 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "second-pair-of-hands",
+    "name": "Second Pair Of Hands",
+    "note": "A full restorative appointment assisted from the assistant's zone with every transfer made below the patient's chin"
+  },
+  "category": "Dental & Oral Health",
+  "certification": "DANB's Certified Dental Assistant (CDA) credential and its general chairside assisting component; the American Dental Assistants Association (ADAA) as the profession's body; the state dental practice act's allowable-duties list for assistants and any separate state permit above it; the ADA's guidance on the dental team; the CDC's Guidelines for Infection Control in Dental Health-Care Settings for instrument handling at the chair; OSHA 29 CFR 1910.1030 bloodborne pathogens and NIOSH's dental ergonomics guidance; SEIU and UFCW clinic staff agreements",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADA",
+        "citedAs": "ADA's",
+        "id": "ada-radiographic-guidance",
+        "title": "American Dental Association and FDA guidance on prescribing dental radiographs"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "state dental board",
+        "citedAs": "dental practice act",
+        "id": "state-dental-board",
+        "title": "The state dental board and its dental practice act: licensure, scope of practice, and the allowable-duties rules for dental assistants and hygienists"
+      },
+      {
+        "body": "union",
+        "citedAs": "UFCW",
+        "id": "ufcw-training",
+        "title": "UFCW member training for retail food, clinic and dental support work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Dental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "zones-held",
+        "name": "Zones Held",
+        "note": "The clock zones read correctly and the static zone left clear"
+      },
+      {
+        "id": "nothing-over-the-face",
+        "name": "Nothing Over The Face",
+        "note": "No unsafe action anywhere in the appointment"
+      },
+      {
+        "id": "rhythm-kept",
+        "name": "Rhythm Kept",
+        "note": "Both timed passages carried without a break"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-assist",
+        "name": "Clean Assist",
+        "note": "No corrections anywhere in the appointment"
+      },
+      {
+        "id": "steady-field",
+        "name": "Steady Field",
+        "note": "Retraction committed inside the narrow band"
+      },
+      {
+        "id": "on-the-operator",
+        "name": "On The Operator",
+        "note": "Complete inside 80% of par — the operator never waited"
+      }
+    ],
+    "currency": "PASS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Assisting Student",
+      "Chairside Assistant",
+      "Certified Dental Assistant",
+      "Lead Assistant",
+      "Chairside Craft Certified"
+    ],
+    "system": "Chairside Craft"
+  },
+  "hazards": {
+    "fhd-blocked-static-zone": "The mobile stand has been parked across the static zone behind the patient's head. That zone is deliberately kept empty so nothing has to be lifted across the patient to reach it; blocked, every handpiece and every cord change becomes a reach over a face that the whole layout exists to prevent.",
+    "fhd-pass-over-face": "That transfer went across the patient's eyes. An instrument carried over a face is a dropped bur or a scaler point landing on a cornea, and there is no recovery from it — every pass in four-handed work travels in the transfer zone under the chin, over the patient's chest, where a dropped instrument lands on a bib and nothing else.",
+    "fhd-tip-on-tissue": "The evacuator tip is pulled down onto the floor of the mouth. High-volume suction sealed against soft tissue draws the mucosa into the tip and leaves a bruise or a haematoma the patient discovers hours later; the bevel rides against enamel or the retracted cheek with the tissue held clear, never parked in the sublingual fold.",
+    "fhd-unsupported-pass": "That instrument was released before the operator's fingers closed on it. A transfer is a two-part move — the receiving hand takes a grip, and only then does the giving hand let go — because an instrument let go early falls point-down between two people who are both looking into a mouth."
+  },
+  "id": "four-handed-dentistry",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "hve-position",
+      "alert": "The patient has started to gag and is reaching up toward your hand with the handpiece still running.",
+      "cue": "Get the water out of the throat before anything else — the operator can stop cutting.",
+      "delay": 3,
+      "id": "fhd-gag-reflex",
+      "kind": "Patient distress",
+      "missNote": "The gag ran its course with the patient flat, water pooling at the back of the throat and both operators' hands still in the mouth. That is how debris is aspirated, and it is also how a patient decides never to come back — an entirely avoidable outcome that cost a few seconds of chair control.",
+      "seconds": 12,
+      "target": "fhd-chair-back",
+      "why": "A gagging supine patient is at risk of aspirating pooled water and debris, and the fastest safe answer is the chair: bring the back up so the throat is above the floor of the mouth and gravity is working with you instead of against you. Talking a gag down while the pool stays where it is only teaches the patient to fear the chair.",
+      "wrongNote": "It is the chair back. Sit the patient up enough to clear the throat first; the suction and the reassurance both work better from there."
+    },
+    {
+      "after": "transfer-rhythm",
+      "alert": "The handpiece cord has been dragged across the patient's face because the mobile stand is parked in the static zone.",
+      "cue": "The static zone behind the patient's head has to come clear before another cord is moved.",
+      "delay": 3,
+      "id": "fhd-cord-across-face",
+      "kind": "Layout failure",
+      "missNote": "The cord stayed across the patient's face for the rest of the restoration. A cord that catches on a chin or an ear pulls a running handpiece sideways in the operator's hand, and the patient spent the appointment with a tube resting over their eyes for no reason at all.",
+      "seconds": 11,
+      "target": "fhd-mobile-stand",
+      "why": "A cord lying across a face is the layout failing, not a one-off. Behind the patient's head is the static zone, kept empty so nothing is ever reached for or routed across the patient; once something is parked there, every cord and every handpiece change goes over the face until it is moved out.",
+      "wrongNote": "It is the mobile stand. Move it out of the static zone and the cord route stops crossing the patient."
+    }
+  ],
+  "lateNotes": {
+    "fhd-chairside-log": "The appointment is not finished. The record is written from what actually happened, at the end, not opened early and filled in from the plan.",
+    "fhd-cure-shield": "Hold that. Nothing has been placed to cure, and the shield is there for a light that is about to be switched on, not for a light that is still parked.",
+    "fhd-transfer-rhythm": "Not yet — there is nothing to pass. The tray is not laid out in order of use, so the next instrument is still a guess rather than the one already in your fingers."
+  },
+  "name": "Four-Handed Dentistry",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "dental-careers-unspoken-smiles"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "fhd-air-water",
+      "fhd-bent-band",
+      "fhd-blocked-static-zone",
+      "fhd-chair-back",
+      "fhd-chairside-log",
+      "fhd-cure-shield",
+      "fhd-dentist-checkin",
+      "fhd-empty-carpule",
+      "fhd-explorer",
+      "fhd-fulcrum",
+      "fhd-hve-tip",
+      "fhd-mirror-retraction",
+      "fhd-mobile-stand",
+      "fhd-operator-stool",
+      "fhd-pass-over-face",
+      "fhd-stool-dial",
+      "fhd-tip-on-tissue",
+      "fhd-transfer-rhythm",
+      "fhd-transfer-slot",
+      "fhd-tray-first",
+      "fhd-tray-second",
+      "fhd-tray-third",
+      "fhd-unsupported-pass",
+      "fhd-zone-assistant",
+      "fhd-zone-operator",
+      "fhd-zone-static",
+      "fhd-zone-transfer"
+    ],
+    "meshes": 264
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Bring the operator's stool to the height that puts the patient's mouth at the operator's elbow.",
+      "id": "operator-seat",
+      "kind": "select",
+      "prompt": "Bring the operator's stool to the height that puts the patient's mouth at the operator's elbow.",
+      "target": "fhd-operator-stool",
+      "title": "Set the operator's seat before anyone sits down",
+      "why": "Everything downstream of this is decided here. With the patient's mouth level with the operator's elbows and the operator's forearms roughly horizontal, the field can be worked without a bent neck or a lifted shoulder; set too low, the operator hunches into the mouth for an hour, and NIOSH's dental ergonomics guidance ties exactly that posture to the neck and shoulder injuries that end assisting and hygiene careers early."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Identify the operator, assistant, transfer and static zones marked around the chair — order doesn't matter.",
+      "id": "clock-zones",
+      "itemNames": {
+        "fhd-zone-assistant": "assistant's zone",
+        "fhd-zone-operator": "operator's zone",
+        "fhd-zone-static": "static zone",
+        "fhd-zone-transfer": "transfer zone"
+      },
+      "itemNotes": {
+        "fhd-zone-assistant": "Roughly two to four o'clock, on the other side, close enough that a hand reaches the mouth without the shoulder travelling.",
+        "fhd-zone-operator": "For a right-handed operator this is roughly seven to twelve o'clock around the patient's head — the arc the operator moves through without ever leaving the field.",
+        "fhd-zone-static": "Twelve to two o'clock, behind the patient's head, kept empty so nothing is ever reached for across a face.",
+        "fhd-zone-transfer": "Roughly four to seven o'clock, low, over the patient's chest — the only place an instrument changes hands."
+      },
+      "kind": "sequence",
+      "prompt": "Identify the operator, assistant, transfer and static zones marked around the chair — order doesn't matter.",
+      "targets": [
+        "fhd-zone-operator",
+        "fhd-zone-assistant",
+        "fhd-zone-transfer",
+        "fhd-zone-static"
+      ],
+      "title": "Read the four clock zones off the floor",
+      "why": "Four-handed dentistry is a geometry before it is a skill. The clock face around the patient's head divides the room into where the operator works, where the assistant works, where instruments change hands and where nothing is allowed to be, and a team that shares that map stops narrating: the assistant already knows what is wanted and where to put it without a word being said."
+    },
+    {
+      "cue": "Wind the assistant's stool up until you are looking down into the same field the operator sees.",
+      "id": "stool-height",
+      "kind": "turn",
+      "prompt": "Wind the assistant's stool up until you are looking down into the same field the operator sees.",
+      "target": "fhd-stool-dial",
+      "title": "Raise the assistant's stool above the operator's",
+      "turn": {
+        "axis": "y",
+        "label": "ASSISTANT STOOL",
+        "turns": 1.5
+      },
+      "why": "The assistant sits four to six inches higher than the operator for one reason: from that height the same field is visible over the operator's hands, so suction and retraction can be placed where the work actually is instead of where it was a moment ago. Level with the operator, the assistant is guessing at a mouth they cannot see into, and every placement becomes a correction."
+    },
+    {
+      "cue": "Set the cassette out left to right in the order the operator will ask for each group.",
+      "id": "tray-order",
+      "itemNames": {
+        "fhd-tray-first": "examination instruments first",
+        "fhd-tray-second": "the anaesthetic set next",
+        "fhd-tray-third": "the restorative instruments last"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. The tray is laid left to right in the order the operator will ask for things — mirror and explorer, then the anaesthetic set, then the restorative instruments — so reset and lay it in sequence of use.",
+      "prompt": "Set the cassette out left to right in the order the operator will ask for each group.",
+      "targets": [
+        "fhd-tray-first",
+        "fhd-tray-second",
+        "fhd-tray-third"
+      ],
+      "title": "Lay the tray out in order of use",
+      "why": "A tray laid out in the order of the procedure means the next instrument is always the next one along, so it can be picked up while the operator is still working rather than searched for after they ask. Laid out by shape or by habit instead, every transfer begins with a hunt, the operator's eyes leave the field to watch you find it, and the appointment lengthens by the sum of all those small pauses."
+    },
+    {
+      "cue": "Set your fulcrum on a tooth surface or the chin, not on a moving cheek.",
+      "id": "fulcrum",
+      "kind": "select",
+      "prompt": "Set your fulcrum on a tooth surface or the chin, not on a moving cheek.",
+      "target": "fhd-fulcrum",
+      "title": "Establish a finger rest before anything enters the mouth",
+      "why": "A fulcrum is what turns a hand into an instrument you can control. Resting on solid structure means the mirror, the tip and the retractor all move in millimetres under intention rather than in centimetres when the patient swallows; without one, a sudden movement of the head becomes a sudden movement of whatever you were holding, and it is holding sharp metal inside a mouth."
+    },
+    {
+      "cue": "Hold the cheek clear with the mirror and commit inside the band.",
+      "gauge": {
+        "green": [
+          0.38,
+          0.58
+        ],
+        "label": "RETRACTION",
+        "missNote": "Outside the band. Too little and the cheek closes over the very surface the operator is cutting; too much and the tissue goes white, which is capillary blood being squeezed out of it — and the ache from that lasts longer than the appointment.",
+        "speed": 0.6
+      },
+      "id": "retraction",
+      "kind": "gauge",
+      "prompt": "Hold the cheek clear with the mirror and commit inside the band.",
+      "target": "fhd-mirror-retraction",
+      "title": "Retract to a clear field without blanching the tissue",
+      "why": "Retraction is a pressure, not a position. Enough to hold the cheek and tongue clear of the working field, and no more: blanched tissue is tissue whose blood supply you are pinching off, and the bruise and soreness a patient remembers from a filling is far more often the retraction than the drilling. The colour of the tissue under the mirror is the readout that matters."
+    },
+    {
+      "cue": "Place the bevel against hard tissue near the prep and hold it there while the operator cuts.",
+      "holdBreakNote": "The tip came off the field. The moment evacuation stops the mirror fogs and the prep floods, and the operator is cutting into water they cannot see through.",
+      "id": "hve-position",
+      "kind": "hold",
+      "prompt": "Place the bevel against hard tissue near the prep and hold it there while the operator cuts.",
+      "seconds": 6,
+      "target": "fhd-hve-tip",
+      "title": "Hold high-volume evacuation on the working side",
+      "why": "The high-volume evacuator is what keeps the field dry enough to see and captures the aerosol the handpiece throws before it reaches anyone's face. Held with the bevel flat to the tooth surface and the tissue retracted clear, it lifts water and spray away from the prep; let it drift into the floor of the mouth and it seals onto mucosa, drags tissue into the tip and stops evacuating anything at all."
+    },
+    {
+      "cue": "Carry the instrument low, over the patient's chest, into the operator's waiting fingers.",
+      "drag": {
+        "missNote": "That path went high. Bring it low across the chest into the transfer zone — over the face is never a route, however short it looks.",
+        "radius": 0.4,
+        "to": "fhd-transfer-slot"
+      },
+      "id": "transfer-pass",
+      "kind": "drag",
+      "prompt": "Carry the instrument low, over the patient's chest, into the operator's waiting fingers.",
+      "target": "fhd-explorer",
+      "title": "Pass the next instrument in the transfer zone",
+      "why": "The transfer zone sits over the patient's chest and below the chin precisely so nothing ever travels across a face. Carried there, the instrument arrives in the operator's hand already in working orientation, the operator's eyes never leave the mouth, and if it is dropped it lands on the bib rather than on the patient."
+    },
+    {
+      "cue": "Keep the exchanges in rhythm — take a grip before you let go, and stay with the operator's pace.",
+      "holdBreakNote": "The rhythm broke. Reset to the operator's pace: grip taken, then released, along the same line every time.",
+      "id": "transfer-rhythm",
+      "kind": "track",
+      "prompt": "Keep the exchanges in rhythm — take a grip before you let go, and stay with the operator's pace.",
+      "seconds": 7,
+      "target": "fhd-transfer-rhythm",
+      "title": "Hold the transfer rhythm through the restoration",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.44,
+        "green": [
+          0.36,
+          0.6
+        ],
+        "label": "TRANSFER RHYTHM",
+        "rise": 0.52,
+        "start": 0.16
+      },
+      "why": "A transfer is a handshake with an interlock: the receiving fingers close, then the giving fingers open, and the used instrument comes back along the same line. Rushed, instruments are released into air and land point-first; hesitant, the operator stops working and waits with a hand out of the mouth. The band is the operator's own pace, and holding it is what the second pair of hands is for."
+    },
+    {
+      "cue": "Two items here will fail in the operator's hand. Find them before they are asked for.",
+      "id": "tray-faults",
+      "itemNames": {
+        "fhd-bent-band": "a buckled matrix band",
+        "fhd-empty-carpule": "a spent anaesthetic carpule"
+      },
+      "itemNotes": {
+        "fhd-bent-band": "This matrix band is buckled along its contour. A band that will not seat against the adjacent tooth leaves an open margin the restoration is built against, and that margin is where the next cavity starts.",
+        "fhd-empty-carpule": "This carpule is already discharged — the plunger is at the far end of the glass. Loaded into the syringe mid-appointment, the operator injects nothing, the patient feels the needle for no reason, and the whole sequence restarts."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two items here will fail in the operator's hand. Find them before they are asked for.",
+      "targets": [
+        "fhd-empty-carpule",
+        "fhd-bent-band"
+      ],
+      "title": "Find the two things on this tray that would stop the restoration",
+      "why": "The assistant is the last person to look at any instrument before it is used, which makes checking the tray part of the job rather than tidiness. A spent carpule or a deformed band discovered mid-procedure means the operator waits with an open tooth and an anaesthetised patient while somebody fetches a replacement — and it is always visible beforehand to whoever actually looks."
+    },
+    {
+      "cue": "Wash the debris clear and dry with a gentle stream, not a blast.",
+      "id": "rinse-and-dry",
+      "kind": "select",
+      "prompt": "Wash the debris clear and dry with a gentle stream, not a blast.",
+      "target": "fhd-air-water",
+      "title": "Rinse and dry the preparation",
+      "why": "The preparation has to be clean and dry for a bonded restoration to hold, but a dentine surface dried too hard is dentine whose tubules have been desiccated, and that is one of the reliable causes of post-operative sensitivity. A short rinse and a controlled dry give the operator a visible, bondable surface without drying the tooth out from the inside."
+    },
+    {
+      "cue": "Bring the shield between the curing light and everyone's eyes, and hold it for the whole cure time.",
+      "holdBreakNote": "The shield dropped mid-cure. Either the cure was cut short or everyone in the room took the light — usually both.",
+      "id": "cure-hold",
+      "kind": "hold",
+      "prompt": "Bring the shield between the curing light and everyone's eyes, and hold it for the whole cure time.",
+      "seconds": 5,
+      "target": "fhd-cure-shield",
+      "title": "Hold the shield through the full cure",
+      "why": "A curing light is an intense narrow-band source aimed into a mouth for the manufacturer's full stated time, and that time is not negotiable — a short cure leaves resin soft under a hard surface. The shield is what lets the light run its whole cycle without the operator, the assistant and the patient all taking the reflection, because this happens dozens of times a day, every day, for a career."
+    },
+    {
+      "cue": "Confirm with the dentist that the restoration is finished and the occlusion has been checked.",
+      "id": "operator-checkin",
+      "kind": "select",
+      "prompt": "Confirm with the dentist that the restoration is finished and the occlusion has been checked.",
+      "target": "fhd-dentist-checkin",
+      "title": "Check in with the operator before the patient is released",
+      "why": "The assistant does not decide that an appointment is over. Checking the occlusion and declaring the restoration finished is the dentist's call under every state practice act, and the check-in is where the assistant hands back what they saw — how much anaesthetic was used, what the patient said, what the tray shows — before anyone sits the patient up and opens the door."
+    },
+    {
+      "cue": "Record the instruments, the materials and their lot numbers, and hand the operatory on.",
+      "id": "chairside-log",
+      "kind": "select",
+      "prompt": "Record the instruments, the materials and their lot numbers, and hand the operatory on.",
+      "target": "fhd-chairside-log",
+      "title": "Write the chairside record and hand the chair over",
+      "why": "The chairside record is what makes this appointment traceable: which lot of bonding agent and composite went into this tooth, how much anaesthetic and of what, what the patient was told afterwards. If a material is recalled or a restoration fails, that record is the only way back to what was actually used — and the next person to work in this room reads the handover to know what state the chair is in."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Chairside assisting as a trade: clock zones, stool heights, a tray in order of use, transfers below the chin, evacuation on hard tissue and retraction that holds a field without blanching it",
+  "title": "SmartCiti.X~ Four-Handed Dentistry VR",
+  "trade": "Dental assistant — chairside (DANB CDA)",
+  "underwater": null,
+  "weather": "clear"
+}

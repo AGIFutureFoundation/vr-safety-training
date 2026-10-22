@@ -1,0 +1,402 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "enrolled",
+    "name": "Enrolled",
+    "note": "Documents gathered, every form signed in order, the checklist read, the consent understood before it was signed, the physical sat through steadily, and a complete packet filed"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Registered apprenticeship standards as a category — the enrolment paperwork this whole day exists to complete, per the apprenticeship standard the applicant is being indentured under; the OSHA Outreach Training Program's OSHA 10 card, one of the documents the coordinator's checklist checks for; HIPAA's Privacy Rule, for what the physical's results may and may not be shared with anyone outside the clinician who performs it; 29 CFR 1910.151 for the medical-services context a workplace physical sits inside; 29 CFR 1910.22 for the walking-working surfaces every office and clinic waiting room shares; Teamsters (IBT) apprenticeship and training programmes, named on the coordinator's own checklist as the body running today's enrollment",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "DOL",
+        "citedAs": "apprenticeship standard",
+        "id": "dol-apprenticeship-standards",
+        "title": "Registered apprenticeship standards, as a category — the written standards a sponsor registers with the U.S. Department of Labor or a State Apprenticeship Agency: the term, on-the-job learning, related instruction, the progressive wage schedule, the ratio, the probationary period and the selection procedure"
+      },
+      {
+        "body": "HHS",
+        "citedAs": "HIPAA",
+        "id": "hipaa-privacy-rule",
+        "title": "HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.151",
+        "id": "osha-1910-151",
+        "title": "29 CFR 1910.151 — Medical services and first aid"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.22",
+        "id": "osha-1910-22",
+        "title": "29 CFR 1910.22 — Walking-working surfaces, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "OSHA 10",
+        "id": "osha-outreach-10",
+        "title": "OSHA Outreach Training Program — the 10-hour construction course (OSHA 10): voluntary awareness training taught by an authorized trainer, not a certification and not a substitute for the employer's own training"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBT",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Apprenticeship navigation",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "full-folder",
+        "name": "Full Folder",
+        "note": "Every document gathered and the checklist's own gaps found clean"
+      },
+      {
+        "id": "signed-informed",
+        "name": "Signed Informed",
+        "note": "No unsafe action anywhere in the run"
+      },
+      {
+        "id": "held-steady",
+        "name": "Held Steady",
+        "note": "The physical stillness track carried without a break"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-enrollment",
+        "name": "Clean Enrollment",
+        "note": "No corrections anywhere"
+      },
+      {
+        "id": "honest-concerns",
+        "name": "Honest Concerns",
+        "note": "The concerns gauge committed near the middle of the band"
+      },
+      {
+        "id": "one-visit-enrolled",
+        "name": "One-Visit Enrolled",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "FORM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Offer Made",
+      "Documents Gathered",
+      "Forms Signed",
+      "Physical Sat",
+      "Enrollment Certified"
+    ],
+    "system": "Coordinator's Office"
+  },
+  "hazards": {
+    "wp-ae-clipboard-hunch": "You were about to fill out a stack of forms hunched over a clipboard balanced on your knee instead of at the desk. An enrollment packet this thick takes real time to complete properly, and doing it hunched over for that long strains a back that has not even started the apprenticeship yet — sit at the desk and use its surface, not your knee.",
+    "wp-ae-consent-visitor": "An applicant in the waiting chairs is arguing loudly that the drug-test consent should not be required at all, and is getting into the coordinator's assistant's space about it. Space and a level tone come first — step back, let the coordinator's staff handle the disagreement, and do not let his volume become the reason you rush your own reading of the same form.",
+    "wp-ae-lightheaded-physical": "The applicant ahead of you at the physical has gone pale and unsteady right after a finger-stick, and is swaying where they stand. A brief lightheaded spell right after a blood draw is common and usually passes quickly with the person seated and their head down — get them into a chair, tell the clinician, and stay with them rather than stepping past to keep the line moving.",
+    "wp-ae-stuffy-waiting": "The waiting area outside the coordinator's office has gone warm with the door closed all morning. A hot, airless room before a physical is exactly the wrong condition to sit in — crack the door for a cross breeze and get water before your name is called, not after you are already lightheaded."
+  },
+  "id": "wp-apprenticeship-enrollment-day",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "sign-forms-order",
+      "alert": "The coordinator's assistant hands you a form for a different applicant's file by mistake, already partly filled in with somebody else's name.",
+      "cue": "Do not sign it. Hand it back and say whose name is on it.",
+      "delay": 3,
+      "id": "wp-ae-form-mixup",
+      "kind": "Coordinator hands you the wrong form",
+      "missNote": "You started filling it in anyway, and in the version where it got filed, your signature ended up on another apprentice's paperwork while your own enrollment was still missing that same form.",
+      "seconds": 12,
+      "target": "wp-ae-assistant-desk",
+      "why": "Signing a form under somebody else's name, even by accident, puts a wrong document in two different apprentices' files at once — the assistant's desk is where a mix-up like this gets caught and fixed in seconds, before it becomes two records that both need correcting later.",
+      "wrongNote": "Not the checklist board, and not the form itself. Hand it back to the assistant's desk and say whose name it actually has on it."
+    },
+    {
+      "after": "physical-stillness",
+      "alert": "The applicant just ahead of you at the physical has gone white and starts to slide sideways off the chair right after their finger-stick.",
+      "cue": "Help lower them safely and call for the clinician — do not just watch.",
+      "delay": 3,
+      "id": "wp-ae-blood-draw-faint",
+      "kind": "The applicant ahead faints at the blood draw",
+      "missNote": "You stayed in your seat and watched, and in the version where nobody helped, they went down hard against the chair on the way to the floor instead of being eased down by someone standing right there.",
+      "seconds": 12,
+      "target": "wp-ae-clinician-call",
+      "why": "A brief faint right after a finger-stick is common, and the person is at more risk from an uncontrolled fall than from the faint itself — helping ease them down and calling the clinician over immediately is what turns a routine vasovagal moment into a non-event instead of a fall injury on top of it.",
+      "wrongNote": "Not the vision screen. The clinician call button is what gets trained help there fast — press that while you steady them."
+    }
+  ],
+  "lateNotes": {
+    "wp-ae-consent-form": "Not yet. The consent is signed once you can say back what it actually authorises — not before you have read what it means.",
+    "wp-ae-enrollment-log": "The log closes out enrollment day last, with the checklist's own sign-off already on it."
+  },
+  "name": "Apprenticeship Enrollment Day",
+  "parSeconds": 340,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "wp-ae-assistant-desk",
+      "wp-ae-calendar-dial",
+      "wp-ae-checklist-board",
+      "wp-ae-clinician-call",
+      "wp-ae-clipboard-hunch",
+      "wp-ae-concerns-dial",
+      "wp-ae-consent-explain-correct",
+      "wp-ae-consent-explain-wrong-1",
+      "wp-ae-consent-explain-wrong-2",
+      "wp-ae-consent-form",
+      "wp-ae-consent-visitor",
+      "wp-ae-coordinator",
+      "wp-ae-doc-agreement-copy",
+      "wp-ae-doc-id",
+      "wp-ae-doc-osha10",
+      "wp-ae-enrollment-log",
+      "wp-ae-enrollment-packet",
+      "wp-ae-file-cabinet",
+      "wp-ae-form-agreement",
+      "wp-ae-form-consent",
+      "wp-ae-form-release",
+      "wp-ae-gap-directdeposit",
+      "wp-ae-gap-emergency",
+      "wp-ae-gap-toollist",
+      "wp-ae-lightheaded-physical",
+      "wp-ae-signin-desk",
+      "wp-ae-stuffy-waiting",
+      "wp-ae-vision-screen"
+    ],
+    "meshes": 143
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Sign the sheet with your name and the enrollment appointment time.",
+      "id": "sign-in",
+      "kind": "select",
+      "prompt": "Sign the sheet with your name and the enrollment appointment time.",
+      "target": "wp-ae-signin-desk",
+      "title": "Sign in at the coordinator's office",
+      "why": "Enrollment day is scheduled around the coordinator's own calendar of appointments back to back, and signing in confirms you are here for the slot booked rather than another applicant's — the same habit every appointment on this pathway runs on."
+    },
+    {
+      "cue": "From the folder on the table, find your photo ID, your copy of the apprentice agreement and your OSHA 10 card.",
+      "id": "gather-documents",
+      "itemNames": {
+        "wp-ae-doc-agreement-copy": "your copy of the apprentice agreement",
+        "wp-ae-doc-id": "photo ID",
+        "wp-ae-doc-osha10": "your OSHA 10 card"
+      },
+      "itemNotes": {
+        "wp-ae-doc-agreement-copy": "Bringing your own copy of the apprentice agreement means you can check today's paperwork against what you were actually offered.",
+        "wp-ae-doc-id": "Photo ID is checked against the enrollment file before any form is signed under it.",
+        "wp-ae-doc-osha10": "The OSHA 10 card is one of the first items on the coordinator's checklist — bringing it saves a return trip to prove something you already have."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "From the folder on the table, find your photo ID, your copy of the apprentice agreement and your OSHA 10 card.",
+      "targets": [
+        "wp-ae-doc-id",
+        "wp-ae-doc-agreement-copy",
+        "wp-ae-doc-osha10"
+      ],
+      "title": "Find the three documents on the table",
+      "why": "An enrollment appointment that stalls on a missing document is the most avoidable way to turn one visit into two, and each of these three is checked before the coordinator moves on to the forms that actually enroll you."
+    },
+    {
+      "cue": "Sign the apprentice agreement, then the drug-test consent, then the medical-information release — in that order.",
+      "id": "sign-forms-order",
+      "itemNames": {
+        "wp-ae-form-agreement": "the apprentice agreement",
+        "wp-ae-form-consent": "the drug-test consent",
+        "wp-ae-form-release": "the medical-information release"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "The agreement first, because it is what makes you an apprentice the rest of the paperwork is about; the drug-test consent next, since it is a condition of that agreement per the programme's requirements; and the medical-information release last, because it only means something once there is a physical and a consent for it to attach to.",
+      "prompt": "Sign the apprentice agreement, then the drug-test consent, then the medical-information release — in that order.",
+      "targets": [
+        "wp-ae-form-agreement",
+        "wp-ae-form-consent",
+        "wp-ae-form-release"
+      ],
+      "title": "Sign the forms in the order that makes each one mean something",
+      "why": "Each of these forms only makes sense once the one before it exists: the drug-test consent is a condition of the agreement, and the medical release only has something to release once the physical it is attached to is actually about to happen. Signing them in this order is what keeps you from signing a release for a physical the agreement has not even required yet."
+    },
+    {
+      "cue": "Hold at the checklist board and read everything enrollment day requires, per the programme's own list.",
+      "holdBreakNote": "You left the board before the physical requirement line. That is the one most people assume they already know — read it through.",
+      "id": "read-checklist",
+      "kind": "hold",
+      "prompt": "Hold at the checklist board and read everything enrollment day requires, per the programme's own list.",
+      "seconds": 6,
+      "target": "wp-ae-checklist-board",
+      "title": "Read the coordinator's checklist in full",
+      "why": "The coordinator's checklist is the actual list of what this specific programme requires for enrollment, and it is not the same list every programme uses — reading it in full, rather than assuming from a friend's experience elsewhere, is what keeps you from missing a requirement this programme states and another one does not."
+    },
+    {
+      "cue": "Among the explanation cards, choose the one that matches what the coordinator's own form actually says — not the rumor.",
+      "id": "understand-consent",
+      "kind": "select",
+      "prompt": "Among the explanation cards, choose the one that matches what the coordinator's own form actually says — not the rumor.",
+      "target": "wp-ae-consent-explain-correct",
+      "title": "Understand what the drug-test consent actually authorises",
+      "why": "A consent form should never be signed on the strength of what someone else said it means, and the coordinator's own form states, per the programme's requirements, exactly what is tested, who reviews the result and what the employer is told. Reading the correct explanation before signing is what makes the signature an informed one rather than a guess."
+    },
+    {
+      "cue": "The dial runs one to ten. Commit it where your actual concerns are, not where you think the coordinator wants to hear.",
+      "gauge": {
+        "green": [
+          0.3,
+          0.6
+        ],
+        "label": "CONCERNS",
+        "missNote": "That number does not sound like someone with a real question about a medication or a condition. Rate it honestly — the coordinator can only address a concern that is actually named.",
+        "speed": 0.6
+      },
+      "id": "concerns-gauge",
+      "kind": "gauge",
+      "prompt": "The dial runs one to ten. Commit it where your actual concerns are, not where you think the coordinator wants to hear.",
+      "target": "wp-ae-concerns-dial",
+      "title": "Rate any concerns about the physical honestly",
+      "why": "A physical goes smoother when a real concern — a medication, a past injury, a fear of needles — is named to the coordinator or the clinician beforehand rather than discovered mid-appointment. This number is not a pass-fail test; it is what tells the coordinator whether today's physical needs anything arranged ahead of it."
+    },
+    {
+      "cue": "Hold the stillness track in the band: steady and attentive, not fidgeting and not frozen stiff.",
+      "holdBreakNote": "You drifted out of steady — into fidgeting or into going rigid. Settle back to holding still and paying attention to the screen.",
+      "id": "physical-stillness",
+      "kind": "track",
+      "prompt": "Hold the stillness track in the band: steady and attentive, not fidgeting and not frozen stiff.",
+      "seconds": 7,
+      "target": "wp-ae-vision-screen",
+      "title": "Hold still through the vision and hearing screening",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.44,
+        "green": [
+          0.36,
+          0.66
+        ],
+        "label": "STEADY",
+        "rise": 0.5,
+        "start": 0.5
+      },
+      "why": "A basic vision and hearing screening only reads accurately when the person taking it is neither moving around nor so tensed up that a normal response reads as a problem. Holding steady is a small skill with a real payoff: a screening result that actually reflects you rather than how nervous the room made you."
+    },
+    {
+      "cue": "Three items on the coordinator's checklist are still unchecked in your folder. Find all three.",
+      "id": "checklist-gaps",
+      "itemNames": {
+        "wp-ae-gap-directdeposit": "no direct deposit form",
+        "wp-ae-gap-emergency": "emergency contact not updated",
+        "wp-ae-gap-toollist": "tool list not signed"
+      },
+      "itemNotes": {
+        "wp-ae-gap-directdeposit": "No direct deposit form on file means a first paycheck arrives as a paper check mailed out, days later than it would with the form filed today.",
+        "wp-ae-gap-emergency": "An emergency contact left over from intake, weeks ago, may not be current — the coordinator's checklist asks you to confirm it again on enrollment day specifically.",
+        "wp-ae-gap-toollist": "The tool list you packed for the union hall does not count as signed until it is signed here, on the programme's own copy."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three items on the coordinator's checklist are still unchecked in your folder. Find all three.",
+      "targets": [
+        "wp-ae-gap-emergency",
+        "wp-ae-gap-toollist",
+        "wp-ae-gap-directdeposit"
+      ],
+      "title": "Find what the checklist still needs from your folder",
+      "why": "A checklist exists because enrollment day generates more paperwork than any one person reliably remembers unprompted, and finding these three gaps here — while the coordinator is still in the room to fix them — is what keeps a first paycheck or an emergency contact from being wrong for weeks before anyone notices."
+    },
+    {
+      "cue": "Now that you can say back what it authorises, sign the consent form.",
+      "id": "sign-consent",
+      "kind": "select",
+      "prompt": "Now that you can say back what it authorises, sign the consent form.",
+      "target": "wp-ae-consent-form",
+      "title": "Sign the drug-test consent",
+      "why": "Signing now, after actually reading and understanding the correct explanation, is what makes this an informed consent rather than a formality initialed on the way past — the same form, signed with the same understanding it would take to explain it to somebody else."
+    },
+    {
+      "cue": "Turn the calendar dial to the date the coordinator gives you for orientation.",
+      "id": "book-report-date",
+      "kind": "turn",
+      "prompt": "Turn the calendar dial to the date the coordinator gives you for orientation.",
+      "target": "wp-ae-calendar-dial",
+      "title": "Book your first report date",
+      "turn": {
+        "axis": "y",
+        "label": "FIRST REPORT DATE",
+        "turns": 0.6
+      },
+      "why": "Enrollment is not finished until there is an actual date to show up to next — booking it here, at the desk, with the coordinator confirming it, is what turns a signed packet into a date on your own calendar instead of a promise to call you later."
+    },
+    {
+      "cue": "Carry the completed packet into the coordinator's file cabinet.",
+      "drag": {
+        "missNote": "Not in the cabinet. A packet left on the desk is a packet somebody else's paperwork gets stacked on top of.",
+        "radius": 0.4,
+        "to": "wp-ae-file-cabinet"
+      },
+      "id": "file-packet",
+      "kind": "drag",
+      "prompt": "Carry the completed packet into the coordinator's file cabinet.",
+      "target": "wp-ae-enrollment-packet",
+      "title": "File the complete packet",
+      "why": "A completed enrollment packet filed today is what the programme's records show as enrolled; one left on the desk to be filed later is a packet that can go missing between now and the first day, when it actually gets asked for."
+    },
+    {
+      "cue": "Have the coordinator review the checklist and sign off that enrollment is complete.",
+      "id": "coordinator-signoff",
+      "kind": "select",
+      "prompt": "Have the coordinator review the checklist and sign off that enrollment is complete.",
+      "target": "wp-ae-coordinator",
+      "title": "Get the coordinator's sign-off",
+      "why": "The coordinator's own signature on the checklist is what makes enrollment official in the programme's own records, not just complete in your own folder — it is the one signature on this whole day that neither of you can substitute for the other's."
+    },
+    {
+      "cue": "Log the forms signed, the checklist's sign-off and the first report date, then sign it.",
+      "id": "close-log",
+      "kind": "select",
+      "prompt": "Log the forms signed, the checklist's sign-off and the first report date, then sign it.",
+      "target": "wp-ae-enrollment-log",
+      "title": "Close out the enrollment log",
+      "why": "The enrollment log is the record the programme's own file and your training coordinator both read before your first day — a report date and a completed checklist written down today are what make that first morning start without a paperwork question holding it up."
+    }
+  ],
+  "supportLine": "your training coordinator or your Teamsters steward, and 988 or SAMHSA's National Helpline (1-800-662-4357, free and confidential) if enrollment day's paperwork brings up more than the room can hold",
+  "tagline": "Gather the documents, sign the forms in the order that makes each one mean something, read the coordinator's checklist, understand the drug-test consent before you sign it, sit the physical without fidgeting, and file a complete packet",
+  "title": "SmartCiti.X~ Apprenticeship Enrollment Day VR",
+  "trade": "Pathway Edition — the apprenticeship enrolment paperwork day: documents, drug-test consent, the physical and the coordinator's checklist",
+  "underwater": null,
+  "weather": "clear"
+}

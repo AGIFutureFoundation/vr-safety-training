@@ -4,7 +4,7 @@ This rubric is a release gate for every build. Score each dimension from 0 (abse
 
 | Dimension | 3 - verified release quality | Critical failure |
 |---|---|---|
-| Learning and job fidelity | Each scenario links a recognizable construction hazard to a hands-on control, feedback, and debrief. | Passive viewing replaces required participation or the control taught is unsafe. |
+| Learning and job fidelity | Each scenario links a recognizable workplace hazard to a hands-on control, feedback, and debrief. | Passive viewing replaces required participation or the control taught is unsafe. |
 | Environment and embodiment | Human scale, grounded props, collision-safe placement, isolated zones, and realistic worksite context are verified in-headset. | Falling, clipping, floating safety equipment, or another zone is visible through the boundary. |
 | Interaction feedback | Every actionable target has visible affordance, hover/highlight, press/select response, success/error feedback, and a recoverable next step. | A visible control does nothing or selection state is ambiguous. |
 | Comfort and locomotion | One transform writer controls the player; horizon and spawn are stable; turning/movement alternatives exist; flicker and forced acceleration are avoided. | Camera jitter, involuntary motion, trapping, or repeated high-frequency flashing. |
@@ -20,6 +20,8 @@ This rubric is a release gate for every build. Score each dimension from 0 (abse
 - OSHA construction training requires employee participation, hazard recognition, and instruction in controls, including fall protection: <https://www.osha.gov/laws-regs/regulations/standardnumber/1926/1926.761>
 - OSHA notes that standardized video alone is not interactive, hands-on, site-specific training with testing: <https://www.osha.gov/laws-regs/standardinterpretations/1999-08-03-0>
 - W3C XR Accessibility User Requirements covers multiple input methods, large targets, customization, orientation, sickness triggers, captions, and text alternatives: <https://www.w3.org/TR/xaur/>
+- OSHA 1910.22 requires walking-working surfaces, aisles, and passageways to stay clear and free of hazards, which is the general-industry basis for the immersive lab play-space and route conditions: <https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.22>
+- ISO 9241-391:2016 covers reduction of photosensitive seizures for displayed content, and the Simulator Sickness Questionnaire (Kennedy et al., 1993, <https://doi.org/10.1207/s15327108ijap0303_3>) is the reference instrument for the comfort stop rule: <https://www.iso.org/standard/56350.html>
 
 ## Evidence required per build
 

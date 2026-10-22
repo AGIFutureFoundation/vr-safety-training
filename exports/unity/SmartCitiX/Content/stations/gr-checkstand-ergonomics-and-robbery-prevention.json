@@ -1,0 +1,375 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "shift-set",
+    "name": "Shift Set",
+    "note": "A full shift set up right at the stand, every lift called for help instead of twisted, and the store's plan known before it was ever needed"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "UFCW member training for retail food work; the Revised NIOSH Lifting Equation; OSHA 29 CFR 1910.22 walking-working surfaces; Cal/OSHA's workplace violence prevention plan (8 CCR 3342)",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "Cal/OSHA",
+        "citedAs": "8 CCR 3342",
+        "id": "cal-osha-3342",
+        "title": "8 CCR 3342 — Workplace violence prevention plan"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "Revised NIOSH Lifting Equation",
+        "id": "niosh-lifting-equation",
+        "title": "Revised NIOSH Lifting Equation and its Applications Manual — recommended weight limit and lifting index for two-handed manual lifting"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.22",
+        "id": "osha-1910-22",
+        "title": "29 CFR 1910.22 — Walking-working surfaces, general requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "UFCW",
+        "id": "ufcw-training",
+        "title": "UFCW member training for retail food, clinic and dental support work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Grocery front end",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "set-first",
+        "name": "Set First",
+        "note": "Set the stand to fit before the first item ever scanned"
+      },
+      {
+        "id": "no-twist",
+        "name": "No Twist",
+        "note": "Never twisted at the waist to move a heavy case"
+      },
+      {
+        "id": "steady-lift",
+        "name": "Steady Lift",
+        "note": "Every lift held a smooth, controlled pace"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "No corrections through the whole shift check-in"
+      },
+      {
+        "id": "held-the-hold",
+        "name": "Held The Hold",
+        "note": "Never broke a timed posture check early"
+      },
+      {
+        "id": "shift-fast",
+        "name": "Shift Fast",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "SCAN",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Courtesy Clerk",
+      "Cashier",
+      "Lead Cashier",
+      "Front End Supervisor",
+      "Front End Authority Certified"
+    ],
+    "system": "Front End Authority"
+  },
+  "hazards": {
+    "blocked-exit-cart": "That cart is parked squarely across the front end's marked emergency exit. However full the lane gets, that path stays clear — it is the one route out of this room that does not run past the doors everyone else is using.",
+    "chase-customer": "You came out from behind the stand to go after them. Once someone has what they came for, the incident is over — a cashier following a stranger into the parking lot alone turns one problem into a second one, voluntarily.",
+    "reach-under-counter-weapon": "You reached for what's kept under the counter. Nothing at this stand is worth a physical confrontation — the store's plan exists precisely to take that choice off the table before anyone is ever tempted to make it.",
+    "twist-lift-case": "You twisted at the waist to swing that case off the belt instead of turning your whole body. A twisted lift loads the spine sideways in a way it was never built for — turning your feet first is the entire difference between a heavy case and a strained back."
+  },
+  "id": "gr-checkstand-ergonomics-and-robbery-prevention",
+  "indoor": "shop",
+  "interrupts": [
+    {
+      "after": "lift-technique",
+      "alert": "A coworker at the next stand is about to swing a heavy case off their own belt with a twist at the waist instead of turning their feet.",
+      "cue": "That's the exact motion this whole lifting technique exists to prevent — and it isn't your case.",
+      "delay": 4,
+      "id": "coworker-twist-lift",
+      "kind": "Bad lift about to happen",
+      "missNote": "The twist happened before anyone said anything. The technique you just practiced only protects the person who actually uses it, and a coworker one stand over needed the same reminder you just got.",
+      "seconds": 12,
+      "target": "lift-cart",
+      "why": "Pointing a coworker at the lift cart instead of letting the twist happen is the same lesson this station just taught you, handed sideways — a strained back doesn't check whose stand it happened at, and neither should stopping one.",
+      "wrongNote": "It's the lift cart — point them to it before that twist finishes."
+    },
+    {
+      "after": "id-check-generic",
+      "alert": "A raised voice at the next lane over a price dispute has a brand-new cashier frozen, unsure what the store's plan even asks them to do.",
+      "cue": "They don't know where the plan starts — point them to it.",
+      "delay": 3,
+      "id": "new-cashier-freezes",
+      "kind": "New cashier unsure of the plan",
+      "missNote": "The moment passed and the new cashier still doesn't know where the panic button is. The plan only protects the people who know it before they need it, and nobody just gave them that.",
+      "seconds": 12,
+      "target": "panic-button",
+      "why": "A new cashier who does not know where the panic button is has not actually been trained on the plan yet, whatever the onboarding paperwork says — showing them now, on a loud price dispute, is a much cheaper lesson than the first time it matters for real.",
+      "wrongNote": "It's the panic button — show them where it is before this becomes the thing they learn it on for real."
+    }
+  ],
+  "lateNotes": {
+    "panic-button": "The alarm gets pressed after anyone involved has actually left, not while they're still at the counter — trip it too early and a resolved moment turns into something worse."
+  },
+  "name": "Checkstand Ergonomics & Robbery Prevention",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "grocery-and-meatpacking"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "age-check-scanner",
+      "assist-call",
+      "blocked-exit-cart",
+      "cart-on-cord",
+      "chase-customer",
+      "drop-slot",
+      "fatigue-dial",
+      "heavy-case",
+      "heavy-item",
+      "lift-cart",
+      "light-item",
+      "panic-button",
+      "reach-under-counter-weapon",
+      "safety-plan-poster",
+      "scanner",
+      "shift-board",
+      "shift-log",
+      "spare-till",
+      "stool-adjust",
+      "till-tray",
+      "torn-mat",
+      "twist-lift-case"
+    ],
+    "meshes": 137
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check your register assignment, your till start, and where the store's safety plan is posted.",
+      "id": "shift-briefing",
+      "kind": "select",
+      "prompt": "Check your register assignment, your till start, and where the store's safety plan is posted.",
+      "target": "shift-board",
+      "title": "Read the front-end shift board",
+      "why": "The board is what tells you which stand is yours before you touch a single control on it, and it is where the store keeps the plan you are about to be trained on — reading it first means neither is a guess later in the shift."
+    },
+    {
+      "cue": "Turn the stool's height adjustment until the belt sits at a neutral working height.",
+      "id": "stool-height",
+      "kind": "turn",
+      "prompt": "Turn the stool's height adjustment until the belt sits at a neutral working height.",
+      "target": "stool-adjust",
+      "title": "Set the stand to fit you",
+      "turn": {
+        "axis": "y",
+        "label": "STOOL HEIGHT",
+        "turns": 0.6
+      },
+      "why": "The Revised NIOSH Lifting Equation treats the height an object is lifted from as one of the biggest levers on injury risk, and a stand set too low or too high turns every single scan into a small reach that adds up across an eight-hour shift — set once, at the start, it protects every scan after it."
+    },
+    {
+      "cue": "Scan the practice items keeping your wrist straight and your elbow close, and hold it through the run.",
+      "holdBreakNote": "Wrist broke back into the bent position. Reset to a straight wrist and elbow in before the next scan.",
+      "id": "scan-posture",
+      "kind": "hold",
+      "prompt": "Scan the practice items keeping your wrist straight and your elbow close, and hold it through the run.",
+      "seconds": 6,
+      "target": "scanner",
+      "title": "Hold a neutral scanning posture",
+      "why": "A bent wrist repeated a few hundred times a shift is exactly the motion behind a lot of cashiers' own repetitive strain — a straight wrist and an elbow kept in close is the posture that costs nothing per scan and saves a joint over a career."
+    },
+    {
+      "cue": "Bend at the knees, keep the case close, and lift at a smooth, controlled rate.",
+      "holdBreakNote": "Out of the smooth band — slow the lift back down before your back takes the spike instead of your legs.",
+      "id": "lift-technique",
+      "kind": "track",
+      "prompt": "Bend at the knees, keep the case close, and lift at a smooth, controlled rate.",
+      "seconds": 6,
+      "target": "heavy-case",
+      "title": "Lift the case with your legs, at a steady pace",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.42,
+        "green": [
+          0.35,
+          0.62
+        ],
+        "label": "LIFT RATE",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "A jerked lift asks your back to absorb a spike of force all at once; a smooth, controlled lift lets your legs — the muscles actually built for this — carry the load the whole way instead."
+    },
+    {
+      "cue": "Page for bagging help before this case is lifted alone.",
+      "id": "call-for-assist",
+      "kind": "select",
+      "prompt": "Page for bagging help before this case is lifted alone.",
+      "target": "assist-call",
+      "title": "Call for a second hand on an awkward case",
+      "why": "A case that is heavy and awkwardly shaped is exactly the load a second pair of hands turns from a twisted reach into a controlled two-person lift — calling for it costs a page, not calling for it can cost a shoulder."
+    },
+    {
+      "cue": "Two things at this stand are wrong. Find them by looking.",
+      "decoyNotes": {
+        "spare-till": "The spare till is stored flat and locked. Leave it."
+      },
+      "id": "walk-frontend",
+      "itemNames": {
+        "cart-on-cord": "a cart parked over a floor cord",
+        "torn-mat": "torn anti-fatigue mat"
+      },
+      "itemNotes": {
+        "cart-on-cord": "A cart is parked directly over a floor power cord, pinning it flat against the tile where the next person pushing a cart won't see it until they trip on it.",
+        "torn-mat": "The anti-fatigue mat at this stand is torn and curling at the corner — a mat that catches a heel is one more thing standing between a cashier and a clean shift."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things at this stand are wrong. Find them by looking.",
+      "targets": [
+        "torn-mat",
+        "cart-on-cord"
+      ],
+      "title": "Walk the front end before the doors open",
+      "why": "Ergonomics is not only what happens at your own stand — a torn mat or a cord left where a cart can hide it is the same kind of injury waiting on somebody else's shift instead of yours."
+    },
+    {
+      "cue": "Bag the canned goods first, then the bread on top — in that order.",
+      "id": "bag-heavy-light",
+      "itemNames": {
+        "heavy-item": "canned goods",
+        "light-item": "bread"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — heavy goods go in first, at the bottom, with anything that crushes easily on top.",
+      "prompt": "Bag the canned goods first, then the bread on top — in that order.",
+      "targets": [
+        "heavy-item",
+        "light-item"
+      ],
+      "title": "Bag heavy items first",
+      "why": "A bag packed heavy-on-top crushes whatever is underneath and throws its own balance off in a customer's hand — heavy low, light on top is the order that keeps the bag both intact and liftable."
+    },
+    {
+      "cue": "Scan the ID against the register's own prompt before this item rings through.",
+      "id": "id-check-generic",
+      "kind": "select",
+      "prompt": "Scan the ID against the register's own prompt before this item rings through.",
+      "target": "age-check-scanner",
+      "title": "Check ID on the age-restricted item",
+      "why": "The register's own prompt is what this check runs against, per the store's policy — a cashier who rings it through without checking is the store's own compliance record, not just one transaction."
+    },
+    {
+      "cue": "Find where the panic button actually is at your stand, per the store's posted plan.",
+      "id": "safety-plan-location",
+      "kind": "select",
+      "prompt": "Find where the panic button actually is at your stand, per the store's posted plan.",
+      "target": "panic-button",
+      "title": "Locate the panic button",
+      "why": "Knowing exactly where this is before a shift ever needs it is the entire value of a store's safety plan — a cashier who has to search for it under pressure has already lost the seconds the plan was built to save."
+    },
+    {
+      "cue": "Pull the till tray and move it to the secure drop slot for the scheduled mid-shift balance.",
+      "drag": {
+        "missNote": "Not in the drop slot — the till tray goes straight there, not set down on the counter along the way.",
+        "radius": 0.3,
+        "to": "drop-slot"
+      },
+      "id": "till-balance-drag",
+      "kind": "drag",
+      "prompt": "Pull the till tray and move it to the secure drop slot for the scheduled mid-shift balance.",
+      "target": "till-tray",
+      "title": "Pull the till for a scheduled balance",
+      "why": "A scheduled balance keeps cash exposure at this stand capped through the shift instead of building toward one large count at close — the tray goes straight to the secure slot, not set down anywhere in between."
+    },
+    {
+      "cue": "Read the posted plan and confirm what it asks of you if a demand for the register happens.",
+      "id": "comply-no-chase",
+      "kind": "select",
+      "prompt": "Read the posted plan and confirm what it asks of you if a demand for the register happens.",
+      "target": "safety-plan-poster",
+      "title": "Confirm the store's plan: comply, don't chase",
+      "why": "The store's own plan asks for exactly one thing in that moment: comply, and do not go after anyone once they have what they came for. Knowing that cold, before it is ever tested, is what keeps the moment from turning into a decision made on adrenaline instead of the plan."
+    },
+    {
+      "cue": "Confirm, per the plan, that the alarm is pressed once anyone involved has actually left — not before.",
+      "id": "alarm-after-they-leave",
+      "kind": "select",
+      "prompt": "Confirm, per the plan, that the alarm is pressed once anyone involved has actually left — not before.",
+      "target": "panic-button",
+      "title": "Confirm when the alarm gets used",
+      "why": "The store's plan times the alarm to after anyone involved is clear, because tripping it while they are still at the counter turns a resolved moment back into a live one, for you and for everyone else still in the store."
+    },
+    {
+      "cue": "Rate your own posture and fatigue on the dial and commit once it's in the range that calls for a break.",
+      "gauge": {
+        "green": [
+          0.55,
+          0.85
+        ],
+        "label": "FATIGUE SELF-CHECK",
+        "missNote": "Off the useful band — commit somewhere you can honestly read your own posture right now, not at either extreme.",
+        "speed": 0.6
+      },
+      "id": "fatigue-check",
+      "kind": "gauge",
+      "prompt": "Rate your own posture and fatigue on the dial and commit once it's in the range that calls for a break.",
+      "target": "fatigue-dial",
+      "title": "Run a mid-shift fatigue self-check",
+      "why": "A fatigue check partway through a shift is what catches the posture drift that happens gradually — nobody starts a shift slouched or twisting, and the dial is what makes noticing that a deliberate check instead of something only a sore back tells you about tomorrow."
+    },
+    {
+      "cue": "Sign the log to close out this shift's ergonomics and safety check-in.",
+      "id": "sign-closeout",
+      "kind": "select",
+      "prompt": "Sign the log to close out this shift's ergonomics and safety check-in.",
+      "target": "shift-log",
+      "title": "Sign the shift safety check-in",
+      "why": "The signature is the cashier confirming the stand was set right, every heavy lift got called for help instead of twisted, and the plan was read — the record a supervisor checks if this stand's history is ever questioned."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "The stand set to fit the cashier, a heavy case lifted with a second hand instead of a twist, and the store's own robbery plan known cold before it is ever needed",
+  "title": "SmartCiti.X~ Checkstand Ergonomics & Robbery Prevention VR",
+  "trade": "Cashier / front-end clerk",
+  "underwater": null,
+  "weather": null
+}

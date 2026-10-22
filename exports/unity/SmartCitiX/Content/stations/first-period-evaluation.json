@@ -1,0 +1,394 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "period-one-passed",
+    "name": "Period One Passed",
+    "note": "A clean logbook, a guarded demonstration and an evaluation read before it was signed"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "The apprenticeship standard the apprentice is indentured under — registered with the U.S. Department of Labor or a State Apprenticeship Agency — which sets the on-the-job hours by work process, the related instruction, the periodic evaluation, the supervision of apprentices by journey-level workers and the progressive wage schedule; OSHA 29 CFR 1926.21 on the employer's duty to train, and the guarding and tool rules of 29 CFR 1926; OSHA 10 through the OSHA Outreach Training Program as the awareness base the demonstration builds on; NIOSH guidance on hearing loss prevention; SAMHSA's National Helpline and 988 for the stress an evaluation carries",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "DOL",
+        "citedAs": "apprenticeship standard",
+        "id": "dol-apprenticeship-standards",
+        "title": "Registered apprenticeship standards, as a category — the written standards a sponsor registers with the U.S. Department of Labor or a State Apprenticeship Agency: the term, on-the-job learning, related instruction, the progressive wage schedule, the ratio, the probationary period and the selection procedure"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.21",
+        "id": "osha-1926-21",
+        "title": "29 CFR 1926.21 — Safety training and education in construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "OSHA Outreach Training Program",
+        "id": "osha-outreach-10",
+        "title": "OSHA Outreach Training Program — the 10-hour construction course (OSHA 10): voluntary awareness training taught by an authorized trainer, not a certification and not a substitute for the employer's own training"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "SAMHSA",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Apprenticeship navigation",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "straight-logbook",
+        "name": "Straight Logbook",
+        "note": "The logbook errors and the pre-cut check both found clean"
+      },
+      {
+        "id": "no-shortcuts-in-the-shop",
+        "name": "No Shortcuts In The Shop",
+        "note": "No unsafe action anywhere in the evaluation"
+      },
+      {
+        "id": "square-and-true",
+        "name": "Square And True",
+        "note": "The square check committed near the middle of the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-evaluation",
+        "name": "Clean Evaluation",
+        "note": "No corrections anywhere"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every timed passage carried without a break"
+      },
+      {
+        "id": "done-by-lunch",
+        "name": "Done By Lunch",
+        "note": "Finish inside 80% of par"
+      }
+    ],
+    "currency": "HOUR",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "First Period",
+      "Logbook Kept",
+      "Demonstrated",
+      "Evaluated",
+      "Period Advancement Certified"
+    ],
+    "system": "Period Card"
+  },
+  "hazards": {
+    "fpe-guard-off": "You went to pin the saw's blade guard up 'to see the line better'. The guard is what stands between a hand and a spinning blade when the work shifts or kicks back, and the tool rules in 29 CFR 1926 require guards to stay in place. A demonstration is scored on doing it safely first; a cut made with the guard pinned up fails the demonstration even if the line is perfect.",
+    "fpe-lift-alone": "You went for the scissor lift with the key in it, to go up alone and finish. An apprentice works under a journey-level worker, as the apprenticeship standard requires, and operating a lift takes training on that lift. Going up alone, untrained, with nobody at the base, is the unsafe shortcut the whole evaluation exists to catch before it is a habit.",
+    "fpe-padded-hours": "A coworker offered to sign your logbook for a day you were not on site. The logbook is the record your hours toward each work process are counted from, and your apprenticeship standard ties period advancement to those hours. A signed entry for a day you did not work is a false record with two names on it, and it can end an apprenticeship faster than any skills test.",
+    "fpe-quick-sign": "Someone put a page in front of you: 'sign here — we'll go over it later.' That page is your evaluation, and a signature says you have seen and accept what it says about your attendance, your skills and your safety. Signing before reading gives up the one chance to add a comment or question a mark — the evaluation is read, section by section, and signed last."
+  },
+  "id": "first-period-evaluation",
+  "indoor": "shop",
+  "interrupts": [
+    {
+      "after": "plumb-post",
+      "alert": "Your mentor is called away to the phone, and a foreman walks over: 'Leave that. Take the scissor lift up and finish the blocking on your own — the key's in it.'",
+      "cue": "Do not go up alone. Take it to the person responsible for your apprenticeship.",
+      "delay": 3,
+      "id": "fpe-lift-order",
+      "kind": "Sent up a lift alone",
+      "missNote": "The foreman waited while you kept holding the post, and in the version where you went, you were up a lift you had never been trained on, alone, with nobody at the base — on the day you were being evaluated on whether you work safely.",
+      "seconds": 12,
+      "target": "fpe-coordinator",
+      "why": "The apprenticeship standard has apprentices working under journey-level workers, and running a lift takes training on that lift and someone at the base. A first-period apprentice cannot weigh a foreman's instruction against all that alone; the training coordinator can, and usually settles it in a sentence. Taking it to the coordinator is not refusing work — it is putting the decision where it belongs.",
+      "wrongNote": "Not that. The answer is the training coordinator — not the lift, and not an argument with the foreman."
+    },
+    {
+      "after": "feed-cut",
+      "alert": "Halfway through the cut the blade guard catches and stays up, leaving the spinning blade exposed at the end of the board.",
+      "cue": "Stop the saw now.",
+      "delay": 3,
+      "id": "fpe-guard-sticks",
+      "kind": "Blade guard sticking open",
+      "missNote": "You kept feeding with the blade exposed, and in the version where the board shifted at the end of the cut, your hand was at the end of the board when it did. The cut was never worth that.",
+      "seconds": 12,
+      "target": "fpe-estop",
+      "why": "A guard stuck open is a guard that is not there, and the only safe response is to stop the blade before anything else — not to finish the cut, not to reach in and free it. The emergency stop is placed where it can be hit without reaching over the blade. Once the blade has stopped, the guard is checked and freed or the saw is tagged out of service.",
+      "wrongNote": "Not that. The answer is the emergency stop — blade stopped first, guard sorted out after."
+    }
+  ],
+  "lateNotes": {
+    "fpe-log-pages": "Not yet. The logbook pages go to the coordinator once the errors are fixed and the demonstration is done — hand in a logbook with an unsigned day and the period waits.",
+    "fpe-period-log": "The period log is closed out last, once the evaluation is signed and the next rate is confirmed."
+  },
+  "name": "First-Period Evaluation",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "job-readiness-edition",
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "fpe-clamp",
+      "fpe-coordinator",
+      "fpe-coordinator-tray",
+      "fpe-err-double",
+      "fpe-err-process",
+      "fpe-err-unsigned",
+      "fpe-estop",
+      "fpe-ev-attendance",
+      "fpe-ev-safety",
+      "fpe-ev-sign",
+      "fpe-ev-skills",
+      "fpe-guard-down",
+      "fpe-guard-off",
+      "fpe-level",
+      "fpe-lift-alone",
+      "fpe-log-pages",
+      "fpe-logbook",
+      "fpe-mentor",
+      "fpe-padded-hours",
+      "fpe-period-log",
+      "fpe-ppe-ears",
+      "fpe-ppe-glasses",
+      "fpe-quick-sign",
+      "fpe-saw-track",
+      "fpe-square-gauge",
+      "fpe-wage-schedule"
+    ],
+    "meshes": 190
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Open the logbook at this period's pages: hours by day, by work process, signed by the journey-level worker.",
+      "id": "open-logbook",
+      "kind": "select",
+      "prompt": "Open the logbook at this period's pages: hours by day, by work process, signed by the journey-level worker.",
+      "target": "fpe-logbook",
+      "title": "Open your logbook of on-the-job hours",
+      "why": "An apprenticeship standard lays out the on-the-job learning by work process — so many hours on each kind of work — and the logbook is where those hours are recorded, day by day, and signed by the journey-level worker who supervised them. It is the document the first-period evaluation starts from, because period advancement, and the raise that comes with it, depends on the hours it shows."
+    },
+    {
+      "cue": "On the example page, find the unsigned day, the day entered twice and the hours under the wrong work process.",
+      "id": "logbook-errors",
+      "itemNames": {
+        "fpe-err-double": "a day entered twice",
+        "fpe-err-process": "hours under the wrong work process",
+        "fpe-err-unsigned": "a day with no signature"
+      },
+      "itemNotes": {
+        "fpe-err-double": "The same day entered twice inflates the total and makes the whole page look unreliable. Strike the duplicate and initial it.",
+        "fpe-err-process": "Hours logged under the wrong work process leave another process short, and the standard counts them separately. Move them to the right line.",
+        "fpe-err-unsigned": "A day with hours but no journey-level signature usually does not count until it is signed. Ask the worker who supervised it, this week, while they remember."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "On the example page, find the unsigned day, the day entered twice and the hours under the wrong work process.",
+      "targets": [
+        "fpe-err-unsigned",
+        "fpe-err-double",
+        "fpe-err-process"
+      ],
+      "title": "Find the three logbook errors before you hand it in",
+      "why": "Most delays in period advancement come from the logbook, not the skills: an unsigned day that does not count, a duplicated day that makes the page unreliable, hours logged under the wrong work process so one process falls short. Finding them before the coordinator does is the difference between a raise this month and a raise after the paperwork has gone back and forth."
+    },
+    {
+      "cue": "Hold the level on the post with the bubble centred while your mentor fastens the brace.",
+      "holdBreakNote": "You let go before the brace was fastened. The post drifted — centre the bubble and hold it until your mentor says it is in.",
+      "id": "plumb-post",
+      "kind": "hold",
+      "prompt": "Hold the level on the post with the bubble centred while your mentor fastens the brace.",
+      "seconds": 6,
+      "target": "fpe-level",
+      "title": "Hold the post plumb while it is fastened",
+      "why": "Holding a post plumb while it is braced is basic, and it is exactly what an evaluator watches: whether you read the level, correct in small movements and hold steady until the fastener is in, rather than letting go the moment it looks close. It is also a two-person task done under a journey-level worker, which is how every task in the first period is supposed to go."
+    },
+    {
+      "cue": "Measure both diagonals and commit when the difference is inside the example tolerance.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.58
+        ],
+        "label": "DIAGONAL DIFFERENCE (EXAMPLE)",
+        "missNote": "The diagonals are too far apart — the frame is out of square. Rack it gently and measure both again.",
+        "speed": 0.55
+      },
+      "id": "square-check",
+      "kind": "gauge",
+      "prompt": "Measure both diagonals and commit when the difference is inside the example tolerance.",
+      "target": "fpe-square-gauge",
+      "title": "Check the frame for square",
+      "why": "A rectangle is square when its two diagonals measure the same, and checking them is one of the first measurement habits a construction apprentice builds. The evaluator is watching whether you measure both, read the tape correctly and correct the frame rather than calling it close. The tolerance here is an example; the job's drawings or your journey-level worker set the real one."
+    },
+    {
+      "cue": "Before the saw starts, find the three things that have to be true: glasses on, hearing protection on, guard down and free.",
+      "id": "pre-cut-check",
+      "itemNames": {
+        "fpe-guard-down": "the blade guard down and free",
+        "fpe-ppe-ears": "hearing protection on",
+        "fpe-ppe-glasses": "safety glasses on"
+      },
+      "itemNotes": {
+        "fpe-guard-down": "The blade guard down and moving freely. A guard that sticks is a guard that is not there.",
+        "fpe-ppe-ears": "Hearing protection on. NIOSH's guidance on hearing loss is plain that the damage from repeated loud tools is permanent and adds up over a career.",
+        "fpe-ppe-glasses": "Safety glasses on before the saw starts — chips and dust leave the blade faster than you can blink."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Before the saw starts, find the three things that have to be true: glasses on, hearing protection on, guard down and free.",
+      "targets": [
+        "fpe-ppe-glasses",
+        "fpe-ppe-ears",
+        "fpe-guard-down"
+      ],
+      "title": "Do the pre-cut check",
+      "why": "The pre-cut check takes ten seconds and is the part of the demonstration an evaluator will fail you on without looking at the cut. Glasses protect against chips, hearing protection against the damage NIOSH describes building up over a career of loud tools, and a guard that moves freely is the only thing between a hand and the blade. Doing it every time is the skill; the cut comes after."
+    },
+    {
+      "cue": "Turn the clamp until the board is held firm against the fence — no hand holding the offcut.",
+      "id": "clamp-work",
+      "kind": "turn",
+      "prompt": "Turn the clamp until the board is held firm against the fence — no hand holding the offcut.",
+      "target": "fpe-clamp",
+      "title": "Clamp the work before the cut",
+      "turn": {
+        "axis": "y",
+        "label": "CLAMP",
+        "turns": 1
+      },
+      "why": "A board that moves during a cut is how kickback and slipped hands happen. Clamping the work firm against the fence keeps both hands clear of the blade and the cut true, and it is the habit an evaluator is looking for: the work held by the clamp, not by a hand that has to be too close to the blade to do it."
+    },
+    {
+      "cue": "Hold the feed inside the band: steady pressure, the guard riding on the work, hands outside the red zone.",
+      "holdBreakNote": "The feed dropped out of band. Ease off, let the blade do the work, and bring it back to a steady rate — never force it through.",
+      "id": "feed-cut",
+      "kind": "track",
+      "prompt": "Hold the feed inside the band: steady pressure, the guard riding on the work, hands outside the red zone.",
+      "seconds": 7,
+      "target": "fpe-saw-track",
+      "title": "Feed the cut at a steady rate",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.44,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "FEED",
+        "rise": 0.5,
+        "start": 0.16
+      },
+      "why": "A steady feed lets the blade cut rather than bind: too slow and it burns and grabs, too fast and it forces the work and invites kickback. Holding the rate with the guard riding on the work and hands outside the marked zone is what the demonstration is scored on — the same discipline the guarding rules in 29 CFR 1926 assume, practised until it is automatic."
+    },
+    {
+      "cue": "Carry this period's corrected, signed pages to the coordinator's tray.",
+      "drag": {
+        "missNote": "Not in the coordinator's tray. Pages left anywhere else are pages that can be lost — put them where they are logged.",
+        "radius": 0.4,
+        "to": "fpe-coordinator-tray"
+      },
+      "id": "hand-in-pages",
+      "kind": "drag",
+      "prompt": "Carry this period's corrected, signed pages to the coordinator's tray.",
+      "target": "fpe-log-pages",
+      "title": "Hand the signed logbook pages to the coordinator",
+      "why": "The corrected, signed pages are what the training coordinator counts toward your work processes and your period advancement, so they go in by hand, to the coordinator's tray, not loose in a folder. Handing them in yourself means you can see them received and ask about anything short, which is how an apprentice keeps the hours they worked from getting lost between the jobsite and the office."
+    },
+    {
+      "cue": "Ask your journey-level mentor how the period looked from their side, and say honestly how you are doing.",
+      "id": "mentor-checkin",
+      "kind": "select",
+      "prompt": "Ask your journey-level mentor how the period looked from their side, and say honestly how you are doing.",
+      "target": "fpe-mentor",
+      "title": "Check in with your mentor before the evaluation",
+      "why": "The journey-level worker who supervised you sees things the evaluation form does not, and hearing it before you sit down with the coordinator means nothing in the evaluation is a surprise. It is also the crew check-in: the first period is hard on bodies and on nerves, and a mentor who hears that can help. If it has become more than that, 988 or SAMHSA's National Helpline is the right next call."
+    },
+    {
+      "cue": "Read attendance and related instruction, the skills marks and the safety record before you comment and sign.",
+      "id": "read-evaluation",
+      "itemNames": {
+        "fpe-ev-attendance": "attendance and school",
+        "fpe-ev-safety": "the safety record",
+        "fpe-ev-sign": "comment and sign",
+        "fpe-ev-skills": "the skills marks"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Read attendance and school, then the skills marks, then the safety record — and only then add your comment and sign.",
+      "prompt": "Read attendance and related instruction, the skills marks and the safety record before you comment and sign.",
+      "targets": [
+        "fpe-ev-attendance",
+        "fpe-ev-skills",
+        "fpe-ev-safety",
+        "fpe-ev-sign"
+      ],
+      "title": "Read the evaluation section by section, then sign",
+      "why": "An evaluation is a record of your period that follows you, and your signature says you have seen it. Reading attendance and related instruction, then the skills marks, then the safety record — before signing — is what lets you ask about a mark you do not understand or add a comment while it still counts. The apprenticeship standard sets the periodic evaluation; reading it is yours to do."
+    },
+    {
+      "cue": "With a satisfactory evaluation, find the second-period rate on the example schedule and confirm when it starts.",
+      "id": "next-rate",
+      "kind": "select",
+      "prompt": "With a satisfactory evaluation, find the second-period rate on the example schedule and confirm when it starts.",
+      "target": "fpe-wage-schedule",
+      "title": "Read the next period's rate off the wage schedule",
+      "why": "The apprenticeship standard's progressive wage schedule sets the rate for each period, and advancement to the next one, with its raise, follows satisfactory progress. Reading the new rate off the schedule yourself, and confirming with the coordinator when it takes effect, is how you know what your next stub should say — and how you notice if it does not."
+    },
+    {
+      "cue": "Log the hours by process, the evaluation date and marks, your comment, and the date the new rate starts.",
+      "id": "period-log",
+      "kind": "select",
+      "prompt": "Log the hours by process, the evaluation date and marks, your comment, and the date the new rate starts.",
+      "target": "fpe-period-log",
+      "title": "Close out your period log",
+      "why": "Your own record of the period — hours by work process, the evaluation's marks and your comment, the date the new rate starts — is the one that goes with you from job to job. It is what you check the next stub against, what you bring if hours go missing, and the page that shows, period by period, the road to journey level actually being walked."
+    }
+  ],
+  "supportLine": "your journey-level mentor or your training coordinator if the evaluation is weighing on you, 988 if it has turned into a crisis, or SAMHSA's National Helpline (1-800-662-4357, free and confidential) if drinking or using has become part of how you cope",
+  "tagline": "The end of the first period: the logbook checked, a guarded skills demonstration, the signed pages in, the evaluation read before it is signed, and the next rate read off the schedule — while a foreman tries to send you up a lift alone",
+  "title": "SmartCiti.X~ First-Period Evaluation VR",
+  "trade": "Construction apprentice — the first-period evaluation",
+  "underwater": null,
+  "weather": "clear"
+}

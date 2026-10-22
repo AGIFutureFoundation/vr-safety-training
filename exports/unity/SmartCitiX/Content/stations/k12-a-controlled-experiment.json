@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "fair-test",
+    "name": "Fair Test",
+    "note": "A question turned into a fair test, one variable changed, the rest controlled, repeated and concluded only as far as the evidence goes"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "TRIALS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Assistant",
+      "Observer",
+      "Tester",
+      "Investigator",
+      "Scientist"
+    ],
+    "system": "Lab Board"
+  },
+  "hazards": {
+    "change-two-things-at-once": "You gave one tray more light and more water at the same time. If two things change, you cannot tell which one caused the difference. A fair test changes only the thing you are testing and keeps everything else the same.",
+    "goggles-off-for-a-closer-look": "You lifted your goggles to read the label. In the lab, goggles stay on while anything is being poured or mixed, even plain plant food; the technician can read the label to you, and your eyes stay protected.",
+    "one-trial-is-enough": "You drew a conclusion from a single tray of seedlings. One seedling can grow oddly for reasons nobody controls; repeats show whether the result is real or a fluke, and a conclusion from one trial is a guess.",
+    "prove-it-for-all-plants": "You said the result proves the same for every plant everywhere. Your experiment tested these seedlings in this lab; a fair conclusion says what the evidence shows and no more, and suggests testing other plants next."
+  },
+  "id": "k12-a-controlled-experiment",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-the-ruler-still-against-the",
+      "alert": "A classmate knocks over a beaker and water spreads across the floor near the sink.",
+      "cue": "Tell the lab technician and keep people away from the spill.",
+      "delay": 3,
+      "id": "water-is-spilled-on-the-floor",
+      "kind": "Spill",
+      "missNote": "Nobody told the technician, and a classmate slipped and fell on the wet floor by the sink.",
+      "seconds": 12,
+      "target": "kce-tell-technician",
+      "why": "A wet lab floor is a slip hazard, and the technician knows what was in the beaker and how to clean it. Telling them straight away and keeping others clear stops a small spill becoming a fall.",
+      "wrongNote": "That leaves the spill for someone to slip on. Tell the technician. Choose the response that deals with it now."
+    },
+    {
+      "after": "keep-the-lamps-at-the-same",
+      "alert": "The lab technician asks what you changed between the trays and what you kept the same.",
+      "cue": "Say that only the light changed and name what you kept the same.",
+      "delay": 3,
+      "id": "the-technician-asks-what-changed",
+      "kind": "Technician question",
+      "missNote": "You listed several changes, and the technician said the test could not show which one mattered.",
+      "seconds": 12,
+      "target": "kce-say-variable",
+      "why": "The technician is checking the test is fair. Naming the one variable you changed and the controls you kept shows your result can be trusted, which is what anyone reading your report needs to know.",
+      "wrongNote": "That names more than one change. Choose the response that deals with it now."
+    }
+  ],
+  "lateNotes": {
+    "kce-checkin": "The check-in comes at the very end of the lab.",
+    "kce-lab-log": "The results table is written once the trials are done — nothing to record yet."
+  },
+  "name": "A Controlled Experiment",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-science"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "change-two-things-at-once",
+      "goggles-off-for-a-closer-look",
+      "kce-checkin",
+      "kce-compare-card",
+      "kce-controlled",
+      "kce-dependent",
+      "kce-goggles-card",
+      "kce-independent",
+      "kce-lab-log",
+      "kce-lamp-dial",
+      "kce-ord-conclude",
+      "kce-ord-predict",
+      "kce-ord-question",
+      "kce-ord-test",
+      "kce-pl-no-repeat",
+      "kce-pl-safety",
+      "kce-pl-too-much",
+      "kce-pl-two",
+      "kce-repeat-spot",
+      "kce-repeat-token",
+      "kce-ruler-hold",
+      "kce-say-variable",
+      "kce-share-board",
+      "kce-tell-technician",
+      "kce-track-meter",
+      "kce-tray-colour",
+      "kce-water-meter",
+      "one-trial-is-enough",
+      "prove-it-for-all-plants"
+    ],
+    "meshes": 240
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark the variable you change, the one you measure and one you keep the same.",
+      "decoyNotes": {
+        "kce-tray-colour": "The trays are all the same colour. Keep it that way, but it is not what you are testing."
+      },
+      "id": "find-the-three-kinds-of-variable",
+      "itemNames": {
+        "kce-controlled": "the water each tray gets",
+        "kce-dependent": "the seedlings' growth",
+        "kce-independent": "the light each tray gets"
+      },
+      "itemNotes": {
+        "kce-controlled": "Kept the same, so it cannot cause the difference.",
+        "kce-dependent": "What you measure to see the effect.",
+        "kce-independent": "The one thing you change on purpose."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the variable you change, the one you measure and one you keep the same.",
+      "targets": [
+        "kce-independent",
+        "kce-dependent",
+        "kce-controlled"
+      ],
+      "title": "Find the three kinds of variable",
+      "why": "A controlled experiment has three kinds of variable. The one you change on purpose is the independent variable, here the amount of light; the one you measure is the dependent variable, the seedlings' growth; and everything you keep the same, like water and soil, are the controls. Naming all three before starting is what makes the test fair."
+    },
+    {
+      "cue": "Put your goggles on and tie back long hair before the technician hands out anything.",
+      "id": "put-your-goggles-on",
+      "kind": "select",
+      "prompt": "Put your goggles on and tie back long hair before the technician hands out anything.",
+      "target": "kce-goggles-card",
+      "title": "Put your goggles on",
+      "why": "Goggles protect your eyes from splashes, even from liquids that seem harmless, and tying back hair keeps it clear of equipment. Doing both before anything is handed out is the lab's first rule, and it is the same one working scientists follow every day."
+    },
+    {
+      "cue": "Ask a question, predict, run a fair test with repeats, then conclude.",
+      "id": "put-the-method-in-order",
+      "itemNames": {
+        "kce-ord-conclude": "4 · conclude from the evidence",
+        "kce-ord-predict": "2 · write a prediction",
+        "kce-ord-question": "1 · ask a testable question",
+        "kce-ord-test": "3 · run a fair test with repeats"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Write the prediction before the test runs.",
+      "prompt": "Ask a question, predict, run a fair test with repeats, then conclude.",
+      "targets": [
+        "kce-ord-question",
+        "kce-ord-predict",
+        "kce-ord-test",
+        "kce-ord-conclude"
+      ],
+      "title": "Put the method in order",
+      "why": "A clear question tells you what to change and what to measure. A prediction written before the test stops the result from shaping what you say you expected. Running a fair test with repeats, and concluding only what the evidence shows, is the scientific method in miniature."
+    },
+    {
+      "cue": "Hold the ruler upright beside the seedling, zero at the soil, until you read it.",
+      "holdBreakNote": "The ruler tipped off the soil line. Set zero at the soil and hold it again.",
+      "id": "hold-the-ruler-still-against-the",
+      "kind": "hold",
+      "prompt": "Hold the ruler upright beside the seedling, zero at the soil, until you read it.",
+      "seconds": 6,
+      "target": "kce-ruler-hold",
+      "title": "Hold the ruler still against the seedling",
+      "why": "A measurement is only fair if every seedling is measured the same way: ruler upright, zero at the soil surface, read at the tip. Holding it still until you have read it means your numbers can be compared across trays and repeats."
+    },
+    {
+      "cue": "Say why the test changes only the light and keeps the water the same.",
+      "id": "say-why-only-one-thing-may",
+      "kind": "select",
+      "prompt": "Say why the test changes only the light and keeps the water the same.",
+      "target": "kce-compare-card",
+      "title": "Say why only one thing may change",
+      "why": "If light and water both changed, a difference in growth could be caused by either, and you would not know which. Keeping everything else the same means any difference points to the one thing you changed, which is what makes the result mean something."
+    },
+    {
+      "cue": "Look at the draft experiment plan and mark each problem.",
+      "decoyNotes": {
+        "kce-pl-safety": "A safety note is good practice. Keep it."
+      },
+      "id": "spot-the-problems-in-a-classmates",
+      "itemNames": {
+        "kce-pl-no-repeat": "no repeat trays",
+        "kce-pl-too-much": "a conclusion for every plant",
+        "kce-pl-two": "two variables changed at once"
+      },
+      "itemNotes": {
+        "kce-pl-no-repeat": "Repeats show whether a result is real.",
+        "kce-pl-too-much": "Conclude only what the evidence shows.",
+        "kce-pl-two": "Change only one thing."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the draft experiment plan and mark each problem.",
+      "targets": [
+        "kce-pl-two",
+        "kce-pl-no-repeat",
+        "kce-pl-too-much"
+      ],
+      "title": "Spot the problems in a classmate's plan",
+      "why": "Experiment plans go wrong in familiar ways: two variables changed at once, no repeats and a conclusion that claims more than the test can show. Spotting them in someone else's plan is how you learn to design a fair test of your own."
+    },
+    {
+      "cue": "Turn the dimmer on one tray's lamp and leave the other lamps alone.",
+      "id": "turn-the-lamp-dimmer-for-one",
+      "kind": "turn",
+      "prompt": "Turn the dimmer on one tray's lamp and leave the other lamps alone.",
+      "target": "kce-lamp-dial",
+      "title": "Turn the lamp dimmer for one tray only",
+      "turn": {
+        "axis": "y",
+        "label": "LIGHT",
+        "turns": 0.5
+      },
+      "why": "Changing the light on one tray only, and leaving everything else as it was, is the heart of a fair test. If the growth differs later, the light is the only thing that could explain it, because it is the only thing that was different."
+    },
+    {
+      "cue": "Commit when the measuring cylinder shows the same amount as the other trays got.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "WATER",
+        "missNote": "Not the same amount. Match the other trays before pouring.",
+        "speed": 0.6
+      },
+      "id": "measure-the-same-amount-of-water",
+      "kind": "gauge",
+      "prompt": "Commit when the measuring cylinder shows the same amount as the other trays got.",
+      "target": "kce-water-meter",
+      "title": "Measure the same amount of water for every tray",
+      "why": "Water is a control, so every tray must get the same amount. Measuring it carefully each time, at eye level, keeps it from becoming a second variable that could spoil the whole comparison without anyone noticing."
+    },
+    {
+      "cue": "Drag the repeat tray to sit under the same lamp as the first tray.",
+      "drag": {
+        "missNote": "Not under the same lamp yet. Repeats need the same conditions.",
+        "radius": 0.45,
+        "to": "kce-repeat-spot"
+      },
+      "id": "place-the-repeat-tray-beside-the",
+      "kind": "drag",
+      "prompt": "Drag the repeat tray to sit under the same lamp as the first tray.",
+      "target": "kce-repeat-token",
+      "title": "Place the repeat tray beside the first",
+      "why": "A repeat is the same test run again under the same conditions. Placing the repeat tray under the same lamp lets you see whether the result happens again, and a result that repeats is one you can start to trust."
+    },
+    {
+      "cue": "Keep the other trays' lamps steady at their set height as the day goes on.",
+      "holdBreakNote": "A lamp slipped from its height. Put it back before it changes the test.",
+      "id": "keep-the-lamps-at-the-same",
+      "kind": "track",
+      "prompt": "Keep the other trays' lamps steady at their set height as the day goes on.",
+      "seconds": 8,
+      "target": "kce-track-meter",
+      "title": "Keep the lamps at the same height",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "CONTROLS",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "Controls can drift during an experiment: a lamp slips, a window lets in sunlight. Watching and correcting them keeps the test fair from start to finish, which is part of every real experiment, not just the setting up."
+    },
+    {
+      "cue": "Write each tray's light setting and each seedling's growth, with repeats.",
+      "id": "record-the-results-in-a-table",
+      "kind": "select",
+      "prompt": "Write each tray's light setting and each seedling's growth, with repeats.",
+      "target": "kce-lab-log",
+      "title": "Record the results in a table",
+      "why": "A results table puts the independent and dependent variables side by side for every trial. Recording repeats separately, rather than only an average, shows how much the results varied, and that is what tells you how confident to be."
+    },
+    {
+      "cue": "Say what the evidence shows, how sure you are and what you would test next.",
+      "id": "write-a-fair-conclusion",
+      "kind": "select",
+      "prompt": "Say what the evidence shows, how sure you are and what you would test next.",
+      "target": "kce-share-board",
+      "title": "Write a fair conclusion",
+      "why": "A fair conclusion answers the question, says how strong the evidence is and names what could be tested next. It never claims more than the experiment showed, and that honesty is what makes science trustworthy."
+    },
+    {
+      "cue": "What would you test next with a fair test? What was hardest to keep the same?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "What would you test next with a fair test? What was hardest to keep the same?",
+      "target": "kce-checkin",
+      "title": "Check in at the end of the lab",
+      "why": "Scientists end a session by writing down what they would change next time, so the class does the same aloud: one thing kept the test fair, one thing nearly spoiled it. Naming a near miss in a fair test is a skill in itself, and the lab lead can hear who owns it now."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Change one thing, keep the rest the same — and goggles on before anything is poured",
+  "title": "SmartCiti.X~ A Controlled Experiment VR",
+  "trade": "Science class at the lab campus's teaching lab — learner and lab technician",
+  "underwater": null,
+  "weather": "clear"
+}

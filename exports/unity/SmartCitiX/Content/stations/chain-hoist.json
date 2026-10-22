@@ -1,0 +1,334 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "trim-locked",
+    "name": "Trim Locked",
+    "note": "A truss flown on calculated points, inspected chain, moused hooks, a proven test lift and a clear deck"
+  },
+  "category": "Entertainment & Live Events",
+  "certification": "IATSE — ETCP Certified Rigger (Arena); ANSI E1.6-1 powered hoists; manufacturer chain-motor inspection and load-rating compliance",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI E1.6",
+        "id": "ansi-e1-6",
+        "title": "ANSI E1.6 — Entertainment technology: powered hoist systems for the entertainment industry"
+      },
+      {
+        "body": "ASME",
+        "citedAs": "ASME B30.16",
+        "id": "asme-b30-16",
+        "title": "ASME B30.16 — Overhead underhung and stationary hoists"
+      },
+      {
+        "body": "ETCP",
+        "citedAs": "ETCP",
+        "id": "etcp-certification",
+        "title": "ETCP Certified Rigger (Arena and Theatre) and Certified Entertainment Electrician credentials"
+      },
+      {
+        "body": "union",
+        "citedAs": "IATSE",
+        "id": "iatse-training-trust",
+        "title": "IATSE Training Trust Fund — stagecraft, rigging and entertainment electrical skills training"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Entertainment",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "calc-first",
+        "name": "Calc First",
+        "note": "Load calculated before a hook went up, first time"
+      },
+      {
+        "id": "deck-clear",
+        "name": "Deck Clear",
+        "note": "Never lifted over a body, never ran a rejected chain"
+      },
+      {
+        "id": "angles-read",
+        "name": "Angles Read",
+        "note": "Bridle angle and trim inside spec"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-fly",
+        "name": "Clean Fly",
+        "note": "No corrections anywhere in the fly"
+      },
+      {
+        "id": "test-held",
+        "name": "Test Held",
+        "note": "Held the test lift the full count"
+      },
+      {
+        "id": "doors-on-time",
+        "name": "Doors On Time",
+        "note": "Truss at trim inside 80% of par"
+      }
+    ],
+    "currency": "POINT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Deck Hand",
+      "Up-Rigger",
+      "Head Rigger",
+      "Production Rigger",
+      "Fly Authority Certified"
+    ],
+    "system": "Fly Authority"
+  },
+  "hazards": {
+    "hook-not-moused": "You lifted on a hook with no mousing. A hook without its latch or mousing can walk off the sling under a bounce; the point that unhooks is the point the truss swings on.",
+    "kinked-chain": "You ran a motor with a kinked, twisted chain. A twist in the load chain jams in the hoist under load and the motor drops the point — that chain is tagged out, not run.",
+    "over-rating": "You added the point-load to a motor already at its rated capacity. A one-tonne motor is a one-tonne motor; the fix is another point, not a hope.",
+    "under-truss": "You called the lift with a crew member under the truss. Nothing goes up over a body; the deck is cleared and confirmed before the go, every lift."
+  },
+  "id": "chain-hoist",
+  "indoor": "theatre",
+  "interrupts": [
+    {
+      "after": "fly",
+      "alert": "A stagehand pushing a road case has just walked under the leading edge of the truss while it's still climbing toward trim, headphones on, looking at the case and not up.",
+      "cue": "Stop the climb and call the deck clear again before another inch of travel.",
+      "delay": 3,
+      "id": "walk-under-truss-flying",
+      "kind": "Someone crosses under the flying truss",
+      "missNote": "The truss kept climbing over the stagehand with the case, who never looked up and never heard the motors over their own headphones. A dropped point at that moment lands on someone who had no idea they were under it.",
+      "seconds": 12,
+      "target": "deck-check",
+      "why": "A truss under motor power keeps climbing at whatever rate the controller is set to whether or not the deck below it is still the deck you checked a minute ago — people move, cases get pushed, and the clear you called before the fly started is not a clear that lasts for the whole climb on its own.",
+      "wrongNote": "It is the deck check. Somebody under a truss that is still moving is a reason to stop the motors, not a reason to finish the climb faster."
+    },
+    {
+      "after": "mouse",
+      "alert": "A rigger up in the grid radios down that motor 2's chain has started grinding on the way through the guide, and the chain bag underneath is filling faster than it should be for the travel so far.",
+      "cue": "That chain gets a second look before this motor takes any load.",
+      "delay": 3,
+      "id": "motor-chain-jam-warning",
+      "kind": "Motor 2 chain sounding wrong",
+      "missNote": "The test lift went ahead on a chain that had already started grinding through the guide. A fouling chain under load is exactly the failure mode a pre-lift inspection exists to catch before the motor, not the truss, finds out the hard way.",
+      "seconds": 12,
+      "target": "chain-b",
+      "why": "A chain that grinds through its own feed guide is already fouling on something — a burr, a kink starting to form, a link that has begun to stretch — and a chain hoist under a load calculated for a healthy chain does not know the chain in front of it is not the one the rating assumes.",
+      "wrongNote": "It is motor 2's chain. A chain that sounds wrong before it has even taken weight does not get a pass because the schedule is tight."
+    }
+  ],
+  "lateNotes": {
+    "motor-up": "Nothing goes up until the load is calculated, the chain is inspected and the hooks are moused.",
+    "trim-mark": "Trim comes after the test lift proves the points hold."
+  },
+  "name": "Chain Hoist",
+  "parSeconds": 240,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "live-events",
+    "rigging-lifting"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "bridle-angle",
+      "chain-a",
+      "chain-b",
+      "deck-check",
+      "hook-a",
+      "hook-b",
+      "hook-not-moused",
+      "kinked-chain",
+      "load-calc",
+      "motor-run",
+      "motor-up",
+      "over-rating",
+      "rig-plot",
+      "shackle-open",
+      "trim-mark",
+      "under-truss"
+    ],
+    "meshes": 118
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Check the points, the truss weight with fixtures and cable, and the motor rating at each point.",
+      "id": "plot",
+      "kind": "select",
+      "prompt": "Check the points, the truss weight with fixtures and cable, and the motor rating at each point.",
+      "target": "rig-plot",
+      "title": "Read the rigging plot",
+      "why": "The plot is the load, the points and the beams they hang from, with the dynamic factor already worked into the numbers. Every figure on it is checked against the venue's structure before a rigger clips onto anything and goes up."
+    },
+    {
+      "cue": "Enter truss, fixtures, cable and the dynamic factor; commit the point load inside the motor's rating with margin.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.56
+        ],
+        "label": "POINT LOAD",
+        "missNote": "Over the working margin, or under the real load — recalculate with everything on the truss.",
+        "speed": 0.75
+      },
+      "id": "loadcalc",
+      "kind": "gauge",
+      "prompt": "Enter truss, fixtures, cable and the dynamic factor; commit the point load inside the motor's rating with margin.",
+      "target": "load-calc",
+      "title": "Calculate the point load",
+      "why": "The point load is the truss plus every fixture and every foot of cable on it, divided across the points, with the bridle angle multiplying whatever each leg actually carries. It is calculated and written down against ASME B30.16's own margins — not estimated by eye from the deck."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Run each chain through your hands: no twists, no stretched links, no rust, the chain bag clear.",
+      "id": "chain",
+      "itemNames": {
+        "chain-a": "motor 1 chain",
+        "chain-b": "motor 2 chain"
+      },
+      "kind": "sequence",
+      "prompt": "Run each chain through your hands: no twists, no stretched links, no rust, the chain bag clear.",
+      "targets": [
+        "chain-a",
+        "chain-b"
+      ],
+      "title": "Inspect each motor's load chain",
+      "why": "The chain is the only thing between the beam and the truss once the motor takes weight. A twist or a stretched link is found by hand, before the motor is under load, using the same rejection criteria ASME B30.16 sets for load chain."
+    },
+    {
+      "cue": "Adjust the bridle legs until the included angle is inside the plot's limit.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "BRIDLE",
+        "missNote": "Angle outside the plot's limit — the legs are overloaded. Shorten the legs.",
+        "speed": 0.7
+      },
+      "id": "bridle",
+      "kind": "gauge",
+      "prompt": "Adjust the bridle legs until the included angle is inside the plot's limit.",
+      "target": "bridle-angle",
+      "title": "Set the bridle angle",
+      "why": "A wide bridle multiplies the load in each leg rather than sharing it evenly. At a 120-degree included angle, each leg is already carrying the full point load on its own; the plot's angle limit is the one the sling legs were actually rated for."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Close and mouse every hook on the truss slings.",
+      "id": "mouse",
+      "itemNames": {
+        "hook-a": "motor 1 hook",
+        "hook-b": "motor 2 hook"
+      },
+      "kind": "sequence",
+      "prompt": "Close and mouse every hook on the truss slings.",
+      "targets": [
+        "hook-a",
+        "hook-b"
+      ],
+      "title": "Mouse the hooks",
+      "why": "Mousing keeps the sling captured in the hook's throat through a bounce or a swing during the show, when nobody is standing under the point to watch it. It costs thirty seconds to close; a hook that walks off under load costs the whole truss."
+    },
+    {
+      "cue": "Bump the motors up a few inches and hold — watch every point take the load.",
+      "holdBreakNote": "Dropped it before the points proved — bump it up and hold it.",
+      "id": "test",
+      "kind": "hold",
+      "prompt": "Bump the motors up a few inches and hold — watch every point take the load.",
+      "seconds": 4,
+      "target": "motor-up",
+      "title": "Test lift",
+      "why": "The test lift proves the points, the slings and the chain under the real, calculated load while the truss is still a few inches off the deck, where a failure drops a few inches onto an empty floor instead of a rigger's head."
+    },
+    {
+      "cue": "Look under the whole truss, call it clear, and get a clear back from the deck.",
+      "id": "clear",
+      "kind": "select",
+      "prompt": "Look under the whole truss, call it clear, and get a clear back from the deck.",
+      "target": "deck-check",
+      "title": "Clear the deck",
+      "why": "The go is called only by the person who has personally looked under the whole length of the truss and heard clear back from the deck crew — never assumed from across the room, and never called from memory of the last cue."
+    },
+    {
+      "cue": "Run the motors together, watching the truss stay level, all the way to trim height.",
+      "holdBreakNote": "Truss tilted out of level — stop, correct, and run again.",
+      "id": "fly",
+      "kind": "track",
+      "prompt": "Run the motors together, watching the truss stay level, all the way to trim height.",
+      "seconds": 7,
+      "target": "motor-run",
+      "title": "Fly the truss to trim",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "LEVEL",
+        "rise": 0.6,
+        "start": 0.1
+      },
+      "why": "Motors that run at even slightly different speeds tilt the truss and shift its load onto whichever point is still carrying the higher end. The rigger watches the level indicator the whole climb and stops the faster motor the moment it drifts."
+    },
+    {
+      "cue": "Truss at trim height: mark it, and lock out the motor controller.",
+      "id": "trim",
+      "kind": "select",
+      "prompt": "Truss at trim height: mark it, and lock out the motor controller.",
+      "target": "trim-mark",
+      "title": "Mark the trim and lock the motors",
+      "why": "A locked controller cannot be bumped by a stray foot or a curious hand once the show is running under that truss. The trim mark is the reference every later call — bump-in, cue, strike — gets checked against for the rest of the run."
+    },
+    {
+      "cue": "Inspect every hardware connection from beam to truss and click what is wrong.",
+      "id": "walk",
+      "itemNames": {
+        "shackle-open": "shackle pin not seated"
+      },
+      "itemNotes": {
+        "shackle-open": "The shackle on motor 2's bridle has its pin backed out two turns — it was never moused. Under a show's worth of bounce it walks out."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Inspect every hardware connection from beam to truss and click what is wrong.",
+      "targets": [
+        "shackle-open"
+      ],
+      "title": "Walk the points before the house opens",
+      "why": "Hardware is checked again by eye and by hand after the fly itself, because the act of lifting is exactly what moves a hardware connection that looked fine sitting still on the deck. This walk is the last look before a house full of people sits underneath it."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Flying a truss: load calc, chain inspection, bridle angle, moused hooks, test lift, deck clear, trim and lock",
+  "title": "SmartCiti.X~ Chain Hoist VR",
+  "trade": "Entertainment rigger — chain motors",
+  "underwater": null,
+  "weather": null
+}

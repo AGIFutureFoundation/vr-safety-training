@@ -1,0 +1,405 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "proven-dead-first",
+    "name": "Proven Dead First",
+    "note": "The air handler locked, tagged and proven dead before the panel ever came off, the right filter fitted, and the restart watched steady before the ticket closed"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "AFT and CSEA facilities training; OSHA's control of hazardous energy standard (29 CFR 1910.147) for the air handler's lockout and the proof of zero energy; NFPA 85 for the boiler-room hazards named on the walk; the ASME Boiler and Pressure Vessel Code and the National Board Inspection Code for the boiler's own pressure equipment; the district's maintenance procedure and the equipment manufacturer's manual for the filter's rating and the restart sequence",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "ASME",
+        "citedAs": "Boiler and Pressure Vessel Code",
+        "id": "asme-bpvc",
+        "title": "ASME Boiler and Pressure Vessel Code"
+      },
+      {
+        "body": "union",
+        "citedAs": "CSEA",
+        "id": "csea-training",
+        "title": "CSEA — California School Employees Association training for classified school employees"
+      },
+      {
+        "body": "NBIC",
+        "citedAs": "National Board Inspection Code",
+        "id": "nbic",
+        "title": "National Board Inspection Code, maintained by the National Board of Boiler and Pressure Vessel Inspectors — inspection, repair and alteration practice for boilers and pressure vessels in service"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 85",
+        "id": "nfpa-85",
+        "title": "NFPA 85 — Boiler and Combustion Systems Hazards Code"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Building Systems & Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "never-skipped-lockout",
+        "name": "Never Skipped Lockout",
+        "note": "The panel never opened before the unit was locked, tagged and proven dead"
+      },
+      {
+        "id": "clean-walk",
+        "name": "Clean Walk",
+        "note": "No corrections across the whole room"
+      },
+      {
+        "id": "steady-restart",
+        "name": "Steady Restart",
+        "note": "The observed restart held in band without a break"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "ticket-closed-on-time",
+        "name": "Ticket Closed on Time",
+        "note": "Whole job finished inside 80% of par"
+      },
+      {
+        "id": "one-pass-room-walk",
+        "name": "One-Pass Room Walk",
+        "note": "Boiler-room walk clean on the first pass"
+      },
+      {
+        "id": "nine-in-a-row",
+        "name": "Nine in a Row",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "PSI",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Maintenance Aide",
+      "Maintenance Tech",
+      "Lead Tech",
+      "Building Engineer",
+      "Facilities Certified"
+    ],
+    "system": "Boiler Room"
+  },
+  "hazards": {
+    "block-combustion-air": "That's stacking supplies in front of the combustion-air louver. A boiler starves for air exactly where that louver feeds it, and blocking it risks incomplete combustion and carbon monoxide building up in a room somebody works in every day.",
+    "ignore-relief-valve-leak": "That's walking past a pressure-relief valve that's actively weeping instead of reporting it. A relief valve is the boiler's last line of defence against overpressure — one that's already leaking under normal conditions is one nobody can trust to seat properly if it's ever actually called on.",
+    "skip-lockout-quick-fix": "That's reaching for the access panel before the air handler has been locked out at all. A unit that's merely switched off can still be started from another switch or a schedule nobody in this room knows about — the panel doesn't come off until the lock, the tag and a proven-dead check are all done first.",
+    "wrong-filter-rating": "That's a filter off the shelf that doesn't match this unit's rated size or rating. A filter that merely fits the slot but isn't rated for the unit either restricts airflow the fan wasn't sized for or lets past exactly what the correct filter is supposed to catch."
+  },
+  "id": "ed-boiler-room-filter-change-lockout",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "try-operate-check",
+      "alert": "The front office radios that they're about to reset breakers for an unrelated outage upstairs, not realizing one of them feeds this air handler.",
+      "cue": "Answer the radio now — tell them which breaker is locked out.",
+      "delay": 2,
+      "id": "office-flips-breaker",
+      "kind": "Office about to reset an unrelated breaker",
+      "missNote": "The office reset breakers without knowing which one was locked out — a lockout that another panel can undo without breaking the lock is exactly the gap this call was supposed to close.",
+      "seconds": 10,
+      "target": "radio",
+      "why": "A breaker reset by someone who doesn't know about today's lockout can undo it without ever touching the lock itself if the panels aren't clearly matched — answering immediately and naming the exact breaker is what keeps someone else's unrelated fix from re-energizing a unit this job is depending on staying dead.",
+      "wrongNote": "The radio — answer it now and name the locked-out breaker before anything gets reset."
+    },
+    {
+      "after": "observed-restart",
+      "alert": "During the observed restart, the burner flame sputters and starts to roll out of the combustion chamber.",
+      "cue": "Hit the emergency shutoff.",
+      "delay": 2,
+      "id": "flame-rollout",
+      "kind": "Burner flame sputters during the restart",
+      "missNote": "The flame kept rolling out while the restart continued — a rollout is not a condition that improves by waiting to see what it does next.",
+      "seconds": 9,
+      "target": "emergency-shutoff",
+      "why": "A flame rolling out of its chamber is combustion happening somewhere it isn't supposed to, and the only correct response is cutting fuel to the burner immediately — the emergency shutoff is answered the instant it's seen, not after trying to see if the flame settles on its own.",
+      "wrongNote": "The emergency shutoff — that cuts fuel to the burner right now."
+    }
+  ],
+  "lateNotes": {
+    "boiler-gauge": "Not yet — the gauges get read once today's ticket has actually been read, not before.",
+    "try-operate-button": "The zero-energy check happens once the lock and tag are actually on — that's the next step."
+  },
+  "name": "Boiler Room & HVAC Filter Change with Lockout",
+  "parSeconds": 340,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "education-support-staff"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "flashlight",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "area-clear-check",
+      "block-combustion-air",
+      "blocked-louver",
+      "boiler-gauge",
+      "burner-flame",
+      "correct-filter",
+      "corroded-flue",
+      "disconnect-off",
+      "disposal-spot",
+      "emergency-shutoff",
+      "ignore-relief-valve-leak",
+      "leaking-relief-valve",
+      "lock-and-tag",
+      "lock-removed",
+      "maintenance-log",
+      "new-filter-slot",
+      "notify-occupants",
+      "old-filter",
+      "panel-latch",
+      "power-restored",
+      "radio",
+      "skip-lockout-quick-fix",
+      "ticket-board",
+      "try-operate-button",
+      "wrong-filter-rating"
+    ],
+    "meshes": 115
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the ticket for the filter change and the boiler-room walk it calls for.",
+      "id": "read-ticket",
+      "kind": "select",
+      "prompt": "Read the ticket for the filter change and the boiler-room walk it calls for.",
+      "target": "ticket-board",
+      "title": "Read today's maintenance ticket",
+      "why": "The ticket names which air handler needs its filter changed today and what else the walk should specifically look at — reading it first is what keeps a maintenance tech from locking out the wrong unit or missing what the last shift already flagged."
+    },
+    {
+      "cue": "Read the boiler's gauge and commit the reading against its normal operating range.",
+      "gauge": {
+        "green": [
+          0.38,
+          0.62
+        ],
+        "label": "BOILER PRESSURE",
+        "missNote": "Not in the normal range. A boiler reading outside it gets flagged before the rest of today's job continues.",
+        "speed": 0.6
+      },
+      "id": "boiler-gauge-check",
+      "kind": "gauge",
+      "prompt": "Read the boiler's gauge and commit the reading against its normal operating range.",
+      "target": "boiler-gauge",
+      "title": "Read the boiler's pressure and temperature",
+      "why": "A boiler running outside its normal range is telling the room something before a single tool comes out — reading the gauge first is what separates a routine filter change from a boiler that needs its own attention before anything else happens in this room today."
+    },
+    {
+      "cue": "Three things about this room are not right. Find them before the panel comes off.",
+      "id": "boiler-room-walk",
+      "itemNames": {
+        "blocked-louver": "the blocked combustion-air louver",
+        "corroded-flue": "the corroded flue connection",
+        "leaking-relief-valve": "the weeping pressure-relief valve"
+      },
+      "itemNotes": {
+        "blocked-louver": "Supplies have been stacked in front of the combustion-air louver. The boiler draws its combustion air through that opening, and blocking it risks starving the flame and building up carbon monoxide in the room.",
+        "corroded-flue": "This flue connection has corroded through part of its wall. A flue that's lost its own integrity can let combustion gases into the room instead of carrying them outside where they belong.",
+        "leaking-relief-valve": "This relief valve is weeping under normal pressure. A valve that leaks before it's ever actually called on to relieve overpressure is one nobody can trust to seat correctly when it matters."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things about this room are not right. Find them before the panel comes off.",
+      "targets": [
+        "leaking-relief-valve",
+        "corroded-flue",
+        "blocked-louver"
+      ],
+      "title": "Walk the boiler room before touching the air handler",
+      "why": "The boiler itself and the air handler share the same room and the same air, and a walk that only looks at the unit on today's ticket misses exactly the kind of problem that turns a routine filter change into a room nobody should have been standing in."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Notify anyone who might be affected, switch the disconnect off, then apply your own lock and tag, in that order.",
+      "id": "lockout-sequence",
+      "itemNames": {
+        "disconnect-off": "disconnect switched off",
+        "lock-and-tag": "lock and tag applied",
+        "notify-occupants": "occupants notified"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Notify, then the disconnect, then the lock and tag — the lock protects nobody until the power it's locking out has already been switched off.",
+      "prompt": "Notify anyone who might be affected, switch the disconnect off, then apply your own lock and tag, in that order.",
+      "targets": [
+        "notify-occupants",
+        "disconnect-off",
+        "lock-and-tag"
+      ],
+      "title": "Lock out the air handler",
+      "why": "29 CFR 1910.147 puts notification before the switch and the switch before the lock for a reason: whoever else uses this air handler's space needs warning before it goes dark, and the lock only means something once the one source of power to it has actually been cut."
+    },
+    {
+      "cue": "Hold the try-operate button and confirm nothing happens.",
+      "holdBreakNote": "You let go before holding long enough to be sure. The try-operate check has to run its full hold to actually prove the unit won't start.",
+      "id": "try-operate-check",
+      "kind": "hold",
+      "prompt": "Hold the try-operate button and confirm nothing happens.",
+      "seconds": 5,
+      "target": "try-operate-button",
+      "title": "Prove the unit is dead",
+      "why": "A lock on the disconnect is only as good as the proof that it actually worked — holding the try-operate button and getting nothing is what turns 'should be locked out' into 'confirmed dead', and it happens before a single tool touches the access panel."
+    },
+    {
+      "cue": "Turn the latches and open the access panel.",
+      "id": "open-access-panel",
+      "kind": "turn",
+      "prompt": "Turn the latches and open the access panel.",
+      "target": "panel-latch",
+      "title": "Open the filter access panel",
+      "turn": {
+        "label": "PANEL LATCH",
+        "turns": 0.4
+      },
+      "why": "The panel only opens after the unit is proven dead, which is the whole point of the sequence up to here — opening it any earlier would put a hand inside a unit nobody has actually confirmed can't start."
+    },
+    {
+      "cue": "Carry the old filter out and set it aside for disposal.",
+      "drag": {
+        "missNote": "Not clear of the unit yet. Carry the old filter all the way to the disposal spot before reaching for the new one.",
+        "radius": 0.5,
+        "to": "disposal-spot"
+      },
+      "id": "remove-old-filter",
+      "kind": "drag",
+      "prompt": "Carry the old filter out and set it aside for disposal.",
+      "target": "old-filter",
+      "title": "Remove the old filter",
+      "why": "The old filter comes all the way out before a new one goes in, checked on the way out for how loaded it was — a filter that was nearly opaque with dust says something about how overdue this change actually was."
+    },
+    {
+      "cue": "Read the unit's label and take the matching filter from the shelf.",
+      "id": "match-filter-rating",
+      "kind": "select",
+      "prompt": "Read the unit's label and take the matching filter from the shelf.",
+      "target": "correct-filter",
+      "title": "Match the new filter to the unit's label",
+      "why": "The unit's own label states the exact size and rating the fan and the ductwork were designed around — a filter that merely fits the slot but isn't rated the same either starves the fan with too much resistance or lets past exactly what the correct filter is built to catch."
+    },
+    {
+      "cue": "Slide the new filter into its slot with the airflow arrow pointing the right way.",
+      "id": "seat-new-filter",
+      "kind": "select",
+      "prompt": "Slide the new filter into its slot with the airflow arrow pointing the right way.",
+      "target": "new-filter-slot",
+      "title": "Seat the new filter",
+      "why": "A filter seated backwards restricts airflow and wastes its own media on the wrong side of the direction it was built for — the airflow arrow on its frame is what confirms it before the panel ever goes back on."
+    },
+    {
+      "cue": "Close the panel and turn the latches back down.",
+      "id": "close-access-panel",
+      "kind": "turn",
+      "prompt": "Close the panel and turn the latches back down.",
+      "target": "panel-latch",
+      "title": "Close and latch the access panel",
+      "turn": {
+        "label": "PANEL LATCH",
+        "turns": 0.4
+      },
+      "why": "The panel is latched fully closed before any lockout comes off, because an open panel and a live air handler are never supposed to exist in the room at the same moment for any reason."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Confirm the area is clear, remove your own lock and tag, then restore power, in that order.",
+      "id": "remove-lockout",
+      "itemNames": {
+        "area-clear-check": "area confirmed clear",
+        "lock-removed": "lock and tag removed",
+        "power-restored": "power restored"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Clear the area, then remove the lock, then restore power — power comes back only once nothing else is still exposed.",
+      "prompt": "Confirm the area is clear, remove your own lock and tag, then restore power, in that order.",
+      "targets": [
+        "area-clear-check",
+        "lock-removed",
+        "power-restored"
+      ],
+      "title": "Remove the lockout in order",
+      "why": "The area gets confirmed clear before the lock comes off because the whole point of the lockout was keeping the unit from starting while someone might still be near it — restoring power is the very last action, only once nothing else about the job is still in progress."
+    },
+    {
+      "cue": "Watch the burner and keep its reading steady in the normal band through the restart.",
+      "holdBreakNote": "Reading out of band during the restart — a flame or pressure that won't settle gets watched until it does, not signed off in the moment it wanders.",
+      "id": "observed-restart",
+      "kind": "track",
+      "prompt": "Watch the burner and keep its reading steady in the normal band through the restart.",
+      "seconds": 6,
+      "target": "burner-flame",
+      "title": "Watch a short observed restart",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "BURNER",
+        "rise": 0.4,
+        "start": 0.2
+      },
+      "why": "A restart watched for a few minutes catches a flame that sputters or a pressure that spikes right when the unit is most likely to show a new problem — walking away the moment power is restored means finding out about a bad restart from someone else's complaint instead of right here."
+    },
+    {
+      "cue": "Record the filter change, the flagged relief valve and today's boiler readings on the maintenance log.",
+      "id": "log-maintenance",
+      "kind": "select",
+      "prompt": "Record the filter change, the flagged relief valve and today's boiler readings on the maintenance log.",
+      "target": "maintenance-log",
+      "title": "Log the filter change and boiler readings",
+      "why": "The log is what tells the next tech, or whoever schedules the relief valve's repair, exactly what was found and fixed today — a boiler room walked and a filter changed with nothing written down leaves the flagged relief valve nobody's problem until it fails."
+    }
+  ],
+  "supportLine": "your AFT or CSEA chapter's member assistance line, or the district's employee assistance programme",
+  "tagline": "The ticket read, the boiler's gauges checked, the room walked for a leaking relief valve, a corroded flue and a blocked combustion-air louver, the air handler locked, tagged and proven dead, the filter matched to the unit's own label, the panel latched, the lockout removed in order, and a short observed restart watched steady before sign-off",
+  "title": "SmartCiti.X~ Boiler Room & HVAC Filter Change with Lockout VR",
+  "trade": "AFT- or CSEA-represented school maintenance technician running a boiler-room walk and an air-handler filter change under lockout",
+  "underwater": null,
+  "weather": "overcast"
+}

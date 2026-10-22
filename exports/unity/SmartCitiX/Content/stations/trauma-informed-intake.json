@@ -1,0 +1,403 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "first-hour-held",
+    "name": "First Hour Held",
+    "note": "A first intake where the room, the words and the pace all belonged to the client, and the worker checked in on themselves before the next one"
+  },
+  "category": "Emergency Services",
+  "certification": "The NASW Code of Ethics on self-determination, informed consent and confidentiality; SAMHSA's six principles of a trauma-informed approach — safety, trustworthiness and transparency, peer support, collaboration and mutuality, empowerment and choice, and cultural, historical and gender issues; Psychological First Aid as published by the National Child Traumatic Stress Network and the World Health Organization; the HIPAA Privacy Rule, and the federal confidentiality rule for substance use disorder records at 42 CFR Part 2; California's mandated-reporter duties under the Child Abuse and Neglect Reporting Act and the Elder and Dependent Adult Civil Protection Act; Cal/OSHA's workplace violence prevention in health care standard, 8 CCR §3342; SEIU 1021 social services practice standards and the local's own critical-incident and peer-support language",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "California Penal Code",
+        "citedAs": "Child Abuse and Neglect Reporting Act",
+        "id": "ca-canra",
+        "title": "The California Child Abuse and Neglect Reporting Act (CANRA), as a body — the duty of mandated reporters to report known or reasonably suspected child abuse or neglect, which limits any promise of confidentiality made to a minor"
+      },
+      {
+        "body": "HHS",
+        "citedAs": "HIPAA",
+        "id": "hipaa-privacy-rule",
+        "title": "HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)"
+      },
+      {
+        "body": "union",
+        "citedAs": "NASW Code of Ethics",
+        "id": "nasw-code-of-ethics",
+        "title": "NASW Code of Ethics and the association's practice standards for social work and crisis counselling"
+      },
+      {
+        "body": "NCTSN",
+        "citedAs": "Psychological First Aid",
+        "id": "pfa-field-guide",
+        "title": "Psychological First Aid Field Operations Guide (NCTSN and the National Center for PTSD), and the WHO field guide"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "SAMHSA",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU 1021",
+        "id": "seiu-1021-training",
+        "title": "SEIU 1021 apprenticeship and training, as a training body"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Emergency response",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "door-in-view",
+        "name": "Door In View",
+        "note": "The room was arranged before the client walked into it, not after"
+      },
+      {
+        "id": "nothing-forced",
+        "name": "Nothing Forced",
+        "note": "No detail pressed for, no promise made that could not be kept"
+      },
+      {
+        "id": "their-own-words",
+        "name": "Their Own Words",
+        "note": "The safety plan came out of the client's sentences, not the worker's"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-first-hour",
+        "name": "Clean First Hour",
+        "note": "No corrections anywhere in the intake"
+      },
+      {
+        "id": "steady-pace",
+        "name": "Steady Pace",
+        "note": "The screening and the safety plan both held without a break"
+      },
+      {
+        "id": "unhurried",
+        "name": "Unhurried",
+        "note": "Complete inside 80% of par without rushing a single answer"
+      }
+    ],
+    "currency": "TRUST",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Intake Trainee",
+      "Case Aide",
+      "Social Worker",
+      "Lead Clinician Partner",
+      "Trauma-Informed Certified"
+    ],
+    "system": "First Contact"
+  },
+  "hazards": {
+    "eyes-on-screen": "You worked the form on the screen through the client's answer without once looking up. A trauma-informed intake is a conversation that produces a record, not a record that happens to involve a conversation — typing through a disclosure tells the person that the form is the thing in the room that matters, and it is the single most common way a good worker accidentally reads as indifferent.",
+    "press-for-detail": "You pressed for the story. \"What exactly happened, start at the beginning\" is the sentence a trauma-informed intake is built to avoid: the detail is not what this hour needs, the client has usually told it to strangers before, and being pushed through it again by somebody who only needs three boxes filled in is the moment a person decides this building is one more place that takes something from them.",
+    "promise-total-secrecy": "You promised that nothing said in this room ever leaves it. It is a kind sentence and it is not true: this worker is a mandated reporter under California's child abuse and elder and dependent adult reporting laws, and a promise made now is a betrayal discovered later, at the worst possible moment, by somebody who had already decided to trust you.",
+    "prop-door-open": "You propped the door open to the waiting room. Everything said in here is now audible to whoever is sitting out there, and a client who realises that mid-sentence stops mid-sentence — the HIPAA Privacy Rule is the floor under this, but the practical point is that privacy is a precondition of anybody telling you anything true.",
+    "worker-blocks-door": "You took the chair between the client and the door. A person who cannot see or reach the way out is a person whose body is doing threat arithmetic instead of listening to you, and no amount of calm voice fixes a seating plan — the client gets the chair with the sightline, every time, and the worker sits where leaving the room would not mean getting past anybody."
+  },
+  "id": "trauma-informed-intake",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "screening-pace",
+      "alert": "Halfway through the basic-needs questions the client's answers go flat and slow, their eyes settle on a point past your shoulder, and the last thing you asked does not seem to have arrived.",
+      "cue": "Stop the questions. Ground and offer the pause — do not carry on to the next line of the form.",
+      "delay": 3,
+      "id": "client-dissociates",
+      "kind": "Client dissociating mid-question",
+      "missNote": "The questions kept going while the client was not there for them. The form has answers in it that nobody in the room could stand behind, and the client has learned that going quiet in here does not stop anything — which is precisely the lesson that makes the next disclosure impossible.",
+      "seconds": 14,
+      "target": "grounding-card",
+      "why": "Somebody who has left the room in this way cannot consent to, answer or remember the next question, so continuing collects nothing and costs a great deal: the client learns that this worker will keep going regardless. Grounding first — name where you both are, offer feet on the floor, water, the window, and let the form wait — is what brings the conversation back to somebody who is actually in it.",
+      "wrongNote": "Not the form and not the next question. Ground first: the grounding card is what brings the conversation back to somebody who can actually be in it."
+    },
+    {
+      "after": "safety-plan",
+      "alert": "A knock, and a colleague opens the door mid-sentence to ask whether you have seen the shared caseload folder — the corridor and the waiting room are now inside the conversation.",
+      "cue": "Step to the door, close it, and ask for the minute. Do not answer them across the room.",
+      "delay": 3,
+      "id": "colleague-opens-door",
+      "kind": "Interruption at the door",
+      "missNote": "The conversation carried on with the door open and a colleague in it. The client stopped volunteering anything after that, and they were right to: whatever was said next was said to a room that had just been shown to have other people in it.",
+      "seconds": 12,
+      "target": "door-step-out",
+      "why": "Answering across an open door finishes the interruption but finishes the privacy with it: the client's safety plan, half read aloud, has just been shared with a corridor, and the client now knows that the door on this room does not mean very much. Stepping over, closing it and asking for a minute costs eight seconds and keeps the two promises this hour is standing on — privacy in fact, and that the client's time is not interruptible.",
+      "wrongNote": "That does not close the door. Step over to it yourself, shut it, and ask your colleague for a minute — nothing else in this room makes it private again."
+    }
+  ],
+  "lateNotes": {
+    "checkin-card": "That one is for afterwards. The worker's own check-in is the last thing in this room, once the client has somewhere to be and the record is closed.",
+    "handoff-desk": "Nobody to hand off to yet. The warm handoff carries the safety plan and what the client agreed to, and neither of those exists until this conversation has got there.",
+    "intake-log": "Nothing to log yet — the record of this hour is written after the handoff, not alongside the conversation it is supposed to be a record of.",
+    "safety-plan-board": "There is nothing to plan with yet — the screening, the pause and the limits of confidentiality all come before a safety plan the client has any reason to help write."
+  },
+  "name": "Trauma-Informed Intake",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "first-responders"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "chair-angle",
+      "chair-door-spot",
+      "checkin-card",
+      "client-chair",
+      "comfort-tray",
+      "consent-card",
+      "detail-choice-card",
+      "door-privacy-dial",
+      "door-step-out",
+      "exit-path",
+      "eyes-on-screen",
+      "grounding-card",
+      "handoff-desk",
+      "intake-log",
+      "intro-panel",
+      "limits-card",
+      "pause-offer",
+      "press-for-detail",
+      "promise-total-secrecy",
+      "prop-door-open",
+      "roadmap-board",
+      "safety-plan-board",
+      "screen-basic-needs",
+      "screen-safety-now",
+      "screen-supports",
+      "screening-form",
+      "wall-print",
+      "worker-blocks-door"
+    ],
+    "meshes": 192
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Move the client's chair to the spot with a clear line to the door, before anybody is sitting in it.",
+      "drag": {
+        "missNote": "Not on the marked spot yet. The chair has to end up where a seated person can see the door and get to it without going round anyone.",
+        "radius": 0.5,
+        "to": "chair-door-spot"
+      },
+      "id": "room-set",
+      "kind": "drag",
+      "prompt": "Move the client's chair to the spot with a clear line to the door, before anybody is sitting in it.",
+      "target": "client-chair",
+      "title": "Set the client's chair so they can see the door",
+      "why": "Safety in the trauma-informed sense is not reassurance, it is geometry: a person who can see the exit and reach it unobstructed can spend their attention on the conversation instead of on the room. This is done before the client arrives because rearranging furniture around somebody who has already sat down announces that they were sitting somewhere wrong."
+    },
+    {
+      "cue": "Set the door card and the sound mask before the conversation starts.",
+      "id": "privacy-card",
+      "kind": "turn",
+      "prompt": "Set the door card and the sound mask before the conversation starts.",
+      "target": "door-privacy-dial",
+      "title": "Turn the door card to \"session in progress\"",
+      "turn": {
+        "axis": "y",
+        "label": "DOOR PRIVACY",
+        "turns": 0.5
+      },
+      "why": "A card on the door and a sound mask in the corridor are what make the next hour private in fact rather than in intention, and they have to be set first — the alternative is discovering at the worst moment that the conversation carried into the waiting room. Privacy is the precondition for everything the HIPAA Privacy Rule protects and for anything true being said at all."
+    },
+    {
+      "cue": "Three things in here decide whether this room feels safe to sit down in. Find all three.",
+      "decoyNotes": {
+        "wall-print": "The framed print is pleasant and it is not a control. Nothing about it changes whether this room is safe to sit down in, and a room passes this check on its exits, its seating and what is within reach."
+      },
+      "id": "room-ready",
+      "itemNames": {
+        "chair-angle": "the chairs set at an angle rather than square-on",
+        "comfort-tray": "water and tissues already within the client's reach",
+        "exit-path": "a clear, unblocked path from the client's chair to the door"
+      },
+      "itemNotes": {
+        "chair-angle": "Chairs at an angle let a person look away without it being a refusal to look at you — square-on seating turns every pause into a stare-down, which is exactly the pressure this hour is built not to apply.",
+        "comfort-tray": "Water and tissues put out in advance mean nobody has to ask for them mid-sentence, and nobody has to be handed something the instant they start crying, which reads as a signal to stop.",
+        "exit-path": "The path counts as much as the sightline. A door you can see but have to squeeze past a table and a worker to reach is not an exit, it is a picture of one."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things in here decide whether this room feels safe to sit down in. Find all three.",
+      "targets": [
+        "exit-path",
+        "chair-angle",
+        "comfort-tray"
+      ],
+      "title": "Check the room the way a client will read it",
+      "why": "A client reads a room in about four seconds — where the door is, whether they are cornered, whether anybody expected them. Every one of those judgements is made before a single word of the introduction, which is why the room is checked deliberately rather than assumed, and why the same three things are checked every time rather than whichever one happens to catch the worker's eye."
+    },
+    {
+      "cue": "Say your name, what your job actually is, and how long you will be asking for — out loud, before anything else.",
+      "id": "introduce",
+      "kind": "select",
+      "prompt": "Say your name, what your job actually is, and how long you will be asking for — out loud, before anything else.",
+      "target": "intro-panel",
+      "title": "Introduce yourself, your role and how long this takes",
+      "why": "Trustworthiness in a trauma-informed approach is built out of small kept promises, and the first one available is an accurate answer to \"who are you and how long is this\". A client who knows the worker's role, and that the hour ends when it was said it would end, has one less unknown to manage; a client who does not is guessing, and people guess badly about institutions that have not treated them well before."
+    },
+    {
+      "cue": "Hold the roadmap up and walk through the whole hour — the questions, the plan, the handoff, and what happens to what they tell you.",
+      "holdBreakNote": "The explanation broke off partway. A client who heard about the questions but not about the handoff, or about the notes but not who reads them, is still walking into most of this hour blind — take it from the top and go through to the end.",
+      "id": "explain-roadmap",
+      "kind": "hold",
+      "prompt": "Hold the roadmap up and walk through the whole hour — the questions, the plan, the handoff, and what happens to what they tell you.",
+      "seconds": 5,
+      "target": "roadmap-board",
+      "title": "Explain what will happen in this hour",
+      "why": "Transparency means the client knows the shape of the hour before it happens to them: which questions are coming, who reads the notes, what the handoff at the end is for. Held for the full explanation rather than summarised in a sentence, because an hour described in five seconds has not been described — and surprise, in a first intake, is indistinguishable from a trap."
+    },
+    {
+      "cue": "Ask, in plain words, whether it is all right to start asking — and wait for the answer.",
+      "id": "consent-to-ask",
+      "kind": "select",
+      "prompt": "Ask, in plain words, whether it is all right to start asking — and wait for the answer.",
+      "target": "consent-card",
+      "title": "Ask permission before the questions start",
+      "why": "Choice is the principle that separates an intake from an interrogation, and the cheapest place to establish it is the threshold: asking to begin, and waiting, hands the client the one piece of control that costs the worker nothing and changes everything about what follows. It also establishes that \"no\" and \"not yet\" are real answers in this room, which is the thing the client will need to be true later."
+    },
+    {
+      "cue": "Immediate safety first, then this week's basic needs, then the people already in their corner.",
+      "id": "screening-order",
+      "itemNames": {
+        "screen-basic-needs": "housing, food and money this week",
+        "screen-safety-now": "is anyone unsafe right now",
+        "screen-supports": "who is already in their corner"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Immediate safety, then basic needs, then supports. Starting with who is in their corner before you know whether anyone is unsafe tonight is a pleasant conversation about the wrong hour.",
+      "prompt": "Immediate safety first, then this week's basic needs, then the people already in their corner.",
+      "targets": [
+        "screen-safety-now",
+        "screen-basic-needs",
+        "screen-supports"
+      ],
+      "title": "Work the screening in order",
+      "why": "The order is the whole design. Immediate safety comes first because it is the only answer that can change what the rest of the hour is for; basic needs next because housing, food and money are what most people actually came in about and asking early says you know that; supports last because it is the question that leaves the client naming something they have rather than something they lack, which is where a first conversation should end up."
+    },
+    {
+      "cue": "Keep the questions moving at the client's pace — not stalled, not running ahead of their answers.",
+      "holdBreakNote": "The pace came apart. Either the questions got ahead of the answers or the conversation stalled out — settle back into one question, the whole answer, then the next one.",
+      "id": "screening-pace",
+      "kind": "track",
+      "prompt": "Keep the questions moving at the client's pace — not stalled, not running ahead of their answers.",
+      "seconds": 6,
+      "target": "screening-form",
+      "title": "Ask the screening at the client's pace",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.44,
+        "green": [
+          0.34,
+          0.66
+        ],
+        "label": "QUESTION PACE",
+        "rise": 0.52,
+        "start": 0.2
+      },
+      "why": "Pace is the part of a screening that no form can carry. Push and the client is answering to get out of the room; stall and they are left holding a silence they did not choose, which for somebody who has been interviewed before feels like a technique. Holding the middle — a question, the whole answer, then the next question — is what makes the difference between a completed form and information anyone can act on."
+    },
+    {
+      "cue": "Tell the client they can answer with as much or as little as they want, and that skipping a question is a real option.",
+      "id": "detail-is-theirs",
+      "kind": "select",
+      "prompt": "Tell the client they can answer with as much or as little as they want, and that skipping a question is a real option.",
+      "target": "detail-choice-card",
+      "title": "Say out loud that the detail is theirs to give",
+      "why": "The difference between a screening and an interrogation is whether the person answering knows they can stop. Saying it explicitly — as much or as little as you want, you can skip any of this — is what makes the choice usable, because a client who has been through an institutional process before will assume the opposite unless told otherwise, and what this hour needs is not the narrative anyway."
+    },
+    {
+      "cue": "Name what you noticed, gently, and offer a break — water, a minute, the window — without making it a diagnosis.",
+      "id": "offer-pause",
+      "kind": "select",
+      "prompt": "Name what you noticed, gently, and offer a break — water, a minute, the window — without making it a diagnosis.",
+      "target": "pause-offer",
+      "title": "Notice the reaction and offer the break",
+      "why": "Noticing out loud does two things at once: it tells the client their reaction was seen and was not a problem, and it puts the decision about what happens next in their hands. The offer has to be concrete — water, a few minutes, come back to it — because \"are you okay?\" in a room like this is a question most people answer yes to automatically, and a vague offer of care is one the client has to do the work of accepting."
+    },
+    {
+      "cue": "Say exactly what you are required to pass on and to whom — in plain words, before it matters.",
+      "id": "reporting-limits",
+      "kind": "select",
+      "prompt": "Say exactly what you are required to pass on and to whom — in plain words, before it matters.",
+      "target": "limits-card",
+      "title": "State the limits of confidentiality plainly",
+      "why": "This worker is a mandated reporter under California's child abuse and elder and dependent adult reporting laws, and those duties do not wait to be convenient. Said plainly now, before a disclosure makes them urgent, the limits are information the client can use in deciding what to tell you; discovered afterwards, the same facts are a betrayal, and they are the reason people stop coming back to buildings like this one."
+    },
+    {
+      "cue": "Write the plan down as the client says it — their warning signs, their steps, their people — and read it back.",
+      "holdBreakNote": "The plan stopped partway through. Half a safety plan is a list of warning signs with nothing after it — go back and finish it in the client's words, then read the whole thing back.",
+      "id": "safety-plan",
+      "kind": "hold",
+      "prompt": "Write the plan down as the client says it — their warning signs, their steps, their people — and read it back.",
+      "seconds": 6,
+      "target": "safety-plan-board",
+      "title": "Start the safety plan in the client's own words",
+      "why": "A safety plan written in professional language is a document the client will not recognise at two in the morning, which is the only hour it exists for. Taking their sentences down verbatim, and reading them back so they can correct you, is both the collaborative principle made concrete and the practical thing that makes a plan usable — held for the full writing because a plan finished by the worker is the worker's plan."
+    },
+    {
+      "cue": "Walk the client over and introduce them to the clinician by name, with what they agreed you would say.",
+      "id": "warm-handoff",
+      "kind": "select",
+      "prompt": "Walk the client over and introduce them to the clinician by name, with what they agreed you would say.",
+      "target": "handoff-desk",
+      "title": "Make the warm handoff to the clinician",
+      "why": "A warm handoff is a referral that cannot be lost. The clinician hears the safety plan and the agreed summary from the worker while the client is standing there able to correct it, which means the client does not have to tell the whole thing again to a stranger and does not have to wonder what was said about them. A slip of paper with a phone number on it is the version of this step that fails quietly, weeks later."
+    },
+    {
+      "cue": "Log what was screened, what was agreed, the safety plan and the handoff — and only what the client knows is in there.",
+      "id": "intake-log",
+      "kind": "select",
+      "prompt": "Log what was screened, what was agreed, the safety plan and the handoff — and only what the client knows is in there.",
+      "target": "intake-log",
+      "title": "Write the record of the hour",
+      "why": "The record is what the clinician, the next worker and any review afterwards actually run on, and it is written after the conversation rather than during it so that the hour belonged to the client. Keeping it to what the client was told would be in it is not a technicality: transparency that stops at the office door is not transparency, and a note the client would be surprised by is a note that will eventually surprise them."
+    },
+    {
+      "cue": "Take the ninety seconds: name what stayed with you, and use the peer-support or employee assistance line if it needs more than that.",
+      "id": "own-checkin",
+      "kind": "select",
+      "prompt": "Take the ninety seconds: name what stayed with you, and use the peer-support or employee assistance line if it needs more than that.",
+      "target": "checkin-card",
+      "title": "Check in on yourself before the next one",
+      "why": "Vicarious trauma is cumulative and it is an occupational hazard of this job, not a personal failing — which is why SEIU 1021's own critical-incident language and every employee assistance programme treat the check-in after a hard intake as part of the work. A worker who runs six of these back to back without stopping is the worker who is short with the seventh client, and that client will read it as being about them."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A first intake done as procedure: the room set so the client can see the door, permission asked before the questions, the screening paced at their pace, the reporting limits said plainly, a safety plan in their own words, a warm handoff, and the worker's own grounding after",
+  "title": "SmartCiti.X~ Trauma-Informed Intake VR",
+  "trade": "Social worker — NASW / SEIU 1021",
+  "underwater": null,
+  "weather": "clear"
+}

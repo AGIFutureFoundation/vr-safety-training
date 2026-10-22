@@ -1,0 +1,409 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "set-and-proven",
+    "name": "Set & Proven",
+    "note": "A meter set on a proven riser, torqued straight, vented clear of every opening, and leak-checked with soap and an electronic sniff before the crew left the address"
+  },
+  "category": "Energy & Power",
+  "certification": "UWUA / IBEW gas-utility serviceperson training; NFPA 54 National Fuel Gas Code for the meter set, the regulator vent clearance and the leak check; 49 CFR Part 192 (PHMSA) for the operator's own meter-set and service-riser procedure; OSHA 29 CFR 1910.147 the control of hazardous energy for isolating the service before the set begins",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IBEW",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 54",
+        "id": "nfpa-54",
+        "title": "NFPA 54 — National Fuel Gas Code"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "union",
+        "citedAs": "UWUA",
+        "id": "uwua-training",
+        "title": "UWUA — Utility Workers Union of America training and safety education for water, gas and electric utility crews"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Energy",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "riser-proven-first",
+        "name": "Riser Proven First",
+        "note": "The riser was inspected before the meter went on it"
+      },
+      {
+        "id": "never-forced",
+        "name": "Never Forced",
+        "note": "No union was cross-threaded and no unsafe action was recorded"
+      },
+      {
+        "id": "vent-clearance-read",
+        "name": "Vent Clearance Read",
+        "note": "Held the clearance reading steady before it went in the record"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-set",
+        "name": "Clean Set",
+        "note": "No corrections from the work order to the record"
+      },
+      {
+        "id": "unbroken-settle",
+        "name": "Unbroken Settle Watch",
+        "note": "The meter settle watch ran to completion without a break"
+      },
+      {
+        "id": "address-clear-fast",
+        "name": "Address Clear Fast",
+        "note": "Tagged, logged and gone inside 80% of par"
+      }
+    ],
+    "currency": "SCFH",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice",
+      "Service Crew",
+      "Gas Serviceperson",
+      "Crew Lead",
+      "Distribution Authority Certified"
+    ],
+    "system": "Distribution Authority"
+  },
+  "hazards": {
+    "cross-threaded-union": "You went to force a union nut home instead of backing it out and starting the threads straight. A cross-threaded union can look tight on the wrench and still be sitting on a shaved thread that lets go under service pressure — straight and hand-started every time, or it gets backed out and tried again.",
+    "skip-isolate-check": "You went to start setting the meter without confirming the service valve was closed and tagged. A riser that is still live behind the meter bar turns every union this crew is about to make up into a joint made against gas that is already moving, on a service nobody has proven dead yet.",
+    "skip-soap-check": "You went to call this set leak-free because the meter dial looked still, with no soap solution on a single union. A slow leak does not always move a dial fast enough to notice on a quick look, and the soap check is what actually tests the joint instead of trusting a glance at the index.",
+    "vent-blocked-or-too-close": "You went to leave the regulator's vent terminated right next to a window and a dryer vent instead of relocating it. That vent is the one opening on this whole assembly that is meant to be open, and gas relieved from it has to go somewhere that is not into a building's own air intake or next to anything that could light it."
+  },
+  "id": "ut-gas-meter-set-and-regulator-vent",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "electronic-sniff",
+      "alert": "A delivery truck is backing up, beeping, straight toward the meter set this crew just finished — the driver has no spotter and no reason to know anyone is working there.",
+      "cue": "Get the wave-off flag out where the driver can see it before that truck reaches the meter.",
+      "delay": 3,
+      "id": "delivery-truck-backing",
+      "kind": "A delivery truck backs toward the meter set",
+      "missNote": "The truck kept backing toward the meter with nobody signalling the driver. A backing vehicle with no spotter finds out what is behind it by hitting it.",
+      "seconds": 11,
+      "target": "wave-off-flag",
+      "why": "A truck backing blind has no way to know a meter set — or the crew crouched next to it — is in its path, and a flag out where the mirror can catch it is what gets the driver's attention before the bumper does, which is a faster fix than hoping the beeping alone is enough.",
+      "wrongNote": "It is the flag, out where the mirror can catch it. The leak detector has nothing to do with a truck that cannot see this crew."
+    },
+    {
+      "after": "watch-meter-settle",
+      "alert": "Dispatch is calling to relay this address's odorant-complaint history before the crew leaves — there was a prior report here worth knowing about.",
+      "cue": "Answer the radio and get the history before you close this job out.",
+      "delay": 3,
+      "id": "odorant-history-call",
+      "kind": "Dispatch calls about this address's odorant history",
+      "missNote": "The call went unanswered while the crew wrapped up. Whatever this address's odorant history actually says stayed unread going into the close-out.",
+      "seconds": 13,
+      "target": "service-radio",
+      "why": "An address with a prior odorant complaint is one where the crew closing out today's set benefits from knowing what was reported before — a call answered now is a five-minute read of the file instead of the next crew finding out the history only after another complaint comes in.",
+      "wrongNote": "It is dispatch, on the radio. The meter settle watch has already told this crew what it is going to tell them."
+    }
+  ],
+  "lateNotes": {
+    "service-valve": "The service valve reopens only after the meter is fully set, supported and its unions are torqued — not while the meter bar is still half-assembled.",
+    "torque-union-a": "The unions are torqued only once the meter is level and the support bracket is set — not while the meter is still hanging off the threads alone."
+  },
+  "name": "Gas Meter Set & Regulator Vent Check",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "water-and-gas-utility-crews"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "pickup",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "asset-record",
+      "bubbling-meter-bar",
+      "bubbling-union",
+      "close-service-valve",
+      "corroded-riser-thread",
+      "cross-threaded-union",
+      "hand-tight-unions",
+      "leak-detector",
+      "level-meter",
+      "meter-bar-socket",
+      "meter-body",
+      "meter-dial",
+      "meter-tag",
+      "odorant-record",
+      "service-radio",
+      "service-valve",
+      "set-support-bracket",
+      "skip-isolate-check",
+      "skip-soap-check",
+      "tag-service-valve",
+      "torque-union-a",
+      "unsupported-riser",
+      "vent-blocked-or-too-close",
+      "vent-clearance-gauge",
+      "wave-off-flag",
+      "work-order"
+    ],
+    "meshes": 153
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the work order: the address, the meter size, and the regulator type called for.",
+      "id": "work-order",
+      "kind": "select",
+      "prompt": "Check the work order: the address, the meter size, and the regulator type called for.",
+      "target": "work-order",
+      "title": "Read the meter-set work order",
+      "why": "A meter sized or a regulator specified wrong at the desk is wrong before this crew ever opens the truck, and reading the order against what is actually on the riser is the first chance to catch a mismatch before it is halfway assembled."
+    },
+    {
+      "cue": "Close the service valve, then tag it, before the old meter comes off or the new one goes on.",
+      "id": "isolate-service",
+      "itemNames": {
+        "close-service-valve": "service valve closed",
+        "tag-service-valve": "service valve tagged"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Close it, then tag it — a closed valve with no tag can be reopened by someone with no idea work is happening downstream.",
+      "prompt": "Close the service valve, then tag it, before the old meter comes off or the new one goes on.",
+      "targets": [
+        "close-service-valve",
+        "tag-service-valve"
+      ],
+      "title": "Isolate and tag the service",
+      "why": "The tag is what stops this valve being reopened by anyone who does not know a meter set is mid-assembly on the other side of it — the one connection on this address that can put service pressure behind every union this crew is about to make."
+    },
+    {
+      "cue": "Walk the riser and find what has to be fixed before the meter goes on.",
+      "id": "inspect-riser",
+      "itemNames": {
+        "corroded-riser-thread": "corroded threads on the riser",
+        "unsupported-riser": "an unsupported length of riser"
+      },
+      "itemNotes": {
+        "corroded-riser-thread": "These threads are corroded enough that a union made up on them is sealing against pitted metal, not a sound thread — this gets addressed before the meter goes anywhere near it.",
+        "unsupported-riser": "This riser is unsupported over more distance than it should be, carrying the whole weight of the meter bar on threads that were never meant to be a bracket."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the riser and find what has to be fixed before the meter goes on.",
+      "targets": [
+        "corroded-riser-thread",
+        "unsupported-riser"
+      ],
+      "title": "Inspect the riser before setting the meter",
+      "why": "The riser is what everything else in this job hangs off, and a corroded thread or an unsupported length both fail on their own weight over time — caught now, before the meter is riding on either problem, it is a five-minute fix instead of a return call."
+    },
+    {
+      "cue": "Carry the meter to the meter bar and seat it on the riser connections.",
+      "drag": {
+        "missNote": "Not seated square on the bar — a meter set at an angle loads the riser threads unevenly the moment it takes any weight.",
+        "radius": 0.45,
+        "to": "meter-bar-socket"
+      },
+      "id": "set-meter",
+      "kind": "drag",
+      "prompt": "Carry the meter to the meter bar and seat it on the riser connections.",
+      "target": "meter-body",
+      "title": "Bring the meter to the bar",
+      "why": "The meter is carried in and seated square on both riser connections at once — set at an angle even briefly, it stresses the same threads this crew just finished proving sound."
+    },
+    {
+      "cue": "Level the meter, set the support bracket, then start both unions hand-tight.",
+      "id": "align-and-support",
+      "itemNames": {
+        "hand-tight-unions": "unions started hand-tight",
+        "level-meter": "meter levelled",
+        "set-support-bracket": "support bracket set"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Level, then the bracket, then the unions hand-tight — unions threaded before the bracket is set are threaded onto a meter that is still moving.",
+      "prompt": "Level the meter, set the support bracket, then start both unions hand-tight.",
+      "targets": [
+        "level-meter",
+        "set-support-bracket",
+        "hand-tight-unions"
+      ],
+      "title": "Level, support, then hand-tighten",
+      "why": "The bracket is what actually carries the meter's weight once it is set — level it, support it, and only then thread the unions, because a union hand-started before the meter is supported is a union taking weight it was never designed to carry."
+    },
+    {
+      "cue": "Turn the wrench to bring both unions to their final torque, straight and even.",
+      "id": "torque-unions",
+      "kind": "turn",
+      "prompt": "Turn the wrench to bring both unions to their final torque, straight and even.",
+      "target": "torque-union-a",
+      "title": "Torque the unions straight",
+      "turn": {
+        "axis": "y",
+        "label": "UNION TORQUE",
+        "turns": 0.6
+      },
+      "why": "Straight and to torque is what a union needs to seal — backed out and restarted the moment it binds early, rather than forced through a cross-thread that will hold a wrench's worth of turning and nothing else once it is under service pressure."
+    },
+    {
+      "cue": "Check the odorant record and the sniff test before the service goes live.",
+      "id": "odorant-check",
+      "kind": "select",
+      "prompt": "Check the odorant record and the sniff test before the service goes live.",
+      "target": "odorant-record",
+      "title": "Confirm the odorant is perceptible",
+      "why": "Odorant is what turns an invisible leak into something a customer can actually notice, and confirming it is perceptible at this address — not just present somewhere upstream in the system — is the check that makes every future leak here findable by smell before it is found any other way."
+    },
+    {
+      "cue": "Wind the service valve open now the meter is fully set, supported and torqued.",
+      "id": "open-service-valve",
+      "kind": "turn",
+      "prompt": "Wind the service valve open now the meter is fully set, supported and torqued.",
+      "target": "service-valve",
+      "title": "Reopen the service valve",
+      "turn": {
+        "axis": "y",
+        "label": "SERVICE VALVE",
+        "turns": 0.75
+      },
+      "why": "This valve reopens only once the meter is finished, not partway through — reopened early, it puts service pressure behind unions that have not yet been proven at their final torque."
+    },
+    {
+      "cue": "Brush soap solution on every joint now the service is live and look for bubbles.",
+      "id": "soap-check-joints",
+      "itemNames": {
+        "bubbling-meter-bar": "the meter bar joint weeping under soap solution",
+        "bubbling-union": "the union bubbling under soap solution"
+      },
+      "itemNotes": {
+        "bubbling-meter-bar": "This meter bar joint is weeping under the soap solution at the threads — it needs to be broken down and remade, not just snugged further.",
+        "bubbling-union": "This union is steadily bubbling where the soap solution was brushed on — small enough the dial may not show it yet, but a leak all the same."
+      },
+      "kind": "find",
+      "prompt": "Brush soap solution on every joint now the service is live and look for bubbles.",
+      "targets": [
+        "bubbling-union",
+        "bubbling-meter-bar"
+      ],
+      "title": "Soap-check every joint under live pressure",
+      "why": "The dial only ever shows flow, and a joint bubbling under soap is the only way to know which specific connection is the reason a slow leak might be moving gas nobody is using — this is what turns 'the dial looks still' into 'every joint on this set actually holds.'"
+    },
+    {
+      "cue": "Bring the clearance reading up to where the vent actually sits from the nearest opening, then commit.",
+      "gauge": {
+        "green": [
+          0.5,
+          0.75
+        ],
+        "label": "VENT CLEARANCE",
+        "missNote": "That clearance is short of what this vent needs from the nearest opening — the regulator has to move before this set is finished, not the window.",
+        "speed": 0.65
+      },
+      "id": "vent-clearance",
+      "kind": "gauge",
+      "prompt": "Bring the clearance reading up to where the vent actually sits from the nearest opening, then commit.",
+      "target": "vent-clearance-gauge",
+      "title": "Measure the regulator vent's clearance",
+      "why": "The vent is the one opening on this whole assembly that is meant to stay open, and its distance from a window, a dryer vent or anything that could light it is what decides whether whatever it relieves ever has a chance to reach either one — measured, not eyeballed, because a vent that looks far enough away from across the yard is not always far enough up close."
+    },
+    {
+      "cue": "Watch the dial settle to a steady still reading for the full watch, not just a glance.",
+      "holdBreakNote": "That reading kept creeping through the watch — something on this set is still passing gas nobody is using, and it has to be found before this job is called finished.",
+      "id": "watch-meter-settle",
+      "kind": "track",
+      "prompt": "Watch the dial settle to a steady still reading for the full watch, not just a glance.",
+      "seconds": 7,
+      "target": "meter-dial",
+      "title": "Watch the meter settle",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.3,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "METER INDEX",
+        "rise": 0.05,
+        "start": 0.5
+      },
+      "why": "A dial that looks still on a glance and a dial that is actually still are not the same thing — held for a full watch, any drift the soap check did not catch shows itself as flow with nothing on this address calling for it."
+    },
+    {
+      "cue": "Hold the electronic detector at every connection for the full dwell time.",
+      "holdBreakNote": "The detector came off before its dwell finished at that connection — hold it again, a rushed sweep is a sweep that can miss the smallest leak on this set.",
+      "id": "electronic-sniff",
+      "kind": "hold",
+      "prompt": "Hold the electronic detector at every connection for the full dwell time.",
+      "seconds": 5,
+      "target": "leak-detector",
+      "title": "Sweep the set with the electronic detector",
+      "why": "The electronic detector catches what soap and a settle watch both can miss at the smallest scale — held at each connection for its full dwell rather than waved past quickly, it is the last and most sensitive check this set gets before the crew calls it finished."
+    },
+    {
+      "cue": "Tag the meter with the set date and this crew's ID, and confirm the address label matches.",
+      "id": "tag-and-label",
+      "kind": "select",
+      "prompt": "Tag the meter with the set date and this crew's ID, and confirm the address label matches.",
+      "target": "meter-tag",
+      "title": "Tag the meter",
+      "why": "The tag and the address label are what the next person who reads this meter — a survey crew, a billing tech, an emergency responder — trusts without having to trace the paperwork first, and a mismatch caught here is a mismatch that never has to be discovered by someone standing at the wrong address."
+    },
+    {
+      "cue": "Log the meter serial number, the index reading, and the vent clearance measured.",
+      "id": "asset-record",
+      "kind": "select",
+      "prompt": "Log the meter serial number, the index reading, and the vent clearance measured.",
+      "target": "asset-record",
+      "title": "Update the asset record",
+      "why": "This record is what makes the meter this crew just set findable and provable years from now — a serial number, a starting index and a documented vent clearance are what turn 'a meter was set here' into a record the utility can actually stand behind."
+    }
+  ],
+  "supportLine": "your utility's employee assistance programme, or your UWUA or IBEW steward if you are not sure how to reach it",
+  "tagline": "The riser inspected before the meter ever goes on it, the unions torqued straight rather than forced, the regulator's vent checked for its own clearance, and the set proven with soap and an electronic sniff rather than a dial that simply looks still",
+  "title": "SmartCiti.X~ Gas Meter Set & Regulator Vent Check VR",
+  "trade": "UWUA / IBEW gas-utility serviceperson",
+  "underwater": null,
+  "weather": "overcast"
+}

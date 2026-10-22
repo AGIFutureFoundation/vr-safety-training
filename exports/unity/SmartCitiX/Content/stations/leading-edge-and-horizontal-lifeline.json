@@ -1,0 +1,409 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "tied-off-at-the-edge",
+    "name": "Tied Off At The Edge",
+    "note": "Never untied past the line, the lifeline tensioned to the design, the sparks and the bundle both answered, and the edge padded before the first sheet"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "Ironworkers IMPACT and Carpenters training; OSHA 29 CFR 1926.501 duty to have fall protection at a leading edge and 29 CFR 1926.502 fall-protection systems, including the horizontal lifeline's design by a qualified person; ANSI Z359 personal fall-arrest equipment, including leading-edge-rated self-retracting lifelines; ASME B30.5 for the crane landing the deck bundles",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z359",
+        "id": "ansi-z359",
+        "title": "ANSI/ASSP Z359 — Fall Protection Code"
+      },
+      {
+        "body": "ASME",
+        "citedAs": "ASME B30.5",
+        "id": "asme-b30-5",
+        "title": "ASME B30.5 — Mobile and locomotive cranes"
+      },
+      {
+        "body": "union",
+        "citedAs": "Carpenters",
+        "id": "carpenters-ictf",
+        "title": "United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship"
+      },
+      {
+        "body": "union",
+        "citedAs": "IMPACT",
+        "id": "ironworkers-impact",
+        "title": "Ironworkers and IMPACT — apprenticeship and safety training for structural, ornamental and reinforcing ironwork"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.501",
+        "id": "osha-1926-501",
+        "title": "29 CFR 1926.501 — Duty to have fall protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.502",
+        "id": "osha-1926-502",
+        "title": "29 CFR 1926.502 — Fall protection systems criteria and practices"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction & Structural Trades",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clipped-and-latched",
+        "name": "Clipped And Latched",
+        "note": "The traveller connection held and checked before a step toward the edge"
+      },
+      {
+        "id": "tensioned-to-design",
+        "name": "Tensioned To Design",
+        "note": "The lifeline pretensioned inside the designer's band throughout"
+      },
+      {
+        "id": "never-untied",
+        "name": "Never Untied",
+        "note": "No foot-level tie-off, no handrail anchor, no step past the line, no loose sheet walked"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-edge",
+        "name": "Clean Edge",
+        "note": "No corrections anywhere at the edge"
+      },
+      {
+        "id": "sag-on-the-mark",
+        "name": "Sag On The Mark",
+        "note": "Midspan sag committed inside the band first time"
+      },
+      {
+        "id": "bay-decked",
+        "name": "Bay Decked",
+        "note": "Edge logged inside 80% of par"
+      }
+    ],
+    "currency": "SHEET",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice",
+      "Decker",
+      "Lifeline Rigger",
+      "Lead Decker",
+      "Leading Edge Qualified"
+    ],
+    "system": "Leading Edge"
+  },
+  "hazards": {
+    "handrail-anchor": "You reached to clip your lanyard to the electrical conduit strapped along the column. A fall-arrest anchor has to hold thousands of pounds, and a conduit on its straps holds almost nothing — it looks solid right up to the moment it peels off the column with a person on the end of it. Anchors are the lifeline, a designed anchor, or structural steel chosen by the competent person, never whatever is nearest.",
+    "loose-sheet-edge": "You stepped onto a deck sheet that had been laid but not fastened. An unfastened sheet is sitting on the beams by friction alone, and a boot near its end tips it off the steel like a plank — with the worker on it. Every sheet is fastened before it is walked on, and a sheet that has been laid out loose is a hole with a lid, not a floor.",
+    "past-the-line-untied": "You stepped past the leading-edge warning line with your lanyard not yet clipped to the lifeline. Past that line the fall is the full height of the frame, and 29 CFR 1926.501 puts a worker at a leading edge six feet or more above a lower level under fall protection the whole time they are there. The connection is made on the safe side of the line, and only then does anyone walk toward the edge.",
+    "tie-off-at-feet": "You went to anchor a standard self-retracting lifeline at your feet on the edge beam. A standard SRL is built to be anchored overhead: anchored at foot level, a fall over the edge drags its line across the steel edge before the brake locks, adds the whole height of the worker to the free fall, and can cut or overload the line. At a leading edge the device has to be rated for it — a leading-edge SRL — and anchored where its rating says."
+  },
+  "id": "leading-edge-and-horizontal-lifeline",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "tension",
+      "alert": "A welder on the beam above has struck an arc cutting a clip, and the sparks are falling straight onto the synthetic lifeline you are tensioning.",
+      "cue": "Throw the fire blanket over the lifeline under the sparks and get the welder to stop until the line is shielded.",
+      "delay": 2,
+      "id": "welding-over-line",
+      "kind": "Sparks falling on the lifeline",
+      "missNote": "The sparks kept falling on the lifeline for a full minute; a hand's length of it glazed and hardened where the slag landed, and the line was rigged and clipped to as if nothing had happened.",
+      "seconds": 14,
+      "target": "fire-blanket",
+      "why": "A synthetic lifeline is a rope, and hot slag falling on it melts fibres invisibly — a line that looks fine after a shower of sparks can have lost a large part of its strength at the one spot the next fall will load. 29 CFR 1926.502 expects lifelines to be protected from cutting and abrasion, and hot work above one is exactly that; the blanket goes over the line now, and the welding waits until it is shielded.",
+      "wrongNote": "The fire blanket — the sparks are on the lifeline now, and shielding the line is the only thing that protects it."
+    },
+    {
+      "after": "connect",
+      "alert": "The crane is swinging a deck bundle toward the landing, and its path is taking the bundle straight over you at the edge.",
+      "cue": "Call the signal person on the radio: stop the swing and bring the load around the crew, not over it.",
+      "delay": 2,
+      "id": "bundle-over-edge",
+      "kind": "Deck bundle swinging overhead",
+      "missNote": "The bundle swung over the edge crew with the lifeline between them and the open bay; a strap slipped and a sheet slid off the top of the bundle into the open bay a metre from the traveller.",
+      "seconds": 14,
+      "target": "signal-radio",
+      "why": "A deck bundle on a crane hook is a suspended load, and ASME B30.5 keeps loads from passing over workers — the operator cannot see the edge crew under the boom, and the signal person is the operator's eyes. The call goes on the radio the moment the load heads for the crew, because a person clipped to a lifeline at a leading edge cannot step out of the way.",
+      "wrongNote": "The signal radio — the load's path belongs to the crane, and the signal person is the only one who can stop it."
+    }
+  ],
+  "lateNotes": {
+    "edge-log": "The edge is logged once the sheet is fastened and the rescue kit confirmed — the log is the last thing.",
+    "hll-traveller": "The traveller is clipped once the lifeline is tensioned, its sag measured and the clearance checked.",
+    "tensioner": "The lifeline is tensioned once both ends are on their stanchions — there is nothing to pull against yet."
+  },
+  "name": "Leading Edge & Horizontal Lifeline",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "fall-protection"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "clearance-chart",
+      "cut-webbing",
+      "deck-fastener",
+      "deck-sheet",
+      "edge-log",
+      "edge-pad",
+      "fall-plan",
+      "far-stanchion",
+      "fire-blanket",
+      "handrail-anchor",
+      "harness",
+      "hll-traveller",
+      "lifeline-end",
+      "loose-sheet-edge",
+      "past-the-line-untied",
+      "rescue-kit",
+      "sag-gauge",
+      "sharp-flange",
+      "signal-radio",
+      "srl-le",
+      "stanchion-clamp",
+      "tensioner",
+      "tie-off-at-feet"
+    ],
+    "meshes": 210
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the plan: the leading-edge work, the lifeline's span, stanchion spacing, pretension and the number of workers it is designed for, the fall clearance, and the rescue method.",
+      "id": "fall-plan",
+      "kind": "select",
+      "prompt": "Read the plan: the leading-edge work, the lifeline's span, stanchion spacing, pretension and the number of workers it is designed for, the fall clearance, and the rescue method.",
+      "target": "fall-plan",
+      "title": "Read the fall-protection plan and the lifeline design",
+      "why": "A horizontal lifeline is an engineered system: the load it puts into its stanchions when a person falls on it can be several times the arresting force, and the sag it develops sets how far that person drops. 29 CFR 1926.502 requires it to be designed, installed and used under the supervision of a qualified person with a safety factor of at least two, and the plan is where that design lives — the span, the pretension, how many people it takes, and the clearance it needs below. Rigged from habit instead of the plan, it is a rope between two posts."
+    },
+    {
+      "cue": "Put the full-body harness on and snug the leg and chest straps, then clip the leading-edge SRL to the back D-ring.",
+      "id": "harness-on",
+      "itemNames": {
+        "harness": "full-body harness on and snugged",
+        "srl-le": "leading-edge SRL clipped to the back D-ring"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Harness first — the leading-edge SRL clips to the back D-ring of a harness that is on and adjusted, not to one on the rack.",
+      "prompt": "Put the full-body harness on and snug the leg and chest straps, then clip the leading-edge SRL to the back D-ring.",
+      "targets": [
+        "harness",
+        "srl-le"
+      ],
+      "title": "Harness on, then the leading-edge SRL to the back D-ring",
+      "why": "The harness spreads the arrest force across the thighs, pelvis and chest, and it only does that if it is snug — a loose leg strap lets a falling body slide until the strap catches somewhere it should not. The SRL on the back D-ring is the leading-edge-rated type ANSI Z359 marks for a line that may be pulled over a steel edge in a fall, which a standard SRL is not built to survive. Harness on and adjusted first; the device clips to it second."
+    },
+    {
+      "cue": "Look over the lanyards, SRLs and connectors in the gear bin: cuts and burns in the webbing, deployed shock packs, snaps that do not close and lock.",
+      "id": "gear-inspect",
+      "itemNames": {
+        "cut-webbing": "cut webbing on the spare shock-absorbing lanyard"
+      },
+      "itemNotes": {
+        "cut-webbing": "The spare lanyard in the bin has a clean nick through two-thirds of its webbing, a hand's width from the snap — it has been across a sheared deck edge. It is cut up and binned so nobody picks it up tomorrow."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the lanyards, SRLs and connectors in the gear bin: cuts and burns in the webbing, deployed shock packs, snaps that do not close and lock.",
+      "targets": [
+        "cut-webbing"
+      ],
+      "title": "Inspect the fall-protection gear before it is used",
+      "why": "Fall-protection gear is inspected before each use because it fails invisibly until it is loaded: a lanyard with a cut through its webbing looks like every other lanyard in the bin, and it parts at the cut under the shock of a fall. The competent person removes anything cut, burned, deployed or corroded from service, and the gear that has been dragged across a deck edge is the gear most likely to be in the bin."
+    },
+    {
+      "cue": "Seat the stanchion's clamp on the edge beam's flange and run the clamp screw up to the maker's figure.",
+      "id": "stanchion-clamp",
+      "kind": "turn",
+      "prompt": "Seat the stanchion's clamp on the edge beam's flange and run the clamp screw up to the maker's figure.",
+      "target": "stanchion-clamp",
+      "title": "Torque the stanchion's beam clamp onto the flange",
+      "turn": {
+        "label": "CLAMP",
+        "turns": 1
+      },
+      "why": "The stanchion is where a fall on the lifeline goes into the building, and its beam clamp is what holds it: the clamp is seated square on the flange and torqued to the figure because a clamp done up by feel can rotate on the flange when the lifeline loads it sideways, laying the stanchion over and adding its whole height to the fall. The flange is checked for the clamp's range before it goes on."
+    },
+    {
+      "cue": "Carry the lifeline's end across the decked side — not along the open edge — and connect it to the far stanchion's eye.",
+      "drag": {
+        "missNote": "Not on the far stanchion's eye — the lifeline end has to connect at the stanchion itself, carried there from the decked side.",
+        "radius": 0.5,
+        "to": "far-stanchion"
+      },
+      "id": "lifeline-run",
+      "kind": "drag",
+      "prompt": "Carry the lifeline's end across the decked side — not along the open edge — and connect it to the far stanchion's eye.",
+      "target": "lifeline-end",
+      "title": "Run the lifeline across to the far stanchion",
+      "why": "The lifeline is run from the decked side of the bay, where there is a floor under the person carrying it, and connected at the far stanchion before anybody depends on it. Walking the line along the open edge to rig it is the moment people fall while installing their own fall protection, which is why the plan has the line rigged from inside the decked area and the connection made where the rigger can reach it standing on steel."
+    },
+    {
+      "cue": "Take the lifeline up on its tensioner to the plan's pretension and hold it there while the lock is set — not slack, not bar-tight.",
+      "holdBreakNote": "The pretension broke out of the design band while the lock was being set — back the tensioner off and take it up to the figure again.",
+      "id": "tension",
+      "kind": "track",
+      "prompt": "Take the lifeline up on its tensioner to the plan's pretension and hold it there while the lock is set — not slack, not bar-tight.",
+      "seconds": 6,
+      "target": "tensioner",
+      "title": "Tension the lifeline to the designer's pretension",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "PRETENSION",
+        "rise": 0.6,
+        "start": 0.1
+      },
+      "why": "Pretension is a trade-off the qualified person has already made: slack, the line sags a long way in a fall and the worker drops further than the clearance below allows; bar-tight, the line barely deflects and the forces it puts into the stanchions and the worker multiply. The tensioner is held at the plan's figure while the lock is set, because the lifeline's whole behaviour in a fall follows from that one number."
+    },
+    {
+      "cue": "Measure the unloaded sag at midspan against the plan's figure and commit the reading.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "MIDSPAN SAG",
+        "missNote": "Off the design figure — measure from the line to a straight edge between the stanchion eyes at midspan, not near an end.",
+        "speed": 0.7
+      },
+      "id": "sag-check",
+      "kind": "gauge",
+      "prompt": "Measure the unloaded sag at midspan against the plan's figure and commit the reading.",
+      "target": "sag-gauge",
+      "title": "Measure the lifeline's sag at midspan",
+      "why": "The sag at rest is the check that the pretension is what the tensioner said it was: a lifeline sagging more than the plan's figure has lost tension or stretched, and it will deflect further than designed in a fall. It is measured at midspan, where the sag is greatest and where a fall puts the most load on the stanchions, and it is measured before anyone clips on because it is the last chance to find a line rigged wrong."
+    },
+    {
+      "cue": "Add the lifeline's deflection, the SRL's arrest distance, the harness stretch, the worker's height and the safety margin, and check it against the drop to the next level.",
+      "id": "clearance",
+      "kind": "select",
+      "prompt": "Add the lifeline's deflection, the SRL's arrest distance, the harness stretch, the worker's height and the safety margin, and check it against the drop to the next level.",
+      "target": "clearance-chart",
+      "title": "Check the fall clearance below the edge",
+      "why": "A fall-arrest system that stops a worker a metre below the floor they hit is not a fall-arrest system. The clearance adds every metre a fall uses — the lifeline's deflection, the leading-edge SRL's arrest distance, the harness and D-ring shift, the worker's height and a margin — and compares it with what is actually below the edge. The plan's chart does the arithmetic; the worker at the edge confirms nothing has changed underneath since it was drawn."
+    },
+    {
+      "cue": "From behind the warning line, clip the leading-edge SRL's snap to the traveller on the lifeline and hold while you check the gate has closed and locked.",
+      "holdBreakNote": "Walked off before the gate was checked closed and locked — a snap that is not locked is not a connection. Go back and check it.",
+      "id": "connect",
+      "kind": "hold",
+      "prompt": "From behind the warning line, clip the leading-edge SRL's snap to the traveller on the lifeline and hold while you check the gate has closed and locked.",
+      "seconds": 4,
+      "target": "hll-traveller",
+      "title": "Clip the SRL to the lifeline's traveller and check the gate",
+      "why": "The connection is made standing behind the warning line on the decked side, because the moment of clipping on is the one moment the worker is not yet protected. The snap is held and looked at until its gate has visibly closed and locked — a gate caught on the traveller's edge or on the webbing looks connected and falls open under load. Only then does anyone walk toward the edge."
+    },
+    {
+      "cue": "Walk the edge beam with your eyes: flame-cut corners, burrs, sheared deck ends — anywhere the SRL line would bend over in a fall.",
+      "id": "edge-find",
+      "itemNames": {
+        "sharp-flange": "sheared, knife-edged flange corner on the edge beam"
+      },
+      "itemNotes": {
+        "sharp-flange": "The edge beam's top flange has a flame-cut corner with a raw burr exactly where the SRL line would bend over the edge in a fall — a line loaded across that corner can be cut. It needs an edge protector or grinding before work at that spot."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the edge beam with your eyes: flame-cut corners, burrs, sheared deck ends — anywhere the SRL line would bend over in a fall.",
+      "targets": [
+        "sharp-flange"
+      ],
+      "title": "Look along the edge for anything that could cut the line",
+      "why": "A leading-edge SRL is rated for a line pulled over a steel edge, but the rating assumes an ordinary edge, not a flame-cut corner with a burr on it — a sharp enough edge can cut a loaded line in the instant of a fall. The edge is looked at before work, for exactly the places the line would bend over it, and anything sharper than the device's rating is padded or dressed before anyone works there."
+    },
+    {
+      "cue": "Fit the edge protector over the flame-cut corner so that any line over the edge there bears on the pad, not the steel.",
+      "id": "edge-pad",
+      "kind": "select",
+      "prompt": "Fit the edge protector over the flame-cut corner so that any line over the edge there bears on the pad, not the steel.",
+      "target": "edge-pad",
+      "title": "Pad the sharp corner with an edge protector",
+      "why": "An edge protector turns a knife edge back into the kind of edge the leading-edge device was tested on, and it is fitted before the work at that spot rather than after the first near miss. It is a simple fix to a failure that gives no warning — a line that looked fine until it was loaded — and it stays until the corner is dressed by the crew that cut it."
+    },
+    {
+      "cue": "Check the rescue kit is at the edge, and confirm who in the crew is trained to use it and how long a rescue would take.",
+      "id": "rescue-kit",
+      "kind": "select",
+      "prompt": "Check the rescue kit is at the edge, and confirm who in the crew is trained to use it and how long a rescue would take.",
+      "target": "rescue-kit",
+      "title": "Confirm the rescue kit and who uses it",
+      "why": "A worker hanging in a harness after an arrested fall is not safe — the straps restrict blood flow from the legs, and suspension becomes dangerous in minutes. 29 CFR 1926.502 has the employer provide for prompt rescue, which in practice means a rescue kit at the edge and someone on the crew trained to use it, not a phone call to a fire department whose ladder may not reach. It is checked before the work, because after a fall is too late to find out."
+    },
+    {
+      "cue": "Lay the next deck sheet out across the beams from the fastened deck, then fasten it down before a boot goes on it.",
+      "id": "deck-sheet",
+      "itemNames": {
+        "deck-fastener": "sheet fastened to the beams",
+        "deck-sheet": "deck sheet laid out to the edge beam"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "The sheet is laid before it can be fastened — and it is fastened before anyone steps onto it.",
+      "prompt": "Lay the next deck sheet out across the beams from the fastened deck, then fasten it down before a boot goes on it.",
+      "targets": [
+        "deck-sheet",
+        "deck-fastener"
+      ],
+      "title": "Lay the next sheet and fasten it before stepping on it",
+      "why": "Deck is laid from the fastened side outward, and each sheet is fastened to the beams before anyone walks on it — a sheet sitting loose on steel is a plank, and it tips. The worker stays tied to the lifeline the whole time, because laying the sheet is the work that happens right at the leading edge, with the open bay one step away."
+    },
+    {
+      "cue": "Record the lifeline's pretension and sag, the cut lanyard destroyed, the sharp flange padded, the welding stopped over the line, and the bay's progress.",
+      "id": "edge-log",
+      "kind": "select",
+      "prompt": "Record the lifeline's pretension and sag, the cut lanyard destroyed, the sharp flange padded, the welding stopped over the line, and the bay's progress.",
+      "target": "edge-log",
+      "title": "Log the lifeline, the findings and the edge",
+      "why": "The competent person's log is how the next shift knows the lifeline they are clipping to is the one the qualified person designed, rigged to the same figures, and inspected — and it is where the sharp flange becomes a work order for the crew that cut it and the welding over the line becomes a coordination item. Written at the edge it is the record; written in the trailer it is a recollection."
+    },
+    {
+      "cue": "Call the foreman and the signal person: the lifeline is rigged and logged, the bay is decking, and check in with the crew after the bundle over the edge.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the foreman and the signal person: the lifeline is rigged and logged, the bay is decking, and check in with the crew after the bundle over the edge.",
+      "target": "signal-radio",
+      "title": "Check in with the foreman and the crane signal",
+      "why": "The crane signal person and the foreman plan the next picks around where the deck crew is tied off, so this call keeps loads off the lifeline's span. It is also the crew's check-in: a bundle swung over a crew at the leading edge is a near miss that the people underneath carry for the rest of the day, and the building trades' practice is to name it on the radio and name the member assistance line with it."
+    }
+  ],
+  "supportLine": "your Ironworkers or Carpenters local's member assistance programme, or the employee assistance line on your contractor's site board",
+  "tagline": "Deck at the leading edge: the fall-protection plan read, the harness on and the leading-edge SRL clipped, a cut lanyard found, the beam clamps torqued, the lifeline run and tensioned while a welder starts cutting above it, the sag measured, the clearance checked, the traveller clipped while the crane swings a bundle overhead, a knife-edge flange found and padded, the rescue kit confirmed, a sheet laid and fastened, and the edge logged",
+  "title": "SmartCiti.X~ Leading Edge & Horizontal Lifeline VR",
+  "trade": "Ironworker or carpenter laying metal deck at a leading edge, on a horizontal lifeline rigged to a qualified person's design",
+  "underwater": null,
+  "weather": "wind"
+}

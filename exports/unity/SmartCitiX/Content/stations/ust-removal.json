@@ -1,0 +1,409 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "tank-out-clean",
+    "name": "Tank Out Clean",
+    "note": "Product pumped, the tank proven inert at both risers, rigged and lifted with nobody under the load, and the pit sampled under chain of custody and fenced before the crew left"
+  },
+  "category": "Environmental Monitoring",
+  "certification": "EPA UST closure rule (40 CFR 280) and API 1604 closure of underground petroleum storage tanks; the state water board's UST closure requirements for the soil sampling; OSHA HAZWOPER (29 CFR 1910.120); OSHA 29 CFR 1926 Subpart P excavations for the pit and its shoring",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "API",
+        "citedAs": "API 1604",
+        "id": "api-1604",
+        "title": "API RP 1604 — Closure of underground petroleum storage tanks"
+      },
+      {
+        "body": "EPA",
+        "citedAs": "40 CFR 280",
+        "id": "epa-40-cfr-280",
+        "title": "40 CFR Part 280 — Technical standards for underground storage tanks"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.120",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "proven-inert",
+        "name": "Proven Inert",
+        "note": "Both LEL readings, fill and vent, read clean before the pit was ever opened wide"
+      },
+      {
+        "id": "never-under-the-hook",
+        "name": "Never Under The Hook",
+        "note": "Nobody stood under the tank, in the pit unshored, or near a torch before the tank read clear"
+      },
+      {
+        "id": "signal-true",
+        "name": "Signal True",
+        "note": "Held the lift's swing inside the safe corridor the whole way to the laydown"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-closure",
+        "name": "Clean Closure",
+        "note": "No corrections anywhere in the removal"
+      },
+      {
+        "id": "unbroken-signal",
+        "name": "Unbroken Signal",
+        "note": "Never broke the lift's swing-path signal"
+      },
+      {
+        "id": "pit-closed-early",
+        "name": "Pit Closed Early",
+        "note": "Fenced and finished inside 80% of par"
+      }
+    ],
+    "currency": "LEL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ground Hand",
+      "Excavation Crew",
+      "Rigging Lead",
+      "Closure Foreman",
+      "Closure Authority Certified"
+    ],
+    "system": "Closure Authority"
+  },
+  "hazards": {
+    "cut-before-clear": "You reached for the cutting torch on the tank's piping before both the fill and the vent had actually read clear on the LEL meter. A tank that has not been proven inert can still be venting flammable vapor into the exact space a torch is about to put an ignition source into — the reading is what turns 'probably empty' into a tank a crew can cut into.",
+    "enter-unshored": "You climbed down into the excavation before the shoring was confirmed set to the plan. OSHA 1926 Subpart P exists because a wall that looks stable at this depth is not the same thing as a wall that has been shored and inspected — it does not announce which second it lets go, and by then a person is already under it.",
+    "sample-no-coc": "You bagged the pit's soil straight into an unlabeled cooler without a PID reading logged or a chain of custody started. A closure report is only as good as its samples, and a sample with no label, no PID reading and no signed custody form is not evidence the state water board's UST closure requirements can accept — it is dirt in a bag that nobody can trace back to the floor or the sidewall it came from.",
+    "stand-under-load": "You stood underneath the tank while it was still swinging on the excavator's hook. A rigged tank on a single hook point has no second way to stay up if a sling shifts or a shackle lets go, and the laborer directing the lift is supposed to be reading the load from clear of it, not from underneath it."
+  },
+  "id": "ust-removal",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "direct-lift",
+      "alert": "The LEL meter still clipped to the fill riser just jumped past its limit — a pocket of product nobody swept out is venting into the open pit while the tank swings clear of it.",
+      "cue": "Signal the operator to set the tank down and stop the lift right now.",
+      "delay": 4,
+      "id": "lel-pocket",
+      "kind": "LEL spike at the fill",
+      "missNote": "The lift carried on for another swing while the meter sat above its limit, and the vapor that pocket put into the air around a running excavator is not something setting the tank down afterward gets back.",
+      "seconds": 14,
+      "target": "excavator-stop",
+      "why": "A suspended tank still shedding flammable vapor over an open excavation, with a running engine and a hot exhaust a few feet away, is exactly the ignition scenario the LEL meter exists to catch — finishing the lift first buys nothing back if that vapor finds a source before the tank is even on the ground.",
+      "wrongNote": "Not that — the excavator has to stop the lift first. Everything else waits on the load actually being still."
+    },
+    {
+      "after": "sample-floor",
+      "alert": "A wedge of the pit's north sidewall just let go and slid to the floor — the wall that was holding a minute ago is not holding now.",
+      "cue": "Get everyone out of the pit down the ladder, now — the sample can wait.",
+      "delay": 4,
+      "id": "sidewall-slough",
+      "kind": "Sidewall sloughing",
+      "missNote": "The sampling carried on at the bottom of a pit whose sidewall had already let go once, with nobody using the ladder that was standing right there to get everyone out.",
+      "seconds": 12,
+      "target": "pit-ladder",
+      "why": "A sidewall that has already sloughed once is a wall telling you it is done holding the shape it was cut to, and the only defensible response to that under 1926 Subpart P is getting people out through the means of egress that is already there, not finishing the task they were in the middle of.",
+      "wrongNote": "Not that — get everyone out down the ladder. Nothing else in this pit matters more than that right now."
+    }
+  ],
+  "lateNotes": {
+    "fence-roll": "The fence goes up once the sampling and the chain of custody are both done, not before — a pit that still has work happening in it still needs people walking into it.",
+    "pid-floor": "No sample yet — the tank has to actually be out of the pit and set on the laydown before the floor underneath it is anything to read or sample.",
+    "pipe-cut": "Nothing to cut yet — the tank has to read clear on the LEL at both the fill and the vent before a torch goes anywhere near its piping.",
+    "rigging-chain": "Not yet — the piping has to be cut and capped clear of the tank before a sling goes anywhere near it."
+  },
+  "name": "UST Removal",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-bay-restoration"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "cut-before-clear",
+      "enter-unshored",
+      "excavator-stop",
+      "fence-roll",
+      "fence-socket",
+      "fill-riser-head",
+      "hand-signals",
+      "label-fill-hole",
+      "label-sample",
+      "label-vent-hole",
+      "laydown-cribbing",
+      "lel-fill-meter",
+      "lel-vent-meter",
+      "permit-board",
+      "pid-floor",
+      "pipe-cap",
+      "pipe-cut",
+      "pit-ladder",
+      "rigging-chain",
+      "sample-no-coc",
+      "seal-sample",
+      "sidewall-north",
+      "sidewall-south",
+      "sign-coc",
+      "stand-under-load",
+      "tank-lift-socket",
+      "task-pump",
+      "trench-shield"
+    ],
+    "meshes": 232
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Check the closure permit against the locate marks before anything on this parcel is touched.",
+      "id": "read-permit",
+      "kind": "select",
+      "prompt": "Check the closure permit against the locate marks before anything on this parcel is touched.",
+      "target": "permit-board",
+      "title": "Confirm the closure permit and the utility locate",
+      "why": "The closure permit is what says this tank is authorized to come out and under what conditions, and the locate is what says what else is buried around it — a crew that skips either one is digging on faith next to lines nobody has confirmed are clear."
+    },
+    {
+      "cue": "Hold the transfer pump running on the fill riser until the tank reads empty.",
+      "holdBreakNote": "Released the pump before the tank actually read empty — stopping partway just leaves product behind for the LEL readings to still be fighting.",
+      "id": "pump-product",
+      "kind": "hold",
+      "prompt": "Hold the transfer pump running on the fill riser until the tank reads empty.",
+      "seconds": 5,
+      "target": "task-pump",
+      "title": "Pump the remaining product out of the tank",
+      "why": "Every gallon of product left in the tank is a gallon of vapor the next few steps have to prove safe — pumping it down first is what makes the LEL readings at the fill and the vent mean something instead of chasing a level that is still dropping under them."
+    },
+    {
+      "cue": "Bring the meter up to the fill riser and commit only while the reading sits below the limit.",
+      "gauge": {
+        "green": [
+          0.1,
+          0.35
+        ],
+        "label": "LEL — FILL",
+        "missNote": "That is not below the limit. Vent it further and read the fill riser again before anything else touches this tank.",
+        "speed": 0.62
+      },
+      "id": "lel-fill",
+      "kind": "gauge",
+      "prompt": "Bring the meter up to the fill riser and commit only while the reading sits below the limit.",
+      "target": "lel-fill-meter",
+      "title": "Read the LEL at the fill riser",
+      "why": "The fill riser is the deepest, least-ventilated point on this tank, which makes it the reading most likely to still show a pocket the pump missed — this is the number that says the tank is actually inert here, not just empty by the gauge."
+    },
+    {
+      "cue": "Bring the meter up to the vent riser and commit only while the reading sits below the limit.",
+      "gauge": {
+        "green": [
+          0.1,
+          0.35
+        ],
+        "label": "LEL — VENT",
+        "missNote": "Still above the limit at the vent. This tank is not inert until both risers say so, not just the one that happened to read clean first.",
+        "speed": 0.6
+      },
+      "id": "lel-vent",
+      "kind": "gauge",
+      "prompt": "Bring the meter up to the vent riser and commit only while the reading sits below the limit.",
+      "target": "lel-vent-meter",
+      "title": "Read the LEL at the vent riser",
+      "why": "The fill and the vent are two different points on the same tank and neither one stands in for the other — a tank that reads clear at the fill and has not been checked at the vent has only had half the question actually asked."
+    },
+    {
+      "cue": "Confirm the shield is set and the pit is opened to the width the plan calls for before anyone works inside it.",
+      "id": "shore-excavation",
+      "kind": "select",
+      "prompt": "Confirm the shield is set and the pit is opened to the width the plan calls for before anyone works inside it.",
+      "target": "trench-shield",
+      "title": "Open and shore the excavation to the plan",
+      "why": "The pit has to be wide enough to swing the tank clear and shored before it is, because a hole widened with a shield already sitting in it — or with a person standing in it — is how the wall comes in on somebody rather than staying where the plan put it."
+    },
+    {
+      "cue": "Cut the fill and vent piping clear of the tank, then cap both nozzles.",
+      "id": "cut-cap-piping",
+      "itemNames": {
+        "pipe-cap": "cap both tank nozzles",
+        "pipe-cut": "cut the fill and vent piping"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Cut the piping first, then cap the nozzles — a cap over a live connection to the risers is not sealing anything.",
+      "prompt": "Cut the fill and vent piping clear of the tank, then cap both nozzles.",
+      "targets": [
+        "pipe-cut",
+        "pipe-cap"
+      ],
+      "title": "Cut and cap the tank's piping",
+      "why": "Cut before cap, in that order — capping a nozzle that is still tied into piping running back to the risers leaves the tank connected to a line that has to be dealt with anyway, while capping right after the cut seals the tank the moment it is actually free of the ground around it."
+    },
+    {
+      "cue": "Carry the rigging chain to the tank and set it on the lift lugs.",
+      "drag": {
+        "missNote": "Not seated on the lugs — a chain looped anywhere else on the shell is not rigged, it is resting on the tank.",
+        "radius": 0.42,
+        "to": "tank-lift-socket"
+      },
+      "id": "rig-tank",
+      "kind": "drag",
+      "prompt": "Carry the rigging chain to the tank and set it on the lift lugs.",
+      "target": "rigging-chain",
+      "title": "Rig the tank for the lift",
+      "why": "The chain has to seat square on both lift lugs before the excavator ever takes a strain — a sling that is not seated square is a tank that comes up cocked, and a cocked load is a load nobody can read a safe swing path for."
+    },
+    {
+      "cue": "Signal the operator continuously, keeping the tank's swing inside the safe corridor clear of the pit edge and the crew.",
+      "holdBreakNote": "The swing drifted out of the safe corridor — bring the signal back on line before the tank swings again.",
+      "id": "direct-lift",
+      "kind": "track",
+      "prompt": "Signal the operator continuously, keeping the tank's swing inside the safe corridor clear of the pit edge and the crew.",
+      "seconds": 9,
+      "target": "hand-signals",
+      "title": "Direct the lift out of the pit",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "SWING PATH",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "The operator's cab cannot see straight down into the pit past a rigged tank, which is the entire reason a laborer directs this lift instead of the operator judging it alone — continuous signals are what keeps a swinging tank on the corridor the ground crew actually cleared, not where the operator assumes it is."
+    },
+    {
+      "cue": "Confirm the tank is down square on the cribbing before the chain comes off.",
+      "id": "set-laydown",
+      "kind": "select",
+      "prompt": "Confirm the tank is down square on the cribbing before the chain comes off.",
+      "target": "laydown-cribbing",
+      "title": "Set the tank on the laydown",
+      "why": "A tank set crooked on cribbing can roll the moment the rigging goes slack — square on the blocking, checked before anything unhooks it, is what makes the ground under it something the next step can actually work around."
+    },
+    {
+      "cue": "Mark the fill opening, then the vent opening, so nobody downstream has to guess which is which.",
+      "id": "label-holes",
+      "itemNames": {
+        "label-fill-hole": "label the fill opening",
+        "label-vent-hole": "label the vent opening"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Fill, then vent — the two openings read differently and the order is what keeps the label crew from mixing them up.",
+      "prompt": "Mark the fill opening, then the vent opening, so nobody downstream has to guess which is which.",
+      "targets": [
+        "label-fill-hole",
+        "label-vent-hole"
+      ],
+      "title": "Label the tank's holes",
+      "why": "Once this tank leaves the pit it is scrap to everybody who did not just pull it, and an unlabeled hole on a tank that used to hold fuel is a hazard to whoever handles it next — labeling both openings now is the only point anyone will ever be as sure of which is which as the crew standing here."
+    },
+    {
+      "cue": "Hold the PID over the floor sample point and read it while the sample is bagged.",
+      "holdBreakNote": "Pulled the PID away before the reading settled — a number taken mid-drift is not the reading the closure report can use.",
+      "id": "sample-floor",
+      "kind": "hold",
+      "prompt": "Hold the PID over the floor sample point and read it while the sample is bagged.",
+      "seconds": 5,
+      "target": "pid-floor",
+      "title": "Sample the pit floor",
+      "why": "The floor underneath where the tank sat is the first place a slow leak would have gone, and the PID reading logged right here is what the closure report leans on to say whether the tank took its problem with it or left it behind in the ground."
+    },
+    {
+      "cue": "Walk the pit and click both sidewalls where the sample points are marked, PID reading logged at each.",
+      "id": "sample-sidewalls",
+      "itemNames": {
+        "sidewall-north": "the north sidewall sample point",
+        "sidewall-south": "the south sidewall sample point"
+      },
+      "itemNotes": {
+        "sidewall-north": "PID reading logged, sample bagged. The north sidewall is downslope of the fill riser — if product ever migrated sideways instead of down, this is one of the two places it would show first.",
+        "sidewall-south": "PID reading logged, sample bagged. The south sidewall is the far side of the pit from the risers, which is what makes a hit here worth more than one on the near wall — it says the plume, if there is one, is wider than the tank footprint."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the pit and click both sidewalls where the sample points are marked, PID reading logged at each.",
+      "targets": [
+        "sidewall-north",
+        "sidewall-south"
+      ],
+      "title": "Sample both pit sidewalls",
+      "why": "The floor tells you what was under the tank; the sidewalls tell you whether whatever was there stayed put or moved sideways — closure sampling that only checks the floor has only asked half the question a leaking tank could have made true."
+    },
+    {
+      "cue": "Label the bottles, seal them, then sign the chain of custody.",
+      "id": "coc-log",
+      "itemNames": {
+        "label-sample": "label with site, date and time",
+        "seal-sample": "custody seal",
+        "sign-coc": "chain of custody signed"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Label, then seal, then sign — the custody form describes bottles that are already labeled and sealed.",
+      "prompt": "Label the bottles, seal them, then sign the chain of custody.",
+      "targets": [
+        "label-sample",
+        "seal-sample",
+        "sign-coc"
+      ],
+      "title": "Label, seal and sign the samples' custody",
+      "why": "Three samples with three PID readings are worth nothing to the closure report if the custody trail on them has a gap — label, then seal, then sign is the order that turns a cooler of soil into evidence the state water board's UST closure requirements can actually accept."
+    },
+    {
+      "cue": "Carry the fence panel to the pit perimeter and set it before anyone walks away.",
+      "drag": {
+        "missNote": "Not set on the perimeter — a fence panel propped against one side leaves the rest of the pit open.",
+        "radius": 0.45,
+        "to": "fence-socket"
+      },
+      "id": "fence-pit",
+      "kind": "drag",
+      "prompt": "Carry the fence panel to the pit perimeter and set it before anyone walks away.",
+      "target": "fence-roll",
+      "title": "Fence the pit before the crew leaves",
+      "why": "An open excavation left unfenced overnight is a hole waiting for whoever walks this parcel next, sampled or not — the fence is the last thing standing between a closed-out tank pit and somebody finding it the hard way in the dark."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Closing out an underground fuel tank: product pumped and the tank proven inert on the LEL, the pit shored, the tank rigged and lifted by the laborer directing rather than the operator's own eye, and the pit sampled and fenced before anyone leaves",
+  "title": "SmartCiti.X~ UST Removal VR",
+  "trade": "Excavation & UST closure crew — LIUNA hazmat laborer directing, IUOE Local 3 operating engineer, UA Local 38 pipefitter",
+  "underwater": null,
+  "weather": "overcast"
+}

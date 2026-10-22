@@ -1,0 +1,460 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "containment-held",
+    "name": "Containment Held",
+    "note": "A lead-paint containment worked start to finish on measured numbers — breathing air, negative pressure, profile and the waste manifest — with no breach"
+  },
+  "category": "Surface Prep & Coatings",
+  "certification": "IUPAT industrial painters; SSPC-QP 2 certified lead-paint removal contractor and the SSPC-SP 10 near-white blast standard the specification names; OSHA 29 CFR 1926.62 lead in construction, including baseline and periodic blood-lead surveillance; 1926.103 / 1910.134 supplied-air respiratory protection and Grade D breathing air; 40 CFR 261 (RCRA) characteristic hazardous waste D008 for lead debris",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IUPAT",
+        "id": "iupat-fti",
+        "title": "IUPAT Finishing Trades Institute — industrial painter, glazier and drywall finisher apprenticeship, including lead and containment training"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.62",
+        "id": "osha-1926-62",
+        "title": "29 CFR 1926.62 — Lead in construction"
+      },
+      {
+        "body": "RCRA",
+        "citedAs": "40 CFR 261",
+        "id": "rcra-40-cfr-261",
+        "title": "40 CFR Part 261 — Identification and listing of hazardous waste"
+      },
+      {
+        "body": "RCRA",
+        "citedAs": "RCRA",
+        "id": "rcra-40-cfr-262",
+        "title": "40 CFR Part 262 — Standards applicable to generators of hazardous waste, including the manifest"
+      },
+      {
+        "body": "SSPC",
+        "citedAs": "SSPC-QP 2",
+        "id": "sspc-qp-2",
+        "title": "SSPC-QP 2 — Qualification procedure for painting contractors removing hazardous coatings in the field from complex structures, now administered by AMPP"
+      },
+      {
+        "body": "SSPC",
+        "citedAs": "SSPC-SP 10",
+        "id": "sspc-sp-10",
+        "title": "SSPC-SP 10 / NACE No. 2 — Near-white metal blast cleaning"
+      },
+      {
+        "body": "SSPC",
+        "citedAs": "SSPC",
+        "id": "sspc-surface-preparation",
+        "title": "SSPC-SP surface preparation standards (SP 1 to SP 11), now published by AMPP"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Coatings",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "air-proven",
+        "name": "Air Proven",
+        "note": "Grade D breathing air sited off the certified compressor and proven clean before the hood went on"
+      },
+      {
+        "id": "held-negative",
+        "name": "Held Negative",
+        "note": "The containment never registered a breach across the whole run"
+      },
+      {
+        "id": "near-white",
+        "name": "Near-White",
+        "note": "Held the blast pattern inside the standoff band the whole pass"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-containment",
+        "name": "Clean Containment",
+        "note": "No corrections from the permit to the manifest"
+      },
+      {
+        "id": "steady-nozzle",
+        "name": "Steady Nozzle",
+        "note": "Held the blast pattern the full pass with no dropout"
+      },
+      {
+        "id": "shift-closed",
+        "name": "Shift Closed",
+        "note": "Containment opened, blasted and closed out inside 80% of par"
+      }
+    ],
+    "currency": "MIL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Helper",
+      "Blaster",
+      "Competent Person",
+      "Coatings Foreman",
+      "Coatings Authority Certified"
+    ],
+    "system": "Coatings Authority"
+  },
+  "hazards": {
+    "loose-hood-seal": "You grabbed the hood with the torn neck seal because it was the closest one on the rack. A supplied-air hood's whole job is holding a positive flow of clean air between the wearer's face and a space full of aerosolized lead paint — a torn seal lets containment air leak straight past the gasket and in around the jaw, and the blower cannot out-pressure a tear it was never built to seal against.",
+    "open-curb-drum": "You left a lead-paint waste drum sitting open at the curb with no lid and no label. The moment that debris left the containment it became RCRA D008 characteristic hazardous waste, and an open, unlabeled drum on a highway shoulder is one gust off a passing truck away from putting the lead dust you spent the shift containing straight back into the air.",
+    "prop-flap": "You propped the containment's entry flap open with a broom handle to cool the suit down. That poly sheeting is the only barrier between a lead-dust atmosphere and the highway underneath it — with the flap open, the negative-air unit is pulling outside air in through the gap instead of holding the whole space under vacuum, and dust that was contained a minute ago is now drifting out over the roadway and whatever runs beneath this bridge.",
+    "shop-air-tap": "You ran the respirator hose off the plant's shop-air compressor instead of the Grade D breathing-air unit beside it. Shop air comes straight off a lubricated compressor with no carbon monoxide monitor and no oil-mist filter on the line — and inside a full-face supplied-air hood that is the only air the blaster has. OSHA 1910.134 requires a certified Grade D source for exactly this reason: a bad batch off that tank is an unconscious blaster inside a sealed containment nobody outside can see into."
+  },
+  "id": "bridge-blast",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "blast",
+      "alert": "The manometer on the containment wall has swung to zero — the negative-air unit isn't holding a vacuum any more.",
+      "cue": "The wall between the dust in here and the road under this bridge just came down.",
+      "delay": 4,
+      "id": "manometer-drop",
+      "kind": "Containment pressure",
+      "missNote": "Blasting carried on with the containment at atmospheric pressure. Lead dust rode the pressure differential the wrong way, out through the door gap and the poly seams, for as long as the gauge went unread.",
+      "seconds": 13,
+      "target": "negair-service",
+      "why": "A clogged HEPA stage stalls a negative-air unit exactly the way a blocked filter stalls anything else: the fan keeps turning but stops moving enough air to hold the containment negative. Once the differential reaches zero the space starts pushing dust out through every seam and door gap instead of pulling clean air in through them, and it does that silently — the fan sounds the same, only the number on the gauge changes.",
+      "wrongNote": "Not that. The negative-air unit's filter service panel is where this gets fixed, and it gets fixed now."
+    },
+    {
+      "after": "vacuum-bag",
+      "alert": "The flow gauge on the SAR regulator has dropped hard — the supply hose has kinked back where it runs behind the girder.",
+      "cue": "The hood is running on whatever air was already in it.",
+      "delay": 4,
+      "id": "hose-kink",
+      "kind": "Breathing air",
+      "missNote": "The kink stayed in the line while the blast pattern carried on. The flow gauge sat low the whole time and nobody looked at it.",
+      "seconds": 12,
+      "target": "clear-kink",
+      "why": "A full-face supplied-air hood holds only a few seconds of air once the hose stops delivering it, and a kink can happen anywhere along a run that snakes back through scaffold and ductwork, well out of the blaster's own sightline. The regulator's flow gauge is the only thing that reports it before the hood does — and by the time the hood does, it is the blaster's own breath fogging the lens.",
+      "wrongNote": "That is not the kink. It is back where the hose runs behind the girder, and that is where it gets cleared."
+    }
+  ],
+  "lateNotes": {
+    "blast-nozzle": "Blasting starts after the breathing air is proven and the containment is under negative pressure — the hood is the last thing on, not the first.",
+    "vacuum-bagger": "The HEPA pass comes after the flange is blasted and inspected, not while there is still profile to check.",
+    "waste-drum-label": "Nothing gets labelled until it has actually left the containment through the airlock."
+  },
+  "name": "Bridge Blast",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "accumulation-pad",
+      "air-hose",
+      "blast-nozzle",
+      "clean-stage",
+      "clear-kink",
+      "co-monitor",
+      "compliance-plan",
+      "dirty-stage",
+      "doff-suit",
+      "loose-hood-seal",
+      "manometer",
+      "manometer-log",
+      "medical-record",
+      "moisture-film",
+      "negair-fan",
+      "negair-service",
+      "open-curb-drum",
+      "primer-remnant",
+      "profile-gauge",
+      "prop-flap",
+      "rust-pit",
+      "sar-coupling",
+      "seam-check",
+      "shop-air-tap",
+      "vacuum-bagger",
+      "vacuum-suit",
+      "wash-stage",
+      "wash-station",
+      "waste-drum",
+      "waste-drum-label",
+      "waste-manifest"
+    ],
+    "meshes": 246
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check what the coating tested positive for, the containment class it sets, and the surface standard named for the job.",
+      "id": "permit",
+      "kind": "select",
+      "prompt": "Check what the coating tested positive for, the containment class it sets, and the surface standard named for the job.",
+      "target": "compliance-plan",
+      "title": "Read the containment class and the lead compliance plan",
+      "why": "The whole shift is sized off two numbers fixed before anyone touches a hose: what the paint tested positive for, and the containment class SSPC-QP 2 assigns to that result. Guess at either one and the respirator, the negative-air rate, and the waste stream downstream of it are all wrong together."
+    },
+    {
+      "cue": "Check the medical record for a baseline BLL and a current medical clearance before anyone is exposed.",
+      "id": "baseline",
+      "kind": "select",
+      "prompt": "Check the medical record for a baseline BLL and a current medical clearance before anyone is exposed.",
+      "target": "medical-record",
+      "title": "Confirm the baseline blood-lead draw",
+      "why": "OSHA's lead standard puts a baseline blood-lead level on file before exposure starts, because a rising number only means something measured against a number drawn before the job began. Skip the baseline and the first sign of overexposure is a symptom, not a lab result somebody caught early."
+    },
+    {
+      "cue": "Carry the supplied-air hose from the reel to the Grade D breathing-air compressor's coupling — not the shop-air tank beside it.",
+      "drag": {
+        "missNote": "Not seated on the Grade D coupling — a hose that isn't locked onto the certified source could as easily be locked onto the wrong one.",
+        "radius": 0.45,
+        "to": "sar-coupling"
+      },
+      "id": "air-hose",
+      "kind": "drag",
+      "prompt": "Carry the supplied-air hose from the reel to the Grade D breathing-air compressor's coupling — not the shop-air tank beside it.",
+      "target": "air-hose",
+      "title": "Couple the respirator hose to the Grade D compressor",
+      "why": "Everything downstream of this coupling is the blaster's air for the rest of the shift. Grade D breathing air is compressed, filtered and monitored specifically to be breathed; the shop-air tank standing three feet away is compressed to run tools, and nothing about it announces the difference once a hose is locked onto it."
+    },
+    {
+      "cue": "Read the CO monitor on the breathing-air line and commit on what it shows.",
+      "gauge": {
+        "green": [
+          0,
+          0.1
+        ],
+        "label": "CO IN LINE",
+        "missNote": "That is carbon monoxide in a breathing-air line. Nobody goes on air until the compressor is serviced and it reads clean.",
+        "speed": 0.72
+      },
+      "id": "air-quality",
+      "kind": "gauge",
+      "prompt": "Read the CO monitor on the breathing-air line and commit on what it shows.",
+      "target": "co-monitor",
+      "title": "Prove the breathing air before the hood goes on",
+      "why": "The monitor is the only thing in this system that can tell a blaster something they cannot smell, taste or feel through a supplied-air hood. It gets read and proven clean before the first hood goes on a face, never glanced at afterward."
+    },
+    {
+      "cue": "Turn the negative-air unit on and let it start drawing the containment down before anyone enters.",
+      "id": "negair",
+      "kind": "turn",
+      "prompt": "Turn the negative-air unit on and let it start drawing the containment down before anyone enters.",
+      "target": "negair-fan",
+      "title": "Start the negative-air unit",
+      "turn": {
+        "axis": "z",
+        "label": "NEGATIVE AIR",
+        "turns": 0.4
+      },
+      "why": "Negative pressure is what keeps lead dust moving into the unit's own HEPA exhaust instead of out through every seam in the poly. It runs before anyone goes in and it runs the whole time anyone is working — what leaks here isn't vapour that dissipates, it's dust that stays airborne and stays toxic for as long as it's loose."
+    },
+    {
+      "cue": "Read the manometer on the containment wall and commit inside the band before anyone enters.",
+      "gauge": {
+        "green": [
+          0.35,
+          0.62
+        ],
+        "label": "CONTAINMENT ΔP",
+        "missNote": "Not enough negative pressure to trust. Check the unit and the seams before anyone goes through the airlock.",
+        "speed": 0.68
+      },
+      "id": "manometer",
+      "kind": "gauge",
+      "prompt": "Read the manometer on the containment wall and commit inside the band before anyone enters.",
+      "target": "manometer",
+      "title": "Confirm the containment is under negative pressure",
+      "why": "A differential-pressure gauge is the only proof the containment is doing its job — the poly looks identical whether it's under vacuum or not. SSPC's containment classes are written around a minimum negative pressure for exactly this reason: there is no other way to know from outside."
+    },
+    {
+      "cue": "Through the dirty room, the wash room, then the clean room — in that order, on the way in.",
+      "id": "airlock-entry",
+      "itemNames": {
+        "clean-stage": "clean room",
+        "dirty-stage": "dirty room",
+        "wash-stage": "wash room"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Dirty, then wash, then clean, in that order. A shortcut through the airlock carries dust as far as the shortcut goes.",
+      "prompt": "Through the dirty room, the wash room, then the clean room — in that order, on the way in.",
+      "targets": [
+        "dirty-stage",
+        "wash-stage",
+        "clean-stage"
+      ],
+      "title": "Enter through the three-stage airlock",
+      "why": "The three-stage airlock is what keeps lead dust from riding out of the containment on somebody's boots. Each stage strips off one more layer of it before the next door opens, and taking them out of order defeats the whole reason there are three rooms instead of one."
+    },
+    {
+      "cue": "Hold the nozzle standoff steady and work the flange to a near-white finish.",
+      "holdBreakNote": "Standoff out of band — the replacement coating keys into this profile, and it's only as even as the nozzle was.",
+      "id": "blast",
+      "kind": "track",
+      "prompt": "Hold the nozzle standoff steady and work the flange to a near-white finish.",
+      "seconds": 7,
+      "target": "blast-nozzle",
+      "title": "Blast the girder to SSPC-SP 10",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.36,
+          0.58
+        ],
+        "label": "NOZZLE STANDOFF",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "Near-white is a specified endpoint, not a look — SSPC-SP 10 allows only light staining, no paint and no primer, on ninety-five percent of the surface. Standoff is what puts a profile into the steel at that endpoint instead of just scouring it, and it drifts the moment the hand on the nozzle stops correcting for it."
+    },
+    {
+      "cue": "Take the profile on the blasted flange and commit against the range the coating's data sheet calls for.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.64
+        ],
+        "label": "PROFILE",
+        "missNote": "Outside the profile the data sheet calls for. Adjust the abrasive or the standoff and re-blast the area rather than coating over it.",
+        "speed": 0.7
+      },
+      "id": "profile",
+      "kind": "gauge",
+      "prompt": "Take the profile on the blasted flange and commit against the range the coating's data sheet calls for.",
+      "target": "profile-gauge",
+      "title": "Measure the anchor profile",
+      "why": "The replacement coating grips whatever peaks and valleys the blast left, so the profile is a specified dimension and not a finish. Too shallow and the new system has nothing to key into; too deep on old lead paint and there's more surface area for whatever's left in the pits to hide in what's supposed to be bare steel."
+    },
+    {
+      "cue": "Walk the flange and click the three things that fail this blast if they're coated over.",
+      "id": "inspect",
+      "itemNames": {
+        "moisture-film": "moisture film under the deck",
+        "primer-remnant": "primer remnant in a bolt hole",
+        "rust-pit": "rust pit in the flange"
+      },
+      "itemNotes": {
+        "moisture-film": "There is condensation beaded on the girder where it sits closest to the deck above. Coating over a film of water that formed since the blast traps it under the new system, and it disbonds from underneath on a schedule nobody can predict from up here.",
+        "primer-remnant": "There is a shadow of the old primer left in a bolt hole. A near-white reading on the open flange means nothing if the abrasive never reached into the recess, and the new system will disbond from that shadow first.",
+        "rust-pit": "The flange is pitted where the old paint failed years ago. A pit holds blast grit and moisture the visual standard can't see from the surface, and it's where the replacement coating ends up thinnest."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the flange and click the three things that fail this blast if they're coated over.",
+      "targets": [
+        "primer-remnant",
+        "rust-pit",
+        "moisture-film"
+      ],
+      "title": "Inspect the blasted flange",
+      "why": "A near-white flange looks uniform from three feet back and isn't. A shadow of old primer, a pit that never fully cleaned out, and a film of condensation are the three things that turn a passed profile reading into a coating that fails by the first winter."
+    },
+    {
+      "cue": "Hold the HEPA vacuum wand on the debris pile for the full pass before it's shoveled.",
+      "holdBreakNote": "The pass was cut short. The fines a shovel alone can't lift stayed airborne for the rest of the shift.",
+      "id": "vacuum-bag",
+      "kind": "hold",
+      "prompt": "Hold the HEPA vacuum wand on the debris pile for the full pass before it's shoveled.",
+      "seconds": 5,
+      "target": "vacuum-bagger",
+      "title": "HEPA-vacuum the debris into the drum",
+      "why": "A HEPA-filtered vacuum pass ahead of the shovel is what keeps the fine lead-bearing dust — the fraction a shovel throws back into the air rather than picks up — out of the containment's atmosphere on its way into the drum."
+    },
+    {
+      "cue": "Print and attach the D008 hazardous-waste label before the drum leaves the containment.",
+      "id": "waste-label",
+      "kind": "select",
+      "prompt": "Print and attach the D008 hazardous-waste label before the drum leaves the containment.",
+      "target": "waste-drum-label",
+      "title": "Label the drum as hazardous waste",
+      "why": "The moment that debris came off the girder it became RCRA D008 characteristic hazardous waste, whatever it's carried in. The label is what tells the next person who touches that drum — the hauler, the transfer station, anybody — what they actually have."
+    },
+    {
+      "cue": "Carry the sealed, labelled drum to the satellite accumulation area, clear of the roadway.",
+      "drag": {
+        "missNote": "Not on the pad — a drum staged in the travel lane or against the barrier is a drum a passing vehicle will find.",
+        "radius": 0.45,
+        "to": "accumulation-pad"
+      },
+      "id": "waste-drum",
+      "kind": "drag",
+      "prompt": "Carry the sealed, labelled drum to the satellite accumulation area, clear of the roadway.",
+      "target": "waste-drum",
+      "title": "Move the sealed drum to the accumulation pad",
+      "why": "A satellite accumulation area is the only place a hazardous-waste drum is allowed to sit between the containment and the hauler, and it's sited clear of the travel lane for the same reason the curb isn't: nobody wants a lead drum in the path of a bumper."
+    },
+    {
+      "cue": "HEPA-vacuum the suit, doff it in the dirty room, then wash at the clean-room station — in that order.",
+      "id": "exit-decon",
+      "itemNames": {
+        "doff-suit": "doff the suit",
+        "vacuum-suit": "HEPA-vacuum the suit",
+        "wash-station": "wash at the clean-room sink"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Vacuum the suit, then doff it, then wash. Reaching the sink with the suit still on carries the dust straight past it.",
+      "prompt": "HEPA-vacuum the suit, doff it in the dirty room, then wash at the clean-room station — in that order.",
+      "targets": [
+        "vacuum-suit",
+        "doff-suit",
+        "wash-station"
+      ],
+      "title": "Decon out through the airlock",
+      "why": "Decon reverses entry for the same reason entry has three stages: each one strips off what the last one couldn't. Washing first with a dust-laden suit still on doesn't remove the dust, it just moves it onto the wash water and whatever it touches next."
+    },
+    {
+      "cue": "Click the three things that decide whether this containment held for the whole shift.",
+      "id": "walk",
+      "itemNames": {
+        "manometer-log": "the pressure log",
+        "seam-check": "the containment seams",
+        "waste-manifest": "the waste manifest"
+      },
+      "itemNotes": {
+        "manometer-log": "The pressure log has a reading on it for every hour of the shift. It's the only record that the containment was actually held negative, rather than just built that way at the start.",
+        "seam-check": "The seams are taped and intact all the way round. A seam that opened mid-shift is the one place dust could have left that the manometer alone would never show.",
+        "waste-manifest": "The manifest is filled out and ready to travel with the drums. A drum without a manifest is just a barrel nobody downstream can account for."
+      },
+      "kind": "find",
+      "prompt": "Click the three things that decide whether this containment held for the whole shift.",
+      "targets": [
+        "seam-check",
+        "manometer-log",
+        "waste-manifest"
+      ],
+      "title": "Walk the containment before the crew stands down",
+      "why": "The blast pattern is the interesting part and these three are the part that gets skipped: the seams that could have let dust out, the log that's the only proof the vacuum was held, and the manifest that has to travel with the drums or they're just barrels nobody can trace."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Full containment on a highway girder: breathing air proven, negative pressure held, blasted to near-white, and the lead waste labelled and staged before it ever reaches the road",
+  "title": "SmartCiti.X~ Bridge Blast VR",
+  "trade": "Abrasive blaster / lead-paint removal technician",
+  "underwater": null,
+  "weather": "overcast"
+}

@@ -1,0 +1,442 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "brake-proven",
+    "name": "Brake Proven",
+    "note": "PPE on, the log walked for a spring pole, the saw started braced, the chain brake proven, and every cut kept two-handed and clear of the kickback zone"
+  },
+  "category": "Grounds & Landscaping",
+  "certification": "ANSI B175 chainsaw safety specifications and ANSI Z133 safety requirements for arboricultural operations; OSHA 29 CFR 1910.132 personal protective equipment, 29 CFR 1910.133 eye and face protection, 29 CFR 1910.95 occupational noise exposure and 29 CFR 1910.138 hand protection; NIOSH guidance on chainsaw kickback and struck-by incidents; AFSCME parks and grounds member training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "ANSI",
+        "citedAs": "ANSI B175",
+        "id": "ansi-b175-chainsaw",
+        "title": "ANSI B175 series — safety specifications for gasoline-powered chainsaws and other portable power equipment"
+      },
+      {
+        "body": "ANSI",
+        "citedAs": "ANSI Z133",
+        "id": "ansi-z133-arboriculture",
+        "title": "ANSI Z133 — safety requirements for arboricultural operations, including chippers used on a tree crew"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.133",
+        "id": "osha-1910-133",
+        "title": "29 CFR 1910.133 — Eye and face protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.138",
+        "id": "osha-1910-138",
+        "title": "29 CFR 1910.138 — Hand protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.95",
+        "id": "osha-1910-95",
+        "title": "29 CFR 1910.95 — Occupational noise exposure"
+      }
+    ]
+  },
+  "district": "fairway-park",
+  "domain": "Grounds & Landscaping",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "chaps-on",
+        "name": "Chaps On",
+        "note": "Never started the saw without the full PPE set"
+      },
+      {
+        "id": "brake-checked",
+        "name": "Brake Checked",
+        "note": "Proved the chain brake before trusting the throttle"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcut",
+        "note": "No unsafe action anywhere in the run"
+      },
+      {
+        "id": "steady-limb",
+        "name": "Steady Limb",
+        "note": "Held the brace and the chain tension gauge near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-limb",
+        "name": "Quick Limbing",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-round",
+        "name": "Clean Round",
+        "note": "No corrections across the whole run"
+      },
+      {
+        "id": "grounds-streak",
+        "name": "Grounds Streak",
+        "note": "Eight correct actions in a row"
+      }
+    ],
+    "currency": "TURF",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ground Hand",
+      "Saw Operator",
+      "Chainsaw Certified",
+      "Crew Lead",
+      "Grounds Certified"
+    ],
+    "system": "Grounds Crew"
+  },
+  "hazards": {
+    "carry-saw-running": "You walked with the saw still running instead of engaging the chain brake first. A running chain swinging at leg height while someone walks is one stumble away from a cut that has nothing to do with the tree at all — the chain brake exists exactly for the distance between one cut and the next.",
+    "cut-spring-pole-blind": "You cut straight into that bent sapling without releasing its tension from the correct side. A limb or a sapling bent like that is storing energy the same way a drawn bow does, and cutting it from the wrong side lets that energy release toward whoever is standing where the whip actually travels.",
+    "one-hand-operation": "You ran the saw one-handed. A chainsaw's own kickback happens fast enough that only a full two-handed grip, thumb wrapped under the front handle, gives the operator any real chance of controlling the bar when the tip catches something it should not.",
+    "reach-across-body-cut": "You cut with the bar swung across your own legs. Keeping the saw beside the body instead of across it is what keeps a kickback or a slipped cut aimed at open ground instead of at the operator's own knee."
+  },
+  "id": "gk-chainsaw-start-and-limbing-on-the-ground",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "brace-and-limb",
+      "alert": "The log has started to roll as the last limb's tension releases, shifting toward the operator's stance.",
+      "cue": "Call the retreat and step clear before the roll continues.",
+      "delay": 3,
+      "id": "log-rolls-mid-cut",
+      "kind": "Load shift",
+      "missNote": "The cut continued while the log kept rolling. A load that is already moving does not wait for the last cut to finish.",
+      "seconds": 10,
+      "target": "retreat-call",
+      "why": "A log that starts rolling under a released limb does not stop rolling on its own, and calling the retreat immediately — rather than trying to finish the cut from a stance that is no longer stable — is what keeps a shifting load from catching a leg or a foot that was braced for a log that was not moving.",
+      "wrongNote": "Not that — the retreat call is what this roll needs, before the cut continues."
+    },
+    {
+      "after": "track-kickback-zone",
+      "alert": "A coworker has stepped into the bar's kickback zone from behind while the saw is running.",
+      "cue": "Stop the saw at the throttle's own stop lever before the cut continues.",
+      "delay": 4,
+      "id": "coworker-in-kickback-zone",
+      "kind": "Bystander incursion",
+      "missNote": "The saw kept running while the coworker was still in the kickback zone. A kickback happens too fast for a shout to be the thing that saves someone standing there.",
+      "seconds": 11,
+      "target": "stop-saw-lever",
+      "why": "The kickback zone is the one place nobody but the operator should ever stand while the saw is running, and a coworker who has stepped into it needs the saw stopped immediately — not warned about it after the fact, when a kickback would already have reached them.",
+      "wrongNote": "Not that — stop the saw before anything else about this cut continues."
+    }
+  ],
+  "lateNotes": {
+    "chain-brake-lever": "The chain brake gets proven at idle, engine running, before the throttle is ever trusted on the actual log — not assumed to work because it worked yesterday.",
+    "spring-pole": "A bent sapling like this is under real stored tension — the release path gets planned and the cut made from the correct side, never assumed safe because it looks like ordinary brush."
+  },
+  "name": "Chainsaw Start & Limbing on the Ground",
+  "parSeconds": 305,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "grounds-and-landscaping"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "bar-oil-check",
+      "brush-pile-socket",
+      "buried-debris",
+      "bystander-too-close",
+      "cant-hook",
+      "carry-saw-running",
+      "chain-brake-check",
+      "chain-brake-lever",
+      "chain-tension-check",
+      "chain-tension-gauge",
+      "chainsaw-chaps",
+      "choke-set",
+      "clear-work-area",
+      "closing-log",
+      "cut-gloves",
+      "cut-limb",
+      "cut-spring-pole-blind",
+      "ear-protection",
+      "face-screen-helmet",
+      "fuel-cap",
+      "ground-brace",
+      "job-plan-board",
+      "limbing-grip",
+      "one-hand-operation",
+      "pull-cord",
+      "reach-across-body-cut",
+      "retreat-call",
+      "shutdown-switch",
+      "spotter",
+      "spring-pole",
+      "stop-saw-lever"
+    ],
+    "meshes": 116
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Chaps, helmet with face screen, ear protection and cut-resistant gloves before the saw comes off the truck.",
+      "id": "ppe-up",
+      "itemNames": {
+        "chainsaw-chaps": "chainsaw chaps",
+        "cut-gloves": "cut-resistant gloves",
+        "ear-protection": "ear protection",
+        "face-screen-helmet": "helmet with face screen"
+      },
+      "kind": "sequence",
+      "prompt": "Chaps, helmet with face screen, ear protection and cut-resistant gloves before the saw comes off the truck.",
+      "targets": [
+        "chainsaw-chaps",
+        "face-screen-helmet",
+        "ear-protection",
+        "cut-gloves"
+      ],
+      "title": "Suit up before touching the saw",
+      "why": "Chainsaw chaps are built to jam a moving chain the instant it contacts them, a face screen and hearing protection cover what a running saw throws and how loud it runs, and none of that protection works retroactively — it goes on before the saw is even started, not after the first close call."
+    },
+    {
+      "cue": "Check the plan's own escape route and limbing order before starting the saw.",
+      "id": "read-job-plan",
+      "kind": "select",
+      "prompt": "Check the plan's own escape route and limbing order before starting the saw.",
+      "target": "job-plan-board",
+      "title": "Read the limbing job plan",
+      "why": "The job plan is where the crew's own read of this log — which side to work from, where the escape route is — gets written down before the saw starts, so the work follows a plan built on an actual look at the log rather than on assumption."
+    },
+    {
+      "cue": "Three things about this log change the plan — find them before the chain ever turns.",
+      "decoyNotes": {
+        "clear-work-area": "That stretch of the log is clean bark with clear ground around it. Nothing to flag there."
+      },
+      "id": "walk-the-log",
+      "itemNames": {
+        "buried-debris": "debris buried in the log's bark",
+        "bystander-too-close": "a coworker standing too close to the log",
+        "spring-pole": "the bent sapling under tension"
+      },
+      "itemNotes": {
+        "buried-debris": "Debris buried in bark is exactly what a chain catches and kicks back on before the operator ever sees it coming.",
+        "bystander-too-close": "Anyone standing this close to the log is inside the saw's own working radius before the first cut is even made.",
+        "spring-pole": "A sapling bent like this is storing energy the same way a drawn bow does — it gets planned around, not treated like ordinary brush."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things about this log change the plan — find them before the chain ever turns.",
+      "targets": [
+        "spring-pole",
+        "buried-debris",
+        "bystander-too-close"
+      ],
+      "title": "Walk the log before starting the saw",
+      "why": "A downed log that looks like a straightforward limbing job from a distance is not the same thing as a log someone has actually walked and checked, and a spring pole, buried debris or a coworker standing too close are exactly what a walk-down catches before the saw starts."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Confirm the chain tension, the chain brake and the bar oil level before fuelling or starting.",
+      "id": "chainsaw-precheck",
+      "itemNames": {
+        "bar-oil-check": "bar oil level",
+        "chain-brake-check": "chain brake function",
+        "chain-tension-check": "chain tension"
+      },
+      "kind": "sequence",
+      "prompt": "Confirm the chain tension, the chain brake and the bar oil level before fuelling or starting.",
+      "targets": [
+        "chain-tension-check",
+        "chain-brake-check",
+        "bar-oil-check"
+      ],
+      "title": "Precheck the saw",
+      "why": "A loose chain, a chain brake that does not engage, or a dry bar are three separate ways this saw fails exactly when it is needed most — confirming all three before it ever starts is what makes the saw something the operator can trust rather than something they are hoping still works."
+    },
+    {
+      "cue": "Fuel the saw on cool, level ground, away from any ignition source, before starting it.",
+      "id": "fuel-the-saw",
+      "kind": "select",
+      "prompt": "Fuel the saw on cool, level ground, away from any ignition source, before starting it.",
+      "target": "fuel-cap",
+      "title": "Fuel the saw safely",
+      "why": "Fuelling a hot saw or fuelling near an ignition source turns a routine top-off into a flash fire risk — doing it on cool, level ground away from anything that could spark is what keeps this the safest five minutes of the whole job, not the most dangerous."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Set the choke, brace the saw against the ground with a foot through the rear handle, then pull the cord — in that order.",
+      "id": "start-the-saw",
+      "itemNames": {
+        "choke-set": "set the choke",
+        "ground-brace": "brace the saw on the ground",
+        "pull-cord": "pull the starter cord"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "That is out of the ground-start's own order. Choke, then brace the saw on the ground, then pull — out of order is exactly how a saw gets started off-balance in someone's hands instead of braced and controlled.",
+      "prompt": "Set the choke, brace the saw against the ground with a foot through the rear handle, then pull the cord — in that order.",
+      "targets": [
+        "choke-set",
+        "ground-brace",
+        "pull-cord"
+      ],
+      "title": "Start the saw braced on the ground",
+      "why": "Starting the saw braced on the ground rather than held free in the air is what keeps the first pull from being the moment the saw gets away from the operator — the choke, the brace and the pull each set up the next step in an order that exists because a cold saw starting off-balance is how a foot or a hand ends up in the chain's own path."
+    },
+    {
+      "cue": "Engage the chain brake at idle and confirm it stops the chain before trusting the throttle.",
+      "id": "prove-chain-brake",
+      "kind": "select",
+      "prompt": "Engage the chain brake at idle and confirm it stops the chain before trusting the throttle.",
+      "target": "chain-brake-lever",
+      "title": "Prove the chain brake",
+      "why": "A chain brake proven at idle, engine running, is a fact the operator can trust the rest of the job on — a chain brake assumed to work because it worked yesterday is a guess the first real kickback would be the wrong moment to find out about."
+    },
+    {
+      "cue": "Turn the cant hook to roll the log so the limb being cut is clear of the ground.",
+      "id": "position-log",
+      "kind": "turn",
+      "prompt": "Turn the cant hook to roll the log so the limb being cut is clear of the ground.",
+      "target": "cant-hook",
+      "title": "Roll the log into a stable position",
+      "turn": {
+        "axis": "z",
+        "label": "CANT HOOK",
+        "turns": 0.4
+      },
+      "why": "A limb pinned against the ground pinches the bar the instant the cut opens it, and rolling the log with the cant hook so the cut limb has room to fall clear is what keeps that cut from binding the chain halfway through."
+    },
+    {
+      "cue": "Hold a two-handed, braced stance for the full limbing pass along the log.",
+      "holdBreakNote": "Released the brace before the pass finished. Hold the two-handed stance for the whole limbing pass, every time.",
+      "id": "brace-and-limb",
+      "kind": "hold",
+      "prompt": "Hold a two-handed, braced stance for the full limbing pass along the log.",
+      "seconds": 5,
+      "target": "limbing-grip",
+      "title": "Brace and limb the log",
+      "why": "A braced, two-handed stance held for the whole pass — not just the first cut — is what actually gives the operator control if the bar catches something in the bark or a limb springs back unexpectedly, rather than a grip that was only ever set up for the easy first cut."
+    },
+    {
+      "cue": "Keep the spotter's signal steady, confirming the bar's kickback zone stays clear of anyone else the whole pass.",
+      "holdBreakNote": "The kickback zone signal dropped out of the clear band. Stop cutting until the zone reads clear again.",
+      "id": "track-kickback-zone",
+      "kind": "track",
+      "prompt": "Keep the spotter's signal steady, confirming the bar's kickback zone stays clear of anyone else the whole pass.",
+      "seconds": 8,
+      "target": "spotter",
+      "title": "Keep the kickback zone clear",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.44,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "KICKBACK ZONE",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "The kickback zone is the one place nobody but the operator should be standing while the saw runs, and the spotter watching it from a clear angle is what catches a coworker drifting into it before the operator — focused on the cut — ever notices."
+    },
+    {
+      "cue": "Carry the cut limb clear of the log and stage it at the brush pile.",
+      "drag": {
+        "missNote": "Not at the brush pile — carry the limb to where the brush pile actually is.",
+        "radius": 0.4,
+        "to": "brush-pile-socket"
+      },
+      "id": "drag-limb-clear",
+      "kind": "drag",
+      "prompt": "Carry the cut limb clear of the log and stage it at the brush pile.",
+      "target": "cut-limb",
+      "title": "Drag the cut limb to the brush pile",
+      "why": "Clearing each limb to the brush pile as it is cut, rather than letting them pile up around the log, keeps the footing around the saw open for the next cut instead of turning the work area into its own tripping hazard."
+    },
+    {
+      "cue": "Read the tension gauge partway through the job and commit only inside the manufacturer's band.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.66
+        ],
+        "label": "CHAIN TENSION",
+        "missNote": "Outside the manufacturer's band. Adjust the tension and let the reading settle before committing it.",
+        "speed": 0.6
+      },
+      "id": "check-chain-tension-gauge",
+      "kind": "gauge",
+      "prompt": "Read the tension gauge partway through the job and commit only inside the manufacturer's band.",
+      "target": "chain-tension-gauge",
+      "title": "Recheck the chain tension",
+      "why": "A chain stretches as it warms up through a job, and a tension check partway through — not just at the start — is what catches a chain that has gone loose enough to derail before it actually does, mid-cut, in the operator's own hands."
+    },
+    {
+      "cue": "Engage the chain brake and shut the engine off before setting the saw down.",
+      "id": "shutdown-saw",
+      "kind": "select",
+      "prompt": "Engage the chain brake and shut the engine off before setting the saw down.",
+      "target": "shutdown-switch",
+      "title": "Shut the saw down properly",
+      "why": "A saw set down with the chain brake off and the engine still idling is a saw that can be bumped into gear by nothing more than its own vibration — shutting it down properly before it is ever set aside is what keeps it inert until the next cut actually starts."
+    },
+    {
+      "cue": "Log the precheck, the chain tension reading and the completed limbing before leaving the site.",
+      "id": "shutdown-log",
+      "kind": "select",
+      "prompt": "Log the precheck, the chain tension reading and the completed limbing before leaving the site.",
+      "target": "closing-log",
+      "title": "Close out the chainsaw log",
+      "why": "The chainsaw log is what the next operator and the next inspection both read — a job run cleanly but never logged leaves nothing behind to prove the precheck and the chain brake were actually proven before the first cut."
+    }
+  ],
+  "supportLine": "your union steward or the parks department's employee assistance line",
+  "tagline": "A downed log limbed on the ground: chaps and PPE on first, the log walked for a spring pole and buried debris, the saw started braced in its own order, the chain brake proven, and every cut made braced, two-handed and clear of anyone else nearby",
+  "title": "SmartCiti.X~ Chainsaw Start & Limbing on the Ground VR",
+  "trade": "Grounds tree crew member — AFSCME parks and grounds crew",
+  "underwater": null,
+  "weather": "clear"
+}

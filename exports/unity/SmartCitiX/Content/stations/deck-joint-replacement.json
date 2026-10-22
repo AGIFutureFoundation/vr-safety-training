@@ -1,0 +1,410 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "joint-set",
+    "name": "Joint Set",
+    "note": "An expansion joint replaced under a working lane closure — taper held, cut run wet, joint torqued and levelled, header poured true"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "Ironworkers (IW), IUOE operating engineers and LIUNA laborers; the owner's lane-closure plan built to the Manual on Uniform Traffic Control Devices (MUTCD); OSHA 29 CFR 1926.1153 respirable crystalline silica, Table 1 wet-cutting method for saws",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "Ironworkers",
+        "id": "ironworkers-impact",
+        "title": "Ironworkers and IMPACT — apprenticeship and safety training for structural, ornamental and reinforcing ironwork"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "MUTCD",
+        "citedAs": "MUTCD",
+        "id": "mutcd",
+        "title": "Manual on Uniform Traffic Control Devices — temporary traffic control for work zones (Part 6)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.1153",
+        "id": "osha-1926-1153",
+        "title": "29 CFR 1926.1153 — Respirable crystalline silica in construction"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "taper-held",
+        "name": "Taper Held",
+        "note": "The lane closure never registered a breach across the whole run"
+      },
+      {
+        "id": "cut-true",
+        "name": "Cut True",
+        "note": "Held the saw inside the cut line the whole pass"
+      },
+      {
+        "id": "level-clean",
+        "name": "Level Clean",
+        "note": "No corrections on either level check"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-closure",
+        "name": "Clean Closure",
+        "note": "No corrections through the whole replacement"
+      },
+      {
+        "id": "steady-cut",
+        "name": "Steady Cut",
+        "note": "Held the saw pass with no dropout"
+      },
+      {
+        "id": "lane-reopened",
+        "name": "Lane Reopened",
+        "note": "Closure struck and lane reopened inside 80% of par"
+      }
+    ],
+    "currency": "SPAN",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Flagger",
+      "Deck Hand",
+      "Joint Setter",
+      "Crew Lead",
+      "Deck Joint Authority Certified"
+    ],
+    "system": "Deck Joint Authority"
+  },
+  "hazards": {
+    "dry-cut-saw": "That saw has no water tank on it. OSHA 29 CFR 1926.1153's Table 1 requires a wet-cutting method on a saw like this specifically because dry-cutting concrete throws respirable crystalline silica into the air at levels that build lung disease with no warning at the time of exposure — the water is not for the blade, it is for the crew's lungs.",
+    "short-taper-cone": "That cone is set well short of where the taper formula puts it for this speed. MUTCD sizes a taper's length off the posted speed for exactly this reason — a short taper gives an approaching driver less distance to see the closure and merge out of the lane before they reach the crew, not more warning packed into less room.",
+    "standing-in-open-lane": "You are standing out in the lane that never closed. The taper and the arrow board protect the closed lane; the travel lane beside it is still carrying live traffic at full speed, and nothing about this crew's closure plan does anything for a body standing in it.",
+    "unbraced-blockout-edge": "You knelt right at the fresh-cut edge of the blockout before the old joint was confirmed loose. A saw-cut edge is not securely tied to anything anymore — it can rock or drop the moment weight comes down close to it, right onto the hand reaching in below it."
+  },
+  "id": "deck-joint-replacement",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "saw-cut",
+      "alert": "A car has come through the taper and is in the closed lane, headed for the saw.",
+      "cue": "Wave it off before it reaches the cut.",
+      "delay": 4,
+      "id": "car-in-closure",
+      "kind": "Traffic incursion",
+      "missNote": "The car kept coming and only stopped level with the crew. Every foot of that approach was a foot the taper was supposed to have already turned it away in, and the saw kept running the whole time.",
+      "seconds": 12,
+      "target": "arrow-board",
+      "why": "A taper only works on drivers who see it in time to react, and the arrow board is what a driver looking down the lane actually sees — cones read as texture on the shoulder from a moving car, a flashing arrow reads as an instruction. The board gets driven back to full brightness and a wider arrow the instant a car is still coming through, because whatever got missed the first time has to be answered louder the second.",
+      "wrongNote": "It is the arrow board. Nothing else in this closure matters while a car is still moving toward the cut."
+    },
+    {
+      "after": "pour-header",
+      "alert": "The new joint has started to lift on one side as the concrete flows around it.",
+      "cue": "Hold it level with the wedge before the header sets crooked.",
+      "delay": 3,
+      "id": "header-level-drift",
+      "kind": "Joint level",
+      "missNote": "The joint set crooked. Once that header cures around it, the fix is jackhammering it back out — the same header this pour was supposed to be the only one of.",
+      "seconds": 11,
+      "target": "level-wedge",
+      "why": "A joint assembly is lighter than the concrete flowing around it and nothing holds it down on its own until that concrete stiffens enough to grip it — wet concrete pushing unevenly against one side of the joint is buoyant enough to lift or tip it before anyone watching the pour itself would notice. The wedge is what pins it level while the header sets; the pour hose in your other hand cannot fix a joint that is already lifting.",
+      "wrongNote": "It is the leveling wedge. The joint lifting is the only thing that decides whether this pour has to happen twice."
+    }
+  ],
+  "lateNotes": {
+    "cut-saw": "The saw doesn't start until the closure is fully set and the water tank is confirmed — cutting into live traffic's shoulder with no taper up is not a shortcut, it's the hazard the plan exists to prevent.",
+    "pour-hose": "The header doesn't get poured until the new joint is set, torqued and already reading level — concrete around a joint that isn't level yet just locks the error in place."
+  },
+  "name": "Deck Joint Replacement",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bridge-and-structural"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "anchor-studs",
+      "arrow-board",
+      "blockout",
+      "buffer-space",
+      "cut-saw",
+      "debris-in-blockout",
+      "dry-cut-saw",
+      "exposed-rebar",
+      "level-gauge",
+      "level-wedge",
+      "new-joint",
+      "old-joint",
+      "pour-hose",
+      "screed-bar",
+      "short-taper-cone",
+      "spalled-concrete",
+      "spoil-area",
+      "standing-in-open-lane",
+      "straightedge",
+      "taper-cones",
+      "traffic-plan",
+      "unbraced-blockout-edge",
+      "warning-sign",
+      "water-tank"
+    ],
+    "meshes": 176
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Confirm the taper length, buffer space and arrow-board placement the plan calls for at this posted speed.",
+      "id": "plan",
+      "kind": "select",
+      "prompt": "Confirm the taper length, buffer space and arrow-board placement the plan calls for at this posted speed.",
+      "target": "traffic-plan",
+      "title": "Read the MUTCD lane-closure plan",
+      "why": "The closure is sized off the posted speed on this deck, not off habit — MUTCD's taper-length formula and buffer-space tables exist because the same closure that is generous on a slow local road is dangerously short on a higher-speed span. The plan is read before a single cone goes down so the whole closure goes up sized correctly the first time."
+    },
+    {
+      "cue": "Advance warning sign first, then the taper cones, then the arrow board, then the buffer space.",
+      "id": "set-closure",
+      "itemNames": {
+        "arrow-board": "arrow board",
+        "buffer-space": "buffer space",
+        "taper-cones": "taper cones",
+        "warning-sign": "advance warning sign"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Sign, then taper, then arrow board, then buffer — each one only means what it's supposed to once the one ahead of it is already up.",
+      "prompt": "Advance warning sign first, then the taper cones, then the arrow board, then the buffer space.",
+      "targets": [
+        "warning-sign",
+        "taper-cones",
+        "arrow-board",
+        "buffer-space"
+      ],
+      "title": "Set the closure to the plan",
+      "why": "The order runs from furthest upstream to closest to the crew because that is the order an approaching driver actually meets it in — a warning sign with no taper behind it warns of nothing yet, and a buffer space set before the taper exists is a protected gap in front of a lane that still looks fully open."
+    },
+    {
+      "cue": "Check the water tank is filled and plumbed to the saw before it starts.",
+      "id": "silica-control",
+      "kind": "select",
+      "prompt": "Check the water tank is filled and plumbed to the saw before it starts.",
+      "target": "water-tank",
+      "title": "Confirm the saw's water suppression",
+      "why": "OSHA 1926.1153's Table 1 controls a handheld or walk-behind saw cutting concrete with a continuous stream of water at the blade, because that water is what keeps the respirable silica the cut generates from ever becoming airborne dust in the first place. It gets confirmed before the saw starts, not topped up partway through a dry cut that has already put dust in the air."
+    },
+    {
+      "cue": "Hold the saw on the cut line with the water running the full pass.",
+      "holdBreakNote": "Off the line — that stretch of blockout is now cut wrong, and the new joint has to bridge whatever shape the saw actually left.",
+      "id": "saw-cut",
+      "kind": "track",
+      "prompt": "Hold the saw on the cut line with the water running the full pass.",
+      "seconds": 6,
+      "target": "cut-saw",
+      "title": "Cut the joint line wet",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.38,
+          0.6
+        ],
+        "label": "SAW ON LINE",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "The cut line is the exact width and depth the new joint's blockout needs, and running off that line either leaves concrete the old joint's anchors are still embedded in or cuts wider than the new assembly is rated to bridge. The water running the whole pass is not separate from cutting well — a saw starved of water for even a few seconds throws exactly the dust Table 1 exists to prevent."
+    },
+    {
+      "cue": "Carry the old joint assembly out of the blockout to the spoil area.",
+      "drag": {
+        "missNote": "Not clear of the blockout — the old joint has to actually leave the work area, not sit half out of it.",
+        "radius": 0.45,
+        "to": "spoil-area"
+      },
+      "id": "pull-joint",
+      "kind": "drag",
+      "prompt": "Carry the old joint assembly out of the blockout to the spoil area.",
+      "target": "old-joint",
+      "title": "Pull the old joint",
+      "why": "The old joint's anchors are cut free but the assembly itself is still deadweight steel that has to come out in one controlled lift, not be levered up and dropped — a dropped section on a deck with traffic running the other lane is a hazard to the crew's own feet before it is a hazard to anyone else."
+    },
+    {
+      "cue": "Walk the blockout and click the three things that have to be dealt with before the new joint goes in.",
+      "id": "inspect-blockout",
+      "itemNames": {
+        "debris-in-blockout": "old sealant debris in the blockout",
+        "exposed-rebar": "exposed rebar in the blockout",
+        "spalled-concrete": "spalled concrete at the blockout edge"
+      },
+      "itemNotes": {
+        "debris-in-blockout": "There is old sealant and grit still sitting in the base of the blockout. The new joint has to bear on clean concrete — debris left under it is a void the assembly will rock on the first time a truck axle crosses it.",
+        "exposed-rebar": "A reinforcing bar is exposed where the saw cut through cover concrete. It gets flagged for the engineer before anything is set over it, not buried under the new joint where nobody will see it again until it fails.",
+        "spalled-concrete": "The blockout edge has spalled away from the old joint's anchors. The new joint's bearing surface needs sound concrete under it — setting it against a spalled edge just repeats the failure that took the old joint out."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the blockout and click the three things that have to be dealt with before the new joint goes in.",
+      "targets": [
+        "spalled-concrete",
+        "exposed-rebar",
+        "debris-in-blockout"
+      ],
+      "title": "Inspect the blockout before setting the new joint",
+      "why": "A blockout that looks clean from standing height is not the same thing as a blockout a hand has actually checked — a spalled edge, an exposed bar and leftover debris are all things the new joint will sit directly on top of if nobody looks for them now, and none of the three announce themselves once the assembly is already set."
+    },
+    {
+      "cue": "Carry the new joint assembly from the staging pallet and seat it in the blockout.",
+      "drag": {
+        "missNote": "Not seated in the blockout — the joint has to sit in the cut opening, not balanced on the deck beside it.",
+        "radius": 0.4,
+        "to": "blockout"
+      },
+      "id": "set-joint",
+      "kind": "drag",
+      "prompt": "Carry the new joint assembly from the staging pallet and seat it in the blockout.",
+      "target": "new-joint",
+      "title": "Set the new joint into the blockout",
+      "why": "The new joint's anchors are machined to seat one way in a blockout cut to the manufacturer's dimensions — forcing it down misaligned to save a trip back to the pallet bends anchors that are supposed to still be straight when the header goes around them."
+    },
+    {
+      "cue": "Run the anchor studs down to the manufacturer's torque spec before the header goes around them.",
+      "id": "anchor-torque",
+      "kind": "turn",
+      "prompt": "Run the anchor studs down to the manufacturer's torque spec before the header goes around them.",
+      "target": "anchor-studs",
+      "title": "Torque the joint's anchor studs",
+      "turn": {
+        "axis": "y",
+        "label": "ANCHOR STUDS",
+        "turns": 1
+      },
+      "why": "The anchor studs are what ties this joint to the deck once the header cures — a stud left finger-tight has nothing holding the joint down through the pour, and a joint that shifts while wet concrete is being screeded around it sets exactly where the concrete happened to push it, not where the blockout was cut for it."
+    },
+    {
+      "cue": "Read the level on the joint's rail and commit inside the band before concrete goes around it.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "JOINT LEVEL",
+        "missNote": "Still out of level. Shim it and read again before a single scoop of header concrete goes around it.",
+        "speed": 0.66
+      },
+      "id": "level-joint",
+      "kind": "gauge",
+      "prompt": "Read the level on the joint's rail and commit inside the band before concrete goes around it.",
+      "target": "level-gauge",
+      "title": "Level the joint before the pour",
+      "why": "The joint's running surface has to sit flush with the deck on both sides of the gap, because a lip in either direction is exactly what a truck's tire finds at speed — high on one side hammers the joint every axle that crosses it, low on the other catches a tire edge. Checked now, it is a shim; checked after the header cures, it is a saw cut through fresh concrete."
+    },
+    {
+      "cue": "Hold the pour hose steady around the joint, filling the header evenly on both sides.",
+      "holdBreakNote": "The pour stopped short. A header poured in two starts rarely bonds as one slab, and the seam it leaves is the next place this deck cracks.",
+      "id": "pour-header",
+      "kind": "hold",
+      "prompt": "Hold the pour hose steady around the joint, filling the header evenly on both sides.",
+      "seconds": 6,
+      "target": "pour-hose",
+      "title": "Pour the concrete header",
+      "why": "The header is what locks the joint's anchors into the deck for good, and it has to fill evenly on both sides of the assembly — concrete piled higher on one side pushes the joint sideways before it has any cure strength to resist it, undoing the torque and the level check that came before the first scoop."
+    },
+    {
+      "cue": "Work the screed bar across the header to strike it flush with the deck.",
+      "id": "finish-header",
+      "kind": "turn",
+      "prompt": "Work the screed bar across the header to strike it flush with the deck.",
+      "target": "screed-bar",
+      "title": "Screed the header flush",
+      "turn": {
+        "axis": "x",
+        "label": "SCREED PASS",
+        "turns": 1.4
+      },
+      "why": "A header struck flush with the surrounding deck sheds water and takes a tire load the way the rest of the deck does; left proud or low, it becomes its own small bump or dip that a driver feels at every crossing and that starts spalling from its own edge within a season."
+    },
+    {
+      "cue": "Lay the straightedge across the joint and commit that the header cured flush.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "HEADER STRAIGHTEDGE",
+        "missNote": "There's a gap under the straightedge. The header didn't cure flush — that gets ground or patched before this lane reopens, not left for the first truck to find.",
+        "speed": 0.64
+      },
+      "id": "final-level",
+      "kind": "gauge",
+      "prompt": "Lay the straightedge across the joint and commit that the header cured flush.",
+      "target": "straightedge",
+      "title": "Confirm the header set level",
+      "why": "This is the check that catches a joint the pour moved — the level reading taken before the pour only proves the joint started right, not that it stayed there through screeding and the first set of the concrete. A straightedge across the finished header is the only way to know before the closure comes up that the fix actually held."
+    },
+    {
+      "cue": "Buffer space first, then the arrow board, then the taper cones, then the advance warning sign last.",
+      "id": "pickup-closure",
+      "itemNames": {
+        "arrow-board": "arrow board",
+        "buffer-space": "buffer space",
+        "taper-cones": "taper cones",
+        "warning-sign": "advance warning sign"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Buffer, then arrow board, then taper, then the sign last — pulling the upstream warning first opens the lane in a driver's mind before the crew has actually left it.",
+      "prompt": "Buffer space first, then the arrow board, then the taper cones, then the advance warning sign last.",
+      "targets": [
+        "buffer-space",
+        "arrow-board",
+        "taper-cones",
+        "warning-sign"
+      ],
+      "title": "Pick up the closure in reverse",
+      "why": "The closure comes down closest-to-the-work first, the same way a scaffold comes down the reverse of how it went up — pulling the warning sign first tells approaching traffic the lane is open again while the taper and the crew are still standing in it."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "An expansion joint replaced under a lane closure: the MUTCD taper and arrow board set, the cut run wet, the new joint torqued and levelled, and the header poured before the closure comes up in reverse",
+  "title": "SmartCiti.X~ Deck Joint Replacement VR",
+  "trade": "Ironworker with IUOE and LIUNA under a lane closure",
+  "underwater": null,
+  "weather": "clear"
+}

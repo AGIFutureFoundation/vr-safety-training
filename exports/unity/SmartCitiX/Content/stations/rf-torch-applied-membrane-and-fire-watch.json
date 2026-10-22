@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "seam-welded-clean",
+    "name": "Seam Welded Clean",
+    "note": "A cap sheet torched on with the fire watch answered, nobody burned, and the permit closed before the cart rolled off"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "OSHA 29 CFR 1926.501 and 29 CFR 1926.502 fall protection at the roof edge, and 29 CFR 1926 Subpart M Fall protection generally; NFPA 51B and 29 CFR 1910.252 for hot work, fire watch and extinguishers; ANSI Z359 for the harness and anchor; NRCA torch-application and fire-watch practice; Roofers Local 40 apprenticeship and training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z359",
+        "id": "ansi-z359",
+        "title": "ANSI/ASSP Z359 — Fall Protection Code"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 51B",
+        "id": "nfpa-51b",
+        "title": "NFPA 51B — Fire Prevention During Welding, Cutting and Other Hot Work"
+      },
+      {
+        "body": "NRCA",
+        "citedAs": "NRCA",
+        "id": "nrca-roofing-practices",
+        "title": "National Roofing Contractors Association — roofing and waterproofing application, safety and quality practices"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.252",
+        "id": "osha-1910-252",
+        "title": "29 CFR 1910.252 — Welding, cutting and brazing, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.501",
+        "id": "osha-1926-501",
+        "title": "29 CFR 1926.501 — Duty to have fall protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.502",
+        "id": "osha-1926-502",
+        "title": "29 CFR 1926.502 — Fall protection systems criteria and practices"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926 Subpart M Fall protection",
+        "id": "osha-1926-subpart-m",
+        "title": "OSHA 29 CFR 1926 Subpart M Fall protection"
+      },
+      {
+        "body": "union",
+        "citedAs": "Roofers Local 40",
+        "id": "roofers-local-40-training",
+        "title": "Roofers Local 40 — United Union of Roofers, Waterproofers and Allied Workers apprenticeship and training"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction & Structural Trades",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "permit-first",
+        "name": "Permit First",
+        "note": "The hot work permit and the extinguisher confirmed before the torch was ever lit"
+      },
+      {
+        "id": "steady-pass",
+        "name": "Steady Pass",
+        "note": "The torch swept the whole seam without a break in the pace"
+      },
+      {
+        "id": "never-touched-hot",
+        "name": "Never Touched Hot",
+        "note": "No hand near a molten seam, no cylinder left loose, no fume walked through"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-lap",
+        "name": "Clean Lap",
+        "note": "No corrections anywhere on the roof"
+      },
+      {
+        "id": "on-the-band",
+        "name": "On The Band",
+        "note": "The roller pressure committed inside the bond band first time"
+      },
+      {
+        "id": "course-closed",
+        "name": "Course Closed",
+        "note": "Permit closed inside 80% of par"
+      }
+    ],
+    "currency": "SEAM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice",
+      "Torch Hand",
+      "Seam Welder",
+      "Lead Mopman",
+      "Fire Watch Certified"
+    ],
+    "system": "Torch Watch"
+  },
+  "hazards": {
+    "cylinder-unchained": "The spare propane cylinder is standing free on the deck near the open edge instead of chained upright to the cart. A full cylinder is dense enough to roll or topple in a gust and heavy enough to hurt whoever it lands on, or to go over the edge itself — chaining it to the cart is the only thing standing between a breeze and a cylinder loose on a roof.",
+    "edge-gap-in-rail": "You are reaching past the gap in the guardrail after a dropped scraper instead of going around to a section that is still up. 29 CFR 1926.501 puts a worker at this edge under fall protection the whole time they are exposed, and a gap in the rail does not pause that duty — it just means the harness and lifeline are the only thing left doing the job the rail was doing a moment ago.",
+    "fumes-into-stairwell": "The stairwell bulkhead door is propped open right beside where the torch is running, and the asphalt fume plume is drifting straight down the stairs into the occupied floors below. NFPA 51B and 29 CFR 1910.252 both expect hot-work smoke and fumes kept clear of anywhere people are working or breathing, and an open door into the building is the one thing that undoes every bit of that on a roof with no other way for the fumes to go but sideways.",
+    "hot-seam-touch": "You reached bare-handed for the seam the torch just passed over. Modified-bitumen bonds because the torch melts the underside to a running liquid, and that bead stays well above a skin-burn temperature for long minutes after the flame has moved on — it looks the same matte black as the cured seam beside it and it is not. The roller checks it; a hand never does."
+  },
+  "id": "rf-torch-applied-membrane-and-fire-watch",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "roll-membrane",
+      "alert": "A gust off the parapet catches the loose corner of the cap sheet you just rolled out, and it starts peeling up off the deck before the torch has touched it.",
+      "cue": "Drop a sandbag on the loose corner before the wind gets under the whole sheet.",
+      "delay": 2,
+      "id": "gust-lifts-membrane",
+      "kind": "Wind gust off the parapet",
+      "missNote": "The gust got under the sheet before the sandbag went on, and the whole corner flipped back on itself, dragging grit into the underside that will keep it from ever bonding clean on this pass.",
+      "seconds": 14,
+      "target": "sandbag-corner",
+      "why": "An unwelded cap sheet is not fastened to anything yet — it is held down by its own weight, and a gust that gets under one corner can lift a whole roll like a sail, taking it toward the open edge or over it. Weighting the corner is the roofer's own version of the wind limit the manufacturer sets for laying membrane, kept per the manufacturer.",
+      "wrongNote": "That does not hold a loose sheet down. Drop the sandbag on the lifting corner before it peels any further."
+    },
+    {
+      "after": "torch-off",
+      "alert": "The porter two floors down radios that they can smell smoke near the stairwell. An earlier pass over that stretch was welded almost an hour ago.",
+      "cue": "Grab the extinguisher and check the seam above where the smell was reported.",
+      "delay": 2,
+      "id": "smoke-from-below",
+      "kind": "Smoke reported two floors down",
+      "missNote": "The report went unanswered while the smoulder kept working under a seam nobody was watching any more — by the time anyone went to look, the smell had gotten a lot stronger.",
+      "seconds": 14,
+      "target": "extinguisher",
+      "why": "A smoulder started by hot work can travel through insulation for a long time before it shows itself as smoke somewhere else in the building, which is the whole reason NFPA 51B and 29 CFR 1910.252 keep the fire watch posted well after the torch has gone quiet rather than treating the job as finished the moment the flame is out.",
+      "wrongNote": "Not that. Grab the extinguisher and go find the spot the porter is smelling before it gets ahead of you."
+    }
+  ],
+  "lateNotes": {
+    "cylinder-valve": "The cylinder stays open until the last pass is welded and rolled — shutting it now just means relighting it in a minute.",
+    "seam-roller": "The roller checks the bond once the torch has actually passed over that stretch of seam — there is nothing to press yet.",
+    "torch-valve": "The torch is not lit until the hose and the regulator have both passed inspection — a leak found after ignition is a burn, not a finding."
+  },
+  "name": "Torch-Applied Membrane & Fire Watch",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "roofers-and-waterproofers"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "anchor-clip",
+      "bad-regulator",
+      "cylinder-gauge",
+      "cylinder-unchained",
+      "cylinder-valve",
+      "edge-gap-in-rail",
+      "extinguisher",
+      "fumes-into-stairwell",
+      "harness",
+      "hose-crack",
+      "hot-seam-touch",
+      "ir-scan",
+      "lap-line",
+      "log-board",
+      "membrane-roll",
+      "permit-board",
+      "radio",
+      "sandbag-corner",
+      "seam-roller",
+      "torch-valve",
+      "torch-wand"
+    ],
+    "meshes": 162
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the permit: the work area, the fire watch assigned, the extinguisher and fire blanket required, and how long the watch holds after the torch goes out.",
+      "id": "hot-work-permit",
+      "kind": "select",
+      "prompt": "Read the permit: the work area, the fire watch assigned, the extinguisher and fire blanket required, and how long the watch holds after the torch goes out.",
+      "target": "permit-board",
+      "title": "Read the hot work permit before anything is lit",
+      "why": "A torch on a roof deck is hot work under NFPA 51B and 29 CFR 1910.252, and both require a permit before it starts — naming the area, the fire watch, the extinguisher on hand and the post-work watch time, because a smoulder that starts under a seam does not announce itself until the roofer who could still smell propane is long gone."
+    },
+    {
+      "cue": "Check the extinguisher's gauge is in the green and the fire blanket is unrolled and ready at hand, not still strapped in the truck.",
+      "id": "extinguisher-check",
+      "kind": "select",
+      "prompt": "Check the extinguisher's gauge is in the green and the fire blanket is unrolled and ready at hand, not still strapped in the truck.",
+      "target": "extinguisher",
+      "title": "Confirm the extinguisher and the fire blanket",
+      "why": "The permit names an extinguisher at the work; naming one and having one within reach are two different things, and the difference is the ten seconds it takes to run back to the truck while a smoulder that started small gets ahead of you. 29 CFR 1910.252's hot-work rule is written around exactly that gap."
+    },
+    {
+      "cue": "Put the harness on and snug it, then clip the lanyard to the certified roof anchor before working toward the edge.",
+      "id": "harness-on",
+      "itemNames": {
+        "anchor-clip": "lanyard clipped to the roof anchor",
+        "harness": "full-body harness on and snugged"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Harness first — the lanyard clips to the back D-ring of a harness that is already on, not to one still hanging on the rack.",
+      "prompt": "Put the harness on and snug it, then clip the lanyard to the certified roof anchor before working toward the edge.",
+      "targets": [
+        "harness",
+        "anchor-clip"
+      ],
+      "title": "Harness on, then clipped to the roof anchor",
+      "why": "This roof has an open edge on the side the torch cart is headed toward, and 29 CFR 1926.502 makes the anchor, the harness and the connection one system rated to arrest a fall rather than three separate pieces of gear that happen to be worn. Snugged before it is clipped, because a loose harness slides under load exactly where it should not."
+    },
+    {
+      "cue": "Run the propane hose through your hands from the cylinder to the wand, and check the regulator fitting is tight and sound.",
+      "id": "hose-inspect",
+      "itemNames": {
+        "bad-regulator": "a loose, corroded regulator fitting",
+        "hose-crack": "a crack in the propane hose near the torch wand"
+      },
+      "itemNotes": {
+        "bad-regulator": "The regulator's fitting is corroded and sits loose on its threads, which is how a joint the gauge reads fine on today lets go under pressure tomorrow.",
+        "hose-crack": "A hairline crack runs across the hose a hand's width from the torch wand — flexed hot, it is exactly where a hose lets go and turns a controlled flame into a jet fire at the worker's hand."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Run the propane hose through your hands from the cylinder to the wand, and check the regulator fitting is tight and sound.",
+      "targets": [
+        "hose-crack",
+        "bad-regulator"
+      ],
+      "title": "Inspect the hose and regulator before connecting the torch",
+      "why": "A torch's fuel line is inspected before every connection because propane under pressure does not fail politely — a cracked hose or a loose regulator lets go as a jet of burning gas rather than a slow leak, and by the time it is obvious something is wrong the roofer holding the wand is already in the flame's path."
+    },
+    {
+      "cue": "Read the regulator gauge and commit only when it sits in the torch manufacturer's working band.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "REGULATOR — DELIVERY PRESSURE",
+        "missNote": "Off the torch's working band. Adjust the regulator and read it again before the torch is lit on it.",
+        "speed": 0.6
+      },
+      "id": "cylinder-gauge",
+      "kind": "gauge",
+      "prompt": "Read the regulator gauge and commit only when it sits in the torch manufacturer's working band.",
+      "target": "cylinder-gauge",
+      "title": "Read the cylinder's regulator pressure",
+      "why": "The torch's flame is only as controllable as the pressure feeding it — too low and it will not hold a steady weld, too high and it burns hotter and faster than the seam needs, scorching the membrane instead of bonding it. The manufacturer's band on the gauge is what the torch was built to run at, per the manufacturer's manual."
+    },
+    {
+      "cue": "Point the wand away from the stacked cap-sheet rolls, open the valve and light the torch.",
+      "id": "torch-valve",
+      "kind": "turn",
+      "prompt": "Point the wand away from the stacked cap-sheet rolls, open the valve and light the torch.",
+      "target": "torch-valve",
+      "title": "Open the torch valve and light it away from the rolls",
+      "turn": {
+        "axis": "z",
+        "label": "TORCH VALVE",
+        "turns": 0.4
+      },
+      "why": "Lighting the torch pointed at anything is lighting a test flame at that thing, and a stack of bitumen-and-felt cap sheet is fuel that has not been asked to burn yet. NRCA's torch-application practice has the wand pointed at open deck or a metal shield for exactly the moment the valve first opens, before the flame is under control."
+    },
+    {
+      "cue": "Carry the next roll from the stack and unroll it to the chalked lap line, overlapping the course already down.",
+      "drag": {
+        "missNote": "Not on the lap line. Carry the roll all the way out to the chalk mark before letting it go.",
+        "radius": 0.55,
+        "to": "lap-line"
+      },
+      "id": "roll-membrane",
+      "kind": "drag",
+      "prompt": "Carry the next roll from the stack and unroll it to the chalked lap line, overlapping the course already down.",
+      "target": "membrane-roll",
+      "title": "Roll the next cap sheet to the lap line",
+      "why": "The lap line is chalked to the manufacturer's overlap, and rolling short of it leaves a seam with nothing to weld; rolling past it wastes material and throws off every course after it. The roll is carried flat rather than dragged across the torch's own hose, because a roll pulled over a hot fuel line is how the day's work finds its own leak."
+    },
+    {
+      "cue": "Hold the torch moving at a steady pace along the seam — too slow scorches the membrane, too fast leaves a cold weld.",
+      "holdBreakNote": "The sweep broke out of the steady band. Bring the torch back to a steady pace along the seam before it cools.",
+      "id": "torch-pass",
+      "kind": "track",
+      "prompt": "Hold the torch moving at a steady pace along the seam — too slow scorches the membrane, too fast leaves a cold weld.",
+      "seconds": 6,
+      "target": "torch-wand",
+      "title": "Sweep the torch across the seam at a steady pace",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.42,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "TORCH SWEEP SPEED",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "A torch held still even for a second burns through the cap sheet's granules into the felt beneath it, and a torch swept too fast never gets the underside hot enough to bond. The steady middle pace is what the manufacturer's application guide calls a good weld — visible as a small, even bead of melted bitumen squeezing out along the whole lap, not just at the spots where the hand happened to slow down."
+    },
+    {
+      "cue": "Press the roller along the seam right behind the torch and commit the pressure inside the bond band.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "SEAM ROLLER — PRESSURE",
+        "missNote": "Off the bond band. Roll the seam again inside the pressure the manufacturer's guide calls for.",
+        "speed": 0.55
+      },
+      "id": "seam-roller",
+      "kind": "gauge",
+      "prompt": "Press the roller along the seam right behind the torch and commit the pressure inside the bond band.",
+      "target": "seam-roller",
+      "title": "Roll the hot seam to set the bond",
+      "why": "The roller does the work a hand cannot do safely: it presses the still-hot bitumen bead flat and continuous along the whole lap while the seam is still liquid enough to bond, and the pressure band is chosen so it seats the seam without squeezing all the bitumen out from under it. Rolled too light, the lap looks welded and peels the first time it is walked on; rolled too hard, it starves the seam of the bead that was supposed to seal it."
+    },
+    {
+      "cue": "Close the valve, hold the wand clear of the deck while the flame dies out completely, and set it down pointed at open roof.",
+      "holdBreakNote": "The wand was set down before the flame had fully died — hold it clear a moment longer and check it is actually out.",
+      "id": "torch-off",
+      "kind": "hold",
+      "prompt": "Close the valve, hold the wand clear of the deck while the flame dies out completely, and set it down pointed at open roof.",
+      "seconds": 4,
+      "target": "torch-valve",
+      "title": "Purge the torch and set it down cold-end-out",
+      "why": "A torch that is 'off' still has gas in the line until it is purged, and a wand set down still glowing at its tip has started fires by touching a stray scrap of felt nobody was watching. Holding it clear until the flame is fully out, then laying it down pointed at bare deck, is the last thing that happens before anyone's hands are near it again."
+    },
+    {
+      "cue": "Sweep the infrared thermometer along the new seam and the deck either side of it, looking for anything still hot that should not be.",
+      "id": "ir-scan",
+      "kind": "select",
+      "prompt": "Sweep the infrared thermometer along the new seam and the deck either side of it, looking for anything still hot that should not be.",
+      "target": "ir-scan",
+      "title": "Scan the finished course for hidden heat",
+      "why": "A seam that looks cured can still be carrying heat down into the insulation board underneath it, and that is exactly the kind of heat a fire watch is posted to catch before it becomes a smoulder nobody is looking for. The scan is the roofer's own half of that watch, done while the course is still fresh in mind."
+    },
+    {
+      "cue": "Write the hose crack destroyed, the regulator fitting replaced, the course welded, and the fire watch's start and hold-over time into the log.",
+      "id": "fire-watch-log",
+      "kind": "select",
+      "prompt": "Write the hose crack destroyed, the regulator fitting replaced, the course welded, and the fire watch's start and hold-over time into the log.",
+      "target": "log-board",
+      "title": "Log the permit, the finds and the watch time",
+      "why": "The permit is not closed by the torch going quiet — NFPA 51B expects the fire watch to keep watching for a stated time after hot work ends, and the log is where that hold-over time gets written down instead of guessed at by whoever happens to still be on the roof when the crew packs up."
+    },
+    {
+      "cue": "Turn the cylinder's own valve closed and cap the torch fitting before wheeling the cart off the roof.",
+      "id": "cylinder-off",
+      "kind": "turn",
+      "prompt": "Turn the cylinder's own valve closed and cap the torch fitting before wheeling the cart off the roof.",
+      "target": "cylinder-valve",
+      "title": "Shut the cylinder valve and cap the torch",
+      "turn": {
+        "axis": "z",
+        "label": "CYLINDER VALVE",
+        "turns": 0.25
+      },
+      "why": "The torch valve stops the flame; the cylinder valve stops the fuel. Leaving the cylinder open overnight with only the torch valve closed depends on a single seal holding gas back for twelve hours instead of two, and the roofer who closes both is the one whose cart is not the reason the next shift finds a propane smell at the hatch."
+    },
+    {
+      "cue": "Radio the fire watch and the ground crew: the course is welded, the permit is closed, and name the support line.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Radio the fire watch and the ground crew: the course is welded, the permit is closed, and name the support line.",
+      "target": "radio",
+      "title": "Check in with the fire watch and the ground",
+      "why": "Hot work is one of the few jobs on a roof where a second person's whole task is watching the first one's back, and a short check-in when the torch goes cold is what lets the fire watch stand down instead of wondering whether the last hour's smoulder risk is actually over."
+    }
+  ],
+  "supportLine": "Roofers Local 40's member assistance programme, or your contractor's employee assistance line",
+  "tagline": "The hot work permit read and the extinguisher confirmed, harness clipped, the torch and hose inspected, the cylinder read, the torch lit, a cap-sheet roll rolled to the lap line and welded at a steady pace, the seam rolled and checked, the torch purged cold, the deck scanned, the permit closed and the cylinder shut, with a gust threatening a loose corner and smoke reported two floors down along the way",
+  "title": "SmartCiti.X~ Torch-Applied Membrane & Fire Watch VR",
+  "trade": "Roofer running a torch on a modified-bitumen cap sheet, with a dedicated fire watch on deck",
+  "underwater": null,
+  "weather": "wind"
+}

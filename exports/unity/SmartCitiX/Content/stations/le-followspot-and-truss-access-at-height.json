@@ -1,0 +1,364 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "spot-struck-and-safe",
+    "name": "Spot Struck and Safe",
+    "note": "Clipped before the gate opened, the coupler checked, the lamp struck clear of the housing, the beam answered off a crew member's eyes, and the ladder never doubled up"
+  },
+  "category": "Entertainment & Live Events",
+  "certification": "IATSE training trust with ETCP Certified Rigger; ANSI/SAIA A92 mobile elevating work platforms for the scissor lift ride; ANSI/ASSP Z359 fall protection for the tower platform; OSHA 29 CFR 1910.28 duty to have fall protection; NFPA 70E for the followspot's high-voltage igniter",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ETCP",
+        "citedAs": "ETCP",
+        "id": "etcp-certification",
+        "title": "ETCP Certified Rigger (Arena and Theatre) and Certified Entertainment Electrician credentials"
+      },
+      {
+        "body": "union",
+        "citedAs": "IATSE",
+        "id": "iatse-training-trust",
+        "title": "IATSE Training Trust Fund — stagecraft, rigging and entertainment electrical skills training"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 70E",
+        "id": "nfpa-70e",
+        "title": "NFPA 70E — Standard for Electrical Safety in the Workplace"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.28",
+        "id": "osha-1910-28",
+        "title": "29 CFR 1910.28 — Duty to have fall protection and falling object protection"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Entertainment & Live Events",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clipped-first",
+        "name": "Clipped First",
+        "note": "Never off the lift gate before the tower anchor was clipped"
+      },
+      {
+        "id": "beam-answered",
+        "name": "Beam Answered",
+        "note": "The douser hit before the rigger below was blinded a second longer"
+      },
+      {
+        "id": "never-in-the-lamp",
+        "name": "Never in the Lamp",
+        "note": "Never reached into the lamp housing, never rode the lift ungated, never on the truss frame itself"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-climb",
+        "name": "Clean Climb",
+        "note": "No corrections anywhere in the climb or the cue"
+      },
+      {
+        "id": "field-on-the-plot",
+        "name": "Field On The Plot",
+        "note": "Iris field size committed inside the band first time"
+      },
+      {
+        "id": "doors-on-time",
+        "name": "Doors On Time",
+        "note": "Position logged inside 80% of par"
+      }
+    ],
+    "currency": "POINT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ground Hand",
+      "Spot Trainee",
+      "Followspot Operator",
+      "Lead Spot Operator",
+      "Arena Rigging Certified"
+    ],
+    "system": "Spot Tower"
+  },
+  "hazards": {
+    "climb-on-truss-frame": "You climbed out onto the lighting truss frame instead of using the tower's rated walkway. A truss is built to carry fixtures and cable in tension along its chords, not a person's weight applied sideways at a diagonal, and a chord that flexes under a climbing rigger can crack a weld that was never going to be inspected again before the show. The walkway is rated for a person; the truss beside it is not.",
+    "reach-into-lamp-housing": "You reached into the followspot's lamp housing with the unit plugged in. A xenon followspot's igniter pulses tens of thousands of volts into the lamp to strike the arc, and the housing stays live at the igniter's terminals even with the lamp switch off if the unit is not unplugged. The lamp is struck and doused from its own switch, never opened with a hand near the terminals while it has power.",
+    "step-off-unclipped": "You stepped from the lift platform onto the tower walkway before clipping the positioning lanyard to the tower anchor. The gap between a raised platform and a fixed tower is exactly wide enough to fall through, and the lanyard is what keeps that step from being the last thing that goes wrong tonight. It gets clipped from inside the gate, before the gate opens, every time.",
+    "unrated-carabiner": "You clipped your lanyard into the loose carabiner from the bottom of the rigging bag instead of the tower's rated positioning point. A carabiner bought for a coil of rope is not rated for a fall arrest force, and it looks exactly like the rated one until it is the thing between you and the deck. The tower's anchor point is marked and rated; nothing else at height is a substitute for it."
+  },
+  "id": "le-followspot-and-truss-access-at-height",
+  "indoor": "theatre",
+  "interrupts": [
+    {
+      "after": "follow-cue",
+      "alert": "A rigger working a ladder on the deck below has walked into the beam and is shielding their eyes, one hand off the ladder, starting to lose balance.",
+      "cue": "Hit the douser on the yoke — the beam cuts before the rigger loses the other hand.",
+      "delay": 2,
+      "id": "beam-in-crew-eyes",
+      "kind": "Beam sweeps across a rigger's eyes below",
+      "missNote": "The beam stayed on the rigger a second too long; they let go of the ladder to shield their eyes and caught the rail hard on the way back, dropping a wrench to the deck below.",
+      "seconds": 12,
+      "target": "spot-douser",
+      "why": "A followspot's beam is bright enough to flash-blind anyone it crosses at close range, and a rigger on a ladder who throws a hand up to shield their eyes is a rigger with one hand left on the rails. The douser is a separate flag on the yoke from the iris used to shape the beam, built for exactly this — killing the beam in an instant without losing the pan and tilt position underneath it.",
+      "wrongNote": "The douser on the yoke — the iris only changes the beam's size, and the douser is the one control that cuts it dark instantly."
+    },
+    {
+      "after": "coupler-check",
+      "alert": "Another IATSE electrician has started climbing the tower's fixed ladder while you are still on the platform above — the ladder is not rated for two.",
+      "cue": "Call down on the headset radio for them to hold at the base until you are clipped and clear of the ladder.",
+      "delay": 2,
+      "id": "second-climber-on-ladder",
+      "kind": "Second electrician starts up the same fixed ladder",
+      "missNote": "The second electrician kept climbing; the ladder flexed under both of them and the one below jumped clear onto the deck rather than trust the last three rungs.",
+      "seconds": 12,
+      "target": "headset-radio",
+      "why": "A fixed ladder's rungs and rails are sized for one climber's load at a time, and two people on it at once — one above, one starting up — is a fall for whichever one loses their grip first, with the other one in the way of any rescue. The radio reaches the ground faster than a shout down a tower, and it is used the moment a second silhouette starts up rather than after they are already halfway.",
+      "wrongNote": "The headset radio — a shout down a tower this tall does not carry, and the radio reaches the ground crew directly."
+    }
+  ],
+  "lateNotes": {
+    "igniter-switch": "The lamp strikes once the housing is closed and latched — it will not fire with the door open.",
+    "spot-log": "The position is logged once the cue is finished and the lift has you back on the deck — the log is last.",
+    "tower-anchor": "The lanyard clips to the tower anchor once you are standing at the gate with the lift locked level — there is nothing to clip to from the lift basket floor."
+  },
+  "name": "Followspot & Truss Access at Height",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "live-events"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "scissorLift",
+        "count": 1,
+        "kit": "equipment"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bent-guardrail-pin",
+      "cable-cleat",
+      "climb-on-truss-frame",
+      "cracked-coupler",
+      "fall-harness",
+      "follow-cue",
+      "hard-hat",
+      "headset-radio",
+      "igniter-switch",
+      "iris-gauge",
+      "lift-up-control",
+      "reach-into-lamp-housing",
+      "spot-cable",
+      "spot-douser",
+      "spot-log",
+      "spot-position-plot",
+      "step-off-unclipped",
+      "tower-anchor",
+      "unrated-carabiner"
+    ],
+    "meshes": 235
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the plot for tonight's spot positions: which ones are fixed towers with a rated platform, which are truss-hung, and the field size and colour each position calls for the top of the show.",
+      "id": "spot-position-plot",
+      "kind": "select",
+      "prompt": "Read the plot for tonight's spot positions: which ones are fixed towers with a rated platform, which are truss-hung, and the field size and colour each position calls for the top of the show.",
+      "target": "spot-position-plot",
+      "title": "Read the lighting plot: which positions are towered, which are trussed",
+      "why": "A followspot position that looks the same from the floor can be two very different climbs: a fixed tower with a platform and a rated anchor, or a truss position reached from a genie ladder with nothing to clip to until the rigger runs a temporary line. The plot is where that difference is written down, along with the field size and colour the designer wants at curtain, and a spot operator who climbs before reading it is finding out which kind of position they are on the way up rather than on the ground."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Hard hat on for as long as anyone is working overhead, and the fall-arrest harness on and buckled before the lift leaves the deck.",
+      "id": "spot-ppe",
+      "itemNames": {
+        "fall-harness": "fall-arrest harness",
+        "hard-hat": "hard hat"
+      },
+      "kind": "sequence",
+      "prompt": "Hard hat on for as long as anyone is working overhead, and the fall-arrest harness on and buckled before the lift leaves the deck.",
+      "targets": [
+        "hard-hat",
+        "fall-harness"
+      ],
+      "title": "Hard hat and harness on before the lift moves",
+      "why": "The harness has to be on and adjusted on the ground, where both hands are free and a loose strap is easy to see and fix — not at height, balanced on a lift platform with a hand needed for the rail. Hard hats stay on under a rig with people working above, because a dropped tool from a tower a few storeys up is exactly as dangerous to the crew on the floor as it is to the crew that dropped it."
+    },
+    {
+      "cue": "Walk the scissor lift: the guardrails and gate, the scissor pins, the platform controls, the outriggers if it has them.",
+      "id": "lift-inspect",
+      "itemNames": {
+        "bent-guardrail-pin": "bent guardrail pin on the scissor lift's gate"
+      },
+      "itemNotes": {
+        "bent-guardrail-pin": "The scissor lift's entry gate has a bent locking pin that will not seat home — the gate can swing open at height under a shoulder brushing it. It is tagged and a spare lift is called before anyone rides this one up."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the scissor lift: the guardrails and gate, the scissor pins, the platform controls, the outriggers if it has them.",
+      "targets": [
+        "bent-guardrail-pin"
+      ],
+      "title": "Inspect the scissor lift before riding it up",
+      "why": "A mobile elevating work platform is inspected before the shift the same way a car is walked before a drive, because the fault that matters is the one nobody feels until the platform is thirty feet up and the gate is the only thing between the operator and the edge. ANSI/SAIA A92 has the pre-use inspection for exactly this reason, and a bent pin found on the ground is a delay; the same pin found in the air is a fall."
+    },
+    {
+      "cue": "Hold the platform's UP control and ride to the tower's platform height, watching the guardrail clear the truss run beside it as you rise.",
+      "holdBreakNote": "You let go of UP with the platform still moving — a lift that coasts on its own momentum with nobody watching the rail is how a guardrail finds the truss. Take the control again and finish the ride watching the clearance.",
+      "id": "lift-ride",
+      "kind": "hold",
+      "prompt": "Hold the platform's UP control and ride to the tower's platform height, watching the guardrail clear the truss run beside it as you rise.",
+      "seconds": 5,
+      "target": "lift-up-control",
+      "title": "Ride the lift up to the tower platform, watching the rail clear the truss",
+      "why": "The lift's platform passes close to the truss run on its way up, and a guardrail that catches a chord on the way past can rock the platform or shift a fixture the truss is carrying. Riding it up held, with eyes on the clearance rather than on the controller, is how the operator catches a rail about to touch before it does — the same reason a crane operator watches the load and not the joystick."
+    },
+    {
+      "cue": "From inside the lift gate, clip the positioning lanyard to the tower's marked anchor point before the gate is opened to step across.",
+      "id": "positioning-lanyard",
+      "kind": "select",
+      "prompt": "From inside the lift gate, clip the positioning lanyard to the tower's marked anchor point before the gate is opened to step across.",
+      "target": "tower-anchor",
+      "title": "Clip the positioning lanyard to the tower anchor before the gate opens",
+      "why": "The gap between a lift platform and a fixed tower is the one moment in the whole climb where a slip has nothing under it, and the lanyard is rigged to the tower's own rated anchor from inside the gate specifically so the connection exists before the opening does. ANSI/ASSP Z359 governs the connector and the anchor both, and the order — clip, then open the gate — is what keeps the standard from being theoretical."
+    },
+    {
+      "cue": "Look at the coupler holding the outboard guardrail to the tower frame: the jaw, the pin, any crack or bend, before leaning on the rail.",
+      "id": "coupler-check",
+      "itemNames": {
+        "cracked-coupler": "cracked coupler under the walkway rail"
+      },
+      "itemNotes": {
+        "cracked-coupler": "The clamp coupler holding the walkway's outboard rail to the tower has a hairline crack across its jaw — under a full step of weight it could let the rail swing loose. It is tagged out and the rail is worked from the inboard side only until it is swapped."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the coupler holding the outboard guardrail to the tower frame: the jaw, the pin, any crack or bend, before leaning on the rail.",
+      "targets": [
+        "cracked-coupler"
+      ],
+      "title": "Check the coupler the walkway rail hangs from before trusting it",
+      "why": "A followspot operator leans on the outboard rail all night, tracking a performer across the deck, and the rail is only as good as the coupler holding it to the tower. A cracked jaw carries a static lean fine and then lets go under the one sudden shift of weight that happens when someone catches their balance — which is exactly the moment the rail was there for."
+    },
+    {
+      "cue": "With the lamp housing closed and latched, turn the igniter switch to STRIKE and let the arc catch.",
+      "id": "igniter-switch",
+      "kind": "turn",
+      "prompt": "With the lamp housing closed and latched, turn the igniter switch to STRIKE and let the arc catch.",
+      "target": "igniter-switch",
+      "title": "Strike the xenon lamp from its own switch, housing closed",
+      "turn": {
+        "label": "IGNITER",
+        "turns": 1
+      },
+      "why": "A xenon followspot's igniter pulses a very high voltage into the lamp to start the arc, and that pulse is present at the lamp's terminals whenever the unit has power — closed housing or not. The switch is what a hand touches; the terminals never are. Striking it from the switch with the housing latched is the only version of turning a followspot on that keeps the igniter's voltage where it belongs."
+    },
+    {
+      "cue": "Open the iris to the plot's field size for this position and commit the reading.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "IRIS FIELD",
+        "missNote": "Not on the plot's field size — open or close the iris to the plotted figure, not to what looks right from the tower.",
+        "speed": 0.6
+      },
+      "id": "field-size",
+      "kind": "gauge",
+      "prompt": "Open the iris to the plot's field size for this position and commit the reading.",
+      "target": "iris-gauge",
+      "title": "Set the beam's field size to the plot's figure",
+      "why": "The field size is drawn from the same lighting plot the whole rig is built from, and a spot that is wider or narrower than the plot calls for either washes out the surrounding fixtures or misses the performer at the edges of the number. Setting it here, before the number starts, is what makes the first cue match what the designer drew rather than whatever the last operator on this unit left it at."
+    },
+    {
+      "cue": "Pan and tilt to keep the beam centred on the performer's mark as they cross — a beam that drifts off the mark is a spot that just went dark on the one person the audience is watching.",
+      "holdBreakNote": "The beam drifted off the mark — ease back toward centre rather than snapping the yoke, and pick the mark back up.",
+      "id": "follow-cue",
+      "kind": "track",
+      "prompt": "Pan and tilt to keep the beam centred on the performer's mark as they cross — a beam that drifts off the mark is a spot that just went dark on the one person the audience is watching.",
+      "seconds": 6,
+      "target": "follow-cue",
+      "title": "Follow the performer's mark across the deck",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.5,
+        "green": [
+          0.42,
+          0.58
+        ],
+        "label": "ON MARK",
+        "rise": 0.5,
+        "start": 0.5
+      },
+      "why": "A followspot's whole job during a number is staying centred on a moving mark, and the band that counts as 'on' is narrow because an audience notices a spot drifting off a performer's face far sooner than it notices almost anything else on stage. Tracking it live, correcting toward centre rather than snapping to it, is what a trained operator does differently from someone handed the yoke for the first time."
+    },
+    {
+      "cue": "Take up the slack in the followspot's power cable and loop it onto the platform's cleat so no bight hangs free at the rail.",
+      "drag": {
+        "missNote": "Not on the cleat — the loop has to sit over the cleat's horn, not lying loose on the platform deck.",
+        "radius": 0.5,
+        "to": "cable-cleat"
+      },
+      "id": "cable-loop",
+      "kind": "drag",
+      "prompt": "Take up the slack in the followspot's power cable and loop it onto the platform's cleat so no bight hangs free at the rail.",
+      "target": "spot-cable",
+      "title": "Loop the followspot's cable to the platform's strain-relief cleat",
+      "why": "A followspot on a moving yoke pulls its own cable with every pan, and a loop with no strain relief eventually pulls a connector apart mid-cue or leaves a bight hanging where a foot at the rail can catch it. Cleating the slack before the number starts is the same habit as coiling a stage cable — done once, it does not become anyone's problem during the show."
+    },
+    {
+      "cue": "Call the head electrician that your position is struck, focused and clipped in, and check in with the crew after the ladder near-miss.",
+      "id": "spot-checkin",
+      "kind": "select",
+      "prompt": "Call the head electrician that your position is struck, focused and clipped in, and check in with the crew after the ladder near-miss.",
+      "target": "headset-radio",
+      "title": "Check in with the head electrician before doors",
+      "why": "The head electrician's cue-to-cue relies on knowing every spot position is live and correctly focused before the house opens, so the call has to happen before doors rather than be assumed. It is also the crew's own check-in: two people on one fixed ladder at once is the kind of near miss that stays with both of them, and IATSE's practice is to name it on the radio along with the member assistance line, rather than let it pass as a story for later."
+    },
+    {
+      "cue": "Record the field size and colour struck, the cracked coupler tagged out, the bent guardrail pin on the lift, and the ladder near miss.",
+      "id": "spot-log",
+      "kind": "select",
+      "prompt": "Record the field size and colour struck, the cracked coupler tagged out, the bent guardrail pin on the lift, and the ladder near miss.",
+      "target": "spot-log",
+      "title": "Log the position, the coupler and the lift",
+      "why": "The position log is what the next operator on this tower reads before they climb, and it is what the head electrician hands the venue when the coupler needs replacing before the next load-in. A cracked coupler that is not written down is a cracked coupler the next crew finds the hard way, and a log written from the platform, right after the climb, is the tower as it actually is rather than as someone remembers it the next morning."
+    }
+  ],
+  "supportLine": "your IATSE local's member assistance contact, or the employee assistance programme your employer or the local carries",
+  "tagline": "A spot tower before doors: the plot read for which position is towered and which is trussed, hard hat and harness on, the scissor lift's guardrail pin checked, ridden up held to the platform, clipped to the tower anchor before the gate opens, a cracked truss coupler found before any weight goes on the walkway, the xenon lamp struck on its own switch clear of the housing, the beam set to the plot's field size, the cue followed across the deck, a rigger below caught in the beam answered on the douser, a second climber on the same ladder answered before anyone doubles up on it, the cable looped to its cleat, and the position logged",
+  "title": "SmartCiti.X~ Followspot & Truss Access at Height VR",
+  "trade": "IATSE followspot operator, working from a fixed spot tower platform reached by scissor lift, beside a lighting truss run",
+  "underwater": null,
+  "weather": null
+}

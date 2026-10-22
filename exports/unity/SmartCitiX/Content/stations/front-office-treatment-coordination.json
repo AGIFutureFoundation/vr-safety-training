@@ -1,0 +1,437 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "desk-discipline",
+    "name": "Desk Discipline",
+    "note": "A morning at the desk with nothing disclosed that did not have to be and nothing coded from memory"
+  },
+  "category": "Dental & Oral Health",
+  "certification": "HIPAA's Privacy Rule and Security Rule, including the minimum-necessary standard, the requirement for reasonable safeguards at an open counter, and the right of access that sets an outer limit on answering a patient's own records request; the ADA's Code on Dental Procedures and Nomenclature (CDT) as the only source for the procedure code that goes on a claim; the state dental practice act on who may present a treatment plan and who must obtain the informed consent behind it; the American Dental Assistants Association (ADAA) for the administrative and chairside credential path; the federal Truth in Lending Act's disclosure requirements for any in-office financing agreement; OSHA 29 CFR 1910.1030 bloodborne pathogens, which covers front-office staff who handle a contaminated chart or a specimen hand-off; SEIU and UFCW as the unions representing clinic and front-office staff in organised practices",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADA",
+        "citedAs": "CDT",
+        "id": "ada-cdt-code",
+        "title": "The ADA's Code on Dental Procedures and Nomenclature (CDT), the procedure-code set dental claims and pre-authorisations are written in; cited as the body and the code set, never by a code number"
+      },
+      {
+        "body": "ADA",
+        "citedAs": "ADA's",
+        "id": "ada-radiographic-guidance",
+        "title": "American Dental Association and FDA guidance on prescribing dental radiographs"
+      },
+      {
+        "body": "CFPB",
+        "citedAs": "Truth in Lending Act",
+        "id": "cfpb-truth-in-lending",
+        "title": "The Truth in Lending Act as the CFPB describes it — the annual percentage rate and finance charge disclosed in writing before a consumer signs for credit"
+      },
+      {
+        "body": "HHS",
+        "citedAs": "HIPAA",
+        "id": "hipaa-privacy-rule",
+        "title": "HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "state dental board",
+        "citedAs": "dental practice act",
+        "id": "state-dental-board",
+        "title": "The state dental board and its dental practice act: licensure, scope of practice, and the allowable-duties rules for dental assistants and hygienists"
+      },
+      {
+        "body": "union",
+        "citedAs": "UFCW",
+        "id": "ufcw-training",
+        "title": "UFCW member training for retail food, clinic and dental support work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Dental & Oral Health",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "minimum-necessary",
+        "name": "Minimum Necessary",
+        "note": "Nothing disclosed beyond what the caller was entitled to"
+      },
+      {
+        "id": "nothing-guessed",
+        "name": "Nothing Guessed",
+        "note": "No unsafe action anywhere in the morning"
+      },
+      {
+        "id": "honest-estimate",
+        "name": "Honest Estimate",
+        "note": "The estimate committed inside what the breakdown actually supports"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-morning",
+        "name": "Clean Morning",
+        "note": "No corrections anywhere in the morning"
+      },
+      {
+        "id": "held-the-room",
+        "name": "Held The Room",
+        "note": "Every timed hold carried to full duration first time"
+      },
+      {
+        "id": "before-the-hygienist",
+        "name": "Before The Hygienist",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "LEDGER",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Front Desk Trainee",
+      "Scheduling Coordinator",
+      "Insurance Coordinator",
+      "Treatment Coordinator",
+      "Business Office Lead"
+    ],
+    "system": "Front Office Practice"
+  },
+  "hazards": {
+    "guessed-code": "That sticky note is a procedure code somebody wrote down from memory. A code that was not looked up in the ADA's CDT set is a guess submitted on a claim under the practice's own name — it gets the claim denied at best, and at worst it is a misrepresentation of what was done to a patient, which is a fraud exposure rather than a paperwork error.",
+    "lobby-chair": "That is the waiting room, and a treatment plan cannot be discussed there. The people either side of that chair will hear the tooth, the diagnosis and the number, and nothing about a quiet voice changes the fact that the conversation had somewhere private to go and did not go there.",
+    "lobby-screen": "That second workstation is still logged in with the day's schedule on it, angled straight at the waiting room. Every name, every procedure and every balance on that screen is protected health information, and HIPAA's requirement for reasonable safeguards is exactly about a screen like this one — a terminal facing the lobby discloses to everyone who sits down, all day, without anybody choosing to disclose anything.",
+    "pressure-card": "That is the same-day discount card, and it does not belong in this conversation. A financial presentation offers options and a written estimate; an offer that expires if the patient leaves the room is pressure applied to somebody deciding about their own body, and consent given under that is not the informed consent the practice act asks for."
+  },
+  "id": "front-office-treatment-coordination",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "phone-privacy",
+      "alert": "The caller now wants their wife's appointment time and what she is having done — they say they are her husband and they booked it.",
+      "cue": "Check whether there is anything on file that lets you tell them.",
+      "delay": 3,
+      "id": "caller-claims-spouse",
+      "kind": "Unverified caller",
+      "missNote": "The appointment and the procedure went down the phone to somebody whose entitlement was never checked. If the caller was who they said, nothing happened; if they were not, the practice disclosed a diagnosis to a stranger and will never know which of the two it was.",
+      "seconds": 13,
+      "target": "authorization-check",
+      "why": "A family relationship is not by itself authority over somebody else's protected health information, and a voice on a phone is not evidence of a relationship either. What decides it is what is on file — an authorisation, or a personal representative recorded on the chart — and checking that is the whole answer, whether it comes back yes or no.",
+      "wrongNote": "It is the authorisation on file. Not the schedule, not the chart — the question is whether this caller is allowed to be told, and only the file answers it."
+    },
+    {
+      "after": "plan-presentation",
+      "alert": "Another patient has followed you in and is standing in the consultation room doorway, well inside earshot of the plan and the balance.",
+      "cue": "Close the door before another word of this is said.",
+      "delay": 4,
+      "id": "second-patient-in-doorway",
+      "kind": "Privacy breach in progress",
+      "missNote": "The plan, the diagnosis and the balance were all said with somebody else standing in the doorway. The patient in the chair now knows their neighbours heard it, which is the part that follows them, and the practice has no record of a disclosure it never meant to make.",
+      "seconds": 12,
+      "target": "consult-door",
+      "why": "This conversation has a tooth, a diagnosis and a number in it, and the room was chosen so that none of those left it. A door standing open makes the private room exactly as private as the counter, and the fix takes two seconds — lowering your voice and carrying on is choosing to keep disclosing while sounding discreet about it.",
+      "wrongNote": "It is the door. The presentation is not the problem — the problem is that the room has stopped being a room, and nothing else you reach for fixes that."
+    }
+  ],
+  "lateNotes": {
+    "consent-signature": "Not yet. Nothing is signed until the plan has actually been presented and the alternatives — including doing nothing — have been laid out and understood.",
+    "day-sheet": "The morning is not finished. The day sheet is reconciled against what actually happened, at the end, not filled in ahead of it.",
+    "records-envelope": "Hold off. Nothing goes in an envelope until the requester's authorisation has been checked and the request has been logged."
+  },
+  "name": "Front Office & Treatment Coordination",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "dental-careers-unspoken-smiles"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "appointment-card",
+      "authorization-check",
+      "benefit-calculator",
+      "cdt-code-book",
+      "claim-form",
+      "consent-signature",
+      "consult-door",
+      "counter-chart",
+      "day-sheet",
+      "desk-speakerphone",
+      "financing-disclosure",
+      "guessed-code",
+      "huddle-board",
+      "id-verify-panel",
+      "lobby-chair",
+      "lobby-screen",
+      "monitor-arm",
+      "narrative-form",
+      "no-treatment-option",
+      "perio-chart-copy",
+      "plan-board",
+      "pressure-card",
+      "private-phone",
+      "radiograph-attachment",
+      "records-envelope",
+      "records-log",
+      "schedule-slot",
+      "sign-in-sheet",
+      "written-estimate"
+    ],
+    "meshes": 280
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Before the first patient arrives: three things at this desk are telling the waiting room something.",
+      "id": "privacy-sweep",
+      "itemNames": {
+        "counter-chart": "the open chart on the counter",
+        "desk-speakerphone": "the phone left on speaker",
+        "sign-in-sheet": "the sign-in sheet listing names"
+      },
+      "itemNotes": {
+        "counter-chart": "An open chart on a counter faces whoever is standing at it. Turned face-down or closed, it discloses nothing; left open it discloses a diagnosis and a balance to the next person who leans on the counter to sign something.",
+        "desk-speakerphone": "A phone on speaker at an open counter puts the caller's half of the conversation into the waiting room as well as yours. HIPAA's minimum-necessary standard is about what is said; the speaker setting is about how far it carries, and the lobby is well inside that range.",
+        "sign-in-sheet": "A sign-in sheet that accumulates a column of names is a disclosure to every patient who signs below them. A single-line slip, or a sheet with the earlier names covered, gives the practice the same information without handing the morning's patient list to the room."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Before the first patient arrives: three things at this desk are telling the waiting room something.",
+      "targets": [
+        "counter-chart",
+        "sign-in-sheet",
+        "desk-speakerphone"
+      ],
+      "title": "Sweep the counter for what it is disclosing",
+      "why": "A front desk discloses protected health information by default rather than by decision, because it is an open counter in a room full of strangers and everything on it faces outward. HIPAA's requirement is for reasonable safeguards rather than perfection, and the reasonable ones here cost nothing: a chart turned over, a sign-in sheet that does not accumulate, a handset instead of a speaker. Finding them before the morning starts is the only time it is cheap."
+    },
+    {
+      "cue": "Swivel the monitor on its arm until nothing on it can be read from the waiting room.",
+      "id": "screen-swivel",
+      "kind": "turn",
+      "prompt": "Swivel the monitor on its arm until nothing on it can be read from the waiting room.",
+      "target": "monitor-arm",
+      "title": "Turn the screen off the lobby sightline",
+      "turn": {
+        "axis": "y",
+        "label": "SCREEN ANGLE",
+        "turns": 1
+      },
+      "why": "The schedule on this screen is the whole morning's protected health information in one view — names, procedures, balances — and the only thing between it and the waiting room is the angle it is sitting at. A privacy filter helps and an angle helps more; either way this is the safeguard that has to be re-made every time somebody moves the monitor to see it better, which is daily."
+    },
+    {
+      "cue": "Confirm the patient's identity on two identifiers before anything about their care is discussed.",
+      "id": "identity-verify",
+      "kind": "select",
+      "prompt": "Confirm the patient's identity on two identifiers before anything about their care is discussed.",
+      "target": "id-verify-panel",
+      "title": "Verify who you are talking to",
+      "why": "Two identifiers is the floor because names repeat, families share them, and the wrong chart opened confidently is how one patient's history ends up attached to another patient's treatment. It also protects the disclosure itself: everything you are about to say is only allowed to be said to the person it is about, and the verification is the step that establishes that is who is standing there."
+    },
+    {
+      "cue": "Move the call to the handset in the back office and keep it to the minimum necessary.",
+      "holdBreakNote": "You came back out to the counter mid-call. Whatever is said from there is said to the waiting room as well, and the most sensitive part of a call is almost never the beginning.",
+      "id": "phone-privacy",
+      "kind": "hold",
+      "prompt": "Move the call to the handset in the back office and keep it to the minimum necessary.",
+      "seconds": 7,
+      "target": "private-phone",
+      "title": "Take the call away from the counter",
+      "why": "A call at an open counter is a broadcast, and the caller cannot tell you are in a lobby. Moving it to a handset in a room with a door is what makes the minimum-necessary standard achievable at all — and holding the call there for its whole length matters, because the part that carries is always the part at the end where somebody reads a balance out loud to be helpful."
+    },
+    {
+      "cue": "Put the appointment in the provider and operatory column that can actually deliver it.",
+      "drag": {
+        "missNote": "Not in a column that works. An appointment parked in the wrong provider's column is a patient who will arrive on time to nothing.",
+        "radius": 0.36,
+        "to": "schedule-slot"
+      },
+      "id": "schedule-block",
+      "kind": "drag",
+      "prompt": "Put the appointment in the provider and operatory column that can actually deliver it.",
+      "target": "appointment-card",
+      "title": "Block the appointment in the right column",
+      "why": "A scheduled appointment is a promise about a specific chair, a specific provider and a specific length, and one dropped into the wrong column produces a patient sitting in a waiting room while the only person licensed to do their procedure is two rooms away with somebody else. Scheduling is the front office's real clinical function: everything downstream of it inherits whatever it got wrong."
+    },
+    {
+      "cue": "Narrative first, then the radiographs and the periodontal chart, and the form last.",
+      "id": "preauth-packet",
+      "itemNames": {
+        "claim-form": "the pre-authorisation form",
+        "narrative-form": "the clinical narrative",
+        "perio-chart-copy": "the periodontal chart",
+        "radiograph-attachment": "the radiographs"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. The narrative frames what the attachments are evidence of, and the form is completed from both — starting at the form means writing the claim before knowing what supports it.",
+      "prompt": "Narrative first, then the radiographs and the periodontal chart, and the form last.",
+      "targets": [
+        "narrative-form",
+        "radiograph-attachment",
+        "perio-chart-copy",
+        "claim-form"
+      ],
+      "title": "Build the pre-authorisation",
+      "why": "A pre-authorisation is decided by a reviewer who has never seen this patient, so it lives or dies on the narrative explaining why, the images showing it and the chart measuring it — assembled in that order, because the form is filled in from the evidence rather than the evidence gathered to match a form already written. Sending it thin is how a plan the patient has already agreed to comes back denied."
+    },
+    {
+      "cue": "Find the code in the ADA's CDT set for exactly the procedure that was recorded — no more, no less.",
+      "id": "code-lookup",
+      "kind": "select",
+      "prompt": "Find the code in the ADA's CDT set for exactly the procedure that was recorded — no more, no less.",
+      "target": "cdt-code-book",
+      "title": "Look the procedure code up",
+      "why": "Every code on a claim is a statement about what was done to a person, made by the practice, under its own name. The ADA's Code on Dental Procedures and Nomenclature exists so that statement means the same thing to the reviewer as it does to the dentist, and it changes year to year — which is why a code recalled from memory is not a shortcut but a different claim from the one the chart supports."
+    },
+    {
+      "cue": "Work the breakdown — annual maximum, frequency limits, waiting periods — and commit the estimate it supports.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.64
+        ],
+        "label": "PATIENT PORTION",
+        "missNote": "Outside what the breakdown supports. Quoted low, this is the call in six weeks where a patient who trusted the number finds out it was optimistic.",
+        "speed": 0.5
+      },
+      "id": "benefit-estimate",
+      "kind": "gauge",
+      "prompt": "Work the breakdown — annual maximum, frequency limits, waiting periods — and commit the estimate it supports.",
+      "target": "benefit-calculator",
+      "title": "Estimate the patient's portion honestly",
+      "why": "An estimate is the number the patient plans their month around, so the temptation is to quote it low and let the statement correct it later. It cannot be corrected later: the patient made a decision on the number you gave them. Committing inside what the benefit breakdown actually supports — and saying out loud that it is an estimate rather than a guarantee — is the only version of this that survives the explanation of benefits arriving."
+    },
+    {
+      "cue": "In the consultation room, with the door closed — work through the findings, the options and the sequence, and let them keep up.",
+      "holdBreakNote": "You lost the patient's pace. A plan explained past somebody's understanding produces a nod rather than a decision, and a nod is not the consent anybody needs here.",
+      "id": "plan-presentation",
+      "kind": "track",
+      "prompt": "In the consultation room, with the door closed — work through the findings, the options and the sequence, and let them keep up.",
+      "seconds": 8,
+      "target": "plan-board",
+      "title": "Present the plan at the patient's pace",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.44,
+        "green": [
+          0.38,
+          0.62
+        ],
+        "label": "PATIENT'S PACE",
+        "rise": 0.5,
+        "start": 0.14
+      },
+      "why": "A treatment plan presented too fast is a plan that was announced rather than explained, and one delivered too slowly turns into a sales meeting; the band between those is where a patient actually understands what is wrong, what the choices are and what each one involves. What the state dental practice act reserves to the dentist — the diagnosis and the informed consent behind it — is the part the coordinator presents rather than decides."
+    },
+    {
+      "cue": "Confirm the risks, the alternatives and the cost have all been covered — then take the signature.",
+      "id": "informed-consent",
+      "kind": "select",
+      "prompt": "Confirm the risks, the alternatives and the cost have all been covered — then take the signature.",
+      "target": "consent-signature",
+      "title": "Take the informed consent",
+      "why": "Informed consent is the conversation, and the signature is only the evidence that it happened: risks, alternatives including doing nothing, and what it will cost. The state dental practice act decides which parts of that the dentist must deliver personally, and a coordinator's job is to make sure the patient has actually had them rather than to substitute for them."
+    },
+    {
+      "cue": "Three things make this a presentation of options rather than a close. Find all three.",
+      "id": "payment-options",
+      "itemNames": {
+        "financing-disclosure": "the financing disclosure",
+        "no-treatment-option": "the option of not treating today",
+        "written-estimate": "the written estimate"
+      },
+      "itemNotes": {
+        "financing-disclosure": "Any in-office financing agreement carries the federal Truth in Lending Act's disclosure requirements — what the terms are, what it costs — and those are given before signing rather than summarised as monthly payments.",
+        "no-treatment-option": "Declining or deferring treatment is one of the options, and it is presented as one. A patient who leaves knowing what happens if they wait has actually been informed; one who leaves feeling they had no choice has been sold to.",
+        "written-estimate": "The estimate goes home in writing, with the codes and the fees on it, because a number said out loud in a consultation room is a number that will be remembered differently by both people in a fortnight."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things make this a presentation of options rather than a close. Find all three.",
+      "targets": [
+        "written-estimate",
+        "financing-disclosure",
+        "no-treatment-option"
+      ],
+      "title": "Lay out the financial options without leaning on anybody",
+      "why": "A financial conversation in a dental office happens minutes after somebody has been told they need work done, which is exactly when they are least able to push back on pressure. Written figures rather than spoken ones, real disclosure on any credit arrangement, and the deferral option offered out loud are what keep this a decision the patient makes — and they are also what the practice will want on record if the decision is ever questioned."
+    },
+    {
+      "cue": "Check who is entitled to it, log the disclosure, then send it inside the time the right of access allows.",
+      "id": "records-request",
+      "itemNames": {
+        "authorization-check": "the requester's authorisation",
+        "records-envelope": "the records, sent",
+        "records-log": "the disclosure log"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Entitlement is established before anything is copied, the disclosure is logged as it goes out rather than afterwards, and only then does anything leave the building.",
+      "prompt": "Check who is entitled to it, log the disclosure, then send it inside the time the right of access allows.",
+      "targets": [
+        "authorization-check",
+        "records-log",
+        "records-envelope"
+      ],
+      "title": "Answer the records request properly",
+      "why": "A records request is answered in that order because the middle step is the one nobody remembers: a disclosure that was not logged cannot be accounted for afterwards, and an accounting is exactly what a patient is entitled to ask for. HIPAA's right of access also puts an outer limit on how long the practice may take, so a request that sits in a tray until somebody has time is a request that is already running late."
+    },
+    {
+      "cue": "Close the morning out: consents taken, the pre-authorisation sent, the records disclosure logged, payments balanced.",
+      "id": "daysheet-log",
+      "kind": "select",
+      "prompt": "Close the morning out: consents taken, the pre-authorisation sent, the records disclosure logged, payments balanced.",
+      "target": "day-sheet",
+      "title": "Reconcile the day sheet",
+      "why": "The day sheet is what makes a front office auditable — every consent, every claim, every disclosure and every payment against what actually happened rather than what was meant to. It is also the handover: the coordinator on the afternoon shift picks up exactly what this reconciliation leaves them, and the items it quietly omits are the ones that surface a month later with nobody's name on them."
+    },
+    {
+      "cue": "Walk the afternoon's schedule with the assistants and the hygienist, and check in on how the front of the house is holding up.",
+      "id": "team-huddle",
+      "kind": "select",
+      "prompt": "Walk the afternoon's schedule with the assistants and the hygienist, and check in on how the front of the house is holding up.",
+      "target": "huddle-board",
+      "title": "Huddle with the clinical team",
+      "why": "The clinical team cannot see the waiting room and the front desk cannot see the operatories, so the huddle is the only point at which either finds out what the other is about to walk into. It is also the moment to say out loud that the desk has taken three angry calls before ten o'clock — front-office staff absorb that on their own all day, and a huddle that only covers the schedule has decided that part is not work."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Privacy at an open counter and on the phone, a pre-authorisation built on a real code, a plan presented behind a door, payment options without pressure, and a records request answered right",
+  "title": "SmartCiti.X~ Front Office & Treatment Coordination VR",
+  "trade": "Dental front office treatment coordinator",
+  "underwater": null,
+  "weather": null
+}

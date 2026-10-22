@@ -1,0 +1,329 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "golden-hour",
+    "name": "Golden Hour",
+    "note": "Every casualty triaged and tagged inside protocol time"
+  },
+  "category": "Emergency Services",
+  "certification": "IAFF and IAEP fire-based EMS crews; state paramedic licence at the NREMT level; START triage as the regional mass-casualty protocol adopts it, worked inside a NIMS incident command structure; the NFPA 1006 job performance requirements for technical rescue personnel on the collapse; OSHA 29 CFR 1910.1030 bloodborne pathogens for every patient contact",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IAEP",
+        "id": "iaff-training",
+        "title": "IAFF training programmes, including Fire Ground Survival and the peer support model"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 1006",
+        "id": "nfpa-1006",
+        "title": "NFPA 1006 — Technical Rescue Personnel Professional Qualifications"
+      },
+      {
+        "body": "NIMS/ICS",
+        "citedAs": "NIMS",
+        "id": "nims-ics",
+        "title": "NIMS incident command system — the structure a multi-agency response runs inside"
+      },
+      {
+        "body": "NREMT",
+        "citedAs": "NREMT",
+        "id": "nremt-certification",
+        "title": "NREMT national EMS certification at the EMT and Paramedic levels"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Emergency Services",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "sixty-second",
+        "name": "Sixty Second",
+        "note": "Triage every casualty inside protocol time"
+      },
+      {
+        "id": "correct-tags",
+        "name": "Correct Tags",
+        "note": "No casualty mistagged"
+      },
+      {
+        "id": "scene-safe",
+        "name": "Scene Safe",
+        "note": "Never enter the hazard zone unprotected"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "no-second-look",
+        "name": "No Second Look",
+        "note": "Tag every casualty in a single pass"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Hold the airway check the full duration"
+      },
+      {
+        "id": "seven-straight",
+        "name": "Seven Straight",
+        "note": "Seven correct actions in a row"
+      }
+    ],
+    "currency": "TRIAGE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "First Responder",
+      "Triage Trained",
+      "Scene Lead",
+      "Mass Casualty Officer",
+      "Golden Hour Certified"
+    ],
+    "system": "Golden Hour"
+  },
+  "hazards": {
+    "cpr-on-black": "You are starting CPR on a black-tagged casualty. In a mass-casualty START protocol, resources go to the casualties who can be saved with the time you have — sustained resuscitation on the deceased-expectant category costs the salvageable ones their golden hour.",
+    "no-gloves": "You made patient contact with no gloves. Every casualty at a mass-casualty scene is an unknown bloodborne exposure risk until proven otherwise.",
+    "unstable-debris": "That beam is still shifting. Treating a casualty under unstable debris without shoring it first means the next collapse takes the rescuer too — scene safety comes before patient contact.",
+    "walk-past-green": "You walked past a casualty who can walk without tagging them. Green casualties still need a tag — an untagged 'walking wounded' is a casualty who disappears from the count and shows up later as a surprise."
+  },
+  "id": "triage-point",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "tag-yellow",
+      "alert": "The walking wounded you tagged green has sat down against the wall and stopped talking.",
+      "cue": "Green is a tag, not a diagnosis.",
+      "delay": 4,
+      "id": "green-deteriorating",
+      "kind": "Patient deteriorating",
+      "missNote": "They were still against the wall at handoff, by then unresponsive. The tag said green, so the transport officer worked down the line to them last — the tag did exactly what tags do, which is why somebody has to keep looking.",
+      "seconds": 11,
+      "target": "casualty-green",
+      "why": "START triage is a snapshot, and people move between categories — a green who sits down and goes quiet has usually just become a red. Re-triage is not a courtesy, it is the part of the method that makes the first pass safe to act on.",
+      "wrongNote": "It is the casualty you tagged green. A patient who has changed outranks the one you were about to tag."
+    },
+    {
+      "after": "tag-black",
+      "alert": "The beam over the collapsed section has moved. Dust is coming off the debris pile where your next patient is lying.",
+      "cue": "The scene has stopped being stable.",
+      "delay": 3,
+      "id": "debris-shifting",
+      "kind": "Scene deteriorating",
+      "missNote": "You kept working under the shifting beam. It held. Scene safety is the first item in every size-up because it is the one that decides whether there is anybody left to do the other items.",
+      "seconds": 11,
+      "target": "unstable-debris",
+      "why": "Triage happens inside a scene that is still failing. A medic who keeps working a deteriorating collapse becomes a second casualty in the same pile, and the arriving crew now has two problems and one fewer responder.",
+      "wrongNote": "It is the debris. Nothing on this line matters while the thing above your patients is moving."
+    }
+  ],
+  "lateNotes": {
+    "casualty-red": "Not yet — this casualty is assessed and airway-checked as part of the sweep before anything else happens to them."
+  },
+  "name": "Triage Point",
+  "parSeconds": 210,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "first-responders",
+    "situational-awareness"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": null,
+    "hits": [
+      "casualty-black",
+      "casualty-green",
+      "casualty-red",
+      "casualty-yellow",
+      "count-deceased",
+      "count-delayed",
+      "count-immediate",
+      "count-minor",
+      "cpr-on-black",
+      "debris-beam",
+      "debris-pile",
+      "no-gloves",
+      "ppe-station",
+      "red-tag",
+      "scene-board",
+      "shore-strut",
+      "transport-board",
+      "unstable-debris",
+      "walk-past-green"
+    ],
+    "meshes": 146
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the incident board: casualty count, hazards, resources inbound.",
+      "id": "sizeup",
+      "kind": "select",
+      "prompt": "Read the incident board: casualty count, hazards, resources inbound.",
+      "target": "scene-board",
+      "title": "Scene size-up",
+      "why": "You triage four casualties differently from forty. The size-up fixes your pace, tells you how long you are on your own before the next unit arrives, and — because this is a structure collapse — tells you which part of the scene is still moving. It is also the first report into the incident command structure everyone arriving after you will be working inside."
+    },
+    {
+      "cue": "Take gloves and a mask from the station before approaching any casualty.",
+      "id": "ppe",
+      "kind": "select",
+      "prompt": "Take gloves and a mask from the station before approaching any casualty.",
+      "target": "ppe-station",
+      "title": "Glove and mask before contact",
+      "why": "Universal precautions apply to every casualty at every scene, and at a collapse you are going to have both hands on people whose injuries you cannot see yet, in dust, with no sink for the next hour. Gloves go on before the clock on triage starts, because the one moment nobody ever goes back for them is the moment they first see a patient."
+    },
+    {
+      "cue": "Move through the scene once. Assess breathing, pulse, mental status for each casualty you find.",
+      "decoyNotes": {
+        "debris-pile": "That is debris, not a casualty. Do not spend triage time on the scene itself."
+      },
+      "id": "sweep",
+      "itemNames": {
+        "casualty-black": "deceased / expectant casualty",
+        "casualty-green": "walking wounded",
+        "casualty-red": "immediate casualty",
+        "casualty-yellow": "delayed casualty"
+      },
+      "itemNotes": {
+        "casualty-black": "No breathing after the airway is opened — in a mass-casualty START sweep, this casualty is not where your time goes.",
+        "casualty-green": "Walking on their own, minor injuries — still gets tagged, still gets tracked.",
+        "casualty-red": "Not breathing until repositioned, then breathing fast — respiratory distress, immediate category.",
+        "casualty-yellow": "Breathing, has a radial pulse, follows commands but cannot walk — delayed category."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Move through the scene once. Assess breathing, pulse, mental status for each casualty you find.",
+      "targets": [
+        "casualty-red",
+        "casualty-yellow",
+        "casualty-green",
+        "casualty-black"
+      ],
+      "title": "Sweep and assess every casualty",
+      "why": "START is a single fast pass over everybody before you commit to treating anybody, and the discipline is in not stopping. Breathing, perfusion, mental status, move on — thirty seconds a patient. Every minute you spend doing a proper assessment on the first casualty is a minute the fourth one spends bleeding out behind a wall you have not reached yet."
+    },
+    {
+      "cue": "Hold the head-tilt chin-lift and check for breathing.",
+      "holdBreakNote": "You released before confirming the reassessment — hold the airway open for the full check.",
+      "id": "airway-check",
+      "kind": "hold",
+      "prompt": "Hold the head-tilt chin-lift and check for breathing.",
+      "seconds": 8,
+      "target": "casualty-red",
+      "title": "Open the airway and reassess",
+      "why": "Opening the airway is the only treatment START allows you during the sweep, and it is allowed because it is the one that decides a category. A casualty who is not breathing until the airway is opened, and then breathes, is an immediate; one who still does not breathe is expectant. Held for a moment, that distinction is a guess; held for the full window, it is an assessment."
+    },
+    {
+      "cue": "Take a red tag from the pack and attach it to the immediate casualty.",
+      "drag": {
+        "missNote": "Not on the patient. A tag that is not physically attached to a casualty is a decision that only exists inside your own head.",
+        "radius": 0.5,
+        "to": "casualty-red"
+      },
+      "id": "tag-red",
+      "kind": "drag",
+      "prompt": "Take a red tag from the pack and attach it to the immediate casualty.",
+      "target": "red-tag",
+      "title": "Tag immediate",
+      "why": "The tag goes on the patient, not in your pocket and not in your head, because within ten minutes there will be four crews on this scene and none of them were here when you made the decision. Red means treat now and transport first, and it is the tag that carries that decision forward when you have moved on and cannot be asked."
+    },
+    {
+      "cue": "Apply the yellow tag to the delayed casualty.",
+      "id": "tag-yellow",
+      "kind": "select",
+      "prompt": "Apply the yellow tag to the delayed casualty.",
+      "target": "casualty-yellow",
+      "title": "Tag delayed",
+      "why": "Stable enough to wait, not stable enough to walk. Yellow is the category that moves: a delayed patient with an internal bleed becomes an immediate somewhere between now and transport, and the only thing that catches that is somebody going back round the yellows while the reds are being loaded."
+    },
+    {
+      "cue": "Apply the green tag to the walking wounded.",
+      "id": "tag-green",
+      "kind": "select",
+      "prompt": "Apply the green tag to the walking wounded.",
+      "target": "casualty-green",
+      "title": "Tag minor",
+      "why": "Green is a tag and a count, not a discharge. Walking wounded who are never tagged walk off the scene, turn up at three different hospitals under their own steam, and leave the incident commander with a casualty count that will not reconcile — which means hours spent searching a collapsed building for somebody who is already at home."
+    },
+    {
+      "cue": "Apply the black tag once the airway has been opened and there is still no breathing.",
+      "id": "tag-black",
+      "kind": "select",
+      "prompt": "Apply the black tag once the airway has been opened and there is still no breathing.",
+      "target": "casualty-black",
+      "title": "Tag deceased / expectant",
+      "why": "This tag is applied after the airway manoeuvre and never on first sight, because the manoeuvre is what separates an obstructed airway from an arrest. It is also the hardest thing this method asks of anybody: the resources that would go into one resuscitation here are the resources that keep three salvageable casualties alive, and that arithmetic is made now, by protocol, so that nobody has to make it alone."
+    },
+    {
+      "cue": "Wind the strut up under the beam until it takes load, before anybody works underneath it.",
+      "id": "shore",
+      "kind": "turn",
+      "prompt": "Wind the strut up under the beam until it takes load, before anybody works underneath it.",
+      "target": "shore-strut",
+      "title": "Shore the unstable debris",
+      "turn": {
+        "axis": "y",
+        "label": "SHORE STRUT",
+        "turns": 1.25
+      },
+      "why": "The strut is wound up until it is snug and carrying, not hammered in and not left finger-tight — a shore that is not in contact does nothing, and one driven too hard lifts the very thing you are trying to stop moving. Until it takes load, everyone under that beam is relying on the collapse having finished, and the second collapse is the one that takes the rescuers."
+    },
+    {
+      "cue": "Call the counts to the transport officer: immediate first, then delayed, then minor, then deceased.",
+      "id": "handoff",
+      "itemNames": {
+        "count-deceased": "deceased / expectant count",
+        "count-delayed": "delayed count",
+        "count-immediate": "immediate count",
+        "count-minor": "minor count"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Priority order — immediate, delayed, minor, then deceased. The transport officer is allocating units as you talk, so the order you say them in is the order they get planned for.",
+      "prompt": "Call the counts to the transport officer: immediate first, then delayed, then minor, then deceased.",
+      "targets": [
+        "count-immediate",
+        "count-delayed",
+        "count-minor",
+        "count-deceased"
+      ],
+      "title": "Hand off the counts in priority order",
+      "why": "The counts go over in the order they will be moved, because the transport officer is writing them down and allocating ambulances as you speak, and the first number they hear is the one they build the plan around. Reverse the order and the first thing the receiving hospital hears about is your dead. Triage only works if the count reaches whoever is deciding transport, in a shape they can act on."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "START mass-casualty triage: rapid assessment, tagging and the golden hour",
+  "title": "SmartCiti.X~ Triage Point VR",
+  "trade": "EMT / paramedic",
+  "underwater": null,
+  "weather": "overcast"
+}

@@ -1,0 +1,445 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "same-side-of-the-table",
+    "name": "Same Side of the Table",
+    "note": "A defusing run as a defusing — confidentiality stated, nothing promised that could not be kept, and a follow-up on the calendar"
+  },
+  "category": "Emergency Services",
+  "certification": "NFPA 1500's member assistance and behavioural-health programme requirement, applied the way a police or fire department applies it to critical-incident stress; the critical incident stress management model published by the International Critical Incident Stress Foundation — peer support as the first contact, a defusing inside the first hours, a formal debriefing a day to three days out; SAMHSA's trauma-informed care principles and Psychological First Aid (NCTSN and WHO); the Americans with Disabilities Act (ADA) rule that keeps an employer's fitness-for-duty medical inquiry separate from, and confidential from, an employee's support conversation; HIPAA for the records the employee assistance programme's clinician keeps, which the department does not get to read; OSHA's General Duty Clause as the only federal hook a department has on a psychological hazard; NIMS/ICS through FEMA IS-100 for the incident this shift has just come off; the officers' association and FOP contract language establishing the peer-support team and the chaplaincy",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "DOJ",
+        "citedAs": "Americans with Disabilities Act",
+        "id": "ada-title-ii",
+        "title": "Americans with Disabilities Act Title II — programme accessibility for public entities and their services"
+      },
+      {
+        "body": "FEMA",
+        "citedAs": "FEMA IS-100",
+        "id": "fema-is-courses",
+        "title": "FEMA Emergency Management Institute IS-100 and IS-700 independent-study courses in ICS and NIMS"
+      },
+      {
+        "body": "HHS",
+        "citedAs": "HIPAA",
+        "id": "hipaa-privacy-rule",
+        "title": "HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 1500",
+        "id": "nfpa-1500",
+        "title": "NFPA 1500 — Fire Department Occupational Safety, Health and Wellness Program"
+      },
+      {
+        "body": "NIMS/ICS",
+        "citedAs": "ICS",
+        "id": "nims-ics",
+        "title": "NIMS incident command system — the structure a multi-agency response runs inside"
+      },
+      {
+        "body": "NCTSN",
+        "citedAs": "Psychological First Aid",
+        "id": "pfa-field-guide",
+        "title": "Psychological First Aid Field Operations Guide (NCTSN and the National Center for PTSD), and the WHO field guide"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "trauma-informed care",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      },
+      {
+        "body": "WHO",
+        "citedAs": "WHO",
+        "id": "who-guidance",
+        "title": "World Health Organization technical and field guidance for health emergencies and outbreak response"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Emergency Services",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "saw-it-first",
+        "name": "Saw It First",
+        "note": "Every stress sign named before the conversation started"
+      },
+      {
+        "id": "nothing-pushed",
+        "name": "Nothing Pushed",
+        "note": "No unsafe action anywhere in the contact"
+      },
+      {
+        "id": "silence-held",
+        "name": "Silence Held",
+        "note": "The pace and the pause both carried their full count"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "no-corrections",
+        "name": "No Corrections",
+        "note": "No corrections anywhere in the contact"
+      },
+      {
+        "id": "right-window",
+        "name": "Right Window",
+        "note": "The defusing window read inside the band"
+      },
+      {
+        "id": "seven-straight",
+        "name": "Seven Straight",
+        "note": "Seven correct actions in a row"
+      }
+    ],
+    "currency": "TRUST",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Officer",
+      "Peer Support Trained",
+      "Peer Team Member",
+      "Team Coordinator",
+      "CISM Instructor"
+    ],
+    "system": "Peer Contact"
+  },
+  "hazards": {
+    "investigate-the-decisions": "You started asking why they did what they did. Peer support is not the investigation and cannot be allowed to look like it — the moment your questions turn tactical, everything said in this room becomes something the officer has to assume will be repeated, and the conversation is over whether they stay in the chair or not.",
+    "promise-total-secrecy": "You promised that nothing said here ever leaves this room. It is the promise people most want to make and the one that breaks trust hardest, because there are limits — a threat to somebody's life, a disclosure of a crime, a fitness concern — and the officer will find out about them at the worst possible moment.",
+    "report-first": "You pushed the report across the table before anything else. Paperwork first tells the officer what this conversation is actually for, and it is the single fastest way to turn a peer contact into an administrative process they will decline next time and advise everyone else to decline too.",
+    "straight-back-on-patrol": "You put them straight back on the duty board for the rest of the shift. Returning an officer to the street inside hours of a critical incident, with their sleep and concentration where they are right now, is the department deciding a staffing problem matters more than the reason its own behavioural-health programme exists."
+  },
+  "id": "critical-incident-debrief",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "hold-the-pace",
+      "alert": "A supervisor has opened the door and put a report folder on the table — \"I need the statement before end of shift, it'll only take ten minutes.\"",
+      "cue": "The report waits. Say so, and keep the conversation you are in.",
+      "delay": 3,
+      "id": "supervisor-wants-the-report",
+      "kind": "Supervisor interrupting",
+      "missNote": "The folder sat on the table for the rest of the conversation and the officer's answers shortened to nothing. Whatever was said after that was said to the room the report was in, not to you.",
+      "seconds": 12,
+      "target": "defer-the-report",
+      "why": "A statement taken mid-defusing is bad on both counts: the account is given by somebody whose recall is still reorganising itself, and the peer contact it interrupted does not resume. Deferring it is not obstruction — memory for a critical incident is measurably better after a sleep cycle, and every department's own policy says so — but somebody in the room has to say it out loud, and the officer cannot be the one who does.",
+      "wrongNote": "Not the folder itself. The thing that has to happen is telling the supervisor the statement waits — picking it up is agreeing to the interruption."
+    },
+    {
+      "after": "let-it-land",
+      "alert": "\"I'm fine, honestly.\" They have picked their keys up off the table and are half out of the chair.",
+      "cue": "Name what you see. Do not argue, do not block the door.",
+      "delay": 3,
+      "id": "reaching-for-the-keys",
+      "kind": "Officer disengaging",
+      "missNote": "They left. Nothing was named, so the last thing said in that room was \"I'm fine\" — and the next person who offers is going to be told the same thing, faster.",
+      "seconds": 12,
+      "target": "name-what-you-see",
+      "why": "\"I'm fine\" plus a set of keys is not a decision, it is the point where the conversation got close to something. Pushing back on it starts an argument the officer will win by leaving; letting it go ends the contact with nothing. Naming what you can actually observe — the hands, the sentence that stopped, four hours in the same gear — puts the truth in the room without demanding they agree with it, and leaves them the choice to sit back down.",
+      "wrongNote": "Not that. You do not talk them out of leaving and you do not stand in the way — you say plainly what you have been watching for the last twenty minutes, and then you let them decide."
+    }
+  ],
+  "lateNotes": {
+    "fit-for-duty-form": "The fitness-for-duty question belongs after this conversation is closed, and it belongs to the supervisor's authority rather than to yours — asked from inside a peer contact it contaminates both.",
+    "make-the-call": "Nobody at home gets called before the officer has said who to call and what to say. The call made first is the one that arrives as news from a stranger."
+  },
+  "name": "Critical Incident Debrief",
+  "parSeconds": 345,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "first-responders"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "agree-what-to-say",
+      "ask-consent",
+      "ask-what-happened",
+      "ask-what-you-need",
+      "ask-worst-part",
+      "beside-spot",
+      "calendar-72h",
+      "chaplain-card",
+      "confidentiality-card",
+      "defer-the-report",
+      "door-latch",
+      "eap-card",
+      "fit-for-duty-form",
+      "follow-up-card",
+      "incident-clock",
+      "investigate-the-decisions",
+      "let-it-land-point",
+      "make-the-call",
+      "name-what-you-see",
+      "normalise-card",
+      "pace-point",
+      "peer-chair",
+      "peer-log-board",
+      "peer-roster",
+      "promise-total-secrecy",
+      "report-first",
+      "sign-hands-unsteady",
+      "sign-replaying-it",
+      "sign-still-in-gear",
+      "straight-back-on-patrol",
+      "supporter-checkin-board"
+    ],
+    "meshes": 193
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Look at them for a moment. Three things say this shift has not ended for them yet.",
+      "id": "read-the-signs",
+      "itemNames": {
+        "sign-hands-unsteady": "hands still unsteady on the cup",
+        "sign-replaying-it": "replaying it — mid-sentence, then gone",
+        "sign-still-in-gear": "still in full gear four hours on"
+      },
+      "itemNotes": {
+        "sign-hands-unsteady": "Adrenaline outlasts the incident by hours. Unsteady hands this long afterward are physiology, not weakness, and saying so is half of what the next twenty minutes is for.",
+        "sign-replaying-it": "They start a sentence about something else and stop. Intrusive replay is the most common stress reaction there is and the one officers are least likely to mention unprompted.",
+        "sign-still-in-gear": "Nobody has taken the vest off or sat down properly. Staying in gear is staying on the call, and it is a reliable sign the shift has not actually ended for them yet."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at them for a moment. Three things say this shift has not ended for them yet.",
+      "targets": [
+        "sign-hands-unsteady",
+        "sign-replaying-it",
+        "sign-still-in-gear"
+      ],
+      "title": "Read the officer before you say anything",
+      "why": "Peer support starts with observation because the officer will not open with any of it. The physical signs — unsteady hands, an interrupted train of thought, gear still on hours later — are what let you name something concrete instead of asking a question they can answer with \"fine\". Naming what you can actually see is also the only opening that does not require them to admit anything first."
+    },
+    {
+      "cue": "Read the hours since the incident and commit when it lands in the defusing window.",
+      "gauge": {
+        "green": [
+          0.05,
+          0.62
+        ],
+        "label": "SINCE INCIDENT",
+        "missNote": "That is outside the defusing window. Past it, the right intervention is a formal debriefing a day to three days out with the team assembled — committing to the wrong one is not a scheduling error, it is the wrong conversation.",
+        "speed": 0.6
+      },
+      "id": "defusing-window",
+      "kind": "gauge",
+      "prompt": "Read the hours since the incident and commit when it lands in the defusing window.",
+      "target": "incident-clock",
+      "title": "Check the clock — is this a defusing or a debriefing?",
+      "why": "The critical incident stress management model is a sequence of different interventions on a clock, not one conversation available whenever somebody gets round to it. A defusing is a short peer contact in the first hours, while the shift is still in the building. A formal debriefing is a structured group session a day to three days later, with a mental-health professional present. Running one in the other's slot does measurable harm: too early a group session pushes people to disclose before they have processed anything, too late a defusing leaves hours of rumination unaddressed."
+    },
+    {
+      "cue": "Turn the latch. This conversation does not happen in the corridor.",
+      "id": "close-the-door",
+      "kind": "turn",
+      "prompt": "Turn the latch. This conversation does not happen in the corridor.",
+      "target": "door-latch",
+      "title": "Close the door",
+      "turn": {
+        "axis": "y",
+        "label": "DOOR LATCH",
+        "turns": 1
+      },
+      "why": "A confidential conversation held with the door open is not one, and everybody in the building knows it. The closed door is the first physical proof that the rule you are about to state is real, and it removes the audience the officer would otherwise be performing for — which matters, because the version of this an officer gives in front of colleagues is always the shorter, tougher, less useful one."
+    },
+    {
+      "cue": "Bring the chair round beside them — no desk between you.",
+      "drag": {
+        "missNote": "Still across the table. A table between two people is an interview layout, and the officer has already sat through one of those today — bring the chair round to the same side.",
+        "radius": 0.55,
+        "to": "beside-spot"
+      },
+      "id": "sit-beside",
+      "kind": "drag",
+      "prompt": "Bring the chair round beside them — no desk between you.",
+      "target": "peer-chair",
+      "title": "Move your chair to the same side of the table",
+      "why": "Furniture sets the register of a conversation before a word is said. Facing somebody across a table is the geometry of an interview, a performance review and an interrogation, all of which this officer is braced for. Sitting beside them at an angle, at the same height, is the geometry of two colleagues talking, and it also removes the eye contact that makes the hardest parts harder to say."
+    },
+    {
+      "cue": "\"This stays between us. The exceptions are a threat to your life or somebody else's, and a crime — I'd tell you first.\"",
+      "id": "confidentiality-rule",
+      "kind": "select",
+      "prompt": "\"This stays between us. The exceptions are a threat to your life or somebody else's, and a crime — I'd tell you first.\"",
+      "target": "confidentiality-card",
+      "title": "State the confidentiality rule, limits included",
+      "why": "Stating the rule with its limits is what makes it worth anything. An officer who has been told the truth about the boundaries can decide what to say inside them; an officer promised total secrecy has been handed a promise that will be broken, and the day it breaks they stop trusting the programme and tell everybody else to as well. Saying \"I'd tell you first\" is the part that costs nothing and is remembered longest."
+    },
+    {
+      "cue": "Facts first, then the reaction, then what they need. Do not jump ahead.",
+      "id": "defusing-questions",
+      "itemNames": {
+        "ask-what-happened": "\"Walk me through what happened.\"",
+        "ask-what-you-need": "\"What do you need tonight?\"",
+        "ask-worst-part": "\"What was the worst part of it for you?\""
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Facts, then the worst part, then what they need. Opening with what they need gets \"nothing\"; opening with the worst part asks somebody to lead with the thing they are least ready to say.",
+      "prompt": "Facts first, then the reaction, then what they need. Do not jump ahead.",
+      "targets": [
+        "ask-what-happened",
+        "ask-worst-part",
+        "ask-what-you-need"
+      ],
+      "title": "Work the three questions in order",
+      "why": "The three-phase order is the whole method. Starting with the facts gives somebody a version of events they can tell without exposing anything, which settles them enough to answer the second question honestly. \"What was the worst part\" is where the real content lives, and it only lands after the narrative exists. Asking what they need last means the answer is informed by what they have just said rather than being the reflexive \"nothing\" they would have given you at the start."
+    },
+    {
+      "cue": "Keep it in the band — not filling every gap, not leaving them alone in it.",
+      "holdBreakNote": "The pace got away from you — either you filled the gaps or you left them sitting in one. Come back to their tempo and hold it.",
+      "id": "hold-the-pace",
+      "kind": "track",
+      "prompt": "Keep it in the band — not filling every gap, not leaving them alone in it.",
+      "seconds": 7,
+      "target": "pace-point",
+      "title": "Hold the conversation at their pace",
+      "track": {
+        "drift": 0.15,
+        "fall": 0.42,
+        "green": [
+          0.34,
+          0.7
+        ],
+        "label": "PACE",
+        "rise": 0.5,
+        "start": 0.5
+      },
+      "why": "Pace is a live thing and it drifts both ways. Push and the officer gives shorter answers until there is nothing left to work with; go too quiet for too long and the silence stops being room and starts being abandonment. Staying in the band means following their tempo rather than the one your own discomfort would set, and that is the difference between a conversation somebody comes back to and one they close down."
+    },
+    {
+      "cue": "They have just said the worst part. Hold the silence and do not tidy it up.",
+      "holdBreakNote": "You reached for something reassuring. Nothing had gone wrong — the pause was where the next sentence was coming from, and it does not come now.",
+      "id": "let-it-land",
+      "kind": "hold",
+      "prompt": "They have just said the worst part. Hold the silence and do not tidy it up.",
+      "seconds": 9,
+      "target": "let-it-land-point",
+      "title": "Let the hard answer land",
+      "why": "The reflex after somebody says something difficult is to make it smaller — to reassure, to explain, to move on. All of that tells them the thing they just said was too much for the room. Holding the silence says the opposite, and it leaves space for the sentence that usually follows, which is the one that actually matters. There is nothing you need to do in these nine seconds except stay in the chair."
+    },
+    {
+      "cue": "\"Not sleeping, replaying it, snapping at people — that's what this does to everybody. It's not a problem with you.\"",
+      "id": "normalise-the-reaction",
+      "kind": "select",
+      "prompt": "\"Not sleeping, replaying it, snapping at people — that's what this does to everybody. It's not a problem with you.\"",
+      "target": "normalise-card",
+      "title": "Name the reactions as normal reactions",
+      "why": "Most of what frightens an officer in the days after a critical incident is not the incident, it is the suspicion that their own reaction to it means something is wrong with them. Naming intrusive replay, broken sleep and irritability as the ordinary physiology of an extraordinary event removes that second problem entirely, and it is the single most useful sentence in a defusing. It is also true, which is why it works."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Three real options, each with a name and a number. Not \"there's stuff available\".",
+      "id": "name-the-supports",
+      "itemNames": {
+        "chaplain-card": "the chaplain — available, and not only to the religious",
+        "eap-card": "the employee assistance programme — by name and number",
+        "peer-roster": "the peer-support roster — who else has done this"
+      },
+      "kind": "sequence",
+      "prompt": "Three real options, each with a name and a number. Not \"there's stuff available\".",
+      "targets": [
+        "eap-card",
+        "chaplain-card",
+        "peer-roster"
+      ],
+      "title": "Name the supports, specifically",
+      "why": "\"There's support available if you need it\" is a sentence that has never produced a phone call. What produces one is a specific name, a specific number and a specific description of what happens when you use it — including that the employee assistance clinician's records are the clinician's and not the department's. Naming the chaplain matters for the same reason: officers who would not call a counsellor will talk to a chaplain, and the chaplain does not keep a file."
+    },
+    {
+      "cue": "Close the peer conversation first, then hand the duty question to the supervisor where it belongs.",
+      "id": "fit-for-duty-separated",
+      "kind": "select",
+      "prompt": "Close the peer conversation first, then hand the duty question to the supervisor where it belongs.",
+      "target": "fit-for-duty-form",
+      "title": "Take the fitness-for-duty question out of this room",
+      "why": "Whether an officer works tomorrow is an employer's decision made on an employer's process, with its own confidentiality rules and its own paperwork. Asked from inside a peer contact it turns the whole conversation into a screening, and everything the officer said becomes evidence they did not know they were giving. Keeping the two apart — different person, different room, different record — is what lets both of them function."
+    },
+    {
+      "cue": "Ask whether to call, agree what they want said, then make the call.",
+      "id": "family-with-consent",
+      "itemNames": {
+        "agree-what-to-say": "agree what gets said, and what does not",
+        "ask-consent": "ask first — \"do you want anyone called?\"",
+        "make-the-call": "make the call"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Consent, then the wording, then the call. A call placed before the officer has agreed what gets said is a decision made about their family without them.",
+      "prompt": "Ask whether to call, agree what they want said, then make the call.",
+      "targets": [
+        "ask-consent",
+        "agree-what-to-say",
+        "make-the-call"
+      ],
+      "title": "Notify the family, with consent and in their words",
+      "why": "A partner at home who hears about a critical incident from a stranger, or from the news, spends the evening imagining the worst version of it — and the officer comes home to a household already in crisis. Doing it with consent, and with the wording agreed in advance, gives the officer control over one of the very few things still in their control today. Doing it without asking takes that away in the name of helping."
+    },
+    {
+      "cue": "Set the follow-up contact at the seventy-two-hour mark, in writing, before anybody leaves.",
+      "drag": {
+        "missNote": "Not on the calendar. A follow-up that exists only as \"I'll check in on you\" is one that gets remembered on the fourth day, which is a day after the one that matters most.",
+        "radius": 0.5,
+        "to": "calendar-72h"
+      },
+      "id": "follow-up-scheduled",
+      "kind": "drag",
+      "prompt": "Set the follow-up contact at the seventy-two-hour mark, in writing, before anybody leaves.",
+      "target": "follow-up-card",
+      "title": "Put the follow-up on the calendar",
+      "why": "The reactions that need attention usually arrive after the adrenaline clears, two or three days out, which is exactly when everybody has moved on to the next shift. A scheduled contact at that point is the difference between catching that and hearing about it six months later from somebody else. Written down, it also survives the peer supporter being off, on a call, or on leave."
+    },
+    {
+      "cue": "Record the contact, the time and the referrals. No content.",
+      "id": "peer-contact-log",
+      "kind": "select",
+      "prompt": "Record the contact, the time and the referrals. No content.",
+      "target": "peer-log-board",
+      "title": "Log the contact — that it happened, not what was said",
+      "why": "The peer team's log has to prove the programme is working without recording a word of what anybody said, and that tension is the whole design. Contact made, time, interventions offered, follow-up booked: enough for the coordinator to see whether officers are actually being reached and enough for the department to fund it, with nothing in it that an officer would be afraid of. A log with content in it is a log that ends the programme."
+    },
+    {
+      "cue": "You just carried somebody else's worst shift. Book your own contact with the coordinator.",
+      "id": "supporter-check-in",
+      "kind": "select",
+      "prompt": "You just carried somebody else's worst shift. Book your own contact with the coordinator.",
+      "target": "supporter-checkin-board",
+      "title": "Arrange your own check-in before you go home",
+      "why": "Peer supporters absorb the material they are handed, and the team's own rule — the one every critical incident stress programme writes down and most people skip — is that whoever runs a defusing gets one too. Booking it now, out loud, is also the modelling that matters most: an officer who watches the peer supporter use the programme on themselves learns more about whether it is safe to use than any poster in the corridor could tell them."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "The quiet room four hours after: the signs named, the door closed, the rule said out loud, three questions in order — and the fitness-for-duty question kept out of it",
+  "title": "SmartCiti.X~ Critical Incident Debrief VR",
+  "trade": "Police officer — crisis intervention team",
+  "underwater": null,
+  "weather": "overcast"
+}

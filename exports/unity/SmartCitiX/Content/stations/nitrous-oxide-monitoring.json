@@ -1,0 +1,361 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clean-titration",
+    "name": "Clean Titration",
+    "note": "Permit verified, screening clean, and the whole sedation held inside the permit's ceiling"
+  },
+  "category": "Dental & Oral Health",
+  "certification": "The Dental Hygiene Board of California's nitrous oxide-oxygen sedation permit for hygienists, held separately from the hygiene licence, and the scope the state dental practice act sets for it; NIOSH's recommended exposure limit for nitrous oxide of 25 ppm during administration and its scavenging-system guidance; the ADA's guidelines for the use of sedation and general anesthesia; OSHA 29 CFR 1910.1030 bloodborne pathogens for patient contact",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADA",
+        "citedAs": "ADA's",
+        "id": "ada-radiographic-guidance",
+        "title": "American Dental Association and FDA guidance on prescribing dental radiographs"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "state dental board",
+        "citedAs": "dental practice act",
+        "id": "state-dental-board",
+        "title": "The state dental board and its dental practice act: licensure, scope of practice, and the allowable-duties rules for dental assistants and hygienists"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Dental & Oral Health",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "screened-clean",
+        "name": "Screened Clean",
+        "note": "Every contraindication caught before the mask goes on"
+      },
+      {
+        "id": "never-alone",
+        "name": "Never Alone",
+        "note": "No unsafe action anywhere in the run"
+      },
+      {
+        "id": "steady-hand",
+        "name": "Steady Hand",
+        "note": "Titration held close to the plan's target"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "on-permit-time",
+        "name": "On Permit Time",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-sedation",
+        "name": "Clean Sedation",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "five-straight",
+        "name": "Five Straight",
+        "note": "Five correct actions in a row"
+      }
+    ],
+    "currency": "N2O",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Permit Candidate",
+      "Permitted Hygienist",
+      "Sedation Lead",
+      "Board Reviewer",
+      "Sedation Certified"
+    ],
+    "system": "Sedation Practice"
+  },
+  "hazards": {
+    "bypass-fitting": "That quick-connect adapter routes nitrous straight to the mask around the blender's fail-safe. The fail-safe is the one thing standing between a set flow and a patient breathing pure nitrous oxide with no oxygen in the line at all — nothing on this cart is ever plumbed around it.",
+    "ignition-source": "That curing light is switched on next to a mask running oxygen. Oxygen-enriched air makes ordinary ignition sources burn hotter and faster than they do in room air — the mask is off, or the light is off, never both live at once.",
+    "leave-patient": "You reached for the page instead of staying with your patient. A sedated patient is never left alone in the chair — respiratory depression and airway obstruction develop in the minute nobody is watching, which is why this permit requires continuous monitoring, not periodic checks.",
+    "reused-hood": "That nasal hood is still creased from the last patient and was never in the sterilisation tray. A single-use scavenging hood goes in the waste after one patient; reusing it carries saliva and whatever it carried between two people who never consented to sharing it."
+  },
+  "id": "nitrous-oxide-monitoring",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "monitor-hold",
+      "alert": "The scavenging vacuum has gone quiet — it has lost suction, and the mask is no longer pulling exhaled gas away.",
+      "cue": "Check the scavenging connection, not the patient's dial.",
+      "delay": 4,
+      "id": "vacuum-loses-suction",
+      "kind": "Equipment fault",
+      "missNote": "The vacuum stayed off through the rest of the appointment. Every minute after that is a minute the room ran over the recommended exposure limit while the monitoring log still said the scavenging system was in use.",
+      "seconds": 12,
+      "target": "scavenging-hose",
+      "why": "A scavenging system that has lost suction stops protecting the room the instant it happens, and the room's exposure climbs from that second regardless of what the patient's own dial reads. The connection is what you check, because the fix is there, not at the flowmeter.",
+      "wrongNote": "It is the scavenging connection. The patient's dose has not changed — what changed is whether anyone else in the room is still protected from it."
+    },
+    {
+      "after": "recovery",
+      "alert": "The patient has gone quiet, looks nauseated and is slower to answer you than they were a minute ago — this is over-sedation, not calm.",
+      "cue": "Bring the concentration down. Do not wait to see if it passes.",
+      "delay": 3,
+      "id": "patient-oversedated",
+      "kind": "Patient reaction",
+      "missNote": "The concentration stayed where it was while the patient got quieter. Over-sedation does not correct itself, and the standard response — bringing the flow back down without delay — is the entire reason titration is adjustable in the first place.",
+      "seconds": 11,
+      "target": "flow-dial",
+      "why": "Nausea and slowed responsiveness partway through a sedation are the early signs of going deeper than the plan intended, and the correct response is reducing the dose immediately rather than waiting to see whether it resolves on its own. Titration works in both directions, and backing off is not a failure of the plan — it is the plan.",
+      "wrongNote": "It is the flow dial. An over-sedated patient needs less nitrous now, not a different reading recorded about them."
+    }
+  ],
+  "lateNotes": {
+    "discharge-checklist": "Recovery has not run its full course yet. The discharge criteria are checked once the patient has had the required minutes on 100 percent oxygen, not on the way there.",
+    "flow-dial": "Not yet — the mask is not sealed to the patient's face and the scavenging line is not confirmed. Titrating flow into an open room helps nobody and simply raises the ambient reading.",
+    "o2-recovery": "The sedation is still running. Recovery oxygen starts once the nitrous has been turned back down to zero, not before."
+  },
+  "name": "Nitrous Oxide Monitoring",
+  "parSeconds": 260,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "dental-hygiene-unspoken-smiles"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "bypass-fitting",
+      "discharge-checklist",
+      "failsafe-indicator",
+      "flow-dial",
+      "ignition-source",
+      "leave-patient",
+      "nasal-mask",
+      "o2-flush",
+      "o2-recovery",
+      "patient-face",
+      "permit-board",
+      "record-chart",
+      "reused-hood",
+      "room-exhaust",
+      "room-monitor",
+      "scavenging-hose",
+      "screen-copd",
+      "screen-nasal",
+      "screen-pregnancy"
+    ],
+    "meshes": 155
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the wall-mounted nitrous oxide permit and the practice act's scope for it.",
+      "id": "permit-check",
+      "kind": "select",
+      "prompt": "Check the wall-mounted nitrous oxide permit and the practice act's scope for it.",
+      "target": "permit-board",
+      "title": "Verify the permit and today's scope",
+      "why": "The Dental Hygiene Board of California issues this permit separately from the hygiene licence, and the state practice act is what actually authorises a hygienist to administer nitrous oxide-oxygen sedation rather than only monitor it. That authority is confirmed before the first tank valve turns, not assumed because the equipment is sitting there."
+    },
+    {
+      "cue": "Read the chart and look at your patient. Three things rule this sedation out or change it today.",
+      "id": "screening",
+      "itemNames": {
+        "screen-copd": "COPD history on the chart",
+        "screen-nasal": "the patient's blocked nose",
+        "screen-pregnancy": "pregnancy status on the chart"
+      },
+      "itemNotes": {
+        "screen-copd": "A patient who depends on a hypoxic drive to breathe can be pushed into respiratory depression by a gas mix built around adding oxygen, which is exactly what this delivery system does.",
+        "screen-nasal": "A nose that will not pass air makes the whole delivery route pointless before the tank is even opened — nitrous oxide-oxygen sedation is delivered nasally, and a blocked airway defeats it at the mask.",
+        "screen-pregnancy": "First-trimester pregnancy is a relative contraindication the chart has to answer before the mask ever goes on — nitrous oxide is deferred in the first trimester where an alternative exists."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Read the chart and look at your patient. Three things rule this sedation out or change it today.",
+      "targets": [
+        "screen-pregnancy",
+        "screen-copd",
+        "screen-nasal"
+      ],
+      "title": "Screen the patient before the mask goes on",
+      "why": "The screening happens before the equipment does anything, because a contraindication caught after the tanks are running is a contraindication answered by turning everything back off with a patient already part-sedated. Pregnancy, respiratory history and a nose that will not pass air are the three the practice act expects a permitted hygienist to catch every time."
+    },
+    {
+      "cue": "Check the blender's fail-safe indicator — nitrous cannot flow without a minimum oxygen supply behind it.",
+      "id": "failsafe",
+      "kind": "select",
+      "prompt": "Check the blender's fail-safe indicator — nitrous cannot flow without a minimum oxygen supply behind it.",
+      "target": "failsafe-indicator",
+      "title": "Confirm the fail-safe",
+      "why": "The fail-safe is the mechanical guarantee that this machine cannot deliver nitrous oxide without oxygen behind it, even if every dial on the front is turned wrong. Confirming it before use is what makes titration afterward a dosing decision instead of a bet on nothing else on the cart having failed first."
+    },
+    {
+      "cue": "Run the oxygen flush before the mask touches the patient's face.",
+      "id": "o2-flush",
+      "kind": "select",
+      "prompt": "Run the oxygen flush before the mask touches the patient's face.",
+      "target": "o2-flush",
+      "title": "Flush with 100% oxygen",
+      "why": "A flush clears whatever was left in the lines from the last patient and proves oxygen delivery works before nitrous is anywhere in the circuit. Every sedation on this cart starts and ends on oxygen alone — this is the start."
+    },
+    {
+      "cue": "Connect the scavenging hose to the mask, then confirm the room's exhaust is drawing.",
+      "id": "scavenging",
+      "itemNames": {
+        "room-exhaust": "room exhaust",
+        "scavenging-hose": "scavenging hose to the mask"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Scavenging connects to the mask before the room's exhaust is checked — confirming exhaust into a mask that is not yet capturing anything checks the wrong half of the system.",
+      "prompt": "Connect the scavenging hose to the mask, then confirm the room's exhaust is drawing.",
+      "targets": [
+        "scavenging-hose",
+        "room-exhaust"
+      ],
+      "title": "Connect scavenging and confirm the room's exhaust",
+      "why": "The scavenging mask carries the patient's exhaled nitrous oxide away before it becomes the room's air, and NIOSH's own guidance on scavenging is what this connection is built to satisfy. The room exhaust is the second layer behind it — together they are what keeps everyone else in this operatory under the 25 ppm recommended exposure limit for the whole appointment."
+    },
+    {
+      "cue": "Fit the nasal hood to the patient and seat it against the face.",
+      "drag": {
+        "missNote": "Not seated against the face. A gap at the mask is nitrous going into the room, not into the patient.",
+        "radius": 0.35,
+        "to": "patient-face"
+      },
+      "forceClass": "light",
+      "id": "mask-fit",
+      "kind": "drag",
+      "noRobot": true,
+      "prompt": "Fit the nasal hood to the patient and seat it against the face.",
+      "robotNote": "A mask on a patient's face is airway equipment; fitting it belongs to the clinician.",
+      "target": "nasal-mask",
+      "title": "Fit the nasal mask",
+      "why": "A mask that is not sealed against the face leaks nitrous oxide into the room instead of delivering it to the patient — the patient gets an under-dose and the room gets the difference. A proper seal is what makes every reading after this one mean what it says."
+    },
+    {
+      "cue": "Start on 100% oxygen and raise nitrous in the plan's increments — commit inside the effective band.",
+      "gauge": {
+        "green": [
+          0.28,
+          0.5
+        ],
+        "label": "N2O CONCENTRATION",
+        "missNote": "Outside the titration band the plan sets for this patient — bring the flow back and commit inside it.",
+        "speed": 0.55
+      },
+      "id": "titrate",
+      "kind": "gauge",
+      "prompt": "Start on 100% oxygen and raise nitrous in the plan's increments — commit inside the effective band.",
+      "target": "flow-dial",
+      "title": "Titrate nitrous up from oxygen in plan increments",
+      "why": "Titration starts on pure oxygen and climbs in small increments toward the concentration this patient actually needs, never jumping to an estimated dose. Too little leaves an anxious patient still anxious and reaching for the mask themselves; going straight past the effective range for speed is how a sedation ends up needing rescue instead of recovery."
+    },
+    {
+      "cue": "Hold your attention on the patient's face and breathing — do not leave them.",
+      "forceClass": "none",
+      "holdBreakNote": "You looked away before the check was finished. Continuous observation is the entire safety margin on a sedation with no reversal agent in routine use — hold the full watch.",
+      "id": "monitor-hold",
+      "kind": "hold",
+      "noRobot": true,
+      "prompt": "Hold your attention on the patient's face and breathing — do not leave them.",
+      "robotNote": "Staying with a sedated patient is a duty of care, not a task to delegate.",
+      "seconds": 9,
+      "target": "patient-face",
+      "title": "Stay with the patient and watch for response",
+      "why": "A sedated patient is monitored continuously, not glanced at between other tasks, because the signs that a sedation has gone too deep — slowed breathing, a patient who stops answering you — develop over seconds and are missed by anyone who looked away. This permit exists on the premise that somebody is watching the whole time."
+    },
+    {
+      "cue": "Chart the patient's response and the delivered concentration — repeated every five minutes through the appointment.",
+      "id": "record",
+      "kind": "select",
+      "prompt": "Chart the patient's response and the delivered concentration — repeated every five minutes through the appointment.",
+      "target": "record-chart",
+      "title": "Record the response and the concentration",
+      "why": "A response and a concentration written down every five minutes is what turns 'the patient seemed fine' into a record the board, the next hygienist and the patient's own chart can all rely on. It is also how a slow drift into over-sedation gets caught by the numbers before it is caught by anything else."
+    },
+    {
+      "cue": "Hold on the ambient monitor and confirm the reading stays under the recommended limit through the appointment.",
+      "holdBreakNote": "You stopped watching the monitor before the window closed — a creeping reading caught halfway through tells you nothing about whether it kept creeping.",
+      "id": "concentration-hold",
+      "kind": "hold",
+      "prompt": "Hold on the ambient monitor and confirm the reading stays under the recommended limit through the appointment.",
+      "seconds": 6,
+      "target": "room-monitor",
+      "title": "Confirm the room stays under the exposure limit",
+      "why": "NIOSH's recommended exposure limit for nitrous oxide during administration is 25 ppm, and the room monitor is the only thing that proves the scavenging and exhaust are actually holding that line rather than merely being connected. A reading that creeps up mid-appointment means somebody other than the patient is now the one being dosed."
+    },
+    {
+      "cue": "Turn the nitrous supply back to zero — 100% oxygen only — before recovery starts.",
+      "id": "titrate-down",
+      "kind": "turn",
+      "prompt": "Turn the nitrous supply back to zero — 100% oxygen only — before recovery starts.",
+      "target": "flow-dial",
+      "title": "Return to 100% oxygen",
+      "turn": {
+        "axis": "y",
+        "label": "N2O SUPPLY",
+        "turns": 1
+      },
+      "why": "Nitrous comes off before recovery begins, not during it — recovery is measured in minutes on oxygen alone, and that clock has no meaning while nitrous is still in the mix. Turning the dial back is a discrete, deliberate action, not something left to trail off on its own."
+    },
+    {
+      "cue": "Hold the patient on 100% oxygen for the full recovery time the plan requires.",
+      "holdBreakNote": "Recovery oxygen came off early. Diffusion hypoxia is the whole reason this period has a minimum length — cutting it short is cutting out the part that protects the patient.",
+      "id": "recovery",
+      "kind": "hold",
+      "prompt": "Hold the patient on 100% oxygen for the full recovery time the plan requires.",
+      "seconds": 8,
+      "target": "o2-recovery",
+      "title": "Recover on 100% oxygen",
+      "why": "Diffusion hypoxia is what happens when nitrous is stopped and the patient goes straight to room air — nitrous leaves the bloodstream faster than oxygen replaces it and dilutes the oxygen in the lungs on the way out. The minutes of 100% oxygen after the gas is off are what this recovery period exists to prevent, not a formality tacked onto the end."
+    },
+    {
+      "cue": "Confirm the discharge criteria on the checklist before the patient stands.",
+      "id": "discharge",
+      "kind": "select",
+      "prompt": "Confirm the discharge criteria on the checklist before the patient stands.",
+      "target": "discharge-checklist",
+      "title": "Confirm discharge criteria",
+      "why": "A patient who is alert, oriented and steady is the standard this checklist exists to confirm before they leave the chair, not an impression formed from across the room. Standing a patient up on the strength of how they look, ahead of the checklist, is how a steady-seeming patient buckles on the first step off the footrest."
+    }
+  ],
+  "supportLine": "your employer's employee assistance program, which is also where an occupational exposure concern of your own belongs, with the ADHA's member resources behind it",
+  "tagline": "Permit, patient screening, fail-safe and scavenging checks, titration and monitored recovery on a nitrous oxide-oxygen sedation",
+  "title": "SmartCiti.X~ Nitrous Oxide Monitoring VR",
+  "trade": "Dental hygienist",
+  "underwater": null,
+  "weather": null
+}

@@ -1,0 +1,301 @@
+{
+  "app": "trades",
+  "badge": {
+    "id": "clean-recovery",
+    "name": "Clean Recovery",
+    "note": "Every litre of wash water contained and recovered, the substrate cleaned and not cut"
+  },
+  "category": "Surface Prep & Coatings",
+  "certification": "LIUNA — laborers' surface-prep & pressure-washing training; stormwater pollution-prevention BMPs (Clean Water Act NPDES, local stormwater ordinance)",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IUPAT",
+        "id": "iupat-fti",
+        "title": "IUPAT Finishing Trades Institute — industrial painter, glazier and drywall finisher apprenticeship, including lead and containment training"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      }
+    ]
+  },
+  "district": null,
+  "domain": null,
+  "flat": false,
+  "game": null,
+  "hazards": {
+    "downstream-drain": "That drain is outside your berms and it goes to the Bay untreated. Wash water is paint chips, detergent, oil and grit — sending it to a storm drain is a discharge violation, and it's the whole reason the containment gets set before the pump starts.",
+    "ladder-wand": "Running the wand off a ladder. The trigger kicks back at the moment you pull it, and the reaction on a ladder pushes you off the wall. Pressure washing is done from the ground or a platform, never from rungs.",
+    "nozzle-0": "That's the red 0° tip. On stucco and painted trim it doesn't clean, it cuts — a pencil jet at 3,000 psi scores the surface and blows the finish off in strips. It also injects water through skin. It stays on the rack for this job.",
+    "outlet-box": "You just swept the wand across the exterior outlet box. A weatherproof cover is rated for rain, not a pressure jet — water driven into the box makes a live path back up the wand to your hands."
+  },
+  "id": "pressure-washer",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "coverage",
+      "alert": "Vibration from the pump has walked the hose coupling half a turn loose. There's a hiss starting at the fitting every time the unloader spikes.",
+      "cue": "Stop the pass and reseat that coupling before it goes any further.",
+      "delay": 4,
+      "id": "coupling-loosening",
+      "kind": "Coupling working loose under pressure",
+      "missNote": "The pass kept going while the coupling walked another quarter turn loose. It held for this job, but a coupling that starts loosening under vibration does not stop on its own — it lets go on whichever pass finally shakes it the rest of the way.",
+      "seconds": 12,
+      "target": "hose-couplings",
+      "why": "A coupling that lets go at three thousand psi does not leak politely — it whips the hose end hard enough to break skin or teeth, and the ten-second check from the walk-around is not a one-time check, it is a check that has to hold for the whole job while the machine is actually running.",
+      "wrongNote": "It is the hose coupling. A hiss at a fitting under this kind of pressure gets checked immediately, not logged for later."
+    },
+    {
+      "after": "berms",
+      "alert": "A gust off the open bay door just flipped up the downstream corner of the storm drain mat you sealed a few minutes ago.",
+      "cue": "Reseat the mat before the wash pass sends any water its way.",
+      "delay": 3,
+      "id": "drain-mat-lifted",
+      "kind": "Wind lifts the drain mat",
+      "missNote": "The wash pass went ahead with the drain mat's corner still lifted. Wash water carrying paint chips and detergent found that gap and went straight to the storm drain the mat was there to seal in the first place.",
+      "seconds": 12,
+      "target": "storm-drain",
+      "why": "A drain mat only seals the grate while it is actually sitting flat and square on it — a lifted corner is an open drain again, and the whole point of sealing it before the first drop of water hit the wall was to not find out about a gap once the apron is already running.",
+      "wrongNote": "It is the storm drain. A mat that has lifted at the corner is not sealing anything until it is reseated."
+    }
+  ],
+  "lateNotes": {
+    "unloader-valve": "Not yet — the containment, PPE and the walk-around come before the pump is set.",
+    "vac-recovery": "Nothing to recover yet. The wash pass comes first; the vac picks up what it leaves.",
+    "wand-sweep": "Set the nozzle, pressure and standoff before you start the pass — a pass at the wrong settings is damage you have to explain."
+  },
+  "name": "pressure-washer",
+  "parSeconds": 255,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hazmat-environmental"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": null,
+    "hits": [
+      "berm-downstream",
+      "berm-gap",
+      "berm-upstream",
+      "downstream-drain",
+      "drain-mat",
+      "face-shield",
+      "hose-couplings",
+      "job-board",
+      "ladder-wand",
+      "nozzle-0",
+      "nozzle-15",
+      "nozzle-25",
+      "nozzle-rack",
+      "outlet-box",
+      "rubber-boots",
+      "storm-drain",
+      "trigger-lock",
+      "unloader-valve",
+      "vac-recovery",
+      "wand-standoff",
+      "wand-sweep"
+    ],
+    "meshes": 217
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Check substrate, pressure limits and where the wash water is allowed to go.",
+      "id": "workorder",
+      "kind": "select",
+      "prompt": "Check substrate, pressure limits and where the wash water is allowed to go.",
+      "target": "job-board",
+      "title": "Read the job sheet",
+      "why": "The sheet says stucco and painted trim, a 1,500 psi ceiling, and zero discharge to the storm system. Every setting on the machine follows from those three lines — you read them before you touch the pump."
+    },
+    {
+      "cue": "Carry the drain mat from the truck to the storm drain inside the work area.",
+      "drag": {
+        "missNote": "Not over the grate — the mat has to sit square on the drain to seal it.",
+        "radius": 0.4,
+        "to": "storm-drain"
+      },
+      "id": "draincover",
+      "kind": "drag",
+      "prompt": "Carry the drain mat from the truck to the storm drain inside the work area.",
+      "target": "drain-mat",
+      "title": "Seal the storm drain",
+      "why": "The drain inside the apron takes everything that runs across it straight to the Bay. It gets sealed before the first drop of water hits the wall — not after you notice the runoff heading for it."
+    },
+    {
+      "cue": "Roll out the upstream berm first, then the downstream berm to close the pool.",
+      "id": "berms",
+      "itemNames": {
+        "berm-downstream": "downstream berm",
+        "berm-upstream": "upstream berm"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — set the upstream berm first, then close the box on the downstream side.",
+      "prompt": "Roll out the upstream berm first, then the downstream berm to close the pool.",
+      "targets": [
+        "berm-upstream",
+        "berm-downstream"
+      ],
+      "title": "Set the containment berms",
+      "why": "Upstream first stops clean runoff from the slope joining your wash water and doubling what you have to recover. Downstream closes the box. Set the low side first and the water walks around it while you're still rolling out the high side."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Face shield against blow-back, non-slip boots for a wet apron.",
+      "id": "ppe",
+      "itemNames": {
+        "face-shield": "face shield",
+        "rubber-boots": "rubber boots"
+      },
+      "kind": "sequence",
+      "prompt": "Face shield against blow-back, non-slip boots for a wet apron.",
+      "targets": [
+        "face-shield",
+        "rubber-boots"
+      ],
+      "title": "Put on face shield and boots",
+      "why": "Blow-back off stucco carries grit and paint flake at eye height, which is exactly the exposure OSHA 1910.133 requires an ANSI-rated face shield for, and the apron is going to be a sheet of water. Both are on before the pump is, every time."
+    },
+    {
+      "cue": "Check the couplings are seated, the trigger lock works, then pick a tip from the rack.",
+      "id": "walkaround",
+      "itemNames": {
+        "hose-couplings": "hose couplings",
+        "nozzle-rack": "nozzle rack",
+        "trigger-lock": "trigger safety lock"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Couplings and trigger lock before the nozzle — check the machine before you decide how to point it.",
+      "prompt": "Check the couplings are seated, the trigger lock works, then pick a tip from the rack.",
+      "targets": [
+        "hose-couplings",
+        "trigger-lock",
+        "nozzle-rack"
+      ],
+      "title": "Walk around the machine",
+      "why": "A coupling that lets go under pressure whips a hose; a trigger without a working lock fires when the wand's set down. Both are a ten-second check that the whole job depends on."
+    },
+    {
+      "cue": "Take the 25° fan tip for stucco and painted trim.",
+      "id": "nozzle",
+      "kind": "select",
+      "prompt": "Take the 25° fan tip for stucco and painted trim.",
+      "target": "nozzle-25",
+      "title": "Fit the green 25° tip",
+      "why": "A 25° fan spreads the same flow across a stripe wide enough to clean without cutting the trim the IUPAT painters are recoating once this wall is dry. The 15° yellow is for bare concrete; the 0° red is on the rack as a trap, and it stays there."
+    },
+    {
+      "cue": "Dial the pressure into the band for painted stucco.",
+      "gauge": {
+        "green": [
+          0.36,
+          0.52
+        ],
+        "label": "UNLOADER",
+        "missNote": "Off the band for stucco — too low won't lift the grime, too high strips the paint. Reset and dial it in.",
+        "speed": 0.75
+      },
+      "id": "pressure",
+      "kind": "gauge",
+      "prompt": "Dial the pressure into the band for painted stucco.",
+      "target": "unloader-valve",
+      "title": "Set the unloader",
+      "why": "The machine will make 3,000 psi. The wall is rated for half that — the unloader is where you decide the surface gets cleaned rather than stripped."
+    },
+    {
+      "cue": "Bring the tip in to the working distance for this surface and hold it there.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "STANDOFF",
+        "missNote": "Wrong distance — closer than the band scores the surface, further and you're just rinsing. Reset and find the working range.",
+        "speed": 0.7
+      },
+      "id": "standoff",
+      "kind": "gauge",
+      "prompt": "Bring the tip in to the working distance for this surface and hold it there.",
+      "target": "wand-standoff",
+      "title": "Set your standoff",
+      "why": "Distance is the other half of pressure. The same tip at six inches etches stucco and at three feet just wets it — the graded band is the distance that cleans."
+    },
+    {
+      "cue": "Hold the trigger and keep a steady 50% overlap, top to bottom, the full pass.",
+      "holdBreakNote": "Trigger released mid-pass — the overlap collapses and the stripe shows. Pick the pass back up.",
+      "id": "coverage",
+      "kind": "track",
+      "prompt": "Hold the trigger and keep a steady 50% overlap, top to bottom, the full pass.",
+      "seconds": 8,
+      "target": "wand-sweep",
+      "title": "Make the wash pass",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "OVERLAP",
+        "rise": 0.6,
+        "start": 0.1
+      },
+      "why": "Coverage is a rhythm: each stripe half over the last, at a speed the tip can actually lift the grime. Rush and it tiger-stripes; dwell and the fan starts cutting. The gauge reads your overlap — hold it in the band."
+    },
+    {
+      "cue": "Run the vac along the low berm until the pool is gone.",
+      "holdBreakNote": "Vac lifted early — there's still a pool against the berm. Run it until the apron's dry.",
+      "id": "recovery",
+      "kind": "hold",
+      "prompt": "Run the vac along the low berm until the pool is gone.",
+      "seconds": 5,
+      "target": "vac-recovery",
+      "title": "Recover the wash water",
+      "why": "Contained water still isn't disposed of. It goes into the recovery tank for the sanitary connection or the hauler — not left to evaporate the grit onto the apron, and not lifted over the berm."
+    },
+    {
+      "cue": "Check the containment line and click where it failed.",
+      "id": "berm-check",
+      "itemNames": {
+        "berm-gap": "gap in the downstream berm"
+      },
+      "itemNotes": {
+        "berm-gap": "The downstream berm has lifted at the joint and water's been walking under it toward the outside drain. That's the breach the sign-off exists to catch."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the containment line and click where it failed.",
+      "targets": [
+        "berm-gap"
+      ],
+      "title": "Walk the berms before sign-off",
+      "why": "A dry apron inside the box doesn't prove the box held. You walk the berms and look for the track where water got out — that's what's on the discharge log, not what you assumed."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Contained pressure-wash of a painted wall and apron: nozzle, pressure, standoff, coverage, recovery",
+  "title": "Wash-Down Yard",
+  "trade": "Laborer — surface prep",
+  "underwater": null,
+  "weather": null
+}

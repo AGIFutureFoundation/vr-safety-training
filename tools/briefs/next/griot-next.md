@@ -1,0 +1,17 @@
+# GRIOT — next phase brief
+
+Read first: `docs/consoles/memory/GRIOT.md`, `docs/consoles/GRIOT.md`, the GRIOT section of the Crescent brief, `tools/briefs/frontier-brief.md` (shared rules).
+
+## Where it stands (measured on this tree)
+- `tools/gen_npc.mjs` → `WebXR/shared/npc-data.js` (106 KB): 34 characters — 8 Bay World, 8 Sierra Summit, 8 Redwood Reach, 10 for the parishes matched by `site.kind` (`port`, `levee`, `pump-station`, `streetcar-barn`, `rail-yard`, `hospital`, `campus`, `stadium`, `hospitality`, `wetland`); 258 spoken lines, every one re-read verbatim (117 Guide-KB sentences, 96 catalog taglines, 34 verified standards' titles, 11 union notes); 123 hand-offs (68 stations, 22 field lessons, 16 side quests, 17 treasure hints).
+- `WebXR/shared/npc.js`: `grDialogue` (greet / teach with source / hand off), `grRetrieve` (the Guide's tokenizer and BM25 in miniature over one pack), `grAgentAdapter` (agent-protocols shape; refuses unconfigured, speaks a hosted reply only if verbatim), `grMount(world, hooks)` (crew figures ≤ 12 meshes, work → walk → rest loops, animate within 150 m, hide beyond 600 m, G key and a Talk button, a panel whose keys never reach the world). Mounted in Bay World, Summit and Redwood; the parishes call `grMount("parish:<id>", { three, root, sites, groundAt, pos, from, page })`.
+- `tools/check_npc.mjs` (in check_all): 15,308 checks in ~10 s — freshness, verbatim sources, hand-off resolution, placement clear of board/pad/arrival with each world's real ground, 60 s of animation, LOD, the parish hook, 102 deterministic dialogues, the adapter, the bundler order, a 390 × 844 Chromium render (panel 368 px wide, buttons ≥ 36 px).
+- Browser probe (SwiftShader, port 8993): Summit 1280 × 720 and Redwood 390 × 844 — prompt appears at 4 m, G opens the panel with three moves, Ask retrieves or says no-match, typing does not walk, Escape closes. Bay World mounted the same way but not probed in the browser this run (check_bayworld and check_bayworld_game green).
+
+## Do next, in order
+1. **Bay World quest hand-offs.** Bay quests key on programme names, not site ids; map `SIDE_QUESTS[].programmeId` through each site's `programmes` so the 8 Bay characters gain a quest hand-off (today 0 of 16 quest hand-offs are Bay's).
+2. **Parish placement once PARISH lands.** Call `grMount` from `WebXR/parishes/` with `np-data-<parish>.js` sites (kinds above) and give the parish characters lesson / quest / treasure hand-offs from SECONDLINE's data (the generator's `lessonsOf` / `questsOf` tables take a fourth world). Extend `check_npc`'s `MOUNTS` with the parish engine's board and arrival offsets.
+3. **A voice.** Speak the taught line through `shared/voice-assist.js` when the Guide's Voice toggle is on (the Guide already holds the toggle); keep the source line on screen.
+4. **Facing and idle detail.** The figure being spoken to turns to the learner; add a small head turn toward passers-by within 8 m and a tool prop per PPE class (`shared/props.js`) without passing 12 meshes.
+5. **More lines per pack.** Add the station's `why` from `smartcity/js/curricula.js` (the treasure ledger already re-reads it) and the programme chunk's first sentence; keep the Guide KB under its cap (`GD_KB_CAP`) — the packs read the KB, they do not add to it.
+6. **A real endpoint contract.** `docs/npc.md` describing the adapter's request (`{ action: "respond", character, pack, turn }`) and the verbatim-only acceptance, so a Worker can be written against it; nothing contacted until a deployment configures `endpoint` and `model`.

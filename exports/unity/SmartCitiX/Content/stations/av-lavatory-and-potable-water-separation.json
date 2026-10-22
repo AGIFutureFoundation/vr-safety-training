@@ -1,0 +1,416 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "never-crossed",
+    "name": "Never Crossed",
+    "note": "The lavatory and potable services never shared a hose, a nozzle or a cap, start to finish"
+  },
+  "category": "Mobility & Transit",
+  "certification": "IAM and TWU ramp training; FAA 14 CFR Part 121 air carrier servicing requirements; OSHA 29 CFR 1910.1200 hazard communication and 29 CFR 1910.132 personal protective equipment",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IAM",
+        "id": "iam-winpisinger-center",
+        "title": "IAM — the William W. Winpisinger Education and Technology Center's machinist and transportation training"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "TWU",
+        "id": "twu-training",
+        "title": "TWU member training for transit and airline ground operations"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Aviation",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "colour-true",
+        "name": "Colour True",
+        "note": "Never connected a hose to the panel it was not colour-coded for"
+      },
+      {
+        "id": "vented-first",
+        "name": "Vented First",
+        "note": "Never drained the lav tank without the vent open"
+      },
+      {
+        "id": "steady-fill",
+        "name": "Steady Fill Certified",
+        "note": "Held the rinse flow near band centre through the whole rinse"
+      },
+      {
+        "id": "clean-inspection",
+        "name": "Clean Inspection Certified",
+        "note": "Found every defect on both carts, first pass"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-service",
+        "name": "Quick Service",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "sep-streak",
+        "name": "Separation Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "SEP",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ramp Hand",
+      "Lav Qualified",
+      "Potable Qualified",
+      "Lead Service Agent",
+      "Never Crossed Certified"
+    ],
+    "system": "Never Crossed"
+  },
+  "hazards": {
+    "cross-connection-hazard": "That connects the lavatory hose to the potable water panel. A hose that has carried waste has no business anywhere near a system this aircraft's own crew and passengers are going to drink from, and there is no rinse this crew can do in the field that makes that connection acceptable to have happened at all.",
+    "no-ppe-lav-hazard": "You are working the lavatory side without gloves, a face shield and an apron on. This side of the job is a biological and chemical exposure this crew's PPE is specifically matched to, not a generic mess a normal glove is enough for.",
+    "nozzle-ground-contact-hazard": "That lets the nozzle tip touch the ground before connecting it to the panel. Whatever the nozzle picks up off the apron goes straight into the panel it connects to next, and a potable connection has no tolerance at all for what a dropped nozzle can pick up.",
+    "vent-closed-drain-hazard": "That drains the lav tank with the vent valve still closed. A closed vent turns the drain into a sealed system fighting its own pressure, and that pressure has to go somewhere — usually back out through the fitting this crew's hands are right next to."
+  },
+  "id": "av-lavatory-and-potable-water-separation",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "drain-waste",
+      "alert": "The lav hose fitting has started leaking waste at the connection point.",
+      "cue": "Hit the lav stop now, before the leak reaches the apron.",
+      "delay": 5,
+      "id": "fitting-leaks-waste",
+      "kind": "Waste leak",
+      "missNote": "The drain kept running while waste leaked at the fitting. A leak that reaches the apron is a biological spill this crew is now cleaning up in addition to the job they were already doing.",
+      "seconds": 12,
+      "target": "lav-estop",
+      "why": "A leaking fitting under an active drain only gets worse the longer the transfer keeps running, and the flow stops the instant a leak is seen at that fitting rather than waiting to see whether it seals itself back up on its own once the pressure changes.",
+      "wrongNote": "Wrong call for this moment — the fitting leaking waste at the connection is the one thing that needs this drain stopped right now."
+    },
+    {
+      "after": "connect-potable-hose",
+      "alert": "A coworker has walked over holding the lavatory hose, offering to help finish the potable fill with it.",
+      "cue": "Stop and check the hose colour coding before anything connects to this panel.",
+      "delay": 4,
+      "id": "coworker-offers-wrong-hose",
+      "kind": "Cross-connection offered",
+      "missNote": "The wrong hose almost went onto the potable panel because nobody stopped to check the colour first. A coworker's confidence that a hose is the right one is not the same fact as it actually being the right one.",
+      "seconds": 12,
+      "target": "hose-colour-check",
+      "why": "The whole separation this job depends on lives entirely in never once connecting the wrong hose to the wrong panel, and the one defence against a well-meaning mistake is checking the colour coding out loud before anything touches the potable connection, every single time.",
+      "wrongNote": "Wrong call for this moment — the offered hose is the thing that needs checking and refusing before this fill goes anywhere further."
+    }
+  ],
+  "lateNotes": {
+    "lav-cart-body": "The lavatory and potable services are worked as two completely separate jobs on two separate carts, never interleaved with each other's equipment at any point.",
+    "vent-valve": "The vent goes open before the drain valve, not sometime after the tank is already under pressure."
+  },
+  "name": "Lavatory & Potable Water Separation",
+  "parSeconds": 310,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "aviation-maintenance-and-ground"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "regionalJet",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "serviceCart",
+        "count": 2,
+        "kit": "equipment"
+      }
+    ],
+    "error": null,
+    "footprint": 2.9,
+    "hits": [
+      "closing-log",
+      "cracked-lav-hose",
+      "cross-connection-hazard",
+      "damaged-nozzle-cap",
+      "drain-valve",
+      "face-shield-lav",
+      "hose-colour-check",
+      "lav-cart-body",
+      "lav-estop",
+      "lav-nozzle",
+      "lav-panel",
+      "lav-panel-position",
+      "no-ppe-lav-hazard",
+      "nozzle-ground-contact-hazard",
+      "potable-cart-body",
+      "potable-connection-point",
+      "potable-fill-gauge",
+      "potable-nozzle",
+      "potable-panel",
+      "potable-valve-leak",
+      "rinse-control",
+      "service-apron",
+      "service-gloves",
+      "service-plan-board",
+      "sound-potable-hose",
+      "vent-closed-drain-hazard",
+      "vent-valve"
+    ],
+    "meshes": 156
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Gloves, face shield and apron before touching the lav side of this job.",
+      "id": "ppe",
+      "itemNames": {
+        "face-shield-lav": "face shield",
+        "service-apron": "apron",
+        "service-gloves": "gloves"
+      },
+      "kind": "sequence",
+      "prompt": "Gloves, face shield and apron before touching the lav side of this job.",
+      "targets": [
+        "service-gloves",
+        "face-shield-lav",
+        "service-apron"
+      ],
+      "title": "Suit up before either service",
+      "why": "The lav side of this job is a biological and chemical exposure the potable side simply is not, and this crew suits up for the more demanding half of the job before starting either one, rather than starting light and switching gear partway through once the harder half is already underway."
+    },
+    {
+      "cue": "Confirm the waste estimate, the potable fill quantity and which panel is which before staging anything.",
+      "id": "brief",
+      "kind": "select",
+      "prompt": "Confirm the waste estimate, the potable fill quantity and which panel is which before staging anything.",
+      "target": "service-plan-board",
+      "title": "Read the service plan",
+      "why": "The plan is what tells this crew which panel on this specific aircraft is the lav and which is potable before either cart ever gets near it — a crew guessing at that from memory is one assumption away from the entire hazard this job exists to prevent."
+    },
+    {
+      "cue": "Walk the lav cart and the potable cart. Three problems are hiding — find them by looking.",
+      "decoyNotes": {
+        "sound-potable-hose": "The potable hose is intact with no cracking or wear. Nothing to flag there."
+      },
+      "id": "inspect-carts",
+      "itemNames": {
+        "cracked-lav-hose": "cracked lavatory hose",
+        "damaged-nozzle-cap": "damaged nozzle cap",
+        "potable-valve-leak": "leak at the potable valve"
+      },
+      "itemNotes": {
+        "cracked-lav-hose": "A cracked lav hose is a waste leak waiting for the first time this crew charges it under load.",
+        "damaged-nozzle-cap": "A cap that will not seat is a nozzle tip this crew cannot actually keep clean between connections, which defeats the entire point of capping it at all.",
+        "potable-valve-leak": "A leaking potable valve loses clean water pressure before it ever reaches the aircraft, and a leak on this side of the job gets fixed rather than worked around."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the lav cart and the potable cart. Three problems are hiding — find them by looking.",
+      "targets": [
+        "cracked-lav-hose",
+        "potable-valve-leak",
+        "damaged-nozzle-cap"
+      ],
+      "title": "Inspect both carts",
+      "why": "A hose or a cap that looks fine coiled on the cart is not the same thing as one a competent person has actually checked before it connects to an aircraft — a crack, a leak or a bad cap found now costs a swap, and found mid-service costs exactly the kind of contamination this whole job is built to prevent."
+    },
+    {
+      "cue": "Bring the lav cart in to the lavatory panel.",
+      "drag": {
+        "missNote": "Not at the lav panel — bring the cart fully into position before connecting anything.",
+        "radius": 0.5,
+        "to": "lav-panel-position"
+      },
+      "id": "position-lav-cart",
+      "kind": "drag",
+      "prompt": "Bring the lav cart in to the lavatory panel.",
+      "target": "lav-cart-body",
+      "title": "Position the lav cart",
+      "why": "The lav cart only ever works the lavatory panel — bringing it to that panel specifically, and nowhere near the potable side of the aircraft, is the first physical step in a separation this whole job depends on keeping true from the very first move this crew makes."
+    },
+    {
+      "cue": "Confirm this panel is labelled for lavatory service before connecting anything to it.",
+      "id": "verify-lav-panel",
+      "kind": "select",
+      "prompt": "Confirm this panel is labelled for lavatory service before connecting anything to it.",
+      "target": "lav-panel",
+      "title": "Verify the lavatory panel",
+      "why": "The panel's own label is what this crew is actually trusting, not which side of the aircraft it happens to be on or which panel serviced the last aircraft on this stand — checking it every time is what catches the one aircraft where the layout is not the one this crew was already expecting from memory."
+    },
+    {
+      "cue": "Connect the dedicated lavatory nozzle to the verified lav panel.",
+      "id": "connect-lav-hose",
+      "kind": "select",
+      "prompt": "Connect the dedicated lavatory nozzle to the verified lav panel.",
+      "target": "lav-nozzle",
+      "title": "Connect the lav hose",
+      "why": "This nozzle has never touched anything but lavatory panels on any aircraft this cart has ever serviced, and keeping that true for one more connection is the entire reason it gets its own dedicated colour and its own dedicated storage rather than being treated as a fitting any hose on this ramp could stand in for."
+    },
+    {
+      "cue": "Turn the vent valve open before the drain valve moves at all.",
+      "id": "open-vent-valve",
+      "kind": "turn",
+      "prompt": "Turn the vent valve open before the drain valve moves at all.",
+      "target": "vent-valve",
+      "title": "Open the vent valve",
+      "turn": {
+        "axis": "z",
+        "label": "VENT",
+        "turns": 0.35
+      },
+      "why": "The vent is what gives the tank's own pressure somewhere to go as waste leaves it — opened after the drain instead of before, that pressure has already had a chance to push back through the fitting this crew's own hands are right next to, at the exact moment they are least expecting it to move."
+    },
+    {
+      "cue": "Hold the drain valve open through the full transfer to the cart's holding tank.",
+      "holdBreakNote": "Released the drain valve mid-transfer. Hold it open through the whole drain — that is what keeps this from becoming two partial transfers instead of one complete one.",
+      "id": "drain-waste",
+      "kind": "hold",
+      "prompt": "Hold the drain valve open through the full transfer to the cart's holding tank.",
+      "seconds": 6,
+      "target": "drain-valve",
+      "title": "Drain the lav tank",
+      "why": "A drain valve let go partway through is a transfer this crew now has to restart from a tank that is neither empty nor full, and holding it open through the whole cycle is what keeps this job from turning into two incomplete ones stacked on top of each other before the rinse can even start."
+    },
+    {
+      "cue": "Keep the rinse flow inside the band for the whole rinse cycle.",
+      "holdBreakNote": "Rinse flow out of band. Bring it back to steady before finishing the cycle.",
+      "id": "rinse-lav-tank",
+      "kind": "track",
+      "prompt": "Keep the rinse flow inside the band for the whole rinse cycle.",
+      "seconds": 7,
+      "target": "rinse-control",
+      "title": "Rinse the tank",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.4,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "RINSE FLOW",
+        "rise": 0.42,
+        "start": 0.5
+      },
+      "why": "A rinse that surges and drops does not clean the tank evenly, missing whatever sits in the slow spots between surges, and a steady flow is what this crew actually trusts to leave the tank in the state the next flight's own service is expecting to find it in rather than a guess about how thorough the cycle actually was."
+    },
+    {
+      "cue": "Disconnect the lav nozzle without letting it touch the ground, then cap it and close the panel.",
+      "id": "cap-lav-panel",
+      "kind": "select",
+      "prompt": "Disconnect the lav nozzle without letting it touch the ground, then cap it and close the panel.",
+      "target": "lav-nozzle",
+      "title": "Disconnect and cap the lav side",
+      "why": "The nozzle gets capped the instant it is disconnected because a lav nozzle sitting uncapped on the cart between jobs is exactly the kind of exposed tip that ends up touching something it should not — the cart's own frame, the apron, a hand that has not been re-gloved — before its next connection."
+    },
+    {
+      "cue": "Confirm this separate panel is labelled for potable service before the potable cart connects to anything.",
+      "id": "verify-potable-panel",
+      "kind": "select",
+      "prompt": "Confirm this separate panel is labelled for potable service before the potable cart connects to anything.",
+      "target": "potable-panel",
+      "title": "Verify the potable panel",
+      "why": "This is a different panel on a different part of the aircraft, checked the same deliberate way the lav panel was a few minutes ago — the two services never share a verification step any more than they share a hose, a nozzle or a cart."
+    },
+    {
+      "cue": "Carry the dedicated potable nozzle to the verified panel without letting the tip touch anything on the way.",
+      "drag": {
+        "missNote": "Not seated on the potable panel — carry the nozzle fully to the verified connection before releasing it.",
+        "radius": 0.4,
+        "to": "potable-connection-point"
+      },
+      "id": "connect-potable-hose",
+      "kind": "drag",
+      "prompt": "Carry the dedicated potable nozzle to the verified panel without letting the tip touch anything on the way.",
+      "target": "potable-nozzle",
+      "title": "Connect the potable hose",
+      "why": "This nozzle has never touched anything but potable panels, and carrying it deliberately by hand rather than swinging it in loose on the hose is what keeps that true for one more connection, on one more aircraft, without a single exception this crew is willing to make for convenience."
+    },
+    {
+      "cue": "Read the fill gauge and stop only once it is inside the plan's band.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.6
+        ],
+        "label": "POTABLE FILL",
+        "missNote": "Outside the plan's band — confirm the fill quantity before disconnecting.",
+        "speed": 0.6
+      },
+      "id": "fill-potable-tank",
+      "kind": "gauge",
+      "prompt": "Read the fill gauge and stop only once it is inside the plan's band.",
+      "target": "potable-fill-gauge",
+      "title": "Fill to the planned quantity",
+      "why": "The fill quantity is set by the plan for a reason tied to this flight's own passenger load and its own weight and balance, and stopping short or overfilling both hand the aircraft a potable quantity that no longer matches what the plan actually called for on this specific rotation."
+    },
+    {
+      "cue": "Disconnect the potable nozzle without letting it touch the ground, then cap it and close the panel.",
+      "id": "cap-potable-panel",
+      "kind": "select",
+      "prompt": "Disconnect the potable nozzle without letting it touch the ground, then cap it and close the panel.",
+      "target": "potable-nozzle",
+      "title": "Disconnect and cap the potable side",
+      "why": "The same discipline that protected this nozzle on the way in protects it on the way out — capped the instant it disconnects, so the next aircraft it services somewhere else on this ramp gets a tip that has stayed exactly as clean as this one required, with nothing in between the two jobs to change that."
+    },
+    {
+      "cue": "Log the waste volume, the potable fill quantity and both cart checks before signing off.",
+      "id": "closeout-log",
+      "kind": "select",
+      "prompt": "Log the waste volume, the potable fill quantity and both cart checks before signing off.",
+      "target": "closing-log",
+      "title": "Log both services",
+      "why": "The service log is what the next crew and the aircraft's own turnaround record both read — two services that went perfectly but never get logged as the two separate jobs they actually were leaves nothing behind to prove to anyone reading it afterward that the separation actually held the whole way through."
+    }
+  ],
+  "supportLine": "your IAM or TWU local's member assistance programme, or the site's employee assistance line if a close call around the lav cart is what stayed with you",
+  "tagline": "Two services worked on two completely separate carts: the lavatory panel drained and rinsed on its own dedicated equipment, the potable panel filled on its own separate equipment, and neither hose, nozzle or cap ever crossing from one system to the other",
+  "title": "SmartCiti.X~ Lavatory & Potable Water Separation VR",
+  "trade": "Lavatory and potable water service agent — IAM/TWU ramp crew",
+  "underwater": null,
+  "weather": "overcast"
+}

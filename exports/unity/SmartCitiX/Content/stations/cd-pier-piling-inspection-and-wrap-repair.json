@@ -1,0 +1,413 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "read-by-hand",
+    "name": "Read By Hand",
+    "note": "The pile inspected by touch and camera in a marked band, the findings said to the surface as they were found, the wrap fitted to the form"
+  },
+  "category": "Maritime & Ports",
+  "certification": "Pile Drivers apprenticeship under the Carpenters (UBC) International Training Fund; OSHA 29 CFR 1910 Subpart T — 29 CFR 1910.421 pre-dive planning and the briefing, 29 CFR 1910.422 procedures during the dive (communications, hand and power tools), 29 CFR 1910.425 the tended surface-supplied diver and 29 CFR 1910.440 the record of the dive; ADCI consensus standards for underwater inspection and pier work; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; the owner's inspection form and the dive plan hold every measurement and limit",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADCI",
+        "citedAs": "ADCI",
+        "id": "adci-consensus-standards",
+        "title": "Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations"
+      },
+      {
+        "body": "union",
+        "citedAs": "Pile Drivers",
+        "id": "carpenters-ictf",
+        "title": "United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.421",
+        "id": "osha-1910-421",
+        "title": "29 CFR 1910.421 — Pre-dive procedures (emergency aid list, planning and assessment of the dive, hazardous activities nearby, the team briefing, equipment inspection and the warning signal)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.422",
+        "id": "osha-1910-422",
+        "title": "29 CFR 1910.422 — Procedures during the dive (water entry and exit, communications, decompression tables, power tools, termination of the dive)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.423",
+        "id": "osha-1910-423",
+        "title": "29 CFR 1910.423 — Post-dive procedures (the diver's condition, instructions to report symptoms, the recompression chamber and the record of dive)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.425",
+        "id": "osha-1910-425",
+        "title": "29 CFR 1910.425 — Surface-supplied air diving (limits, the tended diver, the standby diver and the reserve breathing gas)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.440",
+        "id": "osha-1910-440",
+        "title": "29 CFR 1910.440 — Recordkeeping for commercial diving (the dive record, decompression procedure assessments and their retention)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910 Subpart T",
+        "id": "osha-1910-subpart-t",
+        "title": "29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 197 Subpart B",
+        "id": "uscg-46-cfr-197-subpart-b",
+        "title": "46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction"
+      }
+    ]
+  },
+  "district": "bay-underwater",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "found-by-touch",
+        "name": "Found By Touch",
+        "note": "The necked section and the split found before the camera pass"
+      },
+      {
+        "id": "to-the-form",
+        "name": "To The Form",
+        "note": "The pit gauge committed inside the form's band first time"
+      },
+      {
+        "id": "line-clear",
+        "name": "Line Clear",
+        "note": "The umbilical never round the pile, never under the fender"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-pile",
+        "name": "Clean Pile",
+        "note": "No corrections from the slate to the check-in"
+      },
+      {
+        "id": "steady-scrape",
+        "name": "Steady Scrape",
+        "note": "The growth cleared in band the whole pass"
+      },
+      {
+        "id": "logged-quick",
+        "name": "Logged Quick",
+        "note": "Log closed inside 80% of par"
+      }
+    ],
+    "currency": "PILE MARKS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Tender",
+      "Diver",
+      "Inspection Diver",
+      "Repair Diver",
+      "Pier Inspection Certified"
+    ],
+    "system": "Pile Watch"
+  },
+  "hazards": {
+    "bare-hand-growth": "You went to tear a clump of growth off the pile with your glove off for a better feel. Barnacle shell cuts like glass and the water on a working pier carries whatever the pier carries; a cut hand in that water is an infection before the dive is over and a diver who cannot grip a tool for the rest of the job. Growth comes off with the scraper, and the hand that reads the pile afterward stays gloved.",
+    "jet-at-suit": "You turned the water jet toward your own leg to knock silt off your suit. A cleaning jet at working pressure cuts a drysuit and the skin under it faster than you can move your hand away, and a jet turned toward another diver does the same to them. The jet points at the pile and only at the pile, and it is off, not just pointed away, whenever it is not cleaning.",
+    "umbilical-round-pile": "You started to walk round the pile to reach its far face, taking your umbilical with you. One turn round a pile is a foul the tender cannot pull out and a diver who cannot be hauled if anything goes wrong; two turns and the diver is anchored to the pile. The far face is reached by coming back the way you came and going round the other way, or by asking the surface to reposition the stage — never by circling.",
+    "under-the-fender": "You went to work the pile under the floating fender log where it is pinned between the two piles. A fender rises and drops with every wake and every swell, and a diver under it when it comes down is crushed against the pile with no room to move. The fender is worked from below only after it has been lashed off from the surface, or the pile beside it is left for a calmer day."
+  },
+  "id": "cd-pier-piling-inspection-and-wrap-repair",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "clear-growth",
+      "alert": "A wake has set the floating fender log between the piles surging — it is rising and dropping against the pile beside you, and your umbilical runs under it.",
+      "cue": "Call the surface to hold, move out from between the piles to the downline side, and have the tender take your umbilical in clear of the fender.",
+      "delay": 2,
+      "id": "fender-surge",
+      "kind": "Floating fender surging between the piles",
+      "missNote": "The fender came down on the umbilical where it lay across the pile's foot; the tender felt the snatch and the supervisor stopped the dive until the fender was lashed from the surface.",
+      "seconds": 14,
+      "target": "surface-hold",
+      "why": "A fender that surges is a hammer between two anvils, and a diver or an umbilical between it and a pile is what it hits. The diver does not try to hold it or work under it; the surface is told, the diver moves to the open side where the downline is, and the tender takes the umbilical up out of the fender's reach. Then the surface decides whether the fender is lashed off before the pile is finished.",
+      "wrongNote": "Call the surface to hold and move out from between the piles — the fender is not yours to fight."
+    },
+    {
+      "after": "video-pass",
+      "alert": "The supervisor calls: a small craft is coming in along the pier face and has not answered the radio — 'leave the pile, go to the downline and hold at the stage.'",
+      "cue": "Acknowledge the recall, move to the downline and hold at the stage until the surface clears you back to the pile.",
+      "delay": 2,
+      "id": "craft-recall",
+      "kind": "Surface recall — small craft approaching the pier",
+      "missNote": "The diver stayed on the pile through the recall; the craft crossed over the site and the supervisor brought the diver up on the umbilical from the wrong pile with the camera still recording.",
+      "seconds": 14,
+      "target": "downline",
+      "why": "The dive flag and the pier's notices mean nothing to a boat that has not seen them, and a propeller over a diver's pile is a hazard the diver cannot see coming. The recall is answered at once: the diver acknowledges, goes to the downline where the tender knows exactly where they are, and holds at the stage where they can be brought up if the craft comes closer. The pile waits; the surface clears the diver back when the craft is gone.",
+      "wrongNote": "The downline — acknowledge the recall and go to the stage until the surface clears you."
+    }
+  ],
+  "lateNotes": {
+    "comms-mic": "The findings are dictated once the pile has been read by hand, camera and gauge.",
+    "jacket-half": "The jacket goes on once the wrap zone is brushed and flushed.",
+    "surface-log": "The log is closed once the wrap is photographed with its plate."
+  },
+  "name": "Pier Piling Inspection & Wrap Repair",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "commercial-diving-and-scientific-scuba"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "banding-tool",
+      "bare-hand-growth",
+      "comms-mic",
+      "downline",
+      "grout-hose",
+      "grout-port",
+      "helmet-camera",
+      "id-plate",
+      "inspection-slate",
+      "jacket-half",
+      "jacket-seam",
+      "jet-at-suit",
+      "necked-section",
+      "pit-gauge",
+      "prep-brush",
+      "scraper",
+      "split-shell",
+      "surface-hold",
+      "surface-log",
+      "team-board",
+      "umbilical-round-pile",
+      "under-the-fender",
+      "water-jet",
+      "wrap-zone"
+    ],
+    "meshes": 156
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "At the pile, read your slate: which pile this is, where the inspection band is marked, what the form wants recorded and what the surface will say when the band is done.",
+      "id": "pile-brief",
+      "kind": "select",
+      "prompt": "At the pile, read your slate: which pile this is, where the inspection band is marked, what the form wants recorded and what the surface will say when the band is done.",
+      "target": "inspection-slate",
+      "title": "Read the inspection plan on the slate",
+      "why": "An inspection that is not planned pile by pile produces a stack of findings nobody can put back on a drawing. The slate carries the pile's identity from the owner's form and the band the plan marks, so that what the diver finds by hand is written against the right pile, and the surface knows exactly where the diver is when the next pile is called. 29 CFR 1910.421 has the dive planned and briefed before the water; the slate is that plan in the diver's hand."
+    },
+    {
+      "cue": "Scrape the growth off the marked band round the pile in steady strokes — firm enough to take the growth, never so hard the scraper gouges the pile's face.",
+      "holdBreakNote": "The scraping went out of band — growth staying on or the face being gouged. Steady strokes, firm and no more.",
+      "id": "clear-growth",
+      "kind": "track",
+      "prompt": "Scrape the growth off the marked band round the pile in steady strokes — firm enough to take the growth, never so hard the scraper gouges the pile's face.",
+      "seconds": 6,
+      "target": "scraper",
+      "title": "Clear the growth from the inspection band with the scraper",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "SCRAPE",
+        "rise": 0.56,
+        "start": 0.12
+      },
+      "why": "The pile cannot be read through its growth, and the growth comes off with a scraper, not with a hand or a hammer. Too soft and the shell stays and the inspection sees nothing; too hard and the scraper cuts into the concrete or timber and makes a defect where there was none, which the next inspection will record as deterioration. The band is cleared in a steady pass so what the hand reads next is the pile itself."
+    },
+    {
+      "cue": "With both gloved hands, feel round the whole band: the pile's diameter against the one above, any softness, splits, exposed steel or hollow sound when tapped.",
+      "id": "tactile-inspect",
+      "itemNames": {
+        "necked-section": "necked section where the pile has lost material",
+        "split-shell": "vertical split in the pile's face"
+      },
+      "itemNotes": {
+        "necked-section": "The pile is narrower under your hands than above and below — a band of section loss where the concrete or timber has been eaten away at the level the water works hardest.",
+        "split-shell": "A vertical split runs up the face under the growth, wide enough to take a fingertip. It was not in the last inspection's record."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "With both gloved hands, feel round the whole band: the pile's diameter against the one above, any softness, splits, exposed steel or hollow sound when tapped.",
+      "targets": [
+        "necked-section",
+        "split-shell"
+      ],
+      "title": "Read the cleared band by hand",
+      "why": "In the water the diver's hands find what the camera misses: a loss of section reads as a narrowing under the palms long before it shows on video, and a split under a skin of growth is a fingertip's width. The tactile pass goes first because it tells the diver where to point the camera and the gauge, and because a defect found by hand and confirmed by camera is a record with two witnesses."
+    },
+    {
+      "cue": "Bring the helmet camera onto the cleared band and hold it steady, working slowly round the pile, while the supervisor confirms the picture and records.",
+      "holdBreakNote": "The camera came off the band — the surface lost the picture. Bring it back and hold it steady.",
+      "id": "video-pass",
+      "kind": "hold",
+      "prompt": "Bring the helmet camera onto the cleared band and hold it steady, working slowly round the pile, while the supervisor confirms the picture and records.",
+      "seconds": 5,
+      "target": "helmet-camera",
+      "title": "Hold the camera on the band while the surface records",
+      "why": "The surface sees what the camera sees and nothing else, and a camera that sweeps past a defect gives the record a blur. The diver holds it on the band and turns slowly while the supervisor calls 'recording' and 'clear', because the video is what the engineer reads later and what the owner's form cites; a defect the diver felt but the camera never settled on is a finding without a picture."
+    },
+    {
+      "cue": "Set the pit gauge across the necked section and commit when the reading sits in the class the form describes for this pile — not more, not less.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.62
+        ],
+        "label": "SECTION LOSS vs FORM",
+        "missNote": "Outside the band — set the gauge square across the necked section and read it to the form's class.",
+        "speed": 0.66
+      },
+      "id": "measure-band",
+      "kind": "gauge",
+      "prompt": "Set the pit gauge across the necked section and commit when the reading sits in the class the form describes for this pile — not more, not less.",
+      "target": "pit-gauge",
+      "title": "Gauge the section loss against the inspection form",
+      "why": "The owner's form sorts what a diver finds into classes, and the class decides whether the pile is wrapped today, scheduled or left; that decision is made from the gauge, not from a diver's impression of how bad it looks in green water. The gauge is read against the form's own description so that the same pile inspected by two divers a year apart gets the same class, and a change in class means a change in the pile."
+    },
+    {
+      "cue": "On comms, pile by pile as the form wants it: the pile number, the band cleared, the necked section and its class, the split and where it runs, and that the video is taken.",
+      "id": "dictate-findings",
+      "kind": "select",
+      "prompt": "On comms, pile by pile as the form wants it: the pile number, the band cleared, the necked section and its class, the split and where it runs, and that the video is taken.",
+      "target": "comms-mic",
+      "title": "Dictate the findings to the surface log",
+      "why": "The surface log is written from the diver's words as they are said, because a diver's memory of six piles at the end of a dive is not a record. 29 CFR 1910.422 has the diver in continuous communication with the surface, and the inspection uses that channel for the findings so the supervisor writes them against the pile number while the diver's hand is still on the defect; a finding said late is a finding on the wrong pile."
+    },
+    {
+      "cue": "Wire-brush the whole wrap zone above and below the defect to a clean surface, then flush it with the water jet, pointed at the pile only.",
+      "id": "prep-wrap-zone",
+      "itemNames": {
+        "prep-brush": "wrap zone brushed to bare surface",
+        "water-jet": "wrap zone flushed with the jet"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — brush the zone to bare surface first; the jet flushes what the brush has loosened.",
+      "prompt": "Wire-brush the whole wrap zone above and below the defect to a clean surface, then flush it with the water jet, pointed at the pile only.",
+      "targets": [
+        "prep-brush",
+        "water-jet"
+      ],
+      "title": "Brush the wrap zone to bare surface, then flush it",
+      "why": "A jacket bonds to the pile only where the pile is clean, and a wrap over silt or the film that growth leaves is a wrap with a void behind it that fills with water and does nothing. Brushing goes first because the jet alone leaves the film; the flush comes after because the brushing leaves debris. The jet is aimed at the pile and turned off between uses — it is a cleaning tool that cuts suits and skin as readily as silt."
+    },
+    {
+      "cue": "Bring the first jacket half to the pile with its seam on the marked line, hold it while the surface passes the second, and close them round the pile.",
+      "drag": {
+        "missNote": "Not on the zone — the jacket half goes on the pile with its seam on the marked line.",
+        "radius": 0.55,
+        "to": "wrap-zone"
+      },
+      "id": "fit-jacket",
+      "kind": "drag",
+      "prompt": "Bring the first jacket half to the pile with its seam on the marked line, hold it while the surface passes the second, and close them round the pile.",
+      "target": "jacket-half",
+      "title": "Fit the jacket halves round the wrap zone",
+      "why": "The jacket halves are heavy in the hand and near-neutral in the water, and they go on where the plan marks the seams so the standoff and the grout space are even round the pile. A jacket fitted crooked leaves one side thin and the other thick, and the grout finds the thin side. The diver fits it with the umbilical kept clear of the seam, because the seam closes hard and a hose caught in it is a hose cut."
+    },
+    {
+      "cue": "Tension the banding round the jacket top and bottom with the tool until the jacket sits firm on its standoffs and the bands do not slip.",
+      "id": "fasten-bands",
+      "kind": "turn",
+      "prompt": "Tension the banding round the jacket top and bottom with the tool until the jacket sits firm on its standoffs and the bands do not slip.",
+      "target": "banding-tool",
+      "title": "Tighten the bands round the jacket",
+      "turn": {
+        "label": "BAND TENSION",
+        "turns": 1.2
+      },
+      "why": "The bands hold the jacket while the grout cures and the pile carries the pier's live load through every tide; a slack band lets the jacket walk down the pile and a band over-tensioned crushes the jacket's edge and opens the seam. The tool is run until the jacket is firm on its standoffs and the band holds, checked by hand, and the diver tells the surface each band is on so the log has them."
+    },
+    {
+      "cue": "Run a gloved hand down both seams and round the bottom seal: closed, no gap, no hose or growth caught in them.",
+      "id": "seal-seam",
+      "kind": "select",
+      "prompt": "Run a gloved hand down both seams and round the bottom seal: closed, no gap, no hose or growth caught in them.",
+      "target": "jacket-seam",
+      "title": "Check the jacket seam and the bottom seal by hand",
+      "why": "The grout goes in at the top and stays in only if the seams and the bottom seal are closed; a gap the width of a finger drains the annulus as fast as the surface pumps it, and a hose caught in a seam is both a gap and a cut hose. The seams are checked by hand because they are on the far side from the camera and because a seam looks closed from a metre away while a fingertip finds the gap."
+    },
+    {
+      "cue": "Bring the grout hose to the jacket's top port, seat it and tell the surface 'hose landed — ready for grout' before anyone starts the pump.",
+      "drag": {
+        "missNote": "Not in the port — the grout hose seats in the jacket's top port before the surface starts the pump.",
+        "radius": 0.5,
+        "to": "grout-port"
+      },
+      "id": "land-grout-hose",
+      "kind": "drag",
+      "prompt": "Bring the grout hose to the jacket's top port, seat it and tell the surface 'hose landed — ready for grout' before anyone starts the pump.",
+      "target": "grout-hose",
+      "title": "Land the grout hose in the top port",
+      "why": "Grout is pumped from the surface on the diver's word, and a hose that is not seated when the pump starts fills the water with grout instead of the annulus, fogs the site and leaves the jacket empty. The diver lands it, checks it by hand and calls it, and keeps their hands away from the port once the pump runs, because a grout hose under pump pressure whips if it comes free."
+    },
+    {
+      "cue": "Hold the pile's identity plate against the jacket and let the surface take the still from the helmet camera: pile number, jacket, date plate and the grout port capped.",
+      "id": "photo-plate",
+      "kind": "select",
+      "prompt": "Hold the pile's identity plate against the jacket and let the surface take the still from the helmet camera: pile number, jacket, date plate and the grout port capped.",
+      "target": "id-plate",
+      "title": "Photograph the finished wrap with its identity plate",
+      "why": "The owner's record needs a picture of the finished repair that says which pile it is, and a jacket in green water looks like every other jacket. The plate in the frame ties the picture to the pile number on the form, and the capped port shows the grout is in; the next inspection diver will start from this picture, and the engineer signing the pier off will look at it before anything else."
+    },
+    {
+      "cue": "Before you leave the pile, read the log back with the supervisor: the findings, the class, the wrap fitted, the bands, the grout and the photograph, and the fender and the recall.",
+      "id": "surface-log",
+      "kind": "select",
+      "prompt": "Before you leave the pile, read the log back with the supervisor: the findings, the class, the wrap fitted, the bands, the grout and the photograph, and the fender and the recall.",
+      "target": "surface-log",
+      "title": "Close the surface log for this pile",
+      "why": "29 CFR 1910.440 has the dive recorded and the owner's form has the pile recorded, and the read-back at the pile is the last chance to fix a wrong pile number or a missing class while the diver can still put a hand on the thing. The two events of the dive — the fender surging and the recall for the approaching craft — go in beside the findings because the next dive at this pier plans around them."
+    },
+    {
+      "cue": "Back at the stage: the pile's findings said once more for the team, the fender to be lashed before the next pile, the craft that came in, and how everyone is doing.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Back at the stage: the pile's findings said once more for the team, the fender to be lashed before the next pile, the craft that came in, and how everyone is doing.",
+      "target": "team-board",
+      "title": "Check in with the dive team at the stage",
+      "why": "The check-in at the stage is where the dive stops being one diver's job and becomes the team's: the fender that surged is a hazard for whoever dives the next pile, the craft that came in unannounced is a call to the pier operator, and the diver's own condition is watched from here on per 29 CFR 1910.423. The Pile Drivers member assistance line is there for what the stage conversation does not settle."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — the Pile Drivers of the Carpenters — with the employer's employee assistance line behind it",
+  "tagline": "One pile, by hand and by camera: the inspection plan read on the slate, the growth cleared in a band without gouging, the necked section and the split found by touch, the camera held while the surface records, the pit gauge read to the form, the findings dictated to the surface log, the wrap zone brushed and flushed, the jacket halves fitted and banded, the seam checked, the grout hose landed, the plate photographed and the log closed — with a surging fender and a recall along the way",
+  "title": "SmartCiti.X~ Pier Piling Inspection & Wrap Repair VR",
+  "trade": "Pile Drivers of the Carpenters commercial diver inspecting a pier pile by hand and camera and fitting a wrap repair, with the dive supervisor keeping the surface log, the tender and the standby diver",
+  "underwater": {
+    "bottomTimeSeconds": 600,
+    "depthLabel": "Per dive plan"
+  },
+  "weather": "clear"
+}

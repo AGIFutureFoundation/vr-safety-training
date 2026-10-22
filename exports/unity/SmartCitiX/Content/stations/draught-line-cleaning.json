@@ -1,0 +1,369 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "neutral-and-clean",
+    "name": "Neutral and Clean",
+    "note": "A full line clean read neutral on the strip with every tap tagged and nobody poured from it — first time"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "UNITE HERE Local 2 bartenders; Cal/OSHA 8 CCR §5194 Hazard Communication for the line cleaner's own safety data sheet and label; OSHA's eye and skin protection requirements (29 CFR 1910.133) behind the goggles-and-gloves rule; NSF/ANSI 18-listed draught dispensing equipment and tubing; the ANSI-accredited California Food Handler card every bartender on this line also holds; the Brewers Association's draught quality guidance on contact time and neutral-pH flushing",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "NSF",
+        "citedAs": "NSF/ANSI 18",
+        "id": "nsf-ansi-18",
+        "title": "NSF/ANSI 18 — Manual food and beverage dispensing equipment"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.133",
+        "id": "osha-1910-133",
+        "title": "29 CFR 1910.133 — Eye and face protection"
+      },
+      {
+        "body": "union",
+        "citedAs": "UNITE HERE",
+        "id": "unite-here-training",
+        "title": "UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Culinary & Hospitality",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "sds-first",
+        "name": "SDS First",
+        "note": "Read the SDS before the bottle was ever opened"
+      },
+      {
+        "id": "never-crossed",
+        "name": "Never Crossed",
+        "note": "No unsafe action anywhere in the run"
+      },
+      {
+        "id": "reads-neutral",
+        "name": "Reads Neutral",
+        "note": "pH strip and the whole run inside band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-cycle",
+        "name": "Clean Cycle",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-contact",
+        "name": "Steady Contact",
+        "note": "Held contact time the full count without a break"
+      },
+      {
+        "id": "lines-back-fast",
+        "name": "Lines Back Fast",
+        "note": "Kegs reconnected inside 80% of par"
+      }
+    ],
+    "currency": "PH",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "New Bartender",
+      "Line Certified",
+      "Lead Bartender",
+      "Bar Manager",
+      "Draught Quality Certified"
+    ],
+    "system": "Draught Quality"
+  },
+  "hazards": {
+    "bare-face-check": "You leaned in over the open cleaner to look — no goggles. A splash off a moving line or a bucket doesn't wait for you to notice it's coming, and the label on a caustic or acid line cleaner says eye protection for exactly this reason, not as a formality before the real work starts.",
+    "mixing-chemicals": "That's an acid-based cleaner sitting open next to the caustic bucket already in use. Acid and caustic line cleaners meeting each other, whether in a drain or a bucket, react hard enough to throw a corrosive splash and a cloud of gas — the SDS for each one exists specifically so they never share a container or a moment.",
+    "unlabeled-bottle": "The line cleaner's been decanted into a spray bottle with no label on it. Cal/OSHA's hazard communication rule follows the chemical, not the original container — an unlabeled bottle of caustic under the bar is a bottle nobody after you will know to treat with any caution at all.",
+    "untagged-handle": "This tap handle never got tagged with the others. A line mid-clean that isn't tagged looks exactly like a line that's ready to pour, and the only thing standing between a customer and a glass of line cleaner is whether every handle got marked, not just most of them."
+  },
+  "id": "draught-line-cleaning",
+  "indoor": "bar",
+  "interrupts": [
+    {
+      "after": "contact-time",
+      "alert": "A customer orders an IPA off the tagged tap, and a colleague reaches for the handle to pour it.",
+      "cue": "Stop them — that handle's tagged for a reason, not out of service by accident.",
+      "delay": 3,
+      "id": "tap-request",
+      "kind": "Customer at the rail",
+      "missNote": "The colleague poured off the tagged IPA tap while it was still running cleaning solution. A tag that gets overridden the first time someone's in a hurry isn't protecting anybody.",
+      "seconds": 11,
+      "target": "tap-tag-1",
+      "why": "A tag only protects a customer if it actually stops the next person who reaches for that handle; the line behind it is mid-clean and running cleaning solution right now, and the fastest way to make sure nobody pours from it is pointing at exactly what's already marked on it.",
+      "wrongNote": "It's the tag on the handle, not the pump you're holding. Point at what already says not to pour from it."
+    },
+    {
+      "after": "pump-cleaner",
+      "alert": "The open cleaner bottle gets knocked over on the bar top behind you.",
+      "cue": "Get to the spill kit — don't just wipe it with a bar rag.",
+      "delay": 3,
+      "id": "bottle-knocked",
+      "kind": "Chemical spill",
+      "missNote": "The spill got wiped up with a bar rag instead of the spill kit. Spreading a corrosive thinner across the bar top, and onto the rag itself, is worse than the spill it started as.",
+      "seconds": 11,
+      "target": "spill-kit",
+      "why": "A corrosive spill on a bar top isn't a bar-rag job — a rag spreads it thinner across a bigger surface and puts it on whoever's hand touches that rag next; the spill kit's neutraliser and absorbent are the only correct first move.",
+      "wrongNote": "It's the spill kit. A bar rag doesn't neutralise anything — it just moves the chemical somewhere else."
+    }
+  ],
+  "lateNotes": {
+    "cleaner-pump": "The lines get tagged and the keg disconnected before any cleaner goes anywhere near them.",
+    "contact-timer": "Contact time starts once the solution is actually in the line, not before it's pumped through.",
+    "keg-reconnect": "Kegs go back on once the line reads a neutral pH, not before.",
+    "ph-strip": "The pH gets tested after the flush, not before — there's nothing but cleaner in the line until then."
+  },
+  "name": "Draught Line Cleaning",
+  "parSeconds": 275,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bartending-course"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "bare-face-check",
+      "cleaner-label",
+      "cleaner-pump",
+      "cleaning-log",
+      "contact-timer",
+      "discard-pour",
+      "flush-valve",
+      "gloves",
+      "goggles",
+      "keg-disconnect",
+      "keg-reconnect",
+      "mixing-chemicals",
+      "ph-strip",
+      "remove-tags",
+      "sds-sheet",
+      "spill-kit",
+      "tap-tag-1",
+      "tap-tag-2",
+      "tap-tag-3",
+      "unlabeled-bottle",
+      "untagged-handle"
+    ],
+    "meshes": 202
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the drum label, then pull the matching safety data sheet.",
+      "id": "identify",
+      "itemNames": {
+        "cleaner-label": "cleaner drum label",
+        "sds-sheet": "safety data sheet"
+      },
+      "itemNotes": {
+        "cleaner-label": "Caustic or acid — today's drum is labelled, and the label decides which neutraliser and which PPE apply for the rest of this clean.",
+        "sds-sheet": "The safety data sheet for whichever chemical is loaded — first aid, ventilation and spill response all live here, and Cal/OSHA's hazard communication rule expects it read, not just stocked on a shelf."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the drum label, then pull the matching safety data sheet.",
+      "targets": [
+        "cleaner-label",
+        "sds-sheet"
+      ],
+      "title": "Identify the cleaner and its SDS",
+      "why": "A bar alternates between caustic and acid line cleaners depending on what's building up in the lines, and the two are handled differently enough — different PPE, different first aid, never mixed with each other — that the whole clean starts with confirming which one is actually in the bucket today."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Both on before the cleaner comes off the shelf.",
+      "id": "ppe",
+      "itemNames": {
+        "gloves": "chemical-resistant gloves",
+        "goggles": "chemical goggles"
+      },
+      "kind": "sequence",
+      "prompt": "Both on before the cleaner comes off the shelf.",
+      "targets": [
+        "goggles",
+        "gloves"
+      ],
+      "title": "Goggles and gloves before the bottle opens",
+      "why": "Caustic and acid line cleaners are both corrosive to skin and eyes at working strength, and a splash happens at the moment you're least braced for it — opening the container, not partway through pumping — which is why the PPE goes on first, not after the first splash proves it was needed."
+    },
+    {
+      "cue": "Set the spill kit where you can reach it before you start pumping.",
+      "id": "stage-spill-kit",
+      "kind": "select",
+      "prompt": "Set the spill kit where you can reach it before you start pumping.",
+      "target": "spill-kit",
+      "title": "Stage the spill kit",
+      "why": "A corrosive spill on a bar top full of glassware and electrical outlets is not something you want to be locating supplies for after it happens — staging the kit first is what makes the response take ten seconds instead of two minutes."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Tag all three handles on this line before any cleaner goes in.",
+      "id": "tag-taps",
+      "itemNames": {
+        "tap-tag-1": "IPA handle tag",
+        "tap-tag-2": "lager handle tag",
+        "tap-tag-3": "stout handle tag"
+      },
+      "kind": "sequence",
+      "prompt": "Tag all three handles on this line before any cleaner goes in.",
+      "targets": [
+        "tap-tag-1",
+        "tap-tag-2",
+        "tap-tag-3"
+      ],
+      "title": "Tag every affected tap \"Do Not Pour\"",
+      "why": "A customer at the rail and a colleague working the well both read a tap handle the same way — available unless it says otherwise. Every handle on the line being cleaned gets its own tag, because the one left untagged is the one somebody pours from."
+    },
+    {
+      "cue": "Uncouple the keg and swap the line onto the cleaning pump.",
+      "id": "disconnect-keg",
+      "kind": "turn",
+      "prompt": "Uncouple the keg and swap the line onto the cleaning pump.",
+      "target": "keg-disconnect",
+      "title": "Disconnect the keg for the cleaning loop",
+      "turn": {
+        "axis": "y",
+        "label": "COUPLER",
+        "turns": 0.25
+      },
+      "why": "Cleaning solution runs a closed loop through the line and back to the bucket, not into a keg of beer — the coupler comes off and the pump goes on before any solution moves."
+    },
+    {
+      "cue": "Hold the pump running until solution has moved all the way through the line.",
+      "holdBreakNote": "You stopped before the solution reached the far end. Restart the pump — a half-filled line hasn't been cleaned, it's been half cleaned.",
+      "id": "pump-cleaner",
+      "kind": "hold",
+      "prompt": "Hold the pump running until solution has moved all the way through the line.",
+      "seconds": 6,
+      "target": "cleaner-pump",
+      "title": "Pump the cleaning solution through",
+      "why": "A partial pump leaves clean beer in one stretch of tubing and cleaner in the next, and neither half gets what it needs — the whole line has to see the solution before contact time means anything."
+    },
+    {
+      "cue": "Let the solution sit in the line for the full contact time on the label.",
+      "holdBreakNote": "You flushed before the contact time finished. The solution needs the full time on the label to actually break down what's built up in the line — start the hold again.",
+      "id": "contact-time",
+      "kind": "hold",
+      "prompt": "Let the solution sit in the line for the full contact time on the label.",
+      "seconds": 6,
+      "target": "contact-timer",
+      "title": "Hold contact time",
+      "why": "The chemical does its work by sitting against the beer-stone and yeast film built up on the inside of the tubing, not by passing through it — cutting the contact time short is the single most common reason a line that was 'just cleaned' still tastes off a week later."
+    },
+    {
+      "cue": "Hold the flush valve at a steady rate until the line runs clear.",
+      "holdBreakNote": "The flush rate drifted out of band. Too slow leaves cleaner sitting in the line, too hard risks a fitting — bring it back to a steady flow.",
+      "id": "flush",
+      "kind": "track",
+      "prompt": "Hold the flush valve at a steady rate until the line runs clear.",
+      "seconds": 6,
+      "target": "flush-valve",
+      "title": "Flush the line with water",
+      "track": {
+        "drift": 0.08,
+        "fall": 0.4,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "FLUSH RATE",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "Too slow a flush leaves cleaner sitting in the low points of the line; too hard a flush can push water back past a fitting that isn't rated for it — a steady, held-open flow is what actually clears the tubing end to end."
+    },
+    {
+      "cue": "Dip the strip at the tap and commit while it reads neutral.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "pH",
+        "missNote": "Not neutral yet — keep flushing and test again before this line goes anywhere near a keg.",
+        "speed": 0.7
+      },
+      "id": "ph-test",
+      "kind": "gauge",
+      "prompt": "Dip the strip at the tap and commit while it reads neutral.",
+      "target": "ph-strip",
+      "title": "Test the line with pH paper",
+      "why": "A line that still reads acidic or basic still has cleaning chemical in it no matter how much water has gone through — the strip is the only honest answer to 'is it out yet,' and neutral is the only reading that means yes."
+    },
+    {
+      "cue": "Couple the keg back onto the now-neutral line.",
+      "id": "reconnect-kegs",
+      "kind": "turn",
+      "prompt": "Couple the keg back onto the now-neutral line.",
+      "target": "keg-reconnect",
+      "title": "Reconnect the kegs",
+      "turn": {
+        "axis": "y",
+        "label": "COUPLER",
+        "turns": 0.25
+      },
+      "why": "The line only goes back into beer service once the pH test has confirmed there's nothing left in it to confirm against — reconnecting on a hunch instead of a reading is exactly the shortcut this whole procedure exists to remove."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Pour and dump the first glass off each tap, then pull the \"Do Not Pour\" tags.",
+      "id": "finish",
+      "itemNames": {
+        "discard-pour": "discard the first pour",
+        "remove-tags": "pull the tags"
+      },
+      "kind": "sequence",
+      "prompt": "Pour and dump the first glass off each tap, then pull the \"Do Not Pour\" tags.",
+      "targets": [
+        "discard-pour",
+        "remove-tags"
+      ],
+      "title": "Discard the first pour and clear the tags",
+      "why": "The first pour off a freshly cleaned line still carries trace cleaner and the standing water from the flush — it gets poured out, not into a glass someone's paying for, and the tags come off only once there's a clean pour behind them to prove it."
+    },
+    {
+      "cue": "Record the date, the chemical, the contact time and the final pH.",
+      "id": "log",
+      "kind": "select",
+      "prompt": "Record the date, the chemical, the contact time and the final pH.",
+      "target": "cleaning-log",
+      "title": "Log the clean",
+      "why": "The cleaning log is what turns 'we did this' into something a health inspector, the next shift or the brewery's own quality rep can actually check against a schedule instead of taking on faith."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Beer lines cleaned to the SDS: goggles and gloves, taps tagged, solution pumped and given its contact time, flushed to a neutral pH, kegs back on and the first pour thrown away",
+  "title": "SmartCiti.X~ Draught Line Cleaning VR",
+  "trade": "Bartender — UNITE HERE Local 2",
+  "underwater": null,
+  "weather": "clear"
+}

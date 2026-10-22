@@ -1,0 +1,118 @@
+{
+  "accent": "#b07ad6",
+  "anchors": [
+    {
+      "id": "ct-notice-board-downtown-civic-center",
+      "name": "Union hall notice board · Downtown Civic Center",
+      "position": [
+        -17.2,
+        39.9
+      ],
+      "stations": [
+        "public-comment-prep",
+        "public-meeting-chair",
+        "k12-household-budget-and-first-paycheck",
+        "k12-how-a-local-council-meeting-works",
+        "k12-map-literacy-across-eras"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "downtown"
+    },
+    {
+      "id": "downtown-civic-center",
+      "name": "Downtown Civic Center",
+      "position": [
+        -36,
+        33
+      ],
+      "stations": [
+        "public-comment-prep",
+        "public-meeting-chair",
+        "k12-household-budget-and-first-paycheck",
+        "k12-how-a-local-council-meeting-works",
+        "k12-map-literacy-across-eras"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "downtown"
+    }
+  ],
+  "certification": "The municipal ethics code, the conflict-of-interest rules that bind public officials, and the crisis-communication practice a public body is held to",
+  "competency": {
+    "id": "ethics-and-responsible-automation",
+    "kind": "programme",
+    "require": 4,
+    "standards": [
+      "municipal-ethics-code"
+    ],
+    "stations": [
+      "ethics-and-conflict-of-interest",
+      "public-meeting-chair",
+      "crisis-communication-podium",
+      "community-listening-session",
+      "cv-difficult-conversation-across-difference",
+      "ei-giving-and-taking-feedback",
+      "ad-amr-fleet-traffic-and-estop-drill"
+    ],
+    "title": "Decide what an automated site may do, and say so plainly when it stops"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "municipal-ethics-code",
+    "nasw-code-of-ethics",
+    "nims-ics"
+  ],
+  "id": "ethics-and-responsible-automation",
+  "ladder": {
+    "atBar": 20,
+    "lessonBar": 75,
+    "lessons": 1590,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 0,
+    "stationsNeeded": 0,
+    "tasks": 120
+  },
+  "name": "Ethics and Responsible Automation — Entry Point",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "ethics-and-conflict-of-interest",
+      "why": "The shared opener: a vendor, a contract and a decision that must not be made by the person who benefits."
+    },
+    {
+      "app": "smartcity",
+      "id": "public-meeting-chair",
+      "why": "Every speaker heard before a robot's rollout is approved, with the minutes that show it."
+    },
+    {
+      "app": "smartcity",
+      "id": "crisis-communication-podium",
+      "why": "When a robot stops in front of the public: confirm first, then speak, and say what is not yet known."
+    },
+    {
+      "app": "smartcity",
+      "id": "community-listening-session",
+      "why": "The people who live beside the site are asked before it changes, not after."
+    },
+    {
+      "app": "smartcity",
+      "id": "cv-difficult-conversation-across-difference",
+      "why": "Owning a harm the automation caused, without deflecting it."
+    },
+    {
+      "app": "smartcity",
+      "id": "ei-giving-and-taking-feedback",
+      "why": "A supervisor's feedback on a near-miss, named to the behaviour rather than the person."
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-amr-fleet-traffic-and-estop-drill",
+      "why": "The site-wide stop, drilled so the people in the aisle know what the robots will do when it is pressed."
+    }
+  ],
+  "summary": "The entry point for deciding what a robot on a site is allowed to do, who answers for it, and what is said to the public when something goes wrong. Its stations are the governance and communication ones; the robot-control stations sit in the control entry point, so the two packs teach the same stop rule from two sides.",
+  "union": "AFSCME and SEIU public-service staff, and the site supervisors who answer for an automated site; taught as a civic course, not a union apprenticeship"
+}

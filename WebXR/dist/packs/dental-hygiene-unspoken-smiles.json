@@ -1,0 +1,159 @@
+{
+  "id": "dental-hygiene-unspoken-smiles",
+  "kind": "programme",
+  "name": "Dental Hygiene — Unspoken Smiles",
+  "title": "SmartCiti.X Dental Hygiene — Unspoken Smiles — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Stations that make a hygienist's clinical day — the operatory, the sterilisation centre, the chairside procedures, the emergencies and the outreach van — into scored procedures a training programme can run and record. Every step names the guideline it stands on.",
+  "certification": "The CDC's Guidelines for Infection Control in Dental Health-Care Settings, OSHA 29 CFR 1910.1030 bloodborne pathogens and 1910.1200 hazard communication, the state dental board's practice act, the EPA amalgam rule (40 CFR 441), and the ADA's radiographic guidance",
+  "programmes": [
+    "dental-hygiene-unspoken-smiles"
+  ],
+  "stations": [
+    {
+      "app": "trades",
+      "id": "phlebotomy"
+    },
+    {
+      "app": "smartcity",
+      "id": "operatory-turnover"
+    },
+    {
+      "app": "smartcity",
+      "id": "instrument-reprocessing"
+    },
+    {
+      "app": "smartcity",
+      "id": "sharps-exposure-response"
+    },
+    {
+      "app": "smartcity",
+      "id": "patient-intake-screening"
+    },
+    {
+      "app": "smartcity",
+      "id": "radiograph-safety"
+    },
+    {
+      "app": "smartcity",
+      "id": "periodontal-charting"
+    },
+    {
+      "app": "smartcity",
+      "id": "ultrasonic-scaling"
+    },
+    {
+      "app": "smartcity",
+      "id": "aerosol-management"
+    },
+    {
+      "app": "smartcity",
+      "id": "fluoride-and-sealants"
+    },
+    {
+      "app": "smartcity",
+      "id": "nitrous-oxide-monitoring"
+    },
+    {
+      "app": "smartcity",
+      "id": "chairside-emergency"
+    },
+    {
+      "app": "smartcity",
+      "id": "amalgam-waste-handling"
+    },
+    {
+      "app": "smartcity",
+      "id": "mobile-dental-outreach"
+    },
+    {
+      "app": "smartcity",
+      "id": "pediatric-visit"
+    },
+    {
+      "app": "smartcity",
+      "id": "oral-cancer-screening"
+    },
+    {
+      "app": "smartcity",
+      "id": "dn-medical-history-and-medication-review"
+    },
+    {
+      "app": "smartcity",
+      "id": "dn-oral-hygiene-instruction-and-motivational-interviewing"
+    },
+    {
+      "app": "smartcity",
+      "id": "dn-public-health-dentistry-and-fluoridation-advocacy"
+    }
+  ],
+  "unions": [
+    "seiu",
+    "ufcw",
+    "afscme"
+  ],
+  "unionLine": "SEIU and UFCW dental and clinic staff, AFSCME public-health hygienists, and the ADHA as the profession's body",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "fruitvale-community-college"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-fruitvale-estuary",
+      "sites": [
+        "fruitvale-community-clinic"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sm-unspoken-smiles",
+      "sites": [
+        "sm-community-dental-clinic",
+        "sm-sterilisation-centre",
+        "sm-school-brushing-station",
+        "sm-mobile-van-stop",
+        "sm-community-centre",
+        "sm-healthy-food-market",
+        "sm-water-fountain-plaza",
+        "sm-smile-park",
+        "sm-surgical-suite",
+        "sm-front-office",
+        "sm-health-fair-tent",
+        "sm-clinic-service-yard",
+        "sm-senior-centre"
+      ]
+    }
+  ],
+  "stationNames": {
+    "phlebotomy": "Draw Station",
+    "operatory-turnover": "Operatory Turnover",
+    "instrument-reprocessing": "Instrument Reprocessing",
+    "sharps-exposure-response": "Sharps Exposure Response",
+    "patient-intake-screening": "Patient Intake Screening",
+    "radiograph-safety": "Radiograph Safety",
+    "periodontal-charting": "Periodontal Charting",
+    "ultrasonic-scaling": "Ultrasonic Scaling",
+    "aerosol-management": "Aerosol Management",
+    "fluoride-and-sealants": "Fluoride and Sealants",
+    "nitrous-oxide-monitoring": "Nitrous Oxide Monitoring",
+    "chairside-emergency": "Chairside Emergency",
+    "amalgam-waste-handling": "Amalgam Waste Handling",
+    "mobile-dental-outreach": "Mobile Dental Outreach",
+    "pediatric-visit": "Pediatric Visit",
+    "oral-cancer-screening": "Oral Cancer Screening",
+    "dn-medical-history-and-medication-review": "Medical History & Medication Review",
+    "dn-oral-hygiene-instruction-and-motivational-interviewing": "Oral Hygiene Instruction & Motivational Interviewing",
+    "dn-public-health-dentistry-and-fluoridation-advocacy": "Public Health Dentistry & Fluoridation Advocacy"
+  },
+  "version": "1.0.0",
+  "contentHash": "f1e8d1e0",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

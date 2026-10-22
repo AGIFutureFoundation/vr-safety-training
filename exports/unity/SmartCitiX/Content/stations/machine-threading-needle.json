@@ -1,0 +1,375 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "first-seam-clean",
+    "name": "First Seam Clean",
+    "note": "A cold machine threaded and tensioned correctly, with the guard down before the first seam ran"
+  },
+  "category": "Sewing & Garment Trades",
+  "certification": "Workers United (SEIU) and state apprenticeship standards for industrial sewing machine operators; OSHA 29 CFR 1910.212 machine guarding for the needle guard, 1910.147 control of hazardous energy for the power switch before servicing, and NIOSH ergonomics guidance for seated repetitive bench work",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Garment manufacturing",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "power-first",
+        "name": "Power Off First",
+        "note": "Never touched the needle with the machine still live"
+      },
+      {
+        "id": "fingers-clear",
+        "name": "Fingers Clear",
+        "note": "Never reached into the needle or hook while it could move"
+      },
+      {
+        "id": "tension-true",
+        "name": "Tension True",
+        "note": "Stitch length and tension both proven inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-setup",
+        "name": "Clean Set-Up",
+        "note": "No corrections through the whole thread-up"
+      },
+      {
+        "id": "steady-thread",
+        "name": "Steady Hand",
+        "note": "Held the tension check without a break"
+      },
+      {
+        "id": "quick-change",
+        "name": "Quick Change",
+        "note": "Machine proven and running inside 80% of par"
+      }
+    ],
+    "currency": "STITCH",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Floor Trainee",
+      "Machine Operator",
+      "Set-Up Operator",
+      "Lead Operator",
+      "Bench Authority Certified"
+    ],
+    "system": "Bench Authority"
+  },
+  "hazards": {
+    "belt-guard-off": "The treadle motor's belt guard is off and the pulley is spinning exposed under the table. A V-belt running open at ankle height does not warn anyone before it takes a shoelace or a trouser cuff with it, which is the entire reason 29 CFR 1910.212 requires the guard back on before the machine runs.",
+    "hook-area-live": "You reached under the throat plate into the hook and bobbin area with the power still on. That is the one place on this machine where a jammed thread and a moving hook meet a bare hand, and clearing a jam live is exactly how an operator finds out the hook did not actually stop turning when the pedal came off it.",
+    "needle-touch-live": "You reached for the needle with the machine still powered. A lockstitch head restarts on a bumped pedal or a knee switch nobody meant to touch, and a needle at full speed does not pause for fingers that are supposed to be somewhere else — the power comes off at the switch before the needle is ever touched, every time.",
+    "snips-open": "Somebody left the thread snips open, blade up, on the table edge. An open blade sitting where a hand reaches for fabric without looking is a cut that has nothing to do with the machine at all — snips close and go back to their clip the moment the cut is made."
+  },
+  "id": "machine-threading-needle",
+  "indoor": "shop",
+  "interrupts": [
+    {
+      "after": "clamp-needle",
+      "alert": "A coworker reaches over to help by turning the handwheel toward you while your fingers are still tightening the needle clamp.",
+      "cue": "Somebody's hand is on the handwheel while yours is at the needle.",
+      "delay": 3,
+      "id": "handwheel-reach",
+      "kind": "Second hand at the wheel",
+      "missNote": "The wheel turned while your fingers were still at the clamp. Nothing caught this time — the needle came down on an empty clamp, not an empty one with your hand in it. That is luck, not the guard this station is supposed to teach.",
+      "seconds": 11,
+      "target": "handwheel",
+      "why": "The handwheel is a direct mechanical link to the needle bar — turning it by hand moves the needle exactly as surely as the motor does, only without any warning first. Your hand stops the wheel before it stops helping, because a needle that drops half an inch onto fingers that are already there does not care whose hand turned the wheel.",
+      "wrongNote": "That's not the clamp screw — the hand on the handwheel is what has to stop moving right now."
+    },
+    {
+      "after": "thread-path",
+      "alert": "Your sleeve catches the presser foot lifter and the foot drops while your guide finger is still under it, feeding the thread through the last guide.",
+      "cue": "The presser foot just came down on your own guide finger.",
+      "delay": 4,
+      "id": "presser-drop",
+      "kind": "Presser foot drops",
+      "missNote": "The foot stayed down on the guide finger through the rest of the threading. It happened to be a light pinch this time, not a needle that was also coming down — the lifter gets raised the instant it drops, every time, not judged case by case.",
+      "seconds": 11,
+      "target": "presser-lifter",
+      "why": "The lifter knee-lever is close enough to a threading hand that a sleeve or an elbow finds it without anyone meaning to, and a presser foot dropping onto a finger that is threading the eye at that instant is a pinch injury for nothing more than a moment's inattention — the lifter goes back up before the hand comes out, not after.",
+      "wrongNote": "The needle eye can wait — get the lifter back up off your finger first."
+    }
+  ],
+  "lateNotes": {
+    "bobbin-winder": "The bobbin is wound after the needle is seated and threaded, so the top thread is already in its own path before the bottom thread is built.",
+    "foot-pedal": "Not yet. The guard is down and the tension is proven on scrap before the pedal runs a real seam.",
+    "power-switch": "Power comes off before the needle is touched — that is the first move of this whole set-up, not something to circle back to.",
+    "spare-needle": "Not yet. The old needle comes out and the clamp is checked first, or the new one is going into a clamp that still has to be prepared.",
+    "tension-knob": "Tension gets set once the machine is threaded top and bottom — a dial turned against an unthreaded machine is proving nothing."
+  },
+  "name": "Machine Threading and Needle",
+  "parSeconds": 230,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "sewing-garment-trades"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "belt-guard-off",
+      "bobbin-case",
+      "bobbin-winder",
+      "cone-unseated",
+      "foot-pedal",
+      "handwheel",
+      "hook-area-live",
+      "needle-clamp-screw",
+      "needle-clamp-socket",
+      "needle-eye",
+      "needle-guard",
+      "needle-touch-live",
+      "oil-cap-loose",
+      "old-needle",
+      "power-switch",
+      "presser-lifter",
+      "pretension-guide",
+      "shuttle-socket",
+      "snips-open",
+      "spare-needle",
+      "stitch-gauge",
+      "take-up-lever",
+      "tension-discs",
+      "tension-knob",
+      "thread-guide-2",
+      "thread-spool"
+    ],
+    "meshes": 154
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Turn the machine off at its own power switch before touching the needle.",
+      "id": "power-off",
+      "kind": "select",
+      "prompt": "Turn the machine off at its own power switch before touching the needle.",
+      "target": "power-switch",
+      "title": "Power off at the switch",
+      "why": "Every needle change and every bit of threading that follows happens on a machine that cannot move, because the knee lever, the foot pedal and a stray bump are all still live paths to the needle bar until the switch itself is off. Reaching for the needle first and the switch second is the single habit that turns a routine change into an injury report."
+    },
+    {
+      "cue": "Loosen the needle clamp screw and let the worn or bent needle drop into your hand, not the machine.",
+      "id": "remove-needle",
+      "kind": "select",
+      "prompt": "Loosen the needle clamp screw and let the worn or bent needle drop into your hand, not the machine.",
+      "target": "old-needle",
+      "title": "Loosen the clamp and drop the old needle",
+      "why": "A needle that has been bent, dulled, or has picked up a burr from hitting a pin is what causes the very skipped stitches and pulled threads that make an operator suspect the tension first — checking the needle before touching a single dial is what actually finds the fault instead of chasing it."
+    },
+    {
+      "cue": "Carry the fresh needle up into the clamp with its scarf — the long flat groove — facing the hook side, and push it home to the stop.",
+      "drag": {
+        "missNote": "Not seated in the clamp — carry the needle all the way up to the stop with the scarf toward the hook.",
+        "radius": 0.3,
+        "to": "needle-clamp-socket"
+      },
+      "id": "install-needle",
+      "kind": "drag",
+      "prompt": "Carry the fresh needle up into the clamp with its scarf — the long flat groove — facing the hook side, and push it home to the stop.",
+      "target": "spare-needle",
+      "title": "Seat the new needle with the scarf toward the hook",
+      "why": "The hook has to catch the loop of top thread the instant it forms behind the scarf, and it can only find that loop if the scarf is facing exactly where the hook swings past — a needle seated backwards threads and sews nothing but skipped stitches no amount of tension adjustment will ever fix, because the fault is the needle's orientation, not the thread."
+    },
+    {
+      "cue": "Turn the clamp screw down snug so the needle cannot rotate or slip up under load.",
+      "id": "clamp-needle",
+      "kind": "select",
+      "prompt": "Turn the clamp screw down snug so the needle cannot rotate or slip up under load.",
+      "target": "needle-clamp-screw",
+      "title": "Tighten the needle clamp screw",
+      "why": "A needle that can twist in the clamp will drift out of alignment with the hook a few stitches into the seam, and one that can creep upward under the fabric's own drag will strike the throat plate — both failures look identical to a threading mistake from the operator's chair, which is why the screw gets checked snug before anything else is blamed."
+    },
+    {
+      "cue": "Follow the thread from the spool through every guide in order, finishing at the needle eye.",
+      "id": "thread-path",
+      "itemNames": {
+        "needle-eye": "through the needle eye",
+        "pretension-guide": "pre-tension guide",
+        "take-up-lever": "around the take-up lever",
+        "tension-discs": "through the tension discs",
+        "thread-guide-2": "the lower thread guide",
+        "thread-spool": "off the spool"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "This machine has one thread path, spool to needle. Skipping a guide is not a shortcut — reset and take them in order.",
+      "prompt": "Follow the thread from the spool through every guide in order, finishing at the needle eye.",
+      "targets": [
+        "thread-spool",
+        "pretension-guide",
+        "tension-discs",
+        "take-up-lever",
+        "thread-guide-2",
+        "needle-eye"
+      ],
+      "title": "Thread the machine in its one correct path",
+      "why": "A lockstitch head only forms a stitch because the take-up lever pulls slack at the exact moment the hook has passed through the loop below the needle plate — thread fed past any guide out of order arrives at the needle with the wrong amount of slack at the wrong moment, and the machine sews air, snarls under the plate, or snaps the thread on the first few stitches."
+    },
+    {
+      "cue": "Press the empty bobbin onto the winder spindle and hold it against the drive wheel until it is full.",
+      "holdBreakNote": "Let go before it finished winding. A partly wound bobbin runs out mid-seam — hold it against the spindle for the full wind.",
+      "id": "bobbin-wind",
+      "kind": "hold",
+      "prompt": "Press the empty bobbin onto the winder spindle and hold it against the drive wheel until it is full.",
+      "seconds": 4,
+      "target": "bobbin-winder",
+      "title": "Wind the bobbin",
+      "why": "An underwound bobbin runs out mid-seam and leaves a gap that only shows up once the garment is turned right-side out, and a bobbin wound loose or lopsided feeds unevenly against the top thread no amount of tensioning above the plate can correct — winding it full and even here is cheaper than picking a seam apart later."
+    },
+    {
+      "cue": "Drop the wound bobbin into the case so the thread pulls off in the direction the case is marked for.",
+      "id": "case-bobbin",
+      "kind": "select",
+      "prompt": "Drop the wound bobbin into the case so the thread pulls off in the direction the case is marked for.",
+      "target": "bobbin-case",
+      "title": "Seat the bobbin in its case",
+      "why": "The case is built to add a small, constant drag to the bottom thread as it feeds, and it only does that if the bobbin sits in it the direction the case calls for — dropped in backwards, the same case either free-spins the thread with no tension at all or binds it solid, and both show up on the seam as the loops nobody can explain."
+    },
+    {
+      "cue": "Carry the loaded case into the hook until its latch clicks home under the throat plate.",
+      "drag": {
+        "missNote": "Not latched into the hook — carry the case fully home until it clicks.",
+        "radius": 0.32,
+        "to": "shuttle-socket"
+      },
+      "id": "insert-shuttle",
+      "kind": "drag",
+      "prompt": "Carry the loaded case into the hook until its latch clicks home under the throat plate.",
+      "target": "bobbin-case",
+      "title": "Insert the case into the shuttle hook",
+      "why": "A case that is not fully seated in the hook works loose the first time the hook spins past it at speed, and a bobbin case loose inside a running shuttle is metal meeting metal at several hundred stitches a minute — the click of the latch is the only proof it is actually captured, not just resting there."
+    },
+    {
+      "cue": "Now that both threads are in and the case is latched, turn the machine back on.",
+      "id": "power-on",
+      "kind": "select",
+      "prompt": "Now that both threads are in and the case is latched, turn the machine back on.",
+      "target": "power-switch",
+      "title": "Restore power for the tension check",
+      "why": "The machine goes live again only once every hand tool and every finger is out of the needle and hook areas for good — power comes back on to run thread through the machine, not to finish a mechanical step that still wants both hands inside it."
+    },
+    {
+      "cue": "Turn the tension dial to the middle of the working range before the test seam.",
+      "id": "tension",
+      "kind": "turn",
+      "prompt": "Turn the tension dial to the middle of the working range before the test seam.",
+      "target": "tension-knob",
+      "title": "Set the top tension",
+      "turn": {
+        "axis": "z",
+        "label": "TENSION",
+        "turns": 0.4
+      },
+      "why": "Top tension and bobbin tension have to meet exactly at the middle of the fabric, not favour one side or the other — set too tight, the seam puckers and the bobbin thread gets dragged up to the top of the cloth; set too loose, loops of top thread sit loose on the underside where a QA inspector finds them in one glance."
+    },
+    {
+      "cue": "Run a few inches of stitching on the scrap swatch, then read the stitch length off the gauge.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "STITCH LENGTH",
+        "missNote": "Outside the ticket's stitch-length spec — adjust the setting and sew another test seam.",
+        "speed": 0.75
+      },
+      "id": "test-seam",
+      "kind": "gauge",
+      "prompt": "Run a few inches of stitching on the scrap swatch, then read the stitch length off the gauge.",
+      "target": "stitch-gauge",
+      "title": "Sew a test seam on scrap and check the stitch length",
+      "why": "Stitch length is set on the machine but proven on cloth, because the same setting bites differently on a lightweight lining than it does on the heavier ticket fabric — the test seam on scrap is what confirms both tension and stitch length are right before the machine ever touches a piece that is going into a bundle."
+    },
+    {
+      "cue": "Swing the finger guard down in front of the needle before the first real seam.",
+      "id": "needle-guard",
+      "kind": "select",
+      "prompt": "Swing the finger guard down in front of the needle before the first real seam.",
+      "target": "needle-guard",
+      "title": "Lower the needle guard",
+      "why": "The guard is the one thing standing between a guiding finger and the needle once the operator's attention is on feeding fabric instead of watching the needle bar — it goes down before production starts, not after the first close call proves why it was there."
+    },
+    {
+      "cue": "Feed the ticket's fabric under the guard and hold the pedal through a clean, even seam.",
+      "holdBreakNote": "Pedal released mid-seam. An uneven start on the ticket fabric is exactly the flaw the test seam was supposed to catch — hold it through cleanly.",
+      "id": "first-real-seam",
+      "kind": "hold",
+      "prompt": "Feed the ticket's fabric under the guard and hold the pedal through a clean, even seam.",
+      "seconds": 3,
+      "target": "foot-pedal",
+      "title": "Sew the first seam on the actual piece",
+      "why": "The first seam on the real fabric is the one that proves the whole set-up — scrap and ticket fabric do not always behave the same under the same tension, so nothing goes to a bundle until this seam has actually been looked at, not just felt under the hands."
+    },
+    {
+      "cue": "Two things at this station are out of place. Find them by looking.",
+      "id": "walk",
+      "itemNames": {
+        "cone-unseated": "thread cone off its pin",
+        "oil-cap-loose": "loose oil reservoir cap"
+      },
+      "itemNotes": {
+        "cone-unseated": "A thread cone sitting crooked on its pin unwinds unevenly and snags the moment the machine runs at speed.",
+        "oil-cap-loose": "An oil cap left loose weeps onto the bed and the first fabric that touches it carries the stain into the bundle."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things at this station are out of place. Find them by looking.",
+      "targets": [
+        "cone-unseated",
+        "oil-cap-loose"
+      ],
+      "title": "Walk the machine before it goes into production",
+      "why": "A set-up that threads and sews one clean test seam can still send a whole bundle into the wash with an oil stain or waste an hour of running time to a cone that unwinds crooked — the two minutes spent looking at the whole machine, not just the needle, is what catches either one before the first real bundle runs."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Power off, the needle set with the scarf right, threaded in path, the bobbin wound and cased, tension proven on scrap, the guard down",
+  "title": "SmartCiti.X~ Machine Threading and Needle VR",
+  "trade": "Industrial sewing machine operator — Workers United (SEIU)",
+  "underwater": null,
+  "weather": null
+}

@@ -1,0 +1,379 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "sealed-and-logged",
+    "name": "Sealed and Logged",
+    "note": "A service with the confined-space call made correctly, nothing to the drain, and the manifest and log both filed"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "SFPUC fats-oils-and-grease (FOG) programme and grease interceptor maintenance requirements; OSHA 29 CFR 1910.146 permit-required confined spaces, for telling the under-sink unit and the outdoor in-ground interceptor apart; Cal/OSHA general industry safety orders; OSHA 29 CFR 1910.1200 hazard communication for the SDS on the degreaser; UNITE HERE Local 2, with AFSCME and SEIU members maintaining the same equipment in public kitchens",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.146",
+        "id": "osha-1910-146",
+        "title": "29 CFR 1910.146 — Permit-required confined spaces"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "union",
+        "citedAs": "UNITE HERE",
+        "id": "unite-here-training",
+        "title": "UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Culinary & Hospitality",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "space-called-right",
+        "name": "Space Called Right",
+        "note": "The confined-space question answered before the lid ever moves, first time"
+      },
+      {
+        "id": "never-to-drain",
+        "name": "Never To The Drain",
+        "note": "Never a drop of grease to a floor drain, never the lid forced without the tool"
+      },
+      {
+        "id": "true-25",
+        "name": "True 25",
+        "note": "The grease-and-solids reading held inside the working band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-service",
+        "name": "Clean Service",
+        "note": "No corrections across the whole service"
+      },
+      {
+        "id": "steady-pump",
+        "name": "Steady Pump",
+        "note": "Held the pump-out steady without a break"
+      },
+      {
+        "id": "trap-fast",
+        "name": "Trap Serviced Fast",
+        "note": "Manifest and log filed inside 80% of par"
+      }
+    ],
+    "currency": "GAL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Porter",
+      "Trap Tech",
+      "Lead Steward",
+      "Facilities Rep",
+      "FOG Certified"
+    ],
+    "system": "FOG Programme"
+  },
+  "hazards": {
+    "bare-hand-lid": "You went at that lid with your bare hands instead of the hook tool. A grease-sealed lid lets go all at once when it finally breaks free, and a hand caught under a cast-iron lid coming down is a crushed finger before anyone has even started the actual service.",
+    "dump-to-drain": "That overflow line runs straight to the kitchen's floor drain instead of the sealed haul container. Grease down a drain is exactly what this interceptor exists to stop — and it is also a direct violation of the FOG programme this unit is permitted under.",
+    "ignition-source": "That's an open flame next to an interceptor that has been sitting closed and building gas off decomposing grease. Trapped organic waste generates methane, and an open lid with an ignition source next to it turns a smelly service into the wrong kind of headline.",
+    "unlabeled-container": "That haul container has no label and the lid isn't seated. An unlabeled container of grease waste sitting in a kitchen is a spill nobody can identify and a paperwork gap the hauler's manifest is supposed to close before it ever gets to this point."
+  },
+  "id": "grease-trap",
+  "indoor": "kitchen",
+  "interrupts": [
+    {
+      "after": "headspace-check",
+      "alert": "A rotten-egg smell rolls up out of the open interceptor the moment the lid comes off — stronger than the usual grease odour.",
+      "cue": "That smell is hydrogen sulphide. Back off the opening and get air moving before anyone goes near it again.",
+      "delay": 3,
+      "id": "h2s-smell",
+      "kind": "Sulphur smell at the open lid",
+      "missNote": "Somebody stayed leaning over the open lid breathing whatever that smell was instead of stepping back and letting the fan clear it — the smell not getting stronger is not the same thing as the gas not being there.",
+      "seconds": 12,
+      "target": "back-away",
+      "why": "Hydrogen sulphide builds up in trapped organic waste and is exactly the atmosphere OSHA 1910.146 worries about in a confined space — it deadens your sense of smell at higher concentrations, so the moment you can smell it is the moment to move away from the opening, not lean in for a second sniff.",
+      "wrongNote": "Not that. Backing away from the opening is the only response that gets you out of the gas before you find out how much of it there is."
+    },
+    {
+      "after": "pump-out",
+      "alert": "Across the kitchen, a line cook is tipping a pan of spent fryer oil straight down the prep sink instead of into the grease jug by the fryer.",
+      "cue": "Stop her before that oil hits the drain — that's exactly what this interceptor is trying to keep up with.",
+      "delay": 4,
+      "id": "cook-pours-oil",
+      "kind": "Fryer oil going down the prep sink",
+      "missNote": "The oil went down the drain while the trap you were servicing sat open on the floor a few feet away — the FOG programme's own numbers assume that oil goes in a jug, not down a sink, and this shift just broke that assumption.",
+      "seconds": 12,
+      "target": "stop-cook",
+      "why": "Every ounce of fryer oil that goes down a drain instead of into the grease jug is load this interceptor has to catch that it was never sized to catch on top of, and it is happening in real time on the other side of the kitchen from the service you are already in the middle of — noticing it is the whole point of the drill.",
+      "wrongNote": "Not that. Stopping her before the oil hits the drain is the only response that keeps this from becoming exactly the load the interceptor downstream cannot handle."
+    }
+  ],
+  "lateNotes": {
+    "dip-stick": "The grease-and-solids reading is taken after the lid is off and the headspace has been checked — there is nothing safe to dip a stick into before that.",
+    "lid-bolts": "The lid goes back on and gets torqued down after the rinse, not before — a rinse into a half-sealed unit just puts water back where the grease was.",
+    "vac-hose": "Pumping starts only after the reading has actually called for it — this unit gets serviced on the 25 percent rule, not on a schedule nobody checked against the trap itself."
+  },
+  "name": "Grease Trap",
+  "parSeconds": 270,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "culinary-kitchen"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "back-away",
+      "bare-hand-lid",
+      "blocked-flow-control",
+      "broken-baffle",
+      "dip-stick",
+      "dump-to-drain",
+      "gt-apron",
+      "gt-gloves",
+      "gt-goggles",
+      "haul-container-lid",
+      "hauler-manifest",
+      "ignition-source",
+      "lid-bolts",
+      "lid-opening",
+      "lid-tool",
+      "maintenance-log",
+      "rinse-wand",
+      "service-plan",
+      "space-flowchart",
+      "stop-cook",
+      "unlabeled-container",
+      "vac-hose",
+      "vent-fan"
+    ],
+    "meshes": 160
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the unit's size, its last service date and the FOG programme's service interval before opening anything.",
+      "id": "plan",
+      "kind": "select",
+      "prompt": "Check the unit's size, its last service date and the FOG programme's service interval before opening anything.",
+      "target": "service-plan",
+      "title": "Read the interceptor's service card",
+      "why": "The service card is what ties this specific unit to the FOG programme's permit conditions — the interval, the manifest requirement and the 25 percent rule all apply because this card says this interceptor is on that programme, not because the lid happens to look due."
+    },
+    {
+      "cue": "Read the decision flowchart and confirm this under-sink interceptor is not a permit-required confined space.",
+      "id": "space-call",
+      "kind": "select",
+      "prompt": "Read the decision flowchart and confirm this under-sink interceptor is not a permit-required confined space.",
+      "target": "space-flowchart",
+      "title": "Answer the confined-space question",
+      "why": "OSHA 1910.146 asks whether a space is entered bodily and whether it can develop a hazardous atmosphere or trap someone — this small under-counter unit is serviced entirely from the top opening with nobody's body ever going inside it, which is a different call from the outdoor in-ground interceptor a hauler's crew actually climbs down into. Answering it here, not assuming it, is what keeps a routine task routine."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Gloves, apron and splash goggles before the lid comes off.",
+      "id": "ppe",
+      "itemNames": {
+        "gt-apron": "rubber apron",
+        "gt-gloves": "chemical-resistant gloves",
+        "gt-goggles": "splash goggles"
+      },
+      "kind": "sequence",
+      "prompt": "Gloves, apron and splash goggles before the lid comes off.",
+      "targets": [
+        "gt-gloves",
+        "gt-apron",
+        "gt-goggles"
+      ],
+      "title": "Glove, apron and goggle up",
+      "why": "What's under that lid is decomposing food waste and grease that has been sitting for days — the gloves keep it off your hands, the apron keeps it off your clothes, and the goggles are what stand between your eyes and whatever comes up when the lid finally breaks its seal."
+    },
+    {
+      "cue": "Position the portable fan to move air across the opening before you break the seal.",
+      "id": "ventilate",
+      "kind": "select",
+      "prompt": "Position the portable fan to move air across the opening before you break the seal.",
+      "target": "vent-fan",
+      "title": "Set up ventilation before opening the lid",
+      "why": "A closed interceptor traps whatever gas the waste inside it has been producing, and moving air across the opening before the lid comes off is what keeps that gas from simply pooling around whoever is kneeling over it a minute later."
+    },
+    {
+      "cue": "Hook the tool into the lid's lift eye and break the seal — never with your fingers.",
+      "id": "open-lid",
+      "kind": "select",
+      "prompt": "Hook the tool into the lid's lift eye and break the seal — never with your fingers.",
+      "target": "lid-tool",
+      "title": "Lift the lid with the hook tool",
+      "why": "A grease-sealed cast-iron lid does not lift smoothly; it holds and then releases all at once. The hook tool keeps every one of your fingers away from the gap that is about to open, which your bare hand cannot promise you."
+    },
+    {
+      "cue": "Hold back from the opening, look and smell for anything wrong before your hands go anywhere near it.",
+      "holdBreakNote": "You reached in before the pause was over. Hold back and let the check finish before anything goes near that opening.",
+      "id": "headspace-check",
+      "kind": "hold",
+      "prompt": "Hold back from the opening, look and smell for anything wrong before your hands go anywhere near it.",
+      "seconds": 5,
+      "target": "lid-opening",
+      "title": "Pause over the open lid before reaching in",
+      "why": "The open lid is the one moment in this whole service where an atmosphere problem would actually show itself — a held pause here is a five-second check against exactly the kind of surprise the confined-space call assumed would not need a permit to manage."
+    },
+    {
+      "cue": "Dip the measuring stick to the bottom and commit the combined grease-and-solids reading as a share of the total liquid depth.",
+      "gauge": {
+        "green": [
+          0.5,
+          0.78
+        ],
+        "label": "GREASE + SOLIDS",
+        "missNote": "Not yet past the 25 percent trigger, or already well past it — read the stick again before deciding whether this unit gets pumped today.",
+        "speed": 0.65
+      },
+      "id": "measure",
+      "kind": "gauge",
+      "prompt": "Dip the measuring stick to the bottom and commit the combined grease-and-solids reading as a share of the total liquid depth.",
+      "target": "dip-stick",
+      "title": "Measure the grease and solids against the 25 percent rule",
+      "why": "The interceptor is due for pumping once the combined grease cap and settled solids reach about a quarter of the unit's total liquid depth — past that point the trap is losing the working volume it needs to actually separate anything, and it starts passing grease straight through to the line it is supposed to protect."
+    },
+    {
+      "cue": "Look at the internal baffle wall and the flow-control fitting before pumping anything out.",
+      "id": "baffle-check",
+      "itemNames": {
+        "blocked-flow-control": "flow-control fitting packed with debris",
+        "broken-baffle": "cracked internal baffle"
+      },
+      "itemNotes": {
+        "blocked-flow-control": "The inlet flow-control fitting is packed solid with food debris. A blocked flow control lets water surge through the unit faster than the design flow rate, which stirs up everything the baffles just settled.",
+        "broken-baffle": "The baffle wall that is supposed to hold grease back from the outlet side has a crack straight through it — grease is moving past it into the compartment the trap treats as already clean."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the internal baffle wall and the flow-control fitting before pumping anything out.",
+      "targets": [
+        "broken-baffle",
+        "blocked-flow-control"
+      ],
+      "title": "Check the baffles and flow control",
+      "why": "The baffles and the flow control are what actually make this a grease interceptor instead of a plain tank — a cracked baffle or a blocked fitting means the unit has been passing grease through even while every reading on the outside looked normal."
+    },
+    {
+      "cue": "Hold the vacuum hose steady into the sealed haul container, never toward the floor drain.",
+      "holdBreakNote": "The hose drifted off the container. Bring it back over the opening before any more comes out.",
+      "id": "pump-out",
+      "kind": "track",
+      "prompt": "Hold the vacuum hose steady into the sealed haul container, never toward the floor drain.",
+      "seconds": 7,
+      "target": "vac-hose",
+      "title": "Pump the contents to the sealed container",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "PUMP HOSE",
+        "rise": 0.55,
+        "start": 0.1
+      },
+      "why": "The whole point of a sealed container is that grease waste leaves this kitchen as a manifested load a hauler is responsible for, not as whatever ran down the nearest drain — a hose that wanders off the container for even a few seconds puts waste exactly where the FOG programme exists to keep it from going."
+    },
+    {
+      "cue": "Close and latch the container's lid once the pump-out is finished.",
+      "id": "container-seal",
+      "kind": "select",
+      "prompt": "Close and latch the container's lid once the pump-out is finished.",
+      "target": "haul-container-lid",
+      "title": "Seal the haul container",
+      "why": "A sealed container is what keeps this load a controlled shipment instead of an open tub of grease sitting in a kitchen until the hauler shows up — sealed now, it stays that way through however long it waits by the back door."
+    },
+    {
+      "cue": "Hold the rinse wand over the baffles and walls until the residue is gone.",
+      "holdBreakNote": "Stopped before the residue cleared. Keep the rinse on the walls and baffles until they're actually clean.",
+      "id": "rinse",
+      "kind": "hold",
+      "prompt": "Hold the rinse wand over the baffles and walls until the residue is gone.",
+      "seconds": 5,
+      "target": "rinse-wand",
+      "title": "Rinse the interior",
+      "why": "Grease left clinging to the baffles and walls after a pump-out is grease that is already back at work re-coating the unit before it is even resealed — the rinse is what actually resets the trap to empty rather than just lower."
+    },
+    {
+      "cue": "Turn the locking ring until the lid seats flush and the bolts are snug.",
+      "id": "reseal-lid",
+      "kind": "turn",
+      "prompt": "Turn the locking ring until the lid seats flush and the bolts are snug.",
+      "target": "lid-bolts",
+      "title": "Reseat and torque the lid",
+      "turn": {
+        "axis": "y",
+        "label": "LID BOLTS",
+        "turns": 0.75
+      },
+      "why": "A lid that is set back on but not actually torqued down is a lid that can be lifted by the next pressure surge in the line, or by a foot that catches its edge — the bolts are what turn a resting cover back into a sealed access point."
+    },
+    {
+      "cue": "Fill in the volume, the date and your signature on the manifest before the hauler takes the container.",
+      "id": "manifest",
+      "kind": "select",
+      "prompt": "Fill in the volume, the date and your signature on the manifest before the hauler takes the container.",
+      "target": "hauler-manifest",
+      "title": "Complete the hauler's manifest",
+      "why": "The manifest is what makes this load traceable from your kitchen to wherever the hauler actually takes it — under the FOG programme, a grease shipment with no manifest is treated the same as one that never left through the proper route at all."
+    },
+    {
+      "cue": "Record the date, the reading and the volume pumped in the maintenance log.",
+      "id": "log",
+      "kind": "select",
+      "prompt": "Record the date, the reading and the volume pumped in the maintenance log.",
+      "target": "maintenance-log",
+      "title": "Log the service for inspection",
+      "why": "The utility's FOG inspectors check this log against the interceptor's permitted service interval — a trap that is actually maintained on schedule but has no log to prove it gets treated exactly like one that was never serviced at all."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Servicing the under-sink grease interceptor: confined-space question answered, lid lifted with the tool, grease and solids measured against the 25 percent rule, contents pumped to a sealed container, baffles checked, unit rinsed and resealed, manifest and log filed",
+  "title": "SmartCiti.X~ Grease Trap VR",
+  "trade": "UNITE HERE Local 2 kitchen steward / facilities laborer",
+  "underwater": null,
+  "weather": null
+}

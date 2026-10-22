@@ -1,0 +1,396 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "application-in-on-time",
+    "name": "In On Time",
+    "note": "The application read, signed and handed in before the window closed, and the test sat without a shortcut"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "The selection procedure in the programme's registered apprenticeship standard — the recruitment window, the minimum qualifications, the aptitude test and the ranking — registered with the U.S. Department of Labor or a State Apprenticeship Agency, and the equal-opportunity pledge every registered programme carries; the Americans with Disabilities Act, under which an applicant with a disability may ask for a reasonable accommodation on the test; OSHA 10 through the OSHA Outreach Training Program, which some programmes ask for and many pre-apprenticeship courses give; the training funds of the building-trades unions that sponsor such programmes, LIUNA and IUOE among them; SAMHSA's National Helpline for anyone for whom a pre-indenture drug screen is a worry",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "DOJ",
+        "citedAs": "Americans with Disabilities Act",
+        "id": "ada-title-ii",
+        "title": "Americans with Disabilities Act Title II — programme accessibility for public entities and their services"
+      },
+      {
+        "body": "DOL",
+        "citedAs": "apprenticeship standard",
+        "id": "dol-apprenticeship-standards",
+        "title": "Registered apprenticeship standards, as a category — the written standards a sponsor registers with the U.S. Department of Labor or a State Apprenticeship Agency: the term, on-the-job learning, related instruction, the progressive wage schedule, the ratio, the probationary period and the selection procedure"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "OSHA 10",
+        "id": "osha-outreach-10",
+        "title": "OSHA Outreach Training Program — the 10-hour construction course (OSHA 10): voluntary awareness training taught by an authorized trainer, not a certification and not a substitute for the employer's own training"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "SAMHSA",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Apprenticeship navigation",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "read-the-notice",
+        "name": "Read The Notice",
+        "note": "The minimum qualifications and the test sections both found clean"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcut",
+        "note": "No unsafe action anywhere in the application"
+      },
+      {
+        "id": "to-the-sixteenth",
+        "name": "To The Sixteenth",
+        "note": "The tape read near the middle of the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-application",
+        "name": "Clean Application",
+        "note": "No corrections anywhere"
+      },
+      {
+        "id": "steady-pace",
+        "name": "Steady Pace",
+        "note": "Every timed passage carried without a break"
+      },
+      {
+        "id": "early-bird",
+        "name": "Early Bird",
+        "note": "Finish inside 80% of par"
+      }
+    ],
+    "currency": "RANK",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Interested",
+      "Applicant",
+      "Tested",
+      "Ranked",
+      "Application Certified"
+    ],
+    "system": "Applicant File"
+  },
+  "hazards": {
+    "aat-blank-signature": "Someone offered to 'fill in the rest' if you sign the application now. The application ends with a statement that everything on it is true, and a false or incomplete answer can disqualify an applicant from the whole cycle. A signature on a form somebody else will finish is your name on answers you have never seen — the application is read, filled in by you, and only then signed.",
+    "aat-pay-for-spot": "That flyer sells a 'guaranteed apprenticeship spot' for a fee. A registered programme selects apprentices by the procedure written in its apprenticeship standard — minimum qualifications, test, interview, ranking — and nobody outside it can sell a place on that list. Paying buys nothing except the lesson.",
+    "aat-phone-on-desk": "You reached for your phone on the test desk. Programmes treat a phone out during the aptitude test as grounds to end the test, and an applicant who is removed usually waits for the next recruitment window — often a year. The phone goes in the locker before the test starts, whatever it buzzes about.",
+    "aat-ssn-text": "That text says to reply with your Social Security number to 'hold your test seat'. Programmes contact applicants the way their recruitment notice says they will, and nobody holds a seat by text. A Social Security number sent to an unknown number is the start of identity theft, and the application you just filed is exactly the kind of news a scammer watches for."
+  },
+  "id": "apprenticeship-application-and-test",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "read-and-sign",
+      "alert": "Your phone rings: a caller says she is from the apprenticeship office, that your test seat will be given away unless you confirm your Social Security number and pay a 'processing fee' by card right now.",
+      "cue": "Do not confirm or pay anything. Check how the programme says it contacts applicants.",
+      "delay": 3,
+      "id": "aat-seat-caller",
+      "kind": "Caller claiming to be the programme",
+      "missNote": "The call ran on while you read, and in the version where you went along with it a stranger has your Social Security number and a card payment for a seat that was never at risk. The programme never called.",
+      "seconds": 12,
+      "target": "aat-contact-card",
+      "why": "The recruitment notice says how the programme contacts applicants and what, if anything, it charges. A call demanding your Social Security number and a card payment to 'hold a seat' matches neither, and the contact card on the counter gives the office's own number to call back. Checking it takes a minute; a scam that gets your number takes years to untangle.",
+      "wrongNote": "Not that. The answer is the programme's own contact card — call the office back on its published number, and confirm nothing to a caller."
+    },
+    {
+      "after": "timed-section",
+      "alert": "The applicant at the next desk leans over and whispers for the answer to question twelve, and slides a note toward your desk.",
+      "cue": "Do not answer and do not take the note. Raise it with the proctor.",
+      "delay": 3,
+      "id": "aat-neighbour-asks",
+      "kind": "Asked for answers mid-test",
+      "missNote": "The note sat on the edge of your desk while you kept working, and in the version where the proctor found it first, both tests were stopped. A year of waiting for the next window started over a note you never asked for.",
+      "seconds": 12,
+      "target": "aat-proctor-bell",
+      "why": "Anything passed between desks during a test can end the test for both applicants, whoever started it. Raising your hand for the proctor, without taking the note, is what protects your result — the proctor deals with it, and your test goes on. Ignoring it and hoping is the option that leaves your name next to a note on your desk.",
+      "wrongNote": "Not that. The answer is the proctor — hand up, note untouched — not answering, and not trying to handle it yourself."
+    }
+  ],
+  "lateNotes": {
+    "aat-application-packet": "Not yet. The packet goes in once the application has been read, filled in and signed — a packet handed in unsigned is a packet that does not count.",
+    "aat-closing-log": "The log is written at the end, with the real dates — handed in, test date, next step — not the ones you hope for."
+  },
+  "name": "Apprenticeship Application & Test",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "job-readiness-edition",
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "aat-accommodation-form",
+      "aat-application-form",
+      "aat-application-packet",
+      "aat-blank-signature",
+      "aat-closing-log",
+      "aat-contact-card",
+      "aat-coordinator",
+      "aat-doc-diploma",
+      "aat-doc-dmv",
+      "aat-doc-id",
+      "aat-pay-for-spot",
+      "aat-phone-on-desk",
+      "aat-proctor-bell",
+      "aat-q-age",
+      "aat-q-diploma",
+      "aat-q-license",
+      "aat-received-tray",
+      "aat-recruit-notice",
+      "aat-sec-math",
+      "aat-sec-mechanical",
+      "aat-sec-reading",
+      "aat-ssn-text",
+      "aat-tape-gauge",
+      "aat-test-clock",
+      "aat-test-date-dial"
+    ],
+    "meshes": 188
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the posted notice: when the window opens and closes, what the programme asks for, and how it will contact you.",
+      "id": "read-notice",
+      "kind": "select",
+      "prompt": "Read the posted notice: when the window opens and closes, what the programme asks for, and how it will contact you.",
+      "target": "aat-recruit-notice",
+      "title": "Read the programme's recruitment notice",
+      "why": "A registered programme recruits on the schedule and by the procedure its apprenticeship standard sets, and the recruitment notice is where that is published: the window, the minimum qualifications, the test and how applicants will be contacted. Everything that follows is checked against it. Missing a window usually means waiting for the next one, which can be a year away, so the dates on the notice are the first thing that matters."
+    },
+    {
+      "cue": "Find the three minimum qualifications the example notice lists.",
+      "id": "minimum-quals",
+      "itemNames": {
+        "aat-q-age": "the minimum age",
+        "aat-q-diploma": "a diploma or equivalency",
+        "aat-q-license": "a driver's licence"
+      },
+      "itemNotes": {
+        "aat-q-age": "The minimum age — commonly eighteen by the time of indenture. Check the notice; it is the programme's own figure that counts.",
+        "aat-q-diploma": "A high-school diploma or an equivalency certificate is a common requirement. If yours is missing, the adult school or the pre-apprenticeship programme is the next step, not a reason to give up.",
+        "aat-q-license": "Many construction programmes ask for a driver's licence because jobsites move. If yours is suspended, say so and ask what the programme accepts — that is fixable, and lying about it is not."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find the three minimum qualifications the example notice lists.",
+      "targets": [
+        "aat-q-age",
+        "aat-q-diploma",
+        "aat-q-license"
+      ],
+      "title": "Find the minimum qualifications on the example notice",
+      "why": "The minimum qualifications are the part of the selection procedure an applicant can check before spending anything: age, education and sometimes a driver's licence or physical requirements, as the programme's own standard sets them. They differ between programmes and trades, which is why the notice — not a friend's memory of a different programme — is where you read them."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Collect the photo ID, the diploma or equivalency certificate and the driving record — order does not matter.",
+      "id": "gather-documents",
+      "itemNames": {
+        "aat-doc-diploma": "the diploma or equivalency certificate",
+        "aat-doc-dmv": "the driving record",
+        "aat-doc-id": "photo identification"
+      },
+      "itemNotes": {
+        "aat-doc-diploma": "The diploma, equivalency certificate or transcript the notice asks for. Official copies can take weeks to request, so they are the thing to start first.",
+        "aat-doc-dmv": "Where a licence is required, some programmes ask for a copy of the driving record itself. It comes from the state's motor vehicles office.",
+        "aat-doc-id": "Photo identification, current. Check the expiry date now rather than at the counter."
+      },
+      "kind": "sequence",
+      "prompt": "Collect the photo ID, the diploma or equivalency certificate and the driving record — order does not matter.",
+      "targets": [
+        "aat-doc-id",
+        "aat-doc-diploma",
+        "aat-doc-dmv"
+      ],
+      "title": "Gather the documents the notice asks for",
+      "why": "Applications fail on paperwork far more often than on ability. The documents the notice asks for — identification, proof of education, sometimes a driving record — often have to be requested from somebody else and take time to arrive. Gathering them before the window opens is what turns 'I meant to apply' into an application that is in on the first day."
+    },
+    {
+      "cue": "Hold the application open and read every question and the statement above the signature line before signing.",
+      "holdBreakNote": "You put the application down before the statement above the signature line. That is the part you are signing — read it to the end.",
+      "id": "read-and-sign",
+      "kind": "hold",
+      "prompt": "Hold the application open and read every question and the statement above the signature line before signing.",
+      "seconds": 6,
+      "target": "aat-application-form",
+      "title": "Read the application through before you sign it",
+      "why": "The application ends with a statement that everything on it is true and complete, and programmes can disqualify an applicant for a false or missing answer. Reading every question before signing — and answering the hard ones honestly, like a conviction or a suspended licence — is what keeps the application standing, because most of those answers are not automatic disqualifications, while a hidden one often is."
+    },
+    {
+      "cue": "Carry the signed application and documents to the received tray at the counter and wait for the dated receipt.",
+      "drag": {
+        "missNote": "Not in the received tray. An application sitting on the counter has not been received — put it where the office logs it and take the receipt.",
+        "radius": 0.4,
+        "to": "aat-received-tray"
+      },
+      "id": "hand-in",
+      "kind": "drag",
+      "prompt": "Carry the signed application and documents to the received tray at the counter and wait for the dated receipt.",
+      "target": "aat-application-packet",
+      "title": "Hand the packet in before the window closes",
+      "why": "An application counts from the moment the programme receives it inside the window, and the dated receipt is your proof that it did. Handing it in at the counter, early in the window, leaves time to fix anything the office flags. Posting it on the last day, or leaving it with someone to drop off, is how good applicants miss a year."
+    },
+    {
+      "cue": "If you have a documented disability that affects testing, fill in the accommodation request with the application.",
+      "id": "accommodation",
+      "kind": "select",
+      "prompt": "If you have a documented disability that affects testing, fill in the accommodation request with the application.",
+      "target": "aat-accommodation-form",
+      "title": "Ask for a test accommodation now, not on test day",
+      "why": "Under the Americans with Disabilities Act, an applicant with a disability can ask for a reasonable accommodation on an employment test — extra time, a reader, a separate room — and the programme needs the request and the documentation before the test to arrange it. Asked for on test day, it usually cannot be provided; asked for now, it is simply part of the process."
+    },
+    {
+      "cue": "Turn the calendar dial to the test date on your receipt, with the reporting time and what to bring.",
+      "id": "test-date",
+      "kind": "turn",
+      "prompt": "Turn the calendar dial to the test date on your receipt, with the reporting time and what to bring.",
+      "target": "aat-test-date-dial",
+      "title": "Put the test date on the calendar",
+      "turn": {
+        "axis": "y",
+        "label": "TEST DATE",
+        "turns": 1
+      },
+      "why": "The test date, the reporting time and what to bring are on the receipt, and they are not flexible: an applicant who arrives late or without identification is usually not tested. Setting the date now, with the time and the list, is what makes the morning of the test about the test rather than about finding the room."
+    },
+    {
+      "cue": "On the example test outline, find the three sections the programme lists.",
+      "id": "test-sections",
+      "itemNames": {
+        "aat-sec-math": "arithmetic and measurement",
+        "aat-sec-mechanical": "mechanical reasoning",
+        "aat-sec-reading": "reading comprehension"
+      },
+      "itemNotes": {
+        "aat-sec-math": "Arithmetic, fractions, decimals and measurement are the most common section, because they are used every day on a jobsite.",
+        "aat-sec-mechanical": "Mechanical reasoning — gears, levers, pulleys — appears on some trades' tests and not others. The notice says which.",
+        "aat-sec-reading": "Reading comprehension checks that you can follow written instructions, specifications and safety material."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "On the example test outline, find the three sections the programme lists.",
+      "targets": [
+        "aat-sec-math",
+        "aat-sec-reading",
+        "aat-sec-mechanical"
+      ],
+      "title": "Find the sections the example test covers",
+      "why": "Aptitude tests differ by trade and programme, but most cover arithmetic and measurement, reading comprehension and, for some trades, mechanical reasoning. The programme's notice or outline says which, and knowing the sections is what makes preparation specific — practising fractions and a tape measure rather than worrying in general about 'the test'."
+    },
+    {
+      "cue": "Commit the reading when the marker sits on the example mark — fractions of an inch, to the sixteenth.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.56
+        ],
+        "label": "TAPE READING (EXAMPLE)",
+        "missNote": "That is not the mark. Count the sixteenths from the last whole inch — the long lines are halves and quarters, the shortest are sixteenths.",
+        "speed": 0.55
+      },
+      "id": "tape-read",
+      "kind": "gauge",
+      "prompt": "Commit the reading when the marker sits on the example mark — fractions of an inch, to the sixteenth.",
+      "target": "aat-tape-gauge",
+      "title": "Read the tape measure to the sixteenth",
+      "why": "Reading a tape measure to the sixteenth of an inch is the measurement skill construction math is built on, and it is the kind of question that turns up on the arithmetic section. It is also learnable in an afternoon: the long lines are halves and quarters, the shortest are sixteenths, and fractions reduce. Practising it before the test is time better spent than any 'test secrets' course."
+    },
+    {
+      "cue": "Work the practice section and keep your pace inside the band until the proctor calls time.",
+      "holdBreakNote": "Your pace broke. Skip the question you are stuck on and come back to it — a steady pace through the whole section beats a perfect first page.",
+      "id": "timed-section",
+      "kind": "track",
+      "prompt": "Work the practice section and keep your pace inside the band until the proctor calls time.",
+      "seconds": 7,
+      "target": "aat-test-clock",
+      "title": "Hold a steady pace through the timed section",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.44,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "PACE",
+        "rise": 0.5,
+        "start": 0.16
+      },
+      "why": "A timed section rewards pace as much as knowledge: rushing turns into guessing, and stalling on one hard question leaves easy ones unanswered at the end. Holding a steady pace — skipping and coming back — is a skill, and it is practised on timed practice sections before test day. The practice section here is an example; the real one is whatever the programme's outline describes."
+    },
+    {
+      "cue": "Ask the coordinator what happens next — interview, ranking list, how long the list lasts — and say how you are holding up.",
+      "id": "coordinator-checkin",
+      "kind": "select",
+      "prompt": "Ask the coordinator what happens next — interview, ranking list, how long the list lasts — and say how you are holding up.",
+      "target": "aat-coordinator",
+      "title": "Check in with the training coordinator",
+      "why": "After the test most programmes interview, rank applicants and keep a list for a set time, and the coordinator is the person who can say how long that is and what an applicant can do while waiting — including pre-apprenticeship training or OSHA 10, which some programmes value. Waiting is hard; saying so to the person running the process is part of staying in it."
+    },
+    {
+      "cue": "Log the date handed in, the receipt number, the test date and result, the interview, and how long the ranking list lasts.",
+      "id": "closing-log",
+      "kind": "select",
+      "prompt": "Log the date handed in, the receipt number, the test date and result, the interview, and how long the ranking list lasts.",
+      "target": "aat-closing-log",
+      "title": "Close out your application log",
+      "why": "An application is a months-long process, and the log keeps it straight: the receipt number, the test date, the interview, the ranking and how long the list stays open. It is also what you bring when applying to a second programme, because many applicants apply to more than one trade — and the log shows which windows are still open."
+    }
+  ],
+  "supportLine": "the programme's training coordinator for anything about the process, 988 if the waiting has turned into a crisis, or SAMHSA's National Helpline (1-800-662-4357, free and confidential) if drinking or using is part of what worries you about the screen",
+  "tagline": "Read the recruitment notice, gather the documents, read the application before signing it, hand it in on time, ask for an accommodation early, and sit the aptitude test at a steady pace — past a caller after your Social Security number",
+  "title": "SmartCiti.X~ Apprenticeship Application & Test VR",
+  "trade": "Apprenticeship applicant — the application and the aptitude test",
+  "underwater": null,
+  "weather": "clear"
+}

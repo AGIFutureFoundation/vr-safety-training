@@ -1,0 +1,402 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "road-restored",
+    "name": "Road Restored",
+    "note": "A crown cut to the plan, a culvert set and backfilled in a respected trench, and a school bus escorted through the work zone without anyone in its path"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "IUOE operating engineers — grading and heavy equipment; OSHA 29 CFR 1926 safety and health regulations for construction; OSHA 29 CFR 1926 Subpart P Excavations for the culvert trench; OSHA 29 CFR 1926.21 safety training and education in construction; the Manual on Uniform Traffic Control Devices (MUTCD) for the work zone on the access road",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "MUTCD",
+        "citedAs": "MUTCD",
+        "id": "mutcd",
+        "title": "Manual on Uniform Traffic Control Devices — temporary traffic control for work zones (Part 6)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.21",
+        "id": "osha-1926-21",
+        "title": "29 CFR 1926.21 — Safety training and education in construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926 Subpart P Excavations",
+        "id": "osha-1926-subpart-p",
+        "title": "OSHA 29 CFR 1926 Subpart P Excavations"
+      }
+    ]
+  },
+  "district": "open-range",
+  "domain": "Construction",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "zone-flagged-first",
+        "name": "Zone Flagged First",
+        "note": "The work zone set before the blade ever moved"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcut",
+        "note": "No unsafe action anywhere in the run"
+      },
+      {
+        "id": "grade-to-plan",
+        "name": "Grade to Plan",
+        "note": "Held the crown and cross-slope reading in band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-grade",
+        "name": "Clean Grade",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "grade-fast",
+        "name": "Grade Fast",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "crew-streak",
+        "name": "Crew Streak",
+        "note": "Eight correct actions in a row"
+      }
+    ],
+    "currency": "GRADE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ground Hand",
+      "Grader Operator",
+      "Lead Operator",
+      "Grade Foreman",
+      "Grade Certified"
+    ],
+    "system": "Grade Crew"
+  },
+  "hazards": {
+    "cross-swing-radius-grader": "You walked through the grader's working envelope while it was cutting. An operator watching the blade and the grade stakes is not also watching every direction around the machine at once, and crossing through the space it is actively working in bets that they will notice you before the machine reaches where you are.",
+    "enter-unprotected-trench": "You stepped down into the culvert trench before the protective slope was confirmed. OSHA's excavation standard treats a trench as ground that can move the instant it is cut, not ground that is safe because nothing has fallen in yet — the slope or bench is checked and confirmed before anyone's feet go below grade, not after.",
+    "reach-under-raised-blade": "You reached under the raised moldboard. A blade held up on hydraulics is held up by a system that can fail or drift exactly like any other hydraulic circuit, and a hand or a foot placed under it assumes a promise the cylinder has not actually made.",
+    "stand-in-grader-blind-spot": "You stood in the grader's rear blind spot while it was working. The backup camera on this machine is exactly the thing that closes that blind spot for the operator, and standing in it anyway — camera blocked or not — puts you exactly where the operator has the least chance of seeing you before the machine moves."
+  },
+  "id": "or-ranch-road-grading-and-culvert",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "first-pass",
+      "alert": "A school bus has just come around the bend, heading straight for the work zone on the one lane this road has.",
+      "cue": "Stop the grader. Get the flagger's stop sign up and escort the bus through.",
+      "delay": 3,
+      "id": "school-bus-on-road",
+      "kind": "School bus approaching the work zone",
+      "missNote": "The grader kept working while the bus closed the distance. A driver following hand signals from a machine that is still moving is trusting a read on intent that the flagger's sign exists specifically so nobody has to make.",
+      "seconds": 13,
+      "target": "flagger-sign",
+      "why": "A school bus on a one-lane ranch road has nowhere to go around a working grader, and the flagger's stop sign is the one thing on this whole job that can actually hold traffic clear of the equipment while the operator gets the blade out of the way — waving it through on a guess trades a documented, practiced procedure for a judgment call made in the two seconds the bus is already visible.",
+      "wrongNote": "It is the flagger's sign, not the blade — stop the grader and get the bus escorted through first."
+    },
+    {
+      "after": "culvert-place",
+      "alert": "The gate at the fence line has swung open and a handful of cattle are wandering out toward the road and the open trench.",
+      "cue": "Stop work. Get the gate closed and the cattle clear before anyone goes back to the trench.",
+      "delay": 3,
+      "id": "cattle-on-road",
+      "kind": "Cattle through an open gate",
+      "missNote": "Work went on with the cattle still loose near the trench and the machine. An animal that startles near an open excavation or a running grader can put itself, or somebody reacting to it, exactly where neither one should be.",
+      "seconds": 12,
+      "target": "gate-latch",
+      "why": "Cattle drawn toward an open trench and a running machine are a hazard to themselves and to the crew trying to work around them, and closing the gate is what actually solves the problem at its source instead of trying to herd animals away from equipment one at a time while the job is still live around them.",
+      "wrongNote": "It is the gate, not the trench — close it and get the cattle clear before anything else continues."
+    }
+  ],
+  "lateNotes": {},
+  "name": "Ranch Road Grading & Culvert",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "builders-trades"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "grader",
+        "count": 1,
+        "kit": "equipment"
+      }
+    ],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "blade-circle",
+      "blade-depth-lever",
+      "blocked-backup-camera",
+      "checkin-board",
+      "clean-mirror",
+      "compactor-handle",
+      "conditions-board",
+      "cone-taper-set",
+      "cross-swing-radius-grader",
+      "culvert-bedding",
+      "culvert-pipe",
+      "culvert-plan-marker",
+      "enter-unprotected-trench",
+      "flagger-posted",
+      "flagger-sign",
+      "gate-latch",
+      "log-compaction",
+      "log-crown",
+      "log-culvert",
+      "proof-roll-marker",
+      "reach-under-raised-blade",
+      "road-open-sign",
+      "slope-gauge",
+      "stand-in-grader-blind-spot",
+      "warning-sign-placed",
+      "work-order-board",
+      "worn-cutting-edge"
+    ],
+    "meshes": 187
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the plan for the road segment, the target crown and cross-slope, and the culvert location.",
+      "id": "work-order",
+      "kind": "select",
+      "prompt": "Check the plan for the road segment, the target crown and cross-slope, and the culvert location.",
+      "target": "work-order-board",
+      "title": "Take the grading plan",
+      "why": "The plan is what turns 'regrade the ranch road' into a specific crown percentage, a cross-slope and a culvert station number — without it, the crew is grading to what looks right from the cab, which is exactly the judgment call the plan exists to remove."
+    },
+    {
+      "cue": "Read today's wind outlook before grading starts, per the forecast.",
+      "id": "conditions-board",
+      "kind": "select",
+      "prompt": "Read today's wind outlook before grading starts, per the forecast.",
+      "target": "conditions-board",
+      "title": "Check the wind and dust conditions",
+      "why": "Wind decides how far the dust a grader throws travels and how well anyone downwind can see the work zone, and the current forecast — not yesterday's — is what the dust-control plan and the traffic control both depend on getting right."
+    },
+    {
+      "cue": "Warning sign, then the cone taper, then the flagger — in that order, before the grader touches the road.",
+      "id": "traffic-control",
+      "itemNames": {
+        "cone-taper-set": "cone taper set",
+        "flagger-posted": "flagger posted",
+        "warning-sign-placed": "warning sign placed"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Warning sign first, then the taper, then the flagger — a flagger posted before the taper is even set has nothing built yet to steer traffic into.",
+      "prompt": "Warning sign, then the cone taper, then the flagger — in that order, before the grader touches the road.",
+      "targets": [
+        "warning-sign-placed",
+        "cone-taper-set",
+        "flagger-posted"
+      ],
+      "title": "Flag the work zone before the blade moves",
+      "why": "This ranch road still carries traffic, including a bus on its route, and the MUTCD sequence — advance warning, then the taper that actually steers a driver into the open lane, then a flagger who can stop that lane entirely — is what gives a driver time to react before they are already on top of the equipment, not after."
+    },
+    {
+      "cue": "Check the machine over before the first pass — two defects are here.",
+      "decoyNotes": {
+        "clean-mirror": "That mirror is clean and unobstructed — the find is for what's actually wrong on the machine, not everything on it."
+      },
+      "id": "equipment-find",
+      "itemNames": {
+        "blocked-backup-camera": "blocked backup camera",
+        "worn-cutting-edge": "worn cutting edge"
+      },
+      "itemNotes": {
+        "blocked-backup-camera": "Caked mud over the backup camera is a blind spot the operator thinks is covered and is not.",
+        "worn-cutting-edge": "A cutting edge worn past its wear line stops cutting a clean crown and starts leaving a ridge the next pass has to fix."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the machine over before the first pass — two defects are here.",
+      "targets": [
+        "worn-cutting-edge",
+        "blocked-backup-camera"
+      ],
+      "title": "Walk around the grader before starting",
+      "why": "A worn edge or a blocked camera found at the walkaround gets fixed in the yard with the machine shut down; the same defect found mid-pass is a defect the operator is working around instead of one that got fixed."
+    },
+    {
+      "cue": "Check the stake against the plan's culvert station and invert depth before any ground is disturbed there.",
+      "id": "culvert-plan-confirm",
+      "kind": "select",
+      "prompt": "Check the stake against the plan's culvert station and invert depth before any ground is disturbed there.",
+      "target": "culvert-plan-marker",
+      "title": "Confirm the culvert location and depth",
+      "why": "The culvert has to sit at the depth and the station the plan actually calls for to carry the ditch flow under the road without ponding on one side of it — confirming the stake against the plan before the first cut is what keeps a shallow guess from becoming a road that floods every wet season."
+    },
+    {
+      "cue": "Turn the blade circle to the angle the plan calls for on this pass.",
+      "id": "blade-turn",
+      "kind": "turn",
+      "prompt": "Turn the blade circle to the angle the plan calls for on this pass.",
+      "target": "blade-circle",
+      "title": "Angle the blade to the cut",
+      "turn": {
+        "axis": "y",
+        "label": "BLADE CIRCLE",
+        "turns": 0.6
+      },
+      "why": "The blade's angle is what actually casts material to build the crown rather than just pushing it straight ahead — set to the plan's angle before the pass starts, it does the shaping in one pass instead of leaving a flat road that still needs the crown cut into it separately."
+    },
+    {
+      "cue": "Hold the blade depth steady through the full length of the first pass.",
+      "holdBreakNote": "Depth released mid-pass — that leaves a wave in the crown the next pass has to correct instead of build on. Hold it the full length.",
+      "id": "first-pass",
+      "kind": "hold",
+      "prompt": "Hold the blade depth steady through the full length of the first pass.",
+      "seconds": 5,
+      "target": "blade-depth-lever",
+      "title": "Hold the cut through the first pass",
+      "why": "A depth that wanders mid-pass leaves a wave in the road that the next pass has to grade back out — holding it steady the full length of the pass is what actually gets the crown cut in the number of passes the plan assumes rather than twice as many."
+    },
+    {
+      "cue": "Read the slope gauge across the crown and commit the reading against the plan.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "CROWN — PER THE PLAN",
+        "missNote": "Outside the plan's band — that section sheds water the wrong way or not at all. Grade it again rather than sign it off.",
+        "speed": 0.68
+      },
+      "id": "crown-grade-gauge",
+      "kind": "gauge",
+      "prompt": "Read the slope gauge across the crown and commit the reading against the plan.",
+      "target": "slope-gauge",
+      "title": "Check the crown and cross-slope",
+      "why": "The plan sets a specific crown and cross-slope for this road so that water actually sheds off it instead of ponding in the travel lane, and the slope gauge is what proves the cut matches that number — not how level the road looks standing at one end of it."
+    },
+    {
+      "cue": "Run the proof roll and confirm no soft spots before the surface is called finished.",
+      "id": "compaction-check",
+      "kind": "select",
+      "prompt": "Run the proof roll and confirm no soft spots before the surface is called finished.",
+      "target": "proof-roll-marker",
+      "title": "Proof-roll the graded surface",
+      "why": "A crown cut to the right shape over a soft spot still fails the first heavy truck that drives it — the proof roll is what catches that before the road is called done instead of after it ruts under the first load."
+    },
+    {
+      "cue": "Carry the culvert pipe into the trench and seat it on the bedding at the marked grade.",
+      "drag": {
+        "missNote": "Not seated on the bedding — a pipe resting off the marked grade will settle unevenly and pond exactly where it was supposed to drain.",
+        "radius": 0.5,
+        "to": "culvert-bedding"
+      },
+      "id": "culvert-place",
+      "kind": "drag",
+      "prompt": "Carry the culvert pipe into the trench and seat it on the bedding at the marked grade.",
+      "target": "culvert-pipe",
+      "title": "Set the culvert pipe",
+      "why": "The pipe has to sit exactly on the bedding at the plan's invert grade for the ditch to actually drain through it rather than pond at one end — set here, on the bedding, is what the backfill goes in around next, not a pipe left sitting on bare trench bottom."
+    },
+    {
+      "cue": "Hold the compactor's pass speed steady in the band over the backfill lift.",
+      "holdBreakNote": "Pass rate out of band — bring it back into the band so this lift actually compacts evenly before the next one goes on.",
+      "id": "backfill-track",
+      "kind": "track",
+      "prompt": "Hold the compactor's pass speed steady in the band over the backfill lift.",
+      "seconds": 7,
+      "target": "compactor-handle",
+      "title": "Compact the backfill in lifts",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.5,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "COMPACTOR PASS RATE",
+        "rise": 0.55,
+        "start": 0.15
+      },
+      "why": "Backfill compacted too fast leaves voids under the road surface that show up as a settled dip months later; too slow overworks the lift without adding anything — a steady pass speed is what actually densifies the lift evenly across the pipe before the next one goes on top of it."
+    },
+    {
+      "cue": "Confirm the surface and shoulder are clear, then flip the sign to open the lane.",
+      "id": "reopen-road",
+      "kind": "select",
+      "prompt": "Confirm the surface and shoulder are clear, then flip the sign to open the lane.",
+      "target": "road-open-sign",
+      "title": "Reopen the road",
+      "why": "Reopening the lane is its own decision, made after the surface and the shoulder are actually checked clear — not the moment the last tool is put away — because a road opened on a guess with tools or a trench still exposed is the exact hazard the work zone existed to keep off it."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Write the crown reading, the culvert install and the compaction result into the grading log.",
+      "id": "closing-log",
+      "itemNames": {
+        "log-compaction": "compaction logged",
+        "log-crown": "crown reading logged",
+        "log-culvert": "culvert install logged"
+      },
+      "kind": "sequence",
+      "prompt": "Write the crown reading, the culvert install and the compaction result into the grading log.",
+      "targets": [
+        "log-crown",
+        "log-culvert",
+        "log-compaction"
+      ],
+      "title": "Log the grading job",
+      "why": "The log is the record that this segment was actually graded to the plan and the culvert set at the depth it calls for — without it, the next crew working this road, or the inspector who signs off on it, is trusting a memory instead of a number."
+    },
+    {
+      "cue": "Ask how the crew is doing after the bus and the cattle both came through the work zone, not just whether the road is done.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Ask how the crew is doing after the bus and the cattle both came through the work zone, not just whether the road is done.",
+      "target": "checkin-board",
+      "title": "Check in with the crew",
+      "why": "A shift that includes a school bus and loose cattle both moving through an active work zone asks more attention of an operator than an ordinary grading day, and asking the question at the end of it is what keeps that kind of day from just getting absorbed as normal."
+    }
+  ],
+  "supportLine": "the IUOE local's member assistance programme and the contractor's employee assistance line",
+  "tagline": "A ranch access road regraded and a culvert set under it: the work zone flagged first, the crown and cross-slope checked against the plan, the trench respected as an excavation, and a school bus on the same road escorted through on the flagger's call",
+  "title": "SmartCiti.X~ Ranch Road Grading & Culvert VR",
+  "trade": "Operating engineer — IUOE",
+  "underwater": null,
+  "weather": "wind"
+}

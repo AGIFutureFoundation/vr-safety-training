@@ -1,0 +1,428 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "chart-complete",
+    "name": "Chart Complete",
+    "note": "A full six-site chart, correctly graded and staged, with every change from the last visit caught"
+  },
+  "category": "Dental & Oral Health",
+  "certification": "SEIU and UFCW dental and clinic staff; the ADHA's standards for clinical dental hygiene practice; the American Academy of Periodontology's 2017 classification of periodontal diseases (staging and grading); the Dental Hygiene Board of California and the state's dental practice act; OSHA 29 CFR 1910.1030 bloodborne pathogens for every bleeding site this chart records",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADHA",
+        "citedAs": "ADHA",
+        "id": "adha-standards",
+        "title": "ADHA Standards for Clinical Dental Hygiene Practice"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "state dental board",
+        "citedAs": "dental practice act",
+        "id": "state-dental-board",
+        "title": "The state dental board and its dental practice act: licensure, scope of practice, and the allowable-duties rules for dental assistants and hygienists"
+      },
+      {
+        "body": "union",
+        "citedAs": "UFCW",
+        "id": "ufcw-training",
+        "title": "UFCW member training for retail food, clinic and dental support work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Dental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "six-sites",
+        "name": "Six Sites",
+        "note": "Every site walked in the taught order, first time"
+      },
+      {
+        "id": "no-guessed-numbers",
+        "name": "No Guessed Numbers",
+        "note": "Never charted a number the probe didn't actually read"
+      },
+      {
+        "id": "staged-right",
+        "name": "Staged Right",
+        "note": "Stage and grade matched to the findings without correction"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-chart",
+        "name": "Clean Chart",
+        "note": "No corrections anywhere in the chart"
+      },
+      {
+        "id": "steady-walk",
+        "name": "Steady Walk",
+        "note": "Both timed steps held clean without a break"
+      },
+      {
+        "id": "chart-on-time",
+        "name": "Chart on Time",
+        "note": "Full chart complete inside 80% of par"
+      }
+    ],
+    "currency": "SITE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Charting Trainee",
+      "Registered Prober",
+      "Full-Mouth Charter",
+      "Periodontal Lead",
+      "Attachment Watch Certified"
+    ],
+    "system": "Attachment Watch"
+  },
+  "hazards": {
+    "eyeball-depth": "You charted a number you eyeballed instead of the one the probe actually read. Every measurement after this one — the CAL calculation, the stage, the grade, the plan — inherits whatever this guess got wrong, and nobody downstream can tell a measured 5mm from a guessed one.",
+    "hard-probe": "You dragged the probe hard across the sulcus instead of walking it in small steps at each site. A dragged reading either overshoots into healthy tissue and reads too deep, or skates past the actual deepest point and reads too shallow — either way, the number on the chart is not the pocket.",
+    "skip-bop": "You charted the depth and moved on without checking for bleeding or suppuration at the site. Bleeding on probing is often the earliest sign of active disease at a site that still measures shallow — skip the check and the chart records a healthy-looking number over a site that is actually inflamed.",
+    "unsafe-probe-set-down": "You set the probe down tip-first, uncapped, on the open tray instead of in the sharps-safe holder. A sharp instrument left exposed on a shared tray is a needlestick waiting for whoever reaches for it next, gloved or not."
+  },
+  "id": "periodontal-charting",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "compare-hold",
+      "alert": "Site 30 distobuccal probes at 7mm with bleeding today. Last visit's chart shows the same site at 3mm.",
+      "cue": "That is a four-millimetre jump at one site, not just a deep number.",
+      "delay": 3,
+      "id": "site-changed-flag",
+      "kind": "Chart discrepancy",
+      "missNote": "You finished the comparison without flagging the jump at site 30. A chart that records the 7mm but not that it used to be 3mm hides the one piece of evidence that would have told the dentist this site is actively getting worse right now.",
+      "seconds": 12,
+      "target": "flag-dentist-panel",
+      "why": "A single site that moved four millimetres between visits is a different finding from a site that has quietly been 7mm for years — it says something changed recently, and the AAP's grading depends on exactly that kind of rate-of-change evidence. It gets flagged for the dentist as a change, not filed as just another number on the chart.",
+      "wrongNote": "It is the flag for the dentist. Whatever else is on this chart, that four-millimetre change is what needs a second set of eyes."
+    },
+    {
+      "after": "probe-walk",
+      "alert": "The site you just probed is still bleeding well past the few seconds a healthy sulcus normally takes to stop — this patient's chart carries a blood thinner.",
+      "cue": "That is longer than probing alone accounts for.",
+      "delay": 3,
+      "id": "prolonged-bleeding",
+      "kind": "Bleeding beyond expected",
+      "missNote": "You moved on to the next site while the last one was still bleeding. Prolonged bleeding on an anticoagulated patient is a known, expected event this practice has a response for — leaving it unmanaged is the failure, not the bleeding itself.",
+      "seconds": 12,
+      "target": "gauze-pack",
+      "why": "An anticoagulant changes how long a probed site bleeds, not whether probing itself was done correctly — applying gentle, sustained pressure with gauze until it actually stops is the response, rather than continuing to the next site and charting over a site that is still bleeding.",
+      "wrongNote": "It is the gauze. Apply sustained pressure to the site until the bleeding has actually stopped before anything else continues."
+    }
+  ],
+  "lateNotes": {},
+  "name": "Periodontal Charting",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "dental-hygiene-unspoken-smiles"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "bop-panel",
+      "chart-locked",
+      "chart-panel",
+      "compare-hold",
+      "eyeball-depth",
+      "flag-dentist-panel",
+      "furcation-i",
+      "furcation-ii",
+      "furcation-iii",
+      "gauze-pack",
+      "grade-a",
+      "grade-b",
+      "grade-c",
+      "hard-probe",
+      "mobility-1",
+      "plan-panel",
+      "position-light",
+      "probe-check",
+      "probe-disinfected",
+      "probe-pickup",
+      "probe-ready",
+      "probe-walk",
+      "recession-gauge",
+      "sharps-put-away",
+      "site-b",
+      "site-db",
+      "site-dl",
+      "site-l",
+      "site-mb",
+      "site-ml",
+      "skip-bop",
+      "stage-i",
+      "stage-ii",
+      "stage-iii",
+      "unsafe-probe-set-down"
+    ],
+    "meshes": 135
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Bring the operatory light onto the quadrant you're about to probe.",
+      "forceClass": "light",
+      "id": "position-light",
+      "kind": "turn",
+      "prompt": "Bring the operatory light onto the quadrant you're about to probe.",
+      "robotNote": "The light arm crosses over the patient's face to reach the posterior quadrant.",
+      "target": "position-light",
+      "title": "Position the light for the posterior quadrant",
+      "turn": {
+        "axis": "y",
+        "label": "LIGHT POSITION",
+        "turns": 0.3
+      },
+      "why": "A posterior lingual site probed half in shadow is a site probed by feel instead of by sight — the light gets moved to the quadrant before the probe does, not adjusted after a reading is already in doubt."
+    },
+    {
+      "cue": "Confirm which probe is in your hand and how its bands are marked.",
+      "id": "probe-check",
+      "kind": "select",
+      "prompt": "Confirm which probe is in your hand and how its bands are marked.",
+      "target": "probe-check",
+      "title": "Read the probe's markings",
+      "why": "A UNC-15 marks every millimetre and a Williams probe marks 1-2-3, 5, 7-8-9, 10 — reading a number off the wrong assumption about which probe this is turns every site that follows into a plausible-looking wrong measurement."
+    },
+    {
+      "cue": "Bring the probe from the tray into working position.",
+      "drag": {
+        "missNote": "Not into position — bring the probe fully into your working hand before the first site.",
+        "radius": 0.4,
+        "to": "probe-ready"
+      },
+      "id": "probe-pickup",
+      "kind": "drag",
+      "prompt": "Bring the probe from the tray into working position.",
+      "target": "probe-pickup",
+      "title": "Pick up the probe",
+      "why": "A probe half off the tray is a probe you are still reaching for while your other hand is already retracting the cheek — it comes fully into position before the first site, not mid-reach for it."
+    },
+    {
+      "cue": "Hold light, steady pressure and keep the probe walking in small steps, parallel to the tooth's long axis.",
+      "forceClass": "light",
+      "holdBreakNote": "Pressure went out of band mid-walk — a probe that is too light skips sites and one that is too heavy reads the tissue, not the pocket. Bring it back and keep walking.",
+      "id": "probe-walk",
+      "kind": "track",
+      "noRobot": true,
+      "prompt": "Hold light, steady pressure and keep the probe walking in small steps, parallel to the tooth's long axis.",
+      "robotNote": "Intraoral: a probe walked against attachment, by feel, on a live patient.",
+      "seconds": 6,
+      "target": "probe-walk",
+      "title": "Walk and angle the probe",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.42,
+        "green": [
+          0.32,
+          0.56
+        ],
+        "label": "PROBING PRESSURE",
+        "rise": 0.5,
+        "start": 0.14
+      },
+      "why": "Roughly 25 grams of pressure — about what it takes to blanch the tip of a fingernail — is what the pocket actually measures at. Heavier than that and the probe pushes through inflamed tissue into the periosteum, charting a number that is not the true pocket depth."
+    },
+    {
+      "cue": "Walk distobuccal, buccal, mesiobuccal around the facial, then mesiolingual, lingual, distolingual around the tongue side.",
+      "forceClass": "light",
+      "id": "site-order",
+      "itemNames": {
+        "site-b": "buccal",
+        "site-db": "distobuccal",
+        "site-dl": "distolingual",
+        "site-l": "lingual",
+        "site-mb": "mesiobuccal",
+        "site-ml": "mesiolingual"
+      },
+      "kind": "sequence",
+      "noRobot": true,
+      "outOfOrderNote": "Facial sites first — distobuccal, buccal, mesiobuccal — then the lingual side in the same direction. Walking it the same way every time is what keeps a full mouth from missing a site.",
+      "prompt": "Walk distobuccal, buccal, mesiobuccal around the facial, then mesiolingual, lingual, distolingual around the tongue side.",
+      "robotNote": "Six intraoral sites, probed to bone level.",
+      "targets": [
+        "site-db",
+        "site-b",
+        "site-mb",
+        "site-ml",
+        "site-l",
+        "site-dl"
+      ],
+      "title": "Probe all six sites, in order",
+      "why": "Six sites, not one number rounded for the whole tooth — a pocket that is 3mm at the buccal and 7mm at the distolingual is two entirely different findings, and probing only the facial surface is how a full-mouth chart misses disease on the side nobody looked at."
+    },
+    {
+      "cue": "Call out and enter the depth read at each of the six sites.",
+      "id": "call-depths",
+      "kind": "select",
+      "prompt": "Call out and enter the depth read at each of the six sites.",
+      "target": "chart-panel",
+      "title": "Chart the pocket depths",
+      "why": "A depth called out loud and entered immediately is a number checked twice — once by the hand reading the probe and once by the ears hearing it said back. A number remembered for even a few sites and entered later is a number that drifts."
+    },
+    {
+      "cue": "Mark every site that bled on probing or expressed suppuration.",
+      "id": "bop-suppuration",
+      "kind": "select",
+      "prompt": "Mark every site that bled on probing or expressed suppuration.",
+      "target": "bop-panel",
+      "title": "Record bleeding and suppuration",
+      "why": "Bleeding on probing and suppuration are findings in their own right, not footnotes to the depth — a site charted at 3mm with bleeding is a site with active inflammation that a depth number alone would call healthy."
+    },
+    {
+      "cue": "Read the recession at the gumline and commit — the chart adds it to the pocket depth for clinical attachment loss.",
+      "gauge": {
+        "green": [
+          0.28,
+          0.5
+        ],
+        "label": "RECESSION (mm)",
+        "missNote": "Read again from the gumline to the CEJ — an off measurement here throws off the attachment loss the whole stage is based on.",
+        "speed": 0.6
+      },
+      "id": "recession-cal",
+      "kind": "gauge",
+      "prompt": "Read the recession at the gumline and commit — the chart adds it to the pocket depth for clinical attachment loss.",
+      "target": "recession-gauge",
+      "title": "Measure recession and calculate CAL",
+      "why": "Clinical attachment loss is the pocket depth plus the recession, measured from a fixed point — the cemento-enamel junction — rather than from the gumline alone. A tooth with recession can have a shallow pocket and still have lost real attachment, which is exactly the case a depth-only chart would miss."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Grade what this tooth's probe entry and hand test actually showed.",
+      "decoyNotes": {
+        "furcation-i": "The probe enters the furcation area but nowhere near through it — that reads as Class I, not this tooth's finding of the probe entering into but not through.",
+        "furcation-iii": "A through-and-through furcation is Class III. This probe stopped inside the furcation without exiting the other side — that is Class II."
+      },
+      "forceClass": "light",
+      "id": "grade-involvement",
+      "itemNames": {
+        "furcation-ii": "furcation, Class II",
+        "mobility-1": "mobility, Class I"
+      },
+      "kind": "sequence",
+      "noRobot": true,
+      "prompt": "Grade what this tooth's probe entry and hand test actually showed.",
+      "robotNote": "Furcation and mobility are both read with the probe in the mouth.",
+      "targets": [
+        "furcation-ii",
+        "mobility-1"
+      ],
+      "title": "Grade furcation involvement and mobility",
+      "why": "Furcation and mobility grades are read off a specific test, not estimated from how bad the tooth looks — a Class II furcation and a Class I mobility on the same tooth changes the prognosis discussion from a Class III and Class III on the same numbers would."
+    },
+    {
+      "cue": "Hold the prior chart against today's, site by site, and look for what moved.",
+      "holdBreakNote": "You let go of the comparison before it was through — a site that changed further down the chart gets missed if the review doesn't run the full length.",
+      "id": "compare-hold",
+      "kind": "hold",
+      "prompt": "Hold the prior chart against today's, site by site, and look for what moved.",
+      "seconds": 5,
+      "target": "compare-hold",
+      "title": "Compare against the last visit",
+      "why": "A chart is a comparison, not a snapshot — the number that matters most today is often the one that changed from last time, not the one that happens to be highest. Holding both charts side by side, site by site, is how a jump gets caught instead of being read as just another deep site."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Match today's findings to the AAP 2017 classification — stage for severity, grade for rate of progression.",
+      "decoyNotes": {
+        "grade-a": "Grade A is a slow rate of progression with no risk factors evident — this patient's history and the bone-loss-to-age ratio point to faster than that.",
+        "grade-c": "Grade C is rapid progression with clear risk factors like uncontrolled diabetes or heavy smoking — neither is on this chart.",
+        "stage-i": "Stage I is early, attachment loss under 2mm — this chart's interdental CAL and radiographic bone loss are past that.",
+        "stage-iii": "Stage III adds attachment loss of 5mm or more with vertical bone loss or a Class II/III furcation the periodontium can't recover on its own — this case's findings sit a stage short of that."
+      },
+      "id": "stage-grade",
+      "itemNames": {
+        "grade-b": "Grade B",
+        "stage-ii": "Stage II"
+      },
+      "kind": "sequence",
+      "prompt": "Match today's findings to the AAP 2017 classification — stage for severity, grade for rate of progression.",
+      "targets": [
+        "stage-ii",
+        "grade-b"
+      ],
+      "title": "Stage and grade the case",
+      "why": "Stage describes how much damage has already happened — attachment loss, bone loss, tooth loss, complexity — and grade describes how fast it is likely moving. The same stage with a different grade is a different conversation about how urgently the plan needs to move."
+    },
+    {
+      "cue": "Match today's treatment plan to the stage and grade just charted.",
+      "id": "plan-follow",
+      "kind": "select",
+      "prompt": "Match today's treatment plan to the stage and grade just charted.",
+      "target": "plan-panel",
+      "title": "Confirm the plan follows from the chart",
+      "why": "A chart that says Stage II Grade B and a plan that was already written before the probe came out are two documents that happen to share a patient — the plan is confirmed against what was actually found, not defended after the fact."
+    },
+    {
+      "cue": "Two things about the tray need to be true before this chair is done — find them.",
+      "decoyNotes": {
+        "chart-locked": "The chart is already locked and timestamped — nothing more to do with it here."
+      },
+      "id": "close-review",
+      "itemNames": {
+        "probe-disinfected": "probe into the sterilisation pouch",
+        "sharps-put-away": "sharps-safe holder closed"
+      },
+      "itemNotes": {
+        "probe-disinfected": "A probe left on the open tray after the last site is a contaminated sharp sitting in reach of the next thing anyone picks up.",
+        "sharps-put-away": "The holder closed is what keeps a sharp instrument from becoming the first thing a hand meets reaching for something else on the tray."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things about the tray need to be true before this chair is done — find them.",
+      "targets": [
+        "probe-disinfected",
+        "sharps-put-away"
+      ],
+      "title": "Close out before the patient leaves",
+      "why": "A chart that is perfect and a tray that still has an open sharp on it is not a finished visit — the room is left the way the next patient's chart needs it to start."
+    }
+  ],
+  "supportLine": "your employer's employee assistance program, or the ADHA's member resources for the clinical side of what you are carrying",
+  "tagline": "Six sites a tooth probed and walked, depths charted, bleeding and suppuration recorded, recession and attachment loss calculated, and the case staged and graded to the 2017 classification",
+  "title": "SmartCiti.X~ Periodontal Charting VR",
+  "trade": "Dental hygienist",
+  "underwater": null,
+  "weather": null
+}

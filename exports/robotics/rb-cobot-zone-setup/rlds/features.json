@@ -1,0 +1,48 @@
+{
+  "layout": "RLDS-style step list, JSON Lines (not a TFDS/TFRecord build)",
+  "schemaVersion": 1,
+  "generatedAt": "2026-01-01T00:00:00.000Z",
+  "episode": {
+    "episode_metadata": [
+      "episode_id",
+      "task",
+      "skill",
+      "seed",
+      "embodied",
+      "summary",
+      "station",
+      "app",
+      "programmes",
+      "union",
+      "hazards",
+      "hazardsHit",
+      "interruptions",
+      "interruptionsSeen",
+      "sourceApp",
+      "licence",
+      "consent",
+      "crewTagHash",
+      "source"
+    ],
+    "steps": [
+      "observation",
+      "action",
+      "reward",
+      "discount",
+      "is_first",
+      "is_last",
+      "is_terminal",
+      "language_instruction",
+      "primitive"
+    ]
+  },
+  "total_episodes": 3,
+  "total_steps": 20,
+  "licence": {
+    "synthetic": "CC0-1.0",
+    "human": "unasserted — whoever distributes this must hold the exporting learner's or hall's permission"
+  },
+  "notice": "Not a certification. Local file only; nothing here was sent anywhere.",
+  "sample": "3 of 40 synthetic demonstrations; the full set is reproduced by seed (dataset.json)",
+  "label": "synthetic"
+}

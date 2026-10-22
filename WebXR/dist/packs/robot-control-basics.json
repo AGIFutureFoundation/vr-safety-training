@@ -1,0 +1,175 @@
+{
+  "id": "robot-control-basics",
+  "kind": "programme",
+  "name": "Robot Control Basics — Entry Point",
+  "title": "SmartCiti.X Robot Control Basics — Entry Point — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "The entry point for controlling a robot safely: jog it from the pendant at a safe speed, measure what a cobot may touch, set up speed and separation monitoring, and bring it back after an e-stop. The stations are the robot-control ones and the stop rule they all share; the ROS-specific stations are not written yet, and this pack says so rather than claim them.",
+  "certification": "ISO 10218 for the safety of industrial robots, ANSI/RIA R15.06 for their adoption in North America, and the teach-pendant and e-stop rules a cell is commissioned against",
+  "programmes": [
+    "robot-control-basics"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "rt-teach-pendant-safe-jogging"
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-cobot-power-force-limit-check"
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-speed-separation-monitoring-setup"
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-robot-estop-recovery-and-restart"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-amr-fleet-traffic-and-estop-drill"
+    }
+  ],
+  "unions": [
+    "ibew",
+    "iuoe"
+  ],
+  "unionLine": "IBEW and IUOE technicians and the operators who teach and supervise a robot cell; taught against the safety standards, not a union apprenticeship",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "parishes",
+      "parish": "st-bernard",
+      "sites": [
+        "sb-sw-arabi-and-chalmette-grocery-distribution-centre"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "plaquemines",
+      "sites": [
+        "pq-pipeline-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-golden-gate-park",
+      "sites": [
+        "gg-sw-sunset-grocery-distribution-centre"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-marina",
+      "sites": [
+        "ma-sw-inner-richmond-substation"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-bioretention-soil-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-north-beach",
+      "sites": [
+        "embarcadero-pier-shed"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-haight-castro",
+      "sites": [
+        "haight-victorian-renovation"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-sunset-south",
+      "sites": [
+        "stonestown-grocery-dock"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-downtown-lake",
+      "sites": [
+        "lakeside-tower-plant-room"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-pablo",
+      "sites": [
+        "richmond-shipyard-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-jose",
+      "sites": [
+        "university-campus-plant-sj"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "lc-lakefront-downtown",
+      "sites": [
+        "lcd-westlake-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "nola-french-quarter-cbd",
+      "sites": [
+        "nfq-river-wharf-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "nola-uptown-garden",
+      "sites": [
+        "nup-river-wharf"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "nola-mid-city-gentilly",
+      "sites": [
+        "nmc-substation"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "nola-bywater-lower-ninth",
+      "sites": [
+        "nbw-wharf-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "br-downtown-riverfront",
+      "sites": [
+        "brd-substation"
+      ]
+    }
+  ],
+  "stationNames": {
+    "rt-teach-pendant-safe-jogging": "Teaching a Robot from the Pendant",
+    "rt-cobot-power-force-limit-check": "Measuring a Cobot's Contact Forces",
+    "rt-speed-separation-monitoring-setup": "Setting Up Speed-and-Separation Monitoring",
+    "rt-robot-estop-recovery-and-restart": "Bringing a Robot Back After an E-stop",
+    "ad-amr-fleet-traffic-and-estop-drill": "AMR Fleet Traffic & E-stop Drill"
+  },
+  "version": "1.0.0",
+  "contentHash": "b243526f",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

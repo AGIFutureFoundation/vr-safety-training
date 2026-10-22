@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "map-reader",
+    "name": "Map Reader",
+    "note": "Maps from different eras read for key, scale and orientation, their makers' purposes asked and changes compared"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "MAPS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Browser",
+      "Reader",
+      "Comparer",
+      "Map Historian",
+      "Archivist"
+    ],
+    "system": "Map Board"
+  },
+  "hazards": {
+    "a-map-is-neutral": "You said a map just shows what is there. Every map is made by someone for a reason, and they choose what to include, what to leave out and what to make big; reading a map as a source means asking who made it and why.",
+    "north-is-always-up": "You assumed north was at the top of the old map. Many older maps put another direction at the top, depending on who made them and why; always find the map's own orientation mark before you read directions from it.",
+    "old-map-is-wrong": "You said the old map is wrong because it differs from the new one. The place may have changed, the mapmaker may have had different tools or purposes, or both; differences are evidence to explain, not mistakes to dismiss.",
+    "touch-the-map-surface": "You traced the route on the old map with your finger. Skin oils damage old paper and ink; in the archive you use the pointer and the clear overlay, and the archivist handles the originals."
+  },
+  "id": "k12-map-literacy-across-eras",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-the-overlay-still-on-the",
+      "alert": "A visitor sets an open drink down on the archive table beside an old map.",
+      "cue": "Politely ask for the drink to be taken outside and tell the archivist.",
+      "delay": 3,
+      "id": "a-drink-appears-on-the-table",
+      "kind": "Archive rule",
+      "missNote": "The drink stayed on the table, was knocked over, and an old map was stained for good.",
+      "seconds": 12,
+      "target": "kml-move-drink",
+      "why": "One spill can ruin an old map for ever, which is why archives ban drinks at the table. Asking politely and telling the archivist protects the sources without anyone needing to feel told off.",
+      "wrongNote": "That leaves the drink by the maps. Choose the response that deals with it now."
+    },
+    {
+      "after": "follow-the-old-road-across-both",
+      "alert": "The archivist asks how you know which way the old map faces.",
+      "cue": "Point to the orientation mark and say which direction is at the top.",
+      "delay": 3,
+      "id": "the-archivist-asks-which-way",
+      "kind": "Archivist question",
+      "missNote": "You said north is always up, and the archivist showed you the mark pointing elsewhere.",
+      "seconds": 12,
+      "target": "kml-say-orientation",
+      "why": "The archivist is checking you read the map's own mark rather than assuming. Pointing to it shows the habit that keeps every direction you read from the map correct.",
+      "wrongNote": "That assumes instead of reading the mark. Choose the response that deals with it now."
+    }
+  ],
+  "lateNotes": {
+    "kml-checkin": "The check-in comes at the very end of the visit.",
+    "kml-map-log": "The comparison is written once both maps are read — nothing to record yet."
+  },
+  "name": "Map Literacy Across Eras",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-history-and-civics"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "a-map-is-neutral",
+      "kml-archive-card",
+      "kml-checkin",
+      "kml-cm-labels",
+      "kml-cm-maker",
+      "kml-cm-north",
+      "kml-cm-wrong",
+      "kml-compare-card",
+      "kml-decoration",
+      "kml-harbour-spot",
+      "kml-harbour-token",
+      "kml-key",
+      "kml-map-log",
+      "kml-move-drink",
+      "kml-ord-key",
+      "kml-ord-label",
+      "kml-ord-orient",
+      "kml-ord-read",
+      "kml-orientation",
+      "kml-overlay-hold",
+      "kml-rotate-dial",
+      "kml-say-orientation",
+      "kml-scale",
+      "kml-scale-meter",
+      "kml-share-board",
+      "kml-track-meter",
+      "north-is-always-up",
+      "old-map-is-wrong",
+      "touch-the-map-surface"
+    ],
+    "meshes": 275
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark the three things on the map you read before anything else.",
+      "decoyNotes": {
+        "kml-decoration": "Beautiful, and it may tell you about the maker, but it does not help you read distances."
+      },
+      "id": "find-the-key-the-scale-and",
+      "itemNames": {
+        "kml-key": "the map's key",
+        "kml-orientation": "the orientation mark",
+        "kml-scale": "the scale bar"
+      },
+      "itemNotes": {
+        "kml-key": "It explains what each symbol means.",
+        "kml-orientation": "It shows which direction is at the top.",
+        "kml-scale": "It links map distance to real distance."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the three things on the map you read before anything else.",
+      "targets": [
+        "kml-key",
+        "kml-scale",
+        "kml-orientation"
+      ],
+      "title": "Find the key, the scale and the orientation",
+      "why": "Every map has three things that tell you how to read it: a key that explains its symbols, a scale that links distances on paper to distances on the ground, and an orientation mark that shows which way is which. Reading those three first, on any map from any era, stops you misreading everything else."
+    },
+    {
+      "cue": "Read the label, find the key and scale, find the orientation, then read the map.",
+      "id": "put-the-map-reading-in-order",
+      "itemNames": {
+        "kml-ord-key": "2 · find the key and scale",
+        "kml-ord-label": "1 · read who made it, when and why",
+        "kml-ord-orient": "3 · find the orientation",
+        "kml-ord-read": "4 · read routes and places"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Read the label and the key before you read routes.",
+      "prompt": "Read the label, find the key and scale, find the orientation, then read the map.",
+      "targets": [
+        "kml-ord-label",
+        "kml-ord-key",
+        "kml-ord-orient",
+        "kml-ord-read"
+      ],
+      "title": "Put the map reading in order",
+      "why": "The label tells you who made the map, when and for what, which frames everything else. Key, scale and orientation then tell you how to read it, and only then do you read routes and places. The same order works on a fictional old map, a modern street plan or a satellite image."
+    },
+    {
+      "cue": "Read the card: no touching originals, use the pointer and the overlay.",
+      "id": "follow-the-archives-handling-rules",
+      "kind": "select",
+      "prompt": "Read the card: no touching originals, use the pointer and the overlay.",
+      "target": "kml-archive-card",
+      "title": "Follow the archive's handling rules",
+      "why": "Old maps are fragile and some exist only once. Using the pointer and the clear overlay instead of fingers protects them from skin oils and tears, and it is how every archive keeps its collection readable for future learners."
+    },
+    {
+      "cue": "Turn the old map until its orientation matches the modern map beside it.",
+      "id": "turn-the-old-map-to-match",
+      "kind": "turn",
+      "prompt": "Turn the old map until its orientation matches the modern map beside it.",
+      "target": "kml-rotate-dial",
+      "title": "Turn the old map to match the new one",
+      "turn": {
+        "axis": "y",
+        "label": "ORIENT",
+        "turns": 0.5
+      },
+      "why": "Comparing two maps only works if they face the same way. Turning the old map to match the new one's orientation lines up the coast, roads and rivers, so real changes stand out instead of being hidden by a turned page."
+    },
+    {
+      "cue": "Commit when the dividers match the scale bar for the distance you are measuring.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "SCALE",
+        "missNote": "Not matched to the scale bar. Set the dividers against it again.",
+        "speed": 0.6
+      },
+      "id": "use-the-scale-to-estimate-a",
+      "kind": "gauge",
+      "prompt": "Commit when the dividers match the scale bar for the distance you are measuring.",
+      "target": "kml-scale-meter",
+      "title": "Use the scale to estimate a distance",
+      "why": "Setting the dividers against the scale bar turns a gap on paper into a distance on the ground. Checking against the scale each time, rather than guessing, lets you compare the same route on maps drawn at different scales."
+    },
+    {
+      "cue": "Hold the clear overlay steady over the old map while you trace the route on it.",
+      "holdBreakNote": "The overlay slipped and the trace no longer lines up. Set it back and hold it.",
+      "id": "hold-the-overlay-still-on-the",
+      "kind": "hold",
+      "prompt": "Hold the clear overlay steady over the old map while you trace the route on it.",
+      "seconds": 6,
+      "target": "kml-overlay-hold",
+      "title": "Hold the overlay still on the map",
+      "why": "The overlay lets you mark without touching the original, but only if it stays still. Holding it steady while you trace means your marks line up with the map, and the original stays untouched."
+    },
+    {
+      "cue": "Drag the old map's harbour marker to the same place on the modern map.",
+      "drag": {
+        "missNote": "Not matched yet. Find the same stretch of coast on the modern map.",
+        "radius": 0.45,
+        "to": "kml-harbour-spot"
+      },
+      "id": "match-the-old-landmark-to-the",
+      "kind": "drag",
+      "prompt": "Drag the old map's harbour marker to the same place on the modern map.",
+      "target": "kml-harbour-token",
+      "title": "Match the old landmark to the new map",
+      "why": "Finding the same landmark on both maps anchors the comparison. Once one place is matched, you can see what moved, grew or disappeared around it, which is how historians use maps to study change over time."
+    },
+    {
+      "cue": "Look at the draft map comparison and mark each problem.",
+      "decoyNotes": {
+        "kml-cm-labels": "Clear labels are good practice. Keep them."
+      },
+      "id": "spot-the-problems-in-a-classmates",
+      "itemNames": {
+        "kml-cm-maker": "no mention of who made the map",
+        "kml-cm-north": "north assumed to be at the top",
+        "kml-cm-wrong": "the old map called wrong"
+      },
+      "itemNotes": {
+        "kml-cm-maker": "Ask who made it and why.",
+        "kml-cm-north": "Find each map's own orientation.",
+        "kml-cm-wrong": "Differences are evidence to explain."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the draft map comparison and mark each problem.",
+      "targets": [
+        "kml-cm-north",
+        "kml-cm-wrong",
+        "kml-cm-maker"
+      ],
+      "title": "Spot the problems in a classmate's comparison",
+      "why": "Map comparisons go wrong in familiar ways: north assumed to be at the top, an old map called wrong because it differs, and no mention of who made the map. Spotting them helps you write comparisons that treat maps as the sources they are."
+    },
+    {
+      "cue": "Say one reason the old map's maker might have shown some places large and left others out.",
+      "id": "say-why-the-maker-drew-it",
+      "kind": "select",
+      "prompt": "Say one reason the old map's maker might have shown some places large and left others out.",
+      "target": "kml-compare-card",
+      "title": "Say why the maker drew it this way",
+      "why": "A map made for sailors shows harbours and shoals; one made for landowners shows boundaries. Asking why a maker chose what to show is reading a map as a source, and it reveals as much about the maker as about the place."
+    },
+    {
+      "cue": "Keep the pointer on the old road as it crosses from the old map to the new.",
+      "holdBreakNote": "The pointer left the road. Find it again and follow it.",
+      "id": "follow-the-old-road-across-both",
+      "kind": "track",
+      "prompt": "Keep the pointer on the old road as it crosses from the old map to the new.",
+      "seconds": 8,
+      "target": "kml-track-meter",
+      "title": "Follow the old road across both maps",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "ROAD",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "Following one road across two eras shows which stretches survived, which were straightened and which vanished. Tracing it carefully, without jumping to where you expect it to go, keeps your comparison based on what the maps actually show."
+    },
+    {
+      "cue": "Write each map's maker, purpose, orientation and the changes you found.",
+      "id": "record-the-comparison",
+      "kind": "select",
+      "prompt": "Write each map's maker, purpose, orientation and the changes you found.",
+      "target": "kml-map-log",
+      "title": "Record the comparison",
+      "why": "A written comparison that names each map's maker and purpose shows why they differ, not just that they do. It is the kind of record another historian can check against the maps themselves."
+    },
+    {
+      "cue": "Hand the overlays back and let the archivist return the originals.",
+      "id": "return-the-maps-to-the-archivist",
+      "kind": "select",
+      "prompt": "Hand the overlays back and let the archivist return the originals.",
+      "target": "kml-share-board",
+      "title": "Return the maps to the archivist",
+      "why": "Returning maps properly, with the archivist handling the originals, keeps the collection in order and undamaged. It finishes the lesson the way every archive visit should end, with the sources safe for the next reader."
+    },
+    {
+      "cue": "What surprised you about how the place changed? What was hard to read?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "What surprised you about how the place changed? What was hard to read?",
+      "target": "kml-checkin",
+      "title": "Check in at the end of the visit",
+      "why": "The archive closes its reading room by having visitors put back what they used, and the class closes by putting into words what changed between the maps and what did not. Each learner names one feature and one era; the archivist can hear who reads a map as evidence and who still reads it as a picture."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Every map was made by someone, for a reason — find the key, the scale and the north first",
+  "title": "SmartCiti.X~ Map Literacy Across Eras VR",
+  "trade": "History class in the civic centre's archive room — learner and archivist",
+  "underwater": null,
+  "weather": "clear"
+}

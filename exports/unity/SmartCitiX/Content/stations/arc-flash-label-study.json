@@ -1,0 +1,356 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "label-issued",
+    "name": "Label Issued",
+    "note": "A label built from the actual study data, printed and placed on the panel it was calculated for"
+  },
+  "category": "Energy & Power",
+  "certification": "IBEW inside wireman; NFPA 70E-2021 arc-flash risk assessment and hazard labeling; NFPA 70 (National Electrical Code); ANSI Z535.4 safety sign and label format; OSHA 29 CFR 1910.132/.335 for the field verification",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z535.4",
+        "id": "ansi-z535-4",
+        "title": "ANSI Z535.4 — Product safety signs and labels"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBEW",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "NEC/NFPA 70",
+        "citedAs": "NFPA 70",
+        "id": "nec-nfpa-70",
+        "title": "NFPA 70 — National Electrical Code"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 70E",
+        "id": "nfpa-70e",
+        "title": "NFPA 70E — Standard for Electrical Safety in the Workplace"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Energy",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "traced-not-guessed",
+        "name": "Traced, Not Guessed",
+        "note": "Every number on the label traced to its own source document"
+      },
+      {
+        "id": "boundary-honest",
+        "name": "Boundary Honest",
+        "note": "Never approached inside a boundary the study had not yet set"
+      },
+      {
+        "id": "energy-precise",
+        "name": "Energy Precise",
+        "note": "Held the incident-energy calculation inside the study's band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "no-rework",
+        "name": "No Rework",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "reading-held",
+        "name": "Reading Held",
+        "note": "Never let a live reading drop before it was recorded"
+      },
+      {
+        "id": "study-closed",
+        "name": "Study Closed",
+        "note": "Label issued inside 80% of par"
+      }
+    ],
+    "currency": "CAL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice Wireman",
+      "Journeyman Wireman",
+      "Field Data Tech",
+      "Study Lead",
+      "Study Authority Certified"
+    ],
+    "system": "Study Authority"
+  },
+  "hazards": {
+    "bare-panel-approach": "You went at the open panel to read the busbar rating without the suit and the shield on. Collecting field data for a study still means standing in front of live gear with a meter, and the incident energy this panel can produce does not wait for the study that is being written about it to be finished first.",
+    "guess-category": "You reached for a pre-printed generic warning sticker instead of running the calculation. A label is only good for the panel its numbers came from — a generic sticker tells the next electrician nothing true about this bus, this fault current or this clearing time, and NFPA 70E requires the study, not a decoration.",
+    "nameplate-fault": "You copied the fault current straight off the transformer nameplate. A nameplate gives the transformer's own impedance, not the fault current available at this panel after the utility's contribution and every upstream conductor between here and the source — the number that actually belongs in the study comes from the fault-current study, not from the nearest sticker.",
+    "wrong-panel-post": "You were about to screw this label onto the panel next to the one it was calculated for. Two panels of the same make in the same row are not the same bus, and a label on the wrong door tells the next electrician a number that has nothing to do with what they are about to open."
+  },
+  "id": "arc-flash-label-study",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "clearing-time",
+      "alert": "Maintenance's change log shows the feeder breaker's long-time pickup was turned down six weeks ago — the trip curve you just pulled from the file is the old setting, not what is in the breaker now.",
+      "cue": "Check the breaker's own setting sheet before the clearing time goes anywhere near the calculation.",
+      "delay": 4,
+      "id": "breaker-setting-changed",
+      "kind": "Stale record",
+      "missNote": "The study went forward on a clearing time that maintenance had already changed six weeks earlier. Every number downstream of it — the incident energy, the boundary, the PPE category on the label — is now calculated against a breaker that no longer exists, and the label that comes out the other end will be wrong in a way nobody can see just by looking at it.",
+      "seconds": 14,
+      "target": "breaker-setting-sheet",
+      "why": "A time-current curve on file is a record of a setting, not a fact about the breaker sitting in front of you — a protective device's pickup and time dial can be changed at any maintenance outage without the coordination study ever being told. The clearing time that goes into an incident-energy calculation has to come from what the breaker is actually set to today, and the only way to know that is the setting sheet at the breaker itself, not the drawing in the file room.",
+      "wrongNote": "It is the breaker's own setting sheet. The file drawing is what somebody wrote down once — the sheet at the breaker is what it is actually set to now."
+    },
+    {
+      "after": "print",
+      "alert": "Across the room, a second electrician has the fresh label peeled and is lining it up on the panel one bay over from the one this study was run on.",
+      "cue": "Stop him before that label goes on the wrong door.",
+      "delay": 4,
+      "id": "wrong-panel",
+      "kind": "Placement error",
+      "missNote": "The label went on the panel next to the one it was calculated for. It will sit there reading a confident, specific incident energy that has nothing to do with the bus behind that door, until somebody gets hurt trusting it or another study happens to catch the mismatch.",
+      "seconds": 12,
+      "target": "wrong-panel",
+      "why": "Two panels of the same make standing in the same row are not the same bus behind different sheet metal — different feeders, different upstream breakers, different fault current, different clearing time, and none of it matches just because the enclosures look identical. A label placed on the wrong panel is worse than no label at all: it tells the next electrician a specific, confident, wrong number.",
+      "wrongNote": "It is the panel he is about to stick that label on. Stop him before it lands on the wrong door."
+    }
+  ],
+  "lateNotes": {
+    "ie-calculator": "The incident energy is calculated at the panel's own working distance — it is not read off another panel's label.",
+    "utility-letter": "The fault current comes from the utility letter or the fault-current study, never from a nameplate."
+  },
+  "name": "Arc-Flash Label Study",
+  "parSeconds": 260,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "electrical-first-period"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "arc-flash-boundary",
+      "arc-suit",
+      "bare-panel-approach",
+      "breaker-setting-sheet",
+      "face-shield",
+      "faded-label",
+      "guess-category",
+      "ie-calculator",
+      "label-printer",
+      "limited-approach-boundary",
+      "mismatched-breaker-tag",
+      "nameplate-fault",
+      "one-line-diagram",
+      "panel-face",
+      "panel-nameplate",
+      "ppe-decal-spot",
+      "ppe-table",
+      "printed-label",
+      "study-file",
+      "trip-curve",
+      "utility-letter",
+      "wrong-panel",
+      "wrong-panel-post"
+    ],
+    "meshes": 152
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "select",
+    "sequence"
+  ],
+  "steps": [
+    {
+      "cue": "Trace the panel back through its feeder to the upstream breaker and the source on the one-line diagram.",
+      "id": "one-line",
+      "kind": "select",
+      "prompt": "Trace the panel back through its feeder to the upstream breaker and the source on the one-line diagram.",
+      "target": "one-line-diagram",
+      "title": "Pull the one-line for this panel",
+      "why": "An incident-energy calculation is only meaningful for a specific point in a specific electrical system, and the one-line is what actually defines that point — which breaker feeds this panel, what protects that breaker, and how many transformers sit between here and the utility. Skipping straight to a calculator with a number nobody traced back through the one-line is how a study gets built for a system that does not match the panel it is stuck on."
+    },
+    {
+      "cue": "Record the bus rating, voltage and short-circuit rating stamped on the panel itself.",
+      "id": "nameplate",
+      "kind": "select",
+      "prompt": "Record the bus rating, voltage and short-circuit rating stamped on the panel itself.",
+      "target": "panel-nameplate",
+      "title": "Read the panel's own nameplate",
+      "why": "The nameplate tells you what this specific piece of equipment is rated to withstand, which is the number the calculated incident energy eventually gets checked against — a study that produces a fault duty higher than the equipment's own short-circuit rating has found a problem with the panel, not just a number for the label."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Suit and shield on before the door opens to read the nameplate and bus configuration up close.",
+      "id": "ppe-approach",
+      "itemNames": {
+        "arc-suit": "arc-rated coverall",
+        "face-shield": "arc-rated face shield"
+      },
+      "kind": "sequence",
+      "prompt": "Suit and shield on before the door opens to read the nameplate and bus configuration up close.",
+      "targets": [
+        "arc-suit",
+        "face-shield"
+      ],
+      "title": "PPE before the panel comes open",
+      "why": "Until this study is finished and its label is on the door, nobody standing in front of this panel has a documented incident-energy number to work from — which means the interim assumption has to be the worst reasonable category for equipment of this class, not bare arms because the job today is only reading a nameplate."
+    },
+    {
+      "cue": "Pull the available fault current for this service from the utility letter, not from any nameplate in the building.",
+      "id": "fault-current",
+      "kind": "select",
+      "prompt": "Pull the available fault current for this service from the utility letter, not from any nameplate in the building.",
+      "target": "utility-letter",
+      "title": "Get the available fault current",
+      "why": "Available fault current is a property of the whole path back to the source — the utility's system impedance, the service transformer, every foot of conductor between them and this panel — and the only document that actually states it for this service is the utility's letter or a calculated fault-current study built from that data. A number from anywhere else is a guess wearing a decimal point."
+    },
+    {
+      "cue": "Pull the feeder breaker's time-current curve at the calculated fault current to get how long it actually takes to clear.",
+      "id": "clearing-time",
+      "kind": "select",
+      "prompt": "Pull the feeder breaker's time-current curve at the calculated fault current to get how long it actually takes to clear.",
+      "target": "trip-curve",
+      "title": "Read the protective device's clearing time",
+      "why": "Incident energy is proportional to how long the arc is allowed to burn, which makes the protective device's clearing time as important to the final number as the fault current itself — a breaker that clears in three cycles and one that clears in thirty produce wildly different labels off the identical fault current, and the curve is the only place that time actually comes from."
+    },
+    {
+      "cue": "Run the fault current and clearing time through the calculation at this panel's working distance and commit on the result.",
+      "gauge": {
+        "green": [
+          0.38,
+          0.52
+        ],
+        "label": "CAL/CM²",
+        "missNote": "That result is outside the study's own working band for this panel — recheck the fault current and clearing time you fed into it before committing a number to the label.",
+        "speed": 0.7
+      },
+      "id": "incident-energy",
+      "kind": "gauge",
+      "prompt": "Run the fault current and clearing time through the calculation at this panel's working distance and commit on the result.",
+      "target": "ie-calculator",
+      "title": "Calculate the incident energy at working distance",
+      "why": "The incident energy is not a property of the panel in the abstract — it is calculated at a specific working distance because arc energy falls off sharply with distance, and the eighteen inches a hand at this panel actually works from is what the label has to protect, not some other equipment's distance copied out of habit."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Place both boundary markers at the distances the calculation and the voltage class actually give.",
+      "id": "boundaries",
+      "itemNames": {
+        "arc-flash-boundary": "arc-flash boundary marker",
+        "limited-approach-boundary": "limited-approach boundary marker"
+      },
+      "kind": "sequence",
+      "prompt": "Place both boundary markers at the distances the calculation and the voltage class actually give.",
+      "targets": [
+        "arc-flash-boundary",
+        "limited-approach-boundary"
+      ],
+      "title": "Set the arc-flash and limited-approach boundaries",
+      "why": "The arc-flash boundary comes straight out of the incident-energy calculation you just ran; the limited-approach boundary comes out of the voltage class in NFPA 70E's own table and has nothing to do with the arc-flash number at all. Confusing the two, or posting only one, leaves an unqualified person with no idea how close is still too close for a hazard the calculation never covered."
+    },
+    {
+      "cue": "Match the calculated incident energy to its PPE category on the posted table.",
+      "id": "ppe-category",
+      "kind": "select",
+      "prompt": "Match the calculated incident energy to its PPE category on the posted table.",
+      "target": "ppe-table",
+      "title": "Set the PPE category from the calculated energy",
+      "why": "The category on the label is not a judgment call made at the panel — it is read straight off the incident-energy number against NFPA 70E's own category table, the same table every qualified person on this site is trained to the same way. A category chosen by feel is a category the next electrician has no reason to trust."
+    },
+    {
+      "cue": "Send the fault current, clearing time, incident energy, both boundaries and the PPE category to the label printer.",
+      "id": "print",
+      "kind": "select",
+      "prompt": "Send the fault current, clearing time, incident energy, both boundaries and the PPE category to the label printer.",
+      "target": "label-printer",
+      "title": "Print the label",
+      "why": "Every field on this label traces back to a document this job just opened — the one-line, the utility letter, the trip curve, the calculation — and printing it is where those separate pieces of paper become the one thing an electrician will actually be standing in front of the next time this panel is opened."
+    },
+    {
+      "cue": "Carry the label to this panel and set it on the door face where it will be read before the door opens.",
+      "drag": {
+        "missNote": "Not set on the panel face — a label sitting anywhere else is a label nobody will read before they open this door.",
+        "radius": 0.4,
+        "to": "panel-face"
+      },
+      "id": "place",
+      "kind": "drag",
+      "prompt": "Carry the label to this panel and set it on the door face where it will be read before the door opens.",
+      "target": "printed-label",
+      "title": "Place the label on the panel it was calculated for",
+      "why": "A label calculated for this bus is only correct while it stays on this door — carried to the wrong panel, printed but left in a folder, or placed where the door swings over it, it stops doing the one job it exists for, which is being the first thing a hand reaches for before it reaches for the door handle."
+    },
+    {
+      "cue": "Affix the separate PPE-category placard next to the label, where it is visible without opening the door.",
+      "id": "post-category",
+      "kind": "select",
+      "prompt": "Affix the separate PPE-category placard next to the label, where it is visible without opening the door.",
+      "target": "ppe-decal-spot",
+      "title": "Post the PPE category placard",
+      "why": "The full label carries the numbers; the category placard is what a crew glances at from three feet away before they have gathered PPE at all — posted separately, it is readable from the doorway, not only by someone already close enough to be inside the boundary reading fine print."
+    },
+    {
+      "cue": "Check the neighbouring panels for labels and tags that no longer match what is actually installed; click what needs a follow-up study.",
+      "id": "walk",
+      "itemNames": {
+        "faded-label": "faded, unreadable label",
+        "mismatched-breaker-tag": "breaker tag that does not match the panel schedule"
+      },
+      "itemNotes": {
+        "faded-label": "The label on the panel next door has faded to the point the incident-energy figure is not legible. A label nobody can read is functionally the same as no label — it goes on this study's punch list for reprinting.",
+        "mismatched-breaker-tag": "That breaker's tag names a load the panel schedule does not list. A label is only as trustworthy as the one-line it was built from, and a panel schedule that has drifted from what is actually installed is exactly the kind of error that puts a wrong fault current into somebody else's next study."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the neighbouring panels for labels and tags that no longer match what is actually installed; click what needs a follow-up study.",
+      "targets": [
+        "faded-label",
+        "mismatched-breaker-tag"
+      ],
+      "title": "Walk the row before closing out the study",
+      "why": "This study closes out one panel, and the row it sits in does not stop existing once this label is on the door. A faded label or a drifted panel schedule found now is a mistake caught during a scheduled walk-down; found later, it is whatever the next electrician assumed instead."
+    },
+    {
+      "cue": "Log the calculation inputs, the result and today's date against this panel's equipment record.",
+      "id": "file",
+      "kind": "select",
+      "prompt": "Log the calculation inputs, the result and today's date against this panel's equipment record.",
+      "target": "study-file",
+      "title": "File the study record",
+      "why": "The label on the door is the summary; the filed study is the proof — the fault current, the clearing time and the working distance that produced this number all have to be traceable later, because the next time a breaker setting changes or a transformer is upsized, this is the record that says which labels in the building are now out of date."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "One-line to label: fault current, clearing time, incident energy, boundaries, printed and posted",
+  "title": "SmartCiti.X~ Arc-Flash Label Study VR",
+  "trade": "Inside wireman — IBEW",
+  "underwater": null,
+  "weather": "overcast"
+}

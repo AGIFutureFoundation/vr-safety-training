@@ -1,0 +1,378 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "turnover-clean",
+    "name": "Turnover Clean",
+    "note": "A full dirty-to-clean turnover with every contact time honoured and nothing left for the next patient to find"
+  },
+  "category": "Dental & Oral Health",
+  "certification": "ADHA (American Dental Hygienists' Association) infection-control guidance; the CDC's Guidelines for Infection Control in Dental Health-Care Settings (2003) and its 2016 Summary; OSHA 29 CFR 1910.1030 bloodborne pathogens and 1910.1200 hazard communication; the Dental Hygiene Board of California and the state dental practice act",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADHA",
+        "citedAs": "ADHA",
+        "id": "adha-standards",
+        "title": "ADHA Standards for Clinical Dental Hygiene Practice"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "state dental board",
+        "citedAs": "dental practice act",
+        "id": "state-dental-board",
+        "title": "The state dental board and its dental practice act: licensure, scope of practice, and the allowable-duties rules for dental assistants and hygienists"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Dental Hygiene",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "contact-held",
+        "name": "Contact Held",
+        "note": "The disinfectant stayed wet for its full labeled contact time"
+      },
+      {
+        "id": "sharp-safe",
+        "name": "Sharp Safe",
+        "note": "No hazard hit anywhere in the turnover"
+      },
+      {
+        "id": "barrier-discipline",
+        "name": "Barrier Discipline",
+        "note": "Every barrier changed before the next patient sat down"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-turnover",
+        "name": "Clean Turnover",
+        "note": "No corrections anywhere in the sequence"
+      },
+      {
+        "id": "held-the-wipe",
+        "name": "Held The Wipe",
+        "note": "Held the wet-contact wait the full time, first try"
+      },
+      {
+        "id": "fast-chair",
+        "name": "Fast Chair",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "SEAL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Junior Assistant",
+      "Chairside Hygienist",
+      "Lead Hygienist",
+      "Infection Control Lead",
+      "Chairside Standard Certified"
+    ],
+    "system": "Chairside Standard"
+  },
+  "hazards": {
+    "early-wipe": "That towel dried the counter down right after the spray went on. A registered intermediate-level hospital disinfectant — the tuberculocidal tier the CDC's dental infection-control guidelines call for on a contaminated clinical surface — only kills what its label claims if that surface stays visibly wet for the full contact time printed on the label — wiped dry early, it has disinfected nothing and looks identical to a surface that has.",
+    "no-indicator-cassette": "That pouch has no indicator strip printed on it at all. Every sterile package needs an internal and external chemical indicator so a colour change proves the load actually saw sterilizing conditions before anyone trusts what's inside — a pouch with no way to check that is not verified sterile, it is unverified.",
+    "torn-barrier": "That barrier sleeve on the light handle is split at the seam. A torn barrier is not a barrier — bare plastic film is showing through, and the handle underneath it has been touched with the same gloves that just handled this patient's mouth.",
+    "uncapped-needle": "That local anesthetic needle is still uncapped on the tray from the last patient. Two-handed recapping is the classic needlestick; the safety shield gets activated with one hand, or it goes straight into sharps unrecapped — never picked up bare across the point."
+  },
+  "id": "operatory-turnover",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "contact-time",
+      "alert": "The front desk has walked the next patient down the hall and is pointing them at your open door.",
+      "cue": "That surface has not finished its contact time yet.",
+      "delay": 3,
+      "id": "early-seating",
+      "kind": "Scheduling pressure",
+      "missNote": "The patient came in and sat down while the disinfectant was still working. The chair looked clean. Whether it actually was depends on a contact time that never finished, and nothing about how it looks afterward will ever tell you.",
+      "seconds": 12,
+      "target": "wait-sign",
+      "why": "A disinfectant that has not sat wet for its full labeled time has not disinfected the surface, whatever it looks like — the schedule running behind is not a reason to seat someone on a chair the label says is not ready yet.",
+      "wrongNote": "It is the wait sign — hold the door until the label's time is actually up, not until it looks dry."
+    },
+    {
+      "after": "waterline-flush",
+      "alert": "There is a second needle on the tray, uncapped, that nobody disposed of at the chair after the last patient.",
+      "cue": "An uncapped needle just turned up on the tray you already cleared.",
+      "delay": 3,
+      "id": "needle-found",
+      "kind": "Sharps hazard",
+      "missNote": "The needle stayed on the tray through the rest of the turnover. Every additional minute it sits there uncapped is another chance for a hand reaching for something else to find it instead.",
+      "seconds": 11,
+      "target": "sharps-container",
+      "why": "A missed sharp does not become safe by being ignored a second time — it goes into the container the moment it is found, the same as it should have gone in the first time, engineered device or not.",
+      "wrongNote": "It is the sharps container. An uncapped needle does not wait for a better moment."
+    }
+  ],
+  "lateNotes": {
+    "hand-sanitizer": "Hold off. Hand hygiene here is the last thing before the door opens for the next patient, not a placeholder partway through the turnover.",
+    "indicator-strip": "There's nothing sealed to check yet — the sterile cassette has to be on the tray first.",
+    "sterile-cassette": "Not yet. The operatory hasn't finished disinfection — bringing the sterile setup in while a surface is still working its contact time risks it picking up spatter or a stray touch before the room is actually clean."
+  },
+  "name": "Operatory Turnover",
+  "parSeconds": 210,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "dental-hygiene-unspoken-smiles"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2,
+    "hits": [
+      "chair-switch-barrier",
+      "dirty-cassette",
+      "disinfectant-bottle",
+      "early-wipe",
+      "evacuation-cleaner",
+      "eye-shield",
+      "hand-sanitizer",
+      "indicator-strip",
+      "light-handle-barrier",
+      "no-indicator-cassette",
+      "sharps-container",
+      "spray-wand",
+      "sterile-cassette",
+      "supply-cart",
+      "syringe-barrier",
+      "torn-barrier",
+      "tray-slot",
+      "turnover-mask",
+      "uncapped-needle",
+      "used-bib",
+      "used-ejector-tip",
+      "used-prophy-angle",
+      "utility-gloves",
+      "wait-sign",
+      "waterline-valve",
+      "wet-surface"
+    ],
+    "meshes": 166
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Utility gloves, mask and eye protection before you touch anything on this tray.",
+      "id": "ppe-turnover",
+      "itemNames": {
+        "eye-shield": "eye protection",
+        "turnover-mask": "mask",
+        "utility-gloves": "utility gloves"
+      },
+      "kind": "sequence",
+      "prompt": "Utility gloves, mask and eye protection before you touch anything on this tray.",
+      "targets": [
+        "utility-gloves",
+        "turnover-mask",
+        "eye-shield"
+      ],
+      "title": "Don turnover PPE",
+      "why": "Turnover is not the same exposure as chairside work: you are handling used sharps, spray disinfectant and whatever spattered during the appointment, so the barrier is heavier gloves and a mask rated for aerosol, not the exam gloves you just pulled off. OSHA's PPE provisions treat the task, not the room, as what decides the barrier."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Latch the used instruments into the closed cassette, and drop the sharps straight into this container — here at the chair.",
+      "id": "contain-hazards",
+      "itemNames": {
+        "dirty-cassette": "close the contaminated cassette",
+        "sharps-container": "sharps to the point-of-use container"
+      },
+      "kind": "sequence",
+      "prompt": "Latch the used instruments into the closed cassette, and drop the sharps straight into this container — here at the chair.",
+      "targets": [
+        "dirty-cassette",
+        "sharps-container"
+      ],
+      "title": "Contain the sharps and the instruments at the point of use",
+      "why": "A closed cassette carries the instruments from this tray to reprocessing without another hand touching a blade or a probe in between, and OSHA's bloodborne pathogens standard puts sharps disposal as close to the point of use as it can be engineered — every step a used sharp travels in someone's hand is another chance for it to find someone's hand by accident."
+    },
+    {
+      "cue": "Three things in this room are disposable and have already been used. Find them before the spray comes out.",
+      "id": "clear-disposables",
+      "itemNames": {
+        "used-bib": "the used patient bib",
+        "used-ejector-tip": "the used saliva ejector tip",
+        "used-prophy-angle": "the used prophy angle"
+      },
+      "itemNotes": {
+        "used-bib": "The bib and its chain cover come off with the patient. A paper bib cannot be disinfected — spraying around one only wets the counter it is hiding.",
+        "used-ejector-tip": "This ejector tip is single-use and it has been in a mouth. Left on the holder it looks like clean stock to whoever sets this room up next.",
+        "used-prophy-angle": "The prophy angle is disposable and it is loaded with the last patient's biofilm. It goes to waste now, not into the tub of angles on the cart."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things in this room are disposable and have already been used. Find them before the spray comes out.",
+      "targets": [
+        "used-bib",
+        "used-ejector-tip",
+        "used-prophy-angle"
+      ],
+      "title": "Clear the single-use items off the chair",
+      "why": "Disinfectant cannot reach a surface a disposable is lying on, and a used single-use item is the one thing in the room that no contact time will ever make safe — it is designed to be thrown away, so the CDC's dental guidelines put removal of disposables ahead of surface disinfection rather than around it. Leave one behind and it reads as clean stock to the next person who sets this room up."
+    },
+    {
+      "cue": "Check the label on the intermediate-level disinfectant before you spray.",
+      "id": "read-label",
+      "kind": "select",
+      "prompt": "Check the label on the intermediate-level disinfectant before you spray.",
+      "target": "disinfectant-bottle",
+      "title": "Read the disinfectant's contact time",
+      "why": "A registered hospital-grade surface disinfectant's kill claim is only true for the wet contact time printed on its own label, which is why the CDC's dental guidelines send you to the bottle rather than to a house rule — two minutes for one product, ten for another. The bottle in your hand decides how long the next step actually has to last, not a number remembered from a different brand."
+    },
+    {
+      "cue": "Work the light handles, the headrest, the chair switches, the syringe and the counter — steady, even coverage.",
+      "holdBreakNote": "Coverage dropped out of band — a patchy spray leaves dry spots that never see the disinfectant at all.",
+      "id": "apply-disinfectant",
+      "kind": "track",
+      "prompt": "Work the light handles, the headrest, the chair switches, the syringe and the counter — steady, even coverage.",
+      "seconds": 6,
+      "target": "spray-wand",
+      "title": "Spray every surface a gloved hand touched",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.35,
+          0.65
+        ],
+        "label": "SPRAY COVERAGE",
+        "rise": 0.55,
+        "start": 0.1
+      },
+      "why": "Anything a gloved hand or a splash reached during the appointment is a surface, whether or not it looks touched — the light handle and the chair-height switch are handled every single visit and missed every single time someone only wipes what is obviously dirty."
+    },
+    {
+      "cue": "Leave every sprayed surface visibly wet for the full time on the label — do not touch or dry it early.",
+      "holdBreakNote": "You broke contact early. A surface dried before its time is not disinfected — it only looks that way.",
+      "id": "contact-time",
+      "kind": "hold",
+      "prompt": "Leave every sprayed surface visibly wet for the full time on the label — do not touch or dry it early.",
+      "seconds": 6,
+      "target": "wet-surface",
+      "title": "Hold the wet contact time",
+      "why": "The kill claim on that bottle was tested for a surface that stayed wet the whole stated time, not for a surface sprayed and immediately wiped. Wiped dry early, a disinfected-looking counter has had the same contact as one that was never sprayed at all — and nothing about how it looks afterward tells you which one you did."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Fresh barrier sleeve on the light handle, the chair switches, and the air-water syringe.",
+      "id": "barriers",
+      "itemNames": {
+        "chair-switch-barrier": "chair switch barrier",
+        "light-handle-barrier": "light handle barrier",
+        "syringe-barrier": "air-water syringe barrier"
+      },
+      "kind": "sequence",
+      "prompt": "Fresh barrier sleeve on the light handle, the chair switches, and the air-water syringe.",
+      "targets": [
+        "light-handle-barrier",
+        "chair-switch-barrier",
+        "syringe-barrier"
+      ],
+      "title": "Change the single-use barriers",
+      "why": "A barrier is single-use precisely so the highest-touch points in the room — the light handle you re-position mid-treatment, the switch you press with a gloved hand, the syringe button — never rely on a spray-and-wipe to be clean between patients. It is changed every time, whether or not it looks used."
+    },
+    {
+      "cue": "Hold the flush open for the time the infection-control plan sets before the next patient's water runs through it.",
+      "holdBreakNote": "You let go before the flush time was up — the line still has last patient's standing water in it.",
+      "id": "waterline-flush",
+      "kind": "hold",
+      "prompt": "Hold the flush open for the time the infection-control plan sets before the next patient's water runs through it.",
+      "seconds": 5,
+      "target": "waterline-valve",
+      "title": "Flush the dental unit waterline",
+      "why": "Water sitting in a narrow line since the last patient grows biofilm on the tubing wall, and a short burst does not clear it — the practice's own waterline protocol sets a flush time long enough to run that stagnant water out before anyone's mouth is downstream of it again."
+    },
+    {
+      "cue": "Draw the evacuation system cleaner through the high-volume suction and saliva ejector.",
+      "id": "suction-flush",
+      "kind": "select",
+      "prompt": "Draw the evacuation system cleaner through the high-volume suction and saliva ejector.",
+      "target": "evacuation-cleaner",
+      "title": "Run cleaner through the suction lines",
+      "why": "Suction lines carry the same aerosol and debris the waterlines do, in the other direction, and they biofoul the same way if nothing is ever run through them between patients — the line cleaner is what keeps that tubing from becoming its own contamination source."
+    },
+    {
+      "cue": "Check the cart has bibs, cotton rolls and saliva ejector tips before the setup goes down.",
+      "id": "restock-check",
+      "kind": "select",
+      "prompt": "Check the cart has bibs, cotton rolls and saliva ejector tips before the setup goes down.",
+      "target": "supply-cart",
+      "title": "Restock consumables for the next patient",
+      "why": "A turnover that ends with the room clean but the cart empty just moves the interruption into the middle of the next appointment, with gloves already on and the patient already reclined — and the hygienist who leaves the chair to fetch a bib either breaks her own asepsis or touches a drawer handle with contaminated gloves. Restocking is part of the turnover, not a favour to the next shift."
+    },
+    {
+      "cue": "Carry the wrapped, sterile cassette from storage and set it on the cleaned tray.",
+      "drag": {
+        "missNote": "Not on the tray — set the cassette down square on the disinfected surface, not balanced on the edge.",
+        "radius": 0.4,
+        "to": "tray-slot"
+      },
+      "id": "setup-tray",
+      "kind": "drag",
+      "prompt": "Carry the wrapped, sterile cassette from storage and set it on the cleaned tray.",
+      "target": "sterile-cassette",
+      "title": "Bring the sterile cassette to the tray",
+      "why": "The sterile setup only belongs on this tray once the tray itself is the clean side of the room. Bringing it in earlier puts a wrapped package down on a surface still working its contact time, so the wrap wicks disinfectant or picks up spatter and the pouch stops being a barrier between the load and the room — and nothing about the package afterward shows that it happened."
+    },
+    {
+      "cue": "Read the sterilization indicator printed on the pouch before you break the seal.",
+      "id": "check-indicator",
+      "kind": "select",
+      "prompt": "Read the sterilization indicator printed on the pouch before you break the seal.",
+      "target": "indicator-strip",
+      "title": "Check the pouch's indicator before opening",
+      "why": "The indicator's colour change is the only thing on that pouch that actually says the load reached sterilizing conditions — the wrap looks identical whether the cycle worked or the autoclave came up short, and the strip is what tells the two apart before the instruments touch a patient."
+    },
+    {
+      "cue": "Sanitise before you open the door and bring the next patient in.",
+      "id": "final-hand-hygiene",
+      "kind": "select",
+      "prompt": "Sanitise before you open the door and bring the next patient in.",
+      "target": "hand-sanitizer",
+      "title": "Hand hygiene before the next patient",
+      "why": "Hand hygiene closes the loop the same way it opened it — everything from the dirty tray to the disinfectant bottle to the cart has been in your hands, and the next patient's first contact with this room is your hand on theirs."
+    }
+  ],
+  "supportLine": "your employer's employee assistance program, or the member resources the ADHA keeps for hygienists between appointments like that one",
+  "tagline": "Dirty-to-clean turnover: sharps and instruments contained at point of use, surfaces held to full contact time, barriers changed, lines flushed, the next setup laid out sterile",
+  "title": "SmartCiti.X~ Operatory Turnover VR",
+  "trade": "Dental hygienist",
+  "underwater": null,
+  "weather": null
+}

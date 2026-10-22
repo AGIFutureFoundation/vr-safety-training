@@ -1,0 +1,413 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "never-lost-twice",
+    "name": "Never Lost Twice",
+    "note": "The buddy check run in order and the lost-buddy drill worked exactly as the plan wrote it, without a search past its time"
+  },
+  "category": "Maritime & Ports",
+  "certification": "The programme's diving safety manual and its diving control board, as the scientific diving community's own standard; OSHA 29 CFR 1910 Subpart T where the dive falls under it — 29 CFR 1910.424 SCUBA diving (the buddy system, the standby diver and the tended or line-guided dive), 29 CFR 1910.421 pre-dive planning and briefing, 29 CFR 1910.422 procedures during the dive (water entry and exit, the termination of the dive) and 29 CFR 1910.423 post-dive procedures; ADCI consensus standards where a contractor's crew supports the survey; USCG 33 CFR 83 for the skiff's lights and the dive flag on the water; every depth, time and gas limit per the dive plan",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADCI",
+        "citedAs": "ADCI",
+        "id": "adci-consensus-standards",
+        "title": "Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.421",
+        "id": "osha-1910-421",
+        "title": "29 CFR 1910.421 — Pre-dive procedures (emergency aid list, planning and assessment of the dive, hazardous activities nearby, the team briefing, equipment inspection and the warning signal)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.422",
+        "id": "osha-1910-422",
+        "title": "29 CFR 1910.422 — Procedures during the dive (water entry and exit, communications, decompression tables, power tools, termination of the dive)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.423",
+        "id": "osha-1910-423",
+        "title": "29 CFR 1910.423 — Post-dive procedures (the diver's condition, instructions to report symptoms, the recompression chamber and the record of dive)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.424",
+        "id": "osha-1910-424",
+        "title": "29 CFR 1910.424 — SCUBA diving"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910 Subpart T",
+        "id": "osha-1910-subpart-t",
+        "title": "29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "33 CFR 83",
+        "id": "uscg-33-cfr-83",
+        "title": "33 CFR Part 83 — Inland Navigation Rules"
+      }
+    ]
+  },
+  "district": "Maritime & Ports",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "bwraf-in-order",
+        "name": "In Order",
+        "note": "The buddy check run from buoyancy to the final OK without a skip"
+      },
+      {
+        "id": "plan-time",
+        "name": "The Plan's Time",
+        "note": "The lost-buddy look committed inside the plan's band first time"
+      },
+      {
+        "id": "no-shortcuts",
+        "name": "No Shortcuts",
+        "note": "No hazard reached for from the slate to the log"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-dive",
+        "name": "Clean Dive",
+        "note": "No corrections from the slate to the check-in"
+      },
+      {
+        "id": "buddys-pace",
+        "name": "Buddy's Pace",
+        "note": "The descent held to the buddy the whole way"
+      },
+      {
+        "id": "logged-quick",
+        "name": "Logged Quick",
+        "note": "Dive log written inside 80% of par"
+      }
+    ],
+    "currency": "SLATE MARKS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Diver in Training",
+      "Scientific Diver",
+      "Lead Diver",
+      "Divemaster of the Day",
+      "Buddy Drill Certified"
+    ],
+    "system": "Buddy Line"
+  },
+  "hazards": {
+    "ditch-weights": "You reached for your weight release to get to the surface quicker during the drill. Dropping weights turns a controlled ascent into an uncontrolled one, and weights on the bottom are a dive that cannot be resumed and a recovery job for someone. The weight release is for an emergency where you cannot otherwise reach the surface; a lost buddy is a procedure, not that emergency.",
+    "search-longer": "You kept looking for your buddy past the time the plan gives because it felt wrong to leave. The plan's search time is short by design: two divers looking for each other underwater move away from each other, and the longer both look the further apart they get. The plan says look for its time, then ascend, because the surface is the one place both of you will certainly go.",
+    "skip-buddy-check": "You went to roll off the float with your buddy because you have dived together all season and the check felt like a formality. The check finds the tank band that is loose today and the air that was not turned on this morning, and it finds them on the float where they are fixed in a minute rather than in the water where they end the dive. Every dive, in the same order, out loud, with hands on the other diver's gear.",
+    "swim-up-fast": "You started straight up for the surface, fast, as soon as you realised your buddy was gone. A fast ascent with a held breath or without the line is how a diver who has lost a buddy becomes a diver with an injury of their own, and it puts you on the surface far from where the buddy will come up. The lost-buddy procedure has a controlled ascent on the line for a reason: two problems are worse than one."
+  },
+  "id": "cd-scientific-scuba-buddy-check-and-lost-buddy-drill",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "descent",
+      "alert": "Your buddy has stopped on the line and is pointing at their ear — the signal for a problem clearing it.",
+      "cue": "Signal 'stop — hold', ascend a little on the line with them so they can try again, and go no deeper until they signal OK.",
+      "delay": 2,
+      "id": "buddy-ear",
+      "kind": "Buddy signals an ear problem on the descent",
+      "missNote": "The learner kept descending while the buddy hung on the line with an ear that would not clear; the pair were separated on the line before the transect had started.",
+      "seconds": 14,
+      "target": "buddy-hold-signal",
+      "why": "An ear that will not clear is a descent that stops for both divers: the buddy goes up a little on the line to take the pressure off and tries again, and their partner goes with them, because a diver left alone on the line while the other continues down is the separation the plan is trying to prevent. If it will not clear, the dive ends for both; nobody descends alone.",
+      "wrongNote": "Signal 'stop — hold' and go up a little with them — the descent is at the slower diver's pace."
+    },
+    {
+      "after": "transect-start",
+      "alert": "You look up from the start pin and your buddy is not on the tape — no light, no bubbles you can see.",
+      "cue": "Begin the lost-buddy procedure the plan wrote: stay at the start, start the plan's look, and do not swim off after them.",
+      "delay": 2,
+      "id": "buddy-lost",
+      "kind": "Buddy gone from view at the transect",
+      "missNote": "The learner swam out along the tape after the buddy and lost the line; both divers surfaced apart, out of sight of the skiff, and the tender had two markers to choose between.",
+      "seconds": 14,
+      "target": "start-procedure",
+      "why": "The first thing a diver does on losing a buddy decides whether they find each other: a diver who swims off after a guess is a second lost diver, and the pair's one fixed point — the start pin and the line — is abandoned. The procedure starts where the diver is, with the plan's short look, and the plan's ascent follows; it is a drill so that it is done without deciding anything.",
+      "wrongNote": "Start the procedure where you are — stay at the pin, begin the plan's look. Do not swim after them."
+    }
+  ],
+  "lateNotes": {
+    "descent-line-hands": "The descent begins once both divers have checked each other and given the OK.",
+    "dive-log": "The log is written once both divers are out of the water.",
+    "transect-start": "The transect starts once both divers are down on the line together."
+  },
+  "name": "Scientific Scuba: Buddy Check & Lost-Buddy Drill",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "commercial-diving-and-scientific-scuba"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "skiff",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "air-check",
+      "bcd-inflate",
+      "buddy-hold-signal",
+      "buddy-reunite",
+      "buoy-ring",
+      "descent-line-hands",
+      "ditch-weights",
+      "dive-log",
+      "dive-slate",
+      "fin-bin",
+      "final-ok",
+      "fins",
+      "line-weight",
+      "look-around",
+      "loose-tank-band",
+      "no-cutter",
+      "ok-signal",
+      "releases-clips",
+      "search-longer",
+      "skip-buddy-check",
+      "smb-reel",
+      "start-procedure",
+      "surface-assist",
+      "swim-up-fast",
+      "team-board",
+      "transect-start",
+      "weight-release"
+    ],
+    "meshes": 202
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "On the float with your buddy: the survey task and the transect, the limits per the plan, the descent and ascent on the line, the hand signals, and the lost-buddy rule — look for the plan's time, then ascend and meet at the surface.",
+      "id": "dive-brief",
+      "kind": "select",
+      "prompt": "On the float with your buddy: the survey task and the transect, the limits per the plan, the descent and ascent on the line, the hand signals, and the lost-buddy rule — look for the plan's time, then ascend and meet at the surface.",
+      "target": "dive-slate",
+      "title": "Read the dive plan on the slate with your buddy",
+      "why": "A scientific dive is planned by the programme's diving safety manual and briefed on the float so both divers carry the same plan, because a buddy pair with two ideas of the lost-buddy rule is a pair that will not find each other. 29 CFR 1910.421 has the dive planned and the team briefed; the slate makes the plan a thing both divers can point at underwater when memory and the cold disagree."
+    },
+    {
+      "cue": "On your buddy, out loud and in order: buoyancy, weights, releases, air, final OK — hands on each item, then swap and let them do the same to you.",
+      "id": "buddy-check",
+      "itemNames": {
+        "air-check": "air — valve open, breathe the regulator, read the gauge",
+        "bcd-inflate": "buoyancy — the BCD inflates and dumps",
+        "final-ok": "final OK — mask, fins, slate, nothing dangling",
+        "releases-clips": "releases — every buckle and clip found",
+        "weight-release": "weights — where they are and how they release"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — the check runs buoyancy, weights, releases, air, final OK, so nothing is skipped.",
+      "prompt": "On your buddy, out loud and in order: buoyancy, weights, releases, air, final OK — hands on each item, then swap and let them do the same to you.",
+      "targets": [
+        "bcd-inflate",
+        "weight-release",
+        "releases-clips",
+        "air-check",
+        "final-ok"
+      ],
+      "title": "Run the buddy check in order on your buddy",
+      "why": "The check runs in the same order every time so nothing is skipped when the boat is rolling and the tender is waiting: buoyancy that inflates and dumps, weights you can find and release on the other diver, every buckle, the air on and breathed with the gauge read, and a last look for the dangling hose. 29 CFR 1910.424 has scuba divers work in pairs for exactly the moments this check prepares for."
+    },
+    {
+      "cue": "Go over your buddy's rig once more with the check in mind: the tank band, the cutter, the hoses routed and clipped, nothing left on the bench.",
+      "id": "gear-faults",
+      "itemNames": {
+        "loose-tank-band": "buddy's tank band loose on the cylinder",
+        "no-cutter": "buddy's cutting tool missing from its sheath"
+      },
+      "itemNotes": {
+        "loose-tank-band": "The cam band round your buddy's cylinder has not been cinched — the tank slides in the band with a push. In the water it drops down their back and pulls the regulator out of their mouth.",
+        "no-cutter": "Your buddy's cutter sheath is empty. A survey line, a transect tape or a piece of derelict gear on the bottom can hold a diver, and the tool that frees them is on the bench."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Go over your buddy's rig once more with the check in mind: the tank band, the cutter, the hoses routed and clipped, nothing left on the bench.",
+      "targets": [
+        "loose-tank-band",
+        "no-cutter"
+      ],
+      "title": "Find what the check turned up",
+      "why": "The buddy check is a procedure and this is what it is for: the things that are wrong today on a rig that was right yesterday. A tank band that slides drops the cylinder down a diver's back at the first roll and takes the regulator with it; a diver without a cutter on a survey with tapes and lines has no way out of the entanglement the survey itself creates. Both are fixed on the bench before either diver's feet leave it."
+    },
+    {
+      "cue": "Take the weighted descent line and clip it to the marker buoy's ring, then set the buoy off the float where the plan puts the transect start.",
+      "drag": {
+        "missNote": "Not on the buoy — the descent line clips to the marker buoy's ring so both ends can be found.",
+        "radius": 0.5,
+        "to": "buoy-ring"
+      },
+      "id": "rig-descent-line",
+      "kind": "drag",
+      "prompt": "Take the weighted descent line and clip it to the marker buoy's ring, then set the buoy off the float where the plan puts the transect start.",
+      "target": "line-weight",
+      "title": "Clip the descent line to its buoy",
+      "why": "The line is the pair's road down and back up: descend on it and both divers arrive at the same place at the same pace; lose a buddy and it is where both ascend to. 29 CFR 1910.424 has a scuba diver line-tended or accompanied, and the descent line is the accompaniment made solid. It is clipped to the buoy so the tender in the skiff can see the top of it and the divers can find the bottom of it."
+    },
+    {
+      "cue": "Enter the water together as the plan says, surface, and give the tender in the skiff the OK signal — arm on the head — before either of you descends.",
+      "id": "entry-ok",
+      "kind": "select",
+      "prompt": "Enter the water together as the plan says, surface, and give the tender in the skiff the OK signal — arm on the head — before either of you descends.",
+      "target": "ok-signal",
+      "title": "Enter and give the OK to the tender",
+      "why": "The tender at the surface knows the divers are in and all right only from the signal, and a pair that descends without giving it leaves the tender counting bubbles and wondering. The OK is given at the surface by both divers and returned by the tender, so the three people on the dive agree on the moment it began; 29 CFR 1910.422 has entry and exit procedures for exactly this hand-off."
+    },
+    {
+      "cue": "Hand on the line, face to face with your buddy, descend together — equalising as you go, stopping when they stop, never dropping below them.",
+      "holdBreakNote": "You lost your buddy's pace — above them or below them. Back face to face on the line.",
+      "id": "descent",
+      "kind": "track",
+      "prompt": "Hand on the line, face to face with your buddy, descend together — equalising as you go, stopping when they stop, never dropping below them.",
+      "seconds": 6,
+      "target": "descent-line-hands",
+      "title": "Descend on the line at your buddy's pace",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "DESCENT",
+        "rise": 0.56,
+        "start": 0.14
+      },
+      "why": "The descent is done at the slower diver's pace, because a diver who cannot clear an ear or who is fighting buoyancy cannot also chase a buddy who has gone ahead. Face to face on the line each sees the other's signals and eyes; a buddy below and looking down is a buddy who cannot be told anything. The line keeps the pair together and puts them both at the transect start rather than somewhere near it."
+    },
+    {
+      "cue": "At the bottom of the line, hold your position at the transect's start pin while your buddy swims out laying the tape — watching them, keeping the line's bottom in reach.",
+      "holdBreakNote": "You drifted off the start pin — the transect's reference is gone. Hold your position and watch your buddy.",
+      "id": "transect-start",
+      "kind": "hold",
+      "prompt": "At the bottom of the line, hold your position at the transect's start pin while your buddy swims out laying the tape — watching them, keeping the line's bottom in reach.",
+      "seconds": 5,
+      "target": "transect-start",
+      "title": "Hold the transect start while your buddy lays the tape",
+      "why": "The survey needs one diver at the start and one laying the tape, and the diver at the start is the anchor: they hold the position, watch the buddy's light and bubbles, and are the point the buddy returns to. Holding still is the skill — a diver who drifts off the start to help lays a crooked tape and loses the reference both need; a diver who stops watching is the one who looks up to find the buddy gone."
+    },
+    {
+      "cue": "Turn slowly through a full circle looking for bubbles, a light and the tape, and commit when you have looked for the time the plan gives — then stop looking.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.62
+        ],
+        "label": "LOOK — PLAN'S TIME",
+        "missNote": "Outside the band — look for the time the plan gives, then stop and ascend.",
+        "speed": 0.66
+      },
+      "id": "lost-buddy-look",
+      "kind": "gauge",
+      "prompt": "Turn slowly through a full circle looking for bubbles, a light and the tape, and commit when you have looked for the time the plan gives — then stop looking.",
+      "target": "look-around",
+      "title": "Look for your buddy for the time the plan gives — no longer",
+      "why": "The lost-buddy procedure begins with a short look because most lost buddies are a few metres away behind a pile or a kelp frond, and it ends the look on the plan's time because two divers searching move apart. The gauge is the plan's time and nothing else: shorter and a buddy in reach is left; longer and both divers are now lost from each other and from the line. The plan's time is the whole discipline."
+    },
+    {
+      "cue": "Back to the line, ascend at the plan's rate with your hand on it, and unspool the surface marker buoy's reel ahead of you so the tender sees where you are coming up.",
+      "id": "deploy-smb",
+      "kind": "turn",
+      "prompt": "Back to the line, ascend at the plan's rate with your hand on it, and unspool the surface marker buoy's reel ahead of you so the tender sees where you are coming up.",
+      "target": "smb-reel",
+      "title": "Ascend on the line and send up the surface marker",
+      "turn": {
+        "label": "SMB REEL",
+        "turns": 1.2
+      },
+      "why": "The ascent after a lost buddy is a controlled one on the line — the line is the one place both divers know — and the marker goes up ahead so the tender in the skiff sees a diver coming before they see a head. A marker at the surface tells the tender which diver this is and where, and it keeps the skiff and any passing craft off the spot; the reel is unspooled steadily so the line does not tangle the diver sending it."
+    },
+    {
+      "cue": "At the surface by the line, signal the tender: OK if you are, then 'one diver up — buddy separated' by the plan's signal, and hold at the buoy.",
+      "id": "surface-signal",
+      "kind": "select",
+      "prompt": "At the surface by the line, signal the tender: OK if you are, then 'one diver up — buddy separated' by the plan's signal, and hold at the buoy.",
+      "target": "surface-assist",
+      "title": "Signal the skiff from the surface",
+      "why": "The tender cannot see who is up and who is not until the divers tell them, and a diver at the surface without a signal is a diver the tender has to assume is in trouble. The plan's signal for a separated pair starts the surface's part of the procedure — the skiff comes to the buoy, the standby is readied, the time is noted — while the diver holds at the buoy where the buddy will surface too."
+    },
+    {
+      "cue": "Your buddy surfaces at the marker. Swap OKs, check each other, tell the tender both are up, and decide with the tender whether the plan allows a second descent or the dive is over.",
+      "id": "reunite",
+      "kind": "select",
+      "prompt": "Your buddy surfaces at the marker. Swap OKs, check each other, tell the tender both are up, and decide with the tender whether the plan allows a second descent or the dive is over.",
+      "target": "buddy-reunite",
+      "title": "Reunite with your buddy at the surface and decide the dive",
+      "why": "The procedure ends when both divers are at the surface and have checked each other, not when one of them is. Whether they go back down is the plan's decision and the tender's, made on the gas and time left and on why they were separated; a pair that drops straight back in to finish the tape has skipped the part of the procedure that keeps it from happening again. 29 CFR 1910.422 has the dive terminated when the plan says so."
+    },
+    {
+      "cue": "At the skiff's ladder, hand your fins up to the tender for the bin before you climb, then come up the ladder with a hand on each rail.",
+      "drag": {
+        "missNote": "Not in the bin — fins go up to the tender first, then the ladder with both hands free.",
+        "radius": 0.5,
+        "to": "fin-bin"
+      },
+      "id": "exit-fins",
+      "kind": "drag",
+      "prompt": "At the skiff's ladder, hand your fins up to the tender for the bin before you climb, then come up the ladder with a hand on each rail.",
+      "target": "fins",
+      "title": "Exit the water and hand your fins to the tender",
+      "why": "Fins on a ladder are the commonest way a diver ends a dive with an injury: a fin catches a rung and the diver goes back into the water on top of the buddy behind them. They come off in the water and go up to the tender first, and the diver climbs with hands free; the tender takes the fins to the bin so they are not on the deck for the next person to stand on."
+    },
+    {
+      "cue": "On the float: both divers' entries — the plan's limits, the times, the buddy check faults found, the ear problem, the separation and how the drill went, and the decision to end the dive.",
+      "id": "dive-log",
+      "kind": "select",
+      "prompt": "On the float: both divers' entries — the plan's limits, the times, the buddy check faults found, the ear problem, the separation and how the drill went, and the decision to end the dive.",
+      "target": "dive-log",
+      "title": "Write the dive log with your buddy",
+      "why": "The programme's diving safety manual keeps a log of every dive, and 29 CFR 1910.423 has the record kept; the separation and the drill go in because the dive safety officer reads the logs for exactly those, and a drill that went well is as worth recording as one that did not. Both divers write it together so the two accounts agree before either forgets what the plan's time felt like."
+    },
+    {
+      "cue": "At the team board: how the drill went from each side, the tank band and the cutter for the gear locker, the ear, and how everyone is.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "At the team board: how the drill went from each side, the tank band and the cutter for the gear locker, the ear, and how everyone is.",
+      "target": "team-board",
+      "title": "Check in with your buddy and the tender",
+      "why": "Losing a buddy underwater, even for the plan's short time, is frightening, and the check-in is where the pair say so and say what each did while apart; that is how a drill becomes a habit. The gear faults go to the locker so the next pair does not find them, and the programme's dive safety officer hears the whole thing before the log closes. The member assistance line is there for what the float does not settle."
+    }
+  ],
+  "supportLine": "your programme's dive safety officer and your union's member assistance programme, with the employer's employee assistance line behind them",
+  "tagline": "Two divers, one plan: the slate read for the task and the lost-buddy rule, the buddy check run in order from buoyancy to the final OK, the loose tank band and the missing cutter found, the descent line clipped to its buoy, the OK given to the tender, the descent held to the buddy's pace through an ear problem, the transect start held while the buddy lays tape, the buddy lost from view and the drill worked — look for the plan's time, ascend on the line, deploy the marker, signal the skiff, reunite — then fins in the bin and the log written",
+  "title": "SmartCiti.X~ Scientific Scuba: Buddy Check & Lost-Buddy Drill VR",
+  "trade": "Scientific scuba diver on an agency survey programme, with a dive buddy, the surface tender in the skiff and the programme's dive safety officer as the supervisor of the day",
+  "underwater": null,
+  "weather": "clear"
+}

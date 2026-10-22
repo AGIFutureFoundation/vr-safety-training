@@ -1,0 +1,419 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clear-corridor",
+    "name": "Clear Corridor",
+    "note": "Every box weighed, sorted and shelved, the corridor kept clear, and nothing handed to the wrong person"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "OSHA 29 CFR 1910.36 exit routes and 29 CFR 1910.22 walking-working surfaces with parcels on the floor; NFPA 101 for the corridor the overflow must never fill; 29 CFR 1910.1200 hazard communication for a leaking parcel and 29 CFR 1910.1030 for a crushed sharps mailer; NIOSH lifting guidance for the heavy box; the Fair Housing Act for a resident's accommodation request; SEIU building-staff and UNITE HERE front-desk training, and the apartment association's CAM credential",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 101",
+        "id": "nfpa-101",
+        "title": "NFPA 101 — Life Safety Code"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.22",
+        "id": "osha-1910-22",
+        "title": "29 CFR 1910.22 — Walking-working surfaces, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.36",
+        "id": "osha-1910-36",
+        "title": "29 CFR 1910.36 — Design and construction requirements for exit routes"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "union",
+        "citedAs": "UNITE HERE",
+        "id": "unite-here-training",
+        "title": "UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Building Systems & Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "weighed-first",
+        "name": "Weighed First",
+        "note": "The heavy box weighed before anyone lifted it"
+      },
+      {
+        "id": "clear-way",
+        "name": "Clear Way",
+        "note": "No unsafe act anywhere in the room"
+      },
+      {
+        "id": "right-hands",
+        "name": "Right Hands",
+        "note": "Held the pickup line without releasing a package wrongly"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-monday",
+        "name": "Clean Monday",
+        "note": "No corrections across the whole shift"
+      },
+      {
+        "id": "steady-line",
+        "name": "Steady Line",
+        "note": "Held the pickup line without breaking the band"
+      },
+      {
+        "id": "shelved-fast",
+        "name": "Shelved Fast",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "PARCELS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Desk Clerk",
+      "Package Lead",
+      "Front Desk Lead",
+      "Resident Services Manager",
+      "Package Room Certified"
+    ],
+    "system": "Package Room"
+  },
+  "hazards": {
+    "cutter-toward-hand": "You drew the box cutter towards the hand holding the box. A blade that slips on packing tape follows the direction you pull, and the direction you pulled was your own palm — cut away from your body, with the blade retracted between cuts.",
+    "exit-corridor-stack": "You started stacking the overflow along the exit corridor wall. That corridor is the route residents on this floor take to the stair in a fire, and a wall of boxes narrows it, hides the exit sign and becomes the thing people fall over in smoke — overflow goes in the cage, never the corridor.",
+    "leaking-bare-hands": "You picked up the leaking parcel bare-handed. Until the label is read nobody knows what is soaking through that cardboard — a cleaning concentrate, a pool chemical, something worse — and gloves go on before the box is touched.",
+    "top-shelf-heavy": "You went to put the sixty-pound box on the top shelf above your head. Lifted overhead, a load that heavy puts the spine at its worst angle, and it comes down on whoever reaches for it next — heavy goes low, between knee and shoulder height."
+  },
+  "id": "pm-mail-and-package-room",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "hold-leaker",
+      "alert": "While you hold the leaking parcel, a resident using a wheelchair arrives — her parcel is in a top-row locker she cannot reach, and she asks whether the building can deliver to her door.",
+      "cue": "Log her request for the office's accommodation process and bring her parcel to the lower counter. Keep the leaker over the tray.",
+      "delay": 3,
+      "id": "reach-accommodation",
+      "kind": "Resident can't reach her locker",
+      "missNote": "She waited below a locker she could not reach the whole window. Nobody took her request, and a request that is never logged is a request the building ignored.",
+      "seconds": 13,
+      "target": "accommodation-log",
+      "why": "A request to change how a building service works because of a disability is a reasonable accommodation request under the Fair Housing Act, and it does not need special words or a form to count. Logging it for the office starts the process the law expects, and bringing today's parcel to the counter answers her now rather than after the paperwork.",
+      "wrongNote": "That doesn't answer her. Log her request for the office on the accommodation sheet and bring her parcel to the lower counter."
+    },
+    {
+      "after": "work-pickup-line",
+      "alert": "A man at the counter asks for unit 7B's parcel — he knows the name, but he is not on 7B's authorised list.",
+      "cue": "Check the list on the ID tablet and decline the release politely. Keep the line moving behind him.",
+      "delay": 3,
+      "id": "wrong-pickup",
+      "kind": "Pickup by someone not on the list",
+      "missNote": "He stood at the counter the whole window with nobody checking him against the list. The next clerk under pressure hands it over.",
+      "seconds": 12,
+      "target": "id-check-tablet",
+      "why": "Knowing a resident's name is not the same as being authorised to collect their parcels, and package theft from lobbies relies on exactly that confusion. Checking the unit's list on the tablet and declining politely protects the resident, and the building's promise about who can collect their mail stays true.",
+      "wrongNote": "That doesn't check him. The ID tablet holds the unit's authorised list — check it before anything leaves the counter."
+    }
+  ],
+  "lateNotes": {
+    "fridge-locker-temp": "The refrigerated locker is read once the locker bank's jam is cleared, not before.",
+    "heavy-box": "Not yet — the heavy box goes to the shelf only after it's weighed and on the cart."
+  },
+  "name": "Mail & Package Room",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "property-management"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "accommodation-log",
+      "box-onto-cart",
+      "building-log",
+      "cart-positioned",
+      "clerk-checkin",
+      "curled-entry-mat",
+      "cutter-toward-hand",
+      "exit-corridor-stack",
+      "fridge-locker-temp",
+      "heavy-box",
+      "id-check-tablet",
+      "leak-tray",
+      "leaking-bare-hands",
+      "lithium-battery-box",
+      "locker-service-key",
+      "overflow-cage-slot",
+      "overflow-stack",
+      "oversize-shelf-slot",
+      "package-log-screen",
+      "package-scale",
+      "partner-called",
+      "pickup-queue",
+      "sharps-mailer",
+      "sprung-locker-door",
+      "top-shelf-heavy"
+    ],
+    "meshes": 211
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check how many parcels came in, which are oversize, cold-chain or flagged, before touching any.",
+      "id": "read-manifest",
+      "kind": "select",
+      "prompt": "Check how many parcels came in, which are oversize, cold-chain or flagged, before touching any.",
+      "target": "package-log-screen",
+      "title": "Read the morning's package manifest",
+      "why": "The manifest tells you what the room is about to hold before it holds it: how many parcels, how many will not fit a locker, which ones are refrigerated and must go cold now, which carriers flagged damage. Reading it first is how the overflow gets a plan instead of ending up wherever there is floor."
+    },
+    {
+      "cue": "Find what will trip a resident or lose one a package.",
+      "id": "walk-room",
+      "itemNames": {
+        "curled-entry-mat": "entrance mat curled at the corner",
+        "sprung-locker-door": "locker door sprung open with a parcel inside"
+      },
+      "itemNotes": {
+        "curled-entry-mat": "The corner of the entrance mat has curled up into the walkway. Residents carrying boxes cannot see their feet, and a curled mat is a trip at the busiest door in the building.",
+        "sprung-locker-door": "Locker 14's door has sprung open with somebody's parcel sitting inside. A locker that does not latch is a theft waiting to happen and a resident's complaint by lunchtime."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find what will trip a resident or lose one a package.",
+      "targets": [
+        "curled-entry-mat",
+        "sprung-locker-door"
+      ],
+      "title": "Walk the room before the rush",
+      "why": "A package room is a walkway with a counter in it, used by residents carrying boxes they cannot see over. The walk before the rush finds the trip hazard at the door and the locker that failed overnight, while there is still time to fix them before the queue arrives."
+    },
+    {
+      "cue": "Slide the box onto the floor scale and commit when the reading settles.",
+      "gauge": {
+        "green": [
+          0.5,
+          0.7
+        ],
+        "label": "PARCEL WEIGHT",
+        "missNote": "The reading hadn't settled or you read the wrong parcel. Let the scale steady and read it again.",
+        "speed": 0.55
+      },
+      "id": "weigh-heavy-box",
+      "kind": "gauge",
+      "prompt": "Slide the box onto the floor scale and commit when the reading settles.",
+      "target": "package-scale",
+      "title": "Weigh the heavy box before anyone lifts it",
+      "why": "NIOSH's lifting guidance starts from the real weight of the load, and nobody can judge that by looking at a box — a small carton of books and a large one of pillows look the other way round. The scale turns a guess into a number, and the number decides whether this is a one-person lift, a team lift or a cart job."
+    },
+    {
+      "cue": "Bring the cart to the box, call your coworker, then slide the box onto the cart together.",
+      "id": "cart-the-box",
+      "itemNames": {
+        "box-onto-cart": "box slid onto the cart together",
+        "cart-positioned": "cart brought right to the box",
+        "partner-called": "coworker called for a team lift"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Cart first, then your partner, then the lift — lifting before the cart is in place means someone holds the load while it arrives.",
+      "prompt": "Bring the cart to the box, call your coworker, then slide the box onto the cart together.",
+      "targets": [
+        "cart-positioned",
+        "partner-called",
+        "box-onto-cart"
+      ],
+      "title": "Set up a team lift onto the cart",
+      "why": "At sixty pounds the box is past what one person should lift from the floor, and the safe version of this job barely involves lifting at all: the cart comes to the box, two people slide it rather than hoist it, and the cart carries it to the shelf. The order matters because a box half-lifted while the cart is still across the room is a box somebody holds too long."
+    },
+    {
+      "cue": "Wheel the box to the oversize shelf and slide it onto the bottom tier.",
+      "drag": {
+        "missNote": "Not on the low tier — a heavy box anywhere else is either blocking the floor or waiting to come down on someone.",
+        "radius": 0.5,
+        "to": "oversize-shelf-slot"
+      },
+      "id": "shelve-low",
+      "kind": "drag",
+      "prompt": "Wheel the box to the oversize shelf and slide it onto the bottom tier.",
+      "target": "heavy-box",
+      "title": "Shelve the heavy box low",
+      "why": "Heavy parcels live between knee and shoulder height, where they can be slid rather than lifted, and the bottom tier of the oversize shelf is where a sixty-pound box stays put until the resident's cart arrives. Up high, the same box is the next overhead lift and the next thing to fall."
+    },
+    {
+      "cue": "Gloved, hold the leaking parcel over the absorbent tray while you read its label and markings.",
+      "holdBreakNote": "You set it down before you'd read the label. Now it's leaking onto the counter and you still don't know what it is — hold it over the tray until you do.",
+      "id": "hold-leaker",
+      "kind": "hold",
+      "prompt": "Gloved, hold the leaking parcel over the absorbent tray while you read its label and markings.",
+      "seconds": 5,
+      "target": "leak-tray",
+      "title": "Hold the leaking parcel over the tray and read it",
+      "why": "A leaking parcel's label is the hazard communication for whatever is inside it: a limited-quantity mark, a corrosive diamond, a chemical name you can look up. Held over the absorbent tray while you read, the leak goes into the tray rather than across the counter, and you know what you are dealing with before deciding what happens next."
+    },
+    {
+      "cue": "Find the parcels in the damaged pile that can burn or cut.",
+      "id": "pick-special-handling",
+      "itemNames": {
+        "lithium-battery-box": "crushed box with a lithium battery mark",
+        "sharps-mailer": "crushed sharps return mailer"
+      },
+      "itemNotes": {
+        "lithium-battery-box": "A crushed carton with the lithium battery handling mark on it. A damaged lithium cell can overheat hours later — it goes on the metal shelf away from everything, and the carrier is told.",
+        "sharps-mailer": "A sharps disposal mailer, crushed at one end. Whatever is inside could now be through the wall of it — it is handled with gloves and tongs, bagged, and never squeezed."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find the parcels in the damaged pile that can burn or cut.",
+      "targets": [
+        "lithium-battery-box",
+        "sharps-mailer"
+      ],
+      "title": "Pick out the parcels that need special handling",
+      "why": "Most damaged parcels are just damaged, but two kinds are not: lithium batteries, which can start a fire long after the damage, and medical sharps mailers, which can break skin through crushed cardboard. The bloodborne pathogens standard covers the second, and plain fire sense covers the first — both are picked out, not stacked."
+    },
+    {
+      "cue": "Keep the line moving while every release is matched to the unit's authorised list.",
+      "holdBreakNote": "The line left the band. Rushing is how the wrong parcel goes out the door; backing up is how residents start reaching over the counter — bring it back.",
+      "id": "work-pickup-line",
+      "kind": "track",
+      "prompt": "Keep the line moving while every release is matched to the unit's authorised list.",
+      "seconds": 7,
+      "target": "pickup-queue",
+      "title": "Work the afternoon pickup line",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.38,
+        "green": [
+          0.38,
+          0.64
+        ],
+        "label": "PICKUP LINE",
+        "rise": 0.44,
+        "start": 0.25
+      },
+      "why": "The pickup line is where speed and accuracy pull against each other: residents want their parcels now, and the building has promised each one that only they, or somebody they authorised, will walk away with it. Held in the band, the line moves without a release ever being made on a name that is not on the unit's list."
+    },
+    {
+      "cue": "Turn the locker bank's service key to reset locker 14's latch.",
+      "id": "clear-locker-jam",
+      "kind": "turn",
+      "prompt": "Turn the locker bank's service key to reset locker 14's latch.",
+      "target": "locker-service-key",
+      "title": "Clear the sprung locker with the service key",
+      "turn": {
+        "axis": "z",
+        "label": "SERVICE KEY",
+        "turns": 0.4
+      },
+      "why": "A smart locker that has sprung open will not accept a new parcel or release the old one through the resident's code, and the parcel inside is sitting unsecured in a public room. The service key resets the latch and lets the system re-issue the resident's code, which is quicker and safer than carrying the parcel around the building by hand."
+    },
+    {
+      "cue": "Watch the cold locker's display and commit when it holds in the cold band.",
+      "gauge": {
+        "green": [
+          0.2,
+          0.42
+        ],
+        "label": "COLD LOCKER",
+        "missNote": "Outside the cold band — warm spoils groceries and medicine, freezing ruins insulin. Read it again and call it in if it holds.",
+        "speed": 0.55
+      },
+      "id": "read-cold-locker",
+      "kind": "gauge",
+      "prompt": "Watch the cold locker's display and commit when it holds in the cold band.",
+      "target": "fridge-locker-temp",
+      "title": "Read the refrigerated locker's temperature",
+      "why": "Groceries, meal kits and residents' medicines like insulin arrive in the refrigerated locker, and a locker that has drifted warm spoils them without anyone knowing until a resident opens a bag. Reading it every shift is how the building keeps the promise the cold locker makes."
+    },
+    {
+      "cue": "Wheel the overflow stack from the floor by the corridor into the locked overflow cage.",
+      "drag": {
+        "missNote": "Not in the cage — overflow left anywhere near the corridor is overflow in the exit route.",
+        "radius": 0.55,
+        "to": "overflow-cage-slot"
+      },
+      "id": "clear-overflow",
+      "kind": "drag",
+      "prompt": "Wheel the overflow stack from the floor by the corridor into the locked overflow cage.",
+      "target": "overflow-stack",
+      "title": "Move the overflow into the overflow cage",
+      "why": "Overflow always finds the nearest empty floor, and the nearest empty floor in this room is the corridor to the stair. Moving it into the locked cage keeps the exit route at full width, keeps the parcels secure, and keeps the exit sign visible — three things the corridor loses the moment boxes line its wall."
+    },
+    {
+      "cue": "Hand over the lithium box, the accommodation request and the refused pickup, and ask how the day has gone.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Hand over the lithium box, the accommodation request and the refused pickup, and ask how the day has gone.",
+      "target": "clerk-checkin",
+      "title": "Check in with the desk clerk",
+      "why": "The UNITE HERE desk clerk on the evening shift will meet the carrier coming back for the lithium box, the resident asking about her request and possibly the man who was refused a parcel, so they need all three handed over in person. A Monday like this one is hard on the people behind the counter, and asking how they are is part of the handover."
+    },
+    {
+      "cue": "Log the counts, the leaker and what it was, the special-handling parcels, the refused release and the accommodation request.",
+      "id": "building-log",
+      "kind": "select",
+      "prompt": "Log the counts, the leaker and what it was, the special-handling parcels, the refused release and the accommodation request.",
+      "target": "building-log",
+      "title": "Enter the shift in the building log",
+      "why": "The building log is where a refused release is recorded in case the resident asks why, where the accommodation request is timed so the office can answer it promptly, and where a leaking parcel's contents are written down for anyone who handled it. A package room without a log is a room where every dispute is one person's word against another's."
+    }
+  ],
+  "supportLine": "your union steward or member-assistance contact, or your employer's employee assistance program",
+  "tagline": "The Monday after a holiday: heavy boxes weighed and carted, a leaking parcel held and read, lithium and sharps picked out, the overflow kept out of the exit corridor, and packages released only to their owners",
+  "title": "SmartCiti.X~ Mail & Package Room VR",
+  "trade": "Front desk and package room staff — SEIU building staff and UNITE HERE residential hospitality staff, with the apartment association's CAM-credentialed manager",
+  "underwater": null,
+  "weather": null
+}

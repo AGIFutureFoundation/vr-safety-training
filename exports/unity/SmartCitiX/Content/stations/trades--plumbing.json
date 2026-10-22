@@ -1,0 +1,312 @@
+{
+  "app": "trades",
+  "badge": {
+    "id": "zero-leaks",
+    "name": "Zero Leaks",
+    "note": "A pressure-tested rough-in with backflow protection intact and every joint torch-safe"
+  },
+  "category": "Trade Skills Simulator",
+  "certification": "UA journeyman plumber and state plumbing licence; IPC/UPC drain-waste-vent code; ANSI/ASSE 5110 backflow prevention assembly tester and ANSI/ASSE 1020 pressure vacuum breakers; NSF/ANSI 61 and 372 for wetted drinking-water components; ASME B31.9 building services piping; OSHA 29 CFR 1910.252 welding, cutting and brazing with NFPA 51B hot work",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASME",
+        "citedAs": "ASME B31.9",
+        "id": "asme-b31-9",
+        "title": "ASME B31.9 — Building services piping"
+      },
+      {
+        "body": "ASSE",
+        "citedAs": "ANSI/ASSE 1020",
+        "id": "asse-1020",
+        "title": "ASSE 1020 — Pressure vacuum breaker assemblies"
+      },
+      {
+        "body": "ASSE",
+        "citedAs": "ANSI/ASSE 5110",
+        "id": "asse-5110",
+        "title": "ASSE 5110 — Backflow prevention assembly tester professional qualification"
+      },
+      {
+        "body": "IAPMO",
+        "citedAs": "UPC",
+        "id": "iapmo-upc",
+        "title": "IAPMO Uniform Plumbing Code (UPC) — the model plumbing code most state and local jurisdictions adopt for drain, waste, vent, water distribution and fuel gas piping"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 51B",
+        "id": "nfpa-51b",
+        "title": "NFPA 51B — Fire Prevention During Welding, Cutting and Other Hot Work"
+      },
+      {
+        "body": "NSF",
+        "citedAs": "NSF/ANSI 61",
+        "id": "nsf-ansi-61",
+        "title": "NSF/ANSI/CAN 61 — Drinking water system components: health effects"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.252",
+        "id": "osha-1910-252",
+        "title": "29 CFR 1910.252 — Welding, cutting and brazing, general requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "UA",
+        "id": "ua-apprenticeship",
+        "title": "UA — United Association plumber, pipefitter and HVAC service apprenticeship standards and UA Star certification"
+      }
+    ]
+  },
+  "district": null,
+  "domain": null,
+  "flat": false,
+  "game": null,
+  "hazards": {
+    "hose-bucket": "That garden hose runs from the hose bib straight into the mop bucket, submerged. Let street pressure drop for a second and that bucket water siphons back into the supply — an air gap or a backflow preventer is what stops it, not hoping the pressure never drops.",
+    "pressurized-union": "That union is still showing line pressure on the gauge. Crack a fitting under pressure and whatever's behind it — water, or a still-hot line — comes out at whoever's hands are on the wrench.",
+    "solvent-torch": "The primer and cement are open right next to a lit torch. Both are flammable solvents sitting open — vapour finding that flame is not a maybe, it's a when.",
+    "torch-stud": "That torch tip is inches from a bare wood stud with no heat shield behind the joint. Sweating a fitting against dry framing is exactly how a slow smoulder starts inside a wall — one nobody notices until hours after you've packed up."
+  },
+  "id": "plumbing",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "backflow",
+      "alert": "The main wheel has turned. Somebody down the floor has cracked your supply back open to fill a bucket and walked off.",
+      "cue": "You are across the bay with both hands full and the system behind you is live.",
+      "delay": 3,
+      "id": "main-reopened",
+      "kind": "Isolation breach",
+      "missNote": "The main stayed open while you worked. Pressure came back up behind a rough-in that is not made up yet, and the first open fitting anyone touches becomes the outlet — on a three-quarter-inch service that is roughly ten gallons a minute into an unfinished floor before somebody gets back to the valve.",
+      "seconds": 12,
+      "target": "main-shutoff",
+      "why": "An isolation nobody can see is not an isolation. The main goes back off before anything else happens and then you find out who opened it, because the next thing this job has is an open pipe end — and there is no warning between street pressure arriving and it arriving everywhere at once.",
+      "wrongNote": "It is the main shutoff. Nothing else on this job is worth a second while the supply is live behind an open pipe end."
+    },
+    {
+      "after": "sweat",
+      "alert": "A thread of smoke is rising out of the stud bay behind the fitting you just sweated. There was no heat shield in there.",
+      "cue": "That is inside the wall now, not on the face of it.",
+      "delay": 4,
+      "id": "hot-work-smoulder",
+      "kind": "Hot work fire",
+      "missNote": "Nobody went back to it. Hot work fires are almost always found long after the crew has packed up: that smoulder had the rest of the afternoon inside a closed stud bay with insulation for fuel, and the first anybody knew of it was the building alarm that night.",
+      "seconds": 13,
+      "target": "fire-extinguisher",
+      "why": "NFPA 51B requires extinguishing equipment within reach and a fire watch kept through the work and well after it, precisely because torch heat conducts along a fitting into framing and starts a smoulder that shows nothing for hours. You put it out now, while it is still a thread of smoke and still somewhere you can reach.",
+      "wrongNote": "It is the extinguisher racked on the stud wall. NFPA 51B puts one within reach of hot work so that the answer is three steps away and not down in the truck."
+    }
+  ],
+  "lateNotes": {
+    "backflow-preventer": "Not yet — get the DWV rough-in dry-fit before you're back on supply-side hardware.",
+    "test-gauge": "Nothing to test yet — every joint gets made before the system gets pressurized.",
+    "torch-valve": "Wrong point in the job. The PVC and backflow work come before the torch comes out."
+  },
+  "name": "plumbing",
+  "parSeconds": 235,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": null,
+    "hits": [
+      "backflow-preventer",
+      "bleed-valve",
+      "closet-bend",
+      "copper-joint",
+      "dry-joint-a",
+      "dry-joint-b",
+      "fire-extinguisher",
+      "hose-bib-socket",
+      "hose-bucket",
+      "leaking-joint",
+      "main-shutoff",
+      "p-trap",
+      "pressurized-union",
+      "pvc-joint",
+      "solvent-torch",
+      "stack-vent",
+      "test-gauge",
+      "torch-stud",
+      "torch-valve",
+      "work-order"
+    ],
+    "meshes": 235
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the plans: fixture count, vent sizing, and the DWV layout.",
+      "id": "workorder",
+      "kind": "select",
+      "prompt": "Check the plans: fixture count, vent sizing, and the DWV layout.",
+      "target": "work-order",
+      "title": "Read the rough-in work order",
+      "why": "Fixture units, vent size and where the wet vent picks up all get confirmed before a saw touches the framing. An undersized vent shows up as a trap siphoning itself dry six months later, venting sewer gas into a finished bathroom through a wall that is by then boarded and tiled."
+    },
+    {
+      "cue": "Turn the main off before opening any line downstream.",
+      "id": "shutoff",
+      "kind": "turn",
+      "prompt": "Turn the main off before opening any line downstream.",
+      "target": "main-shutoff",
+      "title": "Close the main shutoff",
+      "turn": {
+        "axis": "y",
+        "label": "MAIN SUPPLY",
+        "turns": 0.75
+      },
+      "why": "Assume street pressure on every fixture downstream. The branch valve you believe isolates this run may be a fifteen-year-old gate that no longer seats, and you would only learn that at the first cut. Take the main round to its stop instead of trusting a valve nobody has ever proved."
+    },
+    {
+      "cue": "Hold the bleeder open until the line runs dry.",
+      "holdBreakNote": "Let go too soon — there's still water standing in the line. Hold the bleeder open the full run.",
+      "id": "bleed",
+      "kind": "hold",
+      "prompt": "Hold the bleeder open until the line runs dry.",
+      "seconds": 5,
+      "target": "bleed-valve",
+      "title": "Bleed the line",
+      "why": "A closed main does not empty a riser. The column hangs on its own vacuum until something admits air, so the first fitting cracked becomes the vent and the whole standing head lands at once — on the floor, the tools and anything open below. Bleed it down and watch the flow die."
+    },
+    {
+      "cue": "Set the vent stack, then the closet bend, then the trap — in that order.",
+      "id": "dwv",
+      "itemNames": {
+        "closet-bend": "closet bend",
+        "p-trap": "P-trap",
+        "stack-vent": "vent stack"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — the stack and bend are what the trap's slope depends on. Set them first.",
+      "prompt": "Set the vent stack, then the closet bend, then the trap — in that order.",
+      "targets": [
+        "stack-vent",
+        "closet-bend",
+        "p-trap"
+      ],
+      "title": "Dry-fit the DWV run",
+      "why": "Drain, waste and vent assembles top down: the vent tie-in and the fall are the datum everything under them is set from. The trap goes last because its weir height and arm slope decide whether the seal holds or siphons out, and neither can be adjusted once the stack and bend are welded in."
+    },
+    {
+      "cue": "Carry the backflow preventer from the bench to the hose bib supply.",
+      "drag": {
+        "missNote": "Not lined up with the bib — set it square onto the supply fitting.",
+        "radius": 0.35,
+        "to": "hose-bib-socket"
+      },
+      "id": "backflow",
+      "kind": "drag",
+      "prompt": "Carry the backflow preventer from the bench to the hose bib supply.",
+      "target": "backflow-preventer",
+      "title": "Fit the backflow preventer",
+      "why": "A hose bib is the classic cross-connection — the one outlet a garden hose, a bucket and a momentary pressure drop can turn into a feed running backwards into potable supply. A vacuum breaker severs that path mechanically, which is why code names this fitting specifically rather than trusting the pressure."
+    },
+    {
+      "cue": "Prime, cement, then hold the joint together while it sets.",
+      "holdBreakNote": "Released early — the joint pulled apart microscopically before the weld set. Hold the full cure.",
+      "id": "cement",
+      "kind": "hold",
+      "prompt": "Prime, cement, then hold the joint together while it sets.",
+      "seconds": 4,
+      "target": "pvc-joint",
+      "title": "Solvent-weld the PVC joint",
+      "why": "Solvent cement does not glue PVC — it softens both faces so they fuse as the solvent flashes off. Hold the joint bottomed out while that happens, because the pipe's own spring-back backs it a few millimetres out of the socket and leaves a void the cement never closes. That is the joint that tests fine and weeps in service."
+    },
+    {
+      "cue": "Adjust the oxy-acetylene mix until the flame reads neutral.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "FLAME MIX",
+        "missNote": "Not a neutral flame — reset the mix before you bring it to the joint.",
+        "speed": 0.8
+      },
+      "id": "torch",
+      "kind": "gauge",
+      "prompt": "Adjust the oxy-acetylene mix until the flame reads neutral.",
+      "target": "torch-valve",
+      "title": "Dial a neutral flame",
+      "why": "Neutral means exactly enough oxygen to consume the fuel, with nothing spare at the tip. Carburising soots the fitting so flux cannot wet it; oxidising strips the flux ahead of the solder and grows an oxide film that solder simply refuses to bond to."
+    },
+    {
+      "cue": "Feed solder into the joint once the flux sizzles and the heat draws it in.",
+      "gauge": {
+        "green": [
+          0.5,
+          0.68
+        ],
+        "label": "JOINT TEMP",
+        "missNote": "Wrong heat for the solder to draw — reset and feed it again once the flux sizzles.",
+        "speed": 1
+      },
+      "id": "sweat",
+      "kind": "gauge",
+      "prompt": "Feed solder into the joint once the flux sizzles and the heat draws it in.",
+      "target": "copper-joint",
+      "title": "Sweat the copper joint",
+      "why": "Capillary action drags molten solder right round a properly heated fitting unaided — heat the copper, not the solder, and the joint draws when it is ready. Chase it with the flame and you get a tidy fillet at the mouth, voids behind it, and a weep that surfaces either at test or inside a finished wall."
+    },
+    {
+      "cue": "Pump to test pressure and hold inside the band for the full test.",
+      "gauge": {
+        "green": [
+          0.55,
+          0.72
+        ],
+        "label": "TEST PRESSURE",
+        "missNote": "Off the required test band — reset and pump it back into range.",
+        "speed": 0.6
+      },
+      "id": "pressuretest",
+      "kind": "gauge",
+      "prompt": "Pump to test pressure and hold inside the band for the full test.",
+      "target": "test-gauge",
+      "title": "Hold the test pressure",
+      "why": "Code names a test pressure and a duration, and the duration is the half that catches anything — everything looks tight for ten seconds. A fitting shedding a pound over fifteen minutes will drip for years behind drywall, and the callback to chase it costs more than this rough-in earned."
+    },
+    {
+      "cue": "Look over every joint under pressure and click the one that's failing.",
+      "id": "leakcheck",
+      "itemNames": {
+        "leaking-joint": "weeping joint"
+      },
+      "itemNotes": {
+        "leaking-joint": "That joint is weeping under test pressure — a slow leak here is exactly what the test exists to catch before the wall closes over it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over every joint under pressure and click the one that's failing.",
+      "targets": [
+        "leaking-joint"
+      ],
+      "title": "Find the weeping joint",
+      "why": "A falling needle says the system is shedding air and says nothing whatever about where. Locating it stays a fitting-by-fitting visual, and this is the last opportunity anyone has: after the board goes up, the same defect is diagnosed from a stain on a ceiling below, through somebody else's finishes."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "DWV rough-in, backflow prevention, torch brazing and a pressure test with no shortcuts",
+  "title": "Rough-In Bay",
+  "trade": "Plumber / Pipefitter",
+  "underwater": null,
+  "weather": null
+}

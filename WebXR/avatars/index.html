@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Characters — SmartCiti.X Holodeck</title>
+<meta name="description" content="Every character, crew role, robot and software agent in the SmartCiti.X Holodeck, with its procedural sprite and the outfit its trade calls for.">
+<style>
+  :root { color-scheme: dark; --bg: #07131b; --panel: #0b1a24; --ink: #eef7fb; --fine: #b9d3de; --line: rgba(160,210,235,.25); --accent: #8fe3ff; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 1180px; margin: 0 auto; padding: 24px 16px 48px; }
+  h1 { font-size: 26px; margin: 0 0 4px; } h2 { font-size: 18px; margin: 28px 0 10px; color: var(--accent); }
+  p.fine { color: var(--fine); margin: 0 0 12px; font-size: 14px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 10px; display: flex; flex-direction: column; gap: 6px; }
+  .card .sp { display: flex; gap: 8px; align-items: center; } .card svg { display: block; }
+  .card b { font-size: 15px; } .card small { color: var(--fine); font-size: 12px; line-height: 1.3; }
+  .tag { display: inline-block; font-size: 11px; padding: 1px 6px; border-radius: 8px; background: #12303f; color: var(--fine); margin-right: 4px; }
+  nav a { color: var(--accent); }
+  #av-eval { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; margin: 12px 0; font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <nav><a href="../index.html">Home</a></nav>
+  <h1>Characters</h1>
+  <p class="fine">Every named character, crew role, robot and software agent in the Holodeck, with the sprite drawn from the 3D figure's own parts (shared/av-sprites.js) and the outfit its trade calls for. Sprites are procedural SVG: no image files, no third-party art, no likeness of anyone real. Union names come only from tools/unions.json. SmartCiti.X Holodeck · Powered by AGI Corp.</p>
+  <div id="av-eval" aria-live="polite">Loading the registry…</div>
+  <div id="av-root"></div>
+</main>
+<script type="module">
+  import { avCharacters, avSpriteFor } from "../shared/av-characters.js";
+  const KINDS = [["character", "Characters (GRIOT roster)"], ["learner", "The learner"], ["crew-role", "Crew roles and instructors"], ["robot", "Robots"], ["agent", "Software agents"]];
+  const root = document.getElementById("av-root");
+  const all = avCharacters();
+  const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+  for (const [kind, title] of KINDS) {
+    const list = all.filter((e) => e.kind === kind);
+    if (!list.length) continue;
+    const h = document.createElement("h2"); h.textContent = `${title} · ${list.length}`; root.append(h);
+    const grid = document.createElement("div"); grid.className = "grid";
+    for (const e of list) {
+      const card = document.createElement("div"); card.className = "card"; card.dataset.av = e.id;
+      card.innerHTML = `<div class="sp">${avSpriteFor(e, { size: 72 })}${avSpriteFor(e, { kind: "token", size: 40 })}</div>
+        <b>${esc(e.name)}</b><small>${esc(e.role)}</small>
+        <div>${e.outfit ? `<span class="tag">${esc(e.outfit)}</span>` : ""}${e.union ? `<span class="tag">${esc(e.union.toUpperCase())}</span>` : ""}${e.world ? `<span class="tag">${esc(e.world)}</span>` : ""}${e.rig ? `<span class="tag">rig ${esc(e.rig)}</span>` : ""}</div>`;
+      grid.append(card);
+    }
+    root.append(grid);
+  }
+  const withSprite = all.length, withOutfit = all.filter((e) => e.outfit || e.kind === "robot" || e.kind === "agent" || e.kind === "learner").length;
+  document.getElementById("av-eval").textContent = `${all.length} entries · ${withSprite} with a sprite · ${withOutfit} with a role-fitting figure (robots and agents have their own non-human sprites; the learner wears their own saved style).`;
+</script>
+</body>
+</html>

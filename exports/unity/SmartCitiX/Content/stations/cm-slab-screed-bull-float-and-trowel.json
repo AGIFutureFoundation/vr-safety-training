@@ -1,0 +1,440 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "closed-clean",
+    "name": "Closed Clean",
+    "note": "A slab struck off, floated once, troweled after the bleed water left and cured — no burns, no dry cutting, first time"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "OPCMIA Local 300 cement mason apprenticeship as a training body; ACI concrete field testing technician certification and ACI 302 guidance on floor and slab construction; OSHA 29 CFR 1926 Subpart Q concrete and masonry construction (1926.701 impalement protection); OSHA 29 CFR 1926.1153 respirable crystalline silica; ANSI/ASSP A10.9 concrete and masonry construction safety requirements",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ACI",
+        "citedAs": "ACI 302",
+        "id": "aci-302",
+        "title": "ACI 302 - Guide for Concrete Floor and Slab Construction"
+      },
+      {
+        "body": "ACI",
+        "citedAs": "ACI",
+        "id": "aci-concrete-practice",
+        "title": "ACI concrete field testing technician certification and ACI 301 specifications for structural concrete"
+      },
+      {
+        "body": "union",
+        "citedAs": "OPCMIA",
+        "id": "opcmia-local-300",
+        "title": "OPCMIA Local 300 - cement masons and plasterers apprenticeship, as a training body"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.1153",
+        "id": "osha-1926-1153",
+        "title": "29 CFR 1926.1153 — Respirable crystalline silica in construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.701",
+        "id": "osha-1926-701",
+        "title": "29 CFR 1926.701 — Concrete and masonry construction, general requirements"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction & Structural Trades",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "walked-it-first",
+        "name": "Walked It First",
+        "note": "The pre-pour walk found the bare dowel and the chute line before the truck backed in, first time"
+      },
+      {
+        "id": "no-bare-hands",
+        "name": "No Bare Hands In It",
+        "note": "Never bare skin in the mix, never under the chute, never a dry grind, never a foot on a bare dowel"
+      },
+      {
+        "id": "true-to-grade",
+        "name": "True To Grade",
+        "note": "The screed and the trowel both held inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-close",
+        "name": "Clean Close",
+        "note": "No corrections through the whole close"
+      },
+      {
+        "id": "held-the-strike",
+        "name": "Held The Strike-Off",
+        "note": "The screed pass held for the whole rail"
+      },
+      {
+        "id": "closed-by-break",
+        "name": "Closed By Break",
+        "note": "Struck off, floated, troweled and cured inside 80% of par"
+      }
+    ],
+    "currency": "SLAB",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Laborer",
+      "Finisher",
+      "Cement Mason",
+      "Lead Finisher",
+      "Finish Crew Certified"
+    ],
+    "system": "Finish Crew"
+  },
+  "hazards": {
+    "bare-dowel-foot": "You stepped square onto the bare load transfer dowel sticking up out of the sub-base. An upright dowel with no cap is exactly the impalement hazard OSHA 29 CFR 1926.701 requires capped or bent over before anyone works near it, and a fall onto one drives it through a boot the same as it would through bare skin.",
+    "bare-hand-mix": "You went to work the fresh mix bare-handed. Wet cement is strongly alkaline and it burns skin slowly, often without pain until hours later, and repeated exposure leaves a mason's hands cracked and ulcerated for good. Gloves and boots stay on for every hour the mix is wet, and any splash gets washed off at once.",
+    "dry-grind-high-spot": "You ran the grinder dry on the high spot instead of cutting it wet. Grinding hardened concrete without water or a vacuum shroud throws respirable crystalline silica into the air at many times the permissible limit, in dust fine enough to reach deep into the lungs and never leave. OSHA 29 CFR 1926.1153 exists because this exposure was ordinary before it was controlled.",
+    "under-chute": "You stood in the discharge chute's swing to watch the mix come out. A loaded chute swings with the whole weight of the truck's mix behind it and the driver working blind on your side; a foot or a hand caught under it is not a bruise, and the crew stays clear of the arc the chute travels before the truck backs in, not after."
+  },
+  "id": "cm-slab-screed-bull-float-and-trowel",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "chute-clear",
+      "alert": "The second truck is backing toward the sub-base without its spotter — nobody has eyes on the crew from the cab.",
+      "cue": "Get the spotter in front of the truck before it backs any closer.",
+      "delay": 2,
+      "id": "truck-backing-blind",
+      "kind": "Truck backing toward the crew",
+      "missNote": "The truck kept backing with no spotter visible; it stopped a step short of the screed rail with two finishers still crouched beside it.",
+      "seconds": 12,
+      "target": "spotter-whistle",
+      "why": "A truck backing onto a sub-base full of rails, stakes and a finishing crew is working blind from the cab no matter how careful the driver is, and the spotter's whistle and hand signal are the only channel that actually reaches him. The truck stops moving the instant the spotter is not visible in the mirror, which is exactly what an unwatched back-up removes.",
+      "wrongNote": "The spotter's whistle — a truck backing blind onto the sub-base needs eyes in front of it before it moves another foot."
+    },
+    {
+      "after": "edge-joint",
+      "alert": "A laborer at the next bay has started dry-grinding a high spot with no water and no vacuum shroud, and the dust is drifting straight across the finishing crew.",
+      "cue": "Get the water hose on the grinder and stop the dry grinding.",
+      "delay": 2,
+      "id": "grinder-dust-cloud",
+      "kind": "Dry grinding dust drifting across the crew",
+      "missNote": "The dry grinding went on through the rest of the edging; a haze hung over the bay and the crew was still coughing it out by the time the joints were cut.",
+      "seconds": 12,
+      "target": "water-hose",
+      "why": "A grinder run dry on hardened concrete puts respirable crystalline silica into the air at many times the permissible limit, and the finishing crew crouched at slab height nearby is breathing all of it. The silica rule does not allow dry grinding where wet methods will do; the hose feeds water to the wheel and the dry grinding stops until it does.",
+      "wrongNote": "The water hose — the dust cloud over the crew comes first, and wetting the wheel down is what stops it."
+    }
+  ],
+  "lateNotes": {
+    "bull-float": "The float goes on once the slab is struck off level; floating a slab that is still high in one corner just moves the same low spot somewhere else.",
+    "strike-rail": "The screed only crosses the rail once the mix has actually been accepted — striking off a mix nobody tested is finishing a slab that may already be the wrong slab.",
+    "trowel-blade": "Troweling starts once the bleed sheen has left the surface — working it in early is the single fastest way to weaken the top inch of the slab."
+  },
+  "name": "Slab Screed, Bull Float & Trowel",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "cement-masons-and-plasterers"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bare-dowel",
+      "bare-dowel-foot",
+      "bare-hand-mix",
+      "bleed-check",
+      "bull-float",
+      "cap-dowel",
+      "chute-control",
+      "chute-zone",
+      "clear-debris",
+      "close-log",
+      "crew-radio",
+      "cure-compound",
+      "cure-zone",
+      "debris-on-subbase",
+      "dry-grind-high-spot",
+      "edge-tool",
+      "hand-joint",
+      "job-card",
+      "loose-rail",
+      "pin-rail",
+      "slump-cone",
+      "spotter-whistle",
+      "strike-rail",
+      "tool-left-on-slab",
+      "trowel-blade",
+      "under-chute",
+      "water-hose"
+    ],
+    "meshes": 158
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the mix design, the slump band, the sub-base and vapor barrier note, and the jointing pattern for today's pour.",
+      "id": "job-card",
+      "kind": "select",
+      "prompt": "Read the mix design, the slump band, the sub-base and vapor barrier note, and the jointing pattern for today's pour.",
+      "target": "job-card",
+      "title": "Read the slab's job card",
+      "why": "A slab is only as good as the sub-base under it and the mix the job card names for it, and neither one is a cement mason's call to change on site. The card carries the slump band the mix has to test inside, the jointing layout the saw or hand joints follow, and the cure method — reading it before the truck backs in is what keeps the crew from finishing to a mix or a joint pattern this slab was never designed for."
+    },
+    {
+      "cue": "Walk the screed rails, the dowels and the vapor barrier, and click every defect you find.",
+      "id": "pour-walk",
+      "itemNames": {
+        "bare-dowel": "an uncapped load transfer dowel",
+        "debris-on-subbase": "debris left on the vapor barrier",
+        "loose-rail": "a screed rail not pinned to grade"
+      },
+      "itemNotes": {
+        "bare-dowel": "A load transfer dowel at the joint line has no cap on it, standing straight up out of the sub-base where the crew will be walking and kneeling all morning.",
+        "debris-on-subbase": "Wood scrap and a coil of tie wire are sitting on the vapor barrier where they will end up cast into the slab the moment concrete covers them.",
+        "loose-rail": "One screed rail has a stake that never got driven home — the rail rocks under a hand, which means the screed will ride false along its whole length."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the screed rails, the dowels and the vapor barrier, and click every defect you find.",
+      "targets": [
+        "bare-dowel",
+        "loose-rail",
+        "debris-on-subbase"
+      ],
+      "title": "Walk the sub-base before the truck backs in",
+      "why": "None of this costs more than a few minutes to put right while the truck is still on its way and nothing is wet yet. Wait until the pour has started and the same three things become a rail that screeds a whole slab out of grade, a dowel driven straight into somebody's boot, and debris that is now permanently cast into the finished floor."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Cap the dowel, pin the loose rail to grade, and clear the debris off the vapor barrier.",
+      "id": "pin-rails",
+      "itemNames": {
+        "cap-dowel": "dowel capped",
+        "clear-debris": "debris cleared",
+        "pin-rail": "rail pinned to grade"
+      },
+      "kind": "sequence",
+      "prompt": "Cap the dowel, pin the loose rail to grade, and clear the debris off the vapor barrier.",
+      "targets": [
+        "cap-dowel",
+        "pin-rail",
+        "clear-debris"
+      ],
+      "title": "Correct what the walk found",
+      "why": "Writing a defect down and leaving it alone teaches the crew the sub-base has been dealt with, which is a worse position than never having spotted it at all — everyone now works around it on the assumption somebody else already did. Actually capping, pinning and clearing it is the only thing that makes the walk anything more than paperwork."
+    },
+    {
+      "cue": "Move the crew clear of the arc the discharge chute swings through before the truck backs in.",
+      "id": "chute-clear",
+      "kind": "select",
+      "prompt": "Move the crew clear of the arc the discharge chute swings through before the truck backs in.",
+      "target": "chute-zone",
+      "title": "Clear the chute's swing",
+      "why": "The driver works the chute from the cab, mostly blind to exactly where the crew is standing on the far side of the truck, and a loaded chute swings with the full weight of the mix in it. The zone is cleared before the truck ever backs up to the sub-base, not watched once it is already swinging."
+    },
+    {
+      "cue": "Take the slump off the first truck and commit inside the job card's band before any of it is struck off.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.58
+        ],
+        "label": "SLUMP",
+        "missNote": "Outside the job card's band — reject the load or have it adjusted with admixture at the plant, never with a hose on site.",
+        "speed": 0.7
+      },
+      "id": "slump-check",
+      "kind": "gauge",
+      "prompt": "Take the slump off the first truck and commit inside the job card's band before any of it is struck off.",
+      "target": "slump-cone",
+      "title": "Accept the mix on slump",
+      "why": "Slump is the field proof that the truck delivered the mix the job card ordered, not a mix somebody watered down on the way over to make it easier to place. A slab finished from an over-wet mix looks fine going down and dusts, crazes and curls within its first year — the slump test is the only check that happens before that damage is already built in."
+    },
+    {
+      "cue": "Guide the chute to fill the bay evenly across the rails, keeping ahead of the screed without burying it.",
+      "holdBreakNote": "The fill fell out of band with the screed. Bring the rate back even with the rails and hold it there.",
+      "id": "place",
+      "kind": "track",
+      "prompt": "Guide the chute to fill the bay evenly across the rails, keeping ahead of the screed without burying it.",
+      "seconds": 6,
+      "target": "chute-control",
+      "title": "Place the slab across the bay",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.35,
+          0.55
+        ],
+        "label": "FILL RATE",
+        "rise": 0.55,
+        "start": 0.15
+      },
+      "why": "Placed too far ahead of the screed, fresh mix starts its set before it is struck off and the crew is fighting stiff concrete by the far end of the rail; placed too thin behind it, the screed rides low pockets that read as birdbaths in the finished floor. An even fill across the rails is what lets the screed do its one job — cutting the surface to the plane the rails already fix."
+    },
+    {
+      "cue": "Draw the straightedge across the screed rails in a sawing motion, carrying the surplus ahead of the blade.",
+      "holdBreakNote": "The straightedge lifted off the rail mid-pass and rode over a low spot without cutting it. Reset at the low end and draw the pass again.",
+      "id": "strike-off",
+      "kind": "hold",
+      "prompt": "Draw the straightedge across the screed rails in a sawing motion, carrying the surplus ahead of the blade.",
+      "seconds": 5,
+      "target": "strike-rail",
+      "title": "Strike the slab off across the rails",
+      "why": "The screed rail is the one reference this slab's whole flatness is built on, and the straightedge does nothing but cut the surface down to that plane — every dip left in this pass is a dip the bull float and the trowel can only polish, never remove. Carried steadily in a sawing motion with the surplus pushed ahead of it, the pass leaves a true, if rough, surface for the float to close."
+    },
+    {
+      "cue": "Pass the bull float over the struck-off surface and commit once the surface reads flat and closed — a second pass works water back in.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "FLOAT",
+        "missNote": "Not a clean single pass — commit once the surface first reads flat and closed.",
+        "speed": 0.7
+      },
+      "id": "float",
+      "kind": "gauge",
+      "prompt": "Pass the bull float over the struck-off surface and commit once the surface reads flat and closed — a second pass works water back in.",
+      "target": "bull-float",
+      "title": "Bull float once, flat, no more",
+      "why": "One bull float pass closes the voids the screed left and embeds the largest aggregate just under the surface, which is exactly the surface the trowel needs later. A slab floated a second or third time for a cosmetic sheen pulls fines and bleed water back to the top, and that extra water is strength the cylinder will be missing in twenty-eight days."
+    },
+    {
+      "cue": "Round the perimeter edges with the edger, then hand-tool the control joints to the job card's layout.",
+      "id": "edge-joint",
+      "itemNames": {
+        "edge-tool": "slab edges rounded",
+        "hand-joint": "control joints hand-tooled"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Edges first, then the hand joints — the edger needs the surface a shade stiffer than the joints do, and doing them in order keeps both tools from dragging in mix that is still too soft.",
+      "prompt": "Round the perimeter edges with the edger, then hand-tool the control joints to the job card's layout.",
+      "targets": [
+        "edge-tool",
+        "hand-joint"
+      ],
+      "title": "Edge the slab and hand-tool the joints",
+      "why": "A square, un-eased edge is the first place a slab chips under a hand truck or a pallet jack, and a control joint cut in the wrong place, or not cut at all before the slab shrinks, is a crack the slab draws for itself somewhere the job card never planned it. Both are done while the surface is still plastic enough to tool cleanly."
+    },
+    {
+      "cue": "Watch the surface sheen and commit only once the bleed water has gone and the surface will take a footprint without water showing.",
+      "gauge": {
+        "green": [
+          0.5,
+          0.68
+        ],
+        "label": "SURFACE",
+        "missNote": "Too early works water back in, too late tears the surface — wait for the sheen to leave and commit there.",
+        "speed": 0.65
+      },
+      "id": "bleed-wait",
+      "kind": "gauge",
+      "prompt": "Watch the surface sheen and commit only once the bleed water has gone and the surface will take a footprint without water showing.",
+      "target": "bleed-check",
+      "title": "Wait out the bleed water",
+      "why": "Troweling a surface that is still shedding bleed water works that water straight back down into the top inch of the slab — the inch that carries every bit of foot and wheel traffic this floor will ever see. Waiting for the sheen to leave and the surface to firm up under a boot print is the difference between a hard-troweled floor and a soft, dusting one."
+    },
+    {
+      "cue": "Work the steel trowel in overlapping arcs, flattening the blade as the surface hardens.",
+      "id": "hand-trowel",
+      "kind": "turn",
+      "prompt": "Work the steel trowel in overlapping arcs, flattening the blade as the surface hardens.",
+      "target": "trowel-blade",
+      "title": "Hand trowel the surface hard and flat",
+      "turn": {
+        "axis": "y",
+        "label": "TROWEL",
+        "turns": 1
+      },
+      "why": "Hand troweling densifies the top skin of the slab into the hard, dust-resistant wear surface the finish depends on, and it is done in the same overlapping-arc pattern every cement mason is taught precisely because a pattern skipped in one spot leaves that spot softer than the rest of the floor for its whole service life."
+    },
+    {
+      "cue": "Carry the sprayer to the finished slab and apply the curing compound evenly across the whole surface.",
+      "drag": {
+        "missNote": "Not across the slab — the curing compound has to cover the whole finished surface, not a strip of it.",
+        "radius": 0.6,
+        "to": "cure-zone"
+      },
+      "id": "cure",
+      "kind": "drag",
+      "prompt": "Carry the sprayer to the finished slab and apply the curing compound evenly across the whole surface.",
+      "target": "cure-compound",
+      "title": "Apply the curing compound",
+      "why": "Curing is not cleanup, it is the last structural step: a slab that is allowed to dry out in open air instead of curing under a sealed membrane loses a real share of its design strength and craze-cracks across the whole surface, undoing every careful pass that came before it. The compound goes on while the surface is still damp enough to seal in the water the cement needs to keep hydrating."
+    },
+    {
+      "cue": "Walk the cured surface one more time and click anything left on it.",
+      "id": "final-walk",
+      "itemNames": {
+        "tool-left-on-slab": "a trowel left lying on the curing slab"
+      },
+      "itemNotes": {
+        "tool-left-on-slab": "A steel trowel has been left flat on the fresh slab under the curing compound — it leaves a permanent mark in the surface and a tripping edge if it stays there overnight."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the cured surface one more time and click anything left on it.",
+      "targets": [
+        "tool-left-on-slab"
+      ],
+      "title": "Walk the finished slab before the crew leaves",
+      "why": "A slab that reads finished from the doorway can still have a tool, a stake or a scrap of debris sitting on the curing compound, and every one of those leaves either a permanent surface defect or a trip hazard for whoever walks the bay next in the dark. The last walk of the day catches that while it is still one trowel to pick up instead of a mark ground out later."
+    },
+    {
+      "cue": "Record the mix accepted, the dowel capped, the joints cut and the cure applied.",
+      "id": "close-out",
+      "kind": "select",
+      "prompt": "Record the mix accepted, the dowel capped, the joints cut and the cure applied.",
+      "target": "close-log",
+      "title": "Log the slab",
+      "why": "The finish log is how the foreman and the inspector both know this slab was closed to the job card rather than to whatever the crew remembers by the end of the shift — the mix that was actually accepted, the joints that were actually cut where the plan called for them, and the cure that actually went on before the slab was left for the night."
+    },
+    {
+      "cue": "Call the foreman: slab closed and cured. Then check in with the crew about the chute and the grinder.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the foreman: slab closed and cured. Then check in with the crew about the chute and the grinder.",
+      "target": "crew-radio",
+      "title": "Check in with the crew and the foreman",
+      "why": "Tomorrow's saw cut and the next bay's pour both get scheduled off whatever gets said on this call, so the foreman hears it straight rather than secondhand. Say out loud, too, that a hand got close to the chute and the grinder ran dry longer than it should have — that is what the check-in is actually for, and the OPCMIA member assistance line is worth naming in the same breath."
+    }
+  ],
+  "supportLine": "your OPCMIA Local 300 member assistance programme, or the employee assistance line posted on the contractor's site board",
+  "tagline": "A slab on grade closed right: the screed rails checked, the pour walked for bare dowels and a swinging chute, the mix accepted, the slab struck off across the rails, floated once, edged and jointed, hand troweled after the bleed water leaves, and cured before the crew signs off",
+  "title": "SmartCiti.X~ Slab Screed, Bull Float & Trowel VR",
+  "trade": "Cement mason and finisher — OPCMIA Local 300",
+  "underwater": null,
+  "weather": "overcast"
+}

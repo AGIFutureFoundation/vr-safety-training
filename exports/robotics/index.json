@@ -1,0 +1,264 @@
+{
+  "v": "rx/1",
+  "generator": "tools/rb_export.mjs",
+  "colearn": {
+    "version": "col/1",
+    "data": "synthetic demonstrations (scripted expert at skill 0.85 with action noise), labelled synthetic; held-out seeds 7001-7060"
+  },
+  "fixedTime": "2026-01-01T00:00:00.000Z",
+  "label": "Every dataset here is SYNTHETIC and says so; every policy is evaluated on the simulated scenario only. No hardware run has happened.",
+  "licence": "CC0-1.0",
+  "scenarios": [
+    {
+      "id": "rb-cell-entry",
+      "name": "Robot Cell Entry",
+      "station": "ad-robot-cell-lockout-and-safe-reentry",
+      "dir": "rb-cell-entry/",
+      "files": [
+        "rb-cell-entry/dataset.json",
+        "rb-cell-entry/dataset-card.md",
+        "rb-cell-entry/lerobot/",
+        "rb-cell-entry/rlds/",
+        "rb-cell-entry/policy.json",
+        "rb-cell-entry/eval-card.json",
+        "rb-cell-entry/eval-card.md"
+      ],
+      "counts": {
+        "episodes": 40,
+        "keptForTraining": 24,
+        "steps": 1206,
+        "rows": 584,
+        "sampleEpisodes": 3,
+        "sampleSteps": 77
+      },
+      "results": {
+        "random": 0,
+        "bc": 1,
+        "expert": 1,
+        "gapToExpert": 0
+      },
+      "invariantViolations": 0,
+      "invariantEpisodes": 0,
+      "lineage": {
+        "datasetId": "rx-ds-rb-cell-entry",
+        "policyId": "rx-bc-rb-cell-entry",
+        "sites": [
+          "rb-site-soma-robot-cell"
+        ],
+        "auditHead": "e951f5b2ab674f86",
+        "auditLines": 5
+      }
+    },
+    {
+      "id": "rb-cobot-zone-setup",
+      "name": "Cobot Safety-Zone Setup",
+      "station": "ad-cobot-risk-assessment-and-speed-separation",
+      "dir": "rb-cobot-zone-setup/",
+      "files": [
+        "rb-cobot-zone-setup/dataset.json",
+        "rb-cobot-zone-setup/dataset-card.md",
+        "rb-cobot-zone-setup/lerobot/",
+        "rb-cobot-zone-setup/rlds/",
+        "rb-cobot-zone-setup/policy.json",
+        "rb-cobot-zone-setup/eval-card.json",
+        "rb-cobot-zone-setup/eval-card.md"
+      ],
+      "counts": {
+        "episodes": 40,
+        "keptForTraining": 39,
+        "steps": 276,
+        "rows": 241,
+        "sampleEpisodes": 3,
+        "sampleSteps": 20
+      },
+      "results": {
+        "random": 0.05,
+        "bc": 1,
+        "expert": 1,
+        "gapToExpert": 0
+      },
+      "invariantViolations": 0,
+      "invariantEpisodes": 0,
+      "lineage": {
+        "datasetId": "rx-ds-rb-cobot-zone-setup",
+        "policyId": "rx-bc-rb-cobot-zone-setup",
+        "sites": [
+          "rb-site-san-jose-robotics-lab"
+        ],
+        "auditHead": "33e97731d607b539",
+        "auditLines": 10
+      }
+    },
+    {
+      "id": "rb-teleop-pick-place",
+      "name": "Teleop Pick-and-Place",
+      "station": "ad-cobot-risk-assessment-and-speed-separation",
+      "dir": "rb-teleop-pick-place/",
+      "files": [
+        "rb-teleop-pick-place/dataset.json",
+        "rb-teleop-pick-place/dataset-card.md",
+        "rb-teleop-pick-place/lerobot/",
+        "rb-teleop-pick-place/rlds/",
+        "rb-teleop-pick-place/policy.json",
+        "rb-teleop-pick-place/eval-card.json",
+        "rb-teleop-pick-place/eval-card.md"
+      ],
+      "counts": {
+        "episodes": 40,
+        "keptForTraining": 19,
+        "steps": 2340,
+        "rows": 984,
+        "sampleEpisodes": 3,
+        "sampleSteps": 180
+      },
+      "results": {
+        "random": 0,
+        "bc": 0.967,
+        "expert": 0.983,
+        "gapToExpert": 0.016
+      },
+      "invariantViolations": 755,
+      "invariantEpisodes": 2,
+      "lineage": {
+        "datasetId": "rx-ds-rb-teleop-pick-place",
+        "policyId": "rx-bc-rb-teleop-pick-place",
+        "sites": [],
+        "auditHead": "cbe2586f5f48b037",
+        "auditLines": 14
+      }
+    },
+    {
+      "id": "rb-amr-fleet-routing",
+      "name": "AMR Fleet Routing",
+      "station": "ad-amr-fleet-traffic-and-estop-drill",
+      "dir": "rb-amr-fleet-routing/",
+      "files": [
+        "rb-amr-fleet-routing/dataset.json",
+        "rb-amr-fleet-routing/dataset-card.md",
+        "rb-amr-fleet-routing/lerobot/",
+        "rb-amr-fleet-routing/rlds/",
+        "rb-amr-fleet-routing/policy.json",
+        "rb-amr-fleet-routing/eval-card.json",
+        "rb-amr-fleet-routing/eval-card.md"
+      ],
+      "counts": {
+        "episodes": 40,
+        "keptForTraining": 37,
+        "steps": 560,
+        "rows": 1168,
+        "sampleEpisodes": 3,
+        "sampleSteps": 45
+      },
+      "results": {
+        "random": 0,
+        "bc": 0.817,
+        "expert": 1,
+        "gapToExpert": 0.183
+      },
+      "invariantViolations": 785,
+      "invariantEpisodes": 11,
+      "lineage": {
+        "datasetId": "rx-ds-rb-amr-fleet-routing",
+        "policyId": "rx-bc-rb-amr-fleet-routing",
+        "sites": [
+          "rb-site-west-oakland-warehouse",
+          "rb-site-orleans-warehouse"
+        ],
+        "auditHead": "78e242f01ae930e8",
+        "auditLines": 20
+      }
+    },
+    {
+      "id": "rb-construction-drilling",
+      "name": "Ceiling-Drilling Robot Set-Up",
+      "station": "rp-construction-drilling-robot-setup",
+      "dir": "rb-construction-drilling/",
+      "files": [
+        "rb-construction-drilling/dataset.json",
+        "rb-construction-drilling/dataset-card.md",
+        "rb-construction-drilling/lerobot/",
+        "rb-construction-drilling/rlds/",
+        "rb-construction-drilling/policy.json",
+        "rb-construction-drilling/eval-card.json",
+        "rb-construction-drilling/eval-card.md"
+      ],
+      "counts": {
+        "episodes": 40,
+        "keptForTraining": 17,
+        "steps": 800,
+        "rows": 320,
+        "sampleEpisodes": 3,
+        "sampleSteps": 55
+      },
+      "results": {
+        "random": 0,
+        "bc": 1,
+        "expert": 1,
+        "gapToExpert": 0
+      },
+      "invariantViolations": 0,
+      "invariantEpisodes": 0,
+      "lineage": {
+        "datasetId": "rx-ds-rb-construction-drilling",
+        "policyId": "rx-bc-rb-construction-drilling",
+        "sites": [
+          "rb-site-richland-drilling-robot"
+        ],
+        "auditHead": "be5576c2dba2fbc6",
+        "auditLines": 25
+      }
+    },
+    {
+      "id": "rb-port-gantry",
+      "name": "Port Automation Lane",
+      "station": "ad-amr-fleet-traffic-and-estop-drill",
+      "dir": "rb-port-gantry/",
+      "files": [
+        "rb-port-gantry/dataset.json",
+        "rb-port-gantry/dataset-card.md",
+        "rb-port-gantry/lerobot/",
+        "rb-port-gantry/rlds/",
+        "rb-port-gantry/policy.json",
+        "rb-port-gantry/eval-card.json",
+        "rb-port-gantry/eval-card.md"
+      ],
+      "counts": {
+        "episodes": 40,
+        "keptForTraining": 25,
+        "steps": 1213,
+        "rows": 623,
+        "sampleEpisodes": 3,
+        "sampleSteps": 121
+      },
+      "results": {
+        "random": 0,
+        "bc": 1,
+        "expert": 1,
+        "gapToExpert": 0
+      },
+      "invariantViolations": 0,
+      "invariantEpisodes": 0,
+      "lineage": {
+        "datasetId": "rx-ds-rb-port-gantry",
+        "policyId": "rx-bc-rb-port-gantry",
+        "sites": [
+          "rb-site-west-oakland-port-automation"
+        ],
+        "auditHead": "6badf45ae6cf5ea0",
+        "auditLines": 30
+      }
+    }
+  ],
+  "governance": {
+    "file": "governance.json",
+    "auditHead": "6badf45ae6cf5ea0",
+    "auditLines": 30,
+    "verified": true
+  },
+  "docs": {
+    "report": "docs/perf/robot-policies.html",
+    "bench": "docs/bench-protocol.md",
+    "terms": "docs/learner-data-terms.md",
+    "console": "docs/consoles/ROBOEXPORT.md"
+  }
+}

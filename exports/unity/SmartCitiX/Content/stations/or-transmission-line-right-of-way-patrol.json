@@ -1,0 +1,425 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "corridor-cleared",
+    "name": "Corridor Cleared",
+    "note": "A full segment patrolled, every finding logged, and a downed conductor cordoned and called in without anyone going near it"
+  },
+  "category": "Energy & Power",
+  "certification": "IBEW outside line and transmission crews; OSHA 29 CFR 1910.269 electric power generation, transmission and distribution; the National Electrical Safety Code (NESC); OSHA 29 CFR 1910.147 control of hazardous energy; ANSI Z359 fall protection for any structure climb",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z359",
+        "id": "ansi-z359",
+        "title": "ANSI/ASSP Z359 — Fall Protection Code"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBEW",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "IEEE",
+        "citedAs": "NESC",
+        "id": "ieee-c2-nesc",
+        "title": "IEEE C2 — National Electrical Safety Code (NESC)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.269",
+        "id": "osha-1910-269",
+        "title": "29 CFR 1910.269 — Electric power generation, transmission and distribution"
+      }
+    ]
+  },
+  "district": "open-range",
+  "domain": "Energy",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "never-approached",
+        "name": "Never Approached",
+        "note": "The downed conductor treated as live from the first look, every time"
+      },
+      {
+        "id": "steady-scan",
+        "name": "Steady Scan",
+        "note": "Patrol speed held in band the whole scan"
+      },
+      {
+        "id": "cordon-clean",
+        "name": "Cordon Clean",
+        "note": "The boundary set on the first try"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-corridor",
+        "name": "Clean Corridor",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "segment-fast",
+        "name": "Segment Fast",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "patrol-streak",
+        "name": "Patrol Streak",
+        "note": "Eight correct actions in a row"
+      }
+    ],
+    "currency": "SPAN",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ground Hand",
+      "Patrol Lineman",
+      "Segment Lead",
+      "Corridor Supervisor",
+      "Patrol Certified"
+    ],
+    "system": "Patrol Command"
+  },
+  "hazards": {
+    "approach-grass-fire": "You moved in on the fire to stamp it out. A fire started by an arc from a conductor that may still be energized is a fire with an energized ground fault feeding it, and closing the distance to fight it barehanded puts you exactly where the fault current and the flame front can both reach you. The correct response is the same radio call that reports the line, upgraded to report the fire, and a wait at a safe distance for the crews who are equipped for both.",
+    "clear-branch-off-energized-line": "You took hold of the branch draped across the conductor to pull it clear. Wood that has been resting on an energized line and the ground both, even wet or rotten wood, can carry enough current back through a hand to kill — the fact that it looks like an ordinary fallen limb is exactly why the line crew clears it with hot-line tools, not a patroller's bare hands.",
+    "climb-structure-unauthorized": "You started up the structure to get a closer look. A ground patrol is a ground patrol — climbing a transmission tower is a qualified line crew's work, done with fall protection rated for that structure and a job briefing written for that climb, not a decision made on the spot because the defect is easier to see from higher up.",
+    "touch-downed-conductor": "You reached toward the conductor lying in the grass. A downed line reads exactly the same whether it is dead or still carrying full transmission voltage — no visible arcing, no sound, nothing that tells you from a look. Every patrol procedure treats it as energized from the first moment it is found, which is the only assumption that is never wrong."
+  },
+  "id": "or-transmission-line-right-of-way-patrol",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "patrol-track",
+      "alert": "Ahead, past the next rise, a conductor is down across the access road — dropped clean off the structure and lying in the grass.",
+      "cue": "Stop well back. Treat it as energized and get on the radio.",
+      "delay": 3,
+      "id": "downed-conductor-found",
+      "kind": "Downed conductor across the road",
+      "missNote": "The truck rolled closer to get a better look before the call went out. A conductor that looks dead from thirty feet looks exactly the same from ten, and the extra distance closed is distance with no possible reason ever to have been worth it.",
+      "seconds": 13,
+      "target": "report-radio",
+      "why": "A conductor lying flat in dry grass gives no sign of whether it is live — no arcing, no hum, nothing a patroller can see from the truck — so the only safe response is the one written for every downed line regardless of how it looks: stop outside the approach boundary and report it as energized, which is exactly the assumption that keeps a patroller alive if it turns out to be true.",
+      "wrongNote": "It is the radio, not the wire — stop where you are and report it as energized before anything else happens."
+    },
+    {
+      "after": "boundary-drag",
+      "alert": "The dry grass under the downed conductor just caught — a thin line of flame is spreading out from the fault point.",
+      "cue": "Do not approach it. Upgrade the call to report a fire at the fault.",
+      "delay": 3,
+      "id": "spot-fire-ignites",
+      "kind": "Fire starts at the fault",
+      "missNote": "The fire got a head start while nobody upgraded the call. On dry range grass in wind, the difference between reporting it at first flame and reporting it after it has run is measured in acres, not minutes.",
+      "seconds": 12,
+      "target": "fire-call-radio",
+      "why": "An arc at a fault point can ignite dry range grass in seconds, and the fire it starts is burning next to a conductor that may still be carrying fault current into the ground it is standing on — closing in to stamp it out puts a person exactly where an energized ground and an open flame both reach at once, when the entire response the corridor is patrolled for is the radio call that sends crews equipped for both.",
+      "wrongNote": "It is the radio, not the fire — call it in as a fire at the fault and hold your distance."
+    }
+  ],
+  "lateNotes": {},
+  "name": "Transmission Line ROW Patrol",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "energy-transition"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "pickup",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "anchor-tension-meter",
+      "approach-grass-fire",
+      "assignment-board",
+      "checkin-board",
+      "clean-headlight",
+      "clear-branch-off-energized-line",
+      "clearance-card",
+      "climb-structure-unauthorized",
+      "conditions-board",
+      "cordon-flag",
+      "cordon-ring",
+      "cracked-mirror",
+      "dead-limb-over-line",
+      "encroaching-tree",
+      "fire-call-radio",
+      "gps-unit",
+      "guy-wire-check",
+      "hard-hat",
+      "healthy-brush",
+      "hi-vis-vest",
+      "insulator-check",
+      "log-conductor",
+      "log-structure",
+      "log-vegetation",
+      "low-tire",
+      "patrol-radio",
+      "patrol-throttle",
+      "report-radio",
+      "structure-ground-check",
+      "touch-downed-conductor"
+    ],
+    "meshes": 186
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Check the patrol board for today's segment, the structure numbers and the corridor map.",
+      "id": "patrol-assignment",
+      "kind": "select",
+      "prompt": "Check the patrol board for today's segment, the structure numbers and the corridor map.",
+      "target": "assignment-board",
+      "title": "Take the segment assignment",
+      "why": "A patrol without a defined segment is a patrol that cannot prove it covered the line — the structure numbers on the board are what turns a drive down the access road into a documented inspection of a specific, known length of corridor that someone can check off against the schedule."
+    },
+    {
+      "cue": "Read today's wind and fire-weather outlook before starting the segment, per the forecast.",
+      "id": "weather-conditions",
+      "kind": "select",
+      "prompt": "Read today's wind and fire-weather outlook before starting the segment, per the forecast.",
+      "target": "conditions-board",
+      "title": "Check the wind and fire-weather conditions",
+      "why": "Wind decides how a conductor sags and swings and how fast anything that ignites near it will run through dry range grass, and both of those change the segment's risk hour to hour. The patrol reads the current forecast before starting rather than working off yesterday's memory of what the range looked like."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Vest on, hard hat on, radio checked — before the first structure.",
+      "id": "ppe-sequence",
+      "itemNames": {
+        "hard-hat": "hard hat",
+        "hi-vis-vest": "hi-vis vest",
+        "patrol-radio": "patrol radio"
+      },
+      "kind": "sequence",
+      "prompt": "Vest on, hard hat on, radio checked — before the first structure.",
+      "targets": [
+        "hi-vis-vest",
+        "hard-hat",
+        "patrol-radio"
+      ],
+      "title": "Gear up before leaving the truck",
+      "why": "The vest and hard hat are what make a lone patroller visible to the truck and to anyone else working the corridor from a distance across open range, and the radio check is what confirms there is actually a way to call in a finding before the patrol depends on one."
+    },
+    {
+      "cue": "Check the truck over before the segment — two defects are here.",
+      "decoyNotes": {
+        "clean-headlight": "The headlight is fine — the find is for what is actually damaged, not for looking the truck over end to end."
+      },
+      "id": "vehicle-walkaround",
+      "itemNames": {
+        "cracked-mirror": "cracked mirror",
+        "low-tire": "low tire"
+      },
+      "itemNotes": {
+        "cracked-mirror": "A cracked mirror is the one piece of glass a driver actually needs on a narrow dirt road shared with ranch traffic and grazing stock.",
+        "low-tire": "Soft on the ranch two-track before the patrol even starts is a tire that fails on it, miles from the gate, with no cell signal to call for a tow."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the truck over before the segment — two defects are here.",
+      "targets": [
+        "low-tire",
+        "cracked-mirror"
+      ],
+      "title": "Walk around the patrol truck",
+      "why": "The truck is the patrol's only way back to the gate on a corridor that can run for miles between crossings, and a defect caught in the yard is a defect fixed on pavement instead of on a two-track with no signal and nobody else coming down it today."
+    },
+    {
+      "cue": "Check the minimum approach distance table for this line's voltage class before the first structure.",
+      "id": "clearance-brief",
+      "kind": "select",
+      "prompt": "Check the minimum approach distance table for this line's voltage class before the first structure.",
+      "target": "clearance-card",
+      "title": "Confirm the minimum approach distance",
+      "why": "OSHA 29 CFR 1910.269 sets the approach boundary as a table lookup by voltage class, not a distance judged by eye against a structure that looks the same from fifty feet as it does from five — the number is confirmed before it is ever needed, not worked out in the moment a wire turns up on the ground."
+    },
+    {
+      "cue": "Insulator string, then guy wire, then structure ground — in that order, from the ground.",
+      "id": "structure-inspect",
+      "itemNames": {
+        "guy-wire-check": "guy wire",
+        "insulator-check": "insulator string",
+        "structure-ground-check": "structure ground"
+      },
+      "itemNotes": {
+        "guy-wire-check": "Then the guy wire and its anchor, which is what actually keeps the structure standing under load.",
+        "insulator-check": "Read top to bottom for a cracked shell or flashover tracking before anything else on the structure."
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Insulator string first, then the guy wire, then the structure ground — reading them out of order is how one gets skipped for good.",
+      "prompt": "Insulator string, then guy wire, then structure ground — in that order, from the ground.",
+      "targets": [
+        "insulator-check",
+        "guy-wire-check",
+        "structure-ground-check"
+      ],
+      "title": "Read the structure top to bottom",
+      "why": "Reading the structure in the same order every time, top to bottom, is what keeps a patroller from missing the guy wire because the insulator string looked fine, or missing the ground because the guy wire did — a structure fails at whichever one of these was skipped, not at the one that was checked twice."
+    },
+    {
+      "cue": "Walk the corridor under the span and click what has grown into the clearance — two of them are here.",
+      "decoyNotes": {
+        "healthy-brush": "Low brush well clear of the wire is exactly what a cleared corridor is supposed to look like — leave it."
+      },
+      "id": "vegetation-find",
+      "itemNames": {
+        "dead-limb-over-line": "dead limb over the line",
+        "encroaching-tree": "encroaching tree"
+      },
+      "itemNotes": {
+        "dead-limb-over-line": "Dead wood already resting on the conductor is the vegetation hazard closest to actually happening, not the one still growing toward it.",
+        "encroaching-tree": "Grown up inside the corridor's own clearance since the last patrol — flagged for the vegetation crew, not cut here."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the corridor under the span and click what has grown into the clearance — two of them are here.",
+      "targets": [
+        "encroaching-tree",
+        "dead-limb-over-line"
+      ],
+      "title": "Find what has grown into the corridor",
+      "why": "A right-of-way patrol exists mainly to catch vegetation before it becomes the fault, not after: a tree or limb that has grown into the clearance since the last pass is exactly what turns a windy afternoon into a conductor-to-ground fault and, on dry range grass, into the fire this segment is patrolled to prevent."
+    },
+    {
+      "cue": "Read the guy anchor's tension gauge and commit the reading against the plan.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.64
+        ],
+        "label": "GUY TENSION",
+        "missNote": "Outside the band the structure's plan calls for — flag this anchor for the line crew rather than sign it off.",
+        "speed": 0.68
+      },
+      "id": "anchor-gauge",
+      "kind": "gauge",
+      "prompt": "Read the guy anchor's tension gauge and commit the reading against the plan.",
+      "target": "anchor-tension-meter",
+      "title": "Check the guy anchor tension",
+      "why": "A guy anchor that has worked loose in the soil holds the wire's tension for a while before it does not, and the tension reading is how a loose anchor is caught on this patrol instead of on the one after the structure has already leaned."
+    },
+    {
+      "cue": "Hold the patrol throttle steady in the band while you scan the span ahead.",
+      "holdBreakNote": "Speed out of band — too fast and the span goes by unscanned, too slow and the segment will not finish before dark. Bring it back and hold.",
+      "id": "patrol-track",
+      "kind": "track",
+      "prompt": "Hold the patrol throttle steady in the band while you scan the span ahead.",
+      "seconds": 7,
+      "target": "patrol-throttle",
+      "title": "Hold the patrol speed while scanning",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.5,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "PATROL SPEED",
+        "rise": 0.55,
+        "start": 0.15
+      },
+      "why": "Too fast down the two-track and a downed conductor lying flat in the grass is exactly the thing a patrol drives past; too slow and the segment does not get covered in the daylight the assignment allows. A steady scanning speed is what actually gives a patroller time to see the wire before the truck is on top of it."
+    },
+    {
+      "cue": "Carry the cordon flags out and set them at the marked radius around the wire — nobody crosses that line.",
+      "drag": {
+        "missNote": "Short of the marked radius — a cordon set inside the approach boundary protects nobody from the thing it is marking.",
+        "radius": 0.5,
+        "to": "cordon-ring"
+      },
+      "id": "boundary-drag",
+      "kind": "drag",
+      "prompt": "Carry the cordon flags out and set them at the marked radius around the wire — nobody crosses that line.",
+      "target": "cordon-flag",
+      "title": "Cordon the downed conductor",
+      "why": "The cordon exists to keep everyone who arrives after you — the rancher, the fire crew, your own relief — the same distance back you are keeping yourself, because the line reads exactly as dead-looking to them as it does to you and the flags are the only thing that says otherwise before dispatch confirms it."
+    },
+    {
+      "cue": "Take a GPS fix on the downed conductor before you call it in.",
+      "id": "gps-mark",
+      "kind": "select",
+      "prompt": "Take a GPS fix on the downed conductor before you call it in.",
+      "target": "gps-unit",
+      "title": "Mark the fault location",
+      "why": "A dispatcher sending a crew down miles of unmarked two-track needs a coordinate, not a description of a fence line and a windmill — the fix is what turns 'somewhere past structure fourteen' into a location a truck can actually be routed to."
+    },
+    {
+      "cue": "Report the structure number, the coordinate and the conductor as energized until proven otherwise.",
+      "id": "radio-report",
+      "kind": "select",
+      "prompt": "Report the structure number, the coordinate and the conductor as energized until proven otherwise.",
+      "target": "report-radio",
+      "title": "Call in the downed conductor",
+      "why": "The report is written the same way every time — location, structure number, and the line treated as energized — because the crew that answers it plans their whole approach around that one assumption, and a report that hedges on it is a report that costs them the time they need to plan around it correctly."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Write the vegetation finding, the structure finding and the downed conductor into the patrol log.",
+      "id": "closing-log",
+      "itemNames": {
+        "log-conductor": "downed conductor logged",
+        "log-structure": "structure finding logged",
+        "log-vegetation": "vegetation finding logged"
+      },
+      "kind": "sequence",
+      "prompt": "Write the vegetation finding, the structure finding and the downed conductor into the patrol log.",
+      "targets": [
+        "log-vegetation",
+        "log-structure",
+        "log-conductor"
+      ],
+      "title": "Log the segment",
+      "why": "The log is the only record that this segment was actually walked today, by whom, and what was found on it — without it, the vegetation crew, the line crew and tomorrow's patrol are all working from nothing but what happens to get repeated out loud at the yard."
+    },
+    {
+      "cue": "Call in how you're doing after finding a live line and a fire alone on the corridor, not just the paperwork.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call in how you're doing after finding a live line and a fire alone on the corridor, not just the paperwork.",
+      "target": "checkin-board",
+      "title": "Check in after the find",
+      "why": "Finding an energized hazard and a fire starting from it, alone on a corridor with nobody else in sight, sits with a patroller differently than an ordinary segment does, and the union's member assistance line exists for exactly that kind of day as much as it does for an injury."
+    }
+  ],
+  "supportLine": "the IBEW local's member assistance programme and the utility's own employee assistance line",
+  "tagline": "A ground patrol across open range: structures read from the ground, vegetation measured against the conductor, and a downed line treated as energized the instant it's found, cordoned and called in rather than approached",
+  "title": "SmartCiti.X~ Transmission Line ROW Patrol VR",
+  "trade": "Outside lineworker — IBEW transmission patrol",
+  "underwater": null,
+  "weather": "wind"
+}

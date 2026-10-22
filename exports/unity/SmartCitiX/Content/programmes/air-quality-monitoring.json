@@ -1,0 +1,270 @@
+{
+  "accent": "#9fd8ff",
+  "anchors": [
+    {
+      "id": "ct-bench-warehouse-district",
+      "name": "Bench · Warehouse District",
+      "position": [
+        -317.8,
+        17.2
+      ],
+      "stations": [
+        "air-monitor",
+        "mobile-air-lab",
+        "opacity-reading"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "west-oakland"
+    },
+    {
+      "id": "ct-kiosk-west-oakland-air-monitoring-post",
+      "name": "Information kiosk · West Oakland Air Monitoring Post",
+      "position": [
+        -299.6,
+        -8.5
+      ],
+      "stations": [
+        "air-monitor",
+        "mobile-air-lab",
+        "opacity-reading"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "west-oakland"
+    },
+    {
+      "id": "ct-notice-board-north-shoreline-field-lab",
+      "name": "Union hall notice board · North Shoreline Field Lab",
+      "position": [
+        -752.8,
+        -580.9
+      ],
+      "stations": [
+        "air-monitor",
+        "marsh-transect-survey",
+        "eelgrass-transplant",
+        "br-water-quality-sonde-calibration-and-deploy",
+        "me-eelgrass-seed-collection-and-nursery",
+        "me-tidal-marsh-channel-restoration-day",
+        "me-shoreline-debris-and-microplastics-survey",
+        "cd-low-visibility-and-night-dive-line-work",
+        "cd-pier-piling-inspection-and-wrap-repair",
+        "k12-weather-and-the-sky"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "north-shoreline"
+    },
+    {
+      "id": "north-shoreline-field-lab",
+      "name": "North Shoreline Field Lab",
+      "position": [
+        -735,
+        -590
+      ],
+      "stations": [
+        "air-monitor",
+        "marsh-transect-survey",
+        "eelgrass-transplant",
+        "br-water-quality-sonde-calibration-and-deploy",
+        "me-eelgrass-seed-collection-and-nursery",
+        "me-tidal-marsh-channel-restoration-day",
+        "me-shoreline-debris-and-microplastics-survey",
+        "cd-low-visibility-and-night-dive-line-work",
+        "cd-pier-piling-inspection-and-wrap-repair",
+        "k12-weather-and-the-sky"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "north-shoreline"
+    },
+    {
+      "id": "west-oakland-air-monitoring-post",
+      "name": "West Oakland Air Monitoring Post",
+      "position": [
+        -304,
+        11
+      ],
+      "stations": [
+        "air-monitor",
+        "mobile-air-lab",
+        "opacity-reading"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "west-oakland"
+    },
+    {
+      "id": "ct-buoy-flats-anchor-line",
+      "name": "Line buoy · Flats Anchor Line",
+      "position": [
+        -95.4,
+        -251.9
+      ],
+      "stations": [
+        "br-water-quality-sonde-calibration-and-deploy",
+        "air-monitor",
+        "sensor-colocation-check"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "Open flats with a tide-gauge post and a sonde mooring, the survey teams' usual first stop.",
+        "centre": [
+          -100,
+          -260
+        ],
+        "id": "tide-flats",
+        "name": "Tide Gauge Flats",
+        "palette": {
+          "accent": 5231103,
+          "seabed": 6974042,
+          "water": 2055262
+        },
+        "radius": 190
+      }
+    },
+    {
+      "id": "ct-buoy-reef-ball-transect",
+      "name": "Line buoy · Reef Ball Transect",
+      "position": [
+        -103.9,
+        -260.7
+      ],
+      "stations": [
+        "br-water-quality-sonde-calibration-and-deploy",
+        "air-monitor",
+        "sensor-colocation-check"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": {
+        "blurb": "Open flats with a tide-gauge post and a sonde mooring, the survey teams' usual first stop.",
+        "centre": [
+          -100,
+          -260
+        ],
+        "id": "tide-flats",
+        "name": "Tide Gauge Flats",
+        "palette": {
+          "accent": 5231103,
+          "seabed": 6974042,
+          "water": 2055262
+        },
+        "radius": 190
+      }
+    },
+    {
+      "id": "ct-tool-basket-flats-sonde-station",
+      "name": "Tool basket · Flats Sonde Station",
+      "position": [
+        -90.4,
+        -265.3
+      ],
+      "stations": [
+        "br-water-quality-sonde-calibration-and-deploy",
+        "air-monitor",
+        "sensor-colocation-check"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "tide-flats"
+    },
+    {
+      "id": "flats-sonde-station",
+      "name": "Flats Sonde Station",
+      "position": [
+        -80,
+        -280
+      ],
+      "stations": [
+        "br-water-quality-sonde-calibration-and-deploy",
+        "air-monitor",
+        "sensor-colocation-check"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "tide-flats"
+    }
+  ],
+  "certification": "EPA Method 9 visible emissions (40 CFR 60 Appendix A), EPA 40 CFR Part 58 ambient air quality monitoring, the Bay Area Air Quality Management District's own regulations, and a site's Air Monitoring Plan under a cleanup order",
+  "competency": {
+    "id": "air-quality-monitoring",
+    "kind": "programme",
+    "require": 3,
+    "standards": [
+      "epa-method-9",
+      "epa-40-cfr-58"
+    ],
+    "stations": [
+      "air-monitor",
+      "mobile-air-lab",
+      "opacity-reading",
+      "stack-test",
+      "landfill-gas",
+      "soil-loadout"
+    ],
+    "title": "Measure, read and report what a stack and a fence line are emitting"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "afscme-training",
+    "liuna-training-fund",
+    "iuoe-training",
+    "usw-mazzocchi-center",
+    "epa-method-9",
+    "epa-40-cfr-60",
+    "epa-40-cfr-58",
+    "baaqmd-regulations",
+    "epa-qa-g5",
+    "niosh-criteria"
+  ],
+  "id": "air-quality-monitoring",
+  "ladder": {
+    "atBar": 20,
+    "lessonBar": 75,
+    "lessons": 1540,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 0,
+    "stationsNeeded": 0,
+    "tasks": 120
+  },
+  "name": "Air Quality — Monitoring and Control",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "air-monitor",
+      "why": "The fence line itself: monitors sited by the wind, proven at zero and flow, with an exceedance answered by the plan rather than muted."
+    },
+    {
+      "app": "smartcity",
+      "id": "mobile-air-lab",
+      "why": "The same discipline out of a van: sited fresh on the day's wind, every channel zeroed and spanned, and a reference sample running for the neighbourhood's own check."
+    },
+    {
+      "app": "smartcity",
+      "id": "opacity-reading",
+      "why": "What a certified eye adds to what the instruments read: a stack's plume by EPA Method 9, with the geometry proven before the six-minute clock starts."
+    },
+    {
+      "app": "smartcity",
+      "id": "stack-test",
+      "why": "The number that goes in the permit file: an isokinetic source test, bracketed by leak checks that both have to pass or the run does not count."
+    },
+    {
+      "app": "smartcity",
+      "id": "landfill-gas",
+      "why": "Gas held underground instead of vented from a stack, tuned by what the well is actually giving up rather than by how far the valve is opened."
+    },
+    {
+      "app": "smartcity",
+      "id": "soil-loadout",
+      "why": "Where the dust a monitor reads can start: an excavation zoned by the wind, wetted at the face, and stopped the moment its own alarm says so."
+    }
+  ],
+  "summary": "The air a neighbourhood breathes is measured by a short chain of people and instruments, from a fence-line monitor to a stack test to a certified eye reading a plume, each one held to a different standard for a different reason. This block runs that chain end to end, from where the readings are taken to where the emissions actually come from.",
+  "union": "AFSCME air-district technicians, LIUNA environmental laborers, IUOE and USW plant crews"
+}

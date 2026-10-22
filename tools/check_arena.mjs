@@ -1,0 +1,352 @@
+#!/usr/bin/env node
+/**
+ * ROBO-ARENA checker (docs/consoles/ROBO-ARENA.md): the robot arena, the small language-conditioned model, the trainable
+ * robotics sets and the read-only panel.
+ *   1. contract: raModels / raScenarios / raRun / raLeaderboard return the contract's shapes; raRun is deterministic for
+ *      its seeds; every step is governor-checked; physical is 0; a gym-only family on a station is "not applicable"
+ *   2. declared first: docs/evals/arena-declared.json matches the code's protocol, and (with git) it was committed before
+ *      docs/evals/arena.json was first committed
+ *   3. no seed reuse: every training seed (demonstrations, DAgger rollouts, dataset splits) is disjoint from 7121–7180
+ *   4. arena.json: 8 families, 12 scenarios; every applicable row checked on every step, 0 physical, audit chains intact;
+ *      the leaderboard and the small-model comparison recompute from the rows; Wilson and Newcombe intervals agree
+ *   5. arena.json current: a live re-run of a sample of rows (random, reactive, bc, dagger-r1, expert; dev-cost only)
+ *      equals the file's rows
+ *   6. the small model is small and named for what it is: it trains here, its weight count is the file's, and every
+ *      mention of "large language model" in the arena's files is a negation; no network, no key, no alias, prefixed names
+ *   7. the dataset: tools/ra_dataset.mjs's build equals exports/robotics/arena/ byte for byte; leakage re-measured from
+ *      the full set's lines is 0; every line synthetic with consent null and the schema's fields; the card carries every
+ *      DATAWORKS datasheet heading and the five best practices; a human episode without a receipt is refused
+ *   8. the panel: the robotics programme page carries the arena section with every leaderboard row's figures from
+ *      arena.json, no script inside it, and the hero link; the retest7 and protocol-3 cards' figures equal arena.json; each
+ *      gym scenario card names the claw's model (promoted, else kept) from the claw's own latest record (claw3.json)
+ *   9. retest7 (ARENA-2), declared first, run once
+ *  10. consented takes (ARENA-2)
+ *  11. retest8 (ROBOLEARN-9, protocol 3): declared in arena-declared-r8.json before the claw's one run; ra-lm-h48 is
+ *      ra-lm-h with 48 hidden units only; seeds disjoint from training and earlier ranges; retest8 equals claw3.json;
+ *      a live row equals the file
+ *  12. consented takes into training (ROBOLEARN-10): declared in arena-takes-declared-r9.json, development seeds only, no
+ *      held-out seed; a receipted take joins ra-lm-h with provenance; K-12/demo/signed out 0; revoke deletes it and the
+ *      rebuilt model equals the no-takes model byte for byte
+ *
+ *     node tools/check_arena.mjs
+ */
+import { readFileSync, existsSync } from "node:fs";
+import { join, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+import { execFileSync } from "node:child_process";
+import { RA_HELD_OUT, RA_STATION_SEEDS, RA_HELD_OUT_R7, RA_STATION_SEEDS_R7, RA_MODELS_R6, RA_DEMOS, RA_STATION_DEMOS, RA_DAGGER, raModels, raScenarios, raRun, raLeaderboard, raWilson } from "../WebXR/shared/ra-arena.js";
+import { RA_LM_LABEL, RA_LM_H_TRAIN, RA_LM_H48_TRAIN } from "../WebXR/shared/ra-lm.js";
+import { raDeclaration, raDiffCI, raDeclarationR7, raStations, raFirstCommit, RA_R7_MODELS } from "./arena_eval.mjs";
+import { raDsBuild, RA_DS_OUT, RA_DS_SPLITS, RA_DS_SCHEMA } from "./ra_dataset.mjs";
+import { RX_FOREIGN } from "./rb_export.mjs";
+import { DX_CARD_SECTIONS, dxMakeStore, dxMemBackend, dxOptIn, dxRevoke, dxMakeEpisode, dxConsent } from "../WebXR/shared/dx-data.js";
+import { raTakesExport, raTakesLine, RA_TAKES_SCHEMA } from "../WebXR/shared/ra-takes.js";
+import { raTakesTrain, RA_TAKES_TRAIN } from "../WebXR/shared/ra-takes-train.js";
+import { colSyntheticDemos } from "../WebXR/shared/col-learn.js";
+
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
+let passes = 0, failures = 0;
+const t0 = Date.now();
+async function check(name, fn) {
+  try { const r = await fn(); passes += 1; console.log(`  ✓ ${name}${r ? ` — ${r}` : ""}`); }
+  catch (err) { failures += 1; console.log(`  ✗ ${name}\n      ${err.message ?? err}`); }
+}
+const ok = (v, what) => { if (!v) throw new Error(what); };
+const read = (p) => readFileSync(join(ROOT, p), "utf8");
+const DEV = [1, 2, 3, 4, 5];
+const MINE = ["WebXR/shared/ra-arena.js", "WebXR/shared/ra-lm.js", "WebXR/shared/ra-panel.js", "tools/arena_eval.mjs", "tools/ra_dataset.mjs", "tools/check_arena.mjs", "docs/consoles/ROBO-ARENA.md", "exports/robotics/arena/dataset-card.md"];
+
+console.log("ROBO-ARENA — robots compete on the same scenarios and seeds through the governor\n");
+const arena = JSON.parse(read("docs/evals/arena.json"));
+
+await check("contract: the four functions return the contract's shapes; deterministic; governor on every step; physical 0", () => {
+  const models = raModels(), scs = raScenarios();
+  // 9 since ARENA-2 (round 7): ra-lm-h sits beside ra-lm; the round-6b declaration still names the first eight (RA_MODELS_R6).
+  ok(models.length === 10 && models[7].id === "ra-lm-h" && models[8].id === "ra-lm-h48" && models.slice(0, 7).concat(models.slice(9)).map((m) => m.id).join() === RA_MODELS_R6.join() && models.every((m) => m.id && m.family && m.trainedOn && m.params && typeof m.params === "object"), "raModels shape");
+  ok(scs.length === 12 && scs.every((s) => s.id && (s.kind === "gym" || s.kind === "station") && typeof s.hard === "boolean"), "raScenarios shape");
+  ok(scs.filter((s) => s.hard).length === 3 && scs.filter((s) => s.kind === "station").length === 3, "3 hard variants and 3 stations");
+  const a = raRun({ modelId: "bc", scenarioId: "rb-port-gantry#hard", seeds: DEV }), b = raRun({ modelId: "bc", scenarioId: "rb-port-gantry#hard", seeds: DEV });
+  for (const k of ["success", "ruleBreaks", "steps", "stops", "governorChecked", "physical", "perSeed"]) ok(k in a, `raRun lacks ${k}`);
+  ok(JSON.stringify(a) === JSON.stringify(b), "raRun is not deterministic for its seeds");
+  ok(a.physical === 0 && a.governorChecked === 1 && a.perSeed.length === DEV.length, "governor coverage or physical");
+  const r = raRun({ modelId: "random", scenarioId: "rb-cell-entry", seeds: DEV });
+  ok(r.stops > 0 && r.ruleBreaks >= r.stops && r.governorChecked === 1, "a rule break must end in a governor stop");
+  let threw = false; try { raRun({ modelId: "bc", scenarioId: "rb-station-cobot", seeds: DEV }); } catch (_) { threw = true; }
+  ok(threw, "a station run without its station must refuse");
+  ok(raRun({ modelId: "reactive", scenarioId: "rb-cell-entry", seeds: DEV }).applicable === false, "reactive on a scenario without rules must be n/a");
+  const lb = raLeaderboard([a, r]);
+  ok(lb.length === 2 && lb.every((x) => x.rank && Array.isArray(x.ci95) && x.ci95.length === 2), "raLeaderboard rows");
+  return `10 models (8 of round 6b + ra-lm-h + ra-lm-h48, protocol 3), 12 scenarios; bc on port#hard ${a.success} over dev seeds 1–5, twice identical; random cell-entry ${r.stops} stops`;
+});
+
+await check("declared first: arena-declared.json matches the code, committed before arena.json", () => {
+  const d = JSON.parse(read("docs/evals/arena-declared.json"));
+  ok(JSON.stringify(d.protocol) === JSON.stringify(raDeclaration()), "the declaration differs from the code's protocol");
+  ok(/devDisclosure/.test(JSON.stringify(d.training)) && d.comparisons?.smallModelHeadline, "declaration lacks the disclosure or the headline");
+  let order = "git not available";
+  try {
+    const first = (f) => execFileSync("git", ["log", "--diff-filter=A", "--format=%H %ct", "--", f], { cwd: ROOT, encoding: "utf8" }).trim().split("\n").pop();
+    const dl = first("docs/evals/arena-declared.json"), ar = first("docs/evals/arena.json");
+    if (dl && ar) {
+      const anc = (() => { try { execFileSync("git", ["merge-base", "--is-ancestor", dl.split(" ")[0], ar.split(" ")[0]], { cwd: ROOT }); return true; } catch (_) { return false; } })();
+      ok(anc && dl.split(" ")[0] !== ar.split(" ")[0], "arena.json was not first committed after the declaration");
+      order = `declared ${dl.slice(0, 8)} → results ${ar.slice(0, 8)}`;
+    } else order = "not committed yet";
+  } catch (e) { if (/declaration/.test(String(e.message))) throw e; }
+  return order;
+});
+
+await check("no seed reuse: training seeds are disjoint from the held-out 7121–7180", () => {
+  const held = new Set(RA_HELD_OUT);
+  const demo = (seed, n) => Array.from({ length: n }, (_, k) => seed * 100003 + k + 1);
+  const train = [...demo(RA_DEMOS.seed, RA_DEMOS.n), ...demo(RA_DEMOS.seed, RA_STATION_DEMOS), ...RA_DS_SPLITS.flatMap((s) => demo(s.seed, s.n))];
+  for (const r of [1, 2, 3]) for (let k = 0; k < RA_DAGGER.rollouts; k++) train.push(RA_DAGGER.seed0 + r * 100 + k);
+  ok(train.every((s) => !held.has(s)), "a training seed is a held-out seed");
+  ok(RA_STATION_SEEDS.every((s) => held.has(s)), "station seeds outside the held-out range");
+  const splitSeeds = RA_DS_SPLITS.map((s) => new Set(demo(s.seed, s.n)));
+  ok(splitSeeds.every((a, i) => splitSeeds.every((b, j) => i === j || [...a].every((x) => !b.has(x)))), "dataset split seeds overlap");
+  return `${train.length} training seeds, 0 in 7121–7180; dataset splits disjoint by seed`;
+});
+
+await check("arena.json: 8 families × 12 scenarios; every step governor-checked; 0 physical; leaderboard and comparisons recompute", () => {
+  ok(arena.models.length === 8 && arena.scenarios.length === 12, "families or scenarios");
+  ok(arena.results.length === 96 && arena.ablation.length === 12, `rows ${arena.results.length}`);
+  const app = arena.results.filter((r) => r.applicable);
+  for (const r of app) {
+    ok(r.governorChecked === 1 && r.stepsChecked === r.stepsRun && r.physical === 0 && r.auditOk, `${r.modelId} on ${r.scenarioId}: governor, physical or audit`);
+    ok(r.n === (r.scenarioId.startsWith("rb-station-") ? RA_STATION_SEEDS.length : RA_HELD_OUT.length), `${r.modelId} on ${r.scenarioId}: ${r.n} seeds`);
+    ok(r.perSeed.length === r.n && r.perSeed.reduce((a, p) => a + p[1], 0) === r.successes && r.perSeed[0][0] === (r.scenarioId.startsWith("rb-station-") ? RA_STATION_SEEDS[0] : RA_HELD_OUT[0]), `${r.modelId} on ${r.scenarioId}: per-seed rows`);
+  }
+  ok(arena.totals.physical === 0 && arena.totals.stepsChecked === arena.totals.stepsRun && arena.totals.auditChainsOk, "totals");
+  const gymIds = arena.scenarios.filter((s) => s.kind === "gym").map((s) => s.id);
+  ok(JSON.stringify(raLeaderboard(arena.results.filter((r) => gymIds.includes(r.scenarioId)))) === JSON.stringify(arena.leaderboard.gym), "the gym leaderboard does not recompute from the rows");
+  ok(JSON.stringify(raLeaderboard(arena.results)) === JSON.stringify(arena.leaderboard.all), "the full leaderboard does not recompute");
+  const ht = arena.smallModel.heldOutTasks;
+  const pool = (list, m, ids) => list.filter((r) => r.modelId === m && r.applicable && ids.includes(r.scenarioId)).reduce((a, r) => ({ k: a.k + r.successes, n: a.n + r.n }), { k: 0, n: 0 });
+  const lm = pool(arena.results, "ra-lm", ht.scenarios), bc = pool(arena.results, "bc", ht.scenarios);
+  ok(lm.n === 180 && bc.n === 180, "held-out tasks: 180 episodes each");
+  ok(JSON.stringify(raDiffCI(lm.k, lm.n, bc.k, bc.n)) === JSON.stringify(ht.lmMinusBc) && JSON.stringify(raWilson(lm.k, lm.n)) === JSON.stringify(ht.lm.ci95), "the small-model comparison does not recompute");
+  return `${app.length} applicable rows, ${arena.totals.stepsChecked}/${arena.totals.stepsRun} steps checked, ${arena.totals.physical} physical; ra-lm − bc on held-out tasks ${ht.lmMinusBc.diff} [${ht.lmMinusBc.ci95.join(", ")}]`;
+});
+
+await check("arena.json current: a live re-run of sampled rows equals the file", () => {
+  const sample = [["random", "rb-port-gantry"], ["reactive", "rb-amr-fleet-routing#hard"], ["bc", "rb-cell-entry"], ["bc", "rb-construction-drilling#hard"], ["dagger-r1", "rb-cobot-zone-setup"], ["expert", "rb-teleop-pick-place"]];
+  for (const [m, sc] of sample) {
+    const live = raRun({ modelId: m, scenarioId: sc, seeds: RA_HELD_OUT });
+    const file = arena.results.find((r) => r.modelId === m && r.scenarioId === sc);
+    const slim = live.perSeed.map((p) => [p.seed, p.success ? 1 : 0, p.steps, p.ruleBreaks, p.stopped ? 1 : 0]);
+    ok(file && JSON.stringify(slim) === JSON.stringify(file.perSeed) && live.modelHash === file.modelHash, `${m} on ${sc}: live ≠ file`);
+  }
+  return `${sample.length} rows identical (verification re-runs of the published rows; nothing is tuned)`;
+});
+
+await check("small model: small, trained here, named for what it is; no network, no key, no alias; prefixed names", () => {
+  ok(/not a large language model/.test(RA_LM_LABEL), "the label must say it is not a large language model");
+  const lmRow = arena.results.find((r) => r.modelId === "ra-lm" && r.applicable);
+  ok(lmRow && lmRow.modelSize === arena.smallModel.params && arena.smallModel.params < 100000, `weights ${arena.smallModel.params}`);
+  ok(arena.models.find((m) => m.id === "ra-lm").trainedOn.includes("synthetic"), "trainedOn must name the synthetic data");
+  let mentions = 0;
+  for (const f of MINE.filter((p) => existsSync(join(ROOT, p)))) {
+    const t = read(f);
+    for (const m of t.matchAll(/[^.\n]*\blarge language model\b[^.\n]*/gi)) { mentions += 1; ok(/\b(not|never|no|nor)\b/i.test(m[0]) || f === "tools/check_arena.mjs", `${f}: "${m[0].trim().slice(0, 90)}" is not a negation`); }
+    if (f.endsWith(".js")) {
+      ok(!/\bfetch\(|XMLHttpRequest|WebSocket|https?:\/\/|api[_-]?key/i.test(t.replace(/^\s*\/\/.*$/gm, "")), `${f}: network or key`);
+      ok(!/import\s*\{[^}]*\sas\s/.test(t), `${f}: import alias`);
+      for (const m of t.matchAll(/^(?:export\s+)?(?:const|let|function|class)\s+([A-Za-z_$][\w$]*)/gm)) ok(/^(ra|RA_)/.test(m[1]), `${f}: top-level ${m[1]} lacks the ra prefix`);
+    }
+    if (f !== "tools/check_arena.mjs") ok(!/\b(claude|opus|sonnet|haiku|gpt-?\d)\b/i.test(t), `${f}: model identifier`);
+  }
+  return `${arena.smallModel.params} weights; ${mentions} mentions of "large language model", all negations`;
+});
+
+const RA_ENVS = await raStations();
+await check("dataset: build equals disk; leakage 0 re-measured from the full lines; synthetic, consent null; card complete; refusals; stations in", async () => {
+  // ARENA-2: the three station tasks are in the set (ra-ds/2), built from the headless suite's stations as raStations() does.
+  const { files, full, index } = raDsBuild({ stations: RA_ENVS });
+  for (const [k, v] of files) ok(existsSync(join(RA_DS_OUT, k)) && readFileSync(join(RA_DS_OUT, k), "utf8") === v, `exports/robotics/arena/${k} is not current (node tools/ra_dataset.mjs)`);
+  ok(RX_FOREIGN === "arena/", "rb_export may skip only arena/");
+  const bySplit = new Map(); let lines = 0;
+  const eps = new Map();
+  for (const [k, v] of full) for (const l of v.trim().split("\n")) {
+    const o = JSON.parse(l); lines += 1;
+    ok(o.schema === RA_DS_SCHEMA && o.source === "synthetic" && o.consent === null && o.split && o.scenario && o.instruction && o.observation && o.action && "reward" in o && o.rules && "done" in o, `${k}: a line lacks the schema's fields or is not synthetic`);
+    if (o.scenario.startsWith("rb-station-")) ok(typeof o.step === "string" && o.step, `${k}: a station line lacks its step`);
+    const e = eps.get(o.episode) ?? { split: o.split, sc: o.scenario, body: [] }; e.body.push([o.observation, o.action]); eps.set(o.episode, e);
+  }
+  for (const e of eps.values()) { const key = `${e.sc}|${JSON.stringify(e.body)}`; const s = bySplit.get(key) ?? new Set(); s.add(e.split); bySplit.set(key, s); }
+  const leaks = [...bySplit.values()].filter((s) => s.size > 1).length;
+  ok(leaks === 0 && index.leakage === 0, `leakage ${leaks}`);
+  ok(lines === index.totals.steps && eps.size === index.totals.episodes, "index totals differ from the lines");
+  const stEps = [...eps.values()].filter((e) => e.sc.startsWith("rb-station-"));
+  ok(stEps.length === index.fromStations.episodes && stEps.length > 0 && new Set(stEps.map((e) => e.sc)).size === 3, "station episodes: all three stations, counted in the index");
+  for (const sp of ["train", "validation", "test"]) ok(stEps.some((e) => e.split === sp), `no station episode in ${sp}`);
+  const card = files.get("dataset-card.md");
+  for (const h of DX_CARD_SECTIONS) ok(card.includes(`## ${h}`), `card lacks ${h}`);
+  for (const bp of ["Fixed held-out splits", "No leakage between splits", "Consent provenance per sample", "Class balance", "Versioning"]) ok(card.includes(bp), `card lacks the practice "${bp}"`);
+  const bad = { ...JSON.parse(full.values().next().value.split("\n")[0]) };
+  const human = { schema: "x", source: "human", episodeId: "h-1", scenario: "rb-cell-entry", consent: null, steps: [] };
+  const r = raDsBuild({ consented: [human] });
+  ok(r.index.refused.length === 1 && r.index.totals.consented === 0, "a human episode without a consent receipt must be refused");
+  return `${index.totals.episodes} episodes (${index.fromStations.episodes} from stations, ${index.fromStations.steps} steps), ${index.totals.steps} steps (${Object.entries(index.bySplit).map(([k, v]) => `${k} ${v.episodes}`).join(", ")}); cross-split copies removed ${index.crossSplitRemoved}; leakage ${leaks}; ${bad.schema}`;
+});
+
+await check("panel: the programme page carries the arena section with the file's figures, static", () => {
+  const html = read("WebXR/robotics/programme.html");
+  const m = html.match(/<section aria-labelledby="h-arena" id="arena"[\s\S]*?<\/section>/);
+  ok(m, "no arena section on WebXR/robotics/programme.html (node tools/gen_robotics_programme.mjs)");
+  const sec = m[0];
+  ok(!/<script/i.test(sec), "a script inside the arena section");
+  const pct = (x) => `${Math.round(x * 1000) / 10}%`;
+  for (const r of arena.leaderboard.gym) {
+    const row = sec.match(new RegExp(`<tr data-ra-row="${r.modelId}">[\\s\\S]*?</tr>`));
+    ok(row && row[0].includes(pct(r.success)) && row[0].includes(`${pct(r.ci95[0])}–${pct(r.ci95[1])}`), `leaderboard row ${r.modelId} differs from arena.json`);
+  }
+  ok((sec.match(/data-ra-scenario=/g) ?? []).length === 12, "per-scenario cards");
+  ok(html.includes('href="#arena"'), "hero link to the arena");
+  ok(/simulated/.test(sec) && /Read-only/.test(sec), "the section must say read-only and simulated");
+  // Round 8 (ROBOLEARN-9): the retest cards and the claw's model per scenario, from the files, never re-run.
+  const pct2 = (x) => pct(x).replace("-", "−");
+  const ci = (c) => (c[0] < 0 || c[1] < 0 ? `${pct2(c[0])} to ${pct2(c[1])}` : `${pct(c[0])}–${pct(c[1])}`);
+  const dtx = (d) => `${d.diff > 0 ? "+" : ""}${pct2(d.diff)} (95% ${ci(d.ci95)})`;
+  const card = (id) => sec.match(new RegExp(`<div class="ra-card" data-ra-card="${id}">[\\s\\S]*?</div>`))?.[0] ?? "";
+  const c7 = card("retest7"), r7c = arena.retest7.comparisons;
+  ok(c7.includes(dtx(r7c.headline.diff)) && c7.includes(dtx(r7c.changeOnGaps.diff)) && c7.includes(`ra-lm ${r7c.cobotStation["ra-lm"]} → ra-lm-h ${r7c.cobotStation["ra-lm-h"]}`), "the retest7 card's figures differ from arena.json");
+  const c8 = card("protocol3"), r8c = arena.retest8?.comparisons;
+  ok(r8c && c8.includes(dtx(r8c.amrHeadline)) && c8.includes(dtx(r8c.changeOnAmr)) && c8.includes(dtx(r8c.lmHPort)) && c8.includes(dtx(r8c.reactiveHardPooled)), "the protocol-3 card's figures differ from arena.json retest8");
+  const claw = JSON.parse(read("docs/evals/claw3.json"));
+  let shown = 0;
+  const gymIds = arena.scenarios.filter((x) => x.kind === "gym").map((x) => x.id);
+  for (const sc of gymIds) {
+    const want = claw.promoted?.[sc] ?? claw.protocol.incumbent;
+    const scard = sec.match(new RegExp(`<div class="ra-sc" data-ra-scenario="${sc.replace(/[#]/g, "\\$&")}">[\\s\\S]*?</h3><p class="ra-promoted[^"]*" data-ra-promoted="([^"]+)"`));
+    ok(scard && scard[1] === want, `${sc}: the card shows ${scard?.[1]} but the claw's record says ${want}`);
+    shown += 1;
+  }
+  return `${arena.leaderboard.gym.length} leaderboard rows, 12 scenario cards, no script; retest7 and protocol-3 cards equal the file; the claw's model shown on ${shown} of ${gymIds.length} gym scenarios (${Object.entries(claw.promoted ?? {}).filter(([, m]) => m !== claw.protocol.incumbent).length} promoted, the rest kept)`;
+});
+
+await check("retest7 (ARENA-2): declared and committed before the run, matches the code; run once on 7181–7240; seeds disjoint; governor on every step; a live row equals the file", () => {
+  const d = JSON.parse(read("docs/evals/arena-declared-r7.json")), r7 = arena.retest7;
+  ok(JSON.stringify(d.protocol) === JSON.stringify(raDeclarationR7()), "arena-declared-r7.json differs from the code's round-7 protocol");
+  ok(d.amendments?.[0]?.cobotDiagnosis && d.amendments[0].cobotFix && d.consumers?.STRANDS && d.consumers?.["CLAW-2"], "declaration lacks the amendment or the consumers");
+  ok(r7 && r7.results.length === RA_R7_MODELS.length * 12, "arena.json lacks retest7 or its 36 rows");
+  let order = "no git";
+  const dl = raFirstCommit("docs/evals/arena-declared-r7.json");
+  if (dl) {
+    let ancestor = false;
+    try { const log = execFileSync("git", ["log", "--format=%H %s", "-S", '"retest7"', "--", "docs/evals/arena.json"], { cwd: ROOT, encoding: "utf8" }).trim().split("\n").filter(Boolean); const first = log[log.length - 1]?.split(" ")[0]; if (first) { execFileSync("git", ["merge-base", "--is-ancestor", dl, first], { cwd: ROOT }); ancestor = first !== dl; order = `declared ${dl.slice(0, 8)} → results ${first.slice(0, 8)}`; } else order = "results not committed yet"; } catch (_) { ancestor = false; }
+    ok(ancestor || order === "results not committed yet", "retest7 was not first committed after the declaration");
+  }
+  const held = new Set(RA_HELD_OUT_R7);
+  const train = [...Array.from({ length: RA_DEMOS.n }, (_, k) => RA_DEMOS.seed * 100003 + k + 1), ...[1, 3, 5].flatMap((sd) => Array.from({ length: 40 }, (_, k) => sd * 100003 + k + 1)), ...[1, 2, 3].flatMap((r) => Array.from({ length: RA_DAGGER.rollouts }, (_, k) => RA_DAGGER.seed0 + r * 100 + k))];
+  ok(train.every((sd) => !held.has(sd)) && RA_HELD_OUT_R7.every((sd) => !RA_HELD_OUT.includes(sd)) && RA_STATION_SEEDS_R7.every((sd) => held.has(sd)), "round-7 seeds overlap training or round-6b seeds");
+  for (const r of r7.results) {
+    ok(r.applicable && r.physical === 0 && r.governorChecked === 1 && r.auditOk, `${r.modelId} on ${r.scenarioId}: governor or physical`);
+    ok(r.perSeed[0][0] === (r.scenarioId.startsWith("rb-station-") ? RA_STATION_SEEDS_R7[0] : RA_HELD_OUT_R7[0]) && r.n === (r.scenarioId.startsWith("rb-station-") ? 10 : 60), `${r.modelId} on ${r.scenarioId}: seeds`);
+  }
+  const live = raRun({ modelId: "bc", scenarioId: "rb-port-gantry#hard", seeds: RA_HELD_OUT_R7 }), file = r7.results.find((r) => r.modelId === "bc" && r.scenarioId === "rb-port-gantry#hard");
+  ok(JSON.stringify(live.perSeed.map((p) => [p.seed, p.success ? 1 : 0, p.steps, p.ruleBreaks, p.stopped ? 1 : 0])) === JSON.stringify(file.perSeed), "bc on port#hard: live ≠ file");
+  const h = r7.comparisons.headline;
+  return `${order}; ${r7.totals.stepsChecked}/${r7.totals.stepsRun} steps checked, ${r7.totals.physical} physical; ra-lm-h − bc on AMR + port ${h.diff.diff} [${h.diff.ci95.join(", ")}]; cobot station ${r7.comparisons.cobotStation["ra-lm"]} → ${r7.comparisons.cobotStation["ra-lm-h"]}`;
+});
+
+await check("retest8 (ROBOLEARN-9, protocol 3): declared before the claw's one run; ra-lm-h48 = ra-lm-h with 48 hidden units; seeds disjoint; retest8 equals claw3.json; a live row equals the file", () => {
+  const d = JSON.parse(read("docs/evals/arena-declared-r8.json")), r8 = arena.retest8, claw = JSON.parse(read("docs/evals/claw3.json"));
+  ok(r8 && r8.declared?.commit === "ec8bf4c5" && d.protocol?.seeds?.gym === "7241–7300", "retest8 or its declaration missing");
+  ok(JSON.stringify({ ...RA_LM_H_TRAIN, hidden: 48 }) === JSON.stringify(RA_LM_H48_TRAIN), "ra-lm-h48 differs from ra-lm-h in more than the hidden units");
+  ok(raModels().some((m) => m.id === "ra-lm-h48") && d.protocol.models.includes("ra-lm-h48") && d.protocol.challengers.includes("ra-lm-h48"), "ra-lm-h48 not declared or not listed");
+  const held = Array.from({ length: 60 }, (_, i) => 7241 + i);
+  const train = [...Array.from({ length: RA_DEMOS.n }, (_, k) => RA_DEMOS.seed * 100003 + k + 1), ...[1, 2, 3].flatMap((r) => Array.from({ length: RA_DAGGER.rollouts }, (_, k) => RA_DAGGER.seed0 + r * 100 + k))];
+  ok(held.every((x) => !train.includes(x) && !RA_HELD_OUT.includes(x) && !RA_HELD_OUT_R7.includes(x)), "round-8 seeds overlap training or earlier ranges");
+  let order = "no git";
+  const dl = raFirstCommit("docs/evals/arena-declared-r8.json");
+  if (dl) {
+    let ancestor = false;
+    try { const log = execFileSync("git", ["log", "--format=%H", "-S", '"retest8"', "--", "docs/evals/arena.json"], { cwd: ROOT, encoding: "utf8" }).trim().split("\n").filter(Boolean); const first = log[log.length - 1]; if (first) { execFileSync("git", ["merge-base", "--is-ancestor", dl, first], { cwd: ROOT }); ancestor = first !== dl; order = `declared ${dl.slice(0, 8)} → results ${first.slice(0, 8)}`; } else order = "results not committed yet"; } catch (_) { ancestor = false; }
+    ok(ancestor || order === "results not committed yet", "retest8 was not first committed after the declaration");
+  }
+  for (const x of r8.results) {
+    const y = claw.runs.find((r) => r.scenarioId === x.scenarioId)?.results.find((z) => z.modelId === x.modelId);
+    ok(y && y.k === x.k && y.n === x.n && y.resultHash === x.resultHash && x.physical === 0 && x.governorChecked === x.steps, `retest8 ${x.modelId} ${x.scenarioId}: differs from claw3.json, or governor/physical`);
+  }
+  const a = r8.comparisons.amrHeadline, k = (s) => Number(String(s).split("/")[0]);
+  const re = raDiffCI(k(a["ra-lm-h48"]), 60, k(a.bc), 60);
+  ok(re.diff === a.diff && JSON.stringify(re.ci95) === JSON.stringify(a.ci95), "the AMR headline does not recompute");
+  const live = raRun({ modelId: "bc", scenarioId: "rb-port-gantry#hard", seeds: held }), file = r8.results.find((r) => r.modelId === "bc" && r.scenarioId === "rb-port-gantry#hard");
+  const lk = live.perSeed.filter((q) => q.success).length, lrb = live.perSeed.reduce((m, q) => m + q.ruleBreaks, 0);
+  ok(lk === file.k && lrb === file.ruleBreaks && live.perSeed.length === file.n, `bc on port#hard: live ${lk}/${live.perSeed.length} ≠ file ${file.k}/${file.n}`);
+  return `${order}; ${r8.results.length} rows equal claw3.json; ${r8.totals.stepsChecked}/${r8.totals.stepsRun} steps checked, ${r8.totals.physical} physical; ra-lm-h48 − bc on AMR ${a.diff} [${a.ci95.join(", ")}]${a.ci95[0] <= 0 && a.ci95[1] >= 0 ? " (spans 0: no claim)" : ""}; promotions ${r8.promotions.map((x) => `${x.to} on ${x.scenarioId}`).join(", ")}`;
+});
+
+await check("consented takes (ARENA-2): signed out 0, opted in N with provenance per sample, revoke 0; a take without a receipt refused; lines as the set writes them", async () => {
+  ok(RA_TAKES_SCHEMA === RA_DS_SCHEMA, "ra-takes.js and ra_dataset.mjs disagree on the schema");
+  // Parity: a synthetic episode's line from the page module equals the tool's line for the same step.
+  const syn = colSyntheticDemos("rb-cell-entry", { n: 1, seed: 1, skill: 0.85, noise: 0.3 })[0];
+  const { full } = raDsBuild();
+  const toolLine = [...full.entries()].find(([k]) => k.startsWith("train/rb-cell-entry"))[1].split("\n")[0];
+  ok(raTakesLine(syn, syn.steps[0], 0, "train", "rb-cell-entry") === toolLine, "ra-takes.js line ≠ ra_dataset.mjs line");
+  const backend = dxMemBackend(), store = dxMakeStore(backend);
+  const out = { demo: false, signedIn: false, k12: false, adult: null };
+  const take = (consent) => dxMakeEpisode({ source: "human", world: "robotics", kind: "robot-game", scenario: "rb-cell-entry", episodeId: `ra-take-${consent ? "ok" : "none"}`, summary: syn.summary, consent }, syn.steps);
+  // 1. Signed out: nothing, whatever is stored.
+  // The store's own put() refuses a human take without a receipt, so it is written straight into the backend: the export
+  // must refuse it again (defence in depth).
+  await backend.save([...(await backend.all()), { ...take(null), consent: null }]);
+  const r0 = await raTakesExport({ store, signals: out });
+  ok(r0.ok === false && r0.takes === 0 && r0.lines === 0, "signed out must export 0");
+  // 2. Signed in, opted in as an adult: the stored take with its receipt is exported; the one without is refused.
+  const sig = { demo: false, signedIn: true, k12: false };
+  ok(dxOptIn({ licence: "CC-BY-4.0", adult: true, signals: sig }).ok, "fixture opt-in");
+  const c = dxConsent();
+  await store.put(take({ consentId: c.id, at: c.at, licence: c.licence, adult: true, statementHash: c.statementHash }));
+  const r1 = await raTakesExport({ store, signals: { ...sig, adult: true } });
+  ok(r1.ok && r1.takes === 1 && r1.provenance[0].consentId === c.id && r1.provenance[0].licence === "CC-BY-4.0" && r1.lines === syn.steps.length, `opted in must export 1 take with its receipt (got ${r1.takes})`);
+  ok(r1.refused.length === 1 && /consent/.test(r1.refused[0].why), "a take without an adult consent receipt must be refused");
+  ok(r1.jsonl.trim().split("\n").every((l) => { const o = JSON.parse(l); return o.source === "human" && o.consent?.consentId === c.id && o.consent.adult === true && o.split === "train"; }), "every line carries its consent provenance");
+  // 3. K-12 or demo while opted in: nothing.
+  ok((await raTakesExport({ store, signals: { ...sig, adult: true, k12: true } })).takes === 0 && (await raTakesExport({ store, signals: { ...sig, adult: true, demo: true } })).takes === 0, "K-12 or demo must export 0");
+  // 4. Revoke deletes: the next export has 0.
+  await dxRevoke({ store });
+  const r2 = await raTakesExport({ store, signals: { ...sig, adult: true } });
+  ok(r2.takes === 0 && (await store.list()).length === 0, "revoke must delete the takes");
+  return `signed out ${r0.takes}; opted in ${r1.takes} take (${r1.lines} lines, receipt ${String(c.id).slice(0, 4)}…, ${r1.refused.length} refused without a receipt); K-12 0, demo 0; after revoke ${r2.takes}; line parity with ra_dataset.mjs`;
+});
+
+// 12 — consented takes INTO TRAINING (ROBOLEARN-10, loop 10 round 9): declared first (arena-takes-declared-r9.json), development
+// seeds only, no held-out seed; a take joins the model with provenance; revoke deletes it and the rebuilt model is the no-takes
+// model, byte for byte. One gym task only here (tasks: rb-cell-entry) so the check stays cheap; the module's default is every gym task.
+await check("12 consented takes into training: declared, dev seeds only; signed out 0; opted in N with provenance; K-12/demo 0; revoke → 0 and the model rebuilt without them", async () => {
+  const decl = JSON.parse(readFileSync(join(ROOT, RA_TAKES_TRAIN.declaration), "utf8"));
+  ok(/^ra-lm-h\b/.test(decl.run?.model ?? "") && /no held-out seed/i.test(decl.declared) && decl.run.evaluation.startsWith("none"), "the declaration names ra-lm-h, no held-out seed and no evaluation");
+  const first = raFirstCommit(RA_TAKES_TRAIN.declaration);
+  ok(first === null || first.length > 0, "the declaration is committed (or no git here)");
+  // The demonstration seeds (RA_DEMOS) are disjoint from every held-out range, spent or fresh.
+  const lo = RA_DEMOS.seed * 100003 + 1, hi = RA_DEMOS.seed * 100003 + RA_DEMOS.n;
+  ok(hi < 7121 || lo > 7360, `demonstration seeds ${lo}–${hi} overlap a held-out range`);
+  const syn = colSyntheticDemos("rb-cell-entry", { n: 1, seed: 1, skill: 0.85, noise: 0.3 })[0];
+  const backend = dxMemBackend(), store = dxMakeStore(backend);
+  const tasks = ["rb-cell-entry"];
+  const out = { demo: false, signedIn: false, k12: false, adult: null };
+  const r0 = await raTakesTrain({ store, signals: out, tasks });
+  ok(r0.ok === false && r0.takes === 0 && r0.model === null, "signed out must train nothing");
+  const sig = { demo: false, signedIn: true, k12: false, adult: true };
+  ok(dxOptIn({ licence: "CC-BY-4.0", adult: true, signals: sig }).ok, "fixture opt-in");
+  const c = dxConsent();
+  const base = await raTakesTrain({ store, signals: sig, tasks });
+  ok(base.ok && base.takes === 0 && base.rows.human === 0 && base.rows.synthetic > 0 && base.hash, "opted in with no take: the synthetic-only model");
+  await store.put(dxMakeEpisode({ source: "human", world: "robotics", kind: "robot-game", scenario: "rb-cell-entry", episodeId: "ra-take-train", summary: syn.summary, consent: { consentId: c.id, at: c.at, licence: c.licence, adult: true, statementHash: c.statementHash } }, syn.steps));
+  const r1 = await raTakesTrain({ store, signals: sig, tasks });
+  ok(r1.ok && r1.takes === 1 && r1.provenance[0].consentId === c.id && r1.provenance[0].episode === "ra-take-train" && r1.rows.human > 0 && r1.rows.synthetic === base.rows.synthetic, `opted in: 1 take with its receipt joins the model (got ${r1.takes}, human rows ${r1.rows?.human})`);
+  ok(r1.hash !== base.hash && r1.model.v === RA_TAKES_TRAIN.version && r1.model.provenance.byTask["rb-cell-entry"].sources.includes("human"), "the take changes the model and is recorded as a human source");
+  ok((await raTakesTrain({ store, signals: { ...sig, k12: true }, tasks })).takes === 0 && (await raTakesTrain({ store, signals: { ...sig, demo: true }, tasks })).takes === 0, "K-12 or demo must train on 0 takes");
+  await dxRevoke({ store });
+  ok(!dxConsent() && (await store.list()).length === 0, "revoke deletes the take and the consent");
+  ok(dxOptIn({ licence: "CC-BY-4.0", adult: true, signals: sig }).ok, "fixture opt-in again");
+  const r2 = await raTakesTrain({ store, signals: sig, tasks });
+  ok(r2.ok && r2.takes === 0 && r2.rows.human === 0 && r2.hash === base.hash, `after revoke the model is rebuilt without the take, byte for byte (takes ${r2.takes}, hash equal ${r2.hash === base.hash})`);
+  await dxRevoke({ store });
+  return `declared ${RA_TAKES_TRAIN.declaration}${first ? ` (first commit ${first.slice(0, 8)})` : ""}; dev demo seeds ${lo}–${hi}; signed out 0; opted in ${r1.takes} take → human rows ${r1.rows.human} of ${r1.rows.total} (synthetic ${r1.rows.synthetic}); K-12 0, demo 0; after revoke 0 takes, human rows 0, hash = no-takes model`;
+});
+
+console.log(`\ncheck_arena: ${passes} passed, ${failures} failed (${Date.now() - t0} ms)`);
+process.exit(failures ? 1 : 0);

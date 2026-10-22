@@ -1,0 +1,391 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "hand-on-the-line",
+    "name": "Hand On The Line",
+    "note": "The guideline never let go of in the dark, the arrows read home, the abort called the moment the plan said"
+  },
+  "category": "Maritime & Ports",
+  "certification": "Pile Drivers apprenticeship under the Carpenters (UBC) International Training Fund; OSHA 29 CFR 1910 Subpart T — 29 CFR 1910.421 pre-dive planning for the conditions and the briefing, 29 CFR 1910.422 procedures during the dive (communications, the tended diver, the termination of the dive), 29 CFR 1910.424 SCUBA diving where the search is on scuba with a buddy and 29 CFR 1910.425 the tended surface-supplied diver; ADCI consensus standards for night and low-visibility diving; USCG 46 CFR 197 Subpart B where the dive is from a vessel; visibility, distance, depth and time per the dive plan",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADCI",
+        "citedAs": "ADCI",
+        "id": "adci-consensus-standards",
+        "title": "Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations"
+      },
+      {
+        "body": "union",
+        "citedAs": "Pile Drivers",
+        "id": "carpenters-ictf",
+        "title": "United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.421",
+        "id": "osha-1910-421",
+        "title": "29 CFR 1910.421 — Pre-dive procedures (emergency aid list, planning and assessment of the dive, hazardous activities nearby, the team briefing, equipment inspection and the warning signal)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.422",
+        "id": "osha-1910-422",
+        "title": "29 CFR 1910.422 — Procedures during the dive (water entry and exit, communications, decompression tables, power tools, termination of the dive)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.424",
+        "id": "osha-1910-424",
+        "title": "29 CFR 1910.424 — SCUBA diving"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.425",
+        "id": "osha-1910-425",
+        "title": "29 CFR 1910.425 — Surface-supplied air diving (limits, the tended diver, the standby diver and the reserve breathing gas)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910 Subpart T",
+        "id": "osha-1910-subpart-t",
+        "title": "29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 197 Subpart B",
+        "id": "uscg-46-cfr-197-subpart-b",
+        "title": "46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction"
+      }
+    ]
+  },
+  "district": "bay-underwater",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "lights-checked",
+        "name": "Lights Checked",
+        "note": "The dim primary and the unclipped backup found at the stage"
+      },
+      {
+        "id": "arrows-home",
+        "name": "Arrows Home",
+        "note": "The line arrow read home inside the band first time"
+      },
+      {
+        "id": "never-let-go",
+        "name": "Never Let Go",
+        "note": "No hazard reached for from the slate to the log"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-search",
+        "name": "Clean Search",
+        "note": "No corrections from the slate to the check-in"
+      },
+      {
+        "id": "taut-line",
+        "name": "Taut Line",
+        "note": "The guideline laid in band the whole way out"
+      },
+      {
+        "id": "logged-quick",
+        "name": "Logged Quick",
+        "note": "Log written inside 80% of par"
+      }
+    ],
+    "currency": "LINE ARROWS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Tender",
+      "Diver",
+      "Night Diver",
+      "Search Diver",
+      "Line Work Certified"
+    ],
+    "system": "Black Water"
+  },
+  "hazards": {
+    "cross-the-line": "You swam across the guideline to reach the other side of the wreck's ribs. Crossing a line in the dark wraps it round your cylinder, your fins or your umbilical without your feeling it, and the next pull on the line is a pull on you. You follow the line back to where you can go round the end of it, or you stop and signal; you do not cross it.",
+    "cut-the-line": "You reached for your cutter to free the guideline where it had caught on the wreck's rib. Cutting the guideline cuts the way home for you and for your buddy, who may be following it back to the reel; a snag is freed by following the line to it and lifting it off, or by signalling the buddy and going round. The cutter is for what is holding you, never for the line that leads you out.",
+    "let-go-line": "You let go of the guideline to swim toward a light you saw off to the side. In black water a light is the only thing you can see and it is not necessarily your buddy's; a diver who leaves the line for it has no way back to the line if the light moves or goes out. The line is the way home and a hand stays on it, or in the OK-loop round it, until you are back at the anchor block.",
+    "light-in-eyes": "You turned your primary light onto your buddy's face to see if they were all right. A light in the eyes at night takes a diver's night vision for minutes and their view of everything else with it; you read a buddy by the light on their hands and the signals they make with it, and you shine yours at their chest or the bottom, never their mask."
+  },
+  "id": "cd-low-visibility-and-night-dive-line-work",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "lay-guideline",
+      "alert": "A fin has kicked the bottom and the silt has come up round you — the light shows nothing but brown, and you cannot see the line or your buddy.",
+      "cue": "Get a hand on the guideline in the OK-loop grip, stop moving, and wait for the silt to settle — do not swim.",
+      "delay": 2,
+      "id": "silt-out",
+      "kind": "Silt-out — zero visibility",
+      "missNote": "The learner swam on through the silt without the line; when it cleared the guideline was nowhere in reach and the buddy's light was behind them.",
+      "seconds": 14,
+      "target": "line-hand",
+      "why": "In a silt-out the only thing a diver knows is the line, and the first thing to do is make sure of it: a hand round the line in the loop that cannot slip off, and then nothing — no swimming, no reaching, because every kick lifts more silt and every metre swum without the line is a metre lost. The silt settles; the diver who held still and held the line is where they were.",
+      "wrongNote": "A hand on the line, in the loop — stop moving and let the silt settle."
+    },
+    {
+      "after": "tactile-search",
+      "alert": "Your primary light has gone out mid-sweep — total dark, your hand still on the search line.",
+      "cue": "Find the backup light on your harness by feel, switch it on, and give your buddy a slow sweep with it so they know you have it.",
+      "delay": 2,
+      "id": "primary-fail",
+      "kind": "Primary light failed",
+      "missNote": "The learner sat in the dark with a hand on the line while the buddy's light swept the silt looking for them; the backup was in a pocket, unclipped, and took a long minute to find.",
+      "seconds": 14,
+      "target": "backup-light",
+      "why": "The backup is where the check put it and the hand finds it without looking, because looking is not available; it comes on and the first thing it does is tell the buddy, with the attention signal, that the dark diver has a light again. Then the plan takes over — a failed primary is an abort — but the order is light first, signal second, abort third, because a buddy who sees a light go out and nothing after it starts a search of their own.",
+      "wrongNote": "The backup on your harness — by feel, on, and a slow sweep to your buddy."
+    }
+  ],
+  "lateNotes": {
+    "dive-log": "The log is written once both divers are back at the stage.",
+    "guideline-reel-lay": "The line is laid once both tie-offs are made.",
+    "marker-tag": "The object is marked once the sweep has found it."
+  },
+  "name": "Low-Visibility & Night Dive Line Work",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "commercial-diving-and-scientific-scuba"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "anchor-block",
+      "backup-light",
+      "comms-abort",
+      "cross-the-line",
+      "cut-the-line",
+      "dim-primary",
+      "dive-log",
+      "found-object",
+      "guideline-reel",
+      "guideline-reel-lay",
+      "let-go-line",
+      "light-circle",
+      "light-in-eyes",
+      "line-arrow",
+      "line-hand",
+      "marker-tag",
+      "primary-tie",
+      "search-slate",
+      "secondary-tie",
+      "sweep-arm",
+      "team-board",
+      "unclipped-backup"
+    ],
+    "meshes": 133
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "At the stage before the descent, read the slate with your buddy: the circular sweep from the anchor block, the light signals — the circle for OK, the slow sweep for attention, the fast sweep for a problem — and the abort word and line pulls.",
+      "id": "night-brief",
+      "kind": "select",
+      "prompt": "At the stage before the descent, read the slate with your buddy: the circular sweep from the anchor block, the light signals — the circle for OK, the slow sweep for attention, the fast sweep for a problem — and the abort word and line pulls.",
+      "target": "search-slate",
+      "title": "Read the search pattern and the signals on the slate",
+      "why": "A night search in silt is worked by feel and by a handful of agreed signals, and the slate is where those are fixed before either diver is in a place where they cannot ask. 29 CFR 1910.421 has the dive planned for its conditions and the team briefed on them; here the conditions are darkness and no visibility, and the plan is what a diver does when they cannot see the buddy, the line or the way up."
+    },
+    {
+      "cue": "Switch each light on and off, look at the colour and the steadiness of the beam, and check the backup is clipped where your hand finds it blind.",
+      "id": "light-check",
+      "itemNames": {
+        "dim-primary": "primary light dim and flickering",
+        "unclipped-backup": "backup light not clipped to the harness"
+      },
+      "itemNotes": {
+        "dim-primary": "Your primary light is yellow and flickers when you knock it — a battery on its last charge or a wet contact. It will fail in the dark, not on the stage.",
+        "unclipped-backup": "The backup light is in your pocket and not clipped to the harness D-ring. In black water with gloves on, a light that is not where your hand goes without looking is a light you do not have."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Switch each light on and off, look at the colour and the steadiness of the beam, and check the backup is clipped where your hand finds it blind.",
+      "targets": [
+        "dim-primary",
+        "unclipped-backup"
+      ],
+      "title": "Check both lights at the stage",
+      "why": "A night dive has two lights because one will fail, and the check finds the one that is already failing while a battery can still be changed on the stage. The backup is checked for where it is as much as whether it works: in the dark with gloves on, the hand has to find it on the harness by habit, because the moment the primary dies there is nothing to look for it by."
+    },
+    {
+      "cue": "Tie the guideline to the anchor block's shackle at the foot of the downline first, then swim a body-length and make the secondary tie-off on the wreck's rib before the line leaves the block.",
+      "id": "tie-offs",
+      "itemNames": {
+        "primary-tie": "primary tie-off on the anchor block's shackle",
+        "secondary-tie": "secondary tie-off on the wreck's rib"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — the primary tie-off goes on the anchor block at the downline first; the secondary follows on the wreck.",
+      "prompt": "Tie the guideline to the anchor block's shackle at the foot of the downline first, then swim a body-length and make the secondary tie-off on the wreck's rib before the line leaves the block.",
+      "targets": [
+        "primary-tie",
+        "secondary-tie"
+      ],
+      "title": "Make the primary tie-off, then the secondary",
+      "why": "The primary tie-off on the downline's anchor is the line's connection to the way up, and the secondary a short way along is what keeps the whole line from going slack and drifting if the primary fails or the block shifts. They are made in that order because a line tied to the wreck and not to the anchor leads a diver back to the wreck in the dark, not to the downline they need."
+    },
+    {
+      "cue": "Swim out from the secondary tie-off with the reel, keeping the line taut behind you — not slack enough to loop, not so tight it saws on the rib.",
+      "holdBreakNote": "The line went out of band — slack loops or sawing tight. Feed it with a little tension, round the edges.",
+      "id": "lay-guideline",
+      "kind": "track",
+      "prompt": "Swim out from the secondary tie-off with the reel, keeping the line taut behind you — not slack enough to loop, not so tight it saws on the rib.",
+      "seconds": 6,
+      "target": "guideline-reel-lay",
+      "title": "Lay the guideline taut as you swim the search",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "LINE TENSION",
+        "rise": 0.56,
+        "start": 0.14
+      },
+      "why": "A slack guideline lies in loops on the bottom that a fin or an umbilical goes through, and a diver following loops home in the dark is a diver going in circles; a line pulled bar-tight cuts on every edge it crosses and parts on the way back. The reel is fed out with a little tension, placed round the wreck's edges rather than over them, so that the hand that follows it home feels a straight, clean line."
+    },
+    {
+      "cue": "With the search line at arm's length from the tie-off, sweep an arc across the bottom with your free hand flat on the silt, feeling for the frame, keeping the line's tension the same the whole arc.",
+      "holdBreakNote": "The arc broke — the line went slack or tight. Hold the tension steady and sweep with the flat of your hand.",
+      "id": "tactile-search",
+      "kind": "hold",
+      "prompt": "With the search line at arm's length from the tie-off, sweep an arc across the bottom with your free hand flat on the silt, feeling for the frame, keeping the line's tension the same the whole arc.",
+      "seconds": 5,
+      "target": "sweep-arm",
+      "title": "Hold the circular sweep by feel",
+      "why": "In no visibility the search is a hand on the bottom and a line at a fixed length from a fixed point: the arc is swept by feel and the line's tension tells the diver they are still on the arc. A diver who lets the line go slack has shortened the arc and left a gap in the search; one who pulls has moved the tie-off. Holding the arc steady is the whole method, and it is slow on purpose."
+    },
+    {
+      "cue": "Your hand meets the instrument frame's edge. Clip the marker tag and its small float to it so it can be found again, and tell the surface on comms or by line pulls.",
+      "drag": {
+        "missNote": "Not on the frame — the marker tag clips to the instrument frame's edge where your hand found it.",
+        "radius": 0.55,
+        "to": "found-object"
+      },
+      "id": "mark-object",
+      "kind": "drag",
+      "prompt": "Your hand meets the instrument frame's edge. Clip the marker tag and its small float to it so it can be found again, and tell the surface on comms or by line pulls.",
+      "target": "marker-tag",
+      "title": "Mark the frame you have found",
+      "why": "A thing found by hand in the dark is lost again the moment the hand leaves it unless it is marked; the tag and its float give the recovery dive a target the next diver can find by line and by light. The surface is told at once, with the line's distance from the tie-off, because that is the position: 29 CFR 1910.422 keeps the diver in communication, and a found object is exactly what the surface needs to hear."
+    },
+    {
+      "cue": "Point your light at the bottom in front of your buddy and draw a slow circle — the OK — and wait for their circle back.",
+      "id": "light-ok",
+      "kind": "select",
+      "prompt": "Point your light at the bottom in front of your buddy and draw a slow circle — the OK — and wait for their circle back.",
+      "target": "light-circle",
+      "title": "Signal your buddy OK with the light",
+      "why": "In the dark the light is the voice: a slow circle on the bottom says OK, a slow side-to-side says look at me, a fast one says trouble, and the signal is drawn on the bottom or their chest, never at their eyes. Both divers signal and both answer, because a signal unanswered is the first sign that the other diver is not where you think; the plan's signals are what the buddy pair has instead of sight."
+    },
+    {
+      "cue": "A primary light gone is the plan's abort. Call 'abort — coming up' on comms or give the abort line pulls, get the buddy's OK, and turn for the line home together.",
+      "id": "abort-call",
+      "kind": "select",
+      "prompt": "A primary light gone is the plan's abort. Call 'abort — coming up' on comms or give the abort line pulls, get the buddy's OK, and turn for the line home together.",
+      "target": "comms-abort",
+      "title": "Call the abort as the plan says",
+      "why": "The plan sets what ends a night dive before it starts, and a failed primary light is on that list: the diver still has the backup, but one light between two divers in black water is the margin the plan refuses to spend. The abort is called as the plan words it, on comms and by line pulls so the surface and the buddy both have it, and the search ends there — the frame is marked and the recovery dive will find it."
+    },
+    {
+      "cue": "Find the line arrow on the guideline by feel, read which way its point runs, and commit when you are sure it points toward the anchor block and the downline.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.62
+        ],
+        "label": "ARROW — HOME",
+        "missNote": "Outside the band — feel the arrow's point and be sure before you commit to a direction.",
+        "speed": 0.66
+      },
+      "id": "read-arrows",
+      "kind": "gauge",
+      "prompt": "Find the line arrow on the guideline by feel, read which way its point runs, and commit when you are sure it points toward the anchor block and the downline.",
+      "target": "line-arrow",
+      "title": "Read the line arrow for the way home",
+      "why": "A guideline in the dark runs both ways and both feel the same; the arrows clipped along it point home, and a diver who reads one wrong swims away from the downline with the reel paying out behind them. The arrow is read by feel — the point is a shape the glove finds — and confirmed against the reel's direction, because being sure is what the abort has bought time for."
+    },
+    {
+      "cue": "Follow the line hand over hand toward the arrows, reeling it in behind you with a little tension so the reel does not bird's-nest, buddy in touch on the line.",
+      "id": "reel-in",
+      "kind": "turn",
+      "prompt": "Follow the line hand over hand toward the arrows, reeling it in behind you with a little tension so the reel does not bird's-nest, buddy in touch on the line.",
+      "target": "guideline-reel",
+      "title": "Take the guideline in on the reel as you follow it home",
+      "turn": {
+        "label": "REEL",
+        "turns": 1.2
+      },
+      "why": "The line comes in as the divers go home so that it is not left on the wreck for the recovery dive to tangle in, and it comes in on the reel with tension because a reel wound loose jams on the next dive when it is needed in a hurry. Both divers stay on the line — one reeling, one in touch — so the pair that went out together comes back together to the tie-offs."
+    },
+    {
+      "cue": "At the block, untie the primary tie-off, put a hand on the downline, get the buddy's OK by light and ascend the line together to the stage at the plan's rate.",
+      "id": "ascend-downline",
+      "kind": "select",
+      "prompt": "At the block, untie the primary tie-off, put a hand on the downline, get the buddy's OK by light and ascend the line together to the stage at the plan's rate.",
+      "target": "anchor-block",
+      "title": "Untie at the anchor block and ascend the downline together",
+      "why": "The tie-offs come off last, when both divers are at the block with hands on the downline, because until then the line is the way home for whichever diver has not arrived. The ascent is on the downline at the plan's rate with the buddy in touch, up to the stage where the tender is waiting; a night dive ends when both divers are on the stage, not when the first one is."
+    },
+    {
+      "cue": "At the stage with the supervisor: the lights and what was found at the check, the tie-offs, the silt-out, the frame marked and its distance on the line, the primary's failure, the abort called and both divers up together.",
+      "id": "dive-log",
+      "kind": "select",
+      "prompt": "At the stage with the supervisor: the lights and what was found at the check, the tie-offs, the silt-out, the frame marked and its distance on the line, the primary's failure, the abort called and both divers up together.",
+      "target": "dive-log",
+      "title": "Write the dive record at the stage",
+      "why": "The record of the dive carries what the recovery dive needs — where the frame is on a line from the block — and what the equipment log needs — the primary light that failed and the backup that was in a pocket. It is written at the stage with the supervisor while the diver still has the line's distance in their hand, because a night dive's details fade faster than a day's."
+    },
+    {
+      "cue": "At the team board: the light for the equipment locker, the silt-out and the failure said from each side, the frame marked for the recovery, and how everyone is.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "At the team board: the light for the equipment locker, the silt-out and the failure said from each side, the frame marked for the recovery, and how everyone is.",
+      "target": "team-board",
+      "title": "Check in with the dive team",
+      "why": "A silt-out and a light failure in the same dive are the kind of night a diver carries home, and the check-in is where the pair and the supervisor say how each of them handled it and what the plan got right. The failed light goes to the locker tagged, the frame's position to the next plan, and the Pile Drivers member assistance line is there for what the stage conversation does not settle."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — the Pile Drivers of the Carpenters — with the employer's employee assistance line behind it",
+  "tagline": "A search you cannot see: the pattern and the signals read on the slate, the dim primary and the unclipped backup found at the stage, the primary and secondary tie-offs made in order, the guideline laid taut through a silt-out with a hand on the line, the circular sweep held by feel while the primary light dies and the backup comes on, the found frame marked, the OK given by light, the abort called, the arrows read home, the reel taken in on the way back to the downline, the log written",
+  "title": "SmartCiti.X~ Low-Visibility & Night Dive Line Work VR",
+  "trade": "Pile Drivers of the Carpenters commercial diver on a night search in low visibility with a buddy diver, the dive supervisor and the tender at the stage above",
+  "underwater": {
+    "bottomTimeSeconds": 600,
+    "depthLabel": "Per dive plan"
+  },
+  "weather": "clear"
+}

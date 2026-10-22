@@ -1,0 +1,422 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "soft-touch-clean-line",
+    "name": "Soft Touch, Clean Line",
+    "note": "A finishing line run with clean footwork, a controlled approach and nobody colliding under the rim"
+  },
+  "category": "Youth Sports & Coaching",
+  "certification": "USA Basketball youth development guidelines on teaching finishing footwork with both hands rather than only a player's dominant side; NFHS basketball rules on legal footwork at the rim and its sportsmanship expectations for a crowded finishing line; CDC Heads Up for a knock to the head taken in contact under the rim; the U.S. Center for SafeSport for calm, observable correction of a footwork fault rather than a fault called out in front of the line; the American Red Cross first aid course for a player down after a hard finish",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CDC",
+        "citedAs": "CDC Heads Up",
+        "id": "cdc-heads-up",
+        "title": "CDC Heads Up concussion-in-youth-sports training for coaches, parents and athletes: recognise the signs, remove the player from play, refer for evaluation, and return only with clearance"
+      },
+      {
+        "body": "NFHS",
+        "citedAs": "NFHS",
+        "id": "nfhs-basketball-rules",
+        "title": "National Federation of State High School Associations (NFHS) basketball rules and its sports medicine advisory guidance on concussion, heat and hydration for school sport"
+      },
+      {
+        "body": "Red Cross",
+        "citedAs": "American Red Cross first aid",
+        "id": "red-cross-first-aid-course",
+        "title": "American Red Cross first aid, CPR and AED course for coaches and staff: check the scene, call, care, and hand over to emergency services"
+      },
+      {
+        "body": "U.S. Center for SafeSport",
+        "citedAs": "U.S. Center for SafeSport",
+        "id": "safesport-code",
+        "title": "U.S. Center for SafeSport abuse-prevention training and policies for adults who work with young athletes: two adults present, observable and interruptible interactions, and reporting"
+      },
+      {
+        "body": "USA Basketball",
+        "citedAs": "USA Basketball",
+        "id": "usa-basketball-youth-guidelines",
+        "title": "USA Basketball youth development guidelines: age-appropriate play, practice length and frequency, rest and multi-sport participation for young players, and the coach licence that teaches them"
+      }
+    ]
+  },
+  "district": "gym-court",
+  "domain": "Youth Sports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clear-lane-first",
+        "name": "Clear Lane First",
+        "note": "Every hazard under the rim found before the first rep"
+      },
+      {
+        "id": "no-collision",
+        "name": "No Collision",
+        "note": "No unsafe action anywhere in the session"
+      },
+      {
+        "id": "controlled-approach",
+        "name": "Controlled Approach",
+        "note": "Approach speed and release touch both inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-session",
+        "name": "Clean Session",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "unbroken-line",
+        "name": "Unbroken Line",
+        "note": "Held a balanced landing through the whole hold"
+      },
+      {
+        "id": "quick-finish",
+        "name": "Quick Finish",
+        "note": "Practice log reached inside 80% of par"
+      }
+    ],
+    "currency": "SOFT-TOUCH POINTS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Bench Helper",
+      "Line Coach",
+      "Assistant Coach",
+      "Head Coach",
+      "Finishing Mentor"
+    ],
+    "system": "Finishing Line Board"
+  },
+  "hazards": {
+    "double-the-rep-count-with-no-water-break": "You doubled the number of finishing reps with no water break and called it conditioning. Loading on unplanned extra volume with no rest is exactly the kind of overuse and dehydration risk youth guidelines warn against, and it teaches a player that good footwork gets rewarded with more work instead of with rest.",
+    "let-two-lines-collide-under-the-rim": "You ran two finishing lines from opposite sides of the key without staggering them, and two players arrived under the rim at the same moment from different directions. NFHS sportsmanship expectations assume a drill is actually organised to keep players from colliding, and a crowded landing zone with players approaching blind to each other is a collision waiting on the very next rep.",
+    "played-on-after-a-hard-knee-to-the-head-under-the-rim": "You let a player keep running the line after taking a hard knee to the head in traffic under the rim because they said they were fine. CDC Heads Up is clear that a knock to the head gets a player out of play and evaluated regardless of how they feel in the moment — a finishing line is not worth risking a second hit on a player who has not been checked.",
+    "run-layup-lines-on-a-still-wet-patch": "You started the finishing line before a wet patch under the rim had actually dried. A player driving hard toward the rim, eyes on the ball and the defender rather than the floor, is exactly who plants a foot on a slick spot at full speed, and the landing zone under the basket is the worst place on the whole court for a slip to happen."
+  },
+  "id": "bb-layups-and-finishing-at-the-rim",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "track-the-approach-speed",
+      "alert": "Two players from opposite sides of the line arrive under the rim at the same moment and collide hard, and one of them stays down.",
+      "cue": "Radio the athletic trainer to the landing zone immediately and hold the rest of the line where it is.",
+      "delay": 3,
+      "id": "two-players-collide-under-the-rim",
+      "kind": "Player down",
+      "missNote": "The line kept running for another rep before anyone called the trainer over, and the player who was down had already tried to get up and walk it off on their own.",
+      "seconds": 12,
+      "target": "athletic-trainer-radio-spot",
+      "why": "A collision under the rim needs the athletic trainer's eyes on the player who stayed down before anyone decides how serious it is, and holding the rest of the line prevents a second collision on top of the first while the trainer is still getting there. The radio call happens immediately, not after finishing the rep that was already in progress.",
+      "wrongNote": "That does not get the trainer to the landing zone. Radio the athletic trainer immediately and hold the line."
+    },
+    {
+      "after": "hold-a-balanced-landing",
+      "alert": "The fire alarm sounds mid-line, with a ball still bouncing loose under the rim and players scattered between the line and the landing zone.",
+      "cue": "Ball down, everybody out through the marked fire exit, headcount outside against the day's list.",
+      "delay": 3,
+      "id": "fire-alarm-during-the-finishing-line",
+      "kind": "Fire alarm",
+      "missNote": "One more player finished their rep before the line moved, and outside the headcount came up short before someone remembered they had stayed behind to watch the ball go in.",
+      "seconds": 12,
+      "target": "fire-exit-door",
+      "why": "The finishing line's rhythm is not a reason to squeeze in one more rep before leaving. The ball goes down where it is, the gym empties through the marked exit with an adult at the front and back, and a headcount happens outside — every alarm treated as real, every time, no matter what rep was mid-approach when it sounded.",
+      "wrongNote": "The alarm comes first. Ball down and everybody to the marked fire exit."
+    }
+  ],
+  "lateNotes": {
+    "crew-checkin-board": "The staff check-in comes after the log, at the very end.",
+    "practice-log-board": "The log closes the finishing session once the line has run and the reps have held — nothing to record yet."
+  },
+  "name": "Layups and Finishing at the Rim",
+  "parSeconds": 325,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "basketball-fundamentals"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "approach-angle-dial",
+      "approach-speed-meter",
+      "athletic-trainer-radio-spot",
+      "ball-rack-in-the-landing-zone",
+      "ball-rack-socket",
+      "both-hands-dial",
+      "crew-checkin-board",
+      "double-the-rep-count-with-no-water-break",
+      "fault-charging-a-defender",
+      "fault-no-eyes-up",
+      "fault-soft-touch-finish",
+      "fault-traveling-gather",
+      "finishing-menu-card",
+      "fire-exit-door",
+      "landing-marker",
+      "layup-gather",
+      "layup-inside-foot",
+      "layup-outside-knee",
+      "layup-soft-touch",
+      "let-two-lines-collide-under-the-rim",
+      "line-spaced-correctly",
+      "played-on-after-a-hard-knee-to-the-head-under-the-rim",
+      "player-standing-under-the-net",
+      "practice-log-board",
+      "quiet-word-spot",
+      "ready-stance-marker",
+      "release-touch-gauge",
+      "run-layup-lines-on-a-still-wet-patch",
+      "stray-ball-token",
+      "wet-spot-under-the-rim"
+    ],
+    "meshes": 174
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Look at the landing zone and the line. Mark what has to be moved before the first rep goes up.",
+      "decoyNotes": {
+        "line-spaced-correctly": "A line already spaced with room between each player is exactly what the drill wants. Look for what is actually in the way."
+      },
+      "id": "scan-the-lane-before-layup-drills",
+      "itemNames": {
+        "ball-rack-in-the-landing-zone": "a ball rack sitting in the landing zone",
+        "player-standing-under-the-net": "a player standing directly under the net",
+        "wet-spot-under-the-rim": "a wet spot still drying under the rim"
+      },
+      "itemNotes": {
+        "ball-rack-in-the-landing-zone": "A rack sitting where players land after a finish is exactly what a knee or an ankle catches on the way down. Move it clear of the landing zone first.",
+        "player-standing-under-the-net": "Someone standing in the landing zone waiting their turn is directly in the path of the next finish. Move them back to the line before anyone drives.",
+        "wet-spot-under-the-rim": "A wet patch in the one spot every finishing line lands on is the worst place on the court for it. Dry it before the first rep, not after someone slips."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the landing zone and the line. Mark what has to be moved before the first rep goes up.",
+      "targets": [
+        "ball-rack-in-the-landing-zone",
+        "wet-spot-under-the-rim",
+        "player-standing-under-the-net"
+      ],
+      "title": "Scan the lane before the finishing line starts",
+      "why": "The landing zone under the rim is where every finish in this drill ends up, which makes it the one spot on the floor that has to be completely clear before the first rep: a rack left there, a wet patch not yet dry, and a player standing where the next finish lands are all the same kind of problem read in the same glance."
+    },
+    {
+      "cue": "Balanced, knees bent, eyes up at the rim — hold here before the first player goes, no rushing the start.",
+      "holdBreakNote": "The first rep started before the stance was actually ready. Hold it a moment longer and start balanced.",
+      "id": "hold-the-ready-stance-before-the-first-rep",
+      "kind": "hold",
+      "prompt": "Balanced, knees bent, eyes up at the rim — hold here before the first player goes, no rushing the start.",
+      "seconds": 5,
+      "target": "ready-stance-marker",
+      "title": "Hold a ready stance before the first rep",
+      "why": "A finishing line that starts with the first player already off-balance sets the tempo for every rep that follows it. Holding a genuinely ready stance before the first rep — balanced, eyes up — is what makes the footwork that follows something the player actually controls instead of something they are recovering into mid-approach."
+    },
+    {
+      "cue": "Put up which finishes are being drilled: right-hand layup, left-hand layup, and off the glass.",
+      "id": "post-the-finishing-menu",
+      "kind": "select",
+      "prompt": "Put up which finishes are being drilled: right-hand layup, left-hand layup, and off the glass.",
+      "target": "finishing-menu-card",
+      "title": "Post today's finishing menu",
+      "why": "A posted menu tells every player in the line exactly what today's rep is, which keeps the line moving with a purpose instead of everyone just shooting whatever feels easiest. Naming both hands on the menu, not only a player's dominant side, is what USA Basketball's youth guidelines mean by teaching a complete player rather than a comfortable one."
+    },
+    {
+      "cue": "Gather the ball first, then plant the inside foot, then drive the outside knee up, then finish with a soft touch.",
+      "id": "build-the-layup-footwork-in-order",
+      "itemNames": {
+        "layup-gather": "gather the ball",
+        "layup-inside-foot": "plant the inside foot",
+        "layup-outside-knee": "drive the outside knee up",
+        "layup-soft-touch": "finish with a soft touch"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. The gather comes first — planting the inside foot before the ball is gathered is a travel waiting to be called, and driving the knee up before the plant just means jumping off the wrong foot.",
+      "prompt": "Gather the ball first, then plant the inside foot, then drive the outside knee up, then finish with a soft touch.",
+      "targets": [
+        "layup-gather",
+        "layup-inside-foot",
+        "layup-outside-knee",
+        "layup-soft-touch"
+      ],
+      "title": "Build the layup footwork in order",
+      "why": "Each part of the footwork sets up the next: the gather has to happen before the plant so the step is not rushed, the inside foot has to plant before the outside knee drives up or the jump has no base under it, and a soft touch only comes from a body that is still under control after all three — rushed footwork almost always shows up first as a hard, off-balance finish."
+    },
+    {
+      "cue": "Turn the angle dial to set which side of the rim the line is approaching from.",
+      "id": "turn-to-the-approach-side",
+      "kind": "turn",
+      "prompt": "Turn the angle dial to set which side of the rim the line is approaching from.",
+      "target": "approach-angle-dial",
+      "title": "Turn the approach board to today's side",
+      "turn": {
+        "axis": "y",
+        "label": "APPROACH SIDE",
+        "turns": 0.5
+      },
+      "why": "Approaching from the same side every time only ever builds one version of the footwork. Turning the dial to change the approach side on purpose is what makes a player's inside foot and outside knee work correctly whichever way the defense actually forces them to go in a real game."
+    },
+    {
+      "cue": "Keep the approach speed in band the whole way in — not so slow the footwork has no rhythm, not so fast it is out of control under the rim.",
+      "holdBreakNote": "The approach speed left the band — too slow, or too fast for the traffic under the rim. Reset and come in again under control.",
+      "id": "track-the-approach-speed",
+      "kind": "track",
+      "prompt": "Keep the approach speed in band the whole way in — not so slow the footwork has no rhythm, not so fast it is out of control under the rim.",
+      "seconds": 8,
+      "target": "approach-speed-meter",
+      "title": "Track the approach speed all the way to the rim",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.42,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "APPROACH SPEED",
+        "rise": 0.5,
+        "start": 0.3
+      },
+      "why": "A layup approach that is too slow never builds the rhythm the footwork actually needs, and one that is too fast arrives at the rim with a body that cannot control its own landing — which is exactly how a controlled drill turns into a collision in the crowded space under the basket. Holding the approach in band the whole way in is what keeps speed working for the player instead of against everyone near the rim."
+    },
+    {
+      "cue": "Commit when the touch reads soft — not a flat, hard finish, not a shot released so high it clangs off the back of the rim.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "TOUCH",
+        "missNote": "Outside the band. A flat release comes off too hard to finish cleanly; an over-arced one clangs off the back iron. Find soft and commit.",
+        "speed": 0.6
+      },
+      "id": "gauge-the-release-touch",
+      "kind": "gauge",
+      "prompt": "Commit when the touch reads soft — not a flat, hard finish, not a shot released so high it clangs off the back of the rim.",
+      "target": "release-touch-gauge",
+      "title": "Read the release touch before committing to the shot",
+      "why": "A layup finished with a hard, flat release rattles off the rim as often as it goes in, and one released with too much arc misses long off the back iron just as often. Reading the touch before releasing, rather than shooting on reflex, is what turns a rushed finish into the soft, repeatable one the whole drill is built to teach."
+    },
+    {
+      "cue": "Watch each rep for what breaks down before the ball leaves the hand. Mark what needs a correction.",
+      "decoyNotes": {
+        "fault-soft-touch-finish": "A finish with a genuinely soft touch is exactly the form this drill wants. Look for what actually needs correcting."
+      },
+      "id": "spot-the-finishing-faults",
+      "itemNames": {
+        "fault-charging-a-defender": "a finish that charges straight into a defender",
+        "fault-no-eyes-up": "a player finishing with no eyes up for help defense",
+        "fault-traveling-gather": "a gather that starts a step early — a travel"
+      },
+      "itemNotes": {
+        "fault-charging-a-defender": "Lowering a shoulder into a defender instead of finishing around them is a charge and a collision both — this needs a footwork fix, not just a foul call.",
+        "fault-no-eyes-up": "A player finishing with their eyes locked on the rim the whole way in never sees the help defender rotating over. That habit gets fixed here, not in a game.",
+        "fault-traveling-gather": "A gather taken a step too early is a travel every time it is called correctly. Reset the count before the next rep."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Watch each rep for what breaks down before the ball leaves the hand. Mark what needs a correction.",
+      "targets": [
+        "fault-traveling-gather",
+        "fault-charging-a-defender",
+        "fault-no-eyes-up"
+      ],
+      "title": "Spot the finishing faults in the line",
+      "why": "Most layup faults show up in the two steps before the shot, not in the shot itself: a gather taken too early, a shoulder lowered into a defender instead of finished around them, and eyes locked on the rim instead of scanning for help are all patterns worth catching in the line, before any of them turns into a bad habit that shows up in a real game."
+    },
+    {
+      "cue": "Carry the stray ball from the landing zone back to the ball rack.",
+      "drag": {
+        "missNote": "Not on the rack. A ball left anywhere in the landing zone is a ball the next player in line can plant a foot on mid-approach — carry it all the way to the rack.",
+        "radius": 0.45,
+        "to": "ball-rack-socket"
+      },
+      "id": "rack-the-loose-balls-between-reps",
+      "kind": "drag",
+      "prompt": "Carry the stray ball from the landing zone back to the ball rack.",
+      "target": "stray-ball-token",
+      "title": "Rack the loose balls before the next rep",
+      "why": "A finishing line only stays safe if the landing zone is actually clear before the next player drives, and that means racking stray balls as part of the drill's rhythm, not as an afterthought once someone has already rolled an ankle on one."
+    },
+    {
+      "cue": "Step to the side with the player whose footwork needs fixing — a short, calm correction, not called out to the whole line.",
+      "id": "correct-a-fault-with-a-quiet-word",
+      "kind": "select",
+      "prompt": "Step to the side with the player whose footwork needs fixing — a short, calm correction, not called out to the whole line.",
+      "target": "quiet-word-spot",
+      "title": "Correct a footwork fault with a quiet word",
+      "why": "A footwork correction given quietly, one to one, is heard as coaching; the same correction shouted down the line becomes a public moment for a player who was already trying their best. Calm, private and observable correction is the standard safe-sport guidance sets for adults working with young athletes."
+    },
+    {
+      "cue": "Land soft, knees bent, and hold there a moment before jogging back to the line — no rushing straight to the next rep.",
+      "holdBreakNote": "The landing got rushed before it was actually balanced. Hold it a moment longer before moving on.",
+      "id": "hold-a-balanced-landing",
+      "kind": "hold",
+      "prompt": "Land soft, knees bent, and hold there a moment before jogging back to the line — no rushing straight to the next rep.",
+      "seconds": 5,
+      "target": "landing-marker",
+      "title": "Hold a balanced landing after the finish",
+      "why": "A player who lands hard and immediately sprints back to the end of the line never actually practises the part of the footwork that protects their knees and ankles on landing. Holding a balanced landing for a moment, every rep, is what makes soft, controlled landings a habit instead of something only checked once and then forgotten."
+    },
+    {
+      "cue": "Turn the hands dial from strong hand to off hand so every player finishes both ways before the line ends.",
+      "id": "rotate-players-through-both-hands",
+      "kind": "turn",
+      "prompt": "Turn the hands dial from strong hand to off hand so every player finishes both ways before the line ends.",
+      "target": "both-hands-dial",
+      "title": "Turn the rotation dial to the off hand",
+      "turn": {
+        "axis": "y",
+        "label": "OFF HAND",
+        "turns": 0.5
+      },
+      "why": "A player who only ever finishes with their dominant hand is a player a defense can force to one side and take the shot away from entirely. Turning the rotation deliberately to the off hand, every line, is what USA Basketball's youth guidelines mean by building a complete finisher rather than a comfortable one."
+    },
+    {
+      "cue": "Record which faults came up, how the approach speed held, and anything the athletic trainer checked.",
+      "id": "log-the-layup-session",
+      "kind": "select",
+      "prompt": "Record which faults came up, how the approach speed held, and anything the athletic trainer checked.",
+      "target": "practice-log-board",
+      "title": "Log the layup session",
+      "why": "Which footwork faults kept showing up, how the approach speed held under the track and anything the athletic trainer noticed are what the next finishing session needs to build on — a log written at the time is the fairest record for coaching the same fix again next practice."
+    },
+    {
+      "cue": "At the end of the line: anything either of you saw, and is everybody good to move to the next drill?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "At the end of the line: anything either of you saw, and is everybody good to move to the next drill?",
+      "target": "crew-checkin-board",
+      "title": "Check in with the assistant coach and the athletic trainer",
+      "why": "Running a finishing line and watching for both footwork and collisions takes real attention from the adults running it too. A short check-in — what did you see, is anyone worth watching a little closer — keeps the staff working as a team and is exactly the kind of noticing the guide's check-in points to."
+    }
+  ],
+  "supportLine": "your league's coach coordinator, or the assistant and athletic trainer who were running the finishing line with you — a collision under the rim is worth talking through afterwards too",
+  "tagline": "The easiest drill on the practice plan is also the most collision-prone: gather, plant, drive, soft touch, and a controlled approach that keeps the line under the rim from becoming a pile-up",
+  "title": "SmartCiti.X~ Layups and Finishing at the Rim VR",
+  "trade": "Youth basketball coach",
+  "underwater": null,
+  "weather": "clear"
+}

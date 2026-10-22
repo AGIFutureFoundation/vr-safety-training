@@ -1,0 +1,421 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clean-receipt",
+    "name": "Clean Receipt",
+    "note": "A delivery received with every temperature checked, nothing refused going to storage and the log signed clean — first time"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "California Retail Food Code / FDA Food Code §3-202.11 receiving temperatures and §3-202.15 package integrity; California Food Handler card and ServSafe Food Protection Manager; HACCP, which treats receiving as its own critical control point; OSHA 29 CFR 1910.22 walking-working surfaces for the dock apron; NSF/ANSI 2 food equipment; UNITE HERE Local 2 and the Teamsters drivers on the other side of the dock plate",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CalCode",
+        "citedAs": "California Retail Food Code",
+        "id": "calcode-retail-food",
+        "title": "California Retail Food Code (Health and Safety Code Division 104, Part 7) — the FDA Food Code as California adopts it"
+      },
+      {
+        "body": "FDA",
+        "citedAs": "FDA Food Code",
+        "id": "fda-food-code",
+        "title": "FDA Food Code — the model code for retail food establishments"
+      },
+      {
+        "body": "NSF",
+        "citedAs": "NSF/ANSI 2",
+        "id": "nsf-ansi-2",
+        "title": "NSF/ANSI 2 — Food equipment"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.22",
+        "id": "osha-1910-22",
+        "title": "29 CFR 1910.22 — Walking-working surfaces, general requirements"
+      },
+      {
+        "body": "ServSafe",
+        "citedAs": "ServSafe",
+        "id": "servsafe-certification",
+        "title": "ServSafe Food Protection Manager and ServSafe Alcohol certification (National Restaurant Association)"
+      },
+      {
+        "body": "union",
+        "citedAs": "Teamsters",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      },
+      {
+        "body": "union",
+        "citedAs": "UNITE HERE",
+        "id": "unite-here-training",
+        "title": "UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Culinary & Hospitality",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "probe-first",
+        "name": "Probe First",
+        "note": "Thermometer sanitised before it ever touched food, first time"
+      },
+      {
+        "id": "nothing-slipped",
+        "name": "Nothing Slipped",
+        "note": "Never a warm load accepted, never an unsanitised probe, never damage stocked"
+      },
+      {
+        "id": "on-the-limit",
+        "name": "On the Limit",
+        "note": "Every probed reading and the reefer check both inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-delivery",
+        "name": "Clean Delivery",
+        "note": "No corrections anywhere on the receipt"
+      },
+      {
+        "id": "steady-truck",
+        "name": "Steady Through",
+        "note": "Hand truck held a steady pace to cold storage"
+      },
+      {
+        "id": "receive-fast",
+        "name": "Received In Time",
+        "note": "Delivery closed out inside 80% of par"
+      }
+    ],
+    "currency": "DOCK",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Porter",
+      "Receiving Clerk",
+      "Lead Receiver",
+      "Kitchen Supervisor",
+      "Receiving Certified"
+    ],
+    "system": "Receiving Line"
+  },
+  "hazards": {
+    "accept-warm-load": "You waved the truck off without reading the reefer display. A box that has been running warm on the road has already started the delivery in the danger zone, and every minute after that is spent losing ground you cannot get back at the dock.",
+    "damage-ignored": "You put a torn, leaking bag onto the accepted pallet instead of setting it aside. A broken seal is an open invitation to pests and contamination for every hour it sits in storage, and by the time somebody notices it has already touched the cases next to it.",
+    "unsanitized-probe": "You went straight from one case to the next with a probe you never wiped down. A thermometer that just touched raw poultry and then goes into a tub of dairy carries whatever was on that poultry with it — the reading you get back is clean and the food is not.",
+    "wet-apron-crossing": "You wheeled a loaded hand truck straight across the wet, icy apron instead of matting or clearing it first. A dock apron gets wet from every reefer that runs and every case that drips, and OSHA's walking-working-surfaces rule exists because that surface takes people down with a full load in their hands."
+  },
+  "id": "receiving-dock-food",
+  "indoor": "kitchen",
+  "interrupts": [
+    {
+      "after": "sanitize-probe",
+      "alert": "The driver has climbed back into the cab and is revving the engine — he has two more stops and wants the paperwork signed now, before a single temperature is taken.",
+      "cue": "The truck does not leave until the temperatures are in.",
+      "delay": 4,
+      "id": "driver-pressing",
+      "kind": "Driver pressing to leave",
+      "missNote": "You let the truck go before a single reading was taken. Once that trailer pulls off the dock there is no way to prove what temperature this load actually arrived at, and the receiving log for it is now fiction with your name on it.",
+      "seconds": 12,
+      "target": "reefer-display",
+      "why": "A driver's schedule is not a food safety control, and signing before the readings are taken turns the receiving log into a guess with a signature on it. The reefer display is still readable from here — check it before anything else happens.",
+      "wrongNote": "It is the reefer display. Whatever the driver's schedule is, the temperature gets read before the truck does."
+    },
+    {
+      "after": "move-cold",
+      "alert": "A kitchen helper has grabbed the refused case off the dock by mistake and is wheeling it toward the walk-in with everything else.",
+      "cue": "Stop that case before it reaches the walk-in — it does not belong with the accepted load.",
+      "delay": 4,
+      "id": "helper-wheeling-reject",
+      "kind": "Wrong case moving",
+      "missNote": "The refused case went into cold storage with everything else. It now reads, to every cook who opens that door, exactly like every other case on the shelf — the only thing that told anyone it had failed was the refusal log sitting back on the dock.",
+      "seconds": 12,
+      "target": "reject-zone",
+      "why": "A refused case that reaches the walk-in stops being a refusal and starts being inventory: the next cook who opens that door has no way to know it already failed inspection. Catching it here, on the dock, is the last easy chance.",
+      "wrongNote": "It is the reject zone. Redirect that case back to it before the helper reaches the walk-in door."
+    }
+  ],
+  "lateNotes": {
+    "damaged-case": "The reject zone is where this case goes the moment you decide it fails — not the accepted pallet, not the walk-in, and not the truck it came off of.",
+    "hand-truck": "Cold storage is the last stop, not a stop along the way — nothing gets set down between the dock and the walk-in door once it has passed inspection."
+  },
+  "name": "Receiving Dock Food",
+  "parSeconds": 265,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "culinary-kitchen"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.7,
+    "hits": [
+      "accept-warm-load",
+      "clean-case",
+      "dairy-case",
+      "damage-ignored",
+      "damaged-case",
+      "date-check-case",
+      "dock-leveler",
+      "frozen-case",
+      "hand-truck",
+      "hot-soup-case",
+      "invoice-board",
+      "pest-sign",
+      "ratchet-strap",
+      "receiving-log-sign",
+      "reefer-display",
+      "refusal-clipboard",
+      "reject-zone",
+      "sani-wipe",
+      "torn-bag",
+      "truck-doors",
+      "unsanitized-probe",
+      "wet-apron-crossing"
+    ],
+    "meshes": 159
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Compare the delivery invoice to today's purchase order before the truck is unloaded.",
+      "id": "invoice",
+      "kind": "select",
+      "prompt": "Compare the delivery invoice to today's purchase order before the truck is unloaded.",
+      "target": "invoice-board",
+      "title": "Check the invoice against the order",
+      "why": "The invoice is the only record of what was supposed to arrive, at what count and at what price. Catching a shortage or a substitution here is a phone call; catching it after the truck has left is a credit dispute nobody can prove."
+    },
+    {
+      "cue": "Read the truck's own reefer temperature through the window and commit once it shows the box has held cold.",
+      "gauge": {
+        "green": [
+          0.06,
+          0.3
+        ],
+        "label": "REEFER BOX TEMP",
+        "missNote": "Reefer is reading warm — do not break the seal on this load yet; get it re-checked before anything comes off the truck.",
+        "speed": 0.65
+      },
+      "id": "reefer-check",
+      "kind": "gauge",
+      "prompt": "Read the truck's own reefer temperature through the window and commit once it shows the box has held cold.",
+      "target": "reefer-display",
+      "title": "Read the truck's reefer display",
+      "why": "The reefer display is the truck's own record of the whole trip, not just the last five minutes at your dock. A box that shows warm before the door is even open has already failed the delivery, whatever the first case you probe happens to read."
+    },
+    {
+      "cue": "Open the truck doors, then bridge the gap with the dock leveler — in that order.",
+      "id": "open-dock",
+      "itemNames": {
+        "dock-leveler": "dock leveler",
+        "truck-doors": "truck doors"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — the doors open first so you can see the load, then the leveler bridges the gap you can now see.",
+      "prompt": "Open the truck doors, then bridge the gap with the dock leveler — in that order.",
+      "targets": [
+        "truck-doors",
+        "dock-leveler"
+      ],
+      "title": "Open the truck and bridge the dock",
+      "why": "The doors open onto a load that has been sealed and refrigerated for hours; the leveler bridges the gap only once you can see what you are bridging it onto. Dropping the leveler onto closed doors tells you nothing about the load behind them."
+    },
+    {
+      "cue": "Wipe the thermometer probe down and hold it through its contact time before it touches any food.",
+      "holdBreakNote": "You pulled the wipe away early. Hold it the full contact time — a fast wipe moves the soil around instead of killing what is on the tip.",
+      "id": "sanitize-probe",
+      "kind": "hold",
+      "prompt": "Wipe the thermometer probe down and hold it through its contact time before it touches any food.",
+      "seconds": 4,
+      "target": "sani-wipe",
+      "title": "Sanitise the probe",
+      "why": "The probe goes into a dozen different cases in the next few minutes, and a sanitiser only earns its claim over its full contact time. A probe wiped and immediately used is a probe that was never actually sanitised."
+    },
+    {
+      "cue": "Probe between two cartons in the dairy case and commit once the reading is at or below the limit.",
+      "gauge": {
+        "green": [
+          0.08,
+          0.32
+        ],
+        "label": "DAIRY — INTERNAL TEMP",
+        "missNote": "Above 41 °F — this case is refused, not re-tested until it happens to pass.",
+        "speed": 0.65
+      },
+      "id": "probe-dairy",
+      "kind": "gauge",
+      "prompt": "Probe between two cartons in the dairy case and commit once the reading is at or below the limit.",
+      "target": "dairy-case",
+      "title": "Probe the dairy case",
+      "why": "41 °F or below is the Food Code's own line for a cold time/temperature-control-for-safety delivery. Between two cartons is where the load is warmest, not the outside of the case where the truck's air has been blowing on it the whole trip."
+    },
+    {
+      "cue": "Two things on this pallet are not sound. Find them before anything is accepted.",
+      "decoyNotes": {
+        "clean-case": "This case is intact: sealed, dry, no marks. Leave it."
+      },
+      "id": "packaging-check",
+      "itemNames": {
+        "pest-sign": "gnaw marks on the carton",
+        "torn-bag": "the torn flour sack"
+      },
+      "itemNotes": {
+        "pest-sign": "Gnaw marks at the corner of this carton. That is evidence of a pest getting into product before it ever reached your dock, and the carton — not just the item it touched — gets refused.",
+        "torn-bag": "A torn seal on a dry-goods sack. Once that seal is broken the contents are exposed for the rest of this delivery's trip through your kitchen, not just for the ride here."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things on this pallet are not sound. Find them before anything is accepted.",
+      "targets": [
+        "torn-bag",
+        "pest-sign"
+      ],
+      "title": "Walk the pallet for damage and pests",
+      "why": "Packaging is checked with your hands and your eyes on every case, not sampled on a few. A pest sign on one carton is a reason to look harder at the rest of the load, not a reason to set that one carton aside and move on."
+    },
+    {
+      "cue": "Probe the frozen case and commit once the reading confirms it is frozen solid.",
+      "gauge": {
+        "green": [
+          0.72,
+          0.94
+        ],
+        "label": "FROZEN — INTERNAL TEMP",
+        "missNote": "Not frozen solid — soft spots mean it thawed in transit. Refuse it rather than guess how far it got.",
+        "speed": 0.6
+      },
+      "id": "probe-frozen",
+      "kind": "gauge",
+      "prompt": "Probe the frozen case and commit once the reading confirms it is frozen solid.",
+      "target": "frozen-case",
+      "title": "Probe the frozen case",
+      "why": "Frozen product is accepted frozen solid, not merely cold — any sign of thawing and refreezing means ice crystals have already reformed larger, which is what a thaw-and-refreeze cycle does to texture and to the pathogen load both."
+    },
+    {
+      "cue": "Check the use-by date on the case closest to its limit.",
+      "id": "date-check",
+      "kind": "select",
+      "prompt": "Check the use-by date on the case closest to its limit.",
+      "target": "date-check-case",
+      "title": "Check the use-by date",
+      "why": "A delivery arriving within a day or two of its own use-by date leaves your kitchen almost no shelf life to work with. That is a supplier problem to flag today, not a surprise your line cooks find on their own next week."
+    },
+    {
+      "cue": "Probe the hot soup delivery and commit once the reading holds at or above the limit.",
+      "gauge": {
+        "green": [
+          0.68,
+          0.92
+        ],
+        "label": "HOT DELIVERY — TEMP",
+        "missNote": "Below 135 °F — refuse it. Reheating a receiving failure at the stove does not undo the time it already spent cooling.",
+        "speed": 0.65
+      },
+      "id": "probe-hot",
+      "kind": "gauge",
+      "prompt": "Probe the hot soup delivery and commit once the reading holds at or above the limit.",
+      "target": "hot-soup-case",
+      "title": "Probe the hot delivery",
+      "why": "Hot-held product arrives hot, full stop. 135 °F is the floor the Food Code sets for holding, not a target to be somewhere near — anything colder has already spent time sliding through the danger zone on the way to your dock."
+    },
+    {
+      "cue": "Pull the case that failed and move it to the reject zone.",
+      "drag": {
+        "missNote": "Not in the reject zone — a failed case anywhere else on the dock is one more thing somebody has to remember not to stock.",
+        "radius": 0.45,
+        "to": "reject-zone"
+      },
+      "id": "refuse-item",
+      "kind": "drag",
+      "prompt": "Pull the case that failed and move it to the reject zone.",
+      "target": "damaged-case",
+      "title": "Refuse the failed case",
+      "why": "A refused case leaves the delivery physically, right away — set beside the accepted pallet, it is one distracted moment away from going to storage with everything else."
+    },
+    {
+      "cue": "Write the item, the reason and the quantity refused on the refusal log.",
+      "id": "refusal-log",
+      "kind": "select",
+      "prompt": "Write the item, the reason and the quantity refused on the refusal log.",
+      "target": "refusal-clipboard",
+      "title": "Log the refusal",
+      "why": "The refusal log is what gets you a credit from the supplier and what tells the next shift why a case that was on the invoice never made it to the shelf. Without it, a refusal is just missing inventory nobody can explain."
+    },
+    {
+      "cue": "Ratchet the strap down over the stacked accepted cases before you move them.",
+      "id": "secure-load",
+      "kind": "turn",
+      "prompt": "Ratchet the strap down over the stacked accepted cases before you move them.",
+      "target": "ratchet-strap",
+      "title": "Strap the hand truck's load",
+      "turn": {
+        "axis": "z",
+        "label": "LOAD STRAP",
+        "turns": 1
+      },
+      "why": "A stack that shifts on a hand truck comes down on whoever is pushing it, not on the floor first. The strap is what turns a stack of separate cases into one load that moves the way you point it."
+    },
+    {
+      "cue": "Hold a steady pace across the dock and straight into cold storage — no stops along the way.",
+      "holdBreakNote": "Speed out of band — settle the hand truck and hold a steady pace the rest of the way.",
+      "id": "move-cold",
+      "kind": "track",
+      "prompt": "Hold a steady pace across the dock and straight into cold storage — no stops along the way.",
+      "seconds": 6,
+      "target": "hand-truck",
+      "title": "Move the load to cold storage",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "HAND TRUCK SPEED",
+        "rise": 0.55,
+        "start": 0.1
+      },
+      "why": "The Food Code's own receiving window assumes accepted cold product goes straight to refrigeration, not onto a prep table 'for a minute' on the way. Every stop between the dock and the walk-in door spends time that window does not have to give."
+    },
+    {
+      "cue": "Sign the receiving log to close out the delivery.",
+      "id": "sign-log",
+      "kind": "select",
+      "prompt": "Sign the receiving log to close out the delivery.",
+      "target": "receiving-log-sign",
+      "title": "Sign the receiving log",
+      "why": "A signature is the clerk taking responsibility for every reading on this delivery — what was accepted, what was refused and why. It is the line an inspector or a manager reads when something about this delivery is questioned weeks later."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A delivery at the kitchen dock: invoice against the order, the truck's reefer read before the door opens, every cold and frozen item probed and refused outside the limit, packaging and dates checked, refusals logged, goods moved to cold storage in the window, and the log signed",
+  "title": "SmartCiti.X~ Receiving Dock Food VR",
+  "trade": "Receiving clerk / kitchen worker — food deliveries",
+  "underwater": null,
+  "weather": null
+}

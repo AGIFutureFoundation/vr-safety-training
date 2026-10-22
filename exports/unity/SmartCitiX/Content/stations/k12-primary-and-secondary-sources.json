@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "source-checked",
+    "name": "Source Checked",
+    "note": "A primary and a secondary source read against each other, with every claim traced to evidence"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "SOURCES",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Reader",
+      "Questioner",
+      "Researcher",
+      "Historian",
+      "Archivist"
+    ],
+    "system": "Archive Board"
+  },
+  "hazards": {
+    "copy-the-textbook-claim": "You copied the secondary account's claim straight into your answer. A secondary source is someone else's interpretation, and a good historian checks its claims against the primary evidence it rests on; when you cannot find that evidence, you say so rather than repeat the claim.",
+    "fill-the-gap-with-a-guess": "You filled the gap in the diary with what probably happened and wrote it as fact. When the evidence runs out, a historian says the evidence runs out; a guess written as fact is invention, and it is how false stories about the past get started.",
+    "handle-without-washing": "You picked up the fragile papers without clean, dry hands. Archive papers are damaged by grease and moisture, which is why archivists ask for clean hands and a support under the page; the archive's own rules protect the evidence for every class that comes after yours.",
+    "trust-it-because-it-is-old": "You accepted the letter as true because it is old. Age makes a source a primary source, not a reliable one: the writer may have been mistaken, may have wanted to persuade someone, or may have seen only part of what happened. Every source, old or new, is questioned for who made it and why."
+  },
+  "id": "k12-primary-and-secondary-sources",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "read-the-letter-slowly-line-by",
+      "alert": "A classmate lifts a fragile page by one corner and it starts to tear.",
+      "cue": "Tell them to stop, lay the page flat on its support, and call the archivist.",
+      "delay": 3,
+      "id": "a-page-starts-to-tear",
+      "kind": "Fragile page",
+      "missNote": "Nobody stopped them, and the page tore across the date line — the one detail the lesson needed.",
+      "seconds": 12,
+      "target": "kps-support-the-page",
+      "why": "A tear in an archive document is permanent damage to evidence that exists nowhere else. Stopping, laying the page flat on its support and calling the archivist, who knows how to handle it, protects the source for every reader who comes after this class.",
+      "wrongNote": "That does not protect the page. Stop, lay it flat and call the archivist."
+    },
+    {
+      "after": "keep-the-argument-balanced-as-you",
+      "alert": "The teacher points to a sentence in your notes and asks how you know it.",
+      "cue": "Name the source the claim comes from, or say plainly that you do not yet have one.",
+      "delay": 3,
+      "id": "the-teacher-asks-how-you-know",
+      "kind": "Teacher question",
+      "missNote": "You had no source and defended the claim anyway, so it stayed in your notes as if it were fact.",
+      "seconds": 12,
+      "target": "kps-name-the-source",
+      "why": "How do you know is the historian's question. Naming the source behind a claim, or admitting that there is not one yet, shows you understand that history is built from evidence rather than from what sounds right.",
+      "wrongNote": "That does not name a source. Say where the claim comes from, or that you do not know yet."
+    }
+  ],
+  "lateNotes": {
+    "kps-checkin": "The check-in comes at the very end of the lesson.",
+    "kps-research-log": "The research log is written once the claims are traced — nothing to record yet."
+  },
+  "name": "Primary and Secondary Sources",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-history-and-civics"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "copy-the-textbook-claim",
+      "fill-the-gap-with-a-guess",
+      "handle-without-washing",
+      "kps-balance-meter",
+      "kps-certainty-meter",
+      "kps-checkin",
+      "kps-claim-token",
+      "kps-clean-hands",
+      "kps-ess-book-as-witness",
+      "kps-ess-guess-fact",
+      "kps-ess-no-source",
+      "kps-ess-question",
+      "kps-evidence-spot",
+      "kps-gap-card",
+      "kps-later-book",
+      "kps-lens-dial",
+      "kps-letter",
+      "kps-name-the-source",
+      "kps-notice",
+      "kps-ord-when",
+      "kps-ord-who",
+      "kps-ord-whom",
+      "kps-ord-why",
+      "kps-photo",
+      "kps-read-slowly",
+      "kps-research-log",
+      "kps-share-board",
+      "kps-support-the-page",
+      "trust-it-because-it-is-old"
+    ],
+    "meshes": 275
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark each item on the table that was made at the time of the events — the primary sources.",
+      "decoyNotes": {
+        "kps-later-book": "Written later, about the events. That is a secondary source — set it aside for now."
+      },
+      "id": "sort-what-is-on-the-table",
+      "itemNames": {
+        "kps-letter": "a letter written at the time",
+        "kps-notice": "a notice posted at the time",
+        "kps-photo": "a photograph taken at the time"
+      },
+      "itemNotes": {
+        "kps-letter": "Made by someone who was there, at the time. Primary — but still a point of view.",
+        "kps-notice": "An official notice from the time. Primary, and written for a purpose.",
+        "kps-photo": "A photograph is primary, but someone chose what to put in the frame."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark each item on the table that was made at the time of the events — the primary sources.",
+      "targets": [
+        "kps-letter",
+        "kps-notice",
+        "kps-photo"
+      ],
+      "title": "Sort what is on the table",
+      "why": "The first question a historian asks of any item is when it was made and by whom. A letter written at the time, a notice posted at the time and a photograph taken at the time are primary sources; a book written later about those events is secondary. Everything on this table belongs to the lesson's own fictional archive, labelled as such, so the method can be practised without any real claim being made."
+    },
+    {
+      "cue": "Clean, dry hands, and a support under every page before you touch anything.",
+      "id": "follow-the-archive-s-handling-rules",
+      "kind": "select",
+      "prompt": "Clean, dry hands, and a support under every page before you touch anything.",
+      "target": "kps-clean-hands",
+      "title": "Follow the archive's handling rules",
+      "why": "An archive exists so that evidence survives for every reader who comes later. Following its handling rules, clean dry hands and a support under fragile pages, is part of the historian's method, not a separate rule: damaged evidence cannot be checked again, and history depends on evidence that can be checked."
+    },
+    {
+      "cue": "Who made it, when, why, and for whom.",
+      "id": "question-the-source-in-order",
+      "itemNames": {
+        "kps-ord-when": "2 · when",
+        "kps-ord-who": "1 · who made it",
+        "kps-ord-whom": "4 · for whom",
+        "kps-ord-why": "3 · why"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Start with who made it — you cannot judge why until you know who.",
+      "prompt": "Who made it, when, why, and for whom.",
+      "targets": [
+        "kps-ord-who",
+        "kps-ord-when",
+        "kps-ord-why",
+        "kps-ord-whom"
+      ],
+      "title": "Question the source in order",
+      "why": "Asking who made a source, when, why and for whom tells you what kind of evidence it is before you trust what it says. A letter to a friend and a notice to the public can describe the same day very differently. Asking in this order, author first and audience last, builds a picture of the source's purpose, which is the thing most likely to shape what it leaves out."
+    },
+    {
+      "cue": "Hold your place and read the whole letter before you decide anything about it.",
+      "holdBreakNote": "You stopped reading and jumped to a conclusion. Go back and read the whole letter first.",
+      "id": "read-the-letter-slowly-line-by",
+      "kind": "hold",
+      "prompt": "Hold your place and read the whole letter before you decide anything about it.",
+      "seconds": 6,
+      "target": "kps-read-slowly",
+      "title": "Read the letter slowly, line by line",
+      "why": "Reading a source all the way through before judging it stops you seizing on the first line that fits what you expected. Historians read slowly because the detail that changes the meaning is often late in a document: a date, a condition, a sentence that undercuts the rest."
+    },
+    {
+      "cue": "The diary has a missing page. Say what the evidence cannot tell us.",
+      "id": "say-where-the-evidence-runs-out",
+      "kind": "select",
+      "prompt": "The diary has a missing page. Say what the evidence cannot tell us.",
+      "target": "kps-gap-card",
+      "title": "Say where the evidence runs out",
+      "why": "Saying where the evidence runs out is honest history, and it is often the most useful thing a historian writes. A missing page is a question for further research, not a space to fill with a likely story; naming the gap tells the next researcher exactly where to look."
+    },
+    {
+      "cue": "Look at the draft essay and mark each problem before it is handed in.",
+      "decoyNotes": {
+        "kps-ess-question": "Naming an open question is good history. Keep it."
+      },
+      "id": "spot-the-problems-in-a-classmate",
+      "itemNames": {
+        "kps-ess-book-as-witness": "the book quoted as if it were there",
+        "kps-ess-guess-fact": "a guess written as fact",
+        "kps-ess-no-source": "a claim with no source"
+      },
+      "itemNotes": {
+        "kps-ess-book-as-witness": "The book was written later. It is an interpretation, not a witness.",
+        "kps-ess-guess-fact": "Where the evidence stops, say so. A guess must be labelled as one.",
+        "kps-ess-no-source": "Every claim needs evidence behind it. Where is it from?"
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the draft essay and mark each problem before it is handed in.",
+      "targets": [
+        "kps-ess-no-source",
+        "kps-ess-book-as-witness",
+        "kps-ess-guess-fact"
+      ],
+      "title": "Spot the problems in a classmate's essay",
+      "why": "A history essay makes claims and backs each with evidence. The usual problems are a claim with no source, a secondary account treated as if it were a witness, and a guess written as fact. Spotting them in someone else's draft is how you learn to see them in your own, and it is exactly what a teacher will look for."
+    },
+    {
+      "cue": "Now turn the lens from the letter to the later book that tells the same story.",
+      "id": "turn-from-the-primary-to-the",
+      "kind": "turn",
+      "prompt": "Now turn the lens from the letter to the later book that tells the same story.",
+      "target": "kps-lens-dial",
+      "title": "Turn from the primary to the secondary source",
+      "turn": {
+        "axis": "y",
+        "label": "SECONDARY",
+        "turns": 0.5
+      },
+      "why": "Once you know what the primary source says, you can read the secondary account critically: which evidence it uses, where it agrees with the letter, and where it goes further than the letter can support. Turning deliberately from one to the other is the core skill of this lesson, and of history."
+    },
+    {
+      "cue": "Commit when your certainty matches the evidence: supported by the letter, but not proven by it alone.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "CERTAINTY",
+        "missNote": "Outside the band. Too sure and one letter is doing too much; too doubtful and you ignore real evidence. Weigh it again.",
+        "speed": 0.6
+      },
+      "id": "judge-how-certain-the-book-s",
+      "kind": "gauge",
+      "prompt": "Commit when your certainty matches the evidence: supported by the letter, but not proven by it alone.",
+      "target": "kps-certainty-meter",
+      "title": "Judge how certain the book's claim is",
+      "why": "Historians rarely say certainly or never; they say how strongly the evidence supports a claim. One letter agreeing with a book makes a claim more likely, not proven, because a single witness can be wrong. Judging certainty to match the evidence is what separates careful history from a confident story."
+    },
+    {
+      "cue": "Drag the book's main claim onto the primary source that supports it.",
+      "drag": {
+        "missNote": "The claim is not linked to its evidence yet. Put it beside the source that supports it.",
+        "radius": 0.45,
+        "to": "kps-evidence-spot"
+      },
+      "id": "link-the-claim-to-its-evidence",
+      "kind": "drag",
+      "prompt": "Drag the book's main claim onto the primary source that supports it.",
+      "target": "kps-claim-token",
+      "title": "Link the claim to its evidence",
+      "why": "Tracing a claim to the evidence behind it is how historians check each other's work. Placing the book's claim beside the letter that supports it shows the reader exactly where the claim comes from, and it reveals at once any claim with nothing beneath it, which is the claim to be most careful about."
+    },
+    {
+      "cue": "Hold your conclusion in band — weighing both sources, not leaning on one.",
+      "holdBreakNote": "The argument tipped to one side. Bring the other source back in before you conclude.",
+      "id": "keep-the-argument-balanced-as-you",
+      "kind": "track",
+      "prompt": "Hold your conclusion in band — weighing both sources, not leaning on one.",
+      "seconds": 8,
+      "target": "kps-balance-meter",
+      "title": "Keep the argument balanced as you write",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "BALANCE",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "A balanced argument gives each source its due weight: what the letter shows, what the book adds and where they differ. Leaning on one source because it says what you hoped is the easiest trap in history, and holding the balance while you write is what makes the conclusion trustworthy."
+    },
+    {
+      "cue": "Write down each source, which claim it supports, and where the evidence runs out.",
+      "id": "record-the-sources-the-links-and",
+      "kind": "select",
+      "prompt": "Write down each source, which claim it supports, and where the evidence runs out.",
+      "target": "kps-research-log",
+      "title": "Record the sources, the links and the gaps",
+      "why": "A research log lets anyone follow your reasoning back to the sources and check it for themselves. Recording the gaps as carefully as the findings tells the next researcher where the questions are, which is how historical knowledge actually grows: by one careful reader building on another."
+    },
+    {
+      "cue": "Explain how you traced the book's claim to the letter and where the evidence ran out.",
+      "id": "show-the-class-how-you-checked",
+      "kind": "select",
+      "prompt": "Explain how you traced the book's claim to the letter and where the evidence ran out.",
+      "target": "kps-share-board",
+      "title": "Show the class how you checked the claim",
+      "why": "Showing classmates how a claim was traced to its evidence teaches the method, not just the answer, and it lets them test your reading against theirs. Historians publish their sources for exactly this reason: so that anyone can check the claim."
+    },
+    {
+      "cue": "How did that go? What was difficult about questioning a source?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "How did that go? What was difficult about questioning a source?",
+      "target": "kps-checkin",
+      "title": "Check in at the end of the lesson",
+      "why": "A short check-in lets the teacher hear what made sense and what did not, and it gives each learner a moment to name one question they still have. Nobody is graded here, and a teacher or trusted adult is there for anyone who wants to talk more."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Ask who made it, when, why and for whom — then check the story against the evidence",
+  "title": "SmartCiti.X~ Primary and Secondary Sources VR",
+  "trade": "History class in the community archive room — learner and archivist",
+  "underwater": null,
+  "weather": "clear"
+}

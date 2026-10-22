@@ -1,0 +1,380 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "escalator-proven",
+    "name": "Escalator Proven",
+    "note": "Step chain, comb plate and every safety switch proven before the barricades came down"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "IUEC elevator constructors; NEIEP apprenticeship curriculum for escalator maintenance; ASME A17.1 the safety code for elevators and escalators, whose escalator step, comb plate and safety-device provisions this station follows; OSHA 29 CFR 1910.147 control of hazardous energy for the drive machine isolation",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASME",
+        "citedAs": "ASME A17.1",
+        "id": "asme-a17-1",
+        "title": "ASME A17.1 — Safety Code for Elevators and Escalators"
+      },
+      {
+        "body": "union",
+        "citedAs": "NEIEP",
+        "id": "neiep-training",
+        "title": "IUEC and the National Elevator Industry Educational Program (NEIEP) — elevator constructor apprenticeship and continuing education, taught to the National Elevator Industry Educational Program curriculum"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "isolated-first",
+        "name": "Isolated First",
+        "note": "Never worked the step band before the drive was isolated and locked"
+      },
+      {
+        "id": "true-mesh",
+        "name": "True Mesh",
+        "note": "Held chain tension, skirt clearance and handrail speed all near band centre"
+      },
+      {
+        "id": "clean-restore",
+        "name": "Clean Restore",
+        "note": "Restored in the correct order, no correction"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "no-callback",
+        "name": "No Callback",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "switch-tests-clean",
+        "name": "Switch Tests Clean",
+        "note": "Every safety switch test answered without a correction"
+      },
+      {
+        "id": "escalator-fast",
+        "name": "Escalator Fast",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "MESH",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Helper",
+      "Escalator Mechanic",
+      "Adjuster",
+      "Lead Mechanic",
+      "Comb Plate Authority Certified"
+    ],
+    "system": "Comb Plate Authority"
+  },
+  "hazards": {
+    "comb-plate-entrapment": "You tested the comb plate switch with your fingers in the meshing line instead of a test object. The comb teeth are built to mesh with the step's own cleats at a fine tolerance, and that same tolerance is exactly what makes it an entrapment point for anything thinner than a step tread — a shoelace, a glove, a finger.",
+    "handrail-pinch-point": "You reached into the handrail's entry point at the newel while it was still capable of moving. That is the one place on the handrail loop where the belt disappears into the balustrade, and a hand that follows it in does not come back out at newel speed.",
+    "skirt-panel-gap": "You put a hand into the gap between the step and the skirt panel while checking clearance. That gap is supposed to be too narrow for anything to enter it while the step is moving, and a hand that finds a wider spot than it should has found the exact defect this inspection exists to catch — from the inspector's own hand, if the switch it should be testing is bypassed instead.",
+    "step-chain-pinch": "You reached toward the step chain and sprocket before the drive was proven dead. The chain runs at a shear point between the sprocket teeth and the chain itself, and that point does not care whether the reason a hand is there is curiosity or a wrench that slipped."
+  },
+  "id": "ew-escalator-step-chain-and-comb-plate",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "comb-inspect",
+      "alert": "A passenger has just stepped over the barricade at the bottom landing and is walking toward the stalled step band.",
+      "cue": "Get to the barricade before they reach the steps.",
+      "delay": 4,
+      "id": "passenger-climbs-barricade",
+      "kind": "Barricade breached",
+      "missNote": "The passenger reached the steps with the barricade left open behind them. A stalled unit gives no visible sign of the isolation holding it there, and a passenger standing on it has no way to know what is happening underneath.",
+      "seconds": 12,
+      "target": "top-barricade",
+      "why": "A stalled escalator with its barricades breached is a passenger about to stand on a step band with a mechanic's hands somewhere in the chain below it — the barricade gets re-secured, and the passenger turned back, before anything about the inspection continues.",
+      "wrongNote": "It is the barricade. Whoever just walked past it needs to be stopped before they reach the steps."
+    },
+    {
+      "after": "chain-tension",
+      "alert": "A second mechanic has arrived to help and is reaching for the main disconnect to restore power early.",
+      "cue": "Stop them — the chain and comb work is not finished.",
+      "delay": 4,
+      "id": "second-mechanic-restart",
+      "kind": "Disconnect interfered with",
+      "missNote": "The disconnect started to close with the step chain work still underway. Good intentions from a second mechanic are not a substitute for both of you agreeing, out loud, that this unit is actually ready for power.",
+      "seconds": 11,
+      "target": "main-disconnect",
+      "why": "Two mechanics on one job means two people who can each be sure the other one has finished — which is exactly how a disconnect gets closed while a hand is still in the step chain. It gets stopped here, with a word, not discovered after the fact.",
+      "wrongNote": "It is the main disconnect. Whatever help is arriving, this unit is not ready for power yet."
+    }
+  ],
+  "lateNotes": {
+    "comb-impact-switch": "The comb switch is only tested with a proper test object, once the chain and skirt readings are already logged.",
+    "step-chain-tension": "Chain tension is only measured once the drive is proven dead and the step band is not moving."
+  },
+  "name": "Escalator Step Chain and Comb Plate",
+  "parSeconds": 260,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "elevator-constructors"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "chain-lube-point",
+      "comb-impact-switch",
+      "comb-plate-entrapment",
+      "cracked-comb-tooth",
+      "drive-meter",
+      "escalator-log",
+      "escalator-permit",
+      "handrail-pinch-point",
+      "handrail-speed",
+      "job-ticket",
+      "lockout-hasp",
+      "main-disconnect",
+      "missing-cleat",
+      "oil-can",
+      "skirt-clearance",
+      "skirt-obstruction-switch",
+      "skirt-panel-gap",
+      "step-chain-pinch",
+      "step-chain-tension",
+      "top-barricade",
+      "worn-skirt-brush"
+    ],
+    "meshes": 183
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the job ticket and confirm which unit this service call is for.",
+      "id": "checkin",
+      "kind": "select",
+      "prompt": "Read the job ticket and confirm which unit this service call is for.",
+      "target": "job-ticket",
+      "title": "Check in at the escalator",
+      "why": "A concourse can run two or three escalators side by side, and the ticket names the specific unit — up or down run, the landing it serves — before a lock goes on any disconnect, so the unit taken out of service is the one actually due."
+    },
+    {
+      "cue": "Read the work order and confirm barricades are up at the top and bottom landings before the drive is touched.",
+      "id": "permit",
+      "kind": "select",
+      "prompt": "Read the work order and confirm barricades are up at the top and bottom landings before the drive is touched.",
+      "target": "escalator-permit",
+      "title": "Barricade both landings",
+      "why": "An escalator with people still able to step onto it is an escalator this job cannot safely isolate — the barricades go up at both ends first, because a passenger who starts up a stalled unit while a mechanic is at the step chain has no way of knowing what they have just stepped onto."
+    },
+    {
+      "cue": "Pull the escalator drive's main disconnect handle firmly to its open stop.",
+      "id": "disconnect",
+      "kind": "turn",
+      "prompt": "Pull the escalator drive's main disconnect handle firmly to its open stop.",
+      "target": "main-disconnect",
+      "title": "Open the drive machine disconnect",
+      "turn": {
+        "axis": "z",
+        "label": "DRIVE DISCONNECT",
+        "reverse": true,
+        "turns": 0.2
+      },
+      "why": "The disconnect is pulled fully open rather than eased over, because a switch left between positions can leave the drive motor able to creep — and a step band that creeps while a mechanic is reaching into the chain is the exact failure this isolation exists to prevent."
+    },
+    {
+      "cue": "Apply your padlock and tag to the disconnect before touching the step band.",
+      "id": "lock",
+      "kind": "select",
+      "prompt": "Apply your padlock and tag to the disconnect before touching the step band.",
+      "target": "lockout-hasp",
+      "title": "Lock and tag the disconnect",
+      "why": "The chain and comb work ahead of this step both put hands inside a mechanism built to mesh things together at speed, and the lock is what keeps that mechanism from being anyone else's to restart while those hands are in it."
+    },
+    {
+      "cue": "Meter the drive motor's input and commit when it reads dead.",
+      "gauge": {
+        "green": [
+          0,
+          0.08
+        ],
+        "label": "DRIVE INPUT — VOLTAGE",
+        "missNote": "Still reading live. Recheck the disconnect before the step band is touched.",
+        "speed": 0.6
+      },
+      "id": "verify-zero",
+      "kind": "gauge",
+      "prompt": "Meter the drive motor's input and commit when it reads dead.",
+      "target": "drive-meter",
+      "title": "Verify zero energy at the drive",
+      "why": "A locked disconnect describes the switch; the meter is the only proof about the motor itself, read live-dead-live so a blown fuse in the meter cannot hand back a comfortable false dead before anyone's hands go near the chain."
+    },
+    {
+      "cue": "Look over the comb teeth, the skirt brushes and a few steps. Three things need fixing before this unit is tested.",
+      "id": "comb-inspect",
+      "itemNames": {
+        "cracked-comb-tooth": "a cracked comb plate tooth",
+        "missing-cleat": "a step with a missing cleat",
+        "worn-skirt-brush": "a worn skirt brush"
+      },
+      "itemNotes": {
+        "cracked-comb-tooth": "A cracked comb tooth can shed a fragment into the mechanism below it, and a comb plate missing teeth stops doing the one thing it is there for — clearing debris out of the mesh point before it gets carried under with a passenger's foot.",
+        "missing-cleat": "A step with a missing cleat cannot mesh correctly with the comb plate no matter how well that comb plate is adjusted — the fault has to be found on the step, not chased on the comb.",
+        "worn-skirt-brush": "A worn skirt brush stops discouraging feet and loose clothing away from the skirt panel gap, which is exactly the gap this service is about to measure and prove is not an entrapment risk on its own."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the comb teeth, the skirt brushes and a few steps. Three things need fixing before this unit is tested.",
+      "targets": [
+        "cracked-comb-tooth",
+        "worn-skirt-brush",
+        "missing-cleat"
+      ],
+      "title": "Walk the step band before running anything",
+      "why": "A stalled step band is inspected the same way a hoistway is — a careful look while nothing is moving, because half of what matters here disappears from view the moment the unit is running again."
+    },
+    {
+      "cue": "Set the tension gauge on the step chain and commit the reading inside the manufacturer's band.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "CHAIN TENSION",
+        "missNote": "Outside the rated band. Adjust the take-up and measure again before this unit runs.",
+        "speed": 0.6
+      },
+      "id": "chain-tension",
+      "kind": "gauge",
+      "prompt": "Set the tension gauge on the step chain and commit the reading inside the manufacturer's band.",
+      "target": "step-chain-tension",
+      "title": "Measure the step chain tension",
+      "why": "A chain too slack rides rough over the sprockets and can jump teeth under load; a chain over-tensioned wears its own pins and bushings faster than the schedule accounts for. Neither fault is visible standing still — it is read off the gauge against the number the manufacturer rated this chain to."
+    },
+    {
+      "cue": "Set the feeler gauge in the skirt-to-step gap and commit the reading inside spec.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "SKIRT CLEARANCE",
+        "missNote": "Outside spec. Adjust the skirt panel and measure again before this unit is trusted with passengers against it.",
+        "speed": 0.55
+      },
+      "id": "skirt-gap",
+      "kind": "gauge",
+      "prompt": "Set the feeler gauge in the skirt-to-step gap and commit the reading inside spec.",
+      "target": "skirt-clearance",
+      "title": "Measure the skirt-to-step clearance",
+      "why": "The gap between a moving step and the fixed skirt panel beside it is the whole of what stands between a shoe and an entrapment, and it is measured with a gauge against a number, not judged by whether a shoe happens to fit through it comfortably today."
+    },
+    {
+      "cue": "Press a test object against the comb plate and confirm the impact switch trips the drive.",
+      "id": "comb-switch-test",
+      "kind": "select",
+      "prompt": "Press a test object against the comb plate and confirm the impact switch trips the drive.",
+      "target": "comb-impact-switch",
+      "title": "Test the comb impact switch",
+      "why": "The comb switch is what stops this unit the instant something meets the comb plate that should not be there, and it is proven with an actual test object pressed against it — not assumed to work because the comb looks undamaged sitting still."
+    },
+    {
+      "cue": "Press the skirt panel's test point and confirm the obstruction switch trips the drive.",
+      "id": "skirt-switch-test",
+      "kind": "select",
+      "prompt": "Press the skirt panel's test point and confirm the obstruction switch trips the drive.",
+      "target": "skirt-obstruction-switch",
+      "title": "Test the skirt obstruction switch",
+      "why": "This switch is the skirt panel's own version of the comb switch — it stops the unit the moment something presses against the skirt hard enough to suggest an entrapment starting, and it only earns trust from an actual trip, tested today."
+    },
+    {
+      "cue": "Run the drive on test and commit the handrail speed reading against the step band's own speed.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.56
+        ],
+        "label": "HANDRAIL SYNC",
+        "missNote": "Out of sync. Adjust the handrail drive and measure again before this unit is signed off.",
+        "speed": 0.55
+      },
+      "id": "handrail-sync",
+      "kind": "gauge",
+      "prompt": "Run the drive on test and commit the handrail speed reading against the step band's own speed.",
+      "target": "handrail-speed",
+      "title": "Check handrail-to-step speed synchronization",
+      "why": "A handrail running faster or slower than the steps beneath it is a small, constant drag on every passenger's hand for the whole ride, and it is exactly the kind of fault that a rider notices and a mechanic standing at the landing does not — unless it is actually measured against the step speed."
+    },
+    {
+      "cue": "Carry the chain oil to the lubrication point and apply it along the chain.",
+      "drag": {
+        "missNote": "Not at the lubrication point. Oil applied anywhere else on the chain run does nothing for the pins and bushings it is meant to reach.",
+        "radius": 0.4,
+        "to": "chain-lube-point"
+      },
+      "id": "lubrication",
+      "kind": "drag",
+      "prompt": "Carry the chain oil to the lubrication point and apply it along the chain.",
+      "target": "oil-can",
+      "title": "Lubricate the step chain",
+      "why": "The chain is lubricated last, after its tension is already measured and logged, so the reading on file is the chain's true tension and not one skewed by oil that was never accounted for."
+    },
+    {
+      "cue": "Take your lock off the hasp, then close the drive disconnect.",
+      "id": "restore",
+      "itemNames": {
+        "lockout-hasp": "your lock off the hasp",
+        "main-disconnect": "drive disconnect"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — your lock off first, and the disconnect closed last.",
+      "prompt": "Take your lock off the hasp, then close the drive disconnect.",
+      "targets": [
+        "lockout-hasp",
+        "main-disconnect"
+      ],
+      "title": "Restore power in the correct order",
+      "why": "The lock is the last thing off before power, because it is what has kept this drive somebody else's to restart for the whole time it has been isolated — and closing the disconnect only happens once every hand that has been in the step chain is actually clear of it."
+    },
+    {
+      "cue": "Write the chain tension, skirt clearance, handrail sync and today's findings on the escalator log.",
+      "id": "log",
+      "kind": "select",
+      "prompt": "Write the chain tension, skirt clearance, handrail sync and today's findings on the escalator log.",
+      "target": "escalator-log",
+      "title": "Log the service",
+      "why": "The next mechanic who opens this unit reads this log before they read the chain itself, and a tension or clearance number left unwritten today is a number somebody else has to remeasure from zero the next time this unit is due."
+    }
+  ],
+  "supportLine": "your IUEC local's member assistance programme, or the NEIEP training coordinator for anything about the certification record",
+  "tagline": "Isolating the drive, inspecting the step chain and comb teeth, gauging chain tension and skirt clearance, and proving the comb, skirt and handrail safety switches before reopening",
+  "title": "SmartCiti.X~ Escalator Step Chain and Comb Plate VR",
+  "trade": "Elevator constructor / mechanic — IUEC",
+  "underwater": null,
+  "weather": null
+}

@@ -1,0 +1,93 @@
+{
+  "id": "postal-and-mail-processing",
+  "kind": "programme",
+  "name": "Postal & Mail Processing Crew",
+  "title": "SmartCiti.X Postal & Mail Processing Crew — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Eight jobs across a route, a processing plant and a retail counter: a right-hand-drive delivery van pre-tripped and loaded in route order, a residential block walked with a loose dog and a heaved sidewalk read before either becomes a problem, one shift's cold start and heat stretch both worked to the plan, a flat sorter's interlocked guard and sweep arm isolated and locked before a jam is ever cleared, a mail handler's forklift inspected and a container dock read for a pedestrian and an unchocked trailer, and a parcel sorter's divert gate cleared with a defeated light curtain and a coworker's own wrap-point risk caught first, and a suspicious parcel on the culling belt left untouched while the floor is cleared on the facility's plan, and an escalating customer at the retail window met with distance and a calm script. Every station ends on a proof — a gauge, a logged reading, a proven interlock — rather than on how routine the job looked going in.",
+  "certification": "NALC, APWU and NPMHU training for letter carriers, postal workers and mail handlers, tested against OSHA 29 CFR 1910.147 the control of hazardous energy, 29 CFR 1910.212 machine guarding, 29 CFR 1910.178 powered industrial trucks and 29 CFR 1910.132 personal protective equipment; ASME B20.1 for conveyors and related equipment; the Revised NIOSH Lifting Equation and NIOSH's own guidance on animal, heat and cold stress hazards for workers on foot; FMCSA 49 CFR 392 and 396 for the route's own delivery vehicle; and Cal/OSHA's Injury and Illness Prevention Program, 8 CCR 3203, as the model for a written plant safety programme, and OSHA 29 CFR 1910.38 emergency action plans for a suspicious parcel on the belt, and 8 CCR 3342 as the model for a written workplace-violence plan at the retail counter, across eight distinct jobs a letter carrier, a mail handler, a plant clerk and a retail clerk actually rotate through",
+  "programmes": [
+    "postal-and-mail-processing"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "ml-delivery-van-pretrip-and-route-loading"
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-dog-and-hazard-awareness-on-route"
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-heat-and-cold-stress-on-route"
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-flat-sorter-guarding-and-lockout"
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-mail-handler-forklift-and-container-dock"
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-parcel-sorter-conveyor-jam-and-loto"
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-suspicious-package-protocol"
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-retail-counter-deescalation"
+    }
+  ],
+  "unions": [
+    "nalc",
+    "apwu",
+    "npmhu"
+  ],
+  "unionLine": "NALC, APWU and NPMHU as training bodies for postal and mail processing",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "parishes",
+      "parish": "jefferson",
+      "sites": [
+        "jf-sw-kenner-airport-side-mail-processing-plant"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "la-starbase-vermilion",
+      "sites": [
+        "lsb-weather-watch-post"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "la-black-bayou-cameron",
+      "sites": [
+        "lbb-weather-shelter"
+      ]
+    }
+  ],
+  "stationNames": {
+    "ml-delivery-van-pretrip-and-route-loading": "Delivery Van Pre-Trip & Route Loading",
+    "ml-dog-and-hazard-awareness-on-route": "Dog & Hazard Awareness on Route",
+    "ml-heat-and-cold-stress-on-route": "Heat & Cold Stress on Route",
+    "ml-flat-sorter-guarding-and-lockout": "Flat Sorter Guarding & Lockout",
+    "ml-mail-handler-forklift-and-container-dock": "Mail Handler Forklift & Container Dock",
+    "ml-parcel-sorter-conveyor-jam-and-loto": "Parcel Sorter Conveyor Jam & LOTO",
+    "ml-suspicious-package-protocol": "Suspicious Package Protocol",
+    "ml-retail-counter-deescalation": "Retail Counter De-escalation"
+  },
+  "version": "1.0.0",
+  "contentHash": "49606e6a",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

@@ -1,0 +1,424 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "flow-proven",
+    "name": "Flow Proven",
+    "note": "A flow test read on the pitot gauge with the residual watched steady, the discharge dechlorinated, and every hydrant capped and chained before the crew left the block"
+  },
+  "category": "Water & Environmental",
+  "certification": "UWUA water distribution operator training; state water distribution operator certification for the flow test itself; AWWA C651 disinfecting water mains for the flushing residual and the section it clears; the state Manual on Uniform Traffic Control Devices (MUTCD) for the work-zone traffic control plan; ANSI Z535.4 for the warning signage on the taper",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z535.4",
+        "id": "ansi-z535-4",
+        "title": "ANSI Z535.4 — Product safety signs and labels"
+      },
+      {
+        "body": "AWWA",
+        "citedAs": "AWWA C651",
+        "id": "awwa-c651",
+        "title": "AWWA C651 — Disinfecting water mains"
+      },
+      {
+        "body": "MUTCD",
+        "citedAs": "MUTCD",
+        "id": "mutcd",
+        "title": "Manual on Uniform Traffic Control Devices — temporary traffic control for work zones (Part 6)"
+      },
+      {
+        "body": "union",
+        "citedAs": "UWUA",
+        "id": "uwua-training",
+        "title": "UWUA — Utility Workers Union of America training and safety education for water, gas and electric utility crews"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Water",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "critical-users-checked",
+        "name": "Critical Users Checked",
+        "note": "The block was checked for critical water users before the hydrant opened"
+      },
+      {
+        "id": "cracked-not-slammed",
+        "name": "Cracked, Not Slammed",
+        "note": "The flow hydrant was cracked open rather than opened full without an unsafe action"
+      },
+      {
+        "id": "steady-residual",
+        "name": "Steady Residual",
+        "note": "Held the residual watch inside the band for the whole test"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-test",
+        "name": "Clean Test",
+        "note": "No corrections anywhere in the test"
+      },
+      {
+        "id": "unbroken-watch",
+        "name": "Unbroken Watch",
+        "note": "The residual watch ran to completion without a break"
+      },
+      {
+        "id": "block-clear-fast",
+        "name": "Block Clear Fast",
+        "note": "Capped, chained and logged inside 80% of par"
+      }
+    ],
+    "currency": "GPM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice",
+      "Service Crew",
+      "Distribution Operator",
+      "Crew Lead",
+      "Distribution Authority Certified"
+    ],
+    "system": "Distribution Authority"
+  },
+  "hazards": {
+    "full-open-without-crack": "You went to open the flow hydrant straight to full instead of cracking it first. A gate valve slammed open lets a full column of standing water go from still to moving all at once, and the surge that creates travels back up the main looking for the next weak joint — which is exactly the failure this crew is not out here to cause today.",
+    "no-traffic-control-hydrant": "You went to open the hydrant into the street before the cones and the sign were set ahead of the taper. A flowing hydrant throws a spray and a hose across part of the lane, and a driver who has not been warned has no reason to expect either one before they are already on top of it.",
+    "skip-critical-check": "You went to open the flow hydrant without checking this block for a critical water user first. A flow test can pull this section's pressure down hard enough to matter to a dialysis clinic or a commercial laundry running mid-cycle, and the only way to know one is on this block is to check before the water starts moving, not after somebody calls in.",
+    "skip-dechlorination-check": "You went to let the discharge run to the storm drain without checking it against the utility's own dechlorination step first. This is finished drinking water at full chlorine residual until it is treated down, and a few hundred gallons a minute of it reaching a storm drain untreated is a receiving-water problem the utility's own procedure exists to prevent."
+  },
+  "id": "ut-hydrant-flow-test-and-flushing-with-traffic-control",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "residual-watch",
+      "alert": "Dispatch is relaying a low-pressure complaint from an address on this exact block, called in right as the flow test is running.",
+      "cue": "Acknowledge the call and confirm it is this test before the residual watch continues.",
+      "delay": 3,
+      "id": "low-pressure-complaint-call",
+      "kind": "Dispatch relays a low-pressure complaint",
+      "missNote": "The complaint call went unanswered while the residual watch continued. Whoever called in still thinks their water pressure failed on its own, with no idea a scheduled test caused it.",
+      "seconds": 13,
+      "target": "test-radio",
+      "why": "A low-pressure complaint that lands during a scheduled flow test is very likely this test and not a separate problem, but the only way to close that call out correctly — rather than leaving a resident thinking their water pressure failed on its own — is to acknowledge it and tie it to the test that is actually running right now.",
+      "wrongNote": "It is the radio call. Nothing about the residual gauge itself has changed — this is about closing the loop with the address that called in."
+    },
+    {
+      "after": "hold-diffuser",
+      "alert": "A car has come around the corner too fast for the cone taper and is closing on it without slowing down.",
+      "cue": "Wave it off with the paddle before it reaches the taper.",
+      "delay": 3,
+      "id": "car-approaches-taper",
+      "kind": "A car drives up on the taper",
+      "missNote": "The car kept closing on the taper with nobody out front to wave it off. Cones alone do not stop a vehicle that is already past the point of reacting to them.",
+      "seconds": 11,
+      "target": "stop-paddle",
+      "why": "A cone taper only works on a driver who sees it in time to react, and a car already closing fast needs a person with a stop paddle to be the thing that actually gets their attention — the diffuser in your hands is not what stops a car that missed the sign.",
+      "wrongNote": "It is the paddle, out where the driver can see it. The diffuser has nothing to do with a car that missed the sign."
+    }
+  ],
+  "lateNotes": {
+    "flow-hydrant-nut": "The flow hydrant cracks open only after the diffuser is on the outlet and the residual hydrant's static reading has been taken — not before either of those.",
+    "pitot-gauge": "The pitot reading is taken once the flow has settled at the cracked-open rate, not in the first surge as the hydrant first opens."
+  },
+  "name": "Hydrant Flow Test & Flushing With Traffic Control",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "water-and-gas-utility-crews"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "sedan",
+        "count": 2,
+        "kit": "fleet"
+      },
+      {
+        "builder": "0.38x0.78x0.46",
+        "count": 2,
+        "kit": "unknown"
+      }
+    ],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "blocked-hydrant-access",
+      "cap-threads",
+      "chain-cap",
+      "chlorine-meter",
+      "damaged-outlet-thread",
+      "diffuser",
+      "drain-barrel",
+      "flow-hydrant-nut",
+      "flow-outlet",
+      "full-open-without-crack",
+      "hospital-pin",
+      "laundry-pin",
+      "no-traffic-control-hydrant",
+      "pitot-gauge",
+      "residual-gauge",
+      "set-cone-a",
+      "set-cone-b",
+      "set-warning-sign",
+      "skip-critical-check",
+      "skip-dechlorination-check",
+      "stop-paddle",
+      "test-log",
+      "test-plan",
+      "test-radio"
+    ],
+    "meshes": 197
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the test plan: which hydrant flows, which one reads residual, and the target flow for this section.",
+      "id": "test-plan",
+      "kind": "select",
+      "prompt": "Check the test plan: which hydrant flows, which one reads residual, and the target flow for this section.",
+      "target": "test-plan",
+      "title": "Read the flow test plan",
+      "why": "The plan names which hydrant is flowed and which one is only watched, because reading residual on the wrong hydrant reports a number for a section of main this test never actually stressed — the two roles are fixed before either cap comes off."
+    },
+    {
+      "cue": "Place both cones of the taper, then set the advance warning sign ahead of them, per the traffic control plan.",
+      "id": "traffic-control",
+      "itemNames": {
+        "set-cone-a": "first cone of the taper",
+        "set-cone-b": "second cone of the taper",
+        "set-warning-sign": "advance warning sign"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Both cones first, then the sign ahead of them — a sign with no taper behind it yet warns drivers about a work zone that is not actually there.",
+      "prompt": "Place both cones of the taper, then set the advance warning sign ahead of them, per the traffic control plan.",
+      "targets": [
+        "set-cone-a",
+        "set-cone-b",
+        "set-warning-sign"
+      ],
+      "title": "Set the taper and the warning sign",
+      "why": "The warning sign is what gives a driver time to see the taper coming rather than finding it at the last cone, and the plan sets it ahead of the taper for exactly that reason — a taper with no advance warning is a surprise, not a work zone."
+    },
+    {
+      "cue": "Find the critical water users marked on this block's map before the hydrant opens.",
+      "id": "critical-user-check",
+      "itemNames": {
+        "hospital-pin": "the dialysis clinic marked on the block map",
+        "laundry-pin": "the commercial laundry marked on the block map"
+      },
+      "itemNotes": {
+        "hospital-pin": "A dialysis clinic is marked on this block. A flow test that drops this section's pressure mid-cycle is exactly the kind of thing that gets called ahead of time, not discovered afterward.",
+        "laundry-pin": "A commercial laundry is marked here too — a heavy, steady water user whose own equipment can read a pressure drop as a fault before anyone connects it to the test outside."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find the critical water users marked on this block's map before the hydrant opens.",
+      "targets": [
+        "hospital-pin",
+        "laundry-pin"
+      ],
+      "title": "Check the block map for critical users",
+      "why": "A flow test pulls this section's pressure down on purpose, and the only way that does not turn into an unplanned outage complaint for somebody who genuinely needed the pressure is to know who is on this block before the water starts moving, not after a call comes in."
+    },
+    {
+      "cue": "Walk the flow hydrant and find what has to be fixed before the diffuser goes on.",
+      "id": "inspect-hydrant",
+      "itemNames": {
+        "blocked-hydrant-access": "a parked car blocking hydrant access",
+        "damaged-outlet-thread": "damaged threads on the flow outlet"
+      },
+      "itemNotes": {
+        "blocked-hydrant-access": "A car is parked close enough to this hydrant that swinging the diffuser into place fouls the bumper — it has to be dealt with before the diffuser goes on, not worked around with it half on.",
+        "damaged-outlet-thread": "The outlet threads on this hydrant are damaged enough that the diffuser will not seat square — flowed like this, the stream goes where the bad seat points it, not where the diffuser is aimed."
+      },
+      "kind": "find",
+      "prompt": "Walk the flow hydrant and find what has to be fixed before the diffuser goes on.",
+      "targets": [
+        "damaged-outlet-thread",
+        "blocked-hydrant-access"
+      ],
+      "title": "Inspect the flow hydrant before rigging it",
+      "why": "A hydrant that looks fine from the sidewalk can have damaged outlet threads or no real clearance to work in, and both change what happens the moment water actually starts moving through it — caught now, before the diffuser is fought into place around either problem."
+    },
+    {
+      "cue": "Bring the diffuser to the flow hydrant's outlet and seat it square.",
+      "drag": {
+        "missNote": "Not seated on the outlet — a diffuser resting against the threads instead of screwed home comes off the moment the hydrant is cracked.",
+        "radius": 0.42,
+        "to": "flow-outlet"
+      },
+      "id": "attach-diffuser",
+      "kind": "drag",
+      "prompt": "Bring the diffuser to the flow hydrant's outlet and seat it square.",
+      "target": "diffuser",
+      "title": "Attach the diffuser to the flow outlet",
+      "why": "The diffuser is what turns a raw stream into a controlled spray aimed away from the taper and the traffic beyond it — seated square on the outlet, not just resting against it, because a diffuser that is not fully seated is thrown off the outlet the moment real flow hits it."
+    },
+    {
+      "cue": "Bring the residual hydrant's static reading up to the plan's baseline, then commit.",
+      "gauge": {
+        "green": [
+          0.55,
+          0.72
+        ],
+        "label": "STATIC PRESSURE",
+        "missNote": "That is not a believable static reading for this section — read it again before the flow hydrant moves.",
+        "speed": 0.7
+      },
+      "id": "static-pressure",
+      "kind": "gauge",
+      "prompt": "Bring the residual hydrant's static reading up to the plan's baseline, then commit.",
+      "target": "residual-gauge",
+      "title": "Read the static pressure before flow starts",
+      "why": "The static reading, taken before the flow hydrant moves at all, is the number every residual reading during the test is compared against — a test with no honest baseline cannot say how far this section's pressure actually dropped under real flow."
+    },
+    {
+      "cue": "Turn the operating nut slowly to crack the hydrant open — not straight to full.",
+      "id": "crack-open-valve",
+      "kind": "turn",
+      "prompt": "Turn the operating nut slowly to crack the hydrant open — not straight to full.",
+      "target": "flow-hydrant-nut",
+      "title": "Crack the flow hydrant open",
+      "turn": {
+        "axis": "y",
+        "label": "FLOW HYDRANT NUT",
+        "turns": 0.4
+      },
+      "why": "Cracked open, the standing water in this section starts moving gradually instead of all at once — a hydrant opened straight to full sends a surge back up the main looking for the next joint that cannot take it, on a system this crew still has to trust after the test is over."
+    },
+    {
+      "cue": "Hold the diffuser aimed clear of the taper and the traffic beyond it while the flow settles.",
+      "holdBreakNote": "The diffuser came off target during the surge — hold it again, a stream that swings loose here reaches the taper and whatever is past it.",
+      "id": "hold-diffuser",
+      "kind": "hold",
+      "prompt": "Hold the diffuser aimed clear of the taper and the traffic beyond it while the flow settles.",
+      "seconds": 5,
+      "target": "diffuser",
+      "title": "Hold the diffuser on target through the surge",
+      "why": "The first few seconds of flow are the least predictable part of this test — held steady and aimed away from the taper, the diffuser keeps that spray off the traffic lane while the stream finds its settled rate instead of kicking loose the moment it is left to itself."
+    },
+    {
+      "cue": "Hold the pitot tip in the settled stream and bring the reading to where the plan expects, then commit.",
+      "gauge": {
+        "green": [
+          0.5,
+          0.7
+        ],
+        "label": "PITOT — VELOCITY PRESSURE",
+        "missNote": "That reading is outside what the plan expects for this outlet — reseat the pitot tip in the centre of the stream and read it again.",
+        "speed": 0.65
+      },
+      "id": "pitot-reading",
+      "kind": "gauge",
+      "prompt": "Hold the pitot tip in the settled stream and bring the reading to where the plan expects, then commit.",
+      "target": "pitot-gauge",
+      "title": "Read the pitot gauge in the stream",
+      "why": "The pitot gauge, held in the stream itself, is the only instrument on this job that reads what the main is actually delivering right now — a flow number taken from a table instead of the pitot is a guess dressed up as a measurement."
+    },
+    {
+      "cue": "Watch the residual hydrant's pressure hold in the band for the whole test window, not just at the start.",
+      "holdBreakNote": "That residual dropped out of band during the watch — this section is not delivering what the flow hydrant is asking of it, and that is the actual result of this test.",
+      "id": "residual-watch",
+      "kind": "track",
+      "prompt": "Watch the residual hydrant's pressure hold in the band for the whole test window, not just at the start.",
+      "seconds": 7,
+      "target": "residual-gauge",
+      "title": "Hold the residual watch",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.32,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "RESIDUAL PRESSURE",
+        "rise": 0.04,
+        "start": 0.6
+      },
+      "why": "A residual reading taken once, at the moment flow begins, says nothing about what happens to this block's pressure once the flow is sustained — held for a full watch, a residual that keeps dropping is this section telling the crew it cannot actually deliver at the rate the flow hydrant is asking for."
+    },
+    {
+      "cue": "Read the dechlorination meter on the discharge per the utility's own procedure before the flow keeps running to the drain.",
+      "id": "dechlorination-check",
+      "kind": "select",
+      "prompt": "Read the dechlorination meter on the discharge per the utility's own procedure before the flow keeps running to the drain.",
+      "target": "chlorine-meter",
+      "title": "Check the discharge before it reaches the storm drain",
+      "why": "This is finished drinking water at full chlorine residual leaving the hydrant, and the utility's own dechlorination step is what keeps a flow test from becoming an untreated discharge to the storm system — checked here, while the flow is still running and can still be corrected."
+    },
+    {
+      "cue": "Wind the operating nut shut the same way it opened — slowly, not slammed.",
+      "id": "close-flow-hydrant",
+      "kind": "turn",
+      "prompt": "Wind the operating nut shut the same way it opened — slowly, not slammed.",
+      "target": "flow-hydrant-nut",
+      "title": "Close the flow hydrant slowly",
+      "turn": {
+        "axis": "y",
+        "label": "FLOW HYDRANT NUT",
+        "reverse": true,
+        "turns": 0.4
+      },
+      "why": "Closed the same way it opened, the column of moving water in this section slows gradually instead of stopping dead against a shut gate — a hydrant slammed shut on a full flow is water hammer from the other direction, and the main does not care which direction put it there."
+    },
+    {
+      "cue": "Drain the barrel, grease the outlet threads, then chain the cap back on.",
+      "id": "drain-and-cap",
+      "itemNames": {
+        "cap-threads": "outlet threads greased",
+        "chain-cap": "cap chained",
+        "drain-barrel": "barrel drained"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Drain first, then grease the threads, then chain the cap — greasing threads that are still wet from the barrel does nothing for the next crew that has to break them loose.",
+      "prompt": "Drain the barrel, grease the outlet threads, then chain the cap back on.",
+      "targets": [
+        "drain-barrel",
+        "cap-threads",
+        "chain-cap"
+      ],
+      "title": "Drain, cap and chain both hydrants",
+      "why": "Standing water left in a drained hydrant's barrel freezes and cracks the shell in the first hard freeze this block sees, and a cap that is not chained is a cap that walks off this hydrant before the next crew that actually needs it ever gets here."
+    },
+    {
+      "cue": "Fill in the test log: static and residual readings, the pitot reading, and the available flow per the utility's own worksheet.",
+      "id": "test-log",
+      "kind": "select",
+      "prompt": "Fill in the test log: static and residual readings, the pitot reading, and the available flow per the utility's own worksheet.",
+      "target": "test-log",
+      "title": "Complete the flow test log",
+      "why": "The number this block actually delivers at a usable residual is what a fire pre-plan or a developer's water study depends on later, and a test with no written record is a number nobody can ever go back and check — the log is what turns this test into something the utility can actually use."
+    }
+  ],
+  "supportLine": "your utility's employee assistance programme, or your UWUA steward if you are not sure how to reach it",
+  "tagline": "One hydrant cracked open slowly and read on a pitot gauge, a second hydrant's residual watched the whole time it flows, and none of it done in the open street before the cones and the sign are ahead of the taper",
+  "title": "SmartCiti.X~ Hydrant Flow Test & Flushing VR",
+  "trade": "UWUA water distribution crew — hydrant flow testing and flushing",
+  "underwater": null,
+  "weather": "overcast"
+}

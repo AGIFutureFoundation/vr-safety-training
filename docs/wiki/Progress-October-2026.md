@@ -1,0 +1,56 @@
+# Progress, October 2026
+
+What the builds of 19 to 22 October 2026 added, each with the file that holds it and the checker that proves it. The robots are simulated; no hardware result, partnership, customer, price or fundraising claim is made here.
+
+## Packs and programmes
+
+| Added | Where it lives | Checked by |
+|---|---|---|
+| Four entry-point packs with their own focus and shared stations: non-profit operations, ethics and responsible automation, youth club leadership, robot control basics | `WebXR/smartcity/js/curricula.js`, `WebXR/packs/` | `tools/check_packs.mjs`, `tools/check_standards.mjs`, `tools/check_competency.mjs` |
+| The instructor console's programme picker offers only a deployment's listed programmes when it lists any | `WebXR/instructor/js/app.js` | `tools/check_enterprise.mjs` |
+
+## Regions, paths and robotics in the worlds
+
+| Added | Where it lives | Checked by |
+|---|---|---|
+| A training table for every mapped region: its programmes, unions, K-12 entries (tracks and the K-12 station each field lesson links) and robot programmes | `WebXR/shared/region-training-data.js`, `docs/region-training.md` | `tools/check_region_training.mjs` |
+| A short ordered route per region: a K-12 entry, a trade programme, then a robot programme where the region offers one | `WebXR/shared/region-paths-data.js` | `tools/check_region_paths.mjs` |
+| Robot-control training and a robot station pad at one industrial site in each region that had none (a warehouse, shipyard, port, plant or substation) | `WebXR/shared/np-data-*.js` | `tools/check_parishes.mjs`, `tools/check_parish_data.mjs` |
+| A robot step for three more regions: robot-control training and one robot station at a San Jose campus lab, a Haight–Castro renovation and an Outer Mission soil yard, so 44 of 46 region paths end in a robot step. The marsh-restoration region and the Unspoken Smiles dental region are left without one, as no site there does robot work | `WebXR/shared/np-data-bay-san-jose.js`, `np-data-sf-haight-castro.js`, `np-data-sf-outer-mission.js` | `tools/check_region_paths.mjs`, `tools/check_parish_data.mjs` |
+| Unions on the maps: every union whose training fund covers a category a site's stations fall in now sits in that site's trades, weighted towards sites that match its own work; numbered locals stay in their own area. Three are left out, with the reasons in commit 82fb5b70: FOP (no scope), NTEU (no site fits its work), UMWA (no mine site) | `WebXR/shared/np-data-*.js` | `tools/check_parish_data.mjs`, `tools/check_signage.mjs`, `tools/check_region_training.mjs` |
+
+## Cleanup sites, the Bay waterfront and federal sites
+
+| Added | Where it lives | Checked by |
+|---|---|---|
+| A cleanup atlas: the six phases of a hazardous-site cleanup in the order the Hunters Point programme teaches them (the record, survey, removal and haul, groundwater, the shoreline, community oversight), every map site that trains or offers a phase, and the unions training each phase on a map | `tools/gen_cleanup_atlas.mjs`, `WebXR/shared/cleanup-atlas-data.js`, `docs/cleanup-atlas.md` | `tools/check_cleanup_atlas.mjs` |
+| The Bay's working waterfront (ports, shipyards, the boatyard, the refinery yard, marinas, the ferry landing and a small-boat landing, 20 sites, plus the chemical feed building at the nutrient pilot) now offers the hazmat and environmental programme where it taught no cleanup phase, with LIUNA added at the industrial yards | `WebXR/shared/np-data-*.js` | `tools/check_cleanup_atlas.mjs`, `tools/check_parish_data.mjs` |
+| The same for the Louisiana and other maps: their ports, shipyards, refineries, chemical sites, a tank farm, a fuel farm, a dredge, harbours, marinas, ferry and river landings (54 sites) now offer the hazmat and environmental programme where they taught no cleanup phase, with LIUNA added at the industrial ones | `WebXR/shared/np-data-*.js`, `docs/cleanup-atlas.md` | `tools/check_cleanup_atlas.mjs` |
+| An importer for EPA's Superfund National Priorities List export: it keeps only what the CSV says and adds a site type read from the name, marked as such, with the phases that type calls for | `tools/import_npl_csv.mjs` | `tools/check_cleanup_atlas.mjs` (fictional test rows) |
+
+The national list itself is not in the repository yet: this session's network policy blocks www.epa.gov. A CSV exported from EPA's site search, or allowing that host, lets `node tools/import_npl_csv.mjs <file.csv>` write `docs/cleanup/npl-sites.json`.
+
+## Interiors and the interface
+
+| Added | Where it lives | Checked by |
+|---|---|---|
+| A recreation-centre gym and a performance and event hall, in place of the civic lobby at recreation centres, theatres, event venues and stadium concourses | `WebXR/shared/ix-interiors.js`, `WebXR/shared/hd2-room-skins.js` | `tools/check_interiors.mjs`, `tools/check_room_skins.mjs` |
+| HUD panels that start closed, open from their header and move, so the scene is not covered; the choice is kept per viewer | `WebXR/shared/ctl-dock.js` | `tools/check_dock.mjs` |
+
+## Robot training data
+
+| Added | Where it lives | Checked by |
+|---|---|---|
+| Synthetic worker-assist episodes in a ROS 2 message layout, for every union with a scope, over four generic robot styles (collaborative arm, mobile robot, gantry hoist, inspection quadruped); a speed-and-separation governor caps speed by the worker's distance and holds zero under e-stop on every step | `exports/ros-assist/`, `tools/gen_ros_assist.mjs` | `tools/check_ros_assist.mjs` |
+| Robot language data: every station's own procedure text as instruction records, 14,351 in all from the 742 stations: 9,892 steps (the instruction, the action it asks for and why), 1,470 interrupts (a situation mid-task and the stop or response it calls for) and 2,989 unsafe choices with the reason each is unsafe. Each record names its station, whose category, programmes, standards and matching robot-assist style are in the index. Quoted, not generated; no learner data | `exports/robot-language/`, `tools/gen_robot_language.mjs` | `tools/check_robot_language.mjs` |
+
+## Detailed robot models and live robot simulation
+
+| Added | Where it lives | Checked by |
+|---|---|---|
+| Detailed, articulated generic robots: a floor-mounted six-axis arm (gripper or vacuum plate), a six-axis cobot with LED joint rings and a force-torque wrist, a warehouse mobile robot with front and rear safety scanners, e-stops, a light strip and optional field discs, a legged inspection robot with three joints per leg, and a three-axis gantry. Every joint is its own part at its real pivot | `WebXR/shared/robot-models.js` | `tools/check_fleet.mjs` (mesh budget, footprint, parts) |
+| Forward kinematics from one joint chain the models are built from, a joint-limit clamp, a pick-and-place path per arm, and a path player that advances by the tool's own travel so the tool never moves faster than the speed governor allows: stopped inside 0.5 m and under an e-stop, 0.25 m/s inside 1.5 m, the same governor the worker-assist episodes record | `WebXR/shared/robot-models.js` | `tools/check_robot_models.mjs` (31 checks, including 2,400 simulated ticks per arm) |
+| The robot cell, cobot bench and palletizer every robot station uses are now built from these arms, with the old part names kept so existing stations still move them | `WebXR/shared/equipment.js` | `tools/check_fleet.mjs`, `tools/check_robot_models.mjs` |
+| Nine robot stations drive their robots live. The speed-and-separation station runs its cobot from the fields as the learner sets them, with a walk tester on a loop and a board showing normal, reduced, protective stop or e-stop. The robot-fleet station's three mobile robots drive their lane and slow or stop for a picker crossing it, and all hold on the e-stop drill. The agent-dispatch station adds a legged inspection robot on patrol that halts with the arm | `WebXR/smartcity/js/sims/rt-*.js`, `ad-*.js`, `rp-*.js`, `vb-*.js` | `tools/check_robot_models.mjs` |
+
+Not included yet: translated robot instructions (they need a reviewed source), any brand or model of robot, and any hardware run.

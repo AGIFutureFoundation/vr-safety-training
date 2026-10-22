@@ -1,0 +1,434 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "room-returned",
+    "name": "Room Returned",
+    "note": "A patient care space taken down inside an agreed window and handed back by the people who own it"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "IBEW and IUOE hospital locals — health care facility maintenance; NFPA 99 health care facilities code for patient care space categories and the essential electrical system; NFPA 70 Article 517 for health care facility wiring, isolated power systems and the reference grounding point; NFPA 70E for the risk assessment at the panel; OSHA 29 CFR 1910.147 control of hazardous energy; the hospital's own interim life safety measures and its written clinical authorisation to take the room down",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IBEW",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "NEC/NFPA 70",
+        "citedAs": "NFPA 70",
+        "id": "nec-nfpa-70",
+        "title": "NFPA 70 — National Electrical Code"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 70E",
+        "id": "nfpa-70e",
+        "title": "NFPA 70E — Standard for Electrical Safety in the Workplace"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 99",
+        "id": "nfpa-99",
+        "title": "NFPA 99 — Health Care Facilities Code"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "window-kept",
+        "name": "Window Kept",
+        "note": "Nothing started until the room was released in writing by the people using it"
+      },
+      {
+        "id": "branch-discipline",
+        "name": "Branch Discipline",
+        "note": "Only the branch on the permit was touched, and the monitor was never silenced"
+      },
+      {
+        "id": "grounding-proven",
+        "name": "Grounding Proven",
+        "note": "The equipment grounding and the reference point measured rather than assumed"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-outage",
+        "name": "Clean Outage",
+        "note": "Whole outage run with no corrections"
+      },
+      {
+        "id": "held-the-test",
+        "name": "Held The Test",
+        "note": "Every timed test carried to its full count first time"
+      },
+      {
+        "id": "back-early",
+        "name": "Back Early",
+        "note": "Room handed back inside 80% of par"
+      }
+    ],
+    "currency": "mA",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Building Mechanic",
+      "Hospital Electrician",
+      "Lead Electrician",
+      "Facilities Engineer",
+      "Health Care Facility Authority Certified"
+    ],
+    "system": "Health Care Facility Authority"
+  },
+  "hazards": {
+    "assume-ground": "You signed the grounding off the panel schedule. A schedule is a record of what somebody intended when the room was built and of every change they remembered to write down since. It is not a measurement. Equipment grounding conductors get lifted for a repair and left off, reference grounding point terminations get loosened by vibration, and a green wire landed on a screw that is no longer tight is indistinguishable from a good one until it is tested. In a room where the patient is connected to mains-powered equipment through catheters, the grounding is the protection, and protection is measured.",
+    "life-safety-breaker": "You opened a breaker in the life safety branch. It is in the same cupboard, on the same wall, in a panelboard that looks like the one you were sent to, and it feeds none of your work: it feeds the egress lighting, the exit signs, the fire alarm and the things that have to keep working precisely on the day everything else does not. The essential electrical system is divided into separate branches so that a fault or an outage on one of them cannot take the other two with it — and an electrician who opens the wrong one by hand has done in a second exactly what all that separation exists to prevent.",
+    "no-clinical-ok": "You started on the strength of the schedule. A planned date in a maintenance system is a request, not a release: the only thing that can hand you a procedure room is the clinical team who are using it, on the day, when they have looked at the board and confirmed there is nobody on the table and no case queued behind. Rooms run late, cases get added, and a patient arrives in the one you have just locked out. The paperwork exists so that this is somebody's explicit decision rather than an assumption made by whoever turned up first.",
+    "silence-lim": "You silenced the line isolation monitor. That alarm does not mean the isolated power system has failed and it does not mean the room has to stop — that is the whole design intent, and it is why silencing it feels harmless. What it means is that the total hazard current has climbed to where a first fault to ground is no longer the harmless event the system exists to make it, and the next fault will be a live path through whatever is between it and earth. The alarm is information about a condition you are supposed to go and find, and a silenced monitor is a room that has quietly stopped being an isolated power system."
+  },
+  "id": "cath-lab",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "lock",
+      "alert": "The control room is calling through the glass: an add-on case has just been booked into this room and the team is asking how long you need.",
+      "cue": "Somebody is putting a patient into a room you have locked out.",
+      "delay": 3,
+      "id": "add-on-case",
+      "kind": "Case booked into your room",
+      "missNote": "The booking stood. The team prepped a room whose equipment branch was locked out with your name on it, found out when the boom would not power up, and moved the patient in the corridor — which is the part that gets written down. An agreed window that nobody defends when it is challenged was never an agreement, it was a diary entry.",
+      "seconds": 12,
+      "target": "control-window",
+      "why": "The window you agreed is the only thing protecting a half-dismantled patient care space from a case being wheeled into it, and it is protecting nothing if the people booking rooms do not know it still applies. Answering at the glass now — while the panel is locked and before anything is open — is what gets the case sent to the room that is actually available.",
+      "wrongNote": "That is not what is happening. There is a face at the control room glass waiting for an answer about a patient."
+    },
+    {
+      "after": "receptacle",
+      "alert": "The line isolation monitor has gone into alarm — the red lamp is lit and the buzzer is sounding while your hands are still in the outlet box.",
+      "cue": "The room is telling you its isolated supply is no longer isolated the way it was.",
+      "delay": 3,
+      "id": "monitor-alarm",
+      "kind": "Isolated power alarm",
+      "missNote": "The alarm ran unattended until somebody clinical silenced it to get on with their day. The condition it was reporting is still there and now has nobody's name against it, which means the next person to find it will be finding it as a second fault rather than as a first — and the whole point of an isolated power system is that there is supposed to be time between those two.",
+      "seconds": 12,
+      "target": "lim-panel",
+      "why": "A monitor in alarm is a measurement, not a malfunction, and the first thing it deserves is to be read. What it is saying is that the total hazard current on this isolated system has climbed to where a first fault would stop being harmless — and since the only thing that has changed on that system in the last two minutes is your work, reading the monitor is also the fastest way to find out what you just did.",
+      "wrongNote": "Not that. The monitor is in alarm and it is telling you something about the circuit you have your hands in — read it before you touch anything else."
+    }
+  ],
+  "lateNotes": {
+    "branch-breaker": "The breaker comes open after the room has been released and the interim measures are in place. Opening it first means the clinical team find out the room is down by watching the lights change.",
+    "clinical-signoff": "The signature is the last thing that happens, after everything it is signing for has been put back and proved.",
+    "hosp-receptacle": "The receptacle goes in after the circuit has been proved dead and the grounding has been measured — not while the panel is still an unknown."
+  },
+  "name": "Cath Lab",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "alarm-desk-call",
+      "assume-ground",
+      "boom-receptacle",
+      "branch-breaker",
+      "charge-nurse",
+      "clinical-auth",
+      "clinical-signoff",
+      "control-window",
+      "critical-panel",
+      "door-sign",
+      "equipment-panel",
+      "ground-meter",
+      "ground-tester",
+      "hosp-receptacle",
+      "impairment-notice",
+      "life-safety-breaker",
+      "life-safety-panel",
+      "lim-lamp",
+      "lim-panel",
+      "lim-test-switch",
+      "lock-hasp",
+      "no-clinical-ok",
+      "recept-socket",
+      "silence-lim",
+      "test-meter"
+    ],
+    "meshes": 269
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read what has been released, by whom, for how long, and what has to be back first.",
+      "id": "authorisation",
+      "kind": "select",
+      "prompt": "Read what has been released, by whom, for how long, and what has to be back first.",
+      "target": "clinical-auth",
+      "title": "Take the written clinical authorisation",
+      "why": "This is the document that turns a work order into permission. It names the room, the branch, the agreed start and the agreed return, and it carries the signature of somebody clinical who is accountable for there being nobody on the table when it starts. Without it you have a maintenance system telling you a date, which is a plan, and plans in a procedure suite lose to whatever came through the door at four in the morning."
+    },
+    {
+      "cue": "Identify which panelboard is which before anything is touched.",
+      "id": "branches",
+      "itemNames": {
+        "critical-panel": "critical branch",
+        "equipment-panel": "equipment branch",
+        "life-safety-panel": "life safety branch"
+      },
+      "itemNotes": {
+        "critical-panel": "Patient care receptacles and the fixed equipment the clinical team need to keep somebody alive in this room. It stays up while you work, which is exactly why the two panels have to be told apart before a hand goes near either.",
+        "equipment-panel": "The branch on the permit. Motors, imaging support and the isolated power panel that feeds the room's outlets — the one you are here to take down.",
+        "life-safety-panel": "Egress lighting, exit signs, alarm and communications. It is deliberately the smallest and most jealously guarded of the three, and nothing on this work order is behind it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Identify which panelboard is which before anything is touched.",
+      "targets": [
+        "life-safety-panel",
+        "critical-panel",
+        "equipment-panel"
+      ],
+      "title": "Find the three branches and the one that is yours",
+      "why": "An essential electrical system is not one supply with a label on it. Life safety, critical and equipment are wired, fed and transferred separately so that losing one cannot take the others, and in a plant room they sit side by side in near-identical enclosures with the schedules behind the doors. Reading all three and saying out loud which one is on the permit is the last cheap moment in this job; everything after it costs a room."
+    },
+    {
+      "cue": "Ask the charge nurse: table empty, no case to follow, room theirs to give.",
+      "id": "release",
+      "kind": "select",
+      "prompt": "Ask the charge nurse: table empty, no case to follow, room theirs to give.",
+      "target": "charge-nurse",
+      "title": "Get the room released at the board",
+      "why": "The authorisation says the room can be released; only the person running the list can say it is released now. The question is answered off the day's board and out loud: nobody on the table, nothing queued into this room, and the on-call room identified in case a case arrives while you are inside the panel. It is also how the clinical team learn who you are and where you will be, which is what makes the next hour's interruptions land on the right person."
+    },
+    {
+      "cue": "Log the impairment, tell the desk, and sign the door before the room goes down.",
+      "id": "ilsm",
+      "itemNames": {
+        "alarm-desk-call": "alarm desk and clinical engineering told",
+        "door-sign": "room signed out of service",
+        "impairment-notice": "impairment logged"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — log the impairment, then tell the desk, then sign the door. A door signed out of service before anyone has been told is a room that has simply gone missing from the suite.",
+      "prompt": "Log the impairment, tell the desk, and sign the door before the room goes down.",
+      "targets": [
+        "impairment-notice",
+        "alarm-desk-call",
+        "door-sign"
+      ],
+      "title": "Put the interim life safety measures in",
+      "why": "Taking part of a hospital's systems out of service starts a clock that somebody else is responsible for, so it is logged rather than mentioned. The alarm desk needs to know which devices in this room will be silent and for how long, clinical engineering needs to know their equipment is about to lose its supply rather than fail, and the sign on the door is what stops the room being used by a team who had no way of knowing. All three before the breaker, because after it they are explanations rather than measures."
+    },
+    {
+      "cue": "Take the monitor's standing indication and commit on what the room reads today.",
+      "gauge": {
+        "green": [
+          0.08,
+          0.32
+        ],
+        "label": "LIM · HAZARD CURRENT",
+        "missNote": "That is not a baseline, it is a finding. A system already sitting at its monitor's alarm point has something on it that wants investigating before anybody adds a receptacle to it.",
+        "speed": 0.7
+      },
+      "id": "lim-read",
+      "kind": "gauge",
+      "prompt": "Take the monitor's standing indication and commit on what the room reads today.",
+      "target": "lim-panel",
+      "title": "Read the line isolation monitor before you start",
+      "why": "The monitor is continuously measuring how much current would flow if a first fault to ground appeared anywhere on this isolated system, and that figure rises quietly as every long cord, every damp connection and every extra piece of equipment in the room adds its own leakage. Reading it now gives you the baseline you will compare against afterwards. Skip it and any alarm later in the shift is unattributable — you will not be able to say whether your work caused it or found it."
+    },
+    {
+      "cue": "The breaker named on the permit, and only that one, fully to off.",
+      "id": "breaker",
+      "kind": "turn",
+      "prompt": "The breaker named on the permit, and only that one, fully to off.",
+      "target": "branch-breaker",
+      "title": "Open the equipment branch breaker",
+      "turn": {
+        "axis": "z",
+        "label": "EQUIPMENT BRANCH — ROOM 4",
+        "turns": 0.25
+      },
+      "why": "The one on the permit, in the panelboard you identified, verified against the schedule on the door and against the circuit you are about to work — three separate confirmations for one handle, because the two panelboards either side of it feed things that must not go off. Taken fully to off rather than tripped part way, so there is no argument later about whether the mechanism actually opened or merely moved."
+    },
+    {
+      "cue": "Your padlock, your tag, your name on the hasp.",
+      "id": "lock",
+      "kind": "select",
+      "prompt": "Your padlock, your tag, your name on the hasp.",
+      "target": "lock-hasp",
+      "title": "Lock and tag it in your own name",
+      "why": "A hospital's electrical distribution is watched by a building management system, switched by automatic transfer and attended by people whose entire job is to put supplies back on when they notice one missing. None of them know your hands are inside an outlet box. Your own lock with your own name on it is the only device in the building that outranks the instinct to restore a supply, and the name matters because it tells the person who finds it who to phone instead of cutting it off."
+    },
+    {
+      "cue": "Prove the tester on a known source, test the circuit, prove the tester again, then commit.",
+      "gauge": {
+        "green": [
+          0.04,
+          0.22
+        ],
+        "label": "PROVE · CIRCUIT",
+        "missNote": "Something is still there. A few volts on a supposedly dead isolated circuit is a shared raceway, a capacitively coupled run or the wrong breaker — and each of those is a reason to go back to the panel, not a reason to carry on.",
+        "speed": 0.72
+      },
+      "id": "prove-dead",
+      "kind": "gauge",
+      "prompt": "Prove the tester on a known source, test the circuit, prove the tester again, then commit.",
+      "target": "test-meter",
+      "title": "Prove the circuit dead — and prove the meter",
+      "why": "The test is only worth what the instrument is worth, and the way an instrument fails is by reading zero on everything. Proving unit, then circuit, then proving unit again catches the meter that died between the first reading and the second, which is the one failure mode that turns a careful electrician into a casualty. Every conductor, every combination, including the ones the schedule says are not there — an isolated system has no grounded conductor to reason from."
+    },
+    {
+      "cue": "Clamp on and hold the full count while the test current settles.",
+      "holdBreakNote": "Released before the test settled. A bond test cut short reads the transient, not the path — clamp on and hold it through.",
+      "id": "bond-hold",
+      "kind": "hold",
+      "prompt": "Clamp on and hold the full count while the test current settles.",
+      "seconds": 5,
+      "target": "ground-tester",
+      "title": "Hold the bond test on the reference grounding point",
+      "why": "The reference grounding point is where every equipment grounding conductor in this patient care space is brought together, and the test asks whether the receptacle in your hand is genuinely connected to it. Held for the full count because the reading walks while the test current is establishing itself through whatever oxide and paint is in the path — and a short test reads whatever it happened to be doing while it was still deciding."
+    },
+    {
+      "cue": "Commit on the settled continuity against the figure on the room's own test record.",
+      "gauge": {
+        "green": [
+          0.34,
+          0.58
+        ],
+        "label": "BOND · CONTINUITY",
+        "missNote": "That is not a path you would put a patient behind. An open or a drifting reading is a termination to go and find, and it is found before the receptacle goes back in rather than after.",
+        "speed": 0.7
+      },
+      "id": "bond-read",
+      "kind": "gauge",
+      "prompt": "Commit on the settled continuity against the figure on the room's own test record.",
+      "target": "ground-meter",
+      "title": "Read the equipment grounding path",
+      "why": "The number means nothing on its own; it means something against the last one recorded for this room. A path that has drifted since the previous test has a termination going loose somewhere between the outlet box and the reference point, and finding it now — with the branch already locked out — costs an hour. Finding it later means opening the room again. Measure it, write it beside the previous figure, and let the two numbers argue."
+    },
+    {
+      "cue": "Carry the replacement to the boom outlet box and seat it home.",
+      "drag": {
+        "missNote": "Not seated in the box. A device hanging on its conductors has no retention at all, which is the property this one was specified for in the first place.",
+        "radius": 0.5,
+        "to": "recept-socket"
+      },
+      "id": "receptacle",
+      "kind": "drag",
+      "prompt": "Carry the replacement to the boom outlet box and seat it home.",
+      "target": "hosp-receptacle",
+      "title": "Fit the hospital-grade receptacle",
+      "why": "The green dot on the face is not decoration: a hospital-grade receptacle is built and tested for retention and for the integrity of its grounding contact, because in this room the thing plugged into it is attached to a patient and the cord gets dragged by a moving boom all day. A general-purpose device fitted here looks identical from a metre away, passes every functional test, and quietly removes the one property it was chosen for."
+    },
+    {
+      "cue": "Hold the test and keep it steady at the test point while the alarm is proved.",
+      "holdBreakNote": "Test current out of band — below it the monitor never sees a fault to respond to, above it you are exercising the system rather than testing it. Bring it back and hold.",
+      "id": "lim-test",
+      "kind": "track",
+      "prompt": "Hold the test and keep it steady at the test point while the alarm is proved.",
+      "seconds": 6,
+      "target": "lim-test-switch",
+      "title": "Prove the monitor by its own test function",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.36,
+          0.58
+        ],
+        "label": "TEST CURRENT",
+        "rise": 0.55,
+        "start": 0.1
+      },
+      "why": "A line isolation monitor that no longer alarms is worse than none at all, because the room is being told it is protected by something that has stopped watching. Its own test function simulates the fault condition, and holding it steady is what lets you confirm that both the local indication and the remote annunciation actually operate — the lamp in this room and the point at the desk are two separate things, and only one of them is in front of you."
+    },
+    {
+      "cue": "Lock off, breaker closed, then watch the monitor come back to normal.",
+      "id": "restore",
+      "itemNames": {
+        "branch-breaker": "equipment branch breaker closed",
+        "lim-panel": "monitor back to its normal indication",
+        "lock-hasp": "your lock off the hasp"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — your lock off, then the breaker, then read the monitor. Closing a breaker with a lock still on the hasp is the sentence nobody wants to read out afterwards.",
+      "prompt": "Lock off, breaker closed, then watch the monitor come back to normal.",
+      "targets": [
+        "lock-hasp",
+        "branch-breaker",
+        "lim-panel"
+      ],
+      "title": "Put it back in order",
+      "why": "Your own lock comes off first, by you, because a lock removed by anybody else is the beginning of an investigation. The breaker closes next, and then the monitor is watched rather than glanced at: an isolated power system that has had work done on it will show you in the first few seconds whether what you did added leakage, and that indication is the only feedback the room gives you on your own work."
+    },
+    {
+      "cue": "Walk the three things they need to see before they take it back.",
+      "id": "handback",
+      "itemNames": {
+        "boom-receptacle": "the boom outlet proved under load",
+        "clinical-signoff": "the clinical team's signature",
+        "lim-lamp": "monitor green, local and remote"
+      },
+      "itemNotes": {
+        "boom-receptacle": "Proved with something actually drawing current, on the boom, with the boom moved through its travel. A receptacle that tests good stationary and drops out at full extension is a fault that will be found mid-case.",
+        "clinical-signoff": "The room goes back to the people who released it, and they say so. Until that signature exists the room is still yours, whatever the lights are doing.",
+        "lim-lamp": "Green here and green at the desk. Two indications, because a local lamp that works and a remote point that does not is a room nobody outside it can see the state of."
+      },
+      "kind": "find",
+      "prompt": "Walk the three things they need to see before they take it back.",
+      "targets": [
+        "lim-lamp",
+        "boom-receptacle",
+        "clinical-signoff"
+      ],
+      "title": "Hand the room back with the clinical team",
+      "why": "A hand-back is not an announcement, it is a demonstration. The monitor is shown green locally and at the desk, the receptacle is shown working under real load through the boom's full travel, and only then does somebody clinical sign for the room. Done this way the first case of the day is not the test, which is the whole difference between a maintenance department a suite trusts and one it schedules around."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Planned outage on a cath lab branch panel: clinical authorisation and a window with nobody on the table, the life-safety branch left alone, isolated power read rather than silenced, grounding tested rather than assumed, room confirmed by the clinical team before hand-back",
+  "title": "SmartCiti.X~ Cath Lab VR",
+  "trade": "Hospital facilities electrician / health care building engineer",
+  "underwater": null,
+  "weather": "clear"
+}

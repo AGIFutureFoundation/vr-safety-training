@@ -1,0 +1,1156 @@
+{
+ "schema": "smartcitix.robotics.arena-episode@2",
+ "version": "ra-ds/2",
+ "generator": "tools/ra_dataset.mjs",
+ "totals": {
+  "episodes": 441,
+  "steps": 35102,
+  "synthetic": 441,
+  "consented": 0
+ },
+ "bySplit": {
+  "train": {
+   "episodes": 297,
+   "steps": 23536
+  },
+  "validation": {
+   "episodes": 72,
+   "steps": 5807
+  },
+  "test": {
+   "episodes": 72,
+   "steps": 5759
+  }
+ },
+ "fromStations": {
+  "episodes": 90,
+  "steps": 25633
+ },
+ "counts": {
+  "rb-cell-entry": {
+   "train": {
+    "episodes": 40,
+    "steps": 1206,
+    "synthetic": 40,
+    "consented": 0,
+    "passed": 24
+   },
+   "validation": {
+    "episodes": 10,
+    "steps": 326,
+    "synthetic": 10,
+    "consented": 0,
+    "passed": 7
+   },
+   "test": {
+    "episodes": 10,
+    "steps": 262,
+    "synthetic": 10,
+    "consented": 0,
+    "passed": 7
+   }
+  },
+  "rb-cobot-zone-setup": {
+   "train": {
+    "episodes": 40,
+    "steps": 276,
+    "synthetic": 40,
+    "consented": 0,
+    "passed": 39
+   },
+   "validation": {
+    "episodes": 9,
+    "steps": 57,
+    "synthetic": 9,
+    "consented": 0,
+    "passed": 9
+   },
+   "test": {
+    "episodes": 9,
+    "steps": 56,
+    "synthetic": 9,
+    "consented": 0,
+    "passed": 8
+   }
+  },
+  "rb-teleop-pick-place": {
+   "train": {
+    "episodes": 40,
+    "steps": 2340,
+    "synthetic": 40,
+    "consented": 0,
+    "passed": 19
+   },
+   "validation": {
+    "episodes": 10,
+    "steps": 580,
+    "synthetic": 10,
+    "consented": 0,
+    "passed": 4
+   },
+   "test": {
+    "episodes": 10,
+    "steps": 584,
+    "synthetic": 10,
+    "consented": 0,
+    "passed": 3
+   }
+  },
+  "rb-amr-fleet-routing": {
+   "train": {
+    "episodes": 37,
+    "steps": 536,
+    "synthetic": 37,
+    "consented": 0,
+    "passed": 34
+   },
+   "validation": {
+    "episodes": 8,
+    "steps": 116,
+    "synthetic": 8,
+    "consented": 0,
+    "passed": 6
+   },
+   "test": {
+    "episodes": 8,
+    "steps": 139,
+    "synthetic": 8,
+    "consented": 0,
+    "passed": 5
+   }
+  },
+  "rb-construction-drilling": {
+   "train": {
+    "episodes": 40,
+    "steps": 800,
+    "synthetic": 40,
+    "consented": 0,
+    "passed": 17
+   },
+   "validation": {
+    "episodes": 10,
+    "steps": 210,
+    "synthetic": 10,
+    "consented": 0,
+    "passed": 7
+   },
+   "test": {
+    "episodes": 10,
+    "steps": 182,
+    "synthetic": 10,
+    "consented": 0,
+    "passed": 8
+   }
+  },
+  "rb-port-gantry": {
+   "train": {
+    "episodes": 40,
+    "steps": 1213,
+    "synthetic": 40,
+    "consented": 0,
+    "passed": 25
+   },
+   "validation": {
+    "episodes": 10,
+    "steps": 258,
+    "synthetic": 10,
+    "consented": 0,
+    "passed": 7
+   },
+   "test": {
+    "episodes": 10,
+    "steps": 328,
+    "synthetic": 10,
+    "consented": 0,
+    "passed": 5
+   }
+  },
+  "rb-station-robot-cell": {
+   "train": {
+    "episodes": 20,
+    "steps": 5734,
+    "synthetic": 20,
+    "consented": 0,
+    "passed": 13
+   },
+   "validation": {
+    "episodes": 5,
+    "steps": 1460,
+    "synthetic": 5,
+    "consented": 0,
+    "passed": 5
+   },
+   "test": {
+    "episodes": 5,
+    "steps": 1400,
+    "synthetic": 5,
+    "consented": 0,
+    "passed": 4
+   }
+  },
+  "rb-station-amr-fleet": {
+   "train": {
+    "episodes": 20,
+    "steps": 5668,
+    "synthetic": 20,
+    "consented": 0,
+    "passed": 6
+   },
+   "validation": {
+    "episodes": 5,
+    "steps": 1399,
+    "synthetic": 5,
+    "consented": 0,
+    "passed": 3
+   },
+   "test": {
+    "episodes": 5,
+    "steps": 1402,
+    "synthetic": 5,
+    "consented": 0,
+    "passed": 0
+   }
+  },
+  "rb-station-cobot": {
+   "train": {
+    "episodes": 20,
+    "steps": 5763,
+    "synthetic": 20,
+    "consented": 0,
+    "passed": 12
+   },
+   "validation": {
+    "episodes": 5,
+    "steps": 1401,
+    "synthetic": 5,
+    "consented": 0,
+    "passed": 3
+   },
+   "test": {
+    "episodes": 5,
+    "steps": 1406,
+    "synthetic": 5,
+    "consented": 0,
+    "passed": 4
+   }
+  }
+ },
+ "actionLabels": {
+  "rb-cell-entry": {
+   "walk": 920,
+   "wait": 129,
+   "test-estop": 93,
+   "press-estop": 134,
+   "lockout": 190,
+   "verify": 44,
+   "enter": 60,
+   "clear-jam": 60,
+   "exit": 60,
+   "remove-lock": 44,
+   "restart": 60
+  },
+  "rb-cobot-zone-setup": {
+   "test": 172,
+   "set": 124,
+   "wait": 35,
+   "commit": 58
+  },
+  "rb-teleop-pick-place": {
+   "move": 2884,
+   "grip": 188,
+   "wait": 252,
+   "release": 180
+  },
+  "rb-amr-fleet-routing": {
+   "route": 721,
+   "wait": 70
+  },
+  "rb-construction-drilling": {
+   "scan": 60,
+   "barricade": 60,
+   "wait": 84,
+   "drill": 436,
+   "dust-on": 60,
+   "isolate": 98,
+   "hold": 191,
+   "change-bit": 105,
+   "restore": 98
+  },
+  "rb-port-gantry": {
+   "move": 1371,
+   "wait": 131,
+   "lift": 120,
+   "set": 120,
+   "hold": 57
+  },
+  "rb-station-robot-cell": {
+   "select": 532,
+   "wait": 5332,
+   "commit": 30,
+   "drop": 32,
+   "press": 1357,
+   "release": 1311
+  },
+  "rb-station-amr-fleet": {
+   "select": 552,
+   "wait": 5171,
+   "commit": 30,
+   "drop": 31,
+   "press": 1365,
+   "release": 1320
+  },
+  "rb-station-cobot": {
+   "select": 570,
+   "wait": 5260,
+   "commit": 30,
+   "drop": 35,
+   "press": 1362,
+   "release": 1313
+  }
+ },
+ "crossSplitRemoved": 6,
+ "crossSplitRemovedIds": [
+  {
+   "id": "col-rb-cobot-zone-setup-300013",
+   "removedFrom": "validation",
+   "keptIn": "train"
+  },
+  {
+   "id": "col-rb-cobot-zone-setup-500019",
+   "removedFrom": "test",
+   "keptIn": "train"
+  },
+  {
+   "id": "col-rb-amr-fleet-routing-300011",
+   "removedFrom": "validation",
+   "keptIn": "train"
+  },
+  {
+   "id": "col-rb-amr-fleet-routing-300017",
+   "removedFrom": "validation",
+   "keptIn": "train"
+  },
+  {
+   "id": "col-rb-amr-fleet-routing-500021",
+   "removedFrom": "test",
+   "keptIn": "train"
+  },
+  {
+   "id": "col-rb-amr-fleet-routing-500022",
+   "removedFrom": "test",
+   "keptIn": "train"
+  }
+ ],
+ "withinSplitDuplicates": 3,
+ "leakage": 0,
+ "refused": [],
+ "full": {
+  "shards": [
+   {
+    "path": "train/rb-cell-entry-000.jsonl",
+    "lines": 309,
+    "bytes": 122806
+   },
+   {
+    "path": "train/rb-cell-entry-001.jsonl",
+    "lines": 309,
+    "bytes": 122509
+   },
+   {
+    "path": "train/rb-cell-entry-002.jsonl",
+    "lines": 309,
+    "bytes": 122746
+   },
+   {
+    "path": "train/rb-cell-entry-003.jsonl",
+    "lines": 279,
+    "bytes": 110741
+   },
+   {
+    "path": "validation/rb-cell-entry-000.jsonl",
+    "lines": 305,
+    "bytes": 122816
+   },
+   {
+    "path": "validation/rb-cell-entry-001.jsonl",
+    "lines": 21,
+    "bytes": 8374
+   },
+   {
+    "path": "test/rb-cell-entry-000.jsonl",
+    "lines": 262,
+    "bytes": 103874
+   },
+   {
+    "path": "train/rb-cobot-zone-setup-000.jsonl",
+    "lines": 276,
+    "bytes": 119275
+   },
+   {
+    "path": "validation/rb-cobot-zone-setup-000.jsonl",
+    "lines": 57,
+    "bytes": 25008
+   },
+   {
+    "path": "test/rb-cobot-zone-setup-000.jsonl",
+    "lines": 56,
+    "bytes": 24213
+   },
+   {
+    "path": "train/rb-teleop-pick-place-000.jsonl",
+    "lines": 263,
+    "bytes": 122677
+   },
+   {
+    "path": "train/rb-teleop-pick-place-001.jsonl",
+    "lines": 264,
+    "bytes": 122838
+   },
+   {
+    "path": "train/rb-teleop-pick-place-002.jsonl",
+    "lines": 263,
+    "bytes": 122731
+   },
+   {
+    "path": "train/rb-teleop-pick-place-003.jsonl",
+    "lines": 263,
+    "bytes": 122794
+   },
+   {
+    "path": "train/rb-teleop-pick-place-004.jsonl",
+    "lines": 263,
+    "bytes": 122458
+   },
+   {
+    "path": "train/rb-teleop-pick-place-005.jsonl",
+    "lines": 263,
+    "bytes": 122629
+   },
+   {
+    "path": "train/rb-teleop-pick-place-006.jsonl",
+    "lines": 263,
+    "bytes": 122788
+   },
+   {
+    "path": "train/rb-teleop-pick-place-007.jsonl",
+    "lines": 263,
+    "bytes": 122714
+   },
+   {
+    "path": "train/rb-teleop-pick-place-008.jsonl",
+    "lines": 235,
+    "bytes": 109837
+   },
+   {
+    "path": "validation/rb-teleop-pick-place-000.jsonl",
+    "lines": 260,
+    "bytes": 122822
+   },
+   {
+    "path": "validation/rb-teleop-pick-place-001.jsonl",
+    "lines": 260,
+    "bytes": 122832
+   },
+   {
+    "path": "validation/rb-teleop-pick-place-002.jsonl",
+    "lines": 60,
+    "bytes": 28342
+   },
+   {
+    "path": "test/rb-teleop-pick-place-000.jsonl",
+    "lines": 263,
+    "bytes": 122573
+   },
+   {
+    "path": "test/rb-teleop-pick-place-001.jsonl",
+    "lines": 263,
+    "bytes": 122467
+   },
+   {
+    "path": "test/rb-teleop-pick-place-002.jsonl",
+    "lines": 58,
+    "bytes": 27057
+   },
+   {
+    "path": "train/rb-amr-fleet-routing-000.jsonl",
+    "lines": 262,
+    "bytes": 122788
+   },
+   {
+    "path": "train/rb-amr-fleet-routing-001.jsonl",
+    "lines": 260,
+    "bytes": 122416
+   },
+   {
+    "path": "train/rb-amr-fleet-routing-002.jsonl",
+    "lines": 14,
+    "bytes": 6573
+   },
+   {
+    "path": "validation/rb-amr-fleet-routing-000.jsonl",
+    "lines": 116,
+    "bytes": 55238
+   },
+   {
+    "path": "test/rb-amr-fleet-routing-000.jsonl",
+    "lines": 139,
+    "bytes": 64942
+   },
+   {
+    "path": "train/rb-construction-drilling-000.jsonl",
+    "lines": 289,
+    "bytes": 122584
+   },
+   {
+    "path": "train/rb-construction-drilling-001.jsonl",
+    "lines": 289,
+    "bytes": 122621
+   },
+   {
+    "path": "train/rb-construction-drilling-002.jsonl",
+    "lines": 222,
+    "bytes": 94150
+   },
+   {
+    "path": "validation/rb-construction-drilling-000.jsonl",
+    "lines": 210,
+    "bytes": 90261
+   },
+   {
+    "path": "test/rb-construction-drilling-000.jsonl",
+    "lines": 182,
+    "bytes": 77062
+   },
+   {
+    "path": "train/rb-port-gantry-000.jsonl",
+    "lines": 299,
+    "bytes": 122774
+   },
+   {
+    "path": "train/rb-port-gantry-001.jsonl",
+    "lines": 299,
+    "bytes": 122654
+   },
+   {
+    "path": "train/rb-port-gantry-002.jsonl",
+    "lines": 299,
+    "bytes": 122596
+   },
+   {
+    "path": "train/rb-port-gantry-003.jsonl",
+    "lines": 300,
+    "bytes": 122814
+   },
+   {
+    "path": "train/rb-port-gantry-004.jsonl",
+    "lines": 16,
+    "bytes": 6595
+   },
+   {
+    "path": "validation/rb-port-gantry-000.jsonl",
+    "lines": 258,
+    "bytes": 107215
+   },
+   {
+    "path": "test/rb-port-gantry-000.jsonl",
+    "lines": 300,
+    "bytes": 122814
+   },
+   {
+    "path": "test/rb-port-gantry-001.jsonl",
+    "lines": 28,
+    "bytes": 11476
+   },
+   {
+    "path": "train/rb-station-robot-cell-000.jsonl",
+    "lines": 281,
+    "bytes": 122652
+   },
+   {
+    "path": "train/rb-station-robot-cell-001.jsonl",
+    "lines": 281,
+    "bytes": 122677
+   },
+   {
+    "path": "train/rb-station-robot-cell-002.jsonl",
+    "lines": 281,
+    "bytes": 122619
+   },
+   {
+    "path": "train/rb-station-robot-cell-003.jsonl",
+    "lines": 281,
+    "bytes": 122682
+   },
+   {
+    "path": "train/rb-station-robot-cell-004.jsonl",
+    "lines": 281,
+    "bytes": 122577
+   },
+   {
+    "path": "train/rb-station-robot-cell-005.jsonl",
+    "lines": 281,
+    "bytes": 122583
+   },
+   {
+    "path": "train/rb-station-robot-cell-006.jsonl",
+    "lines": 281,
+    "bytes": 122725
+   },
+   {
+    "path": "train/rb-station-robot-cell-007.jsonl",
+    "lines": 281,
+    "bytes": 122539
+   },
+   {
+    "path": "train/rb-station-robot-cell-008.jsonl",
+    "lines": 281,
+    "bytes": 122609
+   },
+   {
+    "path": "train/rb-station-robot-cell-009.jsonl",
+    "lines": 281,
+    "bytes": 122613
+   },
+   {
+    "path": "train/rb-station-robot-cell-010.jsonl",
+    "lines": 281,
+    "bytes": 122647
+   },
+   {
+    "path": "train/rb-station-robot-cell-011.jsonl",
+    "lines": 282,
+    "bytes": 122816
+   },
+   {
+    "path": "train/rb-station-robot-cell-012.jsonl",
+    "lines": 281,
+    "bytes": 122601
+   },
+   {
+    "path": "train/rb-station-robot-cell-013.jsonl",
+    "lines": 281,
+    "bytes": 122577
+   },
+   {
+    "path": "train/rb-station-robot-cell-014.jsonl",
+    "lines": 281,
+    "bytes": 122613
+   },
+   {
+    "path": "train/rb-station-robot-cell-015.jsonl",
+    "lines": 281,
+    "bytes": 122586
+   },
+   {
+    "path": "train/rb-station-robot-cell-016.jsonl",
+    "lines": 281,
+    "bytes": 122566
+   },
+   {
+    "path": "train/rb-station-robot-cell-017.jsonl",
+    "lines": 281,
+    "bytes": 122686
+   },
+   {
+    "path": "train/rb-station-robot-cell-018.jsonl",
+    "lines": 281,
+    "bytes": 122540
+   },
+   {
+    "path": "train/rb-station-robot-cell-019.jsonl",
+    "lines": 281,
+    "bytes": 122758
+   },
+   {
+    "path": "train/rb-station-robot-cell-020.jsonl",
+    "lines": 113,
+    "bytes": 48820
+   },
+   {
+    "path": "validation/rb-station-robot-cell-000.jsonl",
+    "lines": 278,
+    "bytes": 122575
+   },
+   {
+    "path": "validation/rb-station-robot-cell-001.jsonl",
+    "lines": 278,
+    "bytes": 122673
+   },
+   {
+    "path": "validation/rb-station-robot-cell-002.jsonl",
+    "lines": 278,
+    "bytes": 122657
+   },
+   {
+    "path": "validation/rb-station-robot-cell-003.jsonl",
+    "lines": 278,
+    "bytes": 122741
+   },
+   {
+    "path": "validation/rb-station-robot-cell-004.jsonl",
+    "lines": 278,
+    "bytes": 122638
+   },
+   {
+    "path": "validation/rb-station-robot-cell-005.jsonl",
+    "lines": 70,
+    "bytes": 30583
+   },
+   {
+    "path": "test/rb-station-robot-cell-000.jsonl",
+    "lines": 282,
+    "bytes": 122794
+   },
+   {
+    "path": "test/rb-station-robot-cell-001.jsonl",
+    "lines": 282,
+    "bytes": 122766
+   },
+   {
+    "path": "test/rb-station-robot-cell-002.jsonl",
+    "lines": 281,
+    "bytes": 122438
+   },
+   {
+    "path": "test/rb-station-robot-cell-003.jsonl",
+    "lines": 282,
+    "bytes": 122811
+   },
+   {
+    "path": "test/rb-station-robot-cell-004.jsonl",
+    "lines": 273,
+    "bytes": 118844
+   },
+   {
+    "path": "train/rb-station-amr-fleet-000.jsonl",
+    "lines": 283,
+    "bytes": 122868
+   },
+   {
+    "path": "train/rb-station-amr-fleet-001.jsonl",
+    "lines": 283,
+    "bytes": 122857
+   },
+   {
+    "path": "train/rb-station-amr-fleet-002.jsonl",
+    "lines": 283,
+    "bytes": 122624
+   },
+   {
+    "path": "train/rb-station-amr-fleet-003.jsonl",
+    "lines": 283,
+    "bytes": 122808
+   },
+   {
+    "path": "train/rb-station-amr-fleet-004.jsonl",
+    "lines": 283,
+    "bytes": 122759
+   },
+   {
+    "path": "train/rb-station-amr-fleet-005.jsonl",
+    "lines": 283,
+    "bytes": 122842
+   },
+   {
+    "path": "train/rb-station-amr-fleet-006.jsonl",
+    "lines": 283,
+    "bytes": 122840
+   },
+   {
+    "path": "train/rb-station-amr-fleet-007.jsonl",
+    "lines": 283,
+    "bytes": 122880
+   },
+   {
+    "path": "train/rb-station-amr-fleet-008.jsonl",
+    "lines": 283,
+    "bytes": 122847
+   },
+   {
+    "path": "train/rb-station-amr-fleet-009.jsonl",
+    "lines": 283,
+    "bytes": 122809
+   },
+   {
+    "path": "train/rb-station-amr-fleet-010.jsonl",
+    "lines": 283,
+    "bytes": 122839
+   },
+   {
+    "path": "train/rb-station-amr-fleet-011.jsonl",
+    "lines": 282,
+    "bytes": 122453
+   },
+   {
+    "path": "train/rb-station-amr-fleet-012.jsonl",
+    "lines": 282,
+    "bytes": 122474
+   },
+   {
+    "path": "train/rb-station-amr-fleet-013.jsonl",
+    "lines": 282,
+    "bytes": 122500
+   },
+   {
+    "path": "train/rb-station-amr-fleet-014.jsonl",
+    "lines": 283,
+    "bytes": 122853
+   },
+   {
+    "path": "train/rb-station-amr-fleet-015.jsonl",
+    "lines": 283,
+    "bytes": 122833
+   },
+   {
+    "path": "train/rb-station-amr-fleet-016.jsonl",
+    "lines": 283,
+    "bytes": 122747
+   },
+   {
+    "path": "train/rb-station-amr-fleet-017.jsonl",
+    "lines": 282,
+    "bytes": 122536
+   },
+   {
+    "path": "train/rb-station-amr-fleet-018.jsonl",
+    "lines": 282,
+    "bytes": 122595
+   },
+   {
+    "path": "train/rb-station-amr-fleet-019.jsonl",
+    "lines": 282,
+    "bytes": 122480
+   },
+   {
+    "path": "train/rb-station-amr-fleet-020.jsonl",
+    "lines": 14,
+    "bytes": 6126
+   },
+   {
+    "path": "validation/rb-station-amr-fleet-000.jsonl",
+    "lines": 279,
+    "bytes": 122496
+   },
+   {
+    "path": "validation/rb-station-amr-fleet-001.jsonl",
+    "lines": 279,
+    "bytes": 122572
+   },
+   {
+    "path": "validation/rb-station-amr-fleet-002.jsonl",
+    "lines": 279,
+    "bytes": 122485
+   },
+   {
+    "path": "validation/rb-station-amr-fleet-003.jsonl",
+    "lines": 279,
+    "bytes": 122484
+   },
+   {
+    "path": "validation/rb-station-amr-fleet-004.jsonl",
+    "lines": 279,
+    "bytes": 122541
+   },
+   {
+    "path": "validation/rb-station-amr-fleet-005.jsonl",
+    "lines": 4,
+    "bytes": 1808
+   },
+   {
+    "path": "test/rb-station-amr-fleet-000.jsonl",
+    "lines": 283,
+    "bytes": 122503
+   },
+   {
+    "path": "test/rb-station-amr-fleet-001.jsonl",
+    "lines": 283,
+    "bytes": 122833
+   },
+   {
+    "path": "test/rb-station-amr-fleet-002.jsonl",
+    "lines": 283,
+    "bytes": 122639
+   },
+   {
+    "path": "test/rb-station-amr-fleet-003.jsonl",
+    "lines": 283,
+    "bytes": 122570
+   },
+   {
+    "path": "test/rb-station-amr-fleet-004.jsonl",
+    "lines": 270,
+    "bytes": 116959
+   },
+   {
+    "path": "train/rb-station-cobot-000.jsonl",
+    "lines": 285,
+    "bytes": 122814
+   },
+   {
+    "path": "train/rb-station-cobot-001.jsonl",
+    "lines": 285,
+    "bytes": 122821
+   },
+   {
+    "path": "train/rb-station-cobot-002.jsonl",
+    "lines": 285,
+    "bytes": 122751
+   },
+   {
+    "path": "train/rb-station-cobot-003.jsonl",
+    "lines": 285,
+    "bytes": 122840
+   },
+   {
+    "path": "train/rb-station-cobot-004.jsonl",
+    "lines": 285,
+    "bytes": 122644
+   },
+   {
+    "path": "train/rb-station-cobot-005.jsonl",
+    "lines": 284,
+    "bytes": 122441
+   },
+   {
+    "path": "train/rb-station-cobot-006.jsonl",
+    "lines": 285,
+    "bytes": 122838
+   },
+   {
+    "path": "train/rb-station-cobot-007.jsonl",
+    "lines": 285,
+    "bytes": 122755
+   },
+   {
+    "path": "train/rb-station-cobot-008.jsonl",
+    "lines": 285,
+    "bytes": 122789
+   },
+   {
+    "path": "train/rb-station-cobot-009.jsonl",
+    "lines": 285,
+    "bytes": 122689
+   },
+   {
+    "path": "train/rb-station-cobot-010.jsonl",
+    "lines": 285,
+    "bytes": 122734
+   },
+   {
+    "path": "train/rb-station-cobot-011.jsonl",
+    "lines": 286,
+    "bytes": 122591
+   },
+   {
+    "path": "train/rb-station-cobot-012.jsonl",
+    "lines": 285,
+    "bytes": 122725
+   },
+   {
+    "path": "train/rb-station-cobot-013.jsonl",
+    "lines": 285,
+    "bytes": 122723
+   },
+   {
+    "path": "train/rb-station-cobot-014.jsonl",
+    "lines": 285,
+    "bytes": 122728
+   },
+   {
+    "path": "train/rb-station-cobot-015.jsonl",
+    "lines": 285,
+    "bytes": 122648
+   },
+   {
+    "path": "train/rb-station-cobot-016.jsonl",
+    "lines": 285,
+    "bytes": 122687
+   },
+   {
+    "path": "train/rb-station-cobot-017.jsonl",
+    "lines": 285,
+    "bytes": 122841
+   },
+   {
+    "path": "train/rb-station-cobot-018.jsonl",
+    "lines": 284,
+    "bytes": 122553
+   },
+   {
+    "path": "train/rb-station-cobot-019.jsonl",
+    "lines": 284,
+    "bytes": 122490
+   },
+   {
+    "path": "train/rb-station-cobot-020.jsonl",
+    "lines": 65,
+    "bytes": 27642
+   },
+   {
+    "path": "validation/rb-station-cobot-000.jsonl",
+    "lines": 281,
+    "bytes": 122523
+   },
+   {
+    "path": "validation/rb-station-cobot-001.jsonl",
+    "lines": 281,
+    "bytes": 122490
+   },
+   {
+    "path": "validation/rb-station-cobot-002.jsonl",
+    "lines": 281,
+    "bytes": 122459
+   },
+   {
+    "path": "validation/rb-station-cobot-003.jsonl",
+    "lines": 282,
+    "bytes": 122872
+   },
+   {
+    "path": "validation/rb-station-cobot-004.jsonl",
+    "lines": 276,
+    "bytes": 120313
+   },
+   {
+    "path": "test/rb-station-cobot-000.jsonl",
+    "lines": 285,
+    "bytes": 122551
+   },
+   {
+    "path": "test/rb-station-cobot-001.jsonl",
+    "lines": 285,
+    "bytes": 122583
+   },
+   {
+    "path": "test/rb-station-cobot-002.jsonl",
+    "lines": 285,
+    "bytes": 122569
+   },
+   {
+    "path": "test/rb-station-cobot-003.jsonl",
+    "lines": 285,
+    "bytes": 122627
+   },
+   {
+    "path": "test/rb-station-cobot-004.jsonl",
+    "lines": 266,
+    "bytes": 114081
+   }
+  ],
+  "contentHash": "1fdf5d6487729ca8",
+  "write": "node tools/ra_dataset.mjs --full --out <dir>"
+ },
+ "sample": [
+  {
+   "path": "sample/train/rb-cell-entry.jsonl",
+   "episodes": 1,
+   "lines": 25
+  },
+  {
+   "path": "sample/validation/rb-cell-entry.jsonl",
+   "episodes": 1,
+   "lines": 28
+  },
+  {
+   "path": "sample/test/rb-cell-entry.jsonl",
+   "episodes": 1,
+   "lines": 25
+  },
+  {
+   "path": "sample/train/rb-cobot-zone-setup.jsonl",
+   "episodes": 1,
+   "lines": 7
+  },
+  {
+   "path": "sample/validation/rb-cobot-zone-setup.jsonl",
+   "episodes": 1,
+   "lines": 6
+  },
+  {
+   "path": "sample/test/rb-cobot-zone-setup.jsonl",
+   "episodes": 1,
+   "lines": 6
+  },
+  {
+   "path": "sample/train/rb-teleop-pick-place.jsonl",
+   "episodes": 1,
+   "lines": 62
+  },
+  {
+   "path": "sample/validation/rb-teleop-pick-place.jsonl",
+   "episodes": 1,
+   "lines": 56
+  },
+  {
+   "path": "sample/test/rb-teleop-pick-place.jsonl",
+   "episodes": 1,
+   "lines": 56
+  },
+  {
+   "path": "sample/train/rb-amr-fleet-routing.jsonl",
+   "episodes": 1,
+   "lines": 18
+  },
+  {
+   "path": "sample/validation/rb-amr-fleet-routing.jsonl",
+   "episodes": 1,
+   "lines": 13
+  },
+  {
+   "path": "sample/test/rb-amr-fleet-routing.jsonl",
+   "episodes": 1,
+   "lines": 19
+  },
+  {
+   "path": "sample/train/rb-construction-drilling.jsonl",
+   "episodes": 1,
+   "lines": 20
+  },
+  {
+   "path": "sample/validation/rb-construction-drilling.jsonl",
+   "episodes": 1,
+   "lines": 19
+  },
+  {
+   "path": "sample/test/rb-construction-drilling.jsonl",
+   "episodes": 1,
+   "lines": 20
+  },
+  {
+   "path": "sample/train/rb-port-gantry.jsonl",
+   "episodes": 1,
+   "lines": 38
+  },
+  {
+   "path": "sample/validation/rb-port-gantry.jsonl",
+   "episodes": 1,
+   "lines": 12
+  },
+  {
+   "path": "sample/test/rb-port-gantry.jsonl",
+   "episodes": 1,
+   "lines": 31
+  },
+  {
+   "path": "sample/train/rb-station-robot-cell.jsonl",
+   "episodes": 1,
+   "lines": 100,
+   "truncated": true,
+   "episodeLines": 282
+  },
+  {
+   "path": "sample/train/rb-station-amr-fleet.jsonl",
+   "episodes": 1,
+   "lines": 100,
+   "truncated": true,
+   "episodeLines": 281
+  },
+  {
+   "path": "sample/train/rb-station-cobot.jsonl",
+   "episodes": 1,
+   "lines": 100,
+   "truncated": true,
+   "episodeLines": 283
+  }
+ ]
+}

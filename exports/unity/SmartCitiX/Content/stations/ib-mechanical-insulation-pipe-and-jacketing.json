@@ -1,0 +1,414 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "run-sealed",
+    "name": "Run Sealed",
+    "note": "Insulated, jacketed and banded with the surface temperature proven cool before every reach"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "Insulators Local 16 heat and frost insulators apprenticeship and training; OSHA 29 CFR 1926.451 scaffolds and ANSI A10.8 scaffolding safety requirements for the rolling tower; 29 CFR 1910.134 respiratory protection against mineral-fibre dust; 29 CFR 1910.1000 air contaminants and the permissible exposure limits for nuisance and fibrous dust",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI A10.8",
+        "id": "ansi-a10-8",
+        "title": "ANSI/ASSP A10.8 — Scaffolding safety requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "Insulators Local 16",
+        "id": "insulators-local-16",
+        "title": "Insulators Local 16 — heat and frost insulators and allied workers apprenticeship and training, as a training body"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1000",
+        "id": "osha-1910-1000",
+        "title": "29 CFR 1910.1000 — Air contaminants and the permissible exposure limits"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.451",
+        "id": "osha-1926-451",
+        "title": "29 CFR 1926.451 — Scaffolds, general requirements"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "cool-to-the-touch",
+        "name": "Cool to the Touch",
+        "note": "Never reached for bare pipe before the temperature read safe"
+      },
+      {
+        "id": "layer-discipline",
+        "name": "Layer Discipline",
+        "note": "Installed both layers in the correct order every time"
+      },
+      {
+        "id": "band-precise",
+        "name": "Band Precise",
+        "note": "Held every gauge and track reading near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections from the spec to the log"
+      },
+      {
+        "id": "steady-hand",
+        "name": "Steady Hand",
+        "note": "Held the jacketing wrap through the whole pass"
+      },
+      {
+        "id": "fast-jacket",
+        "name": "Fast Jacket",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "WRAP",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Helper",
+      "Insulator",
+      "Lead Mechanic",
+      "Insulation Foreman",
+      "Insulation Certified"
+    ],
+    "system": "Insulation Certified"
+  },
+  "hazards": {
+    "band-snapback": "You started to release the banding tool's tension lever before the crimp had actually seated. A banding tool under load stores that tension in the strap, and letting go before the crimp locks it lets the whole loop snap back through your hand at once — it is a laceration and a struck-hand injury from a tool built to do the exact opposite when it is run correctly.",
+    "bare-hand-hot-pipe": "You reached for the bare flange before the surface temperature read safe. A process pipe running at operating temperature carries enough heat to raise a contact burn through a bare hand in under a second, and the only thing that tells you it has cooled into a touchable range is the reading on the thermometer — never how it looks from three feet away.",
+    "cut-toward-body": "You picked up the utility knife to trim the mineral wool blanket cutting back toward your own hand. A fresh blade under load that slips off a batt does not stop at the edge of the material — it keeps going into whatever is behind it, which on a scaffold platform is your other hand or your leg. Every cut on this job goes away from the body, blade held so a slip travels into the insulation and nothing else.",
+    "wet-insulation-left": "That section of mineral wool is soaked through from the leak that was fixed last week, and it is about to go back on the pipe wet and covered over. Wet insulation traps moisture against the pipe wall instead of shedding it, and corrosion under insulation works in the dark for years before it shows up as a wall-thickness failure nobody saw coming because the jacketing looked fine the whole time."
+  },
+  "id": "ib-mechanical-insulation-pipe-and-jacketing",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "pack-fitting",
+      "alert": "A rigger's tag line has slipped and the suspended pipe spool overhead is swinging in toward your scaffold platform.",
+      "cue": "Get clear and sound the warning before it reaches the platform.",
+      "delay": 4,
+      "id": "load-swing",
+      "kind": "Overhead load",
+      "missNote": "The load kept swinging while you stayed on the platform working. A pipe spool on a hook does not slow down for someone underneath it, and the horn button was standing right there unused.",
+      "seconds": 12,
+      "target": "spotter-horn",
+      "why": "A load on a hook that has lost its tag line is no longer going where the rigger planned, and the fastest thing anyone on the platform can do about a swinging load overhead is not guess its path but sound the horn and get clear of where it is headed. The horn is what tells the crane operator someone below has seen the problem before it reaches them.",
+      "wrongNote": "It is the spotter horn. Nothing about this scaffold is safer until the crane operator knows what you can see."
+    },
+    {
+      "after": "jacket-wrap",
+      "alert": "The steam trap downstream has opened and is discharging condensate across the walkway behind your scaffold.",
+      "cue": "Isolate the trap before anyone walks through that spray.",
+      "delay": 4,
+      "id": "trap-blowdown",
+      "kind": "Hot condensate",
+      "missNote": "The condensate kept discharging across the walkway while the jacketing wrap continued overhead. Somebody walking that route with their eyes on the scaffold above them, not the floor, is the scald this isolation valve exists to prevent.",
+      "seconds": 12,
+      "target": "trap-isolation-handle",
+      "why": "A steam trap discharging to atmosphere is putting near-boiling condensate across a walkway that people are using to get to and from this platform, and it stays that way until the isolation valve upstream of the trap is closed — not until it happens to stop on its own.",
+      "wrongNote": "That is not it. The trap isolation handle is what actually stops the discharge — everything else here can wait a minute longer."
+    }
+  ],
+  "lateNotes": {
+    "banding-tool": "The band gets tensioned and crimped only once the jacketing is wrapped snug and seated — not before it is in position.",
+    "jacketing-sheet": "The jacketing goes on once the insulation layers are complete and the temperature has been rechecked, not while the pipe is still reading hot."
+  },
+  "name": "Mechanical Insulation, Pipe and Jacketing",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "insulators-and-boilermakers"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "band-snapback",
+      "banding-tool",
+      "bare-hand-hot-pipe",
+      "cui-patch",
+      "cut-gloves",
+      "cut-toward-body",
+      "dust-mask",
+      "eye-pro",
+      "first-layer",
+      "flange-gap",
+      "ibmi-closing-log",
+      "ibmi-crew-checkin",
+      "ir-thermometer",
+      "jacketing-sheet",
+      "loose-band",
+      "missing-endcap",
+      "missing-hanger",
+      "pipe-span",
+      "scaffold-tag",
+      "second-layer",
+      "spotter-horn",
+      "trap-isolation-handle",
+      "valve-body",
+      "wet-insulation-left",
+      "wire-tie",
+      "wool-blanket",
+      "work-order"
+    ],
+    "meshes": 190
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Confirm the material, the thickness and the jacketing called out for this run.",
+      "id": "spec",
+      "kind": "select",
+      "prompt": "Confirm the material, the thickness and the jacketing called out for this run.",
+      "target": "work-order",
+      "title": "Read the insulation and jacketing spec",
+      "why": "The spec sets the mineral wool thickness for this line's service temperature and names aluminum jacketing over it, and a run insulated to the wrong thickness under-protects a bystander from contact burn just as surely as no insulation at all. Working from memory on a rack with three different services running through it is how the wrong thickness ends up on the wrong pipe."
+    },
+    {
+      "cue": "Aim the infrared thermometer at the bare flange and commit once it reads inside the safe-to-touch band.",
+      "gauge": {
+        "green": [
+          0,
+          0.22
+        ],
+        "label": "BARE PIPE SURFACE TEMPERATURE",
+        "missNote": "Still too hot for a bare-hand reach. Give the line more time or stay gloved until this reads inside the safe band.",
+        "speed": 0.55
+      },
+      "id": "pipe-temp",
+      "kind": "gauge",
+      "prompt": "Aim the infrared thermometer at the bare flange and commit once it reads inside the safe-to-touch band.",
+      "target": "ir-thermometer",
+      "title": "Check the bare pipe's surface temperature",
+      "why": "This run is still carrying process heat, and the only way to know whether a bare-hand reach is safe is a reading, never a guess from how the pipe looks from the platform. The safe-to-touch band on this gauge is the same number the burn-hazard signage on the rack is built around, and it is checked before a single glove comes off."
+    },
+    {
+      "cue": "Three things on this run are not right yet. Find them before the first layer goes on.",
+      "id": "rack-walk",
+      "itemNames": {
+        "cui-patch": "rust staining through the old jacketing",
+        "missing-hanger": "the missing pipe hanger",
+        "wet-insulation-left": "the soaked insulation section"
+      },
+      "itemNotes": {
+        "cui-patch": "Rust bleeding through a jacketing seam is corrosion under insulation working on the pipe wall behind it — it gets opened up and the wall thickness checked before any new material goes over the same spot.",
+        "missing-hanger": "A support hanger is missing along this span, and an unsupported length of insulated pipe sags at the joints, cracking the jacketing seam right where it flexes the most.",
+        "wet-insulation-left": "Insulation left wet from last week's repair does not get covered over — it comes off, the pipe under it gets checked, and it is replaced dry."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things on this run are not right yet. Find them before the first layer goes on.",
+      "targets": [
+        "cui-patch",
+        "missing-hanger",
+        "wet-insulation-left"
+      ],
+      "title": "Walk the pipe rack before starting",
+      "why": "Everything found now is fixed for the cost of looking; everything missed now gets insulated over and becomes invisible for years. A hanger, a corrosion spot and a wet section are the three failures a finished jacketing job hides best, which is exactly why they are checked before the material goes on rather than after."
+    },
+    {
+      "cue": "Cut-resistant gloves first, then eye protection, then the fibre-rated respirator.",
+      "id": "ppe-don",
+      "itemNames": {
+        "cut-gloves": "cut-resistant gloves",
+        "dust-mask": "fibre-rated respirator",
+        "eye-pro": "eye protection"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — gloves before the blade work starts, eyewear before the first cut sheds fibre, respirator seated last.",
+      "prompt": "Cut-resistant gloves first, then eye protection, then the fibre-rated respirator.",
+      "targets": [
+        "cut-gloves",
+        "eye-pro",
+        "dust-mask"
+      ],
+      "title": "Don PPE in order",
+      "why": "The gloves go on first because every step from here on involves a blade or a banding tool; the eyewear next because mineral wool sheds fibre the moment it is cut, well before the respirator seals; and the respirator last so it seats against a clean, dry face rather than one already sweating under safety glasses."
+    },
+    {
+      "cue": "Pack cut mineral wool pieces into the valve body's irregular shape and hold it pressed home.",
+      "holdBreakNote": "Let go before it seated. A piece pressed in and released springs back and leaves a gap behind the jacketing that nobody will see again until this comes apart.",
+      "id": "pack-fitting",
+      "kind": "hold",
+      "prompt": "Pack cut mineral wool pieces into the valve body's irregular shape and hold it pressed home.",
+      "seconds": 5,
+      "target": "valve-body",
+      "title": "Hand-pack the valve body",
+      "why": "A valve body has no flat run for a blanket to wrap — it is packed by hand, piece by piece, and held compressed until each piece actually seats against the metal rather than bridging over a void. A void packed loosely today is a cold spot and a condensation point in six months, found only when someone cuts the jacketing open to ask why that one section is always wet."
+    },
+    {
+      "cue": "Carry the rolled mineral wool blanket from the cart up to the open pipe span.",
+      "drag": {
+        "missNote": "Not up at the span yet. Get the blanket to the pipe before starting to cut it to length.",
+        "radius": 0.55,
+        "to": "pipe-span"
+      },
+      "id": "carry-insulation",
+      "kind": "drag",
+      "prompt": "Carry the rolled mineral wool blanket from the cart up to the open pipe span.",
+      "target": "wool-blanket",
+      "title": "Carry the insulation blanket to the span",
+      "why": "The blanket is staged on the ground for a reason — carrying it up the scaffold two hands on the roll, rather than dragging a loose length up the ladder, is what keeps it from snagging a rung and unrolling under someone's boot on the way up."
+    },
+    {
+      "cue": "Wrap the first layer around the pipe, offset the second layer's seam, then wire-tie both down.",
+      "id": "install-layers",
+      "itemNames": {
+        "first-layer": "first insulation layer",
+        "second-layer": "offset second layer",
+        "wire-tie": "wire-tied in place"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — the first layer goes on, the second layer's seam lands away from the first, and only then does the wire go on to hold both.",
+      "prompt": "Wrap the first layer around the pipe, offset the second layer's seam, then wire-tie both down.",
+      "targets": [
+        "first-layer",
+        "second-layer",
+        "wire-tie"
+      ],
+      "title": "Install the insulation in offset layers",
+      "why": "A single layer's seam is a straight line of reduced thickness running the length of the pipe; offsetting the second layer's seam against the first is what stops that line ever lining up all the way through to bare metal. The wire ties go on last because a layer that shifts before it is tied loses the offset it was just given."
+    },
+    {
+      "cue": "Crank the banding tool's handle to draw the strap down snug before crimping.",
+      "id": "band-tension",
+      "kind": "turn",
+      "prompt": "Crank the banding tool's handle to draw the strap down snug before crimping.",
+      "target": "banding-tool",
+      "title": "Tension the banding tool",
+      "turn": {
+        "axis": "z",
+        "label": "BAND TENSION",
+        "turns": 1.2
+      },
+      "why": "The strap has to be drawn down evenly before the crimp locks it, because a band crimped over slack strap looks tight and lets go the first time the jacketing is bumped. The handle is turned steadily rather than yanked, so the tension builds evenly around the pipe instead of pulling hardest at whichever point the strap happened to catch first."
+    },
+    {
+      "cue": "Wrap the jacketing sheet around the insulated pipe and hold it snug while the bands go on.",
+      "holdBreakNote": "Tension slipped out of band. Bring the sheet back snug against the insulation and hold it there through the rest of the wrap.",
+      "id": "jacket-wrap",
+      "kind": "track",
+      "prompt": "Wrap the jacketing sheet around the insulated pipe and hold it snug while the bands go on.",
+      "seconds": 7,
+      "target": "jacketing-sheet",
+      "title": "Wrap and hold the aluminum jacketing",
+      "track": {
+        "drift": 0.11,
+        "fall": 0.44,
+        "green": [
+          0.36,
+          0.6
+        ],
+        "label": "JACKET TENSION",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "The jacketing has to stay snug against the insulation underneath through the whole banding pass — too loose and it stands proud, catching every boot and hand that passes; pulled too hard and it dents the insulation beneath it, crushing the fibre and thinning the very layer it is supposed to protect."
+    },
+    {
+      "cue": "Aim the thermometer at the finished jacketing and commit once it reads inside the personnel-protection band.",
+      "gauge": {
+        "green": [
+          0,
+          0.2
+        ],
+        "label": "JACKETED SURFACE TEMPERATURE",
+        "missNote": "Still reading hot at the surface. Check for a thin spot or a gap in the layers before calling this run finished.",
+        "speed": 0.6
+      },
+      "id": "final-temp-check",
+      "kind": "gauge",
+      "prompt": "Aim the thermometer at the finished jacketing and commit once it reads inside the personnel-protection band.",
+      "target": "ir-thermometer",
+      "title": "Recheck the jacketed surface temperature",
+      "why": "The whole point of this insulation is a jacketed surface someone can lean a hand against without thinking twice, and the only way to prove that happened is the same reading taken again now that the work is done — not an assumption that thickness alone did the job."
+    },
+    {
+      "cue": "Three things on the finished jacketing are not right. Find them before signing this off.",
+      "id": "seam-walk",
+      "itemNames": {
+        "flange-gap": "the open gap at the flange",
+        "loose-band": "the band that never fully seated",
+        "missing-endcap": "the missing end cap"
+      },
+      "itemNotes": {
+        "flange-gap": "A gap left at the flange is an opening in the weather barrier right where the jacketing needs it most — flanges get insulated with a removable cover, not skipped because they are awkward to wrap.",
+        "loose-band": "A band that never fully seated will work itself loose with vibration and let the jacketing edge lift, and a lifted edge on a run like this one is a hand or a sleeve catching on it before it is a leak.",
+        "missing-endcap": "An open end on the jacketing run is where wash-down water and weather get behind the insulation first, soaking it from the inside out before anyone notices from the outside."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things on the finished jacketing are not right. Find them before signing this off.",
+      "targets": [
+        "flange-gap",
+        "missing-endcap",
+        "loose-band"
+      ],
+      "title": "Walk the finished run",
+      "why": "A jacketing job that looks finished from the platform and a jacketing job that actually sheds weather are not automatically the same thing, and the difference lives at the flange, the end and every band — exactly the three places a walk-down checks before the scaffold comes down."
+    },
+    {
+      "cue": "Report the corrosion found, the wet section replaced and how the platform work felt.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Report the corrosion found, the wet section replaced and how the platform work felt.",
+      "target": "ibmi-crew-checkin",
+      "title": "Check in with the insulation foreman",
+      "why": "The corrosion spot and the wet insulation both need to go on tomorrow's work list for the pipe underneath to actually get inspected, not just re-covered, and the foreman is the one who can put that on the schedule. The check-in is also where a rushed platform or a tool that needs replacing gets said out loud instead of carried quietly into the next shift."
+    },
+    {
+      "cue": "Record the material lot, the thickness applied and the sections found needing follow-up, then sign.",
+      "id": "closing-log",
+      "kind": "select",
+      "prompt": "Record the material lot, the thickness applied and the sections found needing follow-up, then sign.",
+      "target": "ibmi-closing-log",
+      "title": "Sign the insulation work log",
+      "why": "The log is what turns this run from a finished-looking pipe into a documented one — the material lot in case of a later recall, the applied thickness against the spec, and the corrosion and wet spots flagged for the follow-up inspection that a clean jacketing job would otherwise hide from view."
+    }
+  ],
+  "supportLine": "your employer's employee assistance programme, or your Insulators Local 16 business agent if you are not sure how to reach it",
+  "tagline": "A hot pipe run insulated and jacketed from a rolling scaffold, with the burn hazard checked before every bare-hand reach",
+  "title": "SmartCiti.X~ Mechanical Insulation, Pipe and Jacketing VR",
+  "trade": "Insulator, mechanical insulation and jacketing — Insulators Local 16",
+  "underwater": null,
+  "weather": null
+}

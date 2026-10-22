@@ -1,0 +1,146 @@
+{
+  "id": "k12-es-rain-gardens-a-sponge-in-the-sidewalk",
+  "index": "873",
+  "prefix": "esr",
+  "accent": "#6a9a4a",
+  "floor": ["#6a6250", "#5c5544"],
+  "wall": ["#e4e8d6", "#d2dac0"],
+  "trade": "Science class with the green infrastructure crew at a school rain garden — learner and landscape crew lead",
+  "header": "Upper-primary science at the Mission District School Campus in San Francisco: how a rain garden holds storm water and lets it soak into the ground, tested with soil columns and seen in the crew's garden beside the sidewalk, using only what the columns and the garden in the scene show.",
+  "name": "Rain Gardens: a Sponge in the Sidewalk",
+  "tagline": "Loose soil and plants soak up the rain that a hard sidewalk sends away — test it, then help the crew plant",
+  "badge": { "id": "sponge-builder", "name": "Sponge Builder", "note": "Compared how fast water soaks through garden soil and packed ground, explained what a rain garden does and helped the crew plant one" },
+  "board": { "name": "Garden Board", "currency": "SOAKS", "ranks": ["Seed", "Shoot", "Leaf", "Bloom", "Garden Keeper"] },
+  "hazards": [
+    { "id": "rain-garden-is-a-pond", "label": "Say a rain garden is a pond that stays full?", "face": "A\nPOND?", "text": "You said a rain garden stays full like a pond. A rain garden holds the water for a short while and lets it soak down into the soil. A day or so after the rain it is dry again and ready for the next storm." },
+    { "id": "dig-without-the-locate", "label": "Start digging before the crew checks for pipes?", "face": "DIG\nNOW", "text": "You picked up a spade before the crew checked for pipes and cables. Under a sidewalk there can be water pipes and power lines. The crew has them marked with paint and flags before anyone digs, every time." },
+    { "id": "stand-on-the-edge", "label": "Stand on the edge of the dug garden bed?", "face": "ON THE\nEDGE", "text": "You stood right on the edge of the dug bed. Fresh soil edges can crumble. Stand back on the path and let the crew work in the bed." },
+    { "id": "trample-the-plants", "label": "Walk through the garden to reach the other side?", "face": "WALK\nTHROUGH", "text": "You walked through the rain garden. Feet press the soil hard, and hard soil cannot soak up rain. Use the path around the garden so the soil stays loose like a sponge." }
+  ],
+  "find1": {
+    "title": "Find the parts of the rain garden",
+    "cue": "Mark the three parts that help the garden soak up rain.",
+    "why": "A rain garden is a shallow dip beside a sidewalk or roof. A gap in the kerb lets street water flow in, loose soil soaks it up like a sponge, and deep plant roots keep the soil open so water can keep moving down. Together they turn runoff into water that soaks into the ground instead of racing to a drain.",
+    "items": [
+      ["kerb-cut", "the gap in the kerb", "Street water flows in here."],
+      ["soil", "the loose garden soil", "It soaks up water like a sponge."],
+      ["roots", "the deep plant roots", "Roots keep the soil open."]
+    ],
+    "decoy": ["bike-rack", "the bike rack by the gate", "Handy for bikes, but not part of the garden."]
+  },
+  "select1": {
+    "title": "Wait for the crew's paint marks",
+    "cue": "Point to the paint marks and flags that show where pipes run before anyone digs.",
+    "why": "Before any digging, a locate crew marks pipes and cables under the ground with coloured paint and small flags. The garden crew digs only once those marks are there and plans the bed around them. Waiting for the marks is a habit every digging crew keeps, because what is underground cannot be seen from above.",
+    "key": "locate-card",
+    "label": "Marks checked",
+    "face": "MARKS\nFIRST"
+  },
+  "seq": {
+    "title": "Put the soil test in order",
+    "cue": "Fill both columns, pour the same water on each, time it, then compare.",
+    "why": "A fair test uses the same amount of water on each column. One column holds packed ground like a path, the other holds loose garden soil. Pouring the same water and timing each one means the soil is the only difference, so the timing tells you which one soaks water faster.",
+    "oon": "Out of order. Fill both columns first, then pour the same water on each.",
+    "items": [
+      ["ord-fill", "fill one column with packed ground and one with garden soil"],
+      ["ord-pour", "pour the same cup of water on each"],
+      ["ord-time", "time how long each takes to soak in"],
+      ["ord-compare", "compare the two times"]
+    ]
+  },
+  "turn": {
+    "title": "Set the cup to the same mark",
+    "cue": "Turn the dial until the measuring cup fills to the teacher's mark.",
+    "why": "Each column must get exactly the same amount of water, or the comparison is not fair. Filling the cup to one mark and using it for both pours controls the amount. Keeping that one thing the same is what lets you trust the result you get.",
+    "key": "cup-dial",
+    "label": "Cup level",
+    "dial": "CUP"
+  },
+  "gauge": {
+    "title": "Read the timer when the water is gone",
+    "cue": "Commit when the timer marker sits where the last water soaked in.",
+    "why": "You stop the timer when no water is left sitting on top of the soil. Reading it at that moment for both columns makes the comparison honest. The loose soil usually wins by a long way, which is exactly the job a rain garden does in a storm.",
+    "key": "soak-meter",
+    "label": "Soak time",
+    "meter": "SOAK",
+    "miss": "Not at the moment the water was gone. Read when the top is dry."
+  },
+  "hold": {
+    "title": "Hold the column upright while it drains",
+    "cue": "Hold the soil column straight until the water stops dripping out.",
+    "why": "If the column tips, water runs down the side instead of through the soil, and the test goes wrong. Holding it straight lets the water move through the soil the way rain moves through a garden bed. Careful handling keeps the result about the soil, not about the spill.",
+    "brk": "The column tipped before it finished draining. Hold it straight again.",
+    "key": "column-hold",
+    "label": "Hold the column"
+  },
+  "drag": {
+    "title": "Place a plant in the garden bed",
+    "cue": "Drag the young plant to the marked spot in the bed.",
+    "why": "Plants go where the crew's plan shows. Thirsty plants sit in the low middle where water gathers, and plants that like it drier sit on the sides. Putting each one in the right place keeps the garden healthy, so its roots keep the soil loose for years.",
+    "key": "plant",
+    "label": "Young plant",
+    "spot": "bed-spot",
+    "spotLabel": "The marked spot",
+    "miss": "Not on the marked spot yet. Check the crew's plan and place it there."
+  },
+  "find2": {
+    "title": "Spot how the crew works safely",
+    "cue": "Watch the crew at the garden bed and mark each safe habit.",
+    "why": "Building a rain garden means digging near a sidewalk, so the crew keeps people and pipes safe. They leave the paint marks in place, fence off the dug bed, and wear gloves and boots when they handle soil. Each habit is part of doing the job well, not an extra.",
+    "items": [
+      ["paint", "paint marks left in place", "Everyone can see where pipes run."],
+      ["fence", "a fence around the dug bed", "Walkers stay clear of the edge."],
+      ["gloves", "gloves and boots on the crew", "Hands and feet stay protected."]
+    ],
+    "decoy": ["mural", "a mural on the school wall", "Bright and cheerful, but not a safety habit."]
+  },
+  "select2": {
+    "title": "Say what the soil test showed",
+    "cue": "Choose the sentence that says what your two columns showed.",
+    "why": "Both columns got the same water. The loose garden soil soaked it up faster than the packed ground. A good answer says just that and connects it to the garden: loose soil and roots let rain soak in, so less water rushes to the storm drain.",
+    "key": "result-card",
+    "label": "State the result",
+    "face": "WHICH\nSOAKED?"
+  },
+  "track": {
+    "title": "Follow the water from the kerb to the soil",
+    "cue": "Keep the marker on the water as it flows through the kerb gap and spreads.",
+    "why": "Watching the water arrive shows the garden working. It runs along the gutter, turns in at the kerb gap, spreads across the bed and slowly sinks. Seeing it disappear into the soil is the best way to understand why people call a rain garden a sponge.",
+    "brk": "The marker lost the water. Find it at the kerb gap and follow it again.",
+    "key": "flow-track",
+    "label": "Water followed",
+    "meter": "FLOW"
+  },
+  "record": {
+    "title": "Record both soak times",
+    "cue": "Write the soak time for packed ground and for garden soil in a table.",
+    "why": "A table with the two times side by side makes the difference plain to anyone who reads it. It also lets another class repeat your test and compare. The crew keeps records too, noting how quickly the garden is dry after rain, to know the soil is still working.",
+    "key": "soak-log",
+    "label": "Soak record",
+    "done": "Both times recorded"
+  },
+  "share": {
+    "title": "Share where a rain garden could go",
+    "cue": "Show another group one place near school where rain runs off and a garden could help.",
+    "why": "Rain gardens work best where lots of water runs off hard ground, like the edge of a car park or below a roof pipe. Sharing ideas helps the class see how many places could soak up rain. Planners look for spots the same way when they choose where gardens go.",
+    "key": "share-board",
+    "label": "Share a spot",
+    "done": "Spot shared"
+  },
+  "checkin": {
+    "title": "Check in before the crew packs up",
+    "cue": "What does a rain garden do with the rain? Why must the soil stay loose?",
+    "why": "The crew looks over the garden before it leaves, and the class checks its ideas the same way. Each learner says what the garden does with rain and why feet stay on the path. If anyone thinks a rain garden stays full like a pond, the group sorts it out now.",
+    "label": "End-of-lesson check-in"
+  },
+  "interrupts": [
+    { "id": "a-wheelbarrow-comes-down-the-path", "kind": "Wheelbarrow", "key": "make-way", "label": "Step aside and make way", "alert": "A crew member pushes a full wheelbarrow of soil down the path.", "cue": "Step to the side of the path and let the wheelbarrow pass.", "why": "A heavy wheelbarrow is hard to stop quickly. Stepping aside gives the crew member a clear path and keeps toes safe. The crew calls out before moving loads, and everyone makes way.", "miss": "The class blocked the path, and the crew member had to set the wheelbarrow down and wait.", "wrong": "That leaves you in the wheelbarrow's way. Step to the side. Choose the response that deals with it now.", "done": "Path clear, the soil delivered. The lesson carries on." },
+    { "id": "the-crew-lead-asks-about-the-marks", "kind": "Crew question", "key": "name-marks", "label": "Say what the paint marks show", "alert": "The crew lead points at the paint on the sidewalk and asks what it is for.", "cue": "Say the marks show where pipes and cables run under the ground.", "why": "Knowing what the marks mean shows you understand why digging waits. The paint colours tell the crew what kind of line is below. Nobody digs near a line without planning around it.", "miss": "You could not say what the marks were for, and the crew lead had to explain before the class could go on.", "wrong": "That does not explain the marks. Say what is under the ground. Choose the response that deals with it now.", "done": "Marks explained. The lesson carries on." }
+  ],
+  "crew": ["Science teacher", "Classmate", "Landscape crew lead", "Crew member with wheelbarrow"],
+  "guide": { "start": "Same water on both columns.", "after": "Loose soil soaks it up.", "hazard": "Stop. Marks first, feet on the path." },
+  "lateRecord": "The soak record is written once both columns have drained — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the very end of the lesson.",
+  "scene": "lab",
+  "order": "c"
+}

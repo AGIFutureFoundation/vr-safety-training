@@ -1,0 +1,378 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "gap-judged-not-guessed",
+    "name": "Gap Judged, Not Guessed",
+    "note": "Every crossing timed to an actual gap in traffic, the paddle held the whole way across, and never a step off the curb before the gap was checked"
+  },
+  "category": "Mobility & Transit",
+  "certification": "AFT and CSEA crossing-guard training; the Manual on Uniform Traffic Control Devices (MUTCD) for the corner's signal timing and the paddle's own standard shape and colour; ANSI/ISEA 107 for the high-visibility vest; the district's and the local police department's own crossing-guard training curriculum for post positioning, the gap-judgement rule and the hand signals used at this corner",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI/ISEA 107",
+        "id": "ansi-isea-107",
+        "title": "ANSI/ISEA 107 — High-visibility safety apparel and accessories"
+      },
+      {
+        "body": "union",
+        "citedAs": "CSEA",
+        "id": "csea-training",
+        "title": "CSEA — California School Employees Association training for classified school employees"
+      },
+      {
+        "body": "MUTCD",
+        "citedAs": "MUTCD",
+        "id": "mutcd",
+        "title": "Manual on Uniform Traffic Control Devices — temporary traffic control for work zones (Part 6)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Mobility & Transit",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "never-guessed-the-gap",
+        "name": "Never Guessed the Gap",
+        "note": "Every gap judged before stepping off the curb, never assumed"
+      },
+      {
+        "id": "clean-corner",
+        "name": "Clean Corner",
+        "note": "No corrections across the whole post"
+      },
+      {
+        "id": "steady-scan",
+        "name": "Steady Scan",
+        "note": "The both-directions scan held in band without a break"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "post-set-on-time",
+        "name": "Post Set on Time",
+        "note": "Post walked and set up inside 80% of par"
+      },
+      {
+        "id": "one-pass-post-check",
+        "name": "One-Pass Post Check",
+        "note": "Sightline check clean on the first pass"
+      },
+      {
+        "id": "seven-in-a-row",
+        "name": "Seven in a Row",
+        "note": "Seven correct actions in a row"
+      }
+    ],
+    "currency": "GAP",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Corner Trainee",
+      "Crossing Guard",
+      "Lead Guard",
+      "Corner Trainer",
+      "Intersection Certified"
+    ],
+    "system": "The Corner"
+  },
+  "hazards": {
+    "cart-in-the-roadway": "The equipment cart is sitting out in the bike lane instead of back on the curb. A cart parked in the roadway is one more obstruction drivers and cyclists have to steer around at the exact corner where kids are also crossing.",
+    "distracted-by-phone": "That's the guard's own phone lighting up on the equipment cart mid-shift. A corner with kids crossing it needs eyes on the intersection every second the post is staffed — a glance down at a phone is a glance away from the one thing this post exists to watch.",
+    "paddle-down-early": "The paddle is going down while a straggler is still out in the lane. Traffic reads the paddle, not the crosswalk — lowering it early tells drivers to go while someone is still walking, which is the exact moment the paddle is supposed to prevent.",
+    "step-off-without-checking": "That's stepping off the curb without judging the gap first. The paddle tells drivers to stop; it does not make them stop in time — the gap gets checked every single crossing, not assumed clear because the last one was."
+  },
+  "id": "ed-crossing-guard-intersection-control",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-crossing",
+      "alert": "A cyclist has come around the blind corner behind you at speed, not slowing down for the raised paddle.",
+      "cue": "Blow the whistle — get their attention before they reach the crossing.",
+      "delay": 2,
+      "id": "cyclist-blind-corner",
+      "kind": "Cyclist comes around the corner fast",
+      "missNote": "The cyclist reached the crosswalk without ever being warned — a raised paddle alone doesn't stop a rider who was never looking at it.",
+      "seconds": 10,
+      "target": "whistle",
+      "why": "A cyclist moving fast enough to be surprised by a raised paddle needs a sound loud enough to cut through their own momentum before they reach the students still in the crosswalk — the whistle reaches further and faster than a shout, and it's used the moment the cyclist is noticed, not after they've already closed the distance.",
+      "wrongNote": "The whistle — that reaches a fast-moving cyclist before a shout would."
+    },
+    {
+      "after": "scan-both-directions",
+      "alert": "A car has started rolling forward through the crosswalk from behind you, with students still out in the lane.",
+      "cue": "Plant the paddle firmly toward the car — don't just hold position.",
+      "delay": 2,
+      "id": "rolling-stop-car",
+      "kind": "Car starts rolling through from behind",
+      "missNote": "The car kept rolling through the crosswalk with students still in the lane — a paddle that's merely up doesn't answer a driver who has already started moving through it.",
+      "seconds": 10,
+      "target": "stop-paddle",
+      "why": "A driver already rolling forward needs a more assertive signal than the paddle simply being up — planting it squarely toward the moving car is the guard's clearest, fastest way to reinforce the stop before the gap between the car and the students still crossing closes any further.",
+      "wrongNote": "The paddle — plant it toward the car that's rolling through, right now."
+    }
+  ],
+  "lateNotes": {
+    "crossing-position": "The crossing doesn't start until the paddle is actually raised — that's the next step.",
+    "traffic-gap": "Not yet — the gap gets judged once the post is actually set up and the corner has been checked for sightlines, not before."
+  },
+  "name": "Crossing Guard Intersection Control",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "education-support-staff"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "sedan",
+        "count": 2,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.9,
+    "hits": [
+      "cart-in-the-roadway",
+      "cone-spot",
+      "crossing-position",
+      "distracted-by-phone",
+      "faded-crosswalk-paint",
+      "fallen-cone",
+      "hand-signal",
+      "knocked-over-sign",
+      "notes-logged",
+      "paddle-down-early",
+      "paddle-grabbed",
+      "paddle-stowed",
+      "parked-delivery-truck",
+      "pedestrian-signal",
+      "position-set",
+      "post-board",
+      "radio-checkin",
+      "scan-cycle",
+      "step-off-without-checking",
+      "stop-paddle",
+      "traffic-gap",
+      "vest-on",
+      "whistle"
+    ],
+    "meshes": 191
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the post board for today's corner, timing and any special instructions.",
+      "id": "read-post-board",
+      "kind": "select",
+      "prompt": "Read the post board for today's corner, timing and any special instructions.",
+      "target": "post-board",
+      "title": "Read today's post assignment",
+      "why": "An early dismissal, a construction detour or a substitute route all change what 'normal' looks like at this corner for one day — reading the board before walking out is what keeps a guard from posting up for a schedule that isn't today's."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Put the hi-vis vest on, take the stop paddle, then take the marked position at the corner, in that order.",
+      "id": "post-setup",
+      "itemNames": {
+        "paddle-grabbed": "stop paddle in hand",
+        "position-set": "positioned at the marked corner",
+        "vest-on": "hi-vis vest on"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Vest, then paddle, then position — the corner is chosen from the vest and the paddle already in place, not the other way round.",
+      "prompt": "Put the hi-vis vest on, take the stop paddle, then take the marked position at the corner, in that order.",
+      "targets": [
+        "vest-on",
+        "paddle-grabbed",
+        "position-set"
+      ],
+      "title": "Vest, paddle, position",
+      "why": "The vest goes on before anything else because it's what makes the guard visible to a driver before the paddle ever comes up; the marked position at the corner is set last because it's chosen for the exact sightlines the vest and paddle both depend on being seen from."
+    },
+    {
+      "cue": "Read the intersection's own pedestrian signal before the first crossing.",
+      "id": "check-pedestrian-signal",
+      "kind": "select",
+      "prompt": "Read the intersection's own pedestrian signal before the first crossing.",
+      "target": "pedestrian-signal",
+      "title": "Check the pedestrian signal",
+      "why": "The guard's paddle backs up the intersection's own signal rather than replacing it, and a signal stuck on a stale phase or dark entirely changes what a driver at this corner is already expecting — checking it before the first crossing is what tells the guard whether they're reinforcing the signal or the only thing this corner has working at all today."
+    },
+    {
+      "cue": "Three things about this corner are working against a clear sightline. Find them before the first student reaches the curb.",
+      "id": "sightline-check",
+      "itemNames": {
+        "faded-crosswalk-paint": "the crosswalk paint worn past reading",
+        "knocked-over-sign": "the school-crossing sign knocked flat",
+        "parked-delivery-truck": "the delivery truck parked in the sightline"
+      },
+      "itemNotes": {
+        "faded-crosswalk-paint": "The crosswalk's paint has worn past where most drivers actually notice it. A crossing that isn't clearly marked on the pavement is one more thing working against the guard rather than for them.",
+        "knocked-over-sign": "The school-crossing sign has been knocked flat, probably by a wide turn. A driver who has never worked this corner before has no warning it's a school crossing at all without that sign standing.",
+        "parked-delivery-truck": "A delivery truck is parked hard against the corner, blocking the sightline down the cross street. A guard who can't see past it can't judge a gap in that direction at all, and neither can a driver trying to see around it toward the crosswalk."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things about this corner are working against a clear sightline. Find them before the first student reaches the curb.",
+      "targets": [
+        "parked-delivery-truck",
+        "faded-crosswalk-paint",
+        "knocked-over-sign"
+      ],
+      "title": "Check the corner's sightlines before the first crossing",
+      "why": "A gap in traffic can only be judged by a guard who can actually see the traffic — a blocked sightline, faded paint or a downed sign are all things that make the corner more dangerous than it looks standing on it, and each one gets caught before, not during, the first crossing."
+    },
+    {
+      "cue": "Watch the traffic and commit the moment there is a clear gap to start the crossing.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.62
+        ],
+        "label": "TRAFFIC GAP",
+        "missNote": "Not a real gap. Wait for traffic to actually clear before committing to step off the curb.",
+        "speed": 0.7
+      },
+      "id": "gap-gauge",
+      "kind": "gauge",
+      "prompt": "Watch the traffic and commit the moment there is a clear gap to start the crossing.",
+      "target": "traffic-gap",
+      "title": "Judge the gap in traffic",
+      "why": "A guard who steps out on a gap that isn't actually there is trusting a driver to stop in time rather than trusting a gap that was already clear — the whole point of judging it first is that the crossing starts on a corner's own clear moment, not on hope."
+    },
+    {
+      "cue": "Turn the paddle up from resting to fully raised, facing traffic.",
+      "id": "raise-paddle",
+      "kind": "turn",
+      "prompt": "Turn the paddle up from resting to fully raised, facing traffic.",
+      "target": "stop-paddle",
+      "title": "Raise the stop paddle",
+      "turn": {
+        "label": "STOP PADDLE",
+        "turns": 0.4
+      },
+      "why": "A paddle raised only partway reads as ambiguous to a driver approaching at speed — it goes all the way up, held flat toward the traffic it's meant to stop, before a single student is waved off the curb."
+    },
+    {
+      "cue": "Hold your position in the crosswalk with the paddle up until every student is across.",
+      "holdBreakNote": "You left position before everyone was across. The crossing isn't finished until the last student's feet are back on the curb.",
+      "id": "hold-crossing",
+      "kind": "hold",
+      "prompt": "Hold your position in the crosswalk with the paddle up until every student is across.",
+      "seconds": 7,
+      "target": "crossing-position",
+      "title": "Hold position while students cross",
+      "why": "The guard's own body in the crosswalk, paddle up, is what actually stops traffic — not just the sign in their hand — and holding that position for the whole crossing is what keeps a driver from treating a paddle lowered too soon as permission to go."
+    },
+    {
+      "cue": "Keep scanning left and right at a steady rate while the crossing is underway.",
+      "holdBreakNote": "Scan rate out of band — too slow misses a side, too fast doesn't register either one. Bring it back to steady.",
+      "id": "scan-both-directions",
+      "kind": "track",
+      "prompt": "Keep scanning left and right at a steady rate while the crossing is underway.",
+      "seconds": 6,
+      "target": "scan-cycle",
+      "title": "Scan both directions the whole time",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.38,
+        "green": [
+          0.38,
+          0.62
+        ],
+        "label": "SCAN RATE",
+        "rise": 0.4,
+        "start": 0.2
+      },
+      "why": "A guard fixed on the crosswalk itself can miss a car rolling up from either side; a scan that's too fast blurs past exactly the gap where a driver's intentions actually show — a steady, deliberate scan rate is what catches a car that isn't slowing down in time to actually see it happen."
+    },
+    {
+      "cue": "Once everyone is on the far curb, give the clear hand signal before lowering the paddle.",
+      "id": "signal-clear",
+      "kind": "select",
+      "prompt": "Once everyone is on the far curb, give the clear hand signal before lowering the paddle.",
+      "target": "hand-signal",
+      "title": "Signal the crosswalk clear",
+      "why": "The clear signal is the guard's own confirmation, made deliberately rather than assumed, that the crosswalk is actually empty — it happens before the paddle comes down, not at the same moment, so there's a clear beat between 'crossing finished' and 'traffic released'."
+    },
+    {
+      "cue": "Lower the paddle only once the clear signal has been given.",
+      "id": "lower-paddle",
+      "kind": "select",
+      "prompt": "Lower the paddle only once the clear signal has been given.",
+      "target": "stop-paddle",
+      "title": "Lower the paddle once the crosswalk is clear",
+      "why": "Lowering the paddle is what actually releases the traffic that's been stopped — it happens last, after the clear signal, so there is never a moment where traffic is released while the guard's own read of the crosswalk is still in question."
+    },
+    {
+      "cue": "Carry the knocked-over cone back to its marked spot at the corner.",
+      "drag": {
+        "missNote": "Not back at its spot. The cone marks the post's own space — it goes back where drivers expect to see it.",
+        "radius": 0.5,
+        "to": "cone-spot"
+      },
+      "id": "reset-fallen-cone",
+      "kind": "drag",
+      "prompt": "Carry the knocked-over cone back to its marked spot at the corner.",
+      "target": "fallen-cone",
+      "title": "Set the fallen cone back up",
+      "why": "A cone down at the corner stops marking the guard's own working space the moment it falls — setting it back up between crossings keeps the post's footprint visible to drivers for the next one, not just the one that just finished."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Stow the paddle, log today's shift notes, then check in with dispatch on the radio, in that order.",
+      "id": "log-shift-notes",
+      "itemNames": {
+        "notes-logged": "shift notes logged",
+        "paddle-stowed": "paddle stowed",
+        "radio-checkin": "checked in on the radio"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Paddle away first, then the notes, then the radio check-in — the post itself closes before the paperwork does.",
+      "prompt": "Stow the paddle, log today's shift notes, then check in with dispatch on the radio, in that order.",
+      "targets": [
+        "paddle-stowed",
+        "notes-logged",
+        "radio-checkin"
+      ],
+      "title": "Stow the paddle, log notes, check in",
+      "why": "The paddle is put away first because the post is done the moment the last crossing finishes; the notes get logged while the shift is still fresh, so the next guard on this corner — or a sub covering it — starts from what actually happened today rather than nothing at all."
+    }
+  ],
+  "supportLine": "your AFT or CSEA chapter's member assistance line, or the district's employee assistance programme",
+  "tagline": "The corner before the bell: the post walked for sightlines, a gap in traffic judged before anyone steps off the curb, the paddle raised and held through the whole crossing, both directions watched the entire time, a fallen cone set back up, and the corner left as clear as it was found",
+  "title": "SmartCiti.X~ Crossing Guard Intersection Control VR",
+  "trade": "AFT- or CSEA-represented adult school crossing guard posted at the intersection nearest the school",
+  "underwater": null,
+  "weather": "clear"
+}

@@ -1,0 +1,406 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "called-it-early",
+    "name": "Called It Early",
+    "note": "Everyone aloft down in order of exposure, nothing left loose for the wind, and the restart held until the trend said so"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "Ironworkers and IMPACT bridge crew training with IUPAT and Finishing Trades Institute crews on the same span; the owner's weather and work-stop procedure; OSHA 29 CFR 1926, with 29 CFR 1926.21 safety training for every crew on the span; 29 CFR 1926.502 for the crews aloft; 29 CFR 1926.106 for work over water; MUTCD Part 6 for the closure in low visibility; ANSI/ISEA 107 for being seen in fog",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI/ISEA 107",
+        "id": "ansi-isea-107",
+        "title": "ANSI/ISEA 107 — High-visibility safety apparel and accessories"
+      },
+      {
+        "body": "union",
+        "citedAs": "Ironworkers",
+        "id": "ironworkers-impact",
+        "title": "Ironworkers and IMPACT — apprenticeship and safety training for structural, ornamental and reinforcing ironwork"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUPAT",
+        "id": "iupat-fti",
+        "title": "IUPAT Finishing Trades Institute — industrial painter, glazier and drywall finisher apprenticeship, including lead and containment training"
+      },
+      {
+        "body": "MUTCD",
+        "citedAs": "MUTCD",
+        "id": "mutcd",
+        "title": "Manual on Uniform Traffic Control Devices — temporary traffic control for work zones (Part 6)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.106",
+        "id": "osha-1926-106",
+        "title": "29 CFR 1926.106 — Working over or near water"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.21",
+        "id": "osha-1926-21",
+        "title": "29 CFR 1926.21 — Safety training and education in construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.502",
+        "id": "osha-1926-502",
+        "title": "29 CFR 1926.502 — Fall protection systems criteria and practices"
+      }
+    ]
+  },
+  "district": "golden-gate-deck",
+  "domain": "Construction",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "most-exposed-first",
+        "name": "Most Exposed First",
+        "note": "The roll call made in order of exposure without a correction"
+      },
+      {
+        "id": "home-steady",
+        "name": "Home Steady",
+        "note": "The traveller brought home inside its speed band"
+      },
+      {
+        "id": "no-finishing-up",
+        "name": "No Finishing Up",
+        "note": "Never told a crew to finish first, never in the lane, never a sheet carried upright"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-stop",
+        "name": "Clean Stop",
+        "note": "No corrections from the procedure to the log"
+      },
+      {
+        "id": "steady-home",
+        "name": "Steady Home",
+        "note": "The traveller run never dropped out of band"
+      },
+      {
+        "id": "stop-inside-par",
+        "name": "Stop Inside Par",
+        "note": "Logged inside 80% of par"
+      }
+    ],
+    "currency": "CALL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Crew Hand",
+      "Lead Hand",
+      "Weather Watch",
+      "Deck Foreman",
+      "Deck Foreman Certified"
+    ],
+    "system": "Deck Foreman"
+  },
+  "hazards": {
+    "finish-up-call": "You went to tell the crews aloft to finish what they were doing before coming down. That is the call that turns a work stop into an accident: the bolt that is 'nearly done', the last stripe of paint, the one more minute on the cable — each is a person still aloft as the weather gets worse, and every minute makes the climb down harder. A work stop means stop now and come down; the work is still there tomorrow.",
+    "open-lane-in-fog": "You stepped out past the closure's cones into the open lane to get a better look at the crews down the span. In fog, drivers in the open lanes see the cones late and a person in the lane later still — often not at all, until the vehicle is on them. Visibility is checked from inside the closure, and nobody crosses the channelising line while the fog is on the deck.",
+    "sheet-upright-in-wind": "You picked up the plywood sheet and started carrying it upright across the deck. A sheet of plywood carried upright in a gust is a sail with a person holding it: the wind takes the sheet and the person with it, toward the lanes or the railing. Sheets are carried flat, by two people, low — or tied down where they lie until the wind drops.",
+    "untethered-tool-rail": "A spud wrench is lying untethered on top of the railing, where somebody put it down on the way past. In a gust past the work-stop limit that wrench is the first thing to go, and on the outside of the railing is the strait. The deck walk before the wind arrives is for exactly this: anything loose at the railing goes into the gang box or onto a tether."
+  },
+  "id": "gg-fog-and-wind-work-stop",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "visibility",
+      "alert": "A fog bank rolls over the railing off the strait and the far light standard disappears — the tower top goes, then the traveller on the cable.",
+      "cue": "Sound the work-stop horn — three long blasts — so every crew aloft knows the stop is on even if their radio is not.",
+      "delay": 2,
+      "id": "fog-bank-closes",
+      "kind": "Fog bank rolling in",
+      "missNote": "The fog closed the deck and nothing but the radio told the crews aloft the stop was on. Anyone off channel or out of earshot of a handset kept working, unseen, in the fog.",
+      "seconds": 12,
+      "target": "work-stop-horn",
+      "why": "When the fog takes the visibility marker, the foreman can no longer see the crews aloft and they can no longer see the deck. The radio calls are already going out, but a radio can be turned down, on the wrong channel or in a pocket in the wind; the horn is heard by everyone on the span at once, and its signal is in the procedure so nobody has to wonder what it means.",
+      "wrongNote": "The work-stop horn — when the visibility goes, the signal everyone hears at once is the horn."
+    },
+    {
+      "after": "traveller-home",
+      "alert": "A gust hits the span as the traveller comes home — the windsock stands out red and the platform starts swinging on the cable.",
+      "cue": "Hit the traveller's emergency stop and let the crew aboard hold on until the swing settles.",
+      "delay": 3,
+      "id": "gust-on-the-return",
+      "kind": "Gust past the work-stop limit",
+      "missNote": "The traveller kept moving through the gust with its platform swinging further on every metre, and the crew aboard spent the gust holding on to a platform that was being driven.",
+      "seconds": 12,
+      "target": "traveller-estop",
+      "why": "A traveller driven through a gust past the limit swings further with every metre it moves, and the crew aboard is holding on instead of standing. Stopping it lets the swing settle under the carriage; the crew braces, clipped to the platform, and the return resumes at a slower speed when the gust has passed. Pushing on to get them home faster is exactly what makes the swing dangerous.",
+      "wrongNote": "The traveller's emergency stop — stop the platform and let the swing settle before anything else."
+    }
+  ],
+  "lateNotes": {
+    "hoist-lock": "The hoist is locked once it is stowed and its disconnect is open — disconnect first, then the lock.",
+    "traveller-console": "The traveller is called home once the crews aloft have been called down and the deck has been cleared of loose sheets and tarps.",
+    "work-stop-log": "The work stop is logged once the restart decision has been made on the trend, not before."
+  },
+  "name": "Fog & Wind Work Stop",
+  "parSeconds": 310,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "anemometer-readout",
+      "crew-radio",
+      "deck-tie-down",
+      "empty-bucket",
+      "finish-up-call",
+      "headcount-board",
+      "hoist-crank",
+      "hoist-disconnect",
+      "hoist-lock",
+      "loose-tarp",
+      "open-lane-in-fog",
+      "paint-crew-call",
+      "plywood-sheet",
+      "sheet-upright-in-wind",
+      "tarp-bundle",
+      "tower-crew-call",
+      "traveller-console",
+      "traveller-crew-call",
+      "traveller-estop",
+      "trend-display",
+      "untethered-tool-rail",
+      "visibility-marker",
+      "weather-procedure",
+      "work-stop-horn",
+      "work-stop-log"
+    ],
+    "meshes": 184
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the owner's weather and work-stop procedure — the wind limit, the visibility criterion, who stops first, the restart criteria — and the forecast on the board.",
+      "id": "procedure",
+      "kind": "select",
+      "prompt": "Read the owner's weather and work-stop procedure — the wind limit, the visibility criterion, who stops first, the restart criteria — and the forecast on the board.",
+      "target": "weather-procedure",
+      "title": "Read the weather procedure and the forecast",
+      "why": "A work stop on a bridge is written down before the weather arrives, because deciding the limit while the wind is rising is deciding it under pressure. The owner's procedure sets the wind and visibility criteria, the order crews come down in and what has to be true to restart, and the foreman who has read it before the shift can make the call in a sentence instead of a debate."
+    },
+    {
+      "cue": "Read the anemometer and commit the reading while it sits in the band below the work-stop limit — then watch its trend.",
+      "gauge": {
+        "green": [
+          0.2,
+          0.55
+        ],
+        "label": "WIND · % OF WORK-STOP LIMIT",
+        "missNote": "That reading is at or past the work-stop limit — or you committed a lull. The limit is read on the gusts, not the calm between them.",
+        "speed": 0.68
+      },
+      "id": "wind",
+      "kind": "gauge",
+      "prompt": "Read the anemometer and commit the reading while it sits in the band below the work-stop limit — then watch its trend.",
+      "target": "anemometer-readout",
+      "title": "Take the wind reading against the work-stop limit",
+      "why": "The reading on the deck is the number the procedure is written against, and it is taken from the instrument, not from how the wind feels on the face. A reading below the limit but climbing is itself a warning: the foreman commits the number, notes the trend, and starts the stop early enough that nobody is still aloft when the limit is passed."
+    },
+    {
+      "cue": "On the radio, call the tower crew first, then the traveller crew on the cable, then the paint crew at the railing — each acknowledges and starts down.",
+      "id": "roll-call",
+      "itemNames": {
+        "paint-crew-call": "paint crew at the railing",
+        "tower-crew-call": "tower crew — highest and most exposed",
+        "traveller-crew-call": "traveller crew — on the cable"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "The most exposed crew first — the tower crew has the furthest to come and the most wind on the way.",
+      "prompt": "On the radio, call the tower crew first, then the traveller crew on the cable, then the paint crew at the railing — each acknowledges and starts down.",
+      "targets": [
+        "tower-crew-call",
+        "traveller-crew-call",
+        "paint-crew-call"
+      ],
+      "title": "Call the crews down in order of exposure",
+      "why": "The crews aloft are not equally exposed: the tower crew has the longest, most wind-struck climb down and the traveller crew is riding a platform that moves in the wind, while the paint crew at the railing is a few steps from the deck. The most exposed crew is called first because it needs the most time, and each call is acknowledged so the foreman knows who has actually heard it."
+    },
+    {
+      "cue": "Walk the closure and find what the wind will take first: anything light, anything loose, anything standing upright.",
+      "id": "deck-walk",
+      "itemNames": {
+        "empty-bucket": "an empty paint bucket by the railing",
+        "loose-tarp": "a tarp flapping loose off the gang box",
+        "plywood-sheet": "a plywood sheet leaning on the barrier"
+      },
+      "itemNotes": {
+        "empty-bucket": "An empty paint bucket is standing by the railing. Empty is the problem: it weighs nothing, and it rolls and flies long before anything full does.",
+        "loose-tarp": "A tarp has worked loose off the gang box and is lifting at one corner. The next gust takes it across the lanes or over the railing, and a tarp on a windscreen is a crash.",
+        "plywood-sheet": "A plywood sheet is leaning upright against the barrier. Upright it catches the whole gust; it goes down flat and tied, or into the truck."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the closure and find what the wind will take first: anything light, anything loose, anything standing upright.",
+      "targets": [
+        "loose-tarp",
+        "empty-bucket",
+        "plywood-sheet"
+      ],
+      "title": "Walk the deck for what the wind takes first",
+      "why": "The wind on a bridge deck does not start with the heavy things; it starts with the light, loose and upright ones — the tarp, the empty bucket, the sheet — and it carries them into the open lanes or over the railing. Walking the deck as the wind builds, and dealing with those three kinds of thing, is how a work stop protects the traffic and the water as well as the crew."
+    },
+    {
+      "cue": "Hold the binoculars on the far light standard the procedure names as the visibility marker, and keep it in sight for the full check.",
+      "holdBreakNote": "You took the binoculars off the marker before the check was complete. Hold it in sight for the full count.",
+      "id": "visibility",
+      "kind": "hold",
+      "prompt": "Hold the binoculars on the far light standard the procedure names as the visibility marker, and keep it in sight for the full check.",
+      "seconds": 5,
+      "target": "visibility-marker",
+      "title": "Hold the visibility check on the far marker",
+      "why": "Fog closes a deck from the far end first, and the procedure's visibility criterion is a marker you can either see or not. Holding the check on it for the full count, rather than glancing, is how the foreman knows whether it is steady or coming and going in the marine layer; when it goes, the crews aloft can no longer be seen from the deck and the closure can no longer be seen by traffic."
+    },
+    {
+      "cue": "Carry the folded tarp bundle to the deck tie-down ring and strap it down flat.",
+      "drag": {
+        "missNote": "Not at the ring — the bundle is strapped down flat at the tie-down, not left on top of the gang box.",
+        "radius": 0.45,
+        "to": "deck-tie-down"
+      },
+      "id": "tie-down",
+      "kind": "drag",
+      "prompt": "Carry the folded tarp bundle to the deck tie-down ring and strap it down flat.",
+      "target": "tarp-bundle",
+      "title": "Tie the tarp bundle down to the deck ring",
+      "why": "Tarps are the thing a wind most wants on a bridge deck: light, wide and fastened with bungees that were never meant for a gust. Folded and strapped flat to a tie-down, a tarp presents nothing for the wind to lift, and it stays where the crew can find it when work restarts."
+    },
+    {
+      "cue": "Crank the davit hoist's boom down and round onto its stowed rest, hook up and tied.",
+      "id": "stow-hoist",
+      "kind": "turn",
+      "prompt": "Crank the davit hoist's boom down and round onto its stowed rest, hook up and tied.",
+      "target": "hoist-crank",
+      "title": "Crank the material hoist boom down to its stowed rest",
+      "turn": {
+        "label": "HOIST BOOM",
+        "turns": 1
+      },
+      "why": "A material hoist left with its boom out and its hook hanging is a pendulum in the wind: the hook swings into the crew coming down, the boom catches the gust and loads the base. Stowed on its rest with the hook tied off, it has nothing left for the wind to work on until it is needed again."
+    },
+    {
+      "cue": "On the console, bring the traveller back along the cable to the tower platform, holding its speed inside the band while the crew rides it in.",
+      "holdBreakNote": "The return speed left the band and the platform began to swing in the wind. Ease it back into the band.",
+      "id": "traveller-home",
+      "kind": "track",
+      "prompt": "On the console, bring the traveller back along the cable to the tower platform, holding its speed inside the band while the crew rides it in.",
+      "seconds": 7,
+      "target": "traveller-console",
+      "title": "Bring the traveller home at a controlled speed",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.44,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "TRAVELLER · RETURN SPEED",
+        "rise": 0.56,
+        "start": 0.1
+      },
+      "why": "The traveller crew is still riding the cable when the stop is called, and the fastest way home is not the safest: a traveller driven hard swings its platform, and in a rising wind the swing adds to the gusts. Brought home inside its speed band, it arrives at the tower platform steady enough for the crew to transfer off it to a fixed deck."
+    },
+    {
+      "cue": "Check every name on the sign-in sheet against the people now on the deck, crew by crew.",
+      "id": "headcount",
+      "kind": "select",
+      "prompt": "Check every name on the sign-in sheet against the people now on the deck, crew by crew.",
+      "target": "headcount-board",
+      "title": "Match the headcount to the sign-in",
+      "why": "In fog, 'everyone's down' is a guess until it is a count. The headcount is matched against the sign-in, crew by crew, because the person still aloft is the one nobody can see — and the only way to know nobody is still up the tower in the grey is to have their name against a face on the deck."
+    },
+    {
+      "cue": "Open the hoist's disconnect, then put your lock and tag on it so nobody can run the hoist while the stop is on.",
+      "id": "lock-hoist",
+      "itemNames": {
+        "hoist-disconnect": "hoist disconnect opened",
+        "hoist-lock": "lock and tag on the disconnect"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Disconnect first — a lock on a closed disconnect locks the hoist on, not off.",
+      "prompt": "Open the hoist's disconnect, then put your lock and tag on it so nobody can run the hoist while the stop is on.",
+      "targets": [
+        "hoist-disconnect",
+        "hoist-lock"
+      ],
+      "title": "Open the hoist disconnect, then lock and tag it",
+      "why": "A work stop is also a stop on anyone deciding to 'just bring the last load up'. The disconnect is opened and then locked and tagged so the hoist cannot be energised by someone who did not hear the stop, and the tag says who stopped it and why; the lock comes off only when the restart is called."
+    },
+    {
+      "cue": "Watch the wind and visibility trend on the display and hold the restart until both have stayed inside the procedure's criteria for its full period.",
+      "holdBreakNote": "You called the restart before the trend had held for the full period — that was a lull. Keep watching.",
+      "id": "restart-hold",
+      "kind": "hold",
+      "prompt": "Watch the wind and visibility trend on the display and hold the restart until both have stayed inside the procedure's criteria for its full period.",
+      "seconds": 5,
+      "target": "trend-display",
+      "title": "Hold the restart on the trend, not the lull",
+      "why": "The commonest way a work stop fails is the restart: a lull between gusts, a gap in the fog, and the crews go back up into weather that has not actually changed. The procedure sets a period both the wind and the visibility have to stay inside before the restart, and the foreman holds the decision on the trend for that whole period, not on the best minute in it."
+    },
+    {
+      "cue": "Record the readings, the time each crew was called and was down, the deck items secured, the hoist lock, and the restart decision and its time.",
+      "id": "work-stop-log",
+      "kind": "select",
+      "prompt": "Record the readings, the time each crew was called and was down, the deck items secured, the hoist lock, and the restart decision and its time.",
+      "target": "work-stop-log",
+      "title": "Log the work stop",
+      "why": "The work-stop log is what shows the procedure was followed on the day: the readings behind the call, when each crew was told and when they were down, what was secured and when work restarted. It is also how the procedure gets better — a stop that took too long to clear the tower shows up in the times, and the next shift plans for it."
+    },
+    {
+      "cue": "Call each crew lead: stop logged, restart decision, and how their crew is after coming down in the weather.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call each crew lead: stop logged, restart decision, and how their crew is after coming down in the weather.",
+      "target": "crew-radio",
+      "title": "Check in with every crew lead",
+      "why": "The crew leads need the restart decision from the foreman directly, not from rumour, and a crew that came down a tower in a gust and a fog bank needs someone to ask how they are. The check-in is where the foreman hears it, and the Ironworkers' and IUPAT member assistance lines are named because a bad descent can stay with people long after the fog lifts."
+    }
+  ],
+  "supportLine": "the Ironworkers' and IUPAT member assistance programmes through your local or district council, and the crew's peer-support contact",
+  "tagline": "The foreman's call when the weather turns: the procedure read, the wind taken against the limit, every crew aloft called down in order of exposure, the deck walked for what the wind takes first, visibility held until the fog closes in, the tarps tied down and the hoist stowed, the traveller brought home through a gust, the headcount matched, the hoist locked out, the restart held on the trend, and the stop logged",
+  "title": "SmartCiti.X~ Fog & Wind Work Stop VR",
+  "trade": "Ironworkers and IMPACT with IUPAT bridge painters (FTI) — the deck foreman running the fog and wind work stop for every crew on the span",
+  "underwater": null,
+  "weather": "fog"
+}

@@ -1,0 +1,147 @@
+{
+  "id": "k12-lk-the-crews-behind-a-big-build",
+  "index": "969",
+  "prefix": "lkj",
+  "accent": "#c77a3c",
+  "floor": ["#707070", "#626262"],
+  "wall": ["#ebe4d8", "#dad1c2"],
+  "trade": "Careers awareness at a workforce centre beside a large Louisiana development site — learner and apprenticeship coordinator",
+  "header": "Lower-secondary careers awareness at a workforce centre beside a large development site in Louisiana: the many trades a big build needs from the first survey to the finished building, how an apprenticeship pays people while they learn a trade, and why every crew starts the day with a safety talk, worked on a job board, a site model and a tool wall in the scene. Kinds of work only; no employer's hiring is described.",
+  "name": "The Crews Behind a Big Build",
+  "tagline": "Surveyors to electricians, operators to painters — match the crews to the work and plan a path into a trade",
+  "badge": { "id": "crew-matcher", "name": "Crew Matcher", "note": "Matched trades to each stage of a big build, sorted the tools each trade uses and planned a path into an apprenticeship" },
+  "board": { "name": "Workforce Board", "currency": "HARD HATS", "ranks": ["Visitor", "Explorer", "Pre-Apprentice", "Apprentice", "Crew Matcher"] },
+  "hazards": [
+    { "id": "only-one-kind-of-job", "label": "Say a big build is just construction workers?", "face": "JUST\nONE JOB?", "text": "You said a big build is just construction workers. A large site needs surveyors, operators, electricians, pipefitters, ironworkers, carpenters, welders, painters, mechanics and many more, and after it opens it needs people to run and repair it. There are many different trades to choose from." },
+    { "id": "skip-the-safety-talk", "label": "Skip the morning safety talk to start sooner?", "face": "SKIP\nTALK", "text": "You wanted to skip the safety talk. Every crew starts the day by talking through the jobs, the risks and who does what. It takes a few minutes and it is how the whole crew gets home well. Skipping it is never a shortcut." },
+    { "id": "trades-need-no-school", "label": "Say trades do not need maths or reading?", "face": "NO\nMATHS?", "text": "You said trades need no maths or reading. Electricians work with measurements and formulas, fitters read drawings, operators read load charts, and everyone reads safety labels. The maths and reading from school are tools of every trade." },
+    { "id": "try-the-tool-without-training", "label": "Pick up a power tool from the wall to try it?", "face": "TRY\nIT", "text": "You reached for a power tool. Power tools are used by trained people wearing the right protection, after they learn how. In the workforce centre, tools on the wall are for looking at; you would learn to use them step by step in a training programme." }
+  ],
+  "find1": {
+    "title": "Find the first crews on a new site",
+    "cue": "Mark the three kinds of work that happen before any building goes up.",
+    "why": "A big build starts long before the walls go up. Surveyors measure the land and mark where everything will go. Equipment operators clear and level the ground with large machines. Utility crews bring in water, power and roads. Knowing the order shows that a big build is a chain of trades, each ready for the next.",
+    "items": [
+      ["survey", "a surveyor with a tripod", "Measures and marks the land."],
+      ["operator", "an operator on a dozer", "Clears and levels the ground."],
+      ["utility", "a utility crew laying pipe", "Brings water and power in."]
+    ],
+    "decoy": ["banner", "the site sign at the gate", "It names the project, but it is not a crew."]
+  },
+  "select1": {
+    "title": "Join the morning safety talk",
+    "cue": "Stand with the crew at the board and listen to the morning safety talk.",
+    "why": "Every good crew starts the same way: a short talk about what work is planned, what could hurt someone and how the crew will prevent it. Everyone listens, and anyone can ask a question or raise a worry. Joining the talk shows that on a well-run site, safety is part of the job, not something extra.",
+    "key": "talk-card",
+    "label": "Safety talk",
+    "face": "JOIN THE\nTALK"
+  },
+  "seq": {
+    "title": "Put the stages of the build in order",
+    "cue": "Order the stages from bare land to a working building.",
+    "why": "Each stage of a build needs different trades. Site work comes first: clearing, levelling and foundations. Then the structure goes up with steel and concrete. Next come the systems: power, pipes, heating and cooling. Last is finishing and testing before the building opens. Seeing the stages shows how one project keeps many trades busy for a long time.",
+    "oon": "Out of order. The ground has to be ready before any steel goes up.",
+    "items": [
+      ["ord-site", "clear, level and pour foundations"],
+      ["ord-frame", "raise the steel and concrete frame"],
+      ["ord-systems", "install power, pipes and cooling"],
+      ["ord-finish", "finish, test and open the building"]
+    ]
+  },
+  "hold": {
+    "title": "Hold the level on the model beam",
+    "cue": "Hold the spirit level on the model beam until the bubble settles in the middle.",
+    "why": "A spirit level shows whether something is truly flat. The bubble moves to the high end and sits in the middle only when the beam is level. Holding it still gives the bubble time to settle so you can read it. A carpenter, an ironworker and a mason all use a level many times a day.",
+    "brk": "The level moved and the bubble ran off. Hold it still and let it settle.",
+    "key": "level-hold",
+    "label": "Hold the level"
+  },
+  "select2": {
+    "title": "Say what an apprenticeship is",
+    "cue": "Choose the sentence that describes an apprenticeship correctly.",
+    "why": "An apprenticeship is a way into a trade where you are paid while you learn. Apprentices work on real jobs beside experienced workers and also take classes, step by step, until they reach full skill in the trade. A good answer includes both parts: learning on the job and in class, while earning.",
+    "key": "result-card",
+    "label": "State what it is",
+    "face": "WHAT IS\nIT?"
+  },
+  "find2": {
+    "title": "Spot the trades that run the finished building",
+    "cue": "Look at the finished-building side of the model and mark three kinds of work that keep it running.",
+    "why": "When a building opens, the work does not stop. Electricians keep the power safe and working. Heating and cooling technicians keep the air and equipment at the right temperature. Security and safety staff look after the people inside. These long-term jobs mean a big build can lead to careers that last.",
+    "items": [
+      ["electrician", "an electrician at a panel", "Keeps the power on safely."],
+      ["hvac", "a technician on the cooling units", "Keeps things at the right temperature."],
+      ["safety", "a safety officer on a walk-round", "Looks after the people inside."]
+    ],
+    "decoy": ["tree", "a young tree by the car park", "Nice to have, but not a kind of work."]
+  },
+  "turn": {
+    "title": "Turn the dial to match a trade to its tool",
+    "cue": "Turn the matching dial until the pipefitter lines up with the pipe wrench.",
+    "why": "Every trade has tools it knows best. Pipefitters use pipe wrenches and threaders, electricians use testers and wire strippers, and ironworkers use spud wrenches and harnesses. Matching tools to trades helps you picture a day in each job and notice which kind of work suits the way you like to use your hands.",
+    "key": "match-dial",
+    "label": "Matching dial",
+    "dial": "MATCH"
+  },
+  "gauge": {
+    "title": "Read the tape to the drawing's length",
+    "cue": "Commit when the marker sits at the length the drawing asks for on the tape.",
+    "why": "Trades turn drawings into real things, and that means measuring exactly. The drawing gives a length; the tape shows it on the material. Reading the tape carefully is the difference between a part that fits and one that must be made again. Measuring is school maths used every single day on site.",
+    "key": "tape-meter",
+    "label": "Tape reading",
+    "meter": "TAPE",
+    "miss": "Not at the length yet. Read the mark the drawing asks for."
+  },
+  "drag": {
+    "title": "Put your hard hat on the pathway board",
+    "cue": "Drag your hard hat token onto the pathway board at the pre-apprentice step.",
+    "why": "A pathway board shows how people move into a trade: exploring the trades at school, a pre-apprenticeship to learn the basics and safety, an apprenticeship to learn the full trade while earning, and then journey-level work. Placing your token at the first training step shows where a learner could begin after school.",
+    "key": "hat-token",
+    "label": "Hard hat token",
+    "spot": "path-spot",
+    "spotLabel": "The pre-apprentice step",
+    "miss": "Not on the pre-apprentice step yet. Place it at the first training step."
+  },
+  "track": {
+    "title": "Follow the concrete truck to the pour",
+    "cue": "Keep the marker on the model concrete truck as it drives from the gate to the pour.",
+    "why": "Following one delivery shows how many crews one task needs. The driver brings the truck, a flagger guides it, labourers place the concrete, and finishers smooth it. Each depends on the others doing their part at the right moment. Big builds work because crews plan and talk to one another all day.",
+    "brk": "The marker lost the truck. Find it again and follow it to the pour.",
+    "key": "truck-track",
+    "label": "Truck followed",
+    "meter": "FOLLOW"
+  },
+  "record": {
+    "title": "Record three trades you want to learn about",
+    "cue": "Write the names of three trades and one thing each one does.",
+    "why": "Writing down trades that interest you turns a visit into a plan. Later you can look each one up, ask a teacher or talk to someone who does the work. Choosing a career starts with noticing what you enjoy, and a short list is a good first step.",
+    "key": "trade-log",
+    "label": "Trade list",
+    "done": "Trades listed"
+  },
+  "share": {
+    "title": "Tell a partner which trade suits you",
+    "cue": "Tell a partner which trade you picked first and why it suits you.",
+    "why": "Saying your choice out loud helps you think it through. Your partner might notice a reason you had not thought of, or suggest a trade you missed. Crews talk through choices together too, because good decisions come from sharing ideas.",
+    "key": "share-board",
+    "label": "Tell a partner",
+    "done": "Choice shared"
+  },
+  "checkin": {
+    "title": "Check in before leaving the centre",
+    "cue": "Name two trades a big build needs. What is an apprenticeship?",
+    "why": "The coordinator ends the visit by checking what each learner will take away. Everyone names two trades and describes an apprenticeship in their own words. If anyone still thinks a big build is only one kind of job, the group sorts it out now.",
+    "label": "End-of-visit check-in"
+  },
+  "interrupts": [
+    { "id": "a-forklift-beeps-in-the-training-bay", "kind": "Moving machine", "key": "step-aside", "label": "Step to the walkway and wait", "alert": "A forklift beeps as it reverses across the training bay with a pallet.", "cue": "Step onto the marked walkway and wait until the forklift has passed.", "why": "A reversing beep means a machine is backing up and the driver's view is limited. Moving to the walkway and waiting keeps you where the driver expects people to be. On every site, people and machines keep to their own lanes.", "miss": "The class stayed in the bay while the forklift reversed. When a reversing alarm beeps, step back to the marked walkway and wait until the driver has stopped and seen you.", "wrong": "That keeps the class in the forklift's path. Step onto the walkway. Choose the response that deals with it now.", "done": "Class on the walkway, the forklift passed. The lesson carries on." },
+    { "id": "the-coordinator-asks-about-school-subjects", "kind": "Coordinator question", "key": "name-maths", "label": "Say maths and reading are trade tools", "alert": "The coordinator asks which school subjects help in a trade.", "cue": "Say maths and reading help every trade, for measuring, drawings and safety labels.", "why": "Every trade measures, reads drawings and follows written instructions. Knowing that shows why doing well in school keeps doors open to every kind of work on a big build.", "miss": "You could not name a useful subject, and the coordinator explained before the class went on.", "wrong": "That does not name a subject. Say which subjects help and why. Choose the response that deals with it now.", "done": "Subjects named. The lesson carries on." }
+  ],
+  "crew": ["Careers teacher", "Classmate", "Apprenticeship coordinator", "Journey-level electrician"],
+  "guide": { "start": "Join the safety talk at the board.", "after": "Many trades, one build, one team.", "hazard": "Stop. Tools are for trained hands." },
+  "lateRecord": "The trade list is written once you have explored the site model — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the end of the visit.",
+  "scene": "wall",
+  "desk": "#b87a3c",
+  "order": "c"
+}

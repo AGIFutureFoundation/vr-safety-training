@@ -1,0 +1,377 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "locked-held-proven",
+    "name": "Locked, Held, Proven",
+    "note": "The rotor locked, the yaw held, the energy isolated and the start tried dead before anyone reached into the drive train"
+  },
+  "category": "Energy & Power",
+  "certification": "IBEW/NECA JATC wind-technician training as a body; 29 CFR 1910.147 for the control of hazardous energy and 29 CFR 1910.269 for generation installations; NFPA 70E for the absence-of-voltage test and the arc-flash boundary; ANSI Z359 for the tie-off in the nacelle; the turbine manufacturer's manual for the rotor lock, the yaw brake and every pressure and speed",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z359",
+        "id": "ansi-z359",
+        "title": "ANSI/ASSP Z359 — Fall Protection Code"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBEW/NECA JATC",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 70E",
+        "id": "nfpa-70e",
+        "title": "NFPA 70E — Standard for Electrical Safety in the Workplace"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.269",
+        "id": "osha-1910-269",
+        "title": "29 CFR 1910.269 — Electric power generation, transmission and distribution"
+      }
+    ]
+  },
+  "district": "wind-farm",
+  "domain": "Energy",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "rotor-locked-first",
+        "name": "Rotor Locked First",
+        "note": "The rotor lock went in before any other work"
+      },
+      {
+        "id": "nothing-trusted",
+        "name": "Nothing Trusted",
+        "note": "No unsafe action was recorded"
+      },
+      {
+        "id": "steady-watch",
+        "name": "Steady Watch",
+        "note": "Held the rotor slow-down watch steady"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-lockout",
+        "name": "Clean Lockout",
+        "note": "No corrections from the work order to the log"
+      },
+      {
+        "id": "unbroken-bleed",
+        "name": "Unbroken Bleed",
+        "note": "The accumulator bleed ran to completion"
+      },
+      {
+        "id": "brisk-isolation",
+        "name": "Brisk Isolation",
+        "note": "Isolated and logged inside 80% of par"
+      }
+    ],
+    "currency": "LOCKS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Trainee",
+      "Technician",
+      "Wind Technician",
+      "Lead Technician",
+      "Nacelle Authority Certified"
+    ],
+    "system": "Nacelle Authority"
+  },
+  "hazards": {
+    "enter-hub-unlocked": "You went to open the hub hatch before the rotor lock was engaged. A rotor that is stopped but not locked can turn with a gust, and a hub is the one place in the turbine where that movement closes on a person.",
+    "open-hydraulics-charged": "You went to crack a hydraulic fitting with the accumulator still charged. Stored hydraulic energy does not care that the pump is locked off — it is released through the fitting and whatever is in front of it.",
+    "skip-voltage-test": "You went to open the converter cabinet without testing for absence of voltage. An open breaker is a claim; the test on the conductors, with a tester proven before and after, is the proof, and until then the cabinet is treated as live.",
+    "trust-remote-stop": "You went to start work in the drive train on the strength of the control room's remote stop. A remote stop can be reset from somewhere else by someone who does not know you are in the nacelle; only a local stop, a lock and a tag you hold keep the machine from being started while your hands are in it."
+  },
+  "id": "ws-nacelle-lockout-and-yaw-brake-fault",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "rotor-slowdown",
+      "alert": "The nacelle creaks and the floor starts to turn under you — the yaw is moving with the wind while the rotor is still coming down.",
+      "cue": "Hit the nacelle emergency stop now.",
+      "delay": 3,
+      "id": "yaw-creep",
+      "kind": "The nacelle creaks and starts to yaw",
+      "missNote": "The nacelle kept yawing with nobody stopping it. Every person and tool inside was moving with it.",
+      "seconds": 11,
+      "target": "nacelle-estop",
+      "why": "Uncommanded yaw with people in the nacelle is a stop-everything moment, and the emergency stop is the one control in reach that drops every drive at once; the cause is found afterwards, with the machine held, not while it is still moving.",
+      "wrongNote": "It is the emergency stop. The rotor-speed meter is telling you what the rotor is doing, not stopping the yaw."
+    },
+    {
+      "after": "accumulator-bleed",
+      "alert": "The ground crew is calling on the radio — they want to raise a part on the service crane and need to know the hatch is clear.",
+      "cue": "Answer the ground crew on the radio before anything comes up the crane.",
+      "delay": 3,
+      "id": "ground-crew-radio",
+      "kind": "The ground crew calls the nacelle",
+      "missNote": "The call went unanswered and the ground crew had no word from the nacelle about the hatch.",
+      "seconds": 12,
+      "target": "nacelle-radio",
+      "why": "A load coming up the service crane arrives at the hatch where the crew is working, and a crane lift that starts without the nacelle's word is how a part and a person arrive at the same opening. One call settles who is where before the hook moves.",
+      "wrongNote": "It is the radio. The bleed valve has done its work; the ground crew needs an answer."
+    }
+  ],
+  "lateNotes": {
+    "accumulator-valve": "The accumulator is bled after the electrical isolation is locked and tested, not before the pump could be restarted behind you.",
+    "rotor-lock-pin": "The rotor lock goes in only once the rotor has come to a stop — never driven into a rotor that is still turning."
+  },
+  "name": "Nacelle Lockout & Yaw-Brake Fault",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "wind-and-data-infrastructure"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "multimeter",
+        "count": 1,
+        "kit": "toolkit"
+      },
+      {
+        "builder": "radio",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "accumulator-valve",
+      "breaker-lock",
+      "breaker-tag",
+      "converter-capacitors",
+      "enter-hub-unlocked",
+      "hydraulic-accumulator",
+      "local-start-try",
+      "local-stop-button",
+      "loto-log",
+      "main-breaker",
+      "nacelle-anchor",
+      "nacelle-estop",
+      "nacelle-radio",
+      "nacelle-work-order",
+      "open-hydraulics-charged",
+      "rotor-lock-pin",
+      "rotor-speed-meter",
+      "service-mode-key",
+      "skip-voltage-test",
+      "trust-remote-stop",
+      "voltage-tester",
+      "yaw-brake-indicator",
+      "yaw-lock-pin"
+    ],
+    "meshes": 153
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the work order and the turbine's lockout procedure: what is being worked on and every energy source it names.",
+      "id": "work-order",
+      "kind": "select",
+      "prompt": "Read the work order and the turbine's lockout procedure: what is being worked on and every energy source it names.",
+      "target": "nacelle-work-order",
+      "title": "Read the work order and the lockout procedure",
+      "why": "A nacelle carries electrical, rotational, hydraulic and gravitational energy in one small room, and the turbine's own lockout procedure is the list of every source and every isolation point for this machine; working from memory of a different turbine is how one source gets left live."
+    },
+    {
+      "cue": "Stop the turbine at the nacelle panel, then turn the service-mode key and keep it.",
+      "id": "local-stop",
+      "itemNames": {
+        "local-stop-button": "turbine stopped at the local panel",
+        "service-mode-key": "service-mode key turned and pocketed"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Stop first, then service mode — the key takes control of a turbine that is already stopped.",
+      "prompt": "Stop the turbine at the nacelle panel, then turn the service-mode key and keep it.",
+      "targets": [
+        "local-stop-button",
+        "service-mode-key"
+      ],
+      "title": "Stop the turbine locally and take service mode",
+      "why": "The local stop and the service-mode key take control of the turbine away from the control room, so nobody can restart it remotely while the crew is inside. The key goes in the pocket of the person doing the work — control that stays in the nacelle cannot be handed away by accident."
+    },
+    {
+      "cue": "Keep watching the rotor-speed meter as the rotor comes down to a stop.",
+      "holdBreakNote": "The watch broke before the rotor stopped — keep your eyes on the meter until it reads stopped.",
+      "id": "rotor-slowdown",
+      "kind": "track",
+      "prompt": "Keep watching the rotor-speed meter as the rotor comes down to a stop.",
+      "seconds": 7,
+      "target": "rotor-speed-meter",
+      "title": "Watch the rotor come down",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.3,
+        "green": [
+          0.35,
+          0.65
+        ],
+        "label": "ROTOR SPEED",
+        "rise": 0.05,
+        "start": 0.5
+      },
+      "why": "The rotor lock is designed to go into a stopped rotor, and a lock driven into a rotor that is still turning can shear or damage the lock disc. Watching the speed come down to nothing, rather than guessing from the sound, is what makes the next step safe."
+    },
+    {
+      "cue": "Wind the rotor lock pin into the lock disc until it is fully engaged.",
+      "id": "rotor-lock",
+      "kind": "turn",
+      "prompt": "Wind the rotor lock pin into the lock disc until it is fully engaged.",
+      "target": "rotor-lock-pin",
+      "title": "Drive the rotor lock home",
+      "turn": {
+        "axis": "z",
+        "label": "ROTOR LOCK",
+        "turns": 0.8
+      },
+      "why": "The brake holds a rotor against normal forces; the rotor lock holds it mechanically, and it is the only thing between a gust and a turning shaft when hands go into the drive train or the hub. Fully engaged means the manufacturer's engaged indication, not a pin half in the hole."
+    },
+    {
+      "cue": "Check the yaw brake indicator shows the brake applied and holding.",
+      "id": "yaw-held",
+      "kind": "select",
+      "prompt": "Check the yaw brake indicator shows the brake applied and holding.",
+      "target": "yaw-brake-indicator",
+      "title": "Prove the yaw is held",
+      "why": "A nacelle that yaws with the wind moves everything inside it, and the yaw brake is what holds it; proving the brake is applied and holding, from its own indicator, is the check that the room you are about to work in will stay where it is."
+    },
+    {
+      "cue": "Open the main breaker named in the procedure, apply your personal lock, then hang your tag.",
+      "id": "isolate",
+      "itemNames": {
+        "breaker-lock": "personal lock applied",
+        "breaker-tag": "tag filled in and hung",
+        "main-breaker": "main breaker opened"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Breaker open, then your lock, then your tag — a tag on a closed breaker protects nobody.",
+      "prompt": "Open the main breaker named in the procedure, apply your personal lock, then hang your tag.",
+      "targets": [
+        "main-breaker",
+        "breaker-lock",
+        "breaker-tag"
+      ],
+      "title": "Isolate, lock and tag",
+      "why": "Opening the breaker isolates; the personal lock is what stops it being closed while you are exposed, and the tag tells anyone who reaches for it who is inside and why. The lock is yours alone because the only person who should remove it is the one whose safety it protects."
+    },
+    {
+      "cue": "Prove the tester on a known source, test the conductors, then prove the tester again — commit when it reads absent.",
+      "gauge": {
+        "green": [
+          0.2,
+          0.45
+        ],
+        "label": "ABSENCE OF VOLTAGE",
+        "missNote": "That is not an absent reading — treat the cabinet as live and find the source before going further.",
+        "speed": 0.55
+      },
+      "id": "absence-test",
+      "kind": "gauge",
+      "prompt": "Prove the tester on a known source, test the conductors, then prove the tester again — commit when it reads absent.",
+      "target": "voltage-tester",
+      "title": "Test for absence of voltage",
+      "why": "An open breaker can be the wrong breaker, a back-feed can make a dead circuit live, and a tester can fail silently. Proving the tester before and after the test is what makes an absent reading mean absent rather than a broken meter."
+    },
+    {
+      "cue": "Look for the energy still stored in the nacelle after the electrical isolation.",
+      "id": "stored-energy",
+      "itemNames": {
+        "converter-capacitors": "the converter's DC-link capacitors",
+        "hydraulic-accumulator": "the charged hydraulic accumulator"
+      },
+      "itemNotes": {
+        "converter-capacitors": "The converter's capacitors can hold a charge after the breaker opens; the manufacturer's discharge wait and test apply before hands go in.",
+        "hydraulic-accumulator": "The accumulator still holds pressure with the pump locked off — it is stored energy the electrical lockout does not touch."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look for the energy still stored in the nacelle after the electrical isolation.",
+      "targets": [
+        "hydraulic-accumulator",
+        "converter-capacitors"
+      ],
+      "title": "Find the stored energy the lockout did not touch",
+      "why": "A breaker isolates the supply, not what is already stored: pressure in an accumulator and charge in a capacitor bank are both still there after the lock goes on. Finding them by name, from the procedure, is how the lockout covers every source rather than the obvious one."
+    },
+    {
+      "cue": "Hold the bleed valve open until the gauge reads zero, per the manufacturer's manual.",
+      "holdBreakNote": "The valve closed before the gauge reached zero — there is still pressure in the accumulator.",
+      "id": "accumulator-bleed",
+      "kind": "hold",
+      "prompt": "Hold the bleed valve open until the gauge reads zero, per the manufacturer's manual.",
+      "seconds": 5,
+      "target": "accumulator-valve",
+      "title": "Bleed the accumulator",
+      "why": "The accumulator is bled through its own valve, slowly and to zero on its own gauge, so the stored pressure goes back to the tank instead of out of a fitting in someone's face. Held until zero, not until it sounds quiet."
+    },
+    {
+      "cue": "Press the local start to prove the isolation holds, then return it to off.",
+      "id": "try-start",
+      "kind": "select",
+      "prompt": "Press the local start to prove the isolation holds, then return it to off.",
+      "target": "local-start-try",
+      "title": "Try a start that must not happen",
+      "why": "The try is the proof that the lockout isolated the right thing: a start button that does nothing confirms the breaker, the lock and the control path, and it is done with everyone clear, before hands go into the machine rather than after."
+    },
+    {
+      "cue": "Clip your lanyard to the nacelle anchor before working near the open hatch or the roof.",
+      "id": "tie-off",
+      "kind": "select",
+      "prompt": "Clip your lanyard to the nacelle anchor before working near the open hatch or the roof.",
+      "target": "nacelle-anchor",
+      "title": "Tie off in the nacelle",
+      "why": "The nacelle floor has openings — the hatch, the service crane opening — and the roof is outside the shell; a connection to the rated anchor the manufacturer marked is what turns a slip near an opening into a stumble instead of a fall."
+    },
+    {
+      "cue": "Record the lockout: breaker, locks, the absence test, the accumulator bled and the rotor and yaw locks.",
+      "id": "loto-log",
+      "kind": "select",
+      "prompt": "Record the lockout: breaker, locks, the absence test, the accumulator bled and the rotor and yaw locks.",
+      "target": "loto-log",
+      "title": "Record the lockout",
+      "why": "The record is what the next shift, or the person who relieves you, reads before touching this machine; it says what is isolated and by whom, so nobody restores energy on a guess about who is still inside."
+    }
+  ],
+  "supportLine": "your employer's employee assistance programme, or your IBEW steward if you are not sure how to reach it",
+  "tagline": "Stopped locally, the rotor watched down and locked, the yaw proven held, then isolated, locked, tagged, tested for absence of voltage and bled of stored energy before a start that must not happen",
+  "title": "SmartCiti.X~ Nacelle Lockout & Yaw-Brake Fault VR",
+  "trade": "IBEW wind technician",
+  "underwater": null,
+  "weather": "wind"
+}

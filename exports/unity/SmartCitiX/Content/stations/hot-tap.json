@@ -1,0 +1,431 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "tap-held",
+    "name": "Tap Held",
+    "note": "A live main tapped and stopped with the pressure test done first, the coupon on the cutter and the section disinfected before it went back"
+  },
+  "category": "Water & Environmental",
+  "certification": "UA pipefitters and plumbers with LIUNA on the excavation; AWWA C651 disinfecting water mains and the utility's own tapping specification; state water distribution operator certification for the return to service; OSHA 29 CFR 1926 Subpart P excavations for the bell hole; 1926 Subpart O for the equipment working over it",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "AWWA",
+        "citedAs": "AWWA C651",
+        "id": "awwa-c651",
+        "title": "AWWA C651 — Disinfecting water mains"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      },
+      {
+        "body": "union",
+        "citedAs": "UA",
+        "id": "ua-apprenticeship",
+        "title": "UA — United Association plumber, pipefitter and HVAC service apprenticeship standards and UA Star certification"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Water",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "proven-first",
+        "name": "Proven First",
+        "note": "The sleeve and valve were pressure-tested before the cutter ever turned"
+      },
+      {
+        "id": "coupon-home",
+        "name": "Coupon Home",
+        "note": "The coupon came back on the cutter and was accounted for"
+      },
+      {
+        "id": "read-the-travel",
+        "name": "Read The Travel",
+        "note": "The cutter was proven clear of the gate on the indicator, not by feel"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-tap",
+        "name": "Clean Tap",
+        "note": "No corrections from the locate to the sample"
+      },
+      {
+        "id": "steady-feed",
+        "name": "Steady Feed",
+        "note": "Held the feed rate through the whole cut"
+      },
+      {
+        "id": "street-back",
+        "name": "Street Back",
+        "note": "Section stopped and the hole handed over inside 80% of par"
+      }
+    ],
+    "currency": "PSI",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Labourer",
+      "Tapping Crew",
+      "Lead Fitter",
+      "Distribution Foreman",
+      "Tapping Authority Certified"
+    ],
+    "system": "Tapping Authority"
+  },
+  "hazards": {
+    "close-on-cutter": "You closed the tapping valve with the cutter still in the bore. The gate closes onto the boring bar, which wrecks the seat and jams the gate part open — and a tapping valve that will not close is a live main with a hole in it and a machine bolted over the hole, which has to come off some time.",
+    "lost-coupon": "You called the tap finished without the coupon. That disc of pipe wall is somewhere: on the cutter, where it belongs and where the retaining wire is meant to hold it, or in the main, travelling downstream until it lodges in a valve seat or a meter or somebody's service. A coupon found later is found by the customer whose water stopped.",
+    "open-early": "You opened the tapping valve before the sleeve had been pressure-tested. The test is the only moment in this job where finding out the gasket has not seated costs you nothing: before the valve opens, the sleeve is a clamp on a pipe, and after it opens, it is the only thing between the main and the hole you are standing in. A sleeve that fails after the cutter is in has no way back.",
+    "skip-disinfect": "You put the section back into service without disinfecting it. Everything that went into that main — the sleeve, the cutter, the trench water on the fitter's gloves — is now in the water somebody is going to drink. AWWA C651 is what disinfection, flushing and a sample before return to service are written in, and the sample is the part that proves it rather than assuming it."
+  },
+  "id": "hot-tap",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "cut",
+      "alert": "There is water running down the side of the sleeve from the bolt line on the far side, and it is getting faster.",
+      "cue": "The thing holding the main shut around your cut is letting go.",
+      "delay": 4,
+      "id": "sleeve-weep",
+      "kind": "Sleeve weeping",
+      "missNote": "The weep became a jet and the bell hole filled with the main's own water while the cutter was still in the bore. Everything after that happened in a flooded hole nobody could see the bottom of.",
+      "seconds": 13,
+      "target": "sleeve-bolts",
+      "why": "A sleeve that weeps under load has a gasket lifting off the barrel, and the cut you are in the middle of is what put the load on it. It is taken up on the bolts, across the joint, while it is still a weep — because the next state after a weep is the gasket rolling out, and that happens with a hole already in the pipe.",
+      "wrongNote": "That is not it. It is the sleeve bolts, and the time to take them up is while it is still a weep."
+    },
+    {
+      "after": "retract",
+      "alert": "The trash pump has stopped and the bell hole is filling around the fitting.",
+      "cue": "You are about to be working blind and standing in it.",
+      "delay": 4,
+      "id": "hole-filling",
+      "kind": "Hole filling",
+      "missNote": "The hole filled while the work carried on above it. Nobody could see the invert, the bolts or the floor of the excavation for the rest of the job.",
+      "seconds": 12,
+      "target": "trash-pump",
+      "why": "A flooded bell hole hides the shoring, hides the fitting and hides the coupon if it drops. It also puts a crew in water in an excavation, which is a different job from the one anybody signed onto this morning. The pump comes back on before the next thing is touched.",
+      "wrongNote": "Not that. The pump is what keeps this hole a workplace."
+    }
+  ],
+  "lateNotes": {
+    "feed-handle": "The cutter feeds after the valve is proven open — there is nowhere for it to go until then.",
+    "linestop-head": "The line stop goes in through the same fitting, after the tap is cut and the coupon is accounted for.",
+    "tapping-valve": "The valve opens after the sleeve has been pressure-tested and the machine is bolted on, not before."
+  },
+  "name": "Hot Tap",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "bell-joint",
+      "bolts-a",
+      "bolts-b",
+      "bolts-c",
+      "bypass-line",
+      "chlorine-pump",
+      "close-on-cutter",
+      "coupon-tray",
+      "feed-handle",
+      "flush-point",
+      "linestop-head",
+      "locate-marks",
+      "lost-coupon",
+      "main-barrel",
+      "main-socket",
+      "open-early",
+      "restraint-rods",
+      "service-tap",
+      "skip-disinfect",
+      "sleeve-bolts",
+      "tapping-machine",
+      "tapping-sleeve",
+      "tapping-valve",
+      "test-pump",
+      "trash-pump",
+      "travel-indicator",
+      "trench-shield",
+      "valve-flange"
+    ],
+    "meshes": 187
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the marks on the road against the records: what this main is, what else is in the trench, and which valves make the section.",
+      "id": "locate",
+      "kind": "select",
+      "prompt": "Check the marks on the road against the records: what this main is, what else is in the trench, and which valves make the section.",
+      "target": "locate-marks",
+      "title": "Confirm the locate and the valve records",
+      "why": "The tap is designed around a pipe of a stated material and diameter, and the section it creates is defined by valves somebody else operated last. A main that turns out to be cast iron where the record says ductile is a different sleeve, a different cutter and a different day."
+    },
+    {
+      "cue": "Confirm the shield is set and the hole is big enough to swing the machine in.",
+      "id": "shore",
+      "kind": "select",
+      "prompt": "Confirm the shield is set and the hole is big enough to swing the machine in.",
+      "target": "trench-shield",
+      "title": "Shore the bell hole",
+      "why": "A tapping machine is long and it is swung into place over an open excavation. The hole is sized for the machine before anybody is in it, because widening a bell hole with a fitter standing in it is how the wall comes in on them."
+    },
+    {
+      "cue": "Click the three things on this pipe that decide where the sleeve can go.",
+      "id": "expose",
+      "itemNames": {
+        "bell-joint": "the bell joint",
+        "main-barrel": "the barrel where the sleeve seats",
+        "service-tap": "an existing service tap"
+      },
+      "itemNotes": {
+        "bell-joint": "There is a bell joint a short way along. You cannot tap over a joint — the sleeve needs full round barrel under both halves of the gasket.",
+        "main-barrel": "Clean, straight barrel with no pitting. That is where the sleeve seats and it is the only part of this pipe the gasket can seal on.",
+        "service-tap": "There is an existing service tap on the springline. Tapping close to one weakens what is left of the wall between them, and the service is somebody's house."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Click the three things on this pipe that decide where the sleeve can go.",
+      "targets": [
+        "main-barrel",
+        "bell-joint",
+        "service-tap"
+      ],
+      "title": "Expose the main and find what you actually have",
+      "why": "A tap location is chosen on the pipe in front of you, not on the drawing. The barrel, the joint and any existing tap are the three things that move it, and all three are invisible until the main is dug clear all the way round."
+    },
+    {
+      "cue": "Bring the sleeve down and close it round the cleaned barrel.",
+      "drag": {
+        "missNote": "Not on the barrel — a sleeve over a joint or over the existing tap has nothing to seal against.",
+        "radius": 0.45,
+        "to": "main-socket"
+      },
+      "id": "sleeve",
+      "kind": "drag",
+      "prompt": "Bring the sleeve down and close it round the cleaned barrel.",
+      "target": "tapping-sleeve",
+      "title": "Fit the tapping sleeve",
+      "why": "The barrel is wire-brushed clean where the gasket lands, because a gasket seats on pipe and not on tuberculation. Both halves go round the main square, with the outlet where the machine can be swung onto it."
+    },
+    {
+      "cue": "Snug all round, then cross-pattern to half, then cross-pattern to full.",
+      "id": "bolt",
+      "itemNames": {
+        "bolts-a": "snug all round",
+        "bolts-b": "cross-pattern to half torque",
+        "bolts-c": "cross-pattern to full torque"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Snug all round first, then half torque across the pattern, then full. Pulling one side home first is how a gasket rolls.",
+      "prompt": "Snug all round, then cross-pattern to half, then cross-pattern to full.",
+      "targets": [
+        "bolts-a",
+        "bolts-b",
+        "bolts-c"
+      ],
+      "title": "Torque the sleeve in pattern",
+      "why": "A gasket pulled down on one side first rolls out of the groove on the other. Snug, half, full, across the joint every time — the pattern is what makes the seal even, and an even seal is the only kind that holds pressure."
+    },
+    {
+      "cue": "Bring the test pump up and commit on the pressure the fitting holds.",
+      "gauge": {
+        "green": [
+          0.55,
+          0.78
+        ],
+        "label": "TEST",
+        "missNote": "The fitting did not hold the test. Back it off, find the gasket, and do not put a cutter anywhere near this main until it does.",
+        "speed": 0.68
+      },
+      "id": "test",
+      "kind": "gauge",
+      "prompt": "Bring the test pump up and commit on the pressure the fitting holds.",
+      "target": "test-pump",
+      "title": "Pressure-test the sleeve and valve",
+      "why": "This is the one moment where a bad gasket costs nothing. The sleeve and the valve are tested as an assembly, before there is a hole in the main, because afterwards the only way to take the sleeve off is to shut the street down — which is the thing this whole job exists to avoid."
+    },
+    {
+      "cue": "Swing the tapping machine onto the valve flange and bolt it down.",
+      "drag": {
+        "missNote": "Not seated on the flange — a machine that is not bolted square will not hold pressure and will not run true.",
+        "radius": 0.42,
+        "to": "valve-flange"
+      },
+      "id": "mount",
+      "kind": "drag",
+      "prompt": "Swing the tapping machine onto the valve flange and bolt it down.",
+      "target": "tapping-machine",
+      "title": "Mount the machine on the valve",
+      "why": "The machine bolts to the valve, not to the sleeve, so that the valve is between the cutter and the main at every moment. That is the arrangement that makes the whole thing reversible."
+    },
+    {
+      "cue": "Wind the tapping valve fully open and confirm it on the indicator.",
+      "id": "open-valve",
+      "kind": "turn",
+      "prompt": "Wind the tapping valve fully open and confirm it on the indicator.",
+      "target": "tapping-valve",
+      "title": "Open the tapping valve",
+      "turn": {
+        "axis": "y",
+        "label": "TAPPING VALVE",
+        "turns": 0.75
+      },
+      "why": "Fully open, and known to be fully open. A gate that is part way across is a gate the cutter will find on the way past, and the indicator is how you know rather than how it felt on the wrench."
+    },
+    {
+      "cue": "Hold the feed rate steady in the band while the shell cutter goes through.",
+      "holdBreakNote": "Feed rate out of band — a loaded cutter breaks through and drops the coupon, and a slow one polishes the wall instead of cutting it. Bring it back and hold.",
+      "id": "cut",
+      "kind": "track",
+      "prompt": "Hold the feed rate steady in the band while the shell cutter goes through.",
+      "seconds": 7,
+      "target": "feed-handle",
+      "title": "Feed the cutter through the wall",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.36,
+          0.56
+        ],
+        "label": "FEED RATE",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "Steady feed is what keeps the coupon on the pilot and the cutter in one piece. Too fast and the cutter loads up and can break through and drop the coupon; too slow and it burnishes the wall instead of cutting it, and a work-hardened ring is harder to get through than the pipe was."
+    },
+    {
+      "cue": "Wind the boring bar back and commit on the travel the indicator shows.",
+      "gauge": {
+        "green": [
+          0.72,
+          0.95
+        ],
+        "label": "BAR TRAVEL",
+        "missNote": "Not far enough back. The cutter is still in the bore, and the gate closes into it rather than across it.",
+        "speed": 0.7
+      },
+      "id": "retract",
+      "kind": "gauge",
+      "prompt": "Wind the boring bar back and commit on the travel the indicator shows.",
+      "target": "travel-indicator",
+      "title": "Prove the cutter is clear of the gate",
+      "why": "Read, not felt. The indicator is what says the cutter is behind the gate; the wrench only says it stopped turning, and it stops turning against the machine's own stop as readily as against the top of its travel."
+    },
+    {
+      "cue": "Wind the valve shut now the bar is proven clear.",
+      "id": "close-valve",
+      "kind": "turn",
+      "prompt": "Wind the valve shut now the bar is proven clear.",
+      "target": "tapping-valve",
+      "title": "Close the tapping valve",
+      "turn": {
+        "axis": "y",
+        "label": "TAPPING VALVE",
+        "reverse": true,
+        "turns": 0.75
+      },
+      "why": "This is the moment the hole becomes reversible. With the valve shut, the machine can come off a live main and everything above the gate is at atmosphere — which is the only reason it was ever safe to cut the hole at all."
+    },
+    {
+      "cue": "Take the coupon off the cutter and put it in the tray where the crew can see it.",
+      "id": "coupon",
+      "kind": "select",
+      "prompt": "Take the coupon off the cutter and put it in the tray where the crew can see it.",
+      "target": "coupon-tray",
+      "title": "Account for the coupon",
+      "why": "There are two places that disc can be and only one of them is acceptable. Off the cutter and in the tray, the tap is finished; not on the cutter, and there is a piece of pipe wall moving down a live main toward a valve seat, and that is a call that gets made now rather than discovered next week."
+    },
+    {
+      "cue": "Swap the machine for the line stop head and set it through the same fitting.",
+      "drag": {
+        "missNote": "Not seated on the fitting — a line stop that is not square does not seal, and an unrestrained one moves.",
+        "radius": 0.42,
+        "to": "valve-flange"
+      },
+      "id": "linestop",
+      "kind": "drag",
+      "prompt": "Swap the machine for the line stop head and set it through the same fitting.",
+      "target": "linestop-head",
+      "title": "Set the line stop",
+      "why": "The stop goes in through the hole the tap made, which is why the fitting was specified for both. It is restrained, because a plugged main pushes the fitting sideways with the full pressure of the section behind it."
+    },
+    {
+      "cue": "Hold the chlorine feed for the full dose before anything is flushed.",
+      "holdBreakNote": "The dose was cut short. A partial disinfection is not a shorter version of the same thing — it is a main going back into service unproven.",
+      "id": "disinfect",
+      "kind": "hold",
+      "prompt": "Hold the chlorine feed for the full dose before anything is flushed.",
+      "seconds": 5,
+      "target": "chlorine-pump",
+      "title": "Disinfect the section",
+      "why": "Everything that touched the inside of that main is in the water now — the cutter, the sleeve, whatever was on the fitter's gloves. AWWA C651 is where disinfection, flushing and a bacteriological sample before return to service are written down, and the sample is what turns 'we disinfected it' into evidence."
+    },
+    {
+      "cue": "Click the three things that decide whether this section goes back safely.",
+      "id": "walk",
+      "itemNames": {
+        "bypass-line": "the bypass",
+        "flush-point": "the flush point and sample tap",
+        "restraint-rods": "restraint on the fitting"
+      },
+      "itemNotes": {
+        "bypass-line": "The bypass is carrying the customers past the stopped section. It is the reason the street still has water and the reason this job was a hot tap rather than a shutdown.",
+        "flush-point": "The flush point and the sample tap are the last two things anybody uses here. Flushed to waste, sampled, and the section stays out of service until the sample comes back.",
+        "restraint-rods": "The restraint rods are on and tight. A line stop is an unbalanced load on the main and the fitting is the thing holding against it."
+      },
+      "kind": "find",
+      "prompt": "Click the three things that decide whether this section goes back safely.",
+      "targets": [
+        "restraint-rods",
+        "bypass-line",
+        "flush-point"
+      ],
+      "title": "Walk the fitting before you leave it",
+      "why": "The tap is the interesting part and these three are the part that fails later: the restraint that holds the fitting, the bypass that is keeping the street in water, and the sample that says the main is fit to drink from."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Cutting into a live main: sleeve proven before the valve opens, cutter proven clear before the valve closes, coupon accounted for, and the main disinfected before it serves anybody",
+  "title": "SmartCiti.X~ Hot Tap VR",
+  "trade": "Pipefitter / water distribution tapping crew",
+  "underwater": null,
+  "weather": "rain"
+}

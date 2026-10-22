@@ -1,0 +1,438 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "bay-command",
+    "name": "Bay Command",
+    "note": "Wing-walkers posted before the aircraft moved, clearance held both sides, and the stop signal answered the instant it was needed"
+  },
+  "category": "Mobility & Transit",
+  "certification": "IAM and TWU ramp training; FAA 14 CFR Part 139 movement-area and safety-area operations and 14 CFR 139.303 personnel training for airport movement-area operations; OSHA 29 CFR 1910.132 personal protective equipment and 29 CFR 1910.95 occupational noise exposure; ANSI/ISEA 107 high-visibility apparel",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI/ISEA 107",
+        "id": "ansi-isea-107",
+        "title": "ANSI/ISEA 107 — High-visibility safety apparel and accessories"
+      },
+      {
+        "body": "FAA",
+        "citedAs": "14 CFR 139.303",
+        "id": "faa-14-cfr-139-303",
+        "title": "14 CFR 139.303 — Personnel training for airport movement-area operations"
+      },
+      {
+        "body": "union",
+        "citedAs": "IAM",
+        "id": "iam-winpisinger-center",
+        "title": "IAM — the William W. Winpisinger Education and Technology Center's machinist and transportation training"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.95",
+        "id": "osha-1910-95",
+        "title": "29 CFR 1910.95 — Occupational noise exposure"
+      },
+      {
+        "body": "union",
+        "citedAs": "TWU",
+        "id": "twu-training",
+        "title": "TWU member training for transit and airline ground operations"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Aviation",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-walk",
+        "name": "Clean Walk",
+        "note": "The bay was walked and cleared before the aircraft ever moved"
+      },
+      {
+        "id": "one-stop",
+        "name": "One Stop",
+        "note": "Every stop call in this shift was answered, never missed"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Held the marshalling signal and the clearance readings near band centre the whole approach"
+      },
+      {
+        "id": "on-the-mark",
+        "name": "On the Mark Certified",
+        "note": "Stopped the aircraft on the mark, first time"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-bay",
+        "name": "Quick Bay",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "bay-streak",
+        "name": "Bay Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "BAY",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ramp Hand",
+      "Signal Qualified",
+      "Wing Walker",
+      "Lead Marshaller",
+      "Bay Command Certified"
+    ],
+    "system": "Bay Command"
+  },
+  "hazards": {
+    "engine-arc-cross": "You crossed the engine's intake arc while it was still turning. A running engine ingests a person from several metres out, and it does not slow down or announce itself before it does — the arc is walked around, never through, until the engine is confirmed shut down.",
+    "jet-blast-zone": "You stood behind the aircraft inside the jet-blast zone while the engines were still running. Blast from a turning engine at idle is still strong enough to knock a person down and turn loose debris into a hazard of its own, and it reaches well past where it looks safe to stand.",
+    "wave-in-blind": "You gave the wave-in signal before both wing-walkers had confirmed their positions. The marshaller's own view down the taxi line cannot see either wingtip at the same time it is watching the nosewheel, so an aircraft waved forward without both wing-walkers posted is being brought into a bay nobody is actually watching the sides of.",
+    "wingtip-pinch-zone": "You stood in the pinch point between the wingtip and the hangar door frame instead of at the wing-walker's own watch position outboard of it. That gap is exactly what a wing-walker is posted to judge from a position it cannot close on them — standing inside it removes the one thing keeping a moving wingtip from ever reaching a person."
+  },
+  "id": "av-marshalling-and-wingwalker-signals",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "marshal-in",
+      "alert": "A parked tug has been rolled into wing-walker Left's sightline, and the clearance on that side can no longer be judged from where they stand.",
+      "cue": "Give the stop signal now — a wing-walker who cannot see the clearance cannot confirm it.",
+      "delay": 5,
+      "id": "wing-walker-loses-sight",
+      "kind": "Sightline lost",
+      "missNote": "The aircraft kept moving while wing-walker Left had no sightline to the clearance at all. A wingtip that closes on a door frame with nobody actually watching it is one bad foot of roll away from a strike that grounds the aircraft for inspection.",
+      "seconds": 12,
+      "target": "emergency-stop-paddle",
+      "why": "A wing-walker's whole job is confirming a clearance the marshaller cannot see, and the instant that view is blocked the confirmation stops being real — the aircraft has to be stopped before it closes any further distance nobody is actually watching.",
+      "wrongNote": "That doesn't answer it — a wing-walker with no sightline is what stops this aircraft, not this."
+    },
+    {
+      "after": "wingtip-r-watch",
+      "alert": "A baggage cart has turned onto the taxi line ahead of the nosewheel, well inside the aircraft's own path into the bay.",
+      "cue": "Stop signal now — nothing crosses the taxi line while the aircraft is still moving.",
+      "delay": 4,
+      "id": "ground-vehicle-crosses",
+      "kind": "Taxi-line incursion",
+      "missNote": "The aircraft kept rolling toward the cart still crossing the taxi line. A jet cannot stop in the distance a wandering ground vehicle needs to clear its own path, which is the entire reason the stop signal exists independently of the aircraft's own brakes.",
+      "seconds": 11,
+      "target": "emergency-stop-paddle",
+      "why": "The taxi line is kept clear specifically because the flight deck's own view cannot cover the ground immediately ahead of the nosewheel, and the one thing standing between a crossing vehicle and a strike is a marshalling crew that stops the aircraft the moment the line is no longer clear.",
+      "wrongNote": "Wrong response — the vehicle crossing the taxi line is what needs this aircraft stopped, nothing else."
+    }
+  ],
+  "lateNotes": {
+    "stop-bar": "The stop is given for the nosewheel on the mark, not called out after the aircraft has already rolled past it.",
+    "wingwalker-l": "The wing-walkers are posted and their signal confirmed before the aircraft is ever waved forward, not called in after it is already moving."
+  },
+  "name": "Marshalling & Wing-Walker Signals",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "aviation-maintenance-and-ground"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "regionalJet",
+        "count": 1,
+        "kit": "equipment"
+      }
+    ],
+    "error": null,
+    "footprint": 2.9,
+    "hits": [
+      "bay-plan-board",
+      "chock-main",
+      "chock-nose",
+      "clearance-mark-l",
+      "clearance-marker-l",
+      "closing-log",
+      "cone-line",
+      "cones-set",
+      "door-frame-check",
+      "ear-defenders",
+      "emergency-stop-paddle",
+      "engine-arc-cross",
+      "engine-status",
+      "fod-bolt",
+      "fod-rag",
+      "hi-vis-vest",
+      "jet-blast-zone",
+      "marshal-wands",
+      "signal-board",
+      "sound-drain-cover",
+      "stop-bar",
+      "wand-set",
+      "wave-in-blind",
+      "wingtip-pinch-zone",
+      "wingwalker-l",
+      "wingwalker-r"
+    ],
+    "meshes": 191
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Hi-vis vest, ear defenders and the marshalling wands before anyone steps onto the apron.",
+      "id": "ppe",
+      "itemNames": {
+        "ear-defenders": "ear defenders",
+        "hi-vis-vest": "hi-vis vest",
+        "wand-set": "marshalling wands"
+      },
+      "kind": "sequence",
+      "prompt": "Hi-vis vest, ear defenders and the marshalling wands before anyone steps onto the apron.",
+      "targets": [
+        "hi-vis-vest",
+        "ear-defenders",
+        "wand-set"
+      ],
+      "title": "Suit up for the bay",
+      "why": "A marshaller and two wing-walkers are all going to be working close around a taxiing aircraft in a bay tighter than a normal stand, and every one of them being visible at a glance in hi-vis, with hearing protected against engine noise, is what lets each of them actually see and hear the others' calls over it."
+    },
+    {
+      "cue": "Confirm the aircraft type, the bay number and the tight-clearance note before anyone walks out.",
+      "id": "brief",
+      "kind": "select",
+      "prompt": "Confirm the aircraft type, the bay number and the tight-clearance note before anyone walks out.",
+      "target": "bay-plan-board",
+      "title": "Read the bay assignment",
+      "why": "The bay assignment is what sets today's clearance margins on each side of the fuselage, and a crew that has not read it has no way to know before the aircraft is already rolling whether this bay gives the wingtips the room a normal stand does."
+    },
+    {
+      "cue": "Walk the bay the aircraft will occupy and pick up every loose object you find.",
+      "decoyNotes": {
+        "sound-drain-cover": "The drain grating is seated flush and clear. Nothing to flag there."
+      },
+      "id": "fod-walk",
+      "itemNames": {
+        "fod-bolt": "loose bolt on the taxi line",
+        "fod-rag": "shop rag near the bay threshold"
+      },
+      "itemNotes": {
+        "fod-bolt": "A bolt sitting on the taxi line is exactly what an engine at idle pulls in from several metres out.",
+        "fod-rag": "A rag at the threshold gets pulled under a tyre or into an intake the moment the aircraft starts rolling over it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the bay the aircraft will occupy and pick up every loose object you find.",
+      "targets": [
+        "fod-bolt",
+        "fod-rag"
+      ],
+      "title": "Walk the bay for FOD",
+      "why": "Foreign object damage does not care that this bay looked clean on the last turn — anything loose on the taxi line or at the threshold today is exactly what a hot engine or a rolling tyre finds first, so the walk happens before every single aircraft regardless of how the bay looked an hour ago."
+    },
+    {
+      "cue": "Carry the wingtip clearance marker to its mark beside the door frame before anyone is posted.",
+      "drag": {
+        "missNote": "Not on the mark — carry the marker fully to the clearance line before anyone is posted against it.",
+        "radius": 0.4,
+        "to": "clearance-mark-l"
+      },
+      "id": "mark-clearance-stand",
+      "kind": "drag",
+      "prompt": "Carry the wingtip clearance marker to its mark beside the door frame before anyone is posted.",
+      "target": "clearance-marker-l",
+      "title": "Set the clearance marker",
+      "why": "The marker gives wing-walker Left a fixed reference for how close the wingtip is actually allowed to come to the door frame, set once before the aircraft ever moves rather than eyeballed against the frame itself while a wing is closing on it."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Post a wing-walker outboard of each wingtip before the aircraft is waved anywhere near the bay.",
+      "id": "position-wingwalkers",
+      "itemNames": {
+        "wingwalker-l": "wing-walker, left",
+        "wingwalker-r": "wing-walker, right"
+      },
+      "kind": "sequence",
+      "prompt": "Post a wing-walker outboard of each wingtip before the aircraft is waved anywhere near the bay.",
+      "targets": [
+        "wingwalker-l",
+        "wingwalker-r"
+      ],
+      "title": "Post both wing-walkers",
+      "why": "Neither wingtip is visible from the marshaller's own position on the taxi line at the same time, which is the entire reason two separate people are posted rather than trusted to one set of eyes doing both jobs at once."
+    },
+    {
+      "cue": "Walk the hand-signal dictionary with both wing-walkers and agree the stop signal before anything moves.",
+      "id": "signal-check",
+      "kind": "select",
+      "prompt": "Walk the hand-signal dictionary with both wing-walkers and agree the stop signal before anything moves.",
+      "target": "signal-board",
+      "title": "Confirm the signal dictionary",
+      "why": "A wing-walker's wave and the marshaller's own wands only mean the same thing to everyone watching if all three of them agreed on the dictionary before the aircraft is moving and a signal actually has to be trusted at a glance."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Cone the taxi-line approach and confirm the door frame side posts are clear of anything parked.",
+      "id": "clear-approach",
+      "itemNames": {
+        "cone-line": "taxi-line cones set",
+        "door-frame-check": "door frame confirmed clear"
+      },
+      "kind": "sequence",
+      "prompt": "Cone the taxi-line approach and confirm the door frame side posts are clear of anything parked.",
+      "targets": [
+        "cone-line",
+        "door-frame-check"
+      ],
+      "title": "Clear the approach",
+      "why": "Everything either side of the taxi line is inside the aircraft's own swept path the moment it starts rolling, and coning the approach while confirming nothing is parked against the door frame is what keeps that path actually matching the one the marshaller is about to guide it down."
+    },
+    {
+      "cue": "Wands up, steady guidance down the taxi line until the nosewheel reaches the stop mark.",
+      "holdBreakNote": "Signal rate out of band — the flight deck reads that as confusion in a bay with no room for it. Steady the wands.",
+      "id": "marshal-in",
+      "kind": "track",
+      "prompt": "Wands up, steady guidance down the taxi line until the nosewheel reaches the stop mark.",
+      "seconds": 7,
+      "target": "marshal-wands",
+      "title": "Marshal the aircraft into the bay",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.38,
+          0.58
+        ],
+        "label": "GUIDANCE",
+        "rise": 0.6,
+        "start": 0.1
+      },
+      "why": "From the flight deck the pilot cannot see the nosewheel or either wingtip for the whole distance into a bay this tight, so the marshaller's steady wands at a steady walking rate are the only reference the flight crew has for the entire approach."
+    },
+    {
+      "cue": "Hold the clear signal steady while watching the left wingtip against its marker the whole approach.",
+      "holdBreakNote": "Dropped the clear signal mid-approach. Hold it through the whole pass — that is what tells the marshaller left clearance is still being watched, not assumed.",
+      "id": "wingtip-l-watch",
+      "kind": "hold",
+      "prompt": "Hold the clear signal steady while watching the left wingtip against its marker the whole approach.",
+      "seconds": 6,
+      "target": "wingwalker-l",
+      "title": "Hold the clear signal, left",
+      "why": "The clear signal only means something if it is held the entire time the wing is actually moving past the marker — a signal given once at the start and then forgotten is a wing-walker who stopped watching exactly when the clearance mattered most."
+    },
+    {
+      "cue": "Keep the right-side clearance reading inside the band as the wing closes on the door frame.",
+      "holdBreakNote": "Right clearance drifted out of band. Call it before the wing closes any further on the frame.",
+      "id": "wingtip-r-watch",
+      "kind": "track",
+      "prompt": "Keep the right-side clearance reading inside the band as the wing closes on the door frame.",
+      "seconds": 7,
+      "target": "wingwalker-r",
+      "title": "Track the clearance, right",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.55,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "CLEARANCE R",
+        "rise": 0.4,
+        "start": 0.55
+      },
+      "why": "The right side of a bay this tight closes on the door frame at its own rate as the aircraft turns in, and a continuous reading is what lets the marshaller trust that clearance is holding instead of guessing it from a single glance at the start."
+    },
+    {
+      "cue": "Give the stop when the nosewheel is on the mark — commit inside the band.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.58
+        ],
+        "label": "NOSEWHEEL",
+        "missNote": "Off the mark — the tail swing or a wingtip clearance is no longer what it was calculated to be.",
+        "speed": 0.7
+      },
+      "id": "stop-on-mark",
+      "kind": "gauge",
+      "prompt": "Give the stop when the nosewheel is on the mark — commit inside the band.",
+      "target": "stop-bar",
+      "title": "Stop on the mark",
+      "why": "The mark is set for exactly this aircraft type in exactly this bay: it is the one point where both wing-walkers' clearance readings and the tail's own swing radius are all still true at once. A stop a metre long or short of it puts at least one of those three things wrong."
+    },
+    {
+      "cue": "Nose chocks first, then the mains, then cones at both wingtips.",
+      "id": "chock-and-cone",
+      "itemNames": {
+        "chock-main": "main gear chocks",
+        "chock-nose": "nose gear chocks",
+        "cones-set": "wingtip cones"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Nose, then mains, then cones — the aircraft is held before it is marked.",
+      "prompt": "Nose chocks first, then the mains, then cones at both wingtips.",
+      "targets": [
+        "chock-nose",
+        "chock-main",
+        "cones-set"
+      ],
+      "title": "Chock and cone",
+      "why": "Chocks before anything else is the rule the whole bay runs on: until they are set, nothing except the flight crew's own brakes is holding the aircraft on a stand that is rarely dead level, and the cones mark the exact two points a reversing tug's mirror must never find."
+    },
+    {
+      "cue": "Confirm both engines have spooled down and the beacon is off before anyone approaches the aircraft.",
+      "id": "engine-shutdown-confirm",
+      "kind": "select",
+      "prompt": "Confirm both engines have spooled down and the beacon is off before anyone approaches the aircraft.",
+      "target": "engine-status",
+      "title": "Confirm engines shut down",
+      "why": "Everything about approaching this aircraft on foot — the FOD walk that follows, the chocks already set, the wing-walkers standing this close — depends on the engines actually being off, not just quiet, and the beacon is the flight deck's own confirmation of that rather than a guess from the sound of it."
+    },
+    {
+      "cue": "Log the bay number, the stop reading and both wing-walkers' clearance calls before signing off.",
+      "id": "closeout-log",
+      "kind": "select",
+      "prompt": "Log the bay number, the stop reading and both wing-walkers' clearance calls before signing off.",
+      "target": "closing-log",
+      "title": "Log the bay parking",
+      "why": "The bay log is what the next shift and the hangar floor both read before anything else touches this aircraft — a clean marshal that never gets logged against its own clearance calls leaves nothing behind to prove the bay was actually tight the way this shift found it."
+    }
+  ],
+  "supportLine": "your IAM or TWU local's member assistance programme, or the site's employee assistance line if a close call on the ramp is what stayed with you",
+  "tagline": "A jet marshalled into a tight hangar bay: the bay walked for FOD, wing-walkers posted at both wingtips, the aircraft brought down the line on the marshaller's wands, clearance held against the door frame the whole way in, and one shared stop signal that beats every other instruction the instant it is raised",
+  "title": "SmartCiti.X~ Marshalling & Wing-Walker Signals VR",
+  "trade": "Aircraft marshaller and wing walker — IAM/TWU ramp crew",
+  "underwater": null,
+  "weather": "overcast"
+}

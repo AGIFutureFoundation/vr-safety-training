@@ -1,0 +1,356 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "gear-tagged-clean",
+    "name": "Gear Tagged Clean",
+    "note": "Every rod and turnbuckle inspected before use, the pattern matched to the plan, and never a body under the spreader while it swung"
+  },
+  "category": "Maritime & Ports",
+  "certification": "OSHA 29 CFR 1917 marine terminals for the apron work under the crane, 29 CFR 1918 longshoring for the lashing gang's own duties, ASME B30.26 rigging hardware for the rods and turnbuckles under inspection, ILWU-PMA joint training for the lashing gang, and MARAD mariner training for the vessel-side stow this gear secures",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASME",
+        "citedAs": "ASME B30.26",
+        "id": "asme-b30-26",
+        "title": "ASME B30.26 — Rigging hardware"
+      },
+      {
+        "body": "union",
+        "citedAs": "PMA",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "MARAD",
+        "citedAs": "MARAD",
+        "id": "marad-mariner-training",
+        "title": "U.S. Maritime Administration mariner training and workforce standards, delivered through the state and federal maritime academies"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1917",
+        "id": "osha-1917",
+        "title": "29 CFR 1917 — Marine terminals"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1918",
+        "id": "osha-1918",
+        "title": "29 CFR 1918 — Safety and health regulations for longshoring"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Maritime",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "rack-checked-clean",
+        "name": "Rack Checked Clean",
+        "note": "The cracked rod found and set aside before it reached the stow"
+      },
+      {
+        "id": "tension-held",
+        "name": "Tension Held",
+        "note": "Turnbuckle tension committed inside the band first time"
+      },
+      {
+        "id": "never-a-shortcut",
+        "name": "Never a Shortcut",
+        "note": "Never a cracked rod used, never a body under the spreader, never a turnbuckle left without its locking pin"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-tagging",
+        "name": "Clean Tagging",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "pattern-on-the-plan",
+        "name": "Pattern On The Plan",
+        "note": "Lashing pattern matched the plan on the first check"
+      },
+      {
+        "id": "tally-logged-fast",
+        "name": "Tally Logged Fast",
+        "note": "Tally logged inside 80% of par"
+      }
+    ],
+    "currency": "TAG",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Deck Hand",
+      "Lashing Crew",
+      "Gang Lead",
+      "Rigging Certified",
+      "Lasher Certified"
+    ],
+    "system": "Lashing Gang"
+  },
+  "hazards": {
+    "skip-turnbuckle-lock-pin": "You tensioned the turnbuckle and walked away without setting its locking pin. A turnbuckle body can work itself loose under the vibration of a loaded ship at sea, and the locking pin is what keeps today's tension from becoming tomorrow's slack lashing three days into the voyage, when nobody on the apron can reach it anymore.",
+    "stand-under-suspended-load": "You stood under the spreader while it swung a container overhead instead of stepping clear. A load on a spreader stays a suspended load for every second it is in the air, and standing under its path on the apron is choosing to be exactly where anything that lets go would land.",
+    "use-cracked-rod": "You pulled the cracked rod from the rack instead of a good one. A lashing rod under tension is holding a container against a ship's roll, and a rod that already has a visible crack is a rod that has already started failing — it is set aside for the reject bin the moment it is found, not tensioned into tomorrow's stow.",
+    "walk-through-lashing-bight": "You walked through the bight of a rod that was still under tension instead of stepping around it. A tensioned lashing rod that lets go at a fitting snaps back through the space it was just occupying, and standing in that bight — rather than walking the long way around it — is the same mistake a mooring line's snap-back zone exists to prevent."
+  },
+  "id": "po-lashing-gear-inspection-and-tagging",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "tension-rod",
+      "alert": "The crane has started swinging a loaded spreader directly over your corner without a call down first.",
+      "cue": "Clear to the marked safe zone now — the pattern check waits.",
+      "delay": 2,
+      "id": "spreader-swing-unannounced",
+      "kind": "The spreader swings a load over the corner without warning",
+      "missNote": "The pattern check continued while the load swung overhead; the gang was still bent over the corner when the spreader passed directly above them.",
+      "seconds": 12,
+      "target": "overhead-marker",
+      "why": "An unannounced swing over an active corner is exactly the situation the clear zone exists for, and moving to it now, before the load is anywhere near overhead, is what keeps a missed radio call from becoming a lasher standing under a container that never should have swung that way in the first place.",
+      "wrongNote": "The marked safe zone — an unannounced overhead swing is answered by clearing the corner, not by finishing the check already underway."
+    },
+    {
+      "after": "verify-pattern",
+      "alert": "The terminal's wind board has just posted a gust warning above the crane's own working limit.",
+      "cue": "Call the crane operator to halt lifts now — the tally log waits.",
+      "delay": 2,
+      "id": "wind-gust-warning",
+      "kind": "A wind gust warning comes over the terminal's own board",
+      "missNote": "The tally was logged first while lifts continued through the gust warning; the halt call went out only after the crane operator's own alarm caught the same wind independently.",
+      "seconds": 14,
+      "target": "gang-radio",
+      "why": "A gust above the crane's rated limit is a reason to stop swinging loads over an apron full of people before the crane operator's own instruments confirm it independently, and calling it in now is what gets lifts halted in the minute it matters rather than the minute after something already swung wrong.",
+      "wrongNote": "The gang radio to the crane operator — a wind gust warning is called in immediately, ahead of finishing paperwork already in hand."
+    }
+  ],
+  "lateNotes": {
+    "pass-tag": "Nothing to tag yet — the pattern is checked against the plan before this gear is signed off.",
+    "tension-gauge": "Nothing to tension yet — the twist-lock has to be locked before the rod above it is tensioned.",
+    "twistlock-handle": "Nothing to lock yet — the spare twist-lock has to be staged at the corner casting first."
+  },
+  "name": "Lashing Gear Inspection & Tagging",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "port-operations"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "craneSpreader",
+        "count": 1,
+        "kit": "equipment"
+      }
+    ],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "corner-casting",
+      "cracked-rod",
+      "gang-radio",
+      "hard-hat",
+      "hi-vis-vest",
+      "lashing-log",
+      "lashing-plan",
+      "overhead-marker",
+      "pass-tag",
+      "pattern-diagram",
+      "skip-turnbuckle-lock-pin",
+      "spare-twistlock",
+      "stand-under-suspended-load",
+      "tally-board",
+      "tension-gauge",
+      "turnbuckle-threads",
+      "twistlock-handle",
+      "use-cracked-rod",
+      "walk-through-lashing-bight"
+    ],
+    "meshes": 163
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the plan: the crossing pattern this stow calls for, how many rods and turnbuckles it needs, and that any cracked or bent gear goes straight to the reject bin.",
+      "id": "read-lashing-plan",
+      "kind": "select",
+      "prompt": "Read the plan: the crossing pattern this stow calls for, how many rods and turnbuckles it needs, and that any cracked or bent gear goes straight to the reject bin.",
+      "target": "lashing-plan",
+      "title": "Read the lashing plan: pattern, gear count and the reject rule",
+      "why": "The lashing plan is what tells the gang exactly which pattern this particular stow needs — not the pattern from yesterday's ship — and reading it before the first rod comes off the rack is what keeps the gang from tensioning a pattern that does not match what the vessel's own stability calculation assumed."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Hi-vis vest and hard hat on before stepping into the apron under the crane's own swing radius.",
+      "id": "don-ppe",
+      "itemNames": {
+        "hard-hat": "hard hat",
+        "hi-vis-vest": "hi-vis vest"
+      },
+      "kind": "sequence",
+      "prompt": "Hi-vis vest and hard hat on before stepping into the apron under the crane's own swing radius.",
+      "targets": [
+        "hi-vis-vest",
+        "hard-hat"
+      ],
+      "title": "Hi-vis vest and hard hat on before working under the crane",
+      "why": "A lasher working under a working crane is working under a load moving overhead for the whole shift, and the hi-vis vest is what lets the crane operator and the checker both find the gang at a glance, while the hard hat answers for whatever the crane's own rigging might drop."
+    },
+    {
+      "cue": "Look over the rack for a crack near an eye, a bent shank, or a thread that does not turn smoothly before pulling the next rod.",
+      "id": "inspect-rod",
+      "itemNames": {
+        "cracked-rod": "cracked lashing rod in the rack"
+      },
+      "itemNotes": {
+        "cracked-rod": "One rod in the rack has a hairline crack near its eye — easy to miss under the terminal's own lighting, and set aside for the reject bin the moment it is found."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the rack for a crack near an eye, a bent shank, or a thread that does not turn smoothly before pulling the next rod.",
+      "targets": [
+        "cracked-rod"
+      ],
+      "title": "Check the rack before pulling the next rod",
+      "why": "A rack full of rods reads as interchangeable stock until one of them is actually the one that fails mid-voyage, and checking the rack now — before any rod is committed to today's stow — is the only point in this job where a cracked rod costs nothing but a look to catch."
+    },
+    {
+      "cue": "Check the turnbuckle body's threads for damage or corrosion before it goes onto the rod.",
+      "id": "inspect-turnbuckle",
+      "kind": "select",
+      "prompt": "Check the turnbuckle body's threads for damage or corrosion before it goes onto the rod.",
+      "target": "turnbuckle-threads",
+      "title": "Check the turnbuckle's threads before tensioning",
+      "why": "A turnbuckle that binds or strips under load does not hold the tension the lashing plan is counting on, and checking the threads on the ground, before the turnbuckle is under any load at all, is what keeps a bad one from being discovered halfway through tensioning a rod already carrying part of a container's weight."
+    },
+    {
+      "cue": "Carry the spare twist-lock from the bin and set it into the corner casting before locking it.",
+      "drag": {
+        "missNote": "Not seated in the casting — the twist-lock has to sit square in the corner casting's socket before it can be turned to locked.",
+        "radius": 0.5,
+        "to": "corner-casting"
+      },
+      "id": "stage-twistlock",
+      "kind": "drag",
+      "prompt": "Carry the spare twist-lock from the bin and set it into the corner casting before locking it.",
+      "target": "spare-twistlock",
+      "title": "Stage the twist-lock at the corner casting",
+      "why": "The twist-lock has to actually be seated in the casting's socket before it can be turned to locked — setting it square in the socket now is what makes the next step a clean quarter-turn instead of a lock fighting a fitting that was never properly seated."
+    },
+    {
+      "cue": "Turn the twist-lock handle a quarter turn to locked, feeling it seat rather than counting the turn.",
+      "id": "lock-twistlock",
+      "kind": "turn",
+      "prompt": "Turn the twist-lock handle a quarter turn to locked, feeling it seat rather than counting the turn.",
+      "target": "twistlock-handle",
+      "title": "Turn the twist-lock to locked",
+      "turn": {
+        "label": "TWIST-LOCK",
+        "turns": 0.25
+      },
+      "why": "A twist-lock that is only partly turned holds a container the same way a door that is not quite latched holds shut — it looks secured until the first real load tests it. Turning it to its own stop and feeling it seat is what makes this corner actually locked instead of resting closed."
+    },
+    {
+      "cue": "Take up the turnbuckle and commit the tension reading once it settles inside the plan's band.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "TENSION",
+        "missNote": "Not settled inside the plan's band — hold the turnbuckle steady until the reading stops moving before you commit it.",
+        "speed": 0.65
+      },
+      "id": "tension-rod",
+      "kind": "gauge",
+      "prompt": "Take up the turnbuckle and commit the tension reading once it settles inside the plan's band.",
+      "target": "tension-gauge",
+      "title": "Tension the rod to the plan's band",
+      "why": "A rod tensioned too loose does nothing to stop a container shifting in a roll, and one tensioned past its rated load is a rod closer to the point it was designed to fail at — the gauge is what tells you this rod is actually in the plan's own band, not just that it feels tight by hand."
+    },
+    {
+      "cue": "Hang a pass tag on the rod and turnbuckle once both have cleared inspection and tensioning.",
+      "id": "tag-gear",
+      "kind": "select",
+      "prompt": "Hang a pass tag on the rod and turnbuckle once both have cleared inspection and tensioning.",
+      "target": "pass-tag",
+      "title": "Tag the inspected gear",
+      "why": "A tag on inspected gear is what tells the next lasher down the stack, without asking, that this rod already passed — gear pulled and used without ever being tagged is gear the tally has no way of accounting for at the end of the shift."
+    },
+    {
+      "cue": "Compare the corner's actual crossing pattern to the plan's diagram before calling it complete.",
+      "id": "verify-pattern",
+      "kind": "select",
+      "prompt": "Compare the corner's actual crossing pattern to the plan's diagram before calling it complete.",
+      "target": "pattern-diagram",
+      "title": "Check the pattern against the plan",
+      "why": "A pattern that looks right from a few feet back can still be crossed the wrong way at one corner, and checking it against the plan's own diagram — corner by corner — is what catches that before the hatch cover goes on and the pattern is no longer visible to check at all."
+    },
+    {
+      "cue": "Step to the marked clear zone and hold your position while the spreader carries a container across the apron.",
+      "holdBreakNote": "The clear zone was left before the spreader's load was actually set down — a swing that is only watched for its first half is watched for exactly the half that was never the risk.",
+      "id": "spotter-clearance",
+      "kind": "hold",
+      "prompt": "Step to the marked clear zone and hold your position while the spreader carries a container across the apron.",
+      "seconds": 5,
+      "target": "overhead-marker",
+      "title": "Hold clear while the spreader swings a load overhead",
+      "why": "A spreader carrying a container across the apron is a suspended load for every second of that swing, and holding position in the marked clear zone — rather than continuing gear work under its path — is what keeps the gang out from underneath a load that has not yet been set down."
+    },
+    {
+      "cue": "Record the corner, the gear tagged, and the pattern check on the tally board before moving to the next corner.",
+      "id": "tally-log",
+      "kind": "select",
+      "prompt": "Record the corner, the gear tagged, and the pattern check on the tally board before moving to the next corner.",
+      "target": "tally-board",
+      "title": "Log the corner on the tally board",
+      "why": "The checker's tally is the terminal's own record of which corners are actually secured, and a corner finished but never logged is a corner the tally cannot tell the vessel's mate is actually ready for sea."
+    },
+    {
+      "cue": "Call the checker: gear tagged, pattern matched, tally logged for this corner.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the checker: gear tagged, pattern matched, tally logged for this corner.",
+      "target": "gang-radio",
+      "title": "Check in with the checker",
+      "why": "The checker's own tally is only as good as what the gang actually radios in corner by corner, and calling it in now — rather than letting the checker assume the tally already matches — is what keeps the two records from drifting apart before the ship needs to sail."
+    },
+    {
+      "cue": "Record the cracked rod set aside, every corner tagged, and the tally's final count before signing off.",
+      "id": "close-shift-log",
+      "kind": "select",
+      "prompt": "Record the cracked rod set aside, every corner tagged, and the tally's final count before signing off.",
+      "target": "lashing-log",
+      "title": "Close the shift log",
+      "why": "The shift log is what the next gang reads before the next ship ties up, and a cracked rod pulled from the rack that never makes the log is a rod the reject bin cannot explain to the next inspection."
+    }
+  ],
+  "supportLine": "your ILWU local's member assistance programme",
+  "tagline": "The rack before the first container lands: the lashing plan read for its pattern, hi-vis and a hard hat on, a cracked rod found in the rack before it is ever used, a turnbuckle's threads checked, a twist-lock staged and locked at the corner casting, the rod tensioned to the gauge's band, the gear tagged, the pattern checked against the plan, the crew held clear while the spreader swings a load overhead, the tally logged, the crew checked in, and the shift closed",
+  "title": "SmartCiti.X~ Lashing Gear Inspection & Tagging VR VR",
+  "trade": "ILWU lasher inspecting and tagging lashing gear before deck stow, with a checker running the tally",
+  "underwater": null,
+  "weather": "wind"
+}

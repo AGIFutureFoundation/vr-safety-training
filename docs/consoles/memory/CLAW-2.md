@@ -1,0 +1,29 @@
+# CLAW-2 memory
+
+- Loop 10, round 7. Base 40d97421, plus ARENA-2's declaration 8ea01d3c (merged alone). Prefix `oc2`, keeping the `oc-*` files; port 9152.
+- There are now two protocols:
+  - `OC_PROTOCOL` (round 6b, seeds 7121–7180, spent; hash 0f1f0548ef7b5658).
+  - `OC_PROTOCOL_2` (round 7, seeds 7181–7240 from `docs/evals/arena-declared-r7.json`, spent once by the claw; ids `oc2-…`).
+  - Never re-run either. A new comparison needs a new protocol, committed before its run, on seeds a coordinator names through a committed declaration.
+- `tools/claw_eval.mjs`:
+  - `--protocol 2` runs a held-out run once. It refuses `--dry` and refuses seeds that differ from the declaration file.
+  - `--dev` is the stub on seeds 1–20 and writes nothing.
+  - `--module-only` writes both records into `oc-claw-record.js`, with chains trimmed to head, line count and last line.
+- ra-lm needs `lmOptions` to apply. Without `texts` it is "not applicable". The claw passes `{ texts: raTexts(), stationFor }` from `tools/arena_eval.mjs` (import-guarded) through `ocRaAdapter(ra, { lmOptions })`. That builds the model ROBO-ARENA declared (ra/1, station tasks included).
+- People beside robots: the robot scenarios map to the robotics programme's tracks (`RP_TRACKS[].scenario`), not to `DR_DRILLS`, which are disaster drills.
+  - `OC_SCENARIO_DRILLS` is frozen in `oc-claw.js`, which keeps no imports. `check_claw` 10 re-derives it.
+  - Port gantry has no track.
+- The page's learner object (parishes, inside DATAWORKS' collect-stage gate plus consent) is `{ eligible, drills: drLoad(), tutor: colTutor().state, stations: from ppRecords() }`.
+- Headless handles:
+  - `__parishTest.drills.open(drillId, siteId)`, then click `[data-dr-go]` and `[data-dr="safe"|"unsafe"]` from inside the page (Playwright's click waits on a navigation and times out).
+  - `__parishTest.colearn.tutor.record(step, ok)` + `.save()`.
+  - `__parishTest.clawWorldStart()` → `{ loop, lamps, view }`.
+- Training records are profile-namespaced: `vr-training-records-v1::<profile>`. The drills key `vr-passport-drills-v1` is not.
+- Lamps: `ocMountSiteLamps`, high tier only. To measure one in view, aim `T.camera` at it and render: from the teleport view it is outside the frustum.
+- Gotcha: a worktree-isolated shell refuses `for` loops, `$(...)` and pipes that it cannot prove stay in the worktree. Plain commands and heredocs to `git commit -F /dev/stdin` work. Python edit scripts from a heredoc work when run alone.
+- Gotcha: `check_claw` 1's key-prefix pattern needs `\b`, or a station id containing "risk-" trips it.
+- Results this round:
+  - Protocol 2: 45 comparisons on 7181–7240, 0 promotions, refusals 3/3 plus not-held-out.
+  - ra-lm is never better than bc: it ties on 4 scenarios, falls short on 2 and breaks rules on 4.
+  - World: 960 minutes, physical 0.
+  - `check_claw` 11/0.

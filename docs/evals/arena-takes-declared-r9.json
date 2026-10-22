@@ -1,0 +1,22 @@
+{
+ "declared": "ROBOLEARN-10 (loop 10 round 9): a learner's own consented takes join a training run of the small model, on the device, declared here before the first run. This is a training declaration only: no held-out seed is run, no comparison is made and no claim of improvement follows from it. The held-out ranges 7121–7300 are spent and are never re-run; 7301–7360 are not touched by this run.",
+ "owner": "ROBOLEARN-10 (rl10)",
+ "run": {
+  "module": "WebXR/shared/ra-takes-train.js raTakesTrain",
+  "model": "ra-lm-h (RA_LM_H_TRAIN: epochs 10, lr 0.1, l2 1e-4, seed 1, hidden 24, interruptText true; unchanged)",
+  "trainingData": {
+   "synthetic": "the arena's development-seed demonstrations, RA_DEMOS { n 40, seed 1, skill 0.85, noise 0.3 } → episode seeds 100004–100043 per gym task (colSyntheticDemos), labelled synthetic",
+   "consented": "the learner's own takes from the local DX store, read through colLocalDemos only while dxCollecting() holds (signed in, not demo, not K-12 or classroom, adult opt-in); each validated by dxValidateEpisode and refused without an adult consent receipt"
+  },
+  "tasks": "the six gym tasks the small model trains on (RA_LM_TASKS); station tasks join only when station texts are supplied",
+  "where": "on the device; nothing is sent anywhere; no network call, no external API, no key",
+  "evaluation": "none. The run builds a model and reports what went into it. Any comparison of a takes-trained model would need its own declaration on a fresh held-out range first.",
+  "provenance": "one row per take (episode id, task, steps, consent receipt id, licence, adult); inside the model, raLmTrain's per-sample counts (synthetic rows, human rows, refused episodes, by task)",
+  "revoke": "dxRevoke deletes every stored take; the next run finds 0 and rebuilds the model without them. check_arena 12 holds that the rebuilt model's weights hash equals the model built before any take existed."
+ },
+ "checks": {
+  "check_arena 12": "fixture store: signed out → not collecting, 0 takes, no model; opted-in adult with one receipted take → 1 take with its receipt, human rows > 0; K-12 or demo → 0; after revoke → 0 takes, human rows 0, weights hash equal to the no-takes model; the demonstration seeds are disjoint from every held-out range (7121–7360)",
+  "check_dataworks": "DATAWORKS' rules unchanged"
+ },
+ "seedsNeverTouched": ["7121–7180", "7181–7240", "7241–7300", "7301–7360"]
+}

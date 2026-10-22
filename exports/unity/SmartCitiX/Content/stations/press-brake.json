@@ -1,0 +1,354 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "curtain-proven",
+    "name": "Curtain Proven",
+    "note": "Tooling changed locked out, the curtain proven at three heights, and a first article inside tolerance"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "IAM — OSHA 29 CFR 1910.147 lockout/tagout; ANSI B11.3 press brake safeguarding; light-curtain (presence-sensing device) verification per manufacturer's procedure",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI B11.3",
+        "id": "ansi-b11-3",
+        "title": "ANSI B11.3 — Safety requirements for power press brakes"
+      },
+      {
+        "body": "union",
+        "citedAs": "IAM",
+        "id": "iam-winpisinger-center",
+        "title": "IAM — the William W. Winpisinger Education and Technology Center's machinist and transportation training"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Manufacturing",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "locked-change",
+        "name": "Locked Change",
+        "note": "Tooling changed with control power locked, first time"
+      },
+      {
+        "id": "hands-out",
+        "name": "Hands Out",
+        "note": "Never reached into the die space or bypassed the curtain"
+      },
+      {
+        "id": "in-tolerance",
+        "name": "In Tolerance",
+        "note": "Back gauge, tonnage and angle inside spec"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-setup",
+        "name": "Clean Setup",
+        "note": "No corrections through the whole setup"
+      },
+      {
+        "id": "pedal-steady",
+        "name": "Pedal Steady",
+        "note": "Never let the stroke break early"
+      },
+      {
+        "id": "first-article-fast",
+        "name": "First Article Fast",
+        "note": "Setup inside 80% of par"
+      }
+    ],
+    "currency": "STROKE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Helper",
+      "Operator",
+      "Setup Operator",
+      "Lead Operator",
+      "Bend Authority Certified"
+    ],
+    "system": "Bend Authority"
+  },
+  "hazards": {
+    "curtain-bypass": "You turned the curtain bypass key. The presence-sensing device is the safeguard for every stroke; muting it to save a second turns a press brake into a machine with no guard at all.",
+    "part-whip": "You held the part flat with your hands beside the die line. On the upstroke a long part whips up faster than you can move; hands go behind the flange, on the supports, never in the arc.",
+    "reach-in": "You reached into the die space with control power on. The pedal is inches from your foot and the ram does not care what your hands are doing — tooling is touched with the machine locked out, never live.",
+    "unclamped-die": "You went to bend on an unclamped die. Tooling that is not seated and clamped can eject under load — sideways, at the operator, at tonnes of force."
+  },
+  "id": "press-brake",
+  "indoor": "shop",
+  "interrupts": [
+    {
+      "after": "back-gauge",
+      "alert": "Somebody on the previous shift left the light curtain on bypass, and the bypass lamp has just come on with the ram live.",
+      "cue": "The guard is not guarding.",
+      "delay": 4,
+      "id": "curtain-muted",
+      "kind": "Guard defeated",
+      "missNote": "You ran production with the curtain muted. The ram came down on every stroke with nothing watching the die space. Amputations at press brakes are almost never the first stroke — they are the hundredth, when the hand goes somewhere it has gone ninety-nine times safely.",
+      "seconds": 11,
+      "target": "curtain-bypass",
+      "why": "A light curtain on bypass is a brake with no guard at all, and the lamp is the only thing that says so. Muting exists for die setting and gets left on, which is why it is checked at every part change rather than at the start of the job.",
+      "wrongNote": "It is the curtain bypass. The guard being defeated outranks the part in your hands."
+    },
+    {
+      "after": "first-article",
+      "alert": "A colleague has come over to help support the long part and reached into the die space from the back of the machine.",
+      "cue": "There is a hand in the die space and your foot is on the pedal.",
+      "delay": 3,
+      "id": "second-operator",
+      "kind": "Second pair of hands",
+      "missNote": "They kept their hands in the die space while you ran the part. The stroke happened to be clear. A two-person brake operation needs two-hand controls or a second enable — not an agreement about timing.",
+      "seconds": 11,
+      "target": "reach-in",
+      "why": "One brake, one pedal, one operator. A second person supporting a part is standing in a die space controlled by somebody who cannot see them, and the pedal does not know the difference between a part and a forearm.",
+      "wrongNote": "It is the die space. Get the hand out of it before you go anywhere near the pedal."
+    }
+  ],
+  "lateNotes": {
+    "back-gauge": "The back gauge is set after the tooling is in and clamped and the curtain is proven — a gauge for a die that is not there is a number for nothing.",
+    "foot-pedal": "Not yet. The curtain is proven and the first article checked before a production stroke."
+  },
+  "name": "Press Brake",
+  "parSeconds": 240,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition",
+    "situational-awareness"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "back-gauge",
+      "control-switch",
+      "curtain-bypass",
+      "curtain-low",
+      "curtain-mid",
+      "curtain-top",
+      "die-clamp",
+      "die-socket",
+      "foot-pedal",
+      "guard-gap",
+      "job-traveler",
+      "part-whip",
+      "protractor",
+      "reach-in",
+      "scrap-blank",
+      "tonnage-dial",
+      "unclamped-die",
+      "v-die"
+    ],
+    "meshes": 155
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check material, thickness, bend angle, tooling and the inside radius called for.",
+      "id": "traveler",
+      "kind": "select",
+      "prompt": "Check material, thickness, bend angle, tooling and the inside radius called for.",
+      "target": "job-traveler",
+      "title": "Read the job traveler",
+      "why": "The traveler names the V-die, the punch, the tonnage and the angle the drawing calls for. A setup that starts from whatever tooling is already sitting in the machine, instead of the drawing, is a bet that this job happens to match the last one — and when it does not, the bend is wrong on every part before anyone measures the first one."
+    },
+    {
+      "cue": "Turn the control power off and apply your lock before the tooling change.",
+      "id": "lockout",
+      "kind": "turn",
+      "prompt": "Turn the control power off and apply your lock before the tooling change.",
+      "target": "control-switch",
+      "title": "Lock out control power",
+      "turn": {
+        "axis": "y",
+        "label": "CONTROL",
+        "turns": 0.5
+      },
+      "why": "The ram is hydraulic and moves on control power alone; a pedal bumped by a passing hip or a control fault during the tooling change closes it exactly as fast as it closes on a stroke. Your lock is the only thing that turns the die space into a place hands can be while the die is loose and unclamped in it."
+    },
+    {
+      "cue": "Carry the V-die from the rack and seat it in the lower die holder.",
+      "drag": {
+        "missNote": "Not in the holder — seat the die square in the lower clamp.",
+        "radius": 0.35,
+        "to": "die-socket"
+      },
+      "id": "install",
+      "kind": "drag",
+      "prompt": "Carry the V-die from the rack and seat it in the lower die holder.",
+      "target": "v-die",
+      "title": "Install and seat the V-die",
+      "why": "The die goes in square against the holder before it is clamped, not after. A die that is not fully seated rides on an edge under load, and the first thing that happens under tonnes of ram pressure on an unseated die is the part bending wrong, the second is the die itself kicking sideways out of the holder."
+    },
+    {
+      "cue": "Tighten the die clamps and check the punch is locked.",
+      "id": "clamp",
+      "kind": "select",
+      "prompt": "Tighten the die clamps and check the punch is locked.",
+      "target": "die-clamp",
+      "title": "Clamp the tooling",
+      "why": "Clamped tooling stays exactly where it was set through every one of the strokes that follow it. Unclamped tooling is the one thing on this machine the ram itself can pick up and throw, because the same force that bends steel does not need much of an excuse to move a die that nothing is holding down."
+    },
+    {
+      "cue": "Clear your hands from the die space, take your lock off, then turn control power back on.",
+      "id": "unlock",
+      "kind": "turn",
+      "prompt": "Clear your hands from the die space, take your lock off, then turn control power back on.",
+      "target": "control-switch",
+      "title": "Remove your lock and restore control power",
+      "turn": {
+        "axis": "y",
+        "label": "CONTROL",
+        "turns": 0.5
+      },
+      "why": "Your lock, your call — nobody on the floor removes another operator's lock but the person who hung it. Control power is what makes the ram able to move at all, so the die space is confirmed empty first and the lock comes off only after that, never as a way of finding out whether it was clear."
+    },
+    {
+      "cue": "Break the curtain with the test rod at the top, the middle and the lowest beam — the ram must not move.",
+      "id": "curtain",
+      "itemNames": {
+        "curtain-low": "lowest beam",
+        "curtain-mid": "middle beam",
+        "curtain-top": "top beam"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Top to bottom — the test walks the whole field so a dead beam has nowhere to hide.",
+      "prompt": "Break the curtain with the test rod at the top, the middle and the lowest beam — the ram must not move.",
+      "targets": [
+        "curtain-top",
+        "curtain-mid",
+        "curtain-low"
+      ],
+      "title": "Prove the light curtain",
+      "why": "A curtain is proven every setup, never assumed carried over from the last one, because a single failed beam at hand height is a curtain that does not exist exactly where a hand would be when the ram closes. Testing all three heights is what catches a beam that failed without the fault lamp ever lighting."
+    },
+    {
+      "cue": "Bring the back gauge to the flange dimension on the traveler.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.6
+        ],
+        "label": "GAUGE",
+        "missNote": "Off the flange dimension — reset the gauge to the drawing.",
+        "speed": 0.75
+      },
+      "id": "back-gauge",
+      "kind": "gauge",
+      "prompt": "Bring the back gauge to the flange dimension on the traveler.",
+      "target": "back-gauge",
+      "title": "Set the back gauge",
+      "why": "The gauge sets the flange length the part is bent to, and it is set to the drawing's number, then proven on a first article — never eyeballed against the last job's part sitting on the bench, because two jobs that look alike from across the shop are routinely a millimetre apart on the print."
+    },
+    {
+      "cue": "Set the tonnage limit from the chart for this material, thickness and V opening.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.58
+        ],
+        "label": "TONNAGE",
+        "missNote": "Off the chart value — a wrong tonnage breaks tooling or the part. Reset it.",
+        "speed": 0.75
+      },
+      "id": "tonnage",
+      "kind": "gauge",
+      "prompt": "Set the tonnage limit from the chart for this material, thickness and V opening.",
+      "target": "tonnage-dial",
+      "title": "Set the tonnage",
+      "why": "Too little tonnage and the bend springs back short of the drawing's angle; too much and the excess force cracks the die, breaks the punch tip, or drives a crease into the part that never planned to be there. The chart number for this material, thickness and V opening is the number — not a setting nudged by feel."
+    },
+    {
+      "cue": "Load a scrap blank against the gauge and take one stroke.",
+      "id": "first-article",
+      "kind": "select",
+      "prompt": "Load a scrap blank against the gauge and take one stroke.",
+      "target": "scrap-blank",
+      "title": "Bend a first article on scrap",
+      "why": "The first stroke of a new setup is a test, taken on a piece that costs nothing to throw away, precisely because a gauge, a tonnage and a die that all measured right on paper can still combine to bend a part wrong the first time metal actually goes through them. It proves the setup before the setup proves itself on the customer's material."
+    },
+    {
+      "cue": "Measure the first article with the protractor and commit inside tolerance.",
+      "gauge": {
+        "green": [
+          0.45,
+          0.6
+        ],
+        "label": "ANGLE",
+        "missNote": "Out of tolerance — adjust ram depth and bend another test piece.",
+        "speed": 0.7
+      },
+      "id": "angle",
+      "kind": "gauge",
+      "prompt": "Measure the first article with the protractor and commit inside tolerance.",
+      "target": "protractor",
+      "title": "Check the bend angle",
+      "why": "Springback means the ram's travel and the part's final angle are never quite the same number — every material relaxes a few degrees after the ram opens. The protractor on the actual bent part is what says the setup is right; the drawing's tolerance band is the only thing that gets to decide, not how close it looks by eye."
+    },
+    {
+      "cue": "Hands on the supports behind the flange, then hold the pedal through the full stroke.",
+      "holdBreakNote": "Pedal released mid-stroke — the ram stopped in the part. Reset and take the stroke through.",
+      "id": "production",
+      "kind": "hold",
+      "prompt": "Hands on the supports behind the flange, then hold the pedal through the full stroke.",
+      "seconds": 3,
+      "target": "foot-pedal",
+      "title": "Take the production stroke",
+      "why": "A stroke released halfway leaves the ram stalled mid-travel with the part pinched in the die and nowhere safe to reach for it, because the machine does not know the difference between an operator letting off the pedal and one who needs to. Hands go on the supports first, and the pedal gets one full, deliberate stroke, not a series of taps."
+    },
+    {
+      "cue": "Check the guarding and click what is wrong.",
+      "id": "inspect",
+      "itemNames": {
+        "guard-gap": "gap in the side guard"
+      },
+      "itemNotes": {
+        "guard-gap": "The side guard has been left off after the last maintenance — a reach-around path to the die space the curtain does not see."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the guarding and click what is wrong.",
+      "targets": [
+        "guard-gap"
+      ],
+      "title": "Walk the machine before the run",
+      "why": "The light curtain guards the front approach to the die, nothing more; the sides and the back of the machine are fixed guards, and a fixed guard left off after maintenance is a route into the die space that the curtain's beams never cross and never see. Production only starts once that route is closed, not just the front one."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Tooling change under lockout, light-curtain proof, back gauge, tonnage, first-article bend",
+  "title": "SmartCiti.X~ Press Brake VR",
+  "trade": "Sheet-metal press brake operator",
+  "underwater": null,
+  "weather": null
+}

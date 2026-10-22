@@ -1,0 +1,79 @@
+{
+  "v": "rx/1",
+  "scenario": "rb-cobot-zone-setup",
+  "name": "Cobot Safety-Zone Setup",
+  "station": "ad-cobot-risk-assessment-and-speed-separation",
+  "policy": {
+    "id": "rx-bc-rb-cobot-zone-setup",
+    "version": "52faed1b",
+    "method": "behaviour-cloning-knn",
+    "file": "rb-cobot-zone-setup/policy.json",
+    "modelHash": "52faed1b6ea1f4eb"
+  },
+  "dataSource": {
+    "id": "rx-ds-rb-cobot-zone-setup",
+    "source": "synthetic",
+    "file": "rb-cobot-zone-setup/dataset.json",
+    "demosOffered": 40,
+    "demosKept": 39,
+    "rows": 241
+  },
+  "seeds": {
+    "heldOut": "7001-7060",
+    "n": 60
+  },
+  "results": {
+    "random": {
+      "n": 60,
+      "success": 0.05,
+      "clean": 0.05,
+      "meanSteps": 4.367
+    },
+    "expert": {
+      "n": 60,
+      "success": 1,
+      "clean": 1,
+      "meanSteps": 6
+    },
+    "bcFiltered": {
+      "n": 60,
+      "success": 1,
+      "clean": 1,
+      "meanSteps": 6.05
+    },
+    "bcUnfiltered": {
+      "n": 60,
+      "success": 1,
+      "clean": 1,
+      "meanSteps": 6.05
+    },
+    "gapToExpert": 0
+  },
+  "invariants": {
+    "rules": [
+      "zone-too-small",
+      "warn-inside-stop",
+      "skip-scanner-test",
+      "skip-estop-test"
+    ],
+    "unit": "violation steps (a held protective stop repeats every step)",
+    "policyViolations": 0,
+    "policyViolationsByRule": {},
+    "policyEpisodesWithViolations": 0,
+    "policySteps": 363,
+    "expertViolations": 0,
+    "expertEpisodesWithViolations": 0,
+    "expertSteps": 360,
+    "of": 60
+  },
+  "lineage": {
+    "datasetId": "rx-ds-rb-cobot-zone-setup",
+    "policyId": "rx-bc-rb-cobot-zone-setup",
+    "sites": [
+      "rb-site-san-jose-robotics-lab"
+    ],
+    "auditHead": "33e97731d607b539",
+    "auditLines": 10
+  },
+  "measuredOn": "the simulated scenario only; no hardware run has happened"
+}

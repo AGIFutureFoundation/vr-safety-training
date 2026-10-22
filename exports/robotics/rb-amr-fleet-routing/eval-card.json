@@ -1,0 +1,80 @@
+{
+  "v": "rx/1",
+  "scenario": "rb-amr-fleet-routing",
+  "name": "AMR Fleet Routing",
+  "station": "ad-amr-fleet-traffic-and-estop-drill",
+  "policy": {
+    "id": "rx-bc-rb-amr-fleet-routing",
+    "version": "91a7b57c",
+    "method": "behaviour-cloning-knn",
+    "file": "rb-amr-fleet-routing/policy.json",
+    "modelHash": "91a7b57c6a817b04"
+  },
+  "dataSource": {
+    "id": "rx-ds-rb-amr-fleet-routing",
+    "source": "synthetic",
+    "file": "rb-amr-fleet-routing/dataset.json",
+    "demosOffered": 40,
+    "demosKept": 37,
+    "rows": 1168
+  },
+  "seeds": {
+    "heldOut": "7001-7060",
+    "n": 60
+  },
+  "results": {
+    "random": {
+      "n": 60,
+      "success": 0,
+      "clean": 0,
+      "meanSteps": 120
+    },
+    "expert": {
+      "n": 60,
+      "success": 1,
+      "clean": 1,
+      "meanSteps": 13.85
+    },
+    "bcFiltered": {
+      "n": 60,
+      "success": 0.817,
+      "clean": 0.817,
+      "meanSteps": 24.65
+    },
+    "bcUnfiltered": {
+      "n": 60,
+      "success": 0.6,
+      "clean": 0.6,
+      "meanSteps": 15.5
+    },
+    "gapToExpert": 0.183
+  },
+  "invariants": {
+    "rules": [
+      "conflict",
+      "yield-missed"
+    ],
+    "unit": "violation steps (a held protective stop repeats every step)",
+    "policyViolations": 785,
+    "policyViolationsByRule": {
+      "conflict": 785
+    },
+    "policyEpisodesWithViolations": 11,
+    "policySteps": 1479,
+    "expertViolations": 0,
+    "expertEpisodesWithViolations": 0,
+    "expertSteps": 831,
+    "of": 60
+  },
+  "lineage": {
+    "datasetId": "rx-ds-rb-amr-fleet-routing",
+    "policyId": "rx-bc-rb-amr-fleet-routing",
+    "sites": [
+      "rb-site-west-oakland-warehouse",
+      "rb-site-orleans-warehouse"
+    ],
+    "auditHead": "78e242f01ae930e8",
+    "auditLines": 20
+  },
+  "measuredOn": "the simulated scenario only; no hardware run has happened"
+}

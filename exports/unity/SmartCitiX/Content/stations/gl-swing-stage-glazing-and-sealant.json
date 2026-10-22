@@ -1,0 +1,456 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "stage-rigged-clean",
+    "name": "Stage Rigged Clean",
+    "note": "A swing stage rigged, tied back and descended on an independent lifeline, with a facade lite replaced and sealed without the stage ever swinging free"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "IUPAT District Council 16 glaziers apprenticeship and training (architectural glass and metal); IUPAT Finishing Trades Institute glazier curriculum; ANSI/ASSP Z97.1 safety glazing materials for the replacement lite; OSHA 29 CFR 1926.451 scaffolds general requirements, 29 CFR 1926.454 training requirements for scaffold erectors and users, 29 CFR 1926.501 duty to have fall protection and 29 CFR 1926.502 fall protection systems criteria for the independent lifeline; ANSI Z359 fall protection component standards for the rope grab and its anchor",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z359",
+        "id": "ansi-z359",
+        "title": "ANSI/ASSP Z359 — Fall Protection Code"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUPAT District Council 16",
+        "id": "iupat-dc16-glaziers",
+        "title": "IUPAT District Council 16 — glaziers apprenticeship and training, architectural glass and metal"
+      },
+      {
+        "body": "union",
+        "citedAs": "Finishing Trades Institute",
+        "id": "iupat-fti",
+        "title": "IUPAT Finishing Trades Institute — industrial painter, glazier and drywall finisher apprenticeship, including lead and containment training"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.451",
+        "id": "osha-1926-451",
+        "title": "29 CFR 1926.451 — Scaffolds, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.454",
+        "id": "osha-1926-454",
+        "title": "29 CFR 1926.454 — Training requirements for scaffold erectors and users"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.501",
+        "id": "osha-1926-501",
+        "title": "29 CFR 1926.501 — Duty to have fall protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.502",
+        "id": "osha-1926-502",
+        "title": "29 CFR 1926.502 — Fall protection systems criteria and practices"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction & Structural Trades",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "wind-read",
+        "name": "Wind Read",
+        "note": "The wind read against the stage's rated limit before it descended"
+      },
+      {
+        "id": "line-never-slack",
+        "name": "Line Never Slack",
+        "note": "No unsafe action on the stage the whole run"
+      },
+      {
+        "id": "reveal-true",
+        "name": "Reveal True",
+        "note": "The replacement lite's reveal checked inside tolerance, first read"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-descent",
+        "name": "Clean Descent",
+        "note": "The stage descended without a correction"
+      },
+      {
+        "id": "tie-back-held",
+        "name": "Tie-Back Held",
+        "note": "The stage never came off the facade before the panel was set"
+      },
+      {
+        "id": "stage-in-time",
+        "name": "Stage In Time",
+        "note": "Rigged, worked and stowed inside 80% of par"
+      }
+    ],
+    "currency": "ROPE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Pre-apprentice",
+      "Ground Hand",
+      "Stage Rigger",
+      "Lead Glazier",
+      "Suspended Access Certified"
+    ],
+    "system": "Stage Crew"
+  },
+  "hazards": {
+    "cracked-panel-edge": "You picked the cracked facade lite up by hand instead of leaving it on the cups. A lite that has already failed carries its own weight unevenly, and an edge that has started to let go is an edge that can finish the job in your hand rather than the frame's. The cracked lite comes off on the vacuum cups, gloved, and never by a bare grip on its edge.",
+    "hoist-pinch": "You reached toward the traction hoist's wire rope while it was paying out. The hoist pulls the suspension rope through itself under the stage's own weight, and a hand near the drum or the rope's entry point when it is running is a hand the hoist has no way of stopping for. The rope is fed and guided from a safe distance, never steadied by a hand at the drum.",
+    "rope-no-secondary": "You unclipped the rope grab from the independent lifeline to reach further along the stage. The two suspension ropes hold the stage; the rope grab on its own separate line is the only thing that holds the person if either of those ropes lets go, and it is a different rope on a different anchor for exactly that reason. The grab stays clipped and sliding with you the whole time you are on the stage, full stop.",
+    "stage-facade-strike": "You let the stage swing free of the facade in a gust instead of holding the push-away pole against the wall. A stage on two wire ropes with nothing bracing it against the building is a pendulum, and a gust that swings it away comes back the other way with the same energy — straight into the glass it just came from. The pole stays planted against the facade the whole time the stage is worked from."
+  },
+  "id": "gl-swing-stage-glazing-and-sealant",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "tieback-hold",
+      "alert": "A gust has pushed the stage off the facade and it is swinging back toward the wall on its two suspension ropes.",
+      "cue": "The stage is loose of the facade and swinging.",
+      "delay": 3,
+      "id": "gust-swing",
+      "kind": "Gust swings the stage",
+      "missNote": "The stage swung until it came back on its own and glanced the facade. Nobody's hands were on the pole when it hit. The tie-back line was rigged for exactly this gust and sat unclipped the whole time it happened.",
+      "seconds": 12,
+      "target": "tie-back-line",
+      "why": "A stage already swinging does not stop because the pole is pushed harder against a wall it is no longer touching — the tie-back line clipped to a separate roof anchor is what arrests the swing without anyone leaning out to catch the facade with their hands. The pole can be replanted once the swing is actually stopped.",
+      "wrongNote": "It is the tie-back line, clipped to the roof anchor. Stop the swing before anyone reaches for the wall."
+    },
+    {
+      "after": "sealant-track",
+      "alert": "The traction hoist's rope-slip alarm is sounding on the far side of the stage while your hands are on the sealant gun.",
+      "cue": "One hoist is slipping on its rope.",
+      "delay": 3,
+      "id": "hoist-alarm",
+      "kind": "Hoist rope-slip alarm",
+      "missNote": "The alarm sounded until the slip stopped on its own. The stage held level, this time. The rope-slip alarm exists because a hoist does not always recover on its own, and the estop sat unpressed the whole time it was sounding.",
+      "seconds": 11,
+      "target": "hoist-estop",
+      "why": "A hoist slipping on its own suspension rope is the one alarm on a swing stage that means the platform itself may be about to go out of level or lose grip entirely, and the emergency stop on that hoist is what takes it out of the failure before it becomes a fall. The bead can be tooled again in a minute; a hoist slipping and ignored cannot be taken back.",
+      "wrongNote": "It is that hoist's emergency stop. Take it out of motion before anything else happens on this stage."
+    }
+  ],
+  "lateNotes": {
+    "replacement-lite": "The new lite comes off the stage rack after the rope grab is proven on the lifeline and the tie-back pole is planted. A lite lifted before the stage is secured to the facade is a lite handled on a platform that can still swing.",
+    "sealant-gun": "Sealant goes into a joint whose panel is already clipped and reveal-checked. A bead run against a panel still settling in its clips is a bead that opens the first time the panel moves."
+  },
+  "name": "Swing Stage Glazing And Sealant",
+  "parSeconds": 305,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "glaziers-and-architectural-metal"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "glassVacuumLifter",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "anemometer",
+      "backup-device",
+      "broken-clip",
+      "coiled-rope-path",
+      "counterweight-count",
+      "cracked-panel-edge",
+      "hoist-controls",
+      "hoist-controls-up",
+      "hoist-estop",
+      "hoist-lever",
+      "hoist-pinch",
+      "lifeline-anchor",
+      "loose-counterweight",
+      "loose-tool",
+      "open-gate",
+      "outrigger-tieback",
+      "panel-rabbet",
+      "parapet-clamp",
+      "push-away-pole",
+      "replacement-lite",
+      "reveal-instrument",
+      "rig-log",
+      "rope-grab",
+      "rope-no-secondary",
+      "sealant-gun",
+      "stage-facade-strike",
+      "tailboard",
+      "tie-back-line"
+    ],
+    "meshes": 156
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the day's tailboard — the rig plan, the wind limit for the stage, who is on the roof, the drop zone below — and sign it.",
+      "id": "check-in",
+      "kind": "select",
+      "prompt": "Read the day's tailboard — the rig plan, the wind limit for the stage, who is on the roof, the drop zone below — and sign it.",
+      "target": "tailboard",
+      "title": "Sign the tailboard with the crew",
+      "why": "A swing stage rig changes every time it goes up: a different elevation, a different outrigger spacing, a different wind limit for that stage's rated capacity. Signing the tailboard is what makes today's rig plan the one the crew is actually working to, rather than the one from the last building this crew rigged."
+    },
+    {
+      "cue": "Take the anemometer reading at the roof edge and commit it inside the working band before the stage goes over the parapet.",
+      "gauge": {
+        "green": [
+          0.16,
+          0.44
+        ],
+        "label": "WIND",
+        "missNote": "That reading is outside the stage's working band — over it, the rig waits on the roof; under it, read it again at the parapet.",
+        "speed": 0.68
+      },
+      "id": "wind-read",
+      "kind": "gauge",
+      "prompt": "Take the anemometer reading at the roof edge and commit it inside the working band before the stage goes over the parapet.",
+      "target": "anemometer",
+      "title": "Read the wind against the stage's rated limit",
+      "why": "A swing stage's wind rating is lower than almost anything else this crew works from, because two wire ropes give a stage nothing to resist a sideways push the way a boom lift's own mass does. A reading over the band means the stage stays on the roof, because a stage already over the edge in a gust it was not rated for has no way back up except the same hoists that got it there."
+    },
+    {
+      "cue": "Outrigger tie-back first, then the counterweight count against the rig plan, then the parapet clamp — in that order.",
+      "id": "rig-seq",
+      "itemNames": {
+        "counterweight-count": "counterweights counted to the rig plan",
+        "outrigger-tieback": "outrigger tied back to a structural anchor",
+        "parapet-clamp": "parapet clamp checked tight"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Tie-back, then counterweights, then the clamp — the clamp only means something once the rig behind it is already correct.",
+      "prompt": "Outrigger tie-back first, then the counterweight count against the rig plan, then the parapet clamp — in that order.",
+      "targets": [
+        "outrigger-tieback",
+        "counterweight-count",
+        "parapet-clamp"
+      ],
+      "title": "Check the roof rig",
+      "why": "The outrigger's tie-back to a structural anchor is what keeps the whole rig from walking off the parapet under the stage's own load, the counterweight count is what the outrigger's leverage was calculated against and a rig short even one weight is a rig carrying more moment than it was designed for, and the parapet clamp is checked last because it is what keeps the outrigger from rocking once the first two are already right."
+    },
+    {
+      "cue": "Look at the counterweight stack and the rope on the roof — click the two things wrong before the stage takes any weight.",
+      "id": "roof-walk",
+      "itemNames": {
+        "coiled-rope-path": "coiled excess rope sitting in the outrigger's swing path",
+        "loose-counterweight": "a counterweight not pinned to the stack"
+      },
+      "itemNotes": {
+        "coiled-rope-path": "The excess suspension rope is coiled directly in the path the outrigger sweeps if it needs to be repositioned, waiting to snag the moment anyone touches it.",
+        "loose-counterweight": "One counterweight on the stack is sitting unpinned — a block that can walk off the stack is a block the outrigger's calculation no longer has."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the counterweight stack and the rope on the roof — click the two things wrong before the stage takes any weight.",
+      "targets": [
+        "loose-counterweight",
+        "coiled-rope-path"
+      ],
+      "title": "Walk the roof rig before anyone goes over the parapet",
+      "why": "Everything the person on the stage depends on sits on this roof, unwatched, the whole time they are working — an unpinned counterweight or a coil of rope in the wrong place is invisible from the stage itself and obvious from three metres away on the roof. Both get answered before the parapet is crossed."
+    },
+    {
+      "cue": "Up, down, and the hoist's own emergency brake — each answered at the roof before the stage carries anyone over the edge.",
+      "id": "hoist-check",
+      "kind": "select",
+      "prompt": "Up, down, and the hoist's own emergency brake — each answered at the roof before the stage carries anyone over the edge.",
+      "target": "hoist-controls",
+      "title": "Function-check the traction hoists",
+      "why": "The traction hoist is what the whole descent depends on, and its emergency brake is the one thing standing between a stage and a free-running rope if the motor ever loses control. It is tested here, at the roof, where a brake that does not answer is a fault found before the stage is a storey below the parapet rather than after."
+    },
+    {
+      "cue": "Fit the rope grab to the lifeline first, then check the lifeline's own anchor is separate from the suspension rig, then function-test the backup device by pulling it sharply.",
+      "id": "lifeline-seq",
+      "itemNames": {
+        "backup-device": "backup device function-tested",
+        "lifeline-anchor": "independent lifeline anchor checked",
+        "rope-grab": "rope grab fitted to the lifeline"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Grab, then anchor, then the backup device — a device tested before it is on the right anchor tells you nothing about the anchor.",
+      "prompt": "Fit the rope grab to the lifeline first, then check the lifeline's own anchor is separate from the suspension rig, then function-test the backup device by pulling it sharply.",
+      "targets": [
+        "rope-grab",
+        "lifeline-anchor",
+        "backup-device"
+      ],
+      "title": "Rig the independent lifeline",
+      "why": "ANSI Z359 treats the lifeline as a completely separate system from the suspension ropes for exactly this reason: if the rig that holds the stage up ever fails, the rope grab and its own anchor are the only thing left, and a lifeline anchored to the same point as the suspension rig fails for the same reason the suspension did. The backup device is pulled sharply here because that is the only way to know it actually locks before it has to."
+    },
+    {
+      "cue": "Hold the hoist lever and keep the descent rate in the band the whole way down.",
+      "holdBreakNote": "The descent rate ran out of the band — the stage can drift out of level between its two hoists. Ease back into the band before continuing down.",
+      "id": "descent-track",
+      "kind": "track",
+      "prompt": "Hold the hoist lever and keep the descent rate in the band the whole way down.",
+      "seconds": 6,
+      "target": "hoist-lever",
+      "title": "Descend the stage to the working level",
+      "track": {
+        "drift": 0.15,
+        "fall": 0.42,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "DESCENT",
+        "rise": 0.5
+      },
+      "why": "The hoist lever is held rather than latched so that letting go stops the descent immediately, and the rate band is where the traction hoist grips the rope correctly — too fast and the rope slips inside the hoist head, too slow and the second hoist on the far end of the stage can drift out of level with the first."
+    },
+    {
+      "cue": "Plant the pole against the facade and hold the stage flat to the wall while the sealant and tools are staged.",
+      "holdBreakNote": "You let the pole off the facade before the stage was staged — it started to drift out from the wall. Replant the pole and hold it flat before continuing.",
+      "id": "tieback-hold",
+      "kind": "hold",
+      "prompt": "Plant the pole against the facade and hold the stage flat to the wall while the sealant and tools are staged.",
+      "seconds": 4,
+      "target": "push-away-pole",
+      "title": "Hold the stage to the facade with the tie-back pole",
+      "why": "A stage on two wire ropes has nothing else keeping it against the building, and the moment it is left to its own momentum it starts to swing — even a light breeze is enough once the stage is stationary and something on it shifts weight. The pole is planted and held the whole time the stage is being set up to work from, not just while it is actually descending."
+    },
+    {
+      "cue": "Turn the fastener out of the broken clip holding the cracked lite, without letting the lite drop against the frame.",
+      "id": "clip-turn",
+      "kind": "turn",
+      "prompt": "Turn the fastener out of the broken clip holding the cracked lite, without letting the lite drop against the frame.",
+      "target": "broken-clip",
+      "title": "Free the broken glazing clip",
+      "turn": {
+        "axis": "z",
+        "label": "FREE",
+        "turns": 1
+      },
+      "why": "The clip is turned out rather than pried, because a pried clip can spring and drop whatever it was holding the moment it lets go, and on a stage over open air that drop has nowhere to land but the facade below or the plaza past it. A turned fastener comes out under control, with the lite already held by the cups before the last turn."
+    },
+    {
+      "cue": "Cups seated on the new lite, guide it from the stage rack into the frame — not released until it is offered up square to the rabbet.",
+      "drag": {
+        "missNote": "Not square to the rabbet — a lite forced in crooked chips the corner it is offered against.",
+        "radius": 0.48,
+        "to": "panel-rabbet"
+      },
+      "id": "panel-drag",
+      "kind": "drag",
+      "prompt": "Cups seated on the new lite, guide it from the stage rack into the frame — not released until it is offered up square to the rabbet.",
+      "target": "replacement-lite",
+      "title": "Guide the replacement lite into the opening",
+      "why": "The replacement lite is guided rather than swung the same way every lite on this platform is, because a lite let go of early on a stage is a lite with a drop the length of the building underneath it. It goes to the rabbet square because a lite forced into an out-of-square opening chips the exact corner that was already carrying the old panel's failure."
+    },
+    {
+      "cue": "Gun at the joint, run a continuous bead at a steady pace around the new panel to the depth the glazing detail calls for.",
+      "holdBreakNote": "The bead ran out of the band on a moving stage — a thin spot or an overfill in the joint. Tool it out and run that stretch again holding the stage steady.",
+      "id": "sealant-track",
+      "kind": "track",
+      "prompt": "Gun at the joint, run a continuous bead at a steady pace around the new panel to the depth the glazing detail calls for.",
+      "seconds": 5,
+      "target": "sealant-gun",
+      "title": "Run the perimeter sealant bead",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.43,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "BEAD",
+        "rise": 0.55
+      },
+      "why": "The bead run around a replacement panel carries the same weather load as every original joint on this facade, and a bead run unevenly from a stage that is itself moving slightly under the wind is exactly how a repair job gets a reputation for opening back up within a season. The steady pace is what the wind and the stage's own sway make hardest to hold, and also what matters most."
+    },
+    {
+      "cue": "Read the reveal gauge against the neighbouring panels and commit inside tolerance.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "REVEAL mm",
+        "missNote": "Outside reveal tolerance against the neighbouring panels — back to the clips before the bead goes on.",
+        "speed": 0.72
+      },
+      "id": "reveal-gauge",
+      "kind": "gauge",
+      "prompt": "Read the reveal gauge against the neighbouring panels and commit inside tolerance.",
+      "target": "reveal-instrument",
+      "title": "Check the replacement lite's reveal",
+      "why": "A replacement panel set to a different reveal than the facade around it is invisible from the stage and obvious from the street the moment the light changes, and the gauge is read against the actual neighbouring panels rather than a fixed number because a facade settles unevenly over its life — this bay's true reveal today is whatever the panels beside it are actually reading."
+    },
+    {
+      "cue": "Look at the gate and the tools on the deck — click the two things wrong before the hoists take up again.",
+      "id": "stage-walk",
+      "itemNames": {
+        "loose-tool": "a tool on the stage deck not tethered",
+        "open-gate": "the stage's access gate not latched"
+      },
+      "itemNotes": {
+        "loose-tool": "A tool is sitting loose on the stage deck with no tether — a stage that sways in the wind is a stage that can hand that tool to the plaza below.",
+        "open-gate": "The stage's own access gate swung shut on its hinge but never latched — a gap in the one rail between the deck and open air."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the gate and the tools on the deck — click the two things wrong before the hoists take up again.",
+      "targets": [
+        "open-gate",
+        "loose-tool"
+      ],
+      "title": "Walk the stage before it goes back up",
+      "why": "The gate and every tool on this deck are things the person on the stage stopped consciously noticing hours ago, and both fail the same quiet way a barrier always does — a gate that swung shut without latching, a tool set down between tasks and never tethered. Neither goes back up the building unanswered."
+    },
+    {
+      "cue": "Confirm the tie-back is released evenly and take the stage back up to the roof under the hoists.",
+      "id": "ascend-select",
+      "kind": "select",
+      "prompt": "Confirm the tie-back is released evenly and take the stage back up to the roof under the hoists.",
+      "target": "hoist-controls-up",
+      "title": "Raise and stow the stage",
+      "why": "The stage goes back up under the same controlled hoist operation it came down on, released from the facade evenly so it does not swing out from the wall the moment the pole comes off — the ascent is not the reverse of the descent by accident, it is the same discipline run the other way."
+    },
+    {
+      "cue": "Panel replaced, wind readings, lifeline inspection, counterweight count and the faults found and fixed, and sign it.",
+      "id": "log",
+      "kind": "select",
+      "prompt": "Panel replaced, wind readings, lifeline inspection, counterweight count and the faults found and fixed, and sign it.",
+      "target": "rig-log",
+      "title": "Log the rig",
+      "why": "The log ties this rig's counterweight count and wind readings to a date and a name, which is what the crew shows if this stage's rig is ever questioned after the fact. It also carries the loose counterweight and the unlatched gate as fixed rather than assumed, for whoever rigs this stage next."
+    }
+  ],
+  "supportLine": "your IUPAT District Council 16 apprenticeship coordinator or job steward, or your employer's employee assistance program if the stage swinging away from the facade is what you keep seeing",
+  "tagline": "Tailboard and wind read, the rig walked and the lifeline proven, the stage descended on a held tie-back, a cracked lite replaced and reveal checked, the joint sealed, and the stage raised and stowed",
+  "title": "SmartCiti.X~ Swing Stage Glazing And Sealant VR",
+  "trade": "Glazier — IUPAT District Council 16 swing stage and suspended access",
+  "underwater": null,
+  "weather": "wind"
+}

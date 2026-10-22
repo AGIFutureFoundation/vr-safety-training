@@ -1,0 +1,419 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "riser-proven",
+    "name": "Riser Proven",
+    "note": "An annual flow test run with the monitoring company notified first and the alarm proven all the way to the panel"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "UA plumbers and pipefitters apprenticeship (Road Sprinkler Fitters); NFPA 13 installation of sprinkler systems; NFPA 25 inspection, testing and maintenance of water-based fire protection systems; 29 CFR 1910.147 the control of hazardous energy; 8 CCR 3203 injury and illness prevention",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "Cal/OSHA",
+        "citedAs": "8 CCR 3203",
+        "id": "cal-osha-3203",
+        "title": "8 CCR 3203 — Injury and Illness Prevention Program"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 13",
+        "id": "nfpa-13",
+        "title": "NFPA 13 — Installation of Sprinkler Systems"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 25",
+        "id": "nfpa-25",
+        "title": "NFPA 25 — Inspection, Testing and Maintenance of Water-Based Fire Protection Systems"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "union",
+        "citedAs": "UA",
+        "id": "ua-apprenticeship",
+        "title": "UA — United Association plumber, pipefitter and HVAC service apprenticeship standards and UA Star certification"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Building Systems & Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "called-first",
+        "name": "Called First",
+        "note": "The monitoring company was notified before any valve moved"
+      },
+      {
+        "id": "never-unsupervised",
+        "name": "Never Unsupervised",
+        "note": "The control valve was never left closed without a tag"
+      },
+      {
+        "id": "true-residual",
+        "name": "True Residual",
+        "note": "Read both gauges precisely inside the expected band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-test",
+        "name": "Clean Test",
+        "note": "No corrections anywhere in the test"
+      },
+      {
+        "id": "unbroken-watch",
+        "name": "Unbroken Watch",
+        "note": "The alarm timing watch never lapsed"
+      },
+      {
+        "id": "riser-back-fast",
+        "name": "Riser Back Fast",
+        "note": "Signed off inside 80% of par"
+      }
+    ],
+    "currency": "GPM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice",
+      "Sprinkler Fitter",
+      "Journeyman",
+      "Lead Fitter",
+      "ITM Certified"
+    ],
+    "system": "Water-Based Protection"
+  },
+  "hazards": {
+    "close-valve-untagged": "You closed the control valve without tagging it. A supervised valve that gets closed and forgotten is a sprinkler system with nothing behind the piping, and nobody finds out until the day it actually matters, because a closed valve with no tag on it looks, from across the room, exactly like an open one.",
+    "sign-off-no-alarm": "You signed the test off as a pass without the alarm ever actually sounding. A flow test that does not end in a working alarm did not prove anything except that water can move through a pipe — the entire point of the test was whether the building finds out when it does.",
+    "skip-notify": "You opened the inspector's test valve without calling the monitoring company first. The flow this test creates looks exactly like a real sprinkler activation to the panel and the monitoring company both, and the fire department that responds to it is answering a call for a building that is not on fire — one this crew created by skipping a phone call.",
+    "unrouted-drain": "You opened the main drain without routing the discharge anywhere. That much water has to go somewhere, and 'somewhere' turned out to be across the floor of the riser room and into the electrical panel it shares the wall with."
+  },
+  "id": "pl-fire-sprinkler-riser-and-flow-test",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "open-test-valve",
+      "alert": "The monitoring company is calling back — they want a live voice confirming this is still a test before they hold their dispatch.",
+      "cue": "That call is the only thing standing between this test and a truck rolling. Answer it before you do anything else.",
+      "delay": 2,
+      "id": "monitoring-callback",
+      "kind": "The monitoring company calls back mid-test",
+      "missNote": "The phone rang out while the test kept running. With nobody confirming it, the monitoring company had no reason not to treat the signal as real.",
+      "seconds": 12,
+      "target": "monitoring-phone",
+      "why": "A monitoring company that calls back mid-test is doing exactly what the earlier notification call was supposed to make unnecessary — confirming, a second time, that the signal they are about to see is this crew and not a real fire. Leaving that call unanswered while the flow test carries on is how a confirmed test turns into a dispatched fire department anyway.",
+      "wrongNote": "It is the phone. The test valve was never in doubt — whether a fire truck gets sent is."
+    },
+    {
+      "after": "confirm-alarm",
+      "alert": "The panel just logged a tamper supervisory on a control valve two floors up — a system this test never touched.",
+      "cue": "That is a separate valve, on a separate floor, telling you it just moved. Check the panel before you close anything out here.",
+      "delay": 3,
+      "id": "other-zone-tamper",
+      "kind": "A tamper switch trips on a different floor",
+      "missNote": "The tamper signal sat on the panel unread while this riser got signed off. Whatever valve moved two floors up is still unaccounted for.",
+      "seconds": 12,
+      "target": "fire-panel",
+      "why": "A tamper supervisory from a floor this test was never near means somebody, somewhere in the building, just closed or is closing a sprinkler control valve without a permit — and the panel is the only place that shows up. Reading it now, while it is fresh, is what turns a logged event into someone actually going to check that valve today instead of a line in a report nobody opens.",
+      "wrongNote": "It is the fire panel. Nothing on this riser explains a tamper switch tripping on a different floor."
+    }
+  ],
+  "lateNotes": {
+    "alarm-timer": "The test valve closes once the alarm has been read and timed, not the moment the water first shows in the sight glass.",
+    "confirm-valve-open": "The control valve stays open through this whole test — it is the drain and the inspector's test valve that do the work, not the OS&Y.",
+    "test-valve": "The inspector's test valve opens after the monitoring company has already been called, not before."
+  },
+  "name": "Fire Sprinkler Riser & Flow Test",
+  "parSeconds": 265,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "plumbers-and-pipefitters"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "alarm-timer",
+      "close-valve-untagged",
+      "confirm-valve-open",
+      "discharge-hose",
+      "drain-point",
+      "fire-panel",
+      "gauge-not-zeroed",
+      "itm-report",
+      "main-drain-valve",
+      "monitoring-phone",
+      "notify-building",
+      "notify-monitoring",
+      "obstructed-drain-path",
+      "panel-flow-light",
+      "residual-gauge",
+      "riser-diagram",
+      "sign-off-no-alarm",
+      "skip-notify",
+      "supply-gauge",
+      "test-valve",
+      "unrouted-drain",
+      "water-motor-gong",
+      "zone-tag"
+    ],
+    "meshes": 163
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the riser diagram and last year's ITM report before touching anything.",
+      "id": "drawing",
+      "kind": "select",
+      "prompt": "Check the riser diagram and last year's ITM report before touching anything.",
+      "target": "riser-diagram",
+      "title": "Read the riser diagram and last year's report",
+      "why": "NFPA 25 expects this year's test to be read against last year's numbers, not taken in isolation — a residual pressure that has crept down every year for three years running is a trend the drawing and the report together can show, and a single reading on its own cannot."
+    },
+    {
+      "cue": "Check the zone tag against the work order — this building has more than one riser.",
+      "id": "confirm-zone",
+      "kind": "select",
+      "prompt": "Check the zone tag against the work order — this building has more than one riser.",
+      "target": "zone-tag",
+      "title": "Confirm this riser's zone before testing",
+      "why": "A building with several risers has several separate alarm zones reporting to the same monitoring company and the same panel, and a fitter who calls in a test on the wrong zone number has the monitoring company watching for a signal that is never going to come from the riser actually about to flow."
+    },
+    {
+      "cue": "Call the monitoring company to place the system on test, then tell the building's fire safety contact.",
+      "id": "notify",
+      "itemNames": {
+        "notify-building": "building contact told",
+        "notify-monitoring": "monitoring company notified"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Monitoring company first — that call is what keeps a fire department from responding to a test nobody asked them to.",
+      "prompt": "Call the monitoring company to place the system on test, then tell the building's fire safety contact.",
+      "targets": [
+        "notify-monitoring",
+        "notify-building"
+      ],
+      "title": "Notify the monitoring company and the building",
+      "why": "The flow this test is about to create reads on the monitoring company's board as a real sprinkler activation, and the only thing that keeps it from becoming a dispatched fire department is a phone call placing the system on test before a single valve moves — the building contact is told second, because they need to know water is about to run, not because it comes before the call that actually controls what the fire department sees."
+    },
+    {
+      "cue": "Look over the riser and the room around it before any valve moves.",
+      "id": "inspect-riser",
+      "itemNames": {
+        "gauge-not-zeroed": "gauge needle not resting on zero",
+        "obstructed-drain-path": "storage blocking the drain discharge path"
+      },
+      "itemNotes": {
+        "gauge-not-zeroed": "This gauge needle is not resting at zero with the system static — a gauge that reads wrong at rest reads wrong under flow too.",
+        "obstructed-drain-path": "Somebody has stacked boxes in front of where the main drain discharges. That water needs a clear, controlled path before the valve opens, not a pile of storage to find its way around."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the riser and the room around it before any valve moves.",
+      "targets": [
+        "gauge-not-zeroed",
+        "obstructed-drain-path"
+      ],
+      "title": "Inspect the riser room before the test",
+      "why": "A gauge that is already wrong at rest and a blocked drain path are both invisible in a glance at the valves themselves, and both turn a routine test into a mess — one gives every reading that follows a built-in error, the other sends the main drain's full flow somewhere nobody planned for it to go."
+    },
+    {
+      "cue": "Read the supply gauge with the system at rest and commit the static reading.",
+      "gauge": {
+        "green": [
+          0.5,
+          0.7
+        ],
+        "label": "STATIC",
+        "missNote": "That reading was taken with something already flowing — reset and read it truly static.",
+        "speed": 0.6
+      },
+      "id": "read-static",
+      "kind": "gauge",
+      "prompt": "Read the supply gauge with the system at rest and commit the static reading.",
+      "target": "supply-gauge",
+      "title": "Read the static supply pressure",
+      "why": "The static pressure is the baseline every other reading on this test gets compared against, and it has to be read before the drain opens — a static reading taken after water is already moving somewhere on the system is not static at all, it is just an early residual reading with the wrong label on it."
+    },
+    {
+      "cue": "Hold the main drain valve fully open until the residual pressure stabilises.",
+      "holdBreakNote": "The drain closed before the reading settled — hold it open again until the residual pressure actually stabilises.",
+      "id": "main-drain",
+      "kind": "hold",
+      "prompt": "Hold the main drain valve fully open until the residual pressure stabilises.",
+      "seconds": 6,
+      "target": "main-drain-valve",
+      "title": "Open the main drain and hold it fully open",
+      "why": "The main drain test loads the actual supply main feeding this riser, not just the piping inside the room, and it has to stay open long enough for the pressure to stabilise at its true residual value — closing it early catches the pressure still falling and reports a number that is not the supply's real answer."
+    },
+    {
+      "cue": "Read the residual gauge while the drain is still flowing and commit the reading.",
+      "gauge": {
+        "green": [
+          0.34,
+          0.52
+        ],
+        "label": "RESIDUAL",
+        "missNote": "That residual reading is outside what last year's report would expect — recheck before writing it down.",
+        "speed": 0.65
+      },
+      "id": "read-residual",
+      "kind": "gauge",
+      "prompt": "Read the residual gauge while the drain is still flowing and commit the reading.",
+      "target": "residual-gauge",
+      "title": "Read the residual pressure under drain flow",
+      "why": "Comparing this residual reading against the static reading and against last year's numbers is how a supply that has quietly degraded — a partially closed valve upstream, a main starting to scale — gets caught on paper before it ever gets caught by a fire that needed every gallon this system was designed to deliver."
+    },
+    {
+      "cue": "Close the main drain, then confirm the control valve is still fully open.",
+      "id": "close-drain",
+      "itemNames": {
+        "confirm-valve-open": "control valve confirmed fully open",
+        "main-drain-valve": "main drain closed"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Drain first, then confirm the valve — checking the valve before the drain is closed just adds noise while water is still moving.",
+      "prompt": "Close the main drain, then confirm the control valve is still fully open.",
+      "targets": [
+        "main-drain-valve",
+        "confirm-valve-open"
+      ],
+      "title": "Close the drain and confirm the control valve",
+      "why": "The control valve was never touched during the main drain test, but confirming it is still fully open — not just closing the drain and assuming — is what catches a valve that someone bumped or that has slowly crept off its full-open position without anyone noticing."
+    },
+    {
+      "cue": "Drag the discharge hose from the test connection to the floor drain before any water moves.",
+      "drag": {
+        "missNote": "Not routed to the drain — that flow needs a controlled path before the valve opens, not a guess at where it will end up.",
+        "radius": 0.4,
+        "to": "drain-point"
+      },
+      "id": "route-discharge",
+      "kind": "drag",
+      "prompt": "Drag the discharge hose from the test connection to the floor drain before any water moves.",
+      "target": "discharge-hose",
+      "title": "Route the test discharge before opening the valve",
+      "why": "The inspector's test connection dumps its flow somewhere the moment the valve opens, and deciding where that is happens before the valve turns, not after the water is already running across the floor looking for the nearest low point — the same lesson the unrouted main drain just taught, applied to the second valve on this test."
+    },
+    {
+      "cue": "Open the inspector's test valve fully to simulate a single sprinkler head flowing.",
+      "id": "open-test-valve",
+      "kind": "turn",
+      "prompt": "Open the inspector's test valve fully to simulate a single sprinkler head flowing.",
+      "target": "test-valve",
+      "title": "Open the inspector's test valve",
+      "turn": {
+        "axis": "y",
+        "label": "INSPECTOR'S TEST",
+        "turns": 0.75
+      },
+      "why": "The inspector's test connection is sized to flow the same as one sprinkler head, which is what makes it a fair test of whether the alarm and the monitoring company actually respond to the smallest real activation this system is designed to have — not a flood-scale flow that would trip an alarm regardless of whether the smaller, real-world case works."
+    },
+    {
+      "cue": "Watch the stopwatch and keep the flow steady until the alarm activates within the window.",
+      "holdBreakNote": "The flow wobbled during the timing window — hold it steadier, an uneven flow makes the activation time unreliable.",
+      "id": "time-alarm",
+      "kind": "track",
+      "prompt": "Watch the stopwatch and keep the flow steady until the alarm activates within the window.",
+      "seconds": 8,
+      "target": "alarm-timer",
+      "title": "Time the alarm from flow to activation",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.2,
+        "green": [
+          0.4,
+          0.65
+        ],
+        "label": "FLOW STEADY",
+        "rise": 0.08,
+        "start": 0.5
+      },
+      "why": "An alarm that takes noticeably longer to activate than it did last year is telling you something changed in the waterflow switch or the retard chamber even though the alarm technically still worked — timing it, not just waiting for it to eventually go off, is what turns a slow alarm from a passed test into a flagged one."
+    },
+    {
+      "cue": "Confirm the gong outside and the flow light on the panel both show the alarm.",
+      "id": "confirm-alarm",
+      "itemNames": {
+        "panel-flow-light": "flow light lit on the panel",
+        "water-motor-gong": "water motor gong sounding"
+      },
+      "itemNotes": {
+        "panel-flow-light": "The fire alarm panel shows a waterflow light lit for this riser's zone, which is the electrical half of the same alarm.",
+        "water-motor-gong": "The exterior water motor gong is turning and sounding — that is the mechanical alarm nobody can silence from inside the building."
+      },
+      "kind": "find",
+      "prompt": "Confirm the gong outside and the flow light on the panel both show the alarm.",
+      "targets": [
+        "water-motor-gong",
+        "panel-flow-light"
+      ],
+      "title": "Confirm the alarm reached both places",
+      "why": "The mechanical gong and the electrical panel signal are two separate paths to the same alarm, and NFPA 25 expects both proven working because either one failing independently still leaves a building with half its warning system silently gone — a fitter who only checks the panel has not actually proven the gong still turns."
+    },
+    {
+      "cue": "Close the inspector's test valve, confirm the alarm resets, then tell the monitoring company the test is complete.",
+      "id": "close-out",
+      "itemNames": {
+        "notify-monitoring": "monitoring company told test is complete",
+        "panel-flow-light": "alarm confirmed reset",
+        "test-valve": "test valve closed"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Close the valve, confirm the reset, then call it in — calling it complete before the alarm has actually reset tells the monitoring company something that is not yet true.",
+      "prompt": "Close the inspector's test valve, confirm the alarm resets, then tell the monitoring company the test is complete.",
+      "targets": [
+        "test-valve",
+        "panel-flow-light",
+        "notify-monitoring"
+      ],
+      "title": "Close the test out",
+      "why": "Telling the monitoring company the test is finished is what takes the system off test status on their board — skip that call and the very next real activation on this riser can be dismissed by a monitoring operator who still thinks this crew is testing it."
+    },
+    {
+      "cue": "Fill in the inspection, testing and maintenance report with both pressures and the alarm time.",
+      "id": "report",
+      "kind": "select",
+      "prompt": "Fill in the inspection, testing and maintenance report with both pressures and the alarm time.",
+      "target": "itm-report",
+      "title": "Complete the ITM report",
+      "why": "NFPA 25 exists as an annual record specifically so this year's numbers can be compared against every year before it, and a test with no written report is a test that next year's fitter has nothing to compare their own readings against."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "The monitoring company called before a drop of water moves, the main drain and the inspector's test connection each read in order, and the alarm proven to reach the gong and the panel before the riser goes back to normal",
+  "title": "SmartCiti.X~ Fire Sprinkler Riser & Flow Test VR",
+  "trade": "UA sprinkler fitter",
+  "underwater": null,
+  "weather": null
+}

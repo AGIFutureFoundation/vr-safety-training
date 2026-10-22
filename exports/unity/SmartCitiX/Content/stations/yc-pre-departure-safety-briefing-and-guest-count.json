@@ -1,0 +1,406 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "every-head-counted",
+    "name": "Every Head Counted",
+    "note": "The manifest matched before a line was touched, the life jacket shown rather than pointed at, and both the late guest and the lit cigarette answered"
+  },
+  "category": "Maritime & Ports",
+  "certification": "IBU and SIU deck training for small passenger and charter vessel crew; MEBA engineering watch; USCG lifesaving equipment and passenger safety rules at 46 CFR 25 and 46 CFR 199 as the vessel's certificate applies them; 33 CFR 83 Inland Navigation Rules; OSHA 29 CFR 1910.132 personal protective equipment; IMO STCW basic safety training; marine VHF practice under 47 CFR 80",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "FCC",
+        "citedAs": "47 CFR 80",
+        "id": "fcc-47-cfr-80",
+        "title": "47 CFR Part 80 — Stations in the maritime services (marine VHF and digital selective calling)"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBU",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "IMO",
+        "citedAs": "IMO STCW",
+        "id": "imo-stcw",
+        "title": "STCW — Convention on Standards of Training, Certification and Watchkeeping for Seafarers"
+      },
+      {
+        "body": "union",
+        "citedAs": "MEBA",
+        "id": "meba-calhoon-school",
+        "title": "MEBA — the Calhoon MEBA Engineering School's licensed marine engineer training"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "SIU",
+        "id": "siu-paul-hall-center",
+        "title": "SIU — the Paul Hall Center for Maritime Training and Education's unlicensed mariner programmes"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "Inland Navigation Rules",
+        "id": "uscg-33-cfr-83",
+        "title": "33 CFR Part 83 — Inland Navigation Rules"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 199",
+        "id": "uscg-46-cfr-199",
+        "title": "46 CFR Part 199 — Lifesaving systems for certain inspected vessels"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 25",
+        "id": "uscg-46-cfr-25",
+        "title": "46 CFR Part 25 — Requirements for uninspected vessels, including lifesaving and fire-fighting equipment"
+      }
+    ]
+  },
+  "district": "Maritime & Ports",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "orders-first",
+        "name": "Orders First",
+        "note": "The standing orders read before anyone else was briefed"
+      },
+      {
+        "id": "heard-aft",
+        "name": "Heard Aft",
+        "note": "Hailer level committed inside the band first time"
+      },
+      {
+        "id": "feet-on-deck",
+        "name": "Feet On Deck",
+        "note": "Never a count from the gunwale, never a key turned or a line cast before the count"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-briefing",
+        "name": "Clean Briefing",
+        "note": "No corrections from the crew board to the log"
+      },
+      {
+        "id": "steady-readback",
+        "name": "Steady Read-Back",
+        "note": "The read-back held in band the whole way through"
+      },
+      {
+        "id": "slack-water",
+        "name": "Slack Water",
+        "note": "Count logged inside 80% of par"
+      }
+    ],
+    "currency": "KNOT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Green Hand",
+      "Deckhand",
+      "Lead Deckhand",
+      "Mate",
+      "Charter Deck Certified"
+    ],
+    "system": "Charter Deck"
+  },
+  "hazards": {
+    "gunwale-stand": "You climbed onto the gunwale to count heads over the guests' shoulders. The gunwale is the narrowest, wettest, most crowded footing on the vessel and it sits directly over the gap between the hull and the dock; a deckhand who goes in there while the yacht is working against her lines is crushed before anyone can pull them out. Heads are counted from the deck, walking the group, or from the flybridge ladder with a hand on the rail.",
+    "start-key": "You reached for the engine start before the count was closed and the lines were tended. An engine turning at the berth puts a propeller in the water under the swim platform where a late guest is still stepping across, and a wash against the dock that pulls the gangway with it. The count closes, the gangway comes in and the captain calls for the engines — in that order and no other.",
+    "stern-line-early": "You started casting off the stern line while guests were still coming aboard. A yacht whose stern is free swings on her spring the moment the tide or a wake catches her, and the gap at the gangway opens under whoever is halfway across it. No line comes off until the count is closed, the gangway is aboard and the captain has asked for that line by name.",
+    "under-seat-locker": "You stowed the guests' life jackets under the cockpit seat cushions to tidy the deck. A life jacket a guest cannot see is a life jacket they will not find when the vessel is heeling and the lights are out; the lifesaving rules want them stowed where they are marked and reachable, and the briefing shows the guests exactly where that is, with the locker open."
+  },
+  "id": "yc-pre-departure-safety-briefing-and-guest-count",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "guest-count",
+      "alert": "A late guest hurries down the dock, bag in hand, and steps toward the gangway while the count is under way — nobody is on the gangway to meet them.",
+      "cue": "Put the gangway chain across, hold the count, and let the mate on the dock bring the late guest aboard once the count has closed.",
+      "delay": 2,
+      "id": "late-guest-gangway",
+      "kind": "Late guest at the gangway mid-count",
+      "missNote": "The late guest stepped aboard mid-count, the total came out one high on the second pass and one low on the third, and the captain left the berth with a count nobody could swear to.",
+      "seconds": 14,
+      "target": "gangway-chain",
+      "why": "A guest stepping aboard in the middle of a count is a count that cannot be trusted — one more head in a group already counted, or a name marked present who is still on the dock. The gangway chain is the answer because it stops the boarding without stopping the count; the mate on the dock holds the late guest, the deckhand closes the number, and the late guest comes aboard as a known addition rather than a mystery in the total.",
+      "wrongNote": "The gangway chain — the boarding is stopped, not the count, and the mate on the dock holds the guest until the number has closed."
+    },
+    {
+      "after": "read-back",
+      "alert": "A guest has stepped out to the side deck and lit a cigarette, standing directly over the fuel fill and its vent while you are on the intercom.",
+      "cue": "Point out the no-smoking placard on the side deck and have the guest put the cigarette out over the side, then tell the captain on the read-back.",
+      "delay": 2,
+      "id": "guest-smoking-fuel-fill",
+      "kind": "Guest lights a cigarette at the fuel fill",
+      "missNote": "The guest finished the cigarette over the fuel vent and flicked it toward the dock, where the fuel-dock boom was staged, and the captain heard about it from the fuel-dock attendant.",
+      "seconds": 14,
+      "target": "no-smoking-placard",
+      "why": "The fuel fill and its vent are where fuel vapour leaves the tank as the fuel warms and the vessel moves, and a lit cigarette over the vent is an ignition source held over exactly the vapour the fire rules exist to keep it away from. The answer is not to argue with the guest but to show the placard, get the cigarette out and report it, so the captain knows this group needs the smoking rule repeated over the hailer before the fuel dock.",
+      "wrongNote": "The no-smoking placard — the guest is shown the rule and the cigarette goes out before anything else is said on the intercom."
+    }
+  ],
+  "lateNotes": {
+    "cockpit-intercom": "The standing orders are read back to the captain once the count is closed and the guests are briefed — the read-back is a report, not a plan.",
+    "departure-log": "The count is logged once it has closed against the manifest and the briefing has been given — last, not first."
+  },
+  "name": "Pre-Departure Safety Briefing & Guest Count",
+  "parSeconds": 270,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "yacht-and-charter-crew"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "motorYacht",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "2.21x2.2x12",
+        "count": 1,
+        "kit": "unknown"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "cockpit-hailer",
+      "cockpit-intercom",
+      "crew-radio",
+      "crew-vest",
+      "deck-hatch-open",
+      "demo-lifejacket",
+      "departure-log",
+      "flybridge-sign",
+      "foredeck-chain",
+      "gangway-chain",
+      "gunwale-stand",
+      "handheld-vhf",
+      "locker-latch-jammed",
+      "manifest-clipboard",
+      "muster-placard",
+      "no-smoking-placard",
+      "orders-board",
+      "start-key",
+      "stern-line-early",
+      "swim-gate",
+      "under-seat-locker",
+      "volunteer-guest",
+      "weather-door-dog"
+    ],
+    "meshes": 306
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the standing orders on the crew board: the passenger limit for this trip per the vessel's certificate, who counts, where guests may and may not go, and what the captain wants to hear before a line moves.",
+      "id": "standing-orders",
+      "kind": "select",
+      "prompt": "Read the standing orders on the crew board: the passenger limit for this trip per the vessel's certificate, who counts, where guests may and may not go, and what the captain wants to hear before a line moves.",
+      "target": "orders-board",
+      "title": "Read the captain's standing orders at the crew board",
+      "why": "A charter starts as a page of orders because the vessel's certificate, not the booking, decides how many people she may carry and where they may stand while she is under way. The standing orders are where the captain has written that down in advance, so the crew are not working it out with guests already on the swim platform; the Coast Guard's small passenger vessel rules assume the crew know the number and the areas before the first guest arrives, and a deckhand who has not read the board is working from memory of a different trip."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Work vest on and fastened over the uniform, the handheld radio on its clip and turned to the working channel the standing orders name.",
+      "id": "vest-and-radio",
+      "itemNames": {
+        "crew-vest": "crew work vest",
+        "handheld-vhf": "handheld marine radio"
+      },
+      "kind": "sequence",
+      "prompt": "Work vest on and fastened over the uniform, the handheld radio on its clip and turned to the working channel the standing orders name.",
+      "targets": [
+        "crew-vest",
+        "handheld-vhf"
+      ],
+      "title": "Put on the work vest and clip on the handheld radio",
+      "why": "The deckhand works the gangway and the side deck through the whole boarding, low over the gap between the hull and the dock, and the vest is what the mate recovers them by if a wake puts them in that gap. The radio is on before the guests because the captain on the flybridge cannot see the gangway from the helm, and every count, every late arrival and every problem at the dock reaches the captain by that channel — a deckhand without a radio is a deckhand the captain has to shout for."
+    },
+    {
+      "cue": "Walk the aft deck and the side decks as the guests will use them: lockers that open, hatches closed and dogged, nothing on the sole to trip on, the rails secure.",
+      "id": "deck-walk",
+      "itemNames": {
+        "deck-hatch-open": "cockpit deck hatch left open",
+        "locker-latch-jammed": "life-jacket locker with its latch jammed"
+      },
+      "itemNotes": {
+        "deck-hatch-open": "The cockpit sole hatch over the lazarette is standing open in the walkway where the guests will stand for the briefing — an open hatch in a crowd is a broken leg before anyone has left the berth.",
+        "locker-latch-jammed": "The life-jacket locker's latch is jammed half-closed — a guest told to reach the jackets here would find a lid that does not open, and the crew would find out at the worst possible moment."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the aft deck and the side decks as the guests will use them: lockers that open, hatches closed and dogged, nothing on the sole to trip on, the rails secure.",
+      "targets": [
+        "locker-latch-jammed",
+        "deck-hatch-open"
+      ],
+      "title": "Walk the guest deck before the guests arrive",
+      "why": "Everything the briefing is about to promise the guests — the jackets are here, the muster point is here, this is where you stand — has to be true when they need it, and the only way to know is to try each of them before the guests arrive. A locker that does not open and a hatch left open by whoever loaded the stores are the two most common findings on a charter deck, and both are found by a deckhand walking the deck with a hand on each latch rather than glancing across it from the gangway."
+    },
+    {
+      "cue": "With the guests aboard and gathered aft, count heads against the manifest names on the clipboard and hold the count until it closes — every name, every head, nobody counted twice.",
+      "holdBreakNote": "The count broke before it closed — a head missed or a name skipped. Start the count again from the first name on the manifest.",
+      "id": "guest-count",
+      "kind": "hold",
+      "prompt": "With the guests aboard and gathered aft, count heads against the manifest names on the clipboard and hold the count until it closes — every name, every head, nobody counted twice.",
+      "seconds": 5,
+      "target": "manifest-clipboard",
+      "title": "Count every head against the manifest",
+      "why": "The count is the single number the captain will report if anything goes wrong on the water, and it is the number the crew will search for in the dark if someone goes over the side. It is taken slowly, against names, with the gangway watched, because a count that is one high or one low is a search for a person who is on the dock or a person left in the water. The rules that govern the passenger limit assume the crew know how many are aboard at every moment, not roughly."
+    },
+    {
+      "cue": "Take a life jacket from the locker and put it on the guest who volunteered: over the head, the straps clipped and snugged, the whistle and light pointed out, from the locker the guests will actually reach.",
+      "drag": {
+        "missNote": "Not on the guest — the jacket goes on a person, in front of the group, from the locker the guests will use, not held up from behind the helm.",
+        "radius": 0.6,
+        "to": "volunteer-guest"
+      },
+      "id": "show-lifejacket",
+      "kind": "drag",
+      "prompt": "Take a life jacket from the locker and put it on the guest who volunteered: over the head, the straps clipped and snugged, the whistle and light pointed out, from the locker the guests will actually reach.",
+      "target": "demo-lifejacket",
+      "title": "Show the guests a life jacket, on a person, from the locker they will use",
+      "why": "A life jacket held up and pointed at is a life jacket most guests will put on backwards in the dark, and a briefing that says 'the jackets are in that locker' has told them nothing about a locker they have not opened. The lifesaving rules put the jackets where the passengers are and the briefing shows them on a body, because the moment the jackets are needed is exactly the moment nobody can be taught anything; the whole of the briefing is spent so that moment is a repetition, not a lesson."
+    },
+    {
+      "cue": "Point out the muster placard on the saloon bulkhead, tell the guests where they go when they hear the signal, and sound the signal once so they have heard it.",
+      "id": "muster-point",
+      "kind": "select",
+      "prompt": "Point out the muster placard on the saloon bulkhead, tell the guests where they go when they hear the signal, and sound the signal once so they have heard it.",
+      "target": "muster-placard",
+      "title": "Show the muster point and what the alarm sounds like",
+      "why": "A muster point is only a muster point if the guests can find it from wherever they are on the vessel, and an alarm is only an alarm if they have heard it once in daylight with a crew member telling them what it means. Everything the crew will do in a fire or a flooding depends on the guests being in one known place, out of the way of the crew's work and counted; guests who scatter to their cabins or the swim platform are the reason the count has to be taken again in the middle of an emergency."
+    },
+    {
+      "cue": "Set the foredeck chain across the side deck, close the swim platform gate and hang the flybridge ladder sign, in that order, and tell the guests which areas are closed while the vessel is under way.",
+      "id": "no-go-areas",
+      "itemNames": {
+        "flybridge-sign": "flybridge ladder sign",
+        "foredeck-chain": "foredeck chain across the side deck",
+        "swim-gate": "swim platform gate"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Bow to stern — the foredeck chain first, then the swim platform gate, then the flybridge ladder sign, the way the captain's standing orders list them so nothing is skipped.",
+      "prompt": "Set the foredeck chain across the side deck, close the swim platform gate and hang the flybridge ladder sign, in that order, and tell the guests which areas are closed while the vessel is under way.",
+      "targets": [
+        "foredeck-chain",
+        "swim-gate",
+        "flybridge-sign"
+      ],
+      "title": "Close the no-go areas in the order the standing orders list them",
+      "why": "The standing orders close the foredeck, the swim platform and the flybridge ladder to guests under way because those are where a person is nearest the water, nearest the propellers and highest above the deck, and a guest who has been told 'stay aft' has not been told which chain means what. The areas are closed in a fixed order so that a deckhand interrupted halfway knows which are done; a chain across the side deck is also the crew's own reminder that the foredeck is theirs when the lines are worked."
+    },
+    {
+      "cue": "Bring the cockpit hailer up until the guests on the swim platform side can hear the captain without the speaker distorting, and commit the level inside the band the standing orders describe.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.62
+        ],
+        "label": "HAILER LEVEL",
+        "missNote": "Outside the band — the hailer is set so the farthest guest hears words, not a level that looks right on the dial.",
+        "speed": 0.7
+      },
+      "id": "hailer-level",
+      "kind": "gauge",
+      "prompt": "Bring the cockpit hailer up until the guests on the swim platform side can hear the captain without the speaker distorting, and commit the level inside the band the standing orders describe.",
+      "target": "cockpit-hailer",
+      "title": "Set the cockpit hailer so the guests aft can hear the briefing",
+      "why": "The briefing and every announcement after it — the muster signal, a wake warning, the captain's word before a line moves — go out over the hailer, and a hailer set too low is a briefing the aft guests never heard while one set too high distorts the words into noise and is turned off by the first guest near it. The level is set once, at the berth, against a crew member standing where the farthest guest will stand, so the captain's voice under way is a known thing rather than a guess."
+    },
+    {
+      "cue": "On the cockpit intercom, read the standing orders back to the captain — the count, the closed areas, the jackets shown, the muster point given — at a steady pace the captain can confirm line by line.",
+      "holdBreakNote": "The read-back broke pace — rushed or stalled — and the captain lost the thread. Take it back to the last confirmed line and carry on steadily.",
+      "id": "read-back",
+      "kind": "track",
+      "prompt": "On the cockpit intercom, read the standing orders back to the captain — the count, the closed areas, the jackets shown, the muster point given — at a steady pace the captain can confirm line by line.",
+      "seconds": 6,
+      "target": "cockpit-intercom",
+      "title": "Read the standing orders back to the captain on the intercom",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "READ-BACK PACE",
+        "rise": 0.6,
+        "start": 0.14
+      },
+      "why": "The captain on the flybridge has not seen the briefing and takes the vessel off the berth on the strength of what the deck reports, so the report is a read-back of the orders rather than a 'we're good': the count as a number, each closed area by name, the jacket shown, the muster point given. Read at a steady pace and confirmed line by line, it catches the thing the deckhand forgot before the yacht is in the channel; rushed, it is the sound of a crew agreeing with itself."
+    },
+    {
+      "cue": "Close the saloon weather door and turn its dog until it seats, so the door stays shut through the marina wake and the guests inside know which way is out.",
+      "id": "dog-weather-door",
+      "kind": "turn",
+      "prompt": "Close the saloon weather door and turn its dog until it seats, so the door stays shut through the marina wake and the guests inside know which way is out.",
+      "target": "weather-door-dog",
+      "title": "Dog the saloon weather door before leaving the berth",
+      "turn": {
+        "label": "WEATHER DOOR DOG",
+        "turns": 1.25
+      },
+      "why": "The saloon door is the guests' way in from the aft deck and the crew's way out to it, and a door that swings free in a wake is a door that catches fingers, slams on a guest stepping through, or stands open with the sea coming in when the vessel is heeled. Dogging it is a turn, checked by hand, because a door that looks shut and is not shut is how a saloon floods from a following wake; the crew reopen it under way when the captain says the water allows."
+    },
+    {
+      "cue": "Enter the closed count against the manifest, the briefing given, the jammed latch and the open hatch found, the late arrival and the cigarette at the fuel fill, with the time.",
+      "id": "departure-log",
+      "kind": "select",
+      "prompt": "Enter the closed count against the manifest, the briefing given, the jammed latch and the open hatch found, the late arrival and the cigarette at the fuel fill, with the time.",
+      "target": "departure-log",
+      "title": "Log the count and the briefing in the departure log",
+      "why": "The departure log is the record the captain hands to a boarding officer and the record the operator reads after an incident, and it is where a jammed latch becomes a repair before the next charter rather than the same surprise twice. The late guest and the cigarette are logged because the next crew need to know this group had to be stopped at the gangway and told once about smoking near the fuel fill; a problem that happens once and is not written down happens again to someone who did not see it coming."
+    },
+    {
+      "cue": "On the working channel: the count is closed and logged, the deck is briefed and the areas set, what you found on the walk, and how the deck crew are after the late arrival and the smoker.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "On the working channel: the count is closed and logged, the deck is briefed and the areas set, what you found on the walk, and how the deck crew are after the late arrival and the smoker.",
+      "target": "crew-radio",
+      "title": "Check in with the mate on the dock and the engineer below",
+      "why": "The mate on the dock takes the lines on the strength of the deck's report and the engineer below needs to hear that the deck is ready before the captain asks for engines, so the check-in is where three crew who cannot see each other agree the vessel is ready. It is also the crew's own moment: a boarding with a guest stopped at the gangway and another told to put out a cigarette is small, but it is the kind of small that wears a crew down over a season, and the union's member assistance line is there for what the radio does not carry."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — the IBU, SIU or MEBA — with the operator's employee assistance line behind it",
+  "tagline": "Guests coming aboard for a charter: the standing orders read at the crew board, vest and radio on, the deck walked for the jammed locker and the open hatch, every head counted against the manifest through a late arrival at the gangway, the life jacket shown, the muster point and the no-go areas set, the hailer brought into band, the standing orders read back to the captain while a guest lights up at the fuel fill, the weather door dogged, the count logged and the crew checked in",
+  "title": "SmartCiti.X~ Pre-Departure Safety Briefing & Guest Count VR",
+  "trade": "Charter yacht deckhand and steward, IBU and SIU trained, with an MEBA engineer aboard and the captain on the flybridge",
+  "underwater": null,
+  "weather": "clear"
+}

@@ -1,0 +1,433 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "plan-in-hand",
+    "name": "Plan In Hand",
+    "note": "The ladder read off the board, the credentials matched to their rungs, and a signed plan with a real next step on it"
+  },
+  "category": "Dental & Oral Health",
+  "certification": "The state dental practice act and its allowable-duties list for assistants and hygienists; DANB's Certified Dental Assistant components — Radiation Health and Safety, Infection Control and General Chairside — and the separate state radiography permit; programmes accredited by the Commission on Dental Accreditation (CODA); the National Board Dental Hygiene Examination and a state or regional clinical examination for hygiene licensure; the Dental Admission Test, a CODA-accredited dental school and the Integrated National Board Dental Examination for the DDS or DMD; the American Dental Assistants Association (ADAA) and the American Dental Hygienists' Association (ADHA) as the professions' bodies; the ADA on the dental team; the U.S. Bureau of Labor Statistics Occupational Outlook Handbook for current pay and hours; SEIU, UFCW and AFSCME clinic and public-health staff agreements; HIPAA for anything a student sees on a shadowing day",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADHA",
+        "citedAs": "ADHA",
+        "id": "adha-standards",
+        "title": "ADHA Standards for Clinical Dental Hygiene Practice"
+      },
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "HHS",
+        "citedAs": "HIPAA",
+        "id": "hipaa-privacy-rule",
+        "title": "HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "state dental board",
+        "citedAs": "state dental board",
+        "id": "state-dental-board",
+        "title": "The state dental board and its dental practice act: licensure, scope of practice, and the allowable-duties rules for dental assistants and hygienists"
+      },
+      {
+        "body": "union",
+        "citedAs": "UFCW",
+        "id": "ufcw-training",
+        "title": "UFCW member training for retail food, clinic and dental support work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Dental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "ladder-read-right",
+        "name": "Ladder Read Right",
+        "note": "The entry rung and the accreditation cards both answered clean"
+      },
+      {
+        "id": "nothing-taken-on-trust",
+        "name": "Nothing Taken On Trust",
+        "note": "No unsafe conclusion anywhere in the evening"
+      },
+      {
+        "id": "planned-by-measure",
+        "name": "Planned By Measure",
+        "note": "The study plan committed inside a workable band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-evening",
+        "name": "Clean Evening",
+        "note": "No corrections anywhere in the briefing"
+      },
+      {
+        "id": "sat-the-section",
+        "name": "Sat The Section",
+        "note": "Both timed passages carried without a break"
+      },
+      {
+        "id": "read-the-board",
+        "name": "Read The Board",
+        "note": "Finish inside 80% of par — you read the board rather than the cards"
+      }
+    ],
+    "currency": "RUNG",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Visitor",
+      "Applicant",
+      "Dental Assisting Student",
+      "Credentialled Assistant",
+      "Career Ladder Certified"
+    ],
+    "system": "Career Ladder"
+  },
+  "hazards": {
+    "dcp-delegate-anything-card": "That card says an assistant may do anything the dentist delegates. No state practice act reads that way — each one lists what an assistant may do, what needs additional training or a separate permit, and what only a licensed hygienist or dentist may ever do. A dentist's willingness to delegate does not expand that list, and working outside it puts the dentist's licence and the assistant's future credential at risk together.",
+    "dcp-pay-guarantee-placard": "That placard promises a starting wage and a guaranteed job. Nobody can guarantee either, and no programme that is honest about its outcomes tries: the only defensible numbers are the ones the Bureau of Labor Statistics publishes for the occupation in your own state, and the completion and employment figures a programme is required to publish about itself. A number with no source behind it is advertising.",
+    "dcp-unapproved-school-flyer": "That flyer sells a certificate over two weekends with no accreditation named. If the credential you need requires a CODA-accredited programme, a course that is not accredited buys nothing you can sit an exam with — and the money is gone. The accreditation is checkable in a public directory before a deposit is paid, which is exactly why it is worth checking first.",
+    "dcp-unpermitted-exposure-card": "That card says to start taking radiographs while the permit application is still in the post. Exposing a patient to radiation is a permitted act in every state that licenses it, and doing it before the permit exists is practising outside the act — it is the single fastest way for a new assistant to end a career that had not properly started, and the office that asked for it carries the liability too."
+  },
+  "id": "dental-careers-pathway",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "read-the-act",
+      "alert": "An assistant across the room says her dentist showed her how to place and finish a filling, so she is allowed to do it.",
+      "cue": "Do not settle this from the room — settle it from the board that issues the credential.",
+      "delay": 3,
+      "id": "dcp-wrong-scope-advice",
+      "kind": "Scope question",
+      "missNote": "The advice went unchallenged and the room took it as fact. Half the people here will repeat it in their first job, and the one who acts on it risks a complaint that follows her through every licence application she ever makes — over a duty she could have checked with one call.",
+      "seconds": 12,
+      "target": "dcp-board-enquiry-phone",
+      "why": "Whether a duty is allowable is a question for the state dental board, and every board runs a line or an enquiry form for exactly this. Being shown how to do something is training, not authorisation: if the duty is not on the assistant's list, or needs a permit she does not hold, then both she and the dentist are exposed — and the only source that settles it is the board itself.",
+      "wrongNote": "It is the board's enquiry line. A duty is allowable because the act says so and the board confirms it, not because somebody was shown how."
+    },
+    {
+      "after": "practice-section",
+      "alert": "A recruiter at the next table is telling a student she can skip the accredited programme because the office will train her on the job.",
+      "cue": "Look the programme up in the accreditation directory before anyone signs anything.",
+      "delay": 3,
+      "id": "dcp-unaccredited-pitch",
+      "kind": "Recruiting pitch",
+      "missNote": "The student signed up and paid a deposit for a course with no accreditation behind it. She will discover what it is worth when she applies to sit the examination it was supposed to prepare her for, by which time the money is gone and a year with it.",
+      "seconds": 12,
+      "target": "dcp-coda-directory-kiosk",
+      "why": "Some states do allow on-the-job entry to assisting, and some credentials and every hygiene licence require a CODA-accredited programme — so the answer is not an opinion, it is a lookup. The directory is public and searchable, and checking it in front of the student is worth more than any argument about what a recruiter meant.",
+      "wrongNote": "It is the accreditation directory. Whether a programme counts is a matter of public record, and it takes a minute to look up."
+    }
+  ],
+  "lateNotes": {
+    "dcp-application-fee": "Hold that. The fee goes last, after the programme's accreditation, the transcript and the immunisation record are all in order — a deposit paid first is the one part of an application you cannot take back.",
+    "dcp-career-plan-log": "Not yet. The plan is written at the end of the evening from what you have actually checked, not filled in from the brochure at the start.",
+    "dcp-practice-exam-tablet": "Too early. A practice section is worth sitting once you know which component you are actually preparing for, and that comes off the board first."
+  },
+  "name": "Dental Careers Pathway",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "dental-careers-unspoken-smiles"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "dcp-allowable-duties-card",
+      "dcp-application-fee",
+      "dcp-board-approved-card",
+      "dcp-board-enquiry-phone",
+      "dcp-career-plan-log",
+      "dcp-cda-card",
+      "dcp-clinical-hours-card",
+      "dcp-coda-card",
+      "dcp-coda-directory-kiosk",
+      "dcp-dat-card",
+      "dcp-delegate-anything-card",
+      "dcp-flyer-pay-claim",
+      "dcp-flyer-seat-claim",
+      "dcp-immunisation-record",
+      "dcp-ladder-dial",
+      "dcp-lead-assistant",
+      "dcp-nbdhe-card",
+      "dcp-pay-guarantee-placard",
+      "dcp-practice-act-binder",
+      "dcp-practice-exam-tablet",
+      "dcp-rhs-card",
+      "dcp-rung-assistant",
+      "dcp-rung-dentist",
+      "dcp-rung-efda",
+      "dcp-rung-hygienist",
+      "dcp-rung-slot-assistant",
+      "dcp-state-permit-card",
+      "dcp-study-planner",
+      "dcp-transcript-folder",
+      "dcp-unapproved-school-flyer",
+      "dcp-unpermitted-exposure-card"
+    ],
+    "meshes": 228
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Pick the rung on the pathway board that someone with a high-school diploma can reach first.",
+      "id": "entry-rung",
+      "kind": "select",
+      "prompt": "Pick the rung on the pathway board that someone with a high-school diploma can reach first.",
+      "target": "dcp-rung-assistant",
+      "title": "Find where this ladder actually starts",
+      "why": "The ladder starts at dental assisting, and that matters because it is the only rung most people can step onto without first spending years and money: depending on the state it is entered through on-the-job training or a CODA-accredited assisting programme, and DANB's Certified Dental Assistant credential is built on top of it. Every rung above this one is reached from a job, not from a standing start."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Select the three things that decide whether a programme counts — order doesn't matter.",
+      "id": "programme-check",
+      "itemNames": {
+        "dcp-board-approved-card": "recognised by the state dental board",
+        "dcp-clinical-hours-card": "supervised clinical hours",
+        "dcp-coda-card": "accredited by CODA"
+      },
+      "itemNotes": {
+        "dcp-board-approved-card": "A programme also has to be recognised by the board that will licence or permit you, which is a separate question from accreditation and is answered on the board's own website.",
+        "dcp-clinical-hours-card": "Supervised clinical hours on real patients are what an employer is actually buying, and a programme that cannot say how many it provides is telling you something.",
+        "dcp-coda-card": "The Commission on Dental Accreditation publishes a searchable list of the programmes it accredits. If the credential needs one, this is the first thing to check and it is free to check."
+      },
+      "kind": "sequence",
+      "prompt": "Select the three things that decide whether a programme counts — order doesn't matter.",
+      "targets": [
+        "dcp-coda-card",
+        "dcp-board-approved-card",
+        "dcp-clinical-hours-card"
+      ],
+      "title": "Check what makes a programme worth enrolling in",
+      "why": "The difference between a programme that leads somewhere and one that takes a deposit is checkable before you enrol: accreditation by CODA where the credential requires it, recognition by the state board that will issue your licence or permit, and a stated number of supervised clinical hours. All three are published, none of them depends on what a recruiter says, and checking them takes an evening."
+    },
+    {
+      "cue": "Open the practice act at the duties section and read the assistant's list properly.",
+      "holdBreakNote": "You put it down before the duties section. The list is the part that answers the question — skimming the front of the act tells you who the board is and nothing about what you may do.",
+      "id": "read-the-act",
+      "kind": "hold",
+      "prompt": "Open the practice act at the duties section and read the assistant's list properly.",
+      "seconds": 6,
+      "target": "dcp-practice-act-binder",
+      "title": "Read your own state's allowable-duties list",
+      "why": "The single most useful document in this room is the state's own dental practice act, because it is the thing that decides what you may actually be paid to do at each rung and what needs a further permit. It is public, it is written in plain enough language, and reading it once is what turns a vague sense of scope into a list you can hold an employer to."
+    },
+    {
+      "cue": "Choose the card that describes what sets an assistant's duties.",
+      "id": "scope-card",
+      "kind": "select",
+      "prompt": "Choose the card that describes what sets an assistant's duties.",
+      "target": "dcp-allowable-duties-card",
+      "title": "Pick the statement that matches how scope actually works",
+      "why": "Scope is set by the state's act, not by the dentist's confidence in you and not by what the office next door does. Each act lists basic duties, duties that need additional training or a separate permit, and acts reserved to a licensed hygienist or dentist — and knowing which list a task is on is what protects your own future credential when someone asks you to do something you have not been trained for."
+    },
+    {
+      "cue": "Two cards on this rail have to be in your name before you expose anyone. Find them.",
+      "id": "radiography-credential",
+      "itemNames": {
+        "dcp-rhs-card": "DANB's Radiation Health and Safety component",
+        "dcp-state-permit-card": "the state's own radiography permit"
+      },
+      "itemNotes": {
+        "dcp-rhs-card": "One of the three components of DANB's Certified Dental Assistant credential, and the one most states point at when they decide who may expose a radiograph.",
+        "dcp-state-permit-card": "A separate thing again: the permit or certificate the state itself issues. Passing the national component does not by itself make you permitted — the state has to have issued something with your name on it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two cards on this rail have to be in your name before you expose anyone. Find them.",
+      "targets": [
+        "dcp-rhs-card",
+        "dcp-state-permit-card"
+      ],
+      "title": "Find the two credentials behind taking a radiograph",
+      "why": "Radiography is the clearest example of how two layers of credential work in this field: a national examination component that shows you know the material, and a state permit that grants you the legal right to do it. Students routinely assume the first implies the second, start exposing images on the strength of a certificate, and only find out otherwise when an inspector or a complaint arrives."
+    },
+    {
+      "cue": "Turn the board's selector to bring the next rung's requirements up.",
+      "id": "step-the-ladder",
+      "kind": "turn",
+      "prompt": "Turn the board's selector to bring the next rung's requirements up.",
+      "target": "dcp-ladder-dial",
+      "title": "Step the board up a rung",
+      "turn": {
+        "axis": "y",
+        "label": "PATHWAY BOARD",
+        "turns": 1
+      },
+      "why": "The board is built as a ladder because that is how the field really moves: an expanded-function assistant is an assistant who took further coursework and, in states that have the category, a further state examination or permit. Turning the selector is the point of the whole evening — seeing that the next rung is a defined list of requirements rather than a vague matter of experience."
+    },
+    {
+      "cue": "Carry the Certified Dental Assistant card to the rung it actually belongs on.",
+      "drag": {
+        "missNote": "Not that rung. The CDA is the assisting credential; hygiene is a separate licence with its own programme and its own national examination, not an upgrade to this card.",
+        "radius": 0.4,
+        "to": "dcp-rung-slot-assistant"
+      },
+      "id": "place-cda",
+      "kind": "drag",
+      "prompt": "Carry the Certified Dental Assistant card to the rung it actually belongs on.",
+      "target": "dcp-cda-card",
+      "title": "Place the CDA credential on its own rung",
+      "why": "DANB's Certified Dental Assistant credential sits on the assisting rung, built from three components — Radiation Health and Safety, Infection Control and General Chairside Assisting — with an eligibility route through a CODA-accredited programme or through work experience. Putting it on the hygiene rung is the commonest misunderstanding in the field, and it costs people years: it is not a step toward a hygiene licence, it is a credential in its own trade."
+    },
+    {
+      "cue": "Choose the card that names the national examination on the hygiene route.",
+      "id": "hygiene-route",
+      "kind": "select",
+      "prompt": "Choose the card that names the national examination on the hygiene route.",
+      "target": "dcp-nbdhe-card",
+      "title": "Pick what a hygiene licence actually requires",
+      "why": "Dental hygiene is a licensed profession reached through a CODA-accredited dental hygiene programme, the National Board Dental Hygiene Examination, and a state or regional clinical examination, after which the state issues the licence. The ADHA is the profession's body. None of those steps can be substituted by years spent assisting, which is worth knowing before someone spends five of them expecting it to count."
+    },
+    {
+      "cue": "Dial the weekly hours against the programme's published schedule and commit inside the band.",
+      "gauge": {
+        "green": [
+          0.38,
+          0.6
+        ],
+        "label": "STUDY HOURS / WEEK",
+        "missNote": "That plan will not hold. Too few hours and the clinical components arrive faster than the theory behind them; too many, beside a full-time job, and it collapses in week five — which is when most people who leave a programme leave it.",
+        "speed": 0.6
+      },
+      "id": "study-plan",
+      "kind": "gauge",
+      "prompt": "Dial the weekly hours against the programme's published schedule and commit inside the band.",
+      "target": "dcp-study-planner",
+      "title": "Set a study plan you can actually keep",
+      "why": "The commonest reason people fall off this ladder is not ability, it is arithmetic: a programme's own published contact and study hours set against the shifts someone is already working. Planning that honestly at the start, against the schedule the programme publishes rather than a guess, is what makes the difference between finishing and withdrawing in the second term."
+    },
+    {
+      "cue": "Choose the card that names the admission test for dental school.",
+      "id": "dentist-route",
+      "kind": "select",
+      "prompt": "Choose the card that names the admission test for dental school.",
+      "target": "dcp-dat-card",
+      "title": "Pick the first gate on the route to dentist",
+      "why": "The dentist's route runs through pre-dental coursework, the Dental Admission Test, four years at a CODA-accredited dental school for a DDS or DMD, the Integrated National Board Dental Examination and a state or regional clinical examination, with a residency on top for any of the recognised specialties. It is long, and it is also reachable from the chair: assistants and hygienists go this way, and the clinical years are easier for having done it."
+    },
+    {
+      "cue": "Work the practice section and keep your pace inside the band for the whole run.",
+      "holdBreakNote": "The pace broke. Settle back into the band — a component is finished at a steady rate, not in bursts with a panic at the end.",
+      "id": "practice-section",
+      "kind": "track",
+      "prompt": "Work the practice section and keep your pace inside the band for the whole run.",
+      "seconds": 7,
+      "target": "dcp-practice-exam-tablet",
+      "title": "Sit a timed practice section",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.44,
+        "green": [
+          0.38,
+          0.6
+        ],
+        "label": "PACE",
+        "rise": 0.5,
+        "start": 0.16
+      },
+      "why": "A timed component is a pacing skill as much as a knowledge one, and pacing is trainable. Too fast is guessing — the questions that look obvious in a component blueprint are the ones written to be — and too slow means arriving at the last block with the clock gone. Learning where the band is on a practice section costs nothing; learning it in the examination hall costs the fee and the wait."
+    },
+    {
+      "cue": "Two lines on the recruiting flyer cannot be sourced to anybody. Find them.",
+      "id": "claims-audit",
+      "itemNames": {
+        "dcp-flyer-pay-claim": "the wage claim",
+        "dcp-flyer-seat-claim": "the guaranteed-placement claim"
+      },
+      "itemNotes": {
+        "dcp-flyer-pay-claim": "A wage with no source. The checkable version is the Bureau of Labor Statistics Occupational Outlook Handbook entry for dental assistants or hygienists in your own state, read for the current year — which is a range, not a promise, and differs enormously between states.",
+        "dcp-flyer-seat-claim": "A guaranteed job. No programme can promise that; what an honest one publishes is its own completion and employment rates, and you are entitled to ask for them before you pay anything."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two lines on the recruiting flyer cannot be sourced to anybody. Find them.",
+      "targets": [
+        "dcp-flyer-pay-claim",
+        "dcp-flyer-seat-claim"
+      ],
+      "title": "Find the two claims on this flyer that nothing backs",
+      "why": "The money in this field is real and so is the demand, but the numbers on a recruiting flyer are marketing until somebody names where they came from. Wages come from the Bureau of Labor Statistics for your own state and year; outcomes come from the programme's own published completion and employment figures. Learning to ask which of the two a number is, is the most transferable skill in this whole station."
+    },
+    {
+      "cue": "Request the transcripts, get the immunisation record, then pay the fee against the deadline.",
+      "id": "application-order",
+      "itemNames": {
+        "dcp-application-fee": "fee and deadline",
+        "dcp-immunisation-record": "immunisation record",
+        "dcp-transcript-folder": "transcripts requested"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Transcripts take weeks to arrive and the immunisation record takes a clinic appointment; the fee and the deadline come last, once the parts that depend on other people are already moving. Reset and take them in that order.",
+      "prompt": "Request the transcripts, get the immunisation record, then pay the fee against the deadline.",
+      "targets": [
+        "dcp-transcript-folder",
+        "dcp-immunisation-record",
+        "dcp-application-fee"
+      ],
+      "title": "Put the application together in the order that works",
+      "why": "Applications fail on logistics far more often than on grades. Transcripts have to be requested from an institution that will take its own time; an immunisation and tuberculosis record needs a clinic appointment, and every clinical programme requires one before placement. The fee is last because it is the only irreversible step, and paying it before the slow parts are moving is how people lose a cycle."
+    },
+    {
+      "cue": "Ask the lead assistant for shadowing days, and agree what you may and may not see.",
+      "id": "shadow-checkin",
+      "kind": "select",
+      "prompt": "Ask the lead assistant for shadowing days, and agree what you may and may not see.",
+      "target": "dcp-lead-assistant",
+      "title": "Check in with the clinic's lead assistant about shadowing days",
+      "why": "A shadowing day is the cheapest way to find out whether you want this work, and it is arranged with the person who runs the chairside team rather than through a form. It also comes with a condition worth hearing out loud: everything you see about a patient is protected under HIPAA, and a student in the room is bound by that exactly as the staff are — which is itself the first lesson of the job."
+    },
+    {
+      "cue": "Fill in the rung you are aiming at, the credential it needs, the programme you checked, and the date of your next step.",
+      "id": "career-plan",
+      "kind": "select",
+      "prompt": "Fill in the rung you are aiming at, the credential it needs, the programme you checked, and the date of your next step.",
+      "target": "dcp-career-plan-log",
+      "title": "Sign the career-pathway card and take it with you",
+      "why": "The card is the whole point of the evening: one rung named, the credential that rung actually requires, the accredited programme you verified yourself, where you will read the current pay and hours, and a dated next action — a transcript request, a clinic appointment, a shadowing day. A plan with a date on it is the difference between a careers talk and a career, and the clinic keeps a copy so somebody asks you about it."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A careers evening in the staff room: the ladder from assistant to hygienist to dentist, the credential behind each rung, where the pay-and-hours facts actually come from, and how to apply this month",
+  "title": "SmartCiti.X~ Dental Careers Pathway VR",
+  "trade": "Dental careers — assistant to hygienist to dentist",
+  "underwater": null,
+  "weather": "clear"
+}

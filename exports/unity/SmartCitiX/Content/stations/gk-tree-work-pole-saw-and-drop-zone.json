@@ -1,0 +1,440 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "zone-controlled",
+    "name": "Zone Controlled",
+    "note": "Site surveyed, drop zone barricaded, line clearance proven, and every cut made only on the spotter's signal"
+  },
+  "category": "Grounds & Landscaping",
+  "certification": "ANSI Z133 safety requirements for arboricultural operations; OSHA 29 CFR 1910.132 personal protective equipment, 29 CFR 1910.133 eye and face protection and 29 CFR 1910.95 occupational noise exposure; NIOSH guidance on tree-care struck-by and electrocution incidents; LIUNA grounds and landscaping crew training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI",
+        "citedAs": "ANSI Z133",
+        "id": "ansi-z133-arboriculture",
+        "title": "ANSI Z133 — safety requirements for arboricultural operations, including chippers used on a tree crew"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.133",
+        "id": "osha-1910-133",
+        "title": "29 CFR 1910.133 — Eye and face protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.95",
+        "id": "osha-1910-95",
+        "title": "29 CFR 1910.95 — Occupational noise exposure"
+      }
+    ]
+  },
+  "district": "fairway-park",
+  "domain": "Grounds & Landscaping",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "line-cleared",
+        "name": "Line Cleared",
+        "note": "Never worked closer than the checked clearance to the line"
+      },
+      {
+        "id": "signal-only",
+        "name": "Signal Only",
+        "note": "Never cut without the spotter's clear signal"
+      },
+      {
+        "id": "zone-held",
+        "name": "Zone Held",
+        "note": "Drop zone barricaded before the first cut"
+      },
+      {
+        "id": "steady-cut",
+        "name": "Steady Cut",
+        "note": "Held the brace and the line-clearance gauge near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-prune",
+        "name": "Quick Prune",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-round",
+        "name": "Clean Round",
+        "note": "No corrections across the whole run"
+      },
+      {
+        "id": "grounds-streak",
+        "name": "Grounds Streak",
+        "note": "Eight correct actions in a row"
+      }
+    ],
+    "currency": "TURF",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ground Hand",
+      "Pole Saw Operator",
+      "Zone Certified",
+      "Crew Lead",
+      "Grounds Certified"
+    ],
+    "system": "Grounds Crew"
+  },
+  "hazards": {
+    "cut-without-spotter-signal": "You made the cut before the spotter gave the clear signal. The spotter is watching the drop zone and the line clearance from an angle the operator cannot see while sighting the cut, and cutting ahead of their signal removes the one check that catches a bystander or a shifted lean before the limb is already falling.",
+    "pole-saw-near-line": "You extended the pole saw inside the checked clearance to the overhead line. An aluminium or fibreglass pole saw does not have to touch a line to conduct — closing the gap the rangefinder already measured is closing the one distance this whole job plan depends on staying open.",
+    "reach-for-hung-limb": "You reached to pull down a limb that hung up instead of using the pole saw's own technique. A hung limb is holding tension nobody can see, and a hand or a rope pulled on it by feel is how that tension releases all at once, aimed at whoever is closest.",
+    "stand-under-drop-zone": "You are standing directly under the limb being cut. A limb coming down does not fall the way it is leaning right up until the cut lets go, and the one place nobody stands for a pruning cut is exactly where you are standing now."
+  },
+  "id": "gk-tree-work-pole-saw-and-drop-zone",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "brace-and-cut",
+      "alert": "A gust has shifted the limb's lean mid-cut, and it is no longer falling toward the planned drop zone.",
+      "cue": "Sound the retreat whistle and clear the area before the cut is finished.",
+      "delay": 3,
+      "id": "limb-lean-shifts",
+      "kind": "Lean shift",
+      "missNote": "The cut continued while the lean kept shifting. A falling limb does not wait for the crew to notice the drop zone moved.",
+      "seconds": 10,
+      "target": "retreat-whistle",
+      "why": "A limb whose lean has shifted mid-cut is no longer falling where the drop zone plan assumed it would, and the retreat whistle is what tells everyone nearby — including whoever is watching the original zone — to clear the new path before the cut lets go rather than after.",
+      "wrongNote": "Not that — the retreat whistle is what this shifted lean needs before the cut goes any further."
+    },
+    {
+      "after": "track-drop-zone",
+      "alert": "A passerby has ducked under the barricade tape and is walking into the drop zone.",
+      "cue": "Sound the stop-work horn and halt the cut before the limb comes down.",
+      "delay": 4,
+      "id": "passerby-under-tape",
+      "kind": "Bystander incursion",
+      "missNote": "The cut continued while the passerby was still inside the tape. A drop zone with someone standing in it is not a controlled zone at all.",
+      "seconds": 11,
+      "target": "stop-work-horn",
+      "why": "A barricade only works on someone who respects it, and a passerby already under the tape is already inside the one area the whole plan exists to keep clear — the stop-work horn is what halts the cut immediately, rather than trusting the barricade to have done its job after the fact.",
+      "wrongNote": "Not that — the stop-work horn is what this passerby needs, before the cut goes any further."
+    }
+  ],
+  "lateNotes": {
+    "dead-hanging-limb": "A dead limb hanging loose in the canopy — a widow-maker — can come down with no warning at all, which is exactly why it gets flagged and worked around before the pole saw ever goes near that tree.",
+    "rangefinder": "The rangefinder reading is what actually proves the clearance to the line, not how far away the tree looks from where the crew is standing."
+  },
+  "name": "Tree Work: Pole Saw & Drop Zone",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "grounds-and-landscaping"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "5.8x9.02x5.6",
+        "count": 1,
+        "kit": "unknown"
+      }
+    ],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "blade-sharp-check",
+      "buck-cuts",
+      "chip-pile",
+      "clear-canopy-section",
+      "closing-log",
+      "cone-a",
+      "cone-b",
+      "cut-without-spotter-signal",
+      "cutting-grip",
+      "cutting-position-socket",
+      "dead-hanging-limb",
+      "drag-clear",
+      "ear-protection",
+      "eye-protection",
+      "fallen-limb",
+      "hard-hat",
+      "hazard-assessment-board",
+      "line-clearance-marker",
+      "overhead-power-line",
+      "pole-lock-collar",
+      "pole-saw",
+      "pole-saw-near-line",
+      "pole-sections-check",
+      "rangefinder",
+      "reach-for-hung-limb",
+      "retreat-whistle",
+      "spotter",
+      "stand-under-drop-zone",
+      "stop-work-horn",
+      "zone-tape"
+    ],
+    "meshes": 128
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Hard hat, eye protection and ear protection before walking the site.",
+      "id": "ppe-up",
+      "itemNames": {
+        "ear-protection": "ear protection",
+        "eye-protection": "eye protection",
+        "hard-hat": "hard hat"
+      },
+      "kind": "sequence",
+      "prompt": "Hard hat, eye protection and ear protection before walking the site.",
+      "targets": [
+        "hard-hat",
+        "eye-protection",
+        "ear-protection"
+      ],
+      "title": "Suit up before the site survey",
+      "why": "Falling debris and sawdust from overhead pruning reach the ground long before the limb does, and the hard hat and eye protection are what the survey and the whole job depend on from the very first look up into the canopy."
+    },
+    {
+      "cue": "Check the job's own hazard assessment for the tree's lean, the line location and any flagged limbs before touching the pole saw.",
+      "id": "site-survey",
+      "kind": "select",
+      "prompt": "Check the job's own hazard assessment for the tree's lean, the line location and any flagged limbs before touching the pole saw.",
+      "target": "hazard-assessment-board",
+      "title": "Read the site hazard assessment",
+      "why": "The hazard assessment is where the crew's own survey of this specific tree — its lean, the line's location, any limb already flagged — gets written down before the work starts, so the plan is built on what was actually found rather than on what the crew remembers from the truck."
+    },
+    {
+      "cue": "Three things about this tree change the plan — find them by looking up and around before the saw comes out.",
+      "decoyNotes": {
+        "clear-canopy-section": "That section of canopy is clear, with nothing overhead and nothing hanging loose. Nothing to flag there."
+      },
+      "id": "walk-around",
+      "itemNames": {
+        "dead-hanging-limb": "the dead limb hanging loose in the canopy",
+        "line-clearance-marker": "the utility's own line clearance marker",
+        "overhead-power-line": "the overhead power line through the canopy"
+      },
+      "itemNotes": {
+        "dead-hanging-limb": "A limb hanging loose like this — a widow-maker — can come down with no warning, which is why it gets flagged before anyone works under this tree.",
+        "line-clearance-marker": "The utility's own marker is what tells the crew where its minimum approach distance actually starts, rather than guessing from how far the line looks.",
+        "overhead-power-line": "A line running through this canopy is the one hazard that changes everything about where the pole saw can safely reach."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things about this tree change the plan — find them by looking up and around before the saw comes out.",
+      "targets": [
+        "overhead-power-line",
+        "dead-hanging-limb",
+        "line-clearance-marker"
+      ],
+      "title": "Walk the site before extending the pole saw",
+      "why": "A tree that looks routine from the truck is not the same thing as a tree someone has actually surveyed, and a line through the canopy or a dead hanging limb are exactly the kind of hazard a walk-around catches before the pole saw is anywhere near either one."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Cone both approaches and tape off the full drop zone before the first cut.",
+      "id": "drop-zone-barricade",
+      "itemNames": {
+        "cone-a": "cone at the near approach",
+        "cone-b": "cone at the far approach",
+        "zone-tape": "barricade tape around the drop zone"
+      },
+      "kind": "sequence",
+      "prompt": "Cone both approaches and tape off the full drop zone before the first cut.",
+      "targets": [
+        "cone-a",
+        "cone-b",
+        "zone-tape"
+      ],
+      "title": "Barricade the drop zone",
+      "why": "A drop zone that exists only in the crew's head protects nobody who was not in that conversation — coning the approaches and taping the zone is what turns the plan into something a passerby can actually see and stay out of."
+    },
+    {
+      "cue": "Agree the stop signal and the drop-zone watch with the spotter before the pole saw extends.",
+      "id": "spotter-brief",
+      "kind": "select",
+      "prompt": "Agree the stop signal and the drop-zone watch with the spotter before the pole saw extends.",
+      "target": "spotter",
+      "title": "Brief the ground spotter",
+      "why": "The spotter is watching the drop zone and the line clearance from an angle the operator sighting the cut cannot hold at the same time, and that only works if both of them already agree on the stop signal before the saw is extended and it is needed for real."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Confirm the blade is sharp and guarded, and every pole section locks before extending.",
+      "id": "pole-saw-precheck",
+      "itemNames": {
+        "blade-sharp-check": "blade sharpness and guard",
+        "pole-sections-check": "pole section locks"
+      },
+      "kind": "sequence",
+      "prompt": "Confirm the blade is sharp and guarded, and every pole section locks before extending.",
+      "targets": [
+        "blade-sharp-check",
+        "pole-sections-check"
+      ],
+      "title": "Precheck the pole saw",
+      "why": "A dull blade snags instead of cutting clean, and a pole section that is not fully locked can telescope shut under load — checking both before the saw ever extends is what keeps the tool doing what the operator expects instead of failing mid-cut."
+    },
+    {
+      "cue": "Turn the locking collar to extend the pole to the working length and confirm it locks.",
+      "id": "extend-pole-saw",
+      "kind": "turn",
+      "prompt": "Turn the locking collar to extend the pole to the working length and confirm it locks.",
+      "target": "pole-lock-collar",
+      "title": "Extend and lock the pole saw",
+      "turn": {
+        "axis": "z",
+        "label": "POLE LOCK",
+        "turns": 0.4
+      },
+      "why": "A pole extended without the collar fully locked can slip shorter mid-cut, dropping the head's reach right when the operator is committed to the swing — turning the collar until it locks is what makes the extended length something the operator can actually trust."
+    },
+    {
+      "cue": "Read the rangefinder and commit only once the clearance is inside the utility's own safe band.",
+      "gauge": {
+        "green": [
+          0.5,
+          0.85
+        ],
+        "label": "LINE CLEARANCE",
+        "missNote": "Inside the utility's own minimum approach distance. Reposition before committing this reading.",
+        "speed": 0.55
+      },
+      "id": "check-line-clearance",
+      "kind": "gauge",
+      "prompt": "Read the rangefinder and commit only once the clearance is inside the utility's own safe band.",
+      "target": "rangefinder",
+      "title": "Check the clearance to the line",
+      "why": "The rangefinder is what actually proves the distance from the pole saw's reach to the line, rather than trusting how far away the line looks from the ground — committing the reading only inside the utility's own minimum approach distance is what keeps this job on the safe side of a line nobody can afford to guess about."
+    },
+    {
+      "cue": "Carry the pole saw head to the marked cutting position on the limb.",
+      "drag": {
+        "missNote": "Not on the marked limb — carry the pole saw head to where the cut is planned.",
+        "radius": 0.4,
+        "to": "cutting-position-socket"
+      },
+      "id": "position-pole-saw",
+      "kind": "drag",
+      "prompt": "Carry the pole saw head to the marked cutting position on the limb.",
+      "target": "pole-saw",
+      "title": "Position the pole saw on the target limb",
+      "why": "Positioning the saw head deliberately on the marked cut, rather than swinging the pole around until it happens to catch the limb, is what keeps the first bite of the blade going exactly where the plan intended it to."
+    },
+    {
+      "cue": "Hold a braced stance and a steady grip for the full cut.",
+      "holdBreakNote": "Released the brace before the cut finished. Hold the stance and the grip steady for the whole cut, every time.",
+      "id": "brace-and-cut",
+      "kind": "hold",
+      "prompt": "Hold a braced stance and a steady grip for the full cut.",
+      "seconds": 5,
+      "target": "cutting-grip",
+      "title": "Brace and make the cut",
+      "why": "A pole saw held loosely kicks back toward the operator the instant the blade binds, and a braced stance held for the whole cut — not just the first bite — is what keeps that kickback from ever reaching the person holding the pole."
+    },
+    {
+      "cue": "Keep the spotter's signal steady, holding the cut only while the drop zone reads clear.",
+      "holdBreakNote": "The spotter's signal dropped out of the clear band. Stop cutting until the zone reads clear again.",
+      "id": "track-drop-zone",
+      "kind": "track",
+      "prompt": "Keep the spotter's signal steady, holding the cut only while the drop zone reads clear.",
+      "seconds": 8,
+      "target": "spotter",
+      "title": "Cut only on the spotter's signal",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.44,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "DROP ZONE SIGNAL",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "The spotter is watching the one thing the operator sighting the cut cannot hold at the same time — whether the drop zone is actually still clear — and a steady signal is what lets the operator trust that instead of assuming the zone that was clear a minute ago still is."
+    },
+    {
+      "cue": "Wait and confirm the limb is fully still before anyone approaches it.",
+      "id": "confirm-limb-stopped",
+      "kind": "select",
+      "prompt": "Wait and confirm the limb is fully still before anyone approaches it.",
+      "target": "fallen-limb",
+      "title": "Confirm the limb has stopped moving",
+      "why": "A limb that has just come down can still settle, roll or spring from tension in the branches underneath it — confirming it is fully still before anyone steps in is what keeps the moment right after the cut from being the moment someone gets hurt by it."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Buck the limb into sections, drag them clear of the drop zone, and stage the brush at the chip pile.",
+      "id": "buck-and-clear",
+      "itemNames": {
+        "buck-cuts": "buck the limb into sections",
+        "chip-pile": "stage the brush at the chip pile",
+        "drag-clear": "drag the sections clear of the zone"
+      },
+      "kind": "sequence",
+      "prompt": "Buck the limb into sections, drag them clear of the drop zone, and stage the brush at the chip pile.",
+      "targets": [
+        "buck-cuts",
+        "drag-clear",
+        "chip-pile"
+      ],
+      "title": "Buck and clear the limb",
+      "why": "Bucking the limb into manageable sections before dragging anything is what keeps the clearing work from turning into wrestling one long, unpredictable branch across the whole site — staged at the chip pile, it is also ready for whatever the crew does with it next."
+    },
+    {
+      "cue": "Log the survey findings, the line clearance reading and the completed prune before leaving the site.",
+      "id": "shutdown-log",
+      "kind": "select",
+      "prompt": "Log the survey findings, the line clearance reading and the completed prune before leaving the site.",
+      "target": "closing-log",
+      "title": "Close out the tree work log",
+      "why": "The tree work log is what the next crew and the next inspection both read — a prune done cleanly but never logged leaves nothing behind to prove the line clearance was actually checked and the drop zone actually held."
+    }
+  ],
+  "supportLine": "your union steward or the grounds department's employee assistance line",
+  "tagline": "A pole saw pruning job worked from the ground: the site surveyed for the overhead line and the dead hanging limb, the drop zone barricaded and a spotter briefed, the line clearance actually checked, and the cut made only on the spotter's signal",
+  "title": "SmartCiti.X~ Tree Work: Pole Saw & Drop Zone VR",
+  "trade": "Grounds tree crew member — LIUNA grounds and landscaping crew",
+  "underwater": null,
+  "weather": "clear"
+}

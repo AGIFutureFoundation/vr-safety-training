@@ -1,0 +1,389 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "mast-certified",
+    "name": "Mast Certified",
+    "note": "A mast section added, tied and plumbed, with the deck loaded inside its distribution chart and the cut-out proven"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "Ironworkers / LIUNA — mast climbing work platform erector; ANSI A92.9 for MCWP design, erection and use; OSHA 29 CFR 1926.451 scaffold general requirements and 1926.502 fall protection",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI A92.9",
+        "id": "ansi-a92-9",
+        "title": "ANSI/SAIA A92.9 — Mast-climbing work platforms"
+      },
+      {
+        "body": "union",
+        "citedAs": "Ironworkers",
+        "id": "ironworkers-impact",
+        "title": "Ironworkers and IMPACT — apprenticeship and safety training for structural, ornamental and reinforcing ironwork"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.451",
+        "id": "osha-1926-451",
+        "title": "29 CFR 1926.451 — Scaffolds, general requirements"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction access",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "tied-to-spec",
+        "name": "Tied To Spec",
+        "note": "Tie fitted at the manufacturer's spacing, first time"
+      },
+      {
+        "id": "never-overloaded",
+        "name": "Never Overloaded",
+        "note": "Deck never loaded outside its chart"
+      },
+      {
+        "id": "plumb-true",
+        "name": "Plumb True",
+        "note": "Mast plumbed inside tolerance"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-climb",
+        "name": "Clean Climb",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "held-the-bolt",
+        "name": "Held The Bolt",
+        "note": "Held the tie bolt torque the full count"
+      },
+      {
+        "id": "up-before-crew",
+        "name": "Up Before Crew",
+        "note": "Platform ready inside 80% of par"
+      }
+    ],
+    "currency": "TIES",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice Erector",
+      "Erector",
+      "Lead Erector",
+      "Erection Supervisor",
+      "Mast Authority Certified"
+    ],
+    "system": "Mast Authority"
+  },
+  "hazards": {
+    "climb-untied": "You took the platform up past the last tie. The tie spacing is what the mast is designed against; above it the mast is a free-standing cantilever carrying a moving load, and the free-standing height on the data plate is a limit, not a guideline.",
+    "gate-open": "You left the deck's access gate open. It is the one opening in the guardrail, it is at the exact place people step on and off, and it self-closes for a reason.",
+    "ground-clutter": "There is material stacked under the platform's travel path. A mast climber comes down onto whatever is beneath it, and the base frame does not know the difference between a kerb and a gas bottle.",
+    "overload-pallet": "You loaded the block pallet onto the deck. That is more than the platform's rated capacity in one place, and a mast climber does not sag to warn you — the rack-and-pinion drive stalls or the mast buckles at the section above the last tie."
+  },
+  "id": "mast-climber",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "fit-tie",
+      "alert": "A bricklaying crew has started landing a pallet of block onto the outboard end of the deck while you are on the tie.",
+      "cue": "That pallet is going on the wrong end, and probably over the number.",
+      "delay": 4,
+      "id": "crew-loading",
+      "kind": "Deck being loaded",
+      "missNote": "The pallet went down on the outboard end. Nothing buckled. The margin between the chart's outboard rating and a pallet of block is smaller than anyone on that deck believed, and none of them could see it.",
+      "seconds": 12,
+      "target": "load-chart",
+      "why": "The people using a mast climber are rarely the people who erected it, and the distribution chart is not intuitive — the deck looks equally strong everywhere. The chart is the conversation, and it has to happen before the pallet is down, not after.",
+      "wrongNote": "It is the load chart. Stop the loading and show them the zones before that pallet is on the deck."
+    },
+    {
+      "after": "plumb",
+      "alert": "The wind has got up and the mast is visibly working above the last tie, with the new section not yet braced.",
+      "cue": "The section above the tie is free-standing.",
+      "delay": 3,
+      "id": "gust-tie",
+      "kind": "Wind on an untied mast",
+      "missNote": "You left the new section unbraced through the gusts. It stayed up. The free-standing height on the data plate was computed for the wind the manufacturer assumed, and this afternoon was above it.",
+      "seconds": 11,
+      "target": "wall-tie",
+      "why": "Free-standing height is the one figure on a mast climber that is a hard limit. Above the last tie the mast is a cantilever, and the platform on it is a sail at the far end of the lever.",
+      "wrongNote": "It is the wall tie. Get the new section braced before anything else happens on this mast."
+    }
+  ],
+  "lateNotes": {
+    "load-chart": "Read the distribution chart before anything goes on the deck.",
+    "tie-bolt": "The tie goes on before the platform climbs past it, not after."
+  },
+  "name": "Mast Climber",
+  "parSeconds": 265,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "access-gate",
+      "climb-untied",
+      "deck-inboard",
+      "drive-control",
+      "erection-plan",
+      "gate-open",
+      "ground-clutter",
+      "inspection-tag",
+      "load-chart",
+      "manual-descent",
+      "mast-section",
+      "mast-top",
+      "material-bundle",
+      "overload-cell",
+      "overload-pallet",
+      "pin-a",
+      "pin-b",
+      "pin-c",
+      "pin-d",
+      "plumb-gauge",
+      "soft-ground",
+      "tie-bolt",
+      "tie-bracket",
+      "wall-tie"
+    ],
+    "meshes": 261
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Check the tie spacing, the free-standing height, and today's deck configuration.",
+      "id": "plan",
+      "kind": "select",
+      "prompt": "Check the tie spacing, the free-standing height, and today's deck configuration.",
+      "target": "erection-plan",
+      "title": "Take the manufacturer's erection plan",
+      "why": "A mast climber is engineered per installation. Tie spacing, free-standing height and rated load all come off the manufacturer's plan for this building, and none of them transfer from the last job."
+    },
+    {
+      "cue": "Look at what the machine is standing on and what is under its travel path; click what has to be dealt with.",
+      "id": "base-check",
+      "itemNames": {
+        "ground-clutter": "material under the travel path",
+        "soft-ground": "soft ground at the base frame"
+      },
+      "itemNotes": {
+        "ground-clutter": "There is banding and offcut stacked inside the base frame's footprint. The platform comes down onto that.",
+        "soft-ground": "The near corner of the base frame is bearing on fill that has taken this week's rain. A base that settles takes the mast out of plumb under load."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at what the machine is standing on and what is under its travel path; click what has to be dealt with.",
+      "targets": [
+        "ground-clutter",
+        "soft-ground"
+      ],
+      "title": "Walk the base before anything moves",
+      "why": "Everything above depends on the base. A mast climber transfers its whole load and its whole overturning moment into a few square feet of ground, and the ground is the part nobody inspects."
+    },
+    {
+      "cue": "Capacity is not one number — check what the deck takes and where.",
+      "id": "load-chart",
+      "kind": "select",
+      "prompt": "Capacity is not one number — check what the deck takes and where.",
+      "target": "load-chart",
+      "title": "Read the load distribution chart",
+      "why": "The rated load assumes a distribution. The same total weight stacked at one end is a different machine from the same weight spread along the deck, and the chart is where that difference is written down."
+    },
+    {
+      "cue": "Bundle spread along the deck over the mast, not stacked at the outboard end.",
+      "drag": {
+        "missNote": "Not over the mast — the outboard end is where the chart's capacity falls away fastest.",
+        "radius": 0.5,
+        "to": "deck-inboard"
+      },
+      "id": "distribute",
+      "kind": "drag",
+      "prompt": "Bundle spread along the deck over the mast, not stacked at the outboard end.",
+      "target": "material-bundle",
+      "title": "Load the deck to the chart",
+      "why": "Load near the mast is carried by the mast. Load at the outboard end is a lever on it. The chart's zones are the same machine rated three different ways depending on where you put things."
+    },
+    {
+      "cue": "Gate shut and latched before the platform moves.",
+      "id": "gate",
+      "kind": "select",
+      "prompt": "Gate shut and latched before the platform moves.",
+      "target": "access-gate",
+      "title": "Close the access gate",
+      "why": "The gate is the only break in the guardrail and it is exactly where people are standing when the platform starts. Self-closing is a design feature, not a substitute for closing it."
+    },
+    {
+      "cue": "Section up on the machine's own hoist, square to the mast top.",
+      "drag": {
+        "missNote": "Not aligned to the mast head — bring it square before it goes on.",
+        "radius": 0.45,
+        "to": "mast-top"
+      },
+      "id": "hoist-section",
+      "kind": "drag",
+      "prompt": "Section up on the machine's own hoist, square to the mast top.",
+      "target": "mast-section",
+      "title": "Hoist the new mast section",
+      "why": "The section goes up on the erection hoist that is part of the machine, guided rather than swung. A section that arrives crooked will not engage its rack, and forcing it damages the teeth the drive climbs on."
+    },
+    {
+      "cue": "Every pin in, every retainer fitted.",
+      "id": "pin-section",
+      "itemNames": {
+        "pin-a": "pin 1",
+        "pin-b": "pin 2",
+        "pin-c": "pin 3",
+        "pin-d": "pin 4"
+      },
+      "kind": "sequence",
+      "prompt": "Every pin in, every retainer fitted.",
+      "targets": [
+        "pin-a",
+        "pin-b",
+        "pin-c",
+        "pin-d"
+      ],
+      "title": "Pin the section, all four corners",
+      "why": "Four pins and four retainers, checked by eye. A section running on three is carrying the whole machine on a joint the engineer never analysed, and the missing one is always found afterwards."
+    },
+    {
+      "cue": "Tie onto the mast and the building at the spacing the plan gives.",
+      "drag": {
+        "missNote": "Not at the bracket — a tie at the wrong height is not the tie the calculation assumed.",
+        "radius": 0.45,
+        "to": "tie-bracket"
+      },
+      "id": "fit-tie",
+      "kind": "drag",
+      "prompt": "Tie onto the mast and the building at the spacing the plan gives.",
+      "target": "wall-tie",
+      "title": "Fit the wall tie at the plan's spacing",
+      "why": "Ties are what turn a tall free-standing mast into a braced one. Their spacing is computed against the mast's section properties and the wind load on the platform, which is why it is a number on a drawing and not a judgement."
+    },
+    {
+      "cue": "Both bolts to the plan's figure, held to the click.",
+      "holdBreakNote": "Came off before the click — that tie is not carrying what the calculation says it carries.",
+      "id": "torque-tie",
+      "kind": "hold",
+      "prompt": "Both bolts to the plan's figure, held to the click.",
+      "seconds": 4,
+      "target": "tie-bolt",
+      "title": "Torque the tie bolts",
+      "why": "A loose tie lets the mast move against the building, which works the anchor and enlarges its hole until the tie is decorative. The figure is on the plan for the anchor that was installed, not the anchor you would have chosen."
+    },
+    {
+      "cue": "Read the mast against the plumb indicator and commit inside tolerance.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "PLUMB mm",
+        "missNote": "Outside plumb tolerance — adjust at the base before it goes any higher.",
+        "speed": 0.75
+      },
+      "id": "plumb",
+      "kind": "gauge",
+      "prompt": "Read the mast against the plumb indicator and commit inside tolerance.",
+      "target": "plumb-gauge",
+      "title": "Plumb the mast",
+      "why": "Out of plumb, the mast carries its own weight partly as a bending load, and the drive fights the rack the whole way up. Tolerance is a few millimetres over the mast height, and it is adjusted at the base and the ties."
+    },
+    {
+      "cue": "Load the cell to the trip point and confirm the drive inhibits.",
+      "gauge": {
+        "green": [
+          0.62,
+          0.78
+        ],
+        "label": "LOAD %",
+        "missNote": "The drive did not inhibit at the trip point — that cut-out is not protecting anything.",
+        "speed": 0.72
+      },
+      "id": "cutout",
+      "kind": "gauge",
+      "prompt": "Load the cell to the trip point and confirm the drive inhibits.",
+      "target": "overload-cell",
+      "title": "Prove the overload cut-out",
+      "why": "The overload cut-out is the last thing between a mis-loaded deck and a buckled mast, and it is the one safety device on the machine that is never exercised in normal use. It gets proven, not assumed."
+    },
+    {
+      "cue": "Hand on the manual descent valve, hold it through a controlled drop.",
+      "holdBreakNote": "Released early — a partial descent leaves the platform stopped between ties, which is where it must not stop.",
+      "id": "descent-drill",
+      "kind": "hold",
+      "prompt": "Hand on the manual descent valve, hold it through a controlled drop.",
+      "seconds": 5,
+      "target": "manual-descent",
+      "title": "Rehearse the emergency descent",
+      "why": "When the power fails the platform comes down on the manual descent, operated by whoever is on the deck. That is not the moment to read the label, so it is rehearsed while everything is working."
+    },
+    {
+      "cue": "Hold the drive control and keep the climb rate in the band.",
+      "id": "climb",
+      "kind": "track",
+      "prompt": "Hold the drive control and keep the climb rate in the band.",
+      "seconds": 6,
+      "target": "drive-control",
+      "title": "Take the platform up to the new working height",
+      "track": {
+        "drift": 0.16,
+        "fall": 0.42,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "CLIMB",
+        "rise": 0.5
+      },
+      "why": "The drive is held, not latched, so that letting go stops the machine. The rate band is where the pinion and the rack are designed to mesh — driving it hard chews the rack, and the rack is the thing holding the platform up."
+    },
+    {
+      "cue": "Tag the machine with the height, the ties fitted and today's date.",
+      "id": "handover",
+      "kind": "select",
+      "prompt": "Tag the machine with the height, the ties fitted and today's date.",
+      "target": "inspection-tag",
+      "title": "Sign the platform over",
+      "why": "The tag is what tells the trades who use this platform tomorrow that somebody competent last checked it, at this height, with these ties. Without it the machine is out of service, whatever its condition."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Adding a mast section and climbing: tie spacing, plumb, rated load and its distribution, overload cut-out proven, emergency descent rehearsed",
+  "title": "SmartCiti.X~ Mast Climber VR",
+  "trade": "Mast climber erector / ironworker",
+  "underwater": null,
+  "weather": "wind"
+}

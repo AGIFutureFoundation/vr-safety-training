@@ -1,0 +1,433 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "opening-rated",
+    "name": "Opening Rated",
+    "note": "Every penetration closed to the listed system, measured before packing and labelled after sealing"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "Insulators Local 16 heat and frost insulators apprenticeship and training; OSHA 29 CFR 1910.1200 hazard communication for the sealant's safety data sheet; 29 CFR 1910.134 respiratory protection against solvent vapour; 29 CFR 1910.1000 air contaminants and the permissible exposure limits; ANSI A10.8 scaffolding safety requirements for the ladder and platform work; NFPA 51B fire prevention during welding, cutting and other hot work for the fire watch coordinated across this wall",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI A10.8",
+        "id": "ansi-a10-8",
+        "title": "ANSI/ASSP A10.8 — Scaffolding safety requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "Insulators Local 16",
+        "id": "insulators-local-16",
+        "title": "Insulators Local 16 — heat and frost insulators and allied workers apprenticeship and training, as a training body"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 51B",
+        "id": "nfpa-51b",
+        "title": "NFPA 51B — Fire Prevention During Welding, Cutting and Other Hot Work"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1000",
+        "id": "osha-1910-1000",
+        "title": "29 CFR 1910.1000 — Air contaminants and the permissible exposure limits"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "listed-system-only",
+        "name": "Listed System Only",
+        "note": "Never sealed over a mismatched or oversized opening"
+      },
+      {
+        "id": "measured-not-guessed",
+        "name": "Measured, Not Guessed",
+        "note": "Held every gauge reading near band centre"
+      },
+      {
+        "id": "collar-clean",
+        "name": "Collar Clean",
+        "note": "Fastened the fire wrap collar with no correction"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-close",
+        "name": "Clean Close",
+        "note": "No corrections from the drawing to the label"
+      },
+      {
+        "id": "steady-bead",
+        "name": "Steady Bead",
+        "note": "Held the sealant bead through the whole pass"
+      },
+      {
+        "id": "fast-seal",
+        "name": "Fast Seal",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "SEAL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Helper",
+      "Firestop Tech",
+      "Lead Installer",
+      "Firestop Foreman",
+      "Firestop Certified"
+    ],
+    "system": "Firestop Certified"
+  },
+  "hazards": {
+    "open-floor-core": "You stepped toward the unpacked floor core as though it were solid decking. An open through-floor penetration wide enough for pipe and cable is also wide enough for a boot, and until it is packed or covered it is a fall-through hazard to the level below — it gets a temporary cover or a barrier the moment it is found open, not a careful step around the edge.",
+    "oversized-annulus": "That gap between the pipe and the sleeve is wider than the listing allows, and packing it the usual way leaves it exactly that — usual, not tested. An oversized annular space needs the wider-opening detail from the system, or a different listed system altogether; forcing standard-depth mineral wool into a gap it was never rated for is a firestop that looks finished and was never actually tested to perform.",
+    "solvent-sealant-no-vent": "You are running the solvent-based sealant gun with no ventilation and no respirator on. This sealant's data sheet calls for local exhaust or a fitted respirator specifically because the solvent vapour builds up fastest in the same enclosed spaces this job sends you into — a mechanical shaft or a small equipment room with the door shut behind you.",
+    "wrong-system-mix": "The cables and the pipe running through this sleeve do not match any penetrant combination the listed system on the drawing was tested with. A firestop system is only rated for the exact mix of pipe, cable and insulation it was tested against — packing an untested combination and sealing over it gives whoever reads that rating years from now a number that was never actually proven for what is really running through the wall."
+  },
+  "id": "ib-firestop-and-fire-wrap-installation",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "mineral-wool-packing",
+      "alert": "A welder on the far side of this wall has started hot work, and sparks are visible through the still-open gap beside your packing.",
+      "cue": "Call the fire watch before this opening is sealed shut on a live spark hazard.",
+      "delay": 4,
+      "id": "adjacent-hot-work",
+      "kind": "Hot work nearby",
+      "missNote": "The packing continued while sparks kept coming through the gap. An opening being closed on one side while hot work runs on the other is exactly the coordination failure the radio call exists to prevent.",
+      "seconds": 12,
+      "target": "fire-watch-radio",
+      "why": "Hot work on the other side of an opening you are actively closing is a coordination problem before it is a firestop problem — sealing this gap without telling anyone traps whatever heat or spark just came through on your side of the wall, and the fire watch on the other side needs to know a crew is working the same opening from here.",
+      "wrongNote": "It is the fire-watch radio. Nothing about this opening gets sealed until both crews know what the other is doing."
+    },
+    {
+      "after": "apply-sealant",
+      "alert": "A second crew has shown up to pull a new data cable through this exact opening while the sealant is still wet.",
+      "cue": "Stop them before they disturb an uncured seal.",
+      "delay": 4,
+      "id": "cable-pull-crew",
+      "kind": "Second crew arriving",
+      "missNote": "The second crew pulled their cable through while the sealant was still soft. Whatever seal existed in that opening a moment ago now has a channel torn straight through it, invisible from either side of the wall.",
+      "seconds": 12,
+      "target": "stop-work-sign",
+      "why": "Sealant pulled through by a cable before it has cured never actually seals anything — it tears, it channels, and the firestop crew has no way to know that happened until someone probes the depth and finds a hole where the seal should be. The stop-work sign is what buys the cure time this seal needs before anyone else touches the opening.",
+      "wrongNote": "That is not it. The stop-work sign is what actually keeps another crew's hands out of an opening that has not cured yet."
+    }
+  ],
+  "lateNotes": {
+    "annular-space-object": "The mineral wool goes in once the annular space has actually been measured against the listing, not before — packing first and checking later just tells you the gap after it is already covered.",
+    "fire-wrap-collar": "The collar goes on once the annular space and the penetrant mix are both confirmed against the drawing, not fitted first and questioned afterward."
+  },
+  "name": "Firestop and Fire Wrap Installation",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "insulators-and-boilermakers"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.25,
+    "hits": [
+      "annular-space-object",
+      "collar-fasteners",
+      "collar-latch",
+      "collar-mount-point",
+      "collar-strap",
+      "collar-wrap",
+      "cracked-sleeve",
+      "depth-probe",
+      "eye-shield",
+      "fire-watch-radio",
+      "fire-wrap-collar",
+      "floor-core-open",
+      "gap-probe",
+      "gap-probe-inst",
+      "ibfw-closing-log",
+      "ibfw-crew-checkin",
+      "missed-cable",
+      "nitrile-gloves",
+      "open-floor-core",
+      "orphan-conduit",
+      "oversized-annulus",
+      "pinhole-void",
+      "sealant-gun",
+      "sleeve",
+      "smeared-label",
+      "solvent-sealant-no-vent",
+      "stop-work-sign",
+      "system-drawing",
+      "system-label",
+      "vapor-mask",
+      "wrong-system-mix"
+    ],
+    "meshes": 172
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Confirm the system number, the penetrants it was tested with and the fill material it calls for.",
+      "id": "assembly-drawing",
+      "kind": "select",
+      "prompt": "Confirm the system number, the penetrants it was tested with and the fill material it calls for.",
+      "target": "system-drawing",
+      "title": "Read the listed firestop system drawing",
+      "why": "The listed system drawing is the only thing that makes this opening a tested assembly rather than a guess dressed up to look like one — it names the exact pipe or cable types, the annular space range and the fill material the whole rating rests on. Working from a similar-looking drawing on a similar-looking penetration is how a rated wall stops being rated without anyone deciding that on purpose."
+    },
+    {
+      "cue": "Probe the gap between the pipe and the sleeve and commit once it reads inside the listed range.",
+      "gauge": {
+        "green": [
+          0.3,
+          0.6
+        ],
+        "label": "ANNULAR SPACE",
+        "missNote": "Outside the listed annular space range. Check the drawing for a wider-opening detail or a different system before packing this gap.",
+        "speed": 0.6
+      },
+      "id": "annular-space",
+      "kind": "gauge",
+      "prompt": "Probe the gap between the pipe and the sleeve and commit once it reads inside the listed range.",
+      "target": "gap-probe",
+      "title": "Measure the annular space",
+      "why": "The annular space is a tested dimension, not a look — too tight and the fill material cannot move the way the listing assumes when the pipe heats and expands; too wide and there is more open gap than the system was ever proven to close. The probe is what tells the two apart before a single handful of mineral wool goes in and hides the number for good."
+    },
+    {
+      "cue": "Three things about this opening are not right yet. Find them before the fill material goes in.",
+      "id": "opening-survey",
+      "itemNames": {
+        "cracked-sleeve": "the cracked sleeve",
+        "floor-core-open": "the unpacked floor core",
+        "orphan-conduit": "the conduit not on the drawing"
+      },
+      "itemNotes": {
+        "cracked-sleeve": "A cracked steel sleeve no longer holds the annular space the listing assumes, and fill material packed against a broken edge does not behave like fill material packed against a sound one — the sleeve gets replaced before anything goes into it.",
+        "floor-core-open": "An open core in the floor slab is a fall-through hazard before it is anything else — it gets a temporary cover the moment it is found, whether or not the firestop crew is ready to close it yet.",
+        "orphan-conduit": "A conduit running through this opening that never appears on the listed drawing is a penetrant this system was never tested with — it either gets its own reviewed detail or it gets rerouted, not packed in alongside everything the drawing does recognise."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things about this opening are not right yet. Find them before the fill material goes in.",
+      "targets": [
+        "floor-core-open",
+        "orphan-conduit",
+        "cracked-sleeve"
+      ],
+      "title": "Survey the opening before packing it",
+      "why": "An opening surveyed honestly before it is packed is a rated assembly; the same opening packed first and questioned later is a guess with a label on it. The open core, the orphan conduit and the cracked sleeve are the three failures that hide completely under finished sealant, which is exactly why they are checked while the opening is still visible."
+    },
+    {
+      "cue": "Nitrile gloves first, then the organic-vapour respirator, then eye protection.",
+      "id": "ppe",
+      "itemNames": {
+        "eye-shield": "eye protection",
+        "nitrile-gloves": "nitrile gloves",
+        "vapor-mask": "organic-vapour respirator"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — gloves before the cartridge is loaded, respirator seated on a clean face, eyewear last.",
+      "prompt": "Nitrile gloves first, then the organic-vapour respirator, then eye protection.",
+      "targets": [
+        "nitrile-gloves",
+        "vapor-mask",
+        "eye-shield"
+      ],
+      "title": "Don PPE in order",
+      "why": "The gloves go on before the sealant cartridge is ever loaded, because this material is meant to stay off skin from the first squeeze; the respirator seats next against a clean face rather than one already sweating under safety glasses; the eyewear goes on last so it is not fogged by the mask's exhale valve before the work even starts."
+    },
+    {
+      "cue": "Pack the mineral wool into the annular space and hold it compressed to the listed density.",
+      "holdBreakNote": "Released before it compressed to depth. Mineral wool packed loosely today is an air gap behind finished sealant tomorrow.",
+      "id": "mineral-wool-packing",
+      "kind": "hold",
+      "prompt": "Pack the mineral wool into the annular space and hold it compressed to the listed density.",
+      "seconds": 5,
+      "target": "annular-space-object",
+      "title": "Pack the mineral wool backer",
+      "why": "The backer is packed to a specified density, not simply stuffed until the gap looks full — under-compressed and the sealant has nothing firm to bear against as it cures; over-compressed and it no longer holds the pipe centred the way the listing assumes. The hold is what proves it actually reached that density rather than looking packed for a moment before springing back."
+    },
+    {
+      "cue": "Carry the collar to the combustible pipe and set it against the wall face.",
+      "drag": {
+        "missNote": "Not seated against the wall face yet. The collar only closes this opening in a fire if it is mounted exactly where the drawing places it.",
+        "radius": 0.5,
+        "to": "collar-mount-point"
+      },
+      "id": "position-collar",
+      "kind": "drag",
+      "prompt": "Carry the collar to the combustible pipe and set it against the wall face.",
+      "target": "fire-wrap-collar",
+      "title": "Position the intumescent fire wrap collar",
+      "why": "A combustible pipe cannot simply be packed like a steel one — it needs a collar of intumescent material that stays inert at room temperature and expands to crush the pipe shut only once a fire actually reaches it, and that collar has to sit flush against the wall face to close the opening the moment the pipe is gone."
+    },
+    {
+      "cue": "Wrap the collar fully around the pipe, close the latch, then drive the mounting fasteners.",
+      "id": "collar-fasten",
+      "itemNames": {
+        "collar-fasteners": "fasteners driven",
+        "collar-latch": "latch closed",
+        "collar-wrap": "collar wrapped around the pipe"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — full wrap first, then the latch, then the fasteners into the wall.",
+      "prompt": "Wrap the collar fully around the pipe, close the latch, then drive the mounting fasteners.",
+      "targets": [
+        "collar-wrap",
+        "collar-latch",
+        "collar-fasteners"
+      ],
+      "title": "Wrap, latch and fasten the collar",
+      "why": "The collar has to be fully wrapped before the latch closes anything, because a latch closed over a partial wrap holds a gap shut rather than a pipe; the fasteners go in last so the collar cannot walk loose from vibration once it is holding its final shape against the wall."
+    },
+    {
+      "cue": "Turn the wrench on the collar's mounting strap to the specified torque.",
+      "id": "torque-fastener",
+      "kind": "turn",
+      "prompt": "Turn the wrench on the collar's mounting strap to the specified torque.",
+      "target": "collar-strap",
+      "title": "Torque the collar strap",
+      "turn": {
+        "axis": "z",
+        "label": "COLLAR STRAP TORQUE",
+        "turns": 1
+      },
+      "why": "A collar mounted loose can shift off-centre on the pipe long before any fire ever reaches it, and shifted off-centre is not the position it was tested in. The torque is turned to the number on the listing, not to a feel — a strap left loose fails silently and a strap overtightened can distort the collar's shell before it has done anything at all."
+    },
+    {
+      "cue": "Hold the caulking gun steady across the opening at an even bead rate.",
+      "holdBreakNote": "Bead rate slipped out of band. Bring it back even before it leaves a gap the depth check will only find after it has cured.",
+      "id": "apply-sealant",
+      "kind": "track",
+      "prompt": "Hold the caulking gun steady across the opening at an even bead rate.",
+      "seconds": 7,
+      "target": "sealant-gun",
+      "title": "Run the sealant bead",
+      "track": {
+        "drift": 0.11,
+        "fall": 0.44,
+        "green": [
+          0.36,
+          0.6
+        ],
+        "label": "SEALANT BEAD RATE",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "An even bead rate is what leaves a continuous, void-free seal across the whole opening — too fast and the bead thins out and skips low spots; too slow and it puddles in one place while starving the rest of the joint, and a firestop with a void in it is a firestop that was never actually finished."
+    },
+    {
+      "cue": "Probe the wet sealant and commit once the depth reads inside the listed range.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.68
+        ],
+        "label": "SEALANT DEPTH",
+        "missNote": "Depth outside the listed range. Add material or tool it down while it is still workable, before it sets.",
+        "speed": 0.65
+      },
+      "id": "sealant-depth",
+      "kind": "gauge",
+      "prompt": "Probe the wet sealant and commit once the depth reads inside the listed range.",
+      "target": "depth-probe",
+      "title": "Check the sealant depth",
+      "why": "The system's fire rating is tested at a specific sealant depth, and the only way to know this joint actually reached it is to probe it while the material is still wet enough to correct — checking after it cures turns a two-minute fix into a cut-out and redo."
+    },
+    {
+      "cue": "Attach the permanent label naming the system number and the date beside the opening.",
+      "id": "label-install",
+      "kind": "select",
+      "prompt": "Attach the permanent label naming the system number and the date beside the opening.",
+      "target": "system-label",
+      "title": "Install the firestop system identification label",
+      "why": "The label is what tells the next trade through here — the one cutting a new cable path five years from now — exactly which listed system this opening was closed to, so they open the right drawing instead of guessing from what they can see. An unlabelled firestop is invisible information the day somebody needs it most."
+    },
+    {
+      "cue": "Three things about this closed opening are not right. Find them before signing off.",
+      "id": "final-walk",
+      "itemNames": {
+        "missed-cable": "the cable left outside the fill",
+        "pinhole-void": "the pinhole void in the sealant",
+        "smeared-label": "the label smeared before it set"
+      },
+      "itemNotes": {
+        "missed-cable": "A cable routed outside the packed fill material is a cable that was never actually part of this firestop, however close it runs beside it — it comes inside the fill or it gets its own reviewed detail.",
+        "pinhole-void": "A pinhole in the cured sealant is a path smoke and hot gas will find well before the fire itself does — it gets probed and patched now, while the crew and their tools are still standing here.",
+        "smeared-label": "A label smeared illegible before the adhesive set tells the next trade nothing at all — it gets replaced now, while the crew that knows this system number is still on site to read it correctly."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things about this closed opening are not right. Find them before signing off.",
+      "targets": [
+        "pinhole-void",
+        "missed-cable",
+        "smeared-label"
+      ],
+      "title": "Walk the finished opening",
+      "why": "A firestop that looks finished and a firestop that is actually finished are told apart at the pinhole, the stray cable and the label — the three things a walk-down catches while the crew that built this is still here to fix them, rather than an inspector months later."
+    },
+    {
+      "cue": "Report the orphan conduit, the cracked sleeve and how the sealant fumes felt in that space.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Report the orphan conduit, the cracked sleeve and how the sealant fumes felt in that space.",
+      "target": "ibfw-crew-checkin",
+      "title": "Check in with the firestop foreman",
+      "why": "The orphan conduit needs its own reviewed detail before anyone seals around it, and the cracked sleeve needs replacing on tomorrow's list — neither of those happens unless the foreman hears about them today. The check-in is also where a space that needed better ventilation than it had gets flagged before the next crew works it the same way."
+    },
+    {
+      "cue": "Record the system number, the annular space and sealant depth readings, and the openings flagged for follow-up, then sign.",
+      "id": "closing-log",
+      "kind": "select",
+      "prompt": "Record the system number, the annular space and sealant depth readings, and the openings flagged for follow-up, then sign.",
+      "target": "ibfw-closing-log",
+      "title": "Sign the firestop closeout log",
+      "why": "The closeout log is the paper trail that turns a sealed opening into a documented, inspectable one — the system number for the next trade, the actual measured readings against the listing, and the orphan conduit and cracked sleeve flagged so the follow-up work does not depend on anyone's memory of today."
+    }
+  ],
+  "supportLine": "your employer's employee assistance programme, or your Insulators Local 16 business agent if you are not sure how to reach it",
+  "tagline": "A wall and a floor penetration closed back up to the listed firestop system, measured before it is packed and labelled after it is sealed",
+  "title": "SmartCiti.X~ Firestop and Fire Wrap Installation VR",
+  "trade": "Insulator, firestop and fire-wrap installation — Insulators Local 16",
+  "underwater": null,
+  "weather": null
+}

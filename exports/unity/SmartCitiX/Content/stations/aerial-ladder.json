@@ -1,0 +1,376 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "tip-on-target",
+    "name": "Tip On Target",
+    "note": "Spotted outside the collapse zone, level on pads, ten feet from the lines, and the tip landed just above the roofline first time"
+  },
+  "category": "Emergency Services",
+  "certification": "IAFF — NFPA 1002 Chapter 6 aerial apparatus driver/operator; NFPA 1901 aerial device stabilization and operating limits; NFPA 1500 / OSHA 1910.269 ten-foot clearance from energised overhead lines",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IAFF",
+        "id": "iaff-training",
+        "title": "IAFF training programmes, including Fire Ground Survival and the peer support model"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 1002",
+        "id": "nfpa-1002",
+        "title": "NFPA 1002 — Fire Apparatus Driver/Operator Professional Qualifications"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 1500",
+        "id": "nfpa-1500",
+        "title": "NFPA 1500 — Fire Department Occupational Safety, Health and Wellness Program"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 1901",
+        "id": "nfpa-1901",
+        "title": "NFPA 1901 — Automotive Fire Apparatus (now consolidated in the NFPA 1900 series)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Emergency Services",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "corner-spot",
+        "name": "Corner Spot",
+        "note": "Spotted at the corner, outside the collapse zone, first time"
+      },
+      {
+        "id": "lines-clear",
+        "name": "Lines Clear",
+        "note": "Never inside ten feet of the lines, never climbed unbelted"
+      },
+      {
+        "id": "dead-level",
+        "name": "Dead Level",
+        "note": "Turntable levelled and the tip placed inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-set",
+        "name": "Clean Set",
+        "note": "No corrections anywhere in the set-up"
+      },
+      {
+        "id": "smooth-raise",
+        "name": "Smooth Raise",
+        "note": "Raise and rotate held steady the whole way"
+      },
+      {
+        "id": "truck-fast",
+        "name": "Set In Time",
+        "note": "Aerial to the roof inside 80% of par"
+      }
+    ],
+    "currency": "SPOT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Probie",
+      "Truckie",
+      "Driver/Operator",
+      "Aerial Operator",
+      "Truck Company Certified"
+    ],
+    "system": "Truck Company"
+  },
+  "hazards": {
+    "climb-unbelted": "You climbed the aerial without clipping the ladder belt. The tip moves with the building, the wind and the stream; a belt is what keeps a firefighter on a ladder that is sixty feet in the air.",
+    "lines-contact": "You swung the aerial inside ten feet of the energised lines. An aerial ladder is a grounded steel conductor with a firefighter on it; contact or arc-over at that distance kills the operator at the pedestal and the crew at the tip.",
+    "no-pad-soft": "You set a stabilizer down on soft ground with no pad. The ground gives under the point load, the truck tilts, and the aerial's rated load drops to nothing on the low side.",
+    "spot-collapse-zone": "You spotted the apparatus inside the collapse zone. A wall falls one and a half times its height outward; the truck, the turntable and the crew on it are inside that arc. Spot at the corner, outside the zone, and let the aerial reach in."
+  },
+  "id": "aerial-ladder",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "stabilizers",
+      "alert": "The pad under the load-side stabilizer has started to sink into the softened ground — that foot is losing its bearing before the turntable is even level.",
+      "cue": "Reseat the ground pad before the corner settles further.",
+      "delay": 3,
+      "id": "pad-sinking",
+      "kind": "Ground pad sinking",
+      "missNote": "The pad kept sinking while you worked. The load-side stabilizer is now bearing on soil, not on the pad's spread footprint, and the load chart for that side is no longer the number printed on it.",
+      "seconds": 12,
+      "target": "ground-pad",
+      "why": "A pad that is sinking under a stabilizer is a set-up failing quietly, not loudly — the truck does not tip the moment the ground gives, it just loses rated capacity on that corner without saying so. NFPA 1901's stabilization requirements exist for exactly this failure, and it is caught by watching the pad, not by waiting for the aerial to prove the load chart wrong.",
+      "wrongNote": "It is the ground pad. A stabilizer losing its bearing outranks whatever else is in front of you until it is reseated."
+    },
+    {
+      "after": "pto",
+      "alert": "A gust just rocked the truck on its stabilizers mid-raise — the bubble on the level indicator has swung off centre.",
+      "cue": "Recheck the turntable level before you keep raising.",
+      "delay": 4,
+      "id": "gust-rock",
+      "kind": "Wind gust",
+      "missNote": "The gust passed and you kept raising without rechecking. If the turntable was actually pushed out of level, the tip is now landing somewhere other than where the extend step is aimed, and nobody will know until it gets there.",
+      "seconds": 11,
+      "target": "level-indicator",
+      "why": "Wind loads a raised aerial the same way an unlevel turntable does — as side-load the ladder sections were not rated to carry — and a gust can push a level set-up out of tolerance in seconds. NFPA 1901 treats the level check as something to repeat under changing conditions, not a box ticked once at the start of the set-up.",
+      "wrongNote": "It is the level indicator. Keep raising on a turntable that might be off level and the tip inherits the error."
+    }
+  ],
+  "lateNotes": {
+    "aerial-control": "Raise only with the PTO engaged and the truck level and chocked; the aerial does not move until the base cannot.",
+    "extend-control": "Extend after the raise and rotation have the ladder clear of the lines and aimed at the roof — extension toward the lines is the contact.",
+    "pto-switch": "The PTO comes after the stabilizers are set and the turntable is level — an aerial raised on an unlevel truck is loaded sideways from the first degree."
+  },
+  "name": "Aerial Ladder",
+  "parSeconds": 260,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "fall-protection"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "aerial-control",
+      "chock-front",
+      "chock-rear",
+      "climb-belt",
+      "climb-unbelted",
+      "extend-control",
+      "ground-pad",
+      "ladder-lock",
+      "level-indicator",
+      "line-clearance",
+      "lines-contact",
+      "no-pad-soft",
+      "pto-switch",
+      "sizeup-board",
+      "soft-ground-socket",
+      "spot-collapse-zone",
+      "spot-corner",
+      "stab-float",
+      "stab-left",
+      "stab-right",
+      "tip-report"
+    ],
+    "meshes": 167
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the building height, the overhead lines, the wind and the collapse zone on the size-up board.",
+      "id": "sizeup",
+      "kind": "select",
+      "prompt": "Check the building height, the overhead lines, the wind and the collapse zone on the size-up board.",
+      "target": "sizeup-board",
+      "title": "Read the size-up",
+      "why": "NFPA 1002 treats the size-up as the first act of aerial operations, not a formality, because every decision after this one is placed against the same four facts: where the lines run, how tall the wall is, which way the smoke and structural load are moving, and where a collapse would land. A truck that stops rolling before this is read is a truck about to spot itself by guesswork."
+    },
+    {
+      "cue": "Find the overhead service lines and note the ten-foot clearance marker.",
+      "id": "lines",
+      "kind": "select",
+      "prompt": "Find the overhead service lines and note the ten-foot clearance marker.",
+      "target": "line-clearance",
+      "title": "Identify the energised lines",
+      "why": "The energised service lines are the one hazard on this fireground that gives no warning before it kills — OSHA 1910.269 and NFPA 1500 both set the ten-foot clearance because an aerial ladder is a grounded steel conductor with a firefighter riding it. Naming the lines before anything else moves means every later rotation and extension is planned around them instead of discovered against them."
+    },
+    {
+      "cue": "Choose the spot: at the corner, outside the collapse zone, with the aerial able to reach two sides of the building.",
+      "id": "spot",
+      "kind": "select",
+      "prompt": "Choose the spot: at the corner, outside the collapse zone, with the aerial able to reach two sides of the building.",
+      "target": "spot-corner",
+      "title": "Spot the apparatus",
+      "why": "The corner spot gives the aerial two sides of the building to work while putting the turntable outside the arc a failing wall covers — NFPA 1901's collapse-zone guidance sizes that arc at one and a half times the wall height for exactly this reason. Closer looks faster from the cab, but closer is the collapse zone, and there is no partial credit for being spotted just inside it."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Chock front and rear on the downhill side before anything leaves the truck.",
+      "id": "chock",
+      "itemNames": {
+        "chock-front": "front wheel chock",
+        "chock-rear": "rear wheel chock"
+      },
+      "kind": "sequence",
+      "prompt": "Chock front and rear on the downhill side before anything leaves the truck.",
+      "targets": [
+        "chock-front",
+        "chock-rear"
+      ],
+      "title": "Chock the wheels",
+      "why": "The parking brake holds a parked truck; it does not hold a truck whose own stabilizers are about to lift one side and push the whole chassis sideways as they extend. Chocking front and rear on the downhill side before anything else leaves the compartment is what keeps the truck from creeping while the crew's attention is on the jacks, not the wheels."
+    },
+    {
+      "cue": "Carry the ground pad from the compartment and seat it under the stabilizer over the soft ground.",
+      "drag": {
+        "missNote": "Not under the foot — seat the pad square where the stabilizer will land.",
+        "radius": 0.4,
+        "to": "soft-ground-socket"
+      },
+      "id": "pad",
+      "kind": "drag",
+      "prompt": "Carry the ground pad from the compartment and seat it under the stabilizer over the soft ground.",
+      "target": "ground-pad",
+      "title": "Pad the soft ground",
+      "why": "A stabilizer puts several tons through a foot the size of a dinner tray, and soft soil, hot asphalt or a storm grate will not announce that it cannot carry that load until the truck is already settling under it. NFPA 1901's stabilization requirements exist because a pad that spreads the load is cheap insurance against a set-up that looks solid right up until the aerial is loaded and one corner sinks."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Extend both stabilizers fully and lower them to the ground and pads.",
+      "id": "stabilizers",
+      "itemNames": {
+        "stab-left": "left stabilizer",
+        "stab-right": "right stabilizer"
+      },
+      "kind": "sequence",
+      "prompt": "Extend both stabilizers fully and lower them to the ground and pads.",
+      "targets": [
+        "stab-left",
+        "stab-right"
+      ],
+      "title": "Set the stabilizers",
+      "why": "Full extension is the rated footprint the load chart is built on — a stabilizer left short-jacked on one side carries only a fraction of that rating and gives no warning until the aerial swings its load out over the weak corner. Extending both stabilizers fully before anything else happens is what makes every number on the load chart still true once the ladder is loaded."
+    },
+    {
+      "cue": "Watch the bubble and commit when the turntable is inside the level band.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.56
+        ],
+        "label": "TURNTABLE LEVEL",
+        "missNote": "Off level — adjust the stabilizers and check the bubble again.",
+        "speed": 0.7
+      },
+      "id": "level",
+      "kind": "gauge",
+      "prompt": "Watch the bubble and commit when the turntable is inside the level band.",
+      "target": "level-indicator",
+      "title": "Level the turntable",
+      "why": "The entire load chart assumes a level turntable, and every degree off level becomes side-load on the ladder sections that the chart was never rated to carry. NFPA 1901 sets the tolerance the bubble has to sit inside precisely because an aerial that looks level to the eye at the pedestal can still land its tip several feet from where the operator aimed it."
+    },
+    {
+      "cue": "Turn the aerial master to engage the power take-off and pressurise the hydraulics.",
+      "id": "pto",
+      "kind": "turn",
+      "prompt": "Turn the aerial master to engage the power take-off and pressurise the hydraulics.",
+      "target": "pto-switch",
+      "title": "Engage the PTO",
+      "turn": {
+        "axis": "z",
+        "label": "AERIAL MASTER",
+        "turns": 0.25
+      },
+      "why": "The power take-off routes engine power straight to the aerial's hydraulics, and NFPA 1002 holds it disengaged until the truck is fully chocked, stabilized and level, because from the moment it engages, the controls at the pedestal move a loaded ladder, not an inert one. Engaging it early on an unset truck means the first control input happens on a base that was never ready to take it."
+    },
+    {
+      "cue": "Raise from the bed and rotate toward the building at a steady rate, keeping the ladder outside the ten-foot line.",
+      "holdBreakNote": "Rate out of band — the tip is whipping. Bring the control back to steady and hold.",
+      "id": "raise",
+      "kind": "track",
+      "prompt": "Raise from the bed and rotate toward the building at a steady rate, keeping the ladder outside the ten-foot line.",
+      "seconds": 7,
+      "target": "aerial-control",
+      "title": "Raise and rotate clear of the lines",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "RAISE / ROTATE",
+        "rise": 0.6,
+        "start": 0.1
+      },
+      "why": "Smooth is safe on an aerial this long: the ladder acts as a lever, and a jerk at the pedestal becomes a whip at the tip sixty feet up with a firefighter riding it. NFPA 1500's clearance rule is the reason the rotation goes the long way round rather than the short way when the short way would swing the tip inside ten feet of the energised lines."
+    },
+    {
+      "cue": "Extend until the tip is just above the parapet — inside the band, not short of the roof, not over the crew's heads.",
+      "gauge": {
+        "green": [
+          0.5,
+          0.66
+        ],
+        "label": "TIP ABOVE ROOF",
+        "missNote": "Tip short of the roof or too far over — re-extend to the band.",
+        "speed": 0.75
+      },
+      "id": "extend",
+      "kind": "gauge",
+      "prompt": "Extend until the tip is just above the parapet — inside the band, not short of the roof, not over the crew's heads.",
+      "target": "extend-control",
+      "title": "Extend the tip to the roofline",
+      "why": "The tip lands a couple of feet above the roofline so a firefighter steps off level instead of climbing over a parapet or reaching down onto a roof they cannot see. Extending short leaves the ladder resting its load on the parapet edge it was never designed to bear on, and extending past the band puts the tip somewhere over the fire nobody asked it to be."
+    },
+    {
+      "cue": "Set the ladder locks, clip the ladder belt, then report the tip position to command.",
+      "id": "climb",
+      "itemNames": {
+        "climb-belt": "ladder belt",
+        "ladder-lock": "ladder locks",
+        "tip-report": "tip report"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Locks, then belt, then the report — the ladder is secured before anyone is on it.",
+      "prompt": "Set the ladder locks, clip the ladder belt, then report the tip position to command.",
+      "targets": [
+        "ladder-lock",
+        "climb-belt",
+        "tip-report"
+      ],
+      "title": "Lock, belt, report",
+      "why": "The locks stop the fly sections from creeping under a climber's weight, the belt is what keeps a firefighter on the ladder if the tip moves with the wind or the building, and the tip report is what tells command the roof now has a second way off. NFPA 1002 sequences all three before the first rung is climbed, because a ladder secured after someone is already on it was never actually secured."
+    },
+    {
+      "cue": "Walk the stabilizers with the aerial loaded and click anything that has moved.",
+      "id": "walk",
+      "itemNames": {
+        "stab-float": "stabilizer foot lifting"
+      },
+      "itemNotes": {
+        "stab-float": "The right stabilizer foot has lifted clear of its pad — the ground settled and that side is carrying nothing."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the stabilizers with the aerial loaded and click anything that has moved.",
+      "targets": [
+        "stab-float"
+      ],
+      "title": "Walk the set-up under load",
+      "why": "A set-up is only proven once it is loaded, not while it is sitting at rest — a stabilizer foot that lifts clear of its pad under that load means the truck is now standing on three points instead of four and the load chart it was set to no longer applies. NFPA 1901 treats this as ongoing verification, not a one-time check, precisely because ground that held at rest can still give once the aerial swings its weight over it."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Aerial apparatus set-up: size-up, spot at the corner outside the collapse zone, chock, stabilizers on pads to level, PTO, raise and rotate clear of the lines, tip above the roofline, lock, belt, report",
+  "title": "SmartCiti.X~ Aerial Ladder VR",
+  "trade": "Firefighter — aerial apparatus driver/operator",
+  "underwater": null,
+  "weather": "wind"
+}

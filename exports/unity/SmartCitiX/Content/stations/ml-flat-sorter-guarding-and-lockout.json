@@ -1,0 +1,432 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "sorter-loto-certified",
+    "name": "Sorter LOTO Certified",
+    "note": "Isolated and locked the sorter before opening the guard, cleared the jam without reaching past a live pinch point, and proved the interlock before trusting it again"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "OSHA 29 CFR 1910.147 the control of hazardous energy (lockout/tagout); OSHA 29 CFR 1910.212 general requirements for all machines, including interlocked guarding; ASME B20.1 safety standard for conveyors and related equipment, for the sorter's own induction belt; NIOSH criteria on caught-in and struck-by injuries at unguarded pinch points; APWU training for mail processing plant clerks",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "APWU",
+        "id": "apwu-training",
+        "title": "APWU apprenticeship and training, as a training body"
+      },
+      {
+        "body": "ASME",
+        "citedAs": "ASME B20.1",
+        "id": "asme-b20-1",
+        "title": "ASME B20.1 — Safety standard for conveyors and related equipment"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Postal & Mail Processing",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-machine-read",
+        "name": "Clean Machine Read",
+        "note": "Every guarding defect found without a hint"
+      },
+      {
+        "id": "locked-before-opened",
+        "name": "Locked Before Opened",
+        "note": "Isolated and locked the sorter before the guard ever opened"
+      },
+      {
+        "id": "interlock-proven",
+        "name": "Interlock Proven",
+        "note": "The interlock was actually tested, not just trusted"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "quick-clear",
+        "name": "Quick Clear",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "isolation-streak",
+        "name": "Isolation Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "ISOLATION",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Plant Clerk",
+      "Jam Aware",
+      "Isolation Handler",
+      "Sorter Isolation Authority",
+      "Sorter LOTO Certified"
+    ],
+    "system": "Sorter Isolation"
+  },
+  "hazards": {
+    "interlock-defeated-hazard": "The guard door's own safety interlock has been taped over instead of left to do its job. A taped interlock is a door that can open on a running sorter with nothing at all stopping the sweep arm — the whole reason an interlocked guard exists is defeated by a strip of tape nobody ever needs to touch again.",
+    "missing-access-panel-hazard": "A side access panel has been left off entirely, leaving the induction belt's own pulleys exposed at hand height. A panel that is not there is not a maintenance shortcut — it is a nip point with nothing at all between it and whoever walks past.",
+    "reach-in-sweep-hazard": "That is the shortcut habit of reaching straight into the sweep arm's own pinch point to free a stuck flat by hand instead of isolating the machine first. The sweep arm does not know the difference between a jammed envelope and the fingers pulling it loose, and it closes on either one exactly the same way.",
+    "tag-no-lock-hazard": "That disconnect carries a danger tag with no personal lock behind it. A tag with nothing locked is only a note somebody left — anyone can close that disconnect back up without ever knowing a hand might be inside the guard, because nothing is actually stopping them."
+  },
+  "id": "ml-flat-sorter-guarding-and-lockout",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "clear-jammed-flat",
+      "alert": "Flats are backing up against the induction belt's own guard as the upstream feed keeps running into the paused sorter.",
+      "cue": "Signal the upstream operator to pause the feed rather than reaching in to clear the backup by hand.",
+      "delay": 3,
+      "id": "upstream-backup",
+      "kind": "Flats backing up at the induction belt",
+      "missNote": "The backup was reached into instead of signalled upstream. The induction belt feeding it was never isolated by anything this station did to the sorter — it kept running the whole time.",
+      "seconds": 12,
+      "target": "upstream-signal",
+      "why": "A backup at a paused machine's own intake is a second hazard forming behind the first, and reaching into a growing pile of flats to clear it treats a live upstream feed as if it were already isolated along with the sorter — it is not, and the signal is what actually stops it.",
+      "wrongNote": "Not that — the upstream feed gets signalled to pause before the backup is touched."
+    },
+    {
+      "after": "interlock-test",
+      "alert": "A floor sweeper has started crossing directly in front of the sorter's discharge chute just as the restart begins.",
+      "cue": "Call out to the sweeper and hold the restart until they are clear of the chute.",
+      "delay": 3,
+      "id": "sweeper-crossing",
+      "kind": "Floor sweeper crosses the discharge chute",
+      "missNote": "The restart continued with the sweeper still crossing the chute. A discharge chute at running speed does not pause for someone who has not been told to look up.",
+      "seconds": 11,
+      "target": "floor-sweeper-call",
+      "why": "A discharge chute throws sorted flats out at the machine's own running speed, and someone crossing it during a restart has no reason to expect that yet — calling out is what turns an assumption that they will notice into an actual confirmation that they have.",
+      "wrongNote": "Not that — the sweeper crossing the chute is called out to before the restart continues."
+    }
+  ],
+  "lateNotes": {
+    "jammed-flat": "The jam is cleared once the sorter is proven isolated, not on the strength of how it sounds or looks.",
+    "sorter-guard-door": "The guard door opens only once the disconnect is isolated and locked, never as the first move toward a jam."
+  },
+  "name": "Flat Sorter Guarding & Lockout",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "postal-and-mail-processing"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "conveyorSection",
+        "count": 2,
+        "kit": "equipment"
+      },
+      {
+        "builder": "1.04x1.7x1.24",
+        "count": 1,
+        "kit": "unknown"
+      },
+      {
+        "builder": "2.62x4.22x1.18",
+        "count": 1,
+        "kit": "unknown"
+      }
+    ],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "crew-notify",
+      "floor-sweeper-call",
+      "hearing-protection",
+      "induction-belt-roller",
+      "intact-panel-decoy",
+      "interlock-defeated-hazard",
+      "jammed-flat",
+      "loto-permit-board",
+      "maintenance-log",
+      "missing-access-panel-hazard",
+      "proper-lock-decoy",
+      "reach-in-sweep-hazard",
+      "reject-tray-socket",
+      "residual-motion-indicator",
+      "safety-glasses",
+      "sorter-disconnect",
+      "sorter-guard-door",
+      "sorter-lock",
+      "sorter-lock-remove",
+      "sorter-tag",
+      "sorter-tag-remove",
+      "tag-no-lock-hazard",
+      "upstream-signal"
+    ],
+    "meshes": 152
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Safety glasses and hearing protection before stepping up to the sorter.",
+      "id": "ppe",
+      "itemNames": {
+        "hearing-protection": "hearing protection",
+        "safety-glasses": "safety glasses"
+      },
+      "kind": "sequence",
+      "prompt": "Safety glasses and hearing protection before stepping up to the sorter.",
+      "targets": [
+        "safety-glasses",
+        "hearing-protection"
+      ],
+      "title": "Suit up before approaching the sorter",
+      "why": "A flat sorter runs loud enough over a full shift to matter for hearing, and a jammed envelope can flick a sharp paper edge or a staple hard enough to reach an eye — both are covered before a hand goes anywhere near the machine."
+    },
+    {
+      "cue": "Confirm today's LOTO permit for this sorter before touching anything on it.",
+      "id": "permit-read",
+      "kind": "select",
+      "prompt": "Confirm today's LOTO permit for this sorter before touching anything on it.",
+      "target": "loto-permit-board",
+      "title": "Read the isolation permit",
+      "why": "The permit is what tells a clerk which disconnect actually isolates this sorter and who else may already be locked onto it — clearing a jam without reading it first means guessing at a disconnect that might belong to an entirely different machine."
+    },
+    {
+      "cue": "Look over the sorter before touching it. Two things are already wrong with it — find them.",
+      "decoyNotes": {
+        "intact-panel-decoy": "That access panel is seated and fastened, showing no damage. Nothing to flag there."
+      },
+      "id": "machine-hazard-read",
+      "itemNames": {
+        "interlock-defeated-hazard": "the taped-over guard interlock",
+        "missing-access-panel-hazard": "the missing side access panel"
+      },
+      "itemNotes": {
+        "interlock-defeated-hazard": "Taped over instead of left to work. It gets reported and freed before this guard is trusted at all.",
+        "missing-access-panel-hazard": "Left off entirely, exposing the belt pulleys. It gets refitted, not walked past."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the sorter before touching it. Two things are already wrong with it — find them.",
+      "targets": [
+        "interlock-defeated-hazard",
+        "missing-access-panel-hazard"
+      ],
+      "title": "Read the sorter for what is already wrong with it",
+      "why": "A sorter that looks fine from the aisle is not the same thing as one a clerk has actually checked — a taped interlock or a missing panel each quietly removes a control the machine depends on, and finding them now costs a work order instead of costing someone the moment the guard door opens on a running machine."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Isolate the sorter at its disconnect, apply your own lock, then apply the tag — in that order.",
+      "id": "main-disconnect-loto",
+      "itemNames": {
+        "sorter-disconnect": "sorter disconnect",
+        "sorter-lock": "personal lock",
+        "sorter-tag": "danger tag"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Disconnect, then lock, then tag — a lock with nothing isolated behind it protects nobody, and a tag with no lock behind it is only a note.",
+      "prompt": "Isolate the sorter at its disconnect, apply your own lock, then apply the tag — in that order.",
+      "targets": [
+        "sorter-disconnect",
+        "sorter-lock",
+        "sorter-tag"
+      ],
+      "title": "Isolate and lock the sorter",
+      "why": "The disconnect alone can be closed again by anyone who does not know a hand is about to be inside the guard; the lock is what makes that impossible without that person's own key, and the tag is what tells the next clerk on the floor why the lock is there — skip any one of the three and the jam gets cleared on a promise instead of a proof."
+    },
+    {
+      "cue": "Read the sorter's residual motion indicator and commit only once it shows fully stopped.",
+      "gauge": {
+        "green": [
+          0,
+          0.14
+        ],
+        "label": "RESIDUAL MOTION",
+        "missNote": "Committed while the sweep arm was still coasting. The guard does not open until this reads fully stopped.",
+        "speed": 0.6
+      },
+      "id": "zero-energy-check",
+      "kind": "gauge",
+      "prompt": "Read the sorter's residual motion indicator and commit only once it shows fully stopped.",
+      "target": "residual-motion-indicator",
+      "title": "Check for residual motion",
+      "why": "A sweep arm that has just been isolated can still be coasting down under its own momentum, and opening the guard on the assumption that isolated means stopped is exactly the gap a residual motion check exists to close — the indicator is the only honest answer, not how quiet the machine sounds."
+    },
+    {
+      "cue": "Turn the guard door latch to open it, now that the sorter is isolated and stopped.",
+      "id": "guard-door-open",
+      "kind": "turn",
+      "prompt": "Turn the guard door latch to open it, now that the sorter is isolated and stopped.",
+      "target": "sorter-guard-door",
+      "title": "Open the interlocked guard door",
+      "turn": {
+        "axis": "x",
+        "label": "GUARD DOOR",
+        "turns": 0.4
+      },
+      "why": "The guard door is the last thing between a hand and the sweep arm's own pinch point, and opening it only after the sorter is proven isolated and stopped is what keeps this step from ever being the moment the machine was still live."
+    },
+    {
+      "cue": "Carry the jammed flat clear of the feed rollers to the reject tray.",
+      "drag": {
+        "missNote": "Not into the reject tray — carry the flat all the way clear of the rollers before letting go.",
+        "radius": 0.45,
+        "to": "reject-tray-socket"
+      },
+      "id": "clear-jammed-flat",
+      "kind": "drag",
+      "prompt": "Carry the jammed flat clear of the feed rollers to the reject tray.",
+      "target": "jammed-flat",
+      "title": "Clear the jammed flat",
+      "why": "Clearing the flat with the sorter isolated and the guard open means a hand never has to trust the machine's own restart timer while it is inside the pinch point — the flat comes free because a hand pulled it, not because the sweep arm happened to still be stopped when it did."
+    },
+    {
+      "cue": "Check the sweep arm the jam was wedged against, and read for two more things already wrong nearby.",
+      "decoyNotes": {
+        "proper-lock-decoy": "That disconnect carries both a lock and a tag, correctly applied. Nothing to flag there."
+      },
+      "id": "sweep-inspect-and-find",
+      "itemNames": {
+        "reach-in-sweep-hazard": "the reach-in shortcut habit",
+        "tag-no-lock-hazard": "the tag with no lock behind it"
+      },
+      "itemNotes": {
+        "reach-in-sweep-hazard": "A worn shortcut path straight into the sweep arm's own pinch point. It gets reported and the habit broken, not repeated.",
+        "tag-no-lock-hazard": "A tag on the disconnect with no personal lock behind it. It gets a lock added or reported, never treated as isolation on its own."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the sweep arm the jam was wedged against, and read for two more things already wrong nearby.",
+      "targets": [
+        "tag-no-lock-hazard",
+        "reach-in-sweep-hazard"
+      ],
+      "title": "Inspect the sweep arm and read for shortcuts",
+      "why": "A sweep arm that was scored or bent by the jam will keep snagging the next flat that crosses it, and a tag with no lock or a worn reach-in path are both the kind of shortcut that looks like nothing until the day it is the reason someone's hand was where the sweep arm closed."
+    },
+    {
+      "cue": "Turn the guard door latch closed and confirm it seats before restoring power.",
+      "id": "guard-door-close",
+      "kind": "turn",
+      "prompt": "Turn the guard door latch closed and confirm it seats before restoring power.",
+      "target": "sorter-guard-door",
+      "title": "Close and latch the guard door",
+      "turn": {
+        "axis": "x",
+        "label": "GUARD DOOR",
+        "turns": 0.4
+      },
+      "why": "A guard door that is not actually latched is not a guard once the sorter is re-energised — confirming the latch now is what keeps this from being the jam that gets cleared safely and then reopened by the first vibration once the machine is running again."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Remove the tag, remove your lock, then notify the crew — in that order, before the sorter is re-energised.",
+      "id": "restore-power",
+      "itemNames": {
+        "crew-notify": "notify the crew",
+        "sorter-lock-remove": "remove your lock",
+        "sorter-tag-remove": "remove the tag"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Tag off, then lock off, then the crew notified — restoring power before the crew knows is restoring it onto an assumption, not a confirmation.",
+      "prompt": "Remove the tag, remove your lock, then notify the crew — in that order, before the sorter is re-energised.",
+      "targets": [
+        "sorter-tag-remove",
+        "sorter-lock-remove",
+        "crew-notify"
+      ],
+      "title": "Return the isolation",
+      "why": "The tag and the lock come off in the order they went on, and notifying the crew before restoring power is what keeps anyone else on the floor from being surprised by a sorter that starts moving again — reversing this order is how somebody re-energises a machine while another clerk still believes it is locked out."
+    },
+    {
+      "cue": "Hold the guard door ajar and confirm the power indicator drops before letting it swing shut again.",
+      "holdBreakNote": "The door was released before the power indicator was confirmed to drop. The interlock is proven by watching it work, not by how it looks once it's back together.",
+      "id": "interlock-test",
+      "kind": "hold",
+      "prompt": "Hold the guard door ajar and confirm the power indicator drops before letting it swing shut again.",
+      "seconds": 8,
+      "target": "sorter-guard-door",
+      "title": "Prove the interlock before trusting it",
+      "why": "An interlock that was taped over once is an interlock worth proving rather than assuming fixed — holding the door ajar and watching for the power to actually drop is the difference between an interlock that is trusted because it was repaired and one that is trusted because nobody checked."
+    },
+    {
+      "cue": "Restart the sorter while keeping the induction belt's tracking indicator inside the centred band.",
+      "holdBreakNote": "The belt drifted out of the centred band. Bring the tracking back under control before continuing the restart.",
+      "id": "restart-tracking",
+      "kind": "track",
+      "prompt": "Restart the sorter while keeping the induction belt's tracking indicator inside the centred band.",
+      "seconds": 8,
+      "target": "induction-belt-roller",
+      "title": "Bring the sorter back up to speed",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.4,
+        "green": [
+          0.38,
+          0.62
+        ],
+        "label": "BELT TRACKING",
+        "rise": 0.42,
+        "start": 0.5
+      },
+      "why": "Watching the tracking indicator through the restart is what catches a belt that is about to walk off true before it starts grinding against the frame — bringing a sorter back to speed is not just a power switch, it is confirming the belt is actually running where it is supposed to."
+    },
+    {
+      "cue": "Log the jam, the interlock repair, the missing panel, and the restart before moving on.",
+      "id": "closing-log",
+      "kind": "select",
+      "prompt": "Log the jam, the interlock repair, the missing panel, and the restart before moving on.",
+      "target": "maintenance-log",
+      "title": "Log the jam, the defects and the fix",
+      "why": "The maintenance log is what turns one cleared jam and one taped-over interlock into a pattern the plant's own maintenance team can actually see — found but never logged is a recurring guarding failure nobody upstream ever gets the chance to fix for good."
+    }
+  ],
+  "supportLine": "your APWU local's member assistance representative, or the plant's own employee assistance line",
+  "tagline": "A flat sorter's interlocked guard door and sweep-arm pinch point worked the plant's own way: a defeated interlock and a missing panel found before either is trusted, the disconnect isolated and locked before the guard opens, residual motion actually checked, a jammed flat cleared with a hand that never trusts the restart timer, the interlock proven rather than assumed, and the isolation returned in the order it went on",
+  "title": "SmartCiti.X~ Flat Sorter Guarding & Lockout VR",
+  "trade": "Mail processing plant clerk — flat sorter guarding and lockout, APWU",
+  "underwater": null,
+  "weather": null
+}

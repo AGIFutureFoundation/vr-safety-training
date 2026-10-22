@@ -1,0 +1,365 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "room-released",
+    "name": "Room Released",
+    "note": "An isolation room turned over start to finish with the precautions barrier never broken"
+  },
+  "category": "Healthcare Support",
+  "certification": "OSHA 29 CFR 1910.1030 bloodborne pathogens and the facility's exposure control plan; the CDC's guidance on cleaning and disinfection of environmental surfaces in healthcare settings and its transmission-based precautions; OSHA 29 CFR 1910.1200 hazard communication for the disinfectant's own label; SEIU-UHW and NUHW as the training bodies for hospital environmental services staff",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "union",
+        "citedAs": "NUHW",
+        "id": "nuhw-training",
+        "title": "NUHW member education and safety training for hospital and clinic support staff"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU-UHW",
+        "id": "seiu-uhw-training",
+        "title": "SEIU-UHW member education and safety training for hospital and clinic support staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Healthcare Support",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "barrier-held",
+        "name": "Barrier Held",
+        "note": "PPE donned before a single surface was touched"
+      },
+      {
+        "id": "linen-not-shaken",
+        "name": "Linen Not Shaken",
+        "note": "Soiled linen bagged without ever being shaken out"
+      },
+      {
+        "id": "logged-clean",
+        "name": "Logged Clean",
+        "note": "The room closed out on the log the moment it was actually ready"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-turnover",
+        "name": "Clean Turnover",
+        "note": "No corrections anywhere in the turnover"
+      },
+      {
+        "id": "steady-mop",
+        "name": "Steady Mop",
+        "note": "Held the floor mop the whole pass, first try"
+      },
+      {
+        "id": "fast-turnover",
+        "name": "Fast Turnover",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "ROOM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "New Tech",
+      "Isolation Certified",
+      "Lead Tech",
+      "EVS Supervisor",
+      "Turnover Certified"
+    ],
+    "system": "Turnover Standard"
+  },
+  "hazards": {
+    "cross-wipe-cloth": "That's the cloth you just used on the toilet, sitting on the sink edge like it's clean. Working dirty to clean instead of clean to dirty puts what came off the toilet onto the next surface a hand actually touches.",
+    "gloves-only-box": "That box is exam gloves, and nothing else is on over your uniform yet. Contact precautions are a barrier, not a glove — gloves go on last, over a gown's cuffs, not as the whole outfit.",
+    "regular-trash-bin": "That bin is unlined general trash, and the wipe in your hand came off a visibly soiled surface. Regulated waste goes in the red bag by the door, not into a bin that ends up in the same truck as the break-room trash.",
+    "shaken-linen": "That sheet is mid-shake. Snapping soiled linen out before it goes in the bag is exactly how whatever is on it gets airborne and lands on a surface you already disinfected — bag it where it lies, don't shake it first."
+  },
+  "id": "hc-environmental-services-isolation-room-turnover",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "linen-hamper",
+      "alert": "While rolling the linen, something hard and small drops out of the folds onto the floor — it looks like a used syringe cap.",
+      "cue": "That is not yours to pick up or dispose of.",
+      "delay": 3,
+      "id": "sharp-in-linen",
+      "kind": "Unexpected sharp",
+      "missNote": "The linen bag went to laundry with an unresolved sharp on the floor beside it. Whoever mops that spot next has no idea it's there.",
+      "seconds": 12,
+      "target": "call-nursing-phone",
+      "why": "A sharp that turns up somewhere it shouldn't be is a nursing call every time, not a judgment call for whoever happens to be holding the linen — the room stays as it is around that spot until someone qualified to handle it does.",
+      "wrongNote": "It's the phone to nursing — a sharp in the wrong place gets reported before the turnover continues around it."
+    },
+    {
+      "after": "mop-floor",
+      "alert": "A supply cart passing in the hallway clips the wet floor sign and knocks it flat, right as you're finishing the pass.",
+      "cue": "The floor is still wet and the doorway now has no sign standing at it.",
+      "delay": 3,
+      "id": "sign-knocked",
+      "kind": "Wet floor sign down",
+      "missNote": "The sign stayed down through the rest of the pass. Anyone who walked through that doorway had no warning the floor inside was wet.",
+      "seconds": 11,
+      "target": "wet-floor-sign",
+      "why": "A sign flat on the floor warns nobody — the doorway needs it standing again immediately, because the wet floor it's supposed to be warning people about hasn't gone anywhere just because the sign fell over.",
+      "wrongNote": "It's the sign — stand it back up at the doorway before anything else continues."
+    }
+  ],
+  "lateNotes": {
+    "clean-log": "Hold that. PPE comes off and the floor has to be dry before this room logs as ready.",
+    "wet-floor-sign": "Not yet — the sign goes down before the mop does, not the other way around."
+  },
+  "name": "Isolation Room Turnover",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "healthcare-support"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "call-nursing-phone",
+      "clean-log",
+      "cross-wipe-cloth",
+      "disinfectant-panel",
+      "doorway-spot",
+      "gloves-off",
+      "gloves-only-box",
+      "gown-off",
+      "hand-hygiene",
+      "linen-hamper",
+      "mask-off",
+      "mop-bucket",
+      "overfull-sharps",
+      "ppe-cart",
+      "precautions-card",
+      "red-bag-bin",
+      "regular-trash-bin",
+      "reline-bin",
+      "shaken-linen",
+      "sink-fixture",
+      "soiled-curtain",
+      "stray-sharp",
+      "toilet-fixture",
+      "wet-floor-sign"
+    ],
+    "meshes": 187
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence"
+  ],
+  "steps": [
+    {
+      "cue": "Check the card on the door for what kind of precautions this room is under.",
+      "id": "precautions-card",
+      "kind": "select",
+      "prompt": "Check the card on the door for what kind of precautions this room is under.",
+      "target": "precautions-card",
+      "title": "Read the posted precautions before entering",
+      "why": "The card on the door is what tells you which PPE this room actually needs — contact, droplet or both — before a single glove goes on. Guessing at it from the last room you cleaned is how the wrong barrier goes up on the wrong room."
+    },
+    {
+      "cue": "Gown first, then gloves pulled up over the gown's cuffs, then eye protection.",
+      "id": "ppe-cart",
+      "kind": "select",
+      "prompt": "Gown first, then gloves pulled up over the gown's cuffs, then eye protection.",
+      "target": "ppe-cart",
+      "title": "Don PPE to the posted precautions",
+      "why": "The CDC's transmission-based precautions guidance orders PPE donning for a reason: a gown put on after gloves leaves a gap at the wrist that a glove alone was never meant to cover, and eye protection last means it's the one thing you're not tempted to touch again once your hands are already dirty."
+    },
+    {
+      "cue": "Two things in this room are for nursing to deal with, not you. Find them before you touch anything else.",
+      "id": "hazard-scan",
+      "itemNames": {
+        "overfull-sharps": "a sharps container packed past its line",
+        "stray-sharp": "an uncapped needle on the bedside tray"
+      },
+      "itemNotes": {
+        "overfull-sharps": "An overfilled sharps container is a clinical device past a fill line, not a housekeeping item to empty or force closed. Flag it for nursing and keep moving.",
+        "stray-sharp": "A loose needle on a bedside tray is not an EVS job — it goes untouched and nursing gets called, the same as the syringe cap you'll find in the linen in a minute."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things in this room are for nursing to deal with, not you. Find them before you touch anything else.",
+      "targets": [
+        "stray-sharp",
+        "overfull-sharps"
+      ],
+      "title": "Scan the room for what isn't yours to handle",
+      "why": "An EVS tech's scope stops at the room, not at every object in it — a sharp or a device left behind by clinical staff gets flagged, not picked up, because handling it wrong is a needlestick this job was never trained for in the first place."
+    },
+    {
+      "cue": "Roll the linen inward on itself and place it straight into the hamper bag.",
+      "id": "linen-hamper",
+      "kind": "select",
+      "prompt": "Roll the linen inward on itself and place it straight into the hamper bag.",
+      "target": "linen-hamper",
+      "title": "Bag the soiled linen without shaking it",
+      "why": "Soiled linen carries whatever the patient did, and CDC guidance is explicit that it gets handled with minimum agitation — rolled and bagged, never shaken, snapped or held against the body, because shaking it is how it gets into the air of a room you're trying to clean."
+    },
+    {
+      "cue": "Put visibly soiled disposables in the red biohazard bag, not the general trash.",
+      "id": "waste-sort",
+      "kind": "select",
+      "prompt": "Put visibly soiled disposables in the red biohazard bag, not the general trash.",
+      "target": "red-bag-bin",
+      "title": "Sort regulated waste into the red bag",
+      "why": "OSHA's bloodborne pathogens standard treats anything soaked or caked with blood or other potentially infectious material as regulated waste with its own bag, its own hauler and its own disposal rule — mixing it into general trash turns every bag handler downstream into someone exposed without knowing it."
+    },
+    {
+      "cue": "Wipe the high-touch surfaces and watch the panel — commit once the surface has stayed visibly wet long enough, per the label.",
+      "gauge": {
+        "green": [
+          0.45,
+          0.75
+        ],
+        "label": "SURFACE WET TIME",
+        "missNote": "Committed before the label's wet-contact time was met, or well after the surface had already dried — neither one is a disinfected surface.",
+        "speed": 0.6
+      },
+      "id": "wipe-down",
+      "kind": "gauge",
+      "prompt": "Wipe the high-touch surfaces and watch the panel — commit once the surface has stayed visibly wet long enough, per the label.",
+      "target": "disinfectant-panel",
+      "title": "Hold every high-touch surface to its wet-contact time",
+      "why": "A disinfectant only kills what its label says it kills for as long as the surface actually stays wet — that contact time is set by the product's own registered label, not by how fast the wipe feels done, and wiping it dry early means the surface was never actually disinfected at all."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Wipe the sink and counter, then the toilet — never the other way around.",
+      "id": "bathroom-order",
+      "itemNames": {
+        "sink-fixture": "sink and counter",
+        "toilet-fixture": "toilet"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Sink and counter before the toilet, every time — the order is what keeps the dirtiest surface from touching the cleanest one.",
+      "prompt": "Wipe the sink and counter, then the toilet — never the other way around.",
+      "targets": [
+        "sink-fixture",
+        "toilet-fixture"
+      ],
+      "title": "Clean the bathroom cleanest surface first",
+      "why": "Cleaning cleanest-to-dirtiest keeps whatever came off the toilet from ever reaching the counter a patient's hand or toothbrush touches next — reverse the order and the cloth becomes the thing that cross-contaminates the surface you already finished."
+    },
+    {
+      "cue": "Fit a fresh liner in the trash and the red bag holder before moving on.",
+      "id": "reline-bins",
+      "kind": "select",
+      "prompt": "Fit a fresh liner in the trash and the red bag holder before moving on.",
+      "target": "reline-bin",
+      "title": "Reline the emptied bins",
+      "why": "A bin left unlined is a bin the next person in this room reaches for and finds nothing — relining it now is what makes the room actually ready, not just emptied."
+    },
+    {
+      "cue": "Unhook the curtain and bag it for laundry rather than leaving it up.",
+      "id": "curtain-swap",
+      "kind": "select",
+      "prompt": "Unhook the curtain and bag it for laundry rather than leaving it up.",
+      "target": "soiled-curtain",
+      "title": "Take down the soiled privacy curtain",
+      "why": "A privacy curtain gets touched by every hand that passes the bed, and CDC surface guidance treats it the same as any other high-touch item in a precautions room — left up, it carries the last patient's risk straight into the next one's stay."
+    },
+    {
+      "cue": "Place the sign at the doorway before the mop touches the floor.",
+      "drag": {
+        "missNote": "Not at the doorway — the one place someone actually walks in from is the one place the sign has to stand.",
+        "radius": 0.4,
+        "to": "doorway-spot"
+      },
+      "id": "wet-floor-sign",
+      "kind": "drag",
+      "prompt": "Place the sign at the doorway before the mop touches the floor.",
+      "target": "wet-floor-sign",
+      "title": "Set the wet floor sign before mopping",
+      "why": "A wet floor with no sign at the door is a fall waiting on whoever walks in next — the sign goes up before the mop, not after someone has already slipped on a floor they had no way to know was wet."
+    },
+    {
+      "cue": "Work in overlapping strokes from the far corner back toward the door and hold the pass steady.",
+      "holdBreakNote": "The pass broke before it reached the door. A mop stroke that stops partway leaves a patch that never got cleaned, not a floor that's merely still drying.",
+      "id": "mop-floor",
+      "kind": "hold",
+      "prompt": "Work in overlapping strokes from the far corner back toward the door and hold the pass steady.",
+      "seconds": 6,
+      "target": "mop-bucket",
+      "title": "Mop the floor working back to the door",
+      "why": "Mopping toward the door instead of away from it means you're never standing on floor you haven't cleaned yet, and never re-tracking dirty water back over a section you already finished."
+    },
+    {
+      "cue": "Gloves off first, then hand hygiene, then the gown, then the mask or eye protection last.",
+      "id": "doff-ppe",
+      "itemNames": {
+        "gloves-off": "remove gloves",
+        "gown-off": "remove gown",
+        "hand-hygiene": "hand hygiene",
+        "mask-off": "remove mask/eye protection"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Gloves, then hands washed, then the gown, then the mask last — that order is what keeps a contaminated glove away from your bare skin.",
+      "prompt": "Gloves off first, then hand hygiene, then the gown, then the mask or eye protection last.",
+      "targets": [
+        "gloves-off",
+        "hand-hygiene",
+        "gown-off",
+        "mask-off"
+      ],
+      "title": "Doff PPE in the order that keeps you clean",
+      "why": "The CDC's doffing sequence exists because the most contaminated items come off first and the ones nearest your airway come off last, with a hand-hygiene step between them — skip the order and a hand that just peeled off a soiled glove is the hand about to touch your own face."
+    },
+    {
+      "cue": "Mark the room terminally cleaned and release it to bed management.",
+      "id": "clean-log",
+      "kind": "select",
+      "prompt": "Mark the room terminally cleaned and release it to bed management.",
+      "target": "clean-log",
+      "title": "Log the room and release it",
+      "why": "Bed management assigns this room to its next patient off this log, not off a guess that the door being open means it's ready — an unlogged room is a room that either sits empty longer than it needs to or gets assigned before it's actually done."
+    }
+  ],
+  "supportLine": "your employer's employee assistance program, or SEIU-UHW's member resources if a room like this one has you rattled",
+  "tagline": "PPE donned to the posted precautions, linen bagged not shaken, regulated waste kept separate, every high-touch surface held to its label's wet-contact time, and the room logged clean and released",
+  "title": "SmartCiti.X~ Isolation Room Turnover VR",
+  "trade": "Environmental services technician",
+  "underwater": null,
+  "weather": null
+}

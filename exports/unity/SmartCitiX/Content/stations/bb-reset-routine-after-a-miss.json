@@ -1,0 +1,423 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "next-play",
+    "name": "Next Play",
+    "note": "A miss met with the routine instead of a spiral, and the whole bench kept calm around it"
+  },
+  "category": "Youth Sports & Coaching",
+  "certification": "USA Basketball youth development guidelines on positive, mistake-tolerant coaching that keeps young players engaged after an error; the Association for Applied Sport Psychology's guidance on a short mental reset after a mistake — a breath, a cue word, and a return of attention to the next play; NFHS basketball rules and its sportsmanship expectations for how teammates treat each other after a miss; CDC Heads Up for a knock to the head taken in the scramble that follows a loose ball; the U.S. Center for SafeSport for calm, private, non-shaming correction; the American Red Cross first aid course for a player hurt in that scramble",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "Association for Applied Sport Psychology",
+        "citedAs": "Association for Applied Sport Psychology",
+        "id": "aasp-sport-psychology-guidance",
+        "title": "Association for Applied Sport Psychology guidance on mental-skills routines for young athletes: composure after a mistake, pre-performance routines, coach feedback and growth mindset, and decision-making under pressure"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC Heads Up",
+        "id": "cdc-heads-up",
+        "title": "CDC Heads Up concussion-in-youth-sports training for coaches, parents and athletes: recognise the signs, remove the player from play, refer for evaluation, and return only with clearance"
+      },
+      {
+        "body": "NFHS",
+        "citedAs": "NFHS",
+        "id": "nfhs-basketball-rules",
+        "title": "National Federation of State High School Associations (NFHS) basketball rules and its sports medicine advisory guidance on concussion, heat and hydration for school sport"
+      },
+      {
+        "body": "Red Cross",
+        "citedAs": "American Red Cross first aid",
+        "id": "red-cross-first-aid-course",
+        "title": "American Red Cross first aid, CPR and AED course for coaches and staff: check the scene, call, care, and hand over to emergency services"
+      },
+      {
+        "body": "U.S. Center for SafeSport",
+        "citedAs": "U.S. Center for SafeSport",
+        "id": "safesport-code",
+        "title": "U.S. Center for SafeSport abuse-prevention training and policies for adults who work with young athletes: two adults present, observable and interruptible interactions, and reporting"
+      },
+      {
+        "body": "USA Basketball",
+        "citedAs": "USA Basketball",
+        "id": "usa-basketball-youth-guidelines",
+        "title": "USA Basketball youth development guidelines: age-appropriate play, practice length and frequency, rest and multi-sport participation for young players, and the coach licence that teaches them"
+      }
+    ]
+  },
+  "district": "gym-court",
+  "domain": "Youth Sports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clear-lane-first",
+        "name": "Clear Lane First",
+        "note": "Every hazard on the floor found before the first retry"
+      },
+      {
+        "id": "no-pile-on",
+        "name": "No Pile-On",
+        "note": "No unsafe action anywhere in the session"
+      },
+      {
+        "id": "steady-reset",
+        "name": "Steady Reset",
+        "note": "Reset tempo and composure through the streak both inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-session",
+        "name": "Clean Session",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "unshaken",
+        "name": "Unshaken",
+        "note": "Held composure in band through the whole cold streak"
+      },
+      {
+        "id": "quick-reset",
+        "name": "Quick Reset",
+        "note": "Practice log reached inside 80% of par"
+      }
+    ],
+    "currency": "RESETS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Bench Helper",
+      "Line Coach",
+      "Assistant Coach",
+      "Head Coach",
+      "Mindset Mentor"
+    ],
+    "system": "Next Play Board"
+  },
+  "hazards": {
+    "dive-for-the-loose-ball-uncalled": "You let both players dive for the loose ball after the miss without calling it first. Two bodies going to the same spot on the floor at full speed, neither one watching for the other because both are watching the ball, is exactly how a shoulder meets a skull instead of a ball.",
+    "fifty-makeup-free-throws-as-punishment": "You made the player who missed shoot fifty free throws right then as punishment. Extra reps loaded on as punishment are exactly the unplanned volume youth guidelines warn causes overuse injuries, and they teach the player that a miss is followed by pain, not by a routine they can use in a game.",
+    "let-the-mocking-keep-going": "You let teammates keep laughing at the player who missed instead of stepping in. A young athlete's teammates ridiculing a mistake, left unanswered by the adult in charge, is exactly the kind of unwatched moment safe-sport guidance asks coaches to notice and stop before it becomes the story a player tells themselves about their own game.",
+    "played-on-after-the-wall-bang": "You let the player who banged their head on the padded wall chasing the rebound keep going because they said they were fine. Saying you are fine is not a medical opinion — concussion signs can show up minutes later, and a player left in is one more hit away from a second one before anyone has checked."
+  },
+  "id": "bb-reset-routine-after-a-miss",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "breath-after-the-miss",
+      "alert": "Two players on the bench are loudly mocking the miss, and the laughing is spreading down the row.",
+      "cue": "Step to the mocking teammates, quiet and calm — not a lecture to the whole bench, just the two of them.",
+      "delay": 3,
+      "id": "teammates-mock-the-miss",
+      "kind": "Sideline moment",
+      "missNote": "The laughing kept going, and by the time it stopped on its own half the bench had joined in. The player who missed heard every second of it.",
+      "seconds": 12,
+      "target": "quiet-teammate-spot",
+      "why": "Mockery left to run builds the story a player tells themselves about their own game far faster than the miss itself does. Going straight to the two players who started it, calmly and without turning it into a speech for the whole bench, stops it before it spreads any further down the row.",
+      "wrongNote": "That does not reach the two who started it. Go to the mocking teammates directly, quiet and calm."
+    },
+    {
+      "after": "hold-the-breath-before-the-retry",
+      "alert": "The fire alarm sounds mid-retry, with the ball still in the shooter's hands and the exit strobe flashing.",
+      "cue": "Ball down, everybody out through the marked fire exit, headcount outside against the day's list.",
+      "delay": 3,
+      "id": "fire-alarm-during-the-reset",
+      "kind": "Fire alarm",
+      "missNote": "The retry finished before anyone moved, and the group left in a scattered rush instead of together. Outside, the headcount came up short before someone remembered the shooter had stayed to watch the ball go in.",
+      "seconds": 12,
+      "target": "fire-exit-door",
+      "why": "The routine's calm is not a reason to finish the attempt first. The ball goes down where it is, the gym empties through the marked exit with an adult at the front and back, and a headcount happens outside — every alarm treated as real, every time, no matter what was mid-motion when it sounded.",
+      "wrongNote": "The alarm comes first. Ball down and everybody to the marked fire exit."
+    }
+  ],
+  "lateNotes": {
+    "crew-checkin-board": "The staff check-in comes after the log, at the very end.",
+    "practice-log-board": "The log closes the reset session once the streak has run and the routine has held — nothing to record yet."
+  },
+  "name": "Reset Routine After a Miss",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "basketball-fundamentals"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "breath-marker",
+      "coach-cue-board",
+      "crew-checkin-board",
+      "cue-word-card",
+      "dive-for-the-loose-ball-uncalled",
+      "fifty-makeup-free-throws-as-punishment",
+      "fire-exit-door",
+      "let-the-mocking-keep-going",
+      "miss-token",
+      "play-dial",
+      "played-on-after-the-wall-bang",
+      "post-chair-in-lane",
+      "post-loose-ball",
+      "post-player-frozen",
+      "post-player-jogging-back",
+      "practice-log-board",
+      "quiet-teammate-spot",
+      "quiet-word-spot",
+      "release-bin",
+      "reset-breath",
+      "reset-clock",
+      "reset-cue-word",
+      "reset-eyes-up",
+      "reset-let-it-go",
+      "retry-breath-marker",
+      "spiral-asking-for-the-ball-again",
+      "spiral-blaming-a-teammate",
+      "spiral-forcing-the-next-shot",
+      "spiral-head-down",
+      "streak-composure-meter"
+    ],
+    "meshes": 206
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Look at the floor and at the player who missed. Mark what has to be fixed and what has to be noticed.",
+      "decoyNotes": {
+        "post-player-jogging-back": "A player already jogging back on defence has already reset. Look for what is still unsettled."
+      },
+      "id": "scan-the-room-after-a-miss",
+      "itemNames": {
+        "post-chair-in-lane": "a folding chair left in the lane",
+        "post-loose-ball": "the loose ball still rolling free",
+        "post-player-frozen": "a player frozen, staring at the rim"
+      },
+      "itemNotes": {
+        "post-chair-in-lane": "A chair in the lane is exactly where the next rebound and the next landing both happen. Fold it and take it to the wall.",
+        "post-loose-ball": "A ball still rolling after the miss is under the next diving foot. Rack it before anyone chases the rebound.",
+        "post-player-frozen": "That is the moment the routine is for. Notice it now, before it turns into three more bad possessions."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the floor and at the player who missed. Mark what has to be fixed and what has to be noticed.",
+      "targets": [
+        "post-loose-ball",
+        "post-chair-in-lane",
+        "post-player-frozen"
+      ],
+      "title": "Scan the room in the first seconds after a miss",
+      "why": "A coach's first job after a miss is not the shot, it is the room: a loose ball and a stray chair are the next injury waiting to happen, and a player standing frozen and staring at the rim is the moment the whole reset routine exists for. Both are read in the same first glance, before either one gets worse."
+    },
+    {
+      "cue": "Post the calm line: 'Miss happens. Reset. Next play.' — said the same flat, even way every time.",
+      "id": "name-the-miss-calmly",
+      "kind": "select",
+      "prompt": "Post the calm line: 'Miss happens. Reset. Next play.' — said the same flat, even way every time.",
+      "target": "coach-cue-board",
+      "title": "Name the miss calmly, out loud",
+      "why": "The coach's own reaction is the first cue every player on the floor reads. A raised voice or a long sigh turns the miss into a bigger event than it was; a flat, calm sentence said the same way every time tells the team that a miss is a normal part of the game and the routine, not the panic, is what happens next."
+    },
+    {
+      "cue": "Player stops, takes one slow breath in and a longer one out — hold here and watch it happen, no talking over it.",
+      "holdBreakNote": "The breath got cut short before it finished. Let the player take the whole slow breath before the routine moves on.",
+      "id": "breath-after-the-miss",
+      "kind": "hold",
+      "prompt": "Player stops, takes one slow breath in and a longer one out — hold here and watch it happen, no talking over it.",
+      "seconds": 6,
+      "target": "breath-marker",
+      "title": "Hold one slow breath before anything else",
+      "why": "The Association for Applied Sport Psychology's guidance on a short mental reset starts with something physical rather than something said: a slow exhale is the fastest way to bring a body back down from the jolt of a mistake, so that the next decision — the pass, the shot, the sprint back — is made by the player's skill and not by the adrenaline of the miss."
+    },
+    {
+      "cue": "Breath first, then the cue word, then a physical let-it-go, then eyes up and back into the play.",
+      "id": "build-the-reset-routine",
+      "itemNames": {
+        "reset-breath": "one slow breath",
+        "reset-cue-word": "say the cue word",
+        "reset-eyes-up": "eyes up for the next play",
+        "reset-let-it-go": "physically let the miss go"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. The breath comes first — a cue word said to a racing body does not stick, and eyes up before the miss is let go just means watching the next play through the last one.",
+      "prompt": "Breath first, then the cue word, then a physical let-it-go, then eyes up and back into the play.",
+      "targets": [
+        "reset-breath",
+        "reset-cue-word",
+        "reset-let-it-go",
+        "reset-eyes-up"
+      ],
+      "title": "Build the reset routine in order",
+      "why": "Each part of the routine prepares the next: the breath calms the body so the cue word actually lands instead of getting lost in adrenaline, letting the miss go physically gives the mind something to do besides replay it, and only then are the player's eyes actually free to find the next play instead of the last one."
+    },
+    {
+      "cue": "Pick a cue word short enough to say to yourself mid-game — 'Next', not a whole sentence.",
+      "id": "choose-a-cue-word",
+      "kind": "select",
+      "prompt": "Pick a cue word short enough to say to yourself mid-game — 'Next', not a whole sentence.",
+      "target": "cue-word-card",
+      "title": "Choose one short cue word",
+      "why": "A cue word works because it is short enough to say silently between one possession and the next, and specific enough to mean something the player has practised. A vague 'forget it' gives the mind nothing to do; a single practised word gives it a job."
+    },
+    {
+      "cue": "Turn the play dial to call the next action — the routine ends pointed forward, not back at the miss.",
+      "id": "call-the-next-play",
+      "kind": "turn",
+      "prompt": "Turn the play dial to call the next action — the routine ends pointed forward, not back at the miss.",
+      "target": "play-dial",
+      "title": "Turn attention to the next play",
+      "turn": {
+        "axis": "y",
+        "label": "NEXT PLAY",
+        "turns": 0.5
+      },
+      "why": "Turning the dial to an actual next action — a set play, a defensive assignment — gives the routine somewhere concrete to end. A reset that stops at 'calm down' leaves a player calm and still standing still; one that ends on the next play sends them back into the game with something specific to do."
+    },
+    {
+      "cue": "Commit when the reset reads steady — not skipped, not dragged out.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "TEMPO",
+        "missNote": "Outside the band. Rushed skips the breath that makes the rest of the routine work; stalled means missing the next possession entirely. Find steady and commit.",
+        "speed": 0.62
+      },
+      "id": "reset-tempo",
+      "kind": "gauge",
+      "prompt": "Commit when the reset reads steady — not skipped, not dragged out.",
+      "target": "reset-clock",
+      "title": "Keep the reset at the right tempo",
+      "why": "A reset that is rushed skips straight past the breath that calms the body, so the cue word lands on a nervous system that never came down; a reset that is stalled keeps the player dwelling long enough to miss the next possession. The routine only works run at its own pace — not instant, not endless."
+    },
+    {
+      "cue": "After a short cold streak, the same one breath before the retry — hold it here, no rushing the redo.",
+      "holdBreakNote": "The retry started before the breath finished. Hold it the whole way through — the shot can wait one more second.",
+      "id": "hold-the-breath-before-the-retry",
+      "kind": "hold",
+      "prompt": "After a short cold streak, the same one breath before the retry — hold it here, no rushing the redo.",
+      "seconds": 5,
+      "target": "retry-breath-marker",
+      "title": "Hold the breath again before the next attempt",
+      "why": "The routine only matters if it gets used the moment it is needed most, which is the next attempt right after a miss that stung, not only in the calm of practice. Holding the same breath before the retry is what turns a routine talked about into a routine a player actually reaches for on the second miss and the third."
+    },
+    {
+      "cue": "Watch how each player carries a miss, not just whether the next shot goes in. Mark what needs the routine.",
+      "decoyNotes": {
+        "spiral-asking-for-the-ball-again": "Asking for the ball again after a miss is confidence, not a spiral. Look for what is still unsettled."
+      },
+      "id": "spot-the-spiral",
+      "itemNames": {
+        "spiral-blaming-a-teammate": "a player blaming a teammate for the last play",
+        "spiral-forcing-the-next-shot": "a player forcing the very next shot too quickly",
+        "spiral-head-down": "a player walking back with their head down"
+      },
+      "itemNotes": {
+        "spiral-blaming-a-teammate": "Blame is the mind looking for somewhere to put the miss besides itself. Redirect gently to the routine.",
+        "spiral-forcing-the-next-shot": "Forcing the next shot is the reset skipped entirely. Bring them back to the breath before the shot after that.",
+        "spiral-head-down": "That posture is the first sign the routine did not land. Go to the quiet word, not a lecture."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Watch how each player carries a miss, not just whether the next shot goes in. Mark what needs the routine.",
+      "targets": [
+        "spiral-head-down",
+        "spiral-blaming-a-teammate",
+        "spiral-forcing-the-next-shot"
+      ],
+      "title": "Spot the signs of a spiral, not just the misses",
+      "why": "A cold streak is usually an emotional spiral wearing a shooting slump's clothes: it shows up in body language and blame before it shows up on the scoreboard. Catching it there — the head down, the blame, the forced next shot — lets a coach bring the routine back in before three misses become ten."
+    },
+    {
+      "cue": "Drag the miss token from the 'carrying it' side of the board to the 'let go' bin.",
+      "drag": {
+        "missNote": "Still on the 'carrying it' side. A miss talked about but not physically moved off the board is a miss still being carried — move it all the way to the bin.",
+        "radius": 0.45,
+        "to": "release-bin"
+      },
+      "id": "let-the-miss-go",
+      "kind": "drag",
+      "prompt": "Drag the miss token from the 'carrying it' side of the board to the 'let go' bin.",
+      "target": "miss-token",
+      "title": "Physically let the miss go",
+      "why": "Letting a mistake go is an abstract idea to a young player, and abstract ideas are hard to actually do under pressure. A physical action — moving a token off the board — gives the mental step something concrete to stand for, which is easier to remember and easier to repeat than a phrase alone."
+    },
+    {
+      "cue": "Step to the side with the player who is spiralling — a short, calm sentence, away from the rest of the team.",
+      "id": "quiet-word-away-from-the-group",
+      "kind": "select",
+      "prompt": "Step to the side with the player who is spiralling — a short, calm sentence, away from the rest of the team.",
+      "target": "quiet-word-spot",
+      "title": "Give a struggling player a quiet word, not a lecture",
+      "why": "A correction given quietly, one to one, and briefly is heard; the same words said loudly in front of the team become a second, public mistake to carry. Calm, private and observable correction is the kind safe-sport guidance asks of adults working with young athletes, and it is also simply the version a player can actually hear."
+    },
+    {
+      "cue": "Keep the bench and the player's composure in band through several misses in a row — not flat and checked out, not boiling over.",
+      "holdBreakNote": "Composure left the band — boiling over, or gone flat. Bring it back to steady before the next attempt.",
+      "id": "hold-composure-through-the-streak",
+      "kind": "track",
+      "prompt": "Keep the bench and the player's composure in band through several misses in a row — not flat and checked out, not boiling over.",
+      "seconds": 8,
+      "target": "streak-composure-meter",
+      "title": "Hold composure through a cold streak",
+      "track": {
+        "drift": 0.15,
+        "fall": 0.42,
+        "green": [
+          0.38,
+          0.62
+        ],
+        "label": "COMPOSURE",
+        "rise": 0.5,
+        "start": 0.32
+      },
+      "why": "A cold streak tests the routine more than a single miss does, because each new miss makes the next reset harder to reach for. Holding the bench's composure in band — not letting frustration boil over, not letting the player check out and go flat — is what keeps the routine available for the fifth miss the same way it was for the first."
+    },
+    {
+      "cue": "Record the cue word used, how the streak was handled, the wall bang and anything the athletic trainer saw.",
+      "id": "log-the-reset-session",
+      "kind": "select",
+      "prompt": "Record the cue word used, how the streak was handled, the wall bang and anything the athletic trainer saw.",
+      "target": "practice-log-board",
+      "title": "Log the reset session",
+      "why": "The cue word a player settled on, how a cold streak was handled and anything the athletic trainer noticed are what the next practice needs to build on. Written down at the time, the log is the fairest record for the player and the clearest starting point for coaching the same routine again next week."
+    },
+    {
+      "cue": "At the bench: how the cold streak felt to manage, anything seen after the wall bang, and is everybody good to carry on?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "At the bench: how the cold streak felt to manage, anything seen after the wall bang, and is everybody good to carry on?",
+      "target": "crew-checkin-board",
+      "title": "Check in with the assistant coach and the athletic trainer",
+      "why": "Coaching a player through a rough stretch of misses takes something out of the adults running the drill too. A short check-in — what did you see, how did that feel to manage, is anyone worth a follow-up call — keeps the staff working as a team and is exactly the kind of noticing the guide's check-in points to."
+    }
+  ],
+  "supportLine": "your league's coach coordinator, or the assistant and athletic trainer who were on the floor with you — a rough stretch of misses can rattle the adults running the drill as much as the player missing",
+  "tagline": "One slow breath, a one-word cue, a physical let-it-go and eyes up for the next play — a routine short enough to actually use between one possession and the next",
+  "title": "SmartCiti.X~ Reset Routine After a Miss VR",
+  "trade": "Youth basketball coach",
+  "underwater": null,
+  "weather": "clear"
+}

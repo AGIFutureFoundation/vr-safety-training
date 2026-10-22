@@ -1,0 +1,385 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "cart-always-ready",
+    "name": "Cart Always Ready",
+    "note": "A crash cart checked, sealed and logged ready every single day, and a real code supported without ever touching the patient"
+  },
+  "category": "Healthcare Support",
+  "certification": "NFPA 101 Life Safety Code for the egress path a code response keeps clear; OSHA 29 CFR 1910.1030 bloodborne pathogens for any contact with a used device or a sharp on the cart; the CDC's general infection-prevention guidance for equipment turned over between patients; SEIU-UHW and NUHW as the training bodies for clinical support staff",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 101",
+        "id": "nfpa-101",
+        "title": "NFPA 101 — Life Safety Code"
+      },
+      {
+        "body": "union",
+        "citedAs": "NUHW",
+        "id": "nuhw-training",
+        "title": "NUHW member education and safety training for hospital and clinic support staff"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU-UHW",
+        "id": "seiu-uhw-training",
+        "title": "SEIU-UHW member education and safety training for hospital and clinic support staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Healthcare Support",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "seal-verified",
+        "name": "Seal Verified",
+        "note": "The cart's tamper seal checked and logged every single day"
+      },
+      {
+        "id": "hallway-held",
+        "name": "Hallway Held",
+        "note": "The egress path held clear for the full response"
+      },
+      {
+        "id": "cart-exchanged",
+        "name": "Cart Exchanged",
+        "note": "A fresh backup cart delivered and the used one restocked and resealed"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "No corrections anywhere in the shift"
+      },
+      {
+        "id": "steady-watch",
+        "name": "Steady Watch",
+        "note": "Held the hallway clear the whole response, first try"
+      },
+      {
+        "id": "fast-check",
+        "name": "Fast Check",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "CART",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "New Support Tech",
+      "Cart Certified",
+      "Lead Tech",
+      "Response Supervisor",
+      "Cart Readiness Certified"
+    ],
+    "system": "Cart Readiness"
+  },
+  "hazards": {
+    "blocking-hallway-decoy": "That equipment is parked square in the path the code team runs down. An egress and response path that's blocked by whatever happened to be convenient to leave there is a blocked path the moment a team actually needs to run it.",
+    "broken-medtray-seal-decoy": "That medication tray's seal is already broken and it's just sitting out. A broken seal on a medication tray gets reported to pharmacy and swapped, never opened or counted by anyone whose job is the logistics around it, not what's inside it.",
+    "cart-left-unlocked-decoy": "That cart is sitting in the hallway unsealed and unlocked. A crash cart is either sealed and in its bay or it's open because someone's actively using it — parked unsealed in a hallway, it's neither ready nor accounted for.",
+    "expired-defib-pads-decoy": "Those defibrillator pads sitting loose on the cart top are past their date. Pads that have expired don't get left on the cart for whoever opens it next to discover mid-code — they get pulled and swapped the moment the date's checked."
+  },
+  "id": "hc-code-response-support-and-crash-cart-check",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "hallway-clear",
+      "alert": "A family member tries to push past you into the room while the code is still running.",
+      "cue": "That gets redirected, not argued with in the doorway.",
+      "delay": 3,
+      "id": "family-pushes-past",
+      "kind": "Family at the door",
+      "missNote": "The family member got past and into the doorway. The one thing this role was holding clear for the code team just stopped being clear.",
+      "seconds": 12,
+      "target": "direct-family",
+      "why": "Holding the doorway means actually holding it — a family member who gets past because arguing them out of the way felt easier than physically redirecting them is exactly how the hallway stops being clear right when the team needs to move.",
+      "wrongNote": "Redirect them to the waiting area — the doorway doesn't get negotiated over mid-code."
+    },
+    {
+      "after": "post-code-restock",
+      "alert": "Another unit on this floor calls saying they need a backup cart right now for a second, unrelated event.",
+      "cue": "That's not this room's cart to send.",
+      "delay": 3,
+      "id": "second-code-call",
+      "kind": "Second code, same floor",
+      "missNote": "The half-restocked cart nearly went to the second call instead of the one actually assigned to cover it. Two events were now short a cart each instead of one.",
+      "seconds": 11,
+      "target": "notify-central-supply",
+      "why": "This room's own cart is still being restocked and isn't a spare to hand off to another call — central supply is who tracks every cart on the floor and dispatches the next available one, which is exactly the job this isn't.",
+      "wrongNote": "Call central supply — they're the ones who know which cart is actually free to send."
+    }
+  ],
+  "lateNotes": {
+    "log-daily-check": "Hold that. The cart has to actually be resealed before today's check logs as complete.",
+    "restock-cart": "Not yet — there's no used cart to restock until the room actually clears."
+  },
+  "name": "Code Response Support & Crash Cart Check",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "healthcare-support"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "attach-new-seal",
+      "backup-cart",
+      "blocking-hallway-decoy",
+      "broken-medtray-seal-decoy",
+      "broken-seal",
+      "cart-left-unlocked-decoy",
+      "cart-wheel-lock",
+      "count-meds-sealed",
+      "count-supplies",
+      "daily-cart-check-log",
+      "defib-selftest",
+      "direct-family",
+      "expired-defib-pads-decoy",
+      "hallway-clear-post",
+      "log-code-support",
+      "log-daily-check",
+      "missing-defib-pads",
+      "notify-central-supply",
+      "o2-tank-check-cart",
+      "overhead-page-relay",
+      "relock-cart",
+      "restock-cart",
+      "room-doorway",
+      "tamper-seal-check"
+    ],
+    "meshes": 157
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Open the daily crash cart checklist before touching the cart.",
+      "id": "pull-check-log",
+      "kind": "select",
+      "prompt": "Open the daily crash cart checklist before touching the cart.",
+      "target": "daily-cart-check-log",
+      "title": "Pull today's cart check log",
+      "why": "The checklist is what turns \"the cart looked fine\" into a dated record someone can actually be held to — a check that never gets logged is a check nobody downstream can prove happened at all, whether that downstream question comes from a supervisor tomorrow or an inspector months from now."
+    },
+    {
+      "cue": "Confirm the numbered seal on the cart is intact and matches yesterday's log before anything is opened.",
+      "id": "tamper-seal-check",
+      "kind": "select",
+      "prompt": "Confirm the numbered seal on the cart is intact and matches yesterday's log before anything is opened.",
+      "target": "tamper-seal-check",
+      "title": "Check the tamper seal before opening",
+      "why": "An intact numbered seal is what lets this cart skip a full drawer-by-drawer inventory today — it's the whole reason the seal exists, and a seal that doesn't match yesterday's number means someone opened this cart and it needs the full count regardless of how it looks from outside."
+    },
+    {
+      "cue": "Two things about this cart aren't right, seal or no seal. Find them.",
+      "id": "cart-inspect",
+      "itemNames": {
+        "broken-seal": "a seal that's already broken",
+        "missing-defib-pads": "a missing set of defibrillator pads"
+      },
+      "itemNotes": {
+        "broken-seal": "This seal is broken, which means the cart's contents can't be trusted on yesterday's log alone — it gets the full inventory today, seal or no seal.",
+        "missing-defib-pads": "A defibrillator with no pads loaded is a defibrillator that isn't actually ready, whatever the rest of the cart looks like — this gets caught and corrected before the cart is ever logged ready."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things about this cart aren't right, seal or no seal. Find them.",
+      "targets": [
+        "broken-seal",
+        "missing-defib-pads"
+      ],
+      "title": "Inspect the cart for what the seal alone won't show",
+      "why": "A seal tells you the cart hasn't been opened since the last check — it doesn't tell you the cart was actually stocked correctly the last time it was closed. This inspection is the check that catches what an intact seal, by itself, never can."
+    },
+    {
+      "cue": "Start the self-test and read the result before logging the cart ready.",
+      "gauge": {
+        "green": [
+          0.35,
+          0.7
+        ],
+        "label": "SELF-TEST",
+        "missNote": "Committed before the self-test actually finished or after it failed. A device logged ready off an incomplete or failed test isn't ready.",
+        "speed": 0.6
+      },
+      "id": "defib-selftest",
+      "kind": "gauge",
+      "prompt": "Start the self-test and read the result before logging the cart ready.",
+      "target": "defib-selftest",
+      "title": "Run the defibrillator's self-test",
+      "why": "A defibrillator's own self-test is the one check that actually exercises the device rather than just looking it over — a unit that displays fine on the outside but fails its self-test is a unit that looks ready and isn't, and the only way to tell the difference is running the test itself."
+    },
+    {
+      "cue": "Read the portable oxygen tank gauge mounted on the cart.",
+      "id": "o2-check-cart",
+      "kind": "select",
+      "prompt": "Read the portable oxygen tank gauge mounted on the cart.",
+      "target": "o2-tank-check-cart",
+      "title": "Check the cart's portable oxygen level",
+      "why": "The portable tank on this cart is the only oxygen supply that actually moves with it wherever the cart is needed next — a low tank found here, at the daily check, gets swapped out now, not discovered empty in the middle of a response when there's no time left to go looking for a fresh one."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Count the general supply drawers against the checklist, then confirm the medication tray is present and its own seal is intact.",
+      "id": "supply-count",
+      "itemNames": {
+        "count-meds-sealed": "confirm the medication tray's own seal",
+        "count-supplies": "count general supplies against the checklist"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Supplies first, then the medication tray's seal — the tray is confirmed present and sealed, never opened to check what pharmacy already counted.",
+      "prompt": "Count the general supply drawers against the checklist, then confirm the medication tray is present and its own seal is intact.",
+      "targets": [
+        "count-supplies",
+        "count-meds-sealed"
+      ],
+      "title": "Count supplies, then confirm the medication tray",
+      "why": "General supplies get counted item by item because that's this job's own scope — the medication tray gets checked for its presence and its seal only, because what's inside that tray is pharmacy's count to keep, not this checklist's to open."
+    },
+    {
+      "cue": "Close the cart and apply a new numbered seal, then record the number.",
+      "id": "reseal-cart",
+      "kind": "select",
+      "prompt": "Close the cart and apply a new numbered seal, then record the number.",
+      "target": "relock-cart",
+      "title": "Reseal the cart with a fresh numbered seal",
+      "why": "Tomorrow's whole check depends on today's seal number being written down correctly, not remembered or guessed at — a cart resealed without logging the new number is a cart tomorrow's tech has absolutely no way to verify against anything, seal intact or not."
+    },
+    {
+      "cue": "Engage the wheel locks once the cart is parked in its marked bay.",
+      "id": "wheel-lock",
+      "kind": "turn",
+      "prompt": "Engage the wheel locks once the cart is parked in its marked bay.",
+      "target": "cart-wheel-lock",
+      "title": "Lock the cart's wheels in its bay",
+      "turn": {
+        "axis": "y",
+        "label": "WHEEL LOCK",
+        "turns": 0.3
+      },
+      "why": "A crash cart that can roll is a crash cart that might not be exactly where the next code needs it to be, and a code is not the moment anyone wants to be tracking one down — locked wheels in a marked bay is what makes finding it automatic instead of a search."
+    },
+    {
+      "cue": "Record the completed check, the seal number and the time in the log.",
+      "id": "log-daily-check",
+      "kind": "select",
+      "prompt": "Record the completed check, the seal number and the time in the log.",
+      "target": "log-daily-check",
+      "title": "Sign off today's check",
+      "why": "A signed, timed log entry is what lets anyone — a supervisor, an inspector, the next shift picking up where you left off — confirm this cart was actually checked today rather than assumed fine because it usually is, which is exactly the assumption a real emergency has no patience for."
+    },
+    {
+      "cue": "Repeat the room number and code type back to confirm the page went out correctly.",
+      "id": "page-relay",
+      "kind": "select",
+      "prompt": "Repeat the room number and code type back to confirm the page went out correctly.",
+      "target": "overhead-page-relay",
+      "title": "Confirm the overhead page",
+      "why": "An overhead page misheard or relayed wrong sends part of the responding team to the wrong room while the actual room keeps waiting — repeating it back before moving is what catches that mistake in the two seconds it's still fixable, rather than the minute it takes someone to notice they're in the wrong hallway."
+    },
+    {
+      "cue": "Stand the doorway and keep the path clear for the full response.",
+      "holdBreakNote": "You left the doorway before the response was over. A hallway held clear for part of a code and open to foot traffic for the rest is a hallway that wasn't actually held.",
+      "id": "hallway-clear",
+      "kind": "hold",
+      "prompt": "Stand the doorway and keep the path clear for the full response.",
+      "seconds": 6,
+      "target": "hallway-clear-post",
+      "title": "Hold the hallway clear",
+      "why": "A code team running full speed down a hallway needs that hallway to actually be clear, not clear except for whoever wandered into it — holding the doorway for the whole response is what keeps that path open the entire time it's needed, not just when it happened to be checked."
+    },
+    {
+      "cue": "Roll the sealed backup cart to the doorway the moment the working cart is opened.",
+      "drag": {
+        "missNote": "Not at the doorway — a backup cart left in the hallway isn't actually in position for the next call.",
+        "radius": 0.4,
+        "to": "room-doorway"
+      },
+      "id": "backup-cart-delivery",
+      "kind": "drag",
+      "prompt": "Roll the sealed backup cart to the doorway the moment the working cart is opened.",
+      "target": "backup-cart",
+      "title": "Bring the backup cart to the room",
+      "why": "The instant one cart is opened for a code, this floor has zero ready spares until another one arrives — getting the backup cart moving the moment the first one opens is what keeps that gap as short as possible."
+    },
+    {
+      "cue": "Walk arriving family members to the designated waiting area, away from the room.",
+      "id": "direct-family",
+      "kind": "select",
+      "prompt": "Walk arriving family members to the designated waiting area, away from the room.",
+      "target": "direct-family",
+      "title": "Direct family to the waiting area",
+      "why": "Family arriving mid-code have nowhere to be that helps and every reason to want to be right at the door — directing them to the waiting area is what keeps the doorway clear and gives them somewhere to actually wait for real information."
+    },
+    {
+      "cue": "Restock everything the code used, then seal the cart with a fresh numbered seal.",
+      "id": "post-code-restock",
+      "itemNames": {
+        "attach-new-seal": "attach a fresh tamper seal",
+        "restock-cart": "restock what the code used"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Restock first, then seal — a seal on a cart that hasn't actually been restocked just hides the gap instead of closing it.",
+      "prompt": "Restock everything the code used, then seal the cart with a fresh numbered seal.",
+      "targets": [
+        "restock-cart",
+        "attach-new-seal"
+      ],
+      "title": "Restock and reseal the moment the room clears",
+      "why": "A cart sitting open and half-restocked after a code is a cart with no protection against the next call finding it exactly as depleted as this one left it — restocked and resealed immediately is what makes this cart the next code's ready cart too, not tomorrow's."
+    },
+    {
+      "cue": "Record what was done and the time the working cart was swapped for the backup.",
+      "id": "log-code-support",
+      "kind": "select",
+      "prompt": "Record what was done and the time the working cart was swapped for the backup.",
+      "target": "log-code-support",
+      "title": "Log the support tasks and the cart exchange",
+      "why": "This log is the only record connecting the cart that responded to this code with the fresh one now sitting in its place — without it, nobody downstream can tell which cart is which or when the swap actually happened."
+    }
+  ],
+  "supportLine": "your employer's employee assistance program, or SEIU-UHW's member resources — supporting a code from the sidelines carries its own weight even when your hands never touch the patient",
+  "tagline": "A crash cart proven ready every day, and the logistics of a real code run by someone who never touches the patient — the hallway kept clear, family redirected, a backup cart delivered, and the room's cart restocked and resealed the moment it clears",
+  "title": "SmartCiti.X~ Code Response Support & Crash Cart Check VR",
+  "trade": "Clinical support technician",
+  "underwater": null,
+  "weather": null
+}

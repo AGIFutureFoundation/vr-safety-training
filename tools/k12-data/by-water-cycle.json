@@ -1,0 +1,146 @@
+{
+  "id": "k12-by-the-water-cycle-from-lake-to-tap",
+  "index": "834",
+  "prefix": "byc",
+  "accent": "#3fa6c8",
+  "floor": ["#74766c", "#66685f"],
+  "wall": ["#dbe8ec", "#cadbe0"],
+  "trade": "Science class on the lakefront with a water utility operator — learner and water treatment operator",
+  "header": "Upper-primary science at the Mandeville Lakefront and Harbour in St. Tammany Parish: the sun lifts water from the lake as vapour, it cools into clouds and falls as rain, it gathers in rivers, lakes and underground, and a treatment plant cleans it before it ever reaches a tap, using only the model and the jars the scene shows.",
+  "name": "The Water Cycle from Lake to Tap",
+  "tagline": "Up as vapour, down as rain, cleaned at the plant — and clear is never the same as safe to drink",
+  "badge": { "id": "cycle-tracer", "name": "Cycle Tracer", "note": "Traced water from the lake to the sky and back, ordered the cleaning steps at a model plant and kept lake water out of the cup" },
+  "board": { "name": "Cycle Board", "currency": "DROPS", "ranks": ["Droplet", "Vapour", "Cloud", "Stream", "Operator"] },
+  "hazards": [
+    { "id": "drink-the-lake-water", "label": "Take a sip of the clear lake water from the jar?", "face": "SIP\nIT?", "text": "You went to sip the lake water because it looked clear. Clear water can still carry germs you cannot see. Only water that has been cleaned and tested at a treatment plant is safe to drink, so the jars on the bench are for looking, not tasting." },
+    { "id": "rain-is-new-water", "label": "Say rain is brand-new water made in the clouds?", "face": "NEW\nWATER?", "text": "You said rain is brand-new water. The same water goes round and round: it rises from lakes and the sea as vapour, falls as rain and flows back again. The water in the lake today has been round the cycle many times before." },
+    { "id": "clouds-are-smoke", "label": "Say clouds are made of smoke or steam from chimneys?", "face": "SMOKE?", "text": "You said clouds are smoke. Clouds are made of tiny drops of water that formed when vapour cooled high up. That is why clouds can turn into rain, and smoke cannot." },
+    { "id": "lean-off-the-seawall", "label": "Climb onto the seawall steps to fill the jar yourself?", "face": "CLIMB\nDOWN", "text": "You climbed down the seawall steps to reach the water. Wet steps are slippery and the edge is no place for a class. The operator fills the sample jar with a long pole from the path while everyone stays back." }
+  ],
+  "find1": {
+    "title": "Find the water cycle around the lake",
+    "cue": "Mark the three places on the lakefront model where water is changing or moving in the cycle.",
+    "why": "The water cycle is happening all around you. Over the lake the sun warms the water and some rises as invisible vapour. High up it cools into clouds. Rain falls and runs back into streams and the lake. Finding each part on the model helps you see the cycle as one big loop, not a list of words.",
+    "items": [
+      ["vapour", "vapour rising from the warm lake", "The sun lifts water as a gas."],
+      ["cloud", "a cloud forming as vapour cools", "Tiny drops gather into a cloud."],
+      ["stream", "a stream running back into the lake", "Rain returns to the lake."]
+    ],
+    "decoy": ["sailboat", "a sailboat on the lake", "It floats on the water but is not part of the cycle."]
+  },
+  "seq": {
+    "title": "Put the cycle in order",
+    "cue": "Evaporation, condensation, rain, then the water gathering in the lake again.",
+    "why": "The cycle has an order, even though it never really stops. Water evaporates, the vapour condenses into clouds, the clouds release rain, and the rain gathers in streams, lakes and underground. Putting the steps in order shows how each one leads to the next, round and round.",
+    "oon": "Out of order. Water has to evaporate before it can form a cloud.",
+    "items": [
+      ["ord-evap", "evaporation from the lake"],
+      ["ord-cond", "condensation into clouds"],
+      ["ord-rain", "rain falls"],
+      ["ord-gather", "water gathers again"]
+    ]
+  },
+  "select1": {
+    "title": "Stay on the path behind the seawall rail",
+    "cue": "Take your place on the path behind the rail before the operator lowers the sample pole.",
+    "why": "The seawall edge is slippery and the water beside it can be deep. Standing on the path behind the rail keeps the group safe while you watch the operator take a sample with a long pole. Crews who work by water keep to safe footing the same way on every job.",
+    "key": "path-card",
+    "label": "Stay behind the rail",
+    "face": "PATH\nBEHIND RAIL"
+  },
+  "turn": {
+    "title": "Turn the lamp to warm the model lake",
+    "cue": "Turn the lamp dial so the model sun shines on the water in the clear box.",
+    "why": "In the model, the lamp stands in for the sun. Warming the water gives some of it enough energy to rise as vapour. Watching drops form on the cold lid above shows condensation, and drips falling back show rain. One lamp and one box can show the whole cycle happening in front of you.",
+    "key": "lamp-dial",
+    "label": "Model sun",
+    "dial": "SUN"
+  },
+  "gauge": {
+    "title": "Cool the lid to the right point",
+    "cue": "Commit when the lid's cooling marker reaches the line where drops start to form.",
+    "why": "Vapour turns back into drops when it touches something cold. Cooling the lid to the right point shows exactly when condensation starts. The same thing happens high in the sky, where the air is cold, which is why clouds form up there and not down by the lake.",
+    "key": "cool-meter",
+    "label": "Lid cooling",
+    "meter": "COOL",
+    "miss": "Not at the line yet. Cool the lid until drops begin to form."
+  },
+  "hold": {
+    "title": "Watch the drops gather on the lid",
+    "cue": "Hold your gaze on the lid until the drops grow big enough to fall.",
+    "why": "Small drops join together into bigger ones until they are too heavy to hang on. Watching patiently shows the moment a drop falls, which is a tiny model of rain. Seeing it happen in front of you makes the idea stick better than reading it in a book.",
+    "brk": "You looked away before a drop fell. Watch the lid again until one drips.",
+    "key": "lid-watch",
+    "label": "Watch the lid"
+  },
+  "drag": {
+    "title": "Carry the sample jar to the plant model",
+    "cue": "Drag the lake sample jar to the start of the treatment plant model.",
+    "why": "Before water reaches a tap, it goes to a treatment plant. Carrying the sample to the plant model shows that lake, river or ground water always has a cleaning journey first. That step, not the look of the water, is what makes tap water safe.",
+    "key": "sample-jar",
+    "label": "Lake sample jar",
+    "spot": "plant-start",
+    "spotLabel": "The plant's intake",
+    "miss": "Not at the plant's intake yet. Carry the jar to where the cleaning begins."
+  },
+  "find2": {
+    "title": "Spot the cleaning steps at the plant",
+    "cue": "Look at the treatment plant model and mark each step that cleans the water.",
+    "why": "A treatment plant cleans water in stages. First bits settle out, then the water passes through layers that filter it, then a small safe amount of disinfectant kills germs. Each step does a different job, and together they make water safe. Knowing the steps shows why operators test at every stage.",
+    "items": [
+      ["pl-settle", "the settling tank", "Heavy bits sink to the bottom."],
+      ["pl-filter", "the sand and gravel filter", "Smaller bits are caught here."],
+      ["pl-clean", "the disinfection stage", "Germs are killed before the water leaves."]
+    ],
+    "decoy": ["pl-office", "the operator's office window", "Where the logs are kept, but it does not clean water."]
+  },
+  "select2": {
+    "title": "Say why clear water needs cleaning",
+    "cue": "Choose the reason the operator still cleans water that already looks clear.",
+    "why": "Germs are far too small to see. Water can look sparkling and still carry them. That is why looks are never enough, and why operators test water with instruments, not eyes. Saying this clearly is the safety idea the whole lesson rests on.",
+    "key": "reason-card",
+    "label": "Give the reason",
+    "face": "CLEAR BUT\nNOT SAFE?"
+  },
+  "track": {
+    "title": "Follow the water through the pipes to the tap",
+    "cue": "Keep the marker on the flowing water as it moves from the plant to a model home's tap.",
+    "why": "After cleaning, water travels through pipes under the streets to homes and schools. Following it all the way shows how far it goes and why the pipes must stay sealed and clean. When you turn on a tap, you are at the end of a long journey that started as rain.",
+    "brk": "The marker left the flow. Find the water again and follow it to the tap.",
+    "key": "pipe-meter",
+    "label": "Flow followed",
+    "meter": "FLOW"
+  },
+  "record": {
+    "title": "Draw the cycle and the tap journey",
+    "cue": "Draw the water cycle as a loop and add the plant and the tap as a side path.",
+    "why": "A drawing shows how the ideas connect: the big loop of the cycle, and the side path people add to clean water for drinking. Labelling each arrow with its word makes the drawing a summary you can use again. Scientists sketch systems like this to explain them simply.",
+    "key": "cycle-log",
+    "label": "Cycle drawing",
+    "done": "Cycle and tap journey drawn"
+  },
+  "share": {
+    "title": "Explain the journey to the operator",
+    "cue": "Show your drawing to the operator and explain one step in your own words.",
+    "why": "The operator works with this journey every day and can tell you if you have it right. Explaining a step in your own words shows you understand it, not just remember it. The operator might add something you did not know, which is how learning keeps going.",
+    "key": "share-board",
+    "label": "Explain to the operator",
+    "done": "Journey explained"
+  },
+  "checkin": {
+    "title": "Check in on the lakefront path",
+    "cue": "What part of the cycle surprised you? What will you think of next time you turn on a tap?",
+    "why": "The operator ends every sampling round by checking the log with a colleague, so the class ends by checking in together on the path. Each learner names one step of the cycle and one reason water is cleaned. If anyone still thinks clear means safe, the group talks it through before leaving the lakefront.",
+    "label": "End-of-visit check-in"
+  },
+  "interrupts": [
+    { "id": "a-gust-blows-spray-over-the-path", "kind": "Wet path", "key": "step-back", "label": "Step back from the rail to the dry path", "alert": "A gust blows spray from the lake over the rail and wets the path.", "cue": "Step back to the dry part of the path and tell the teacher it is wet.", "why": "A wet path next to a rail is slippery. Stepping back and telling the teacher lets the group move somewhere safer. Carrying on at the rail because the lesson is interesting is how small slips happen.", "miss": "Nobody stepped back, and the group stayed on the wet, slippery path right beside the rail as the spray kept coming.", "wrong": "That keeps you on the wet path. Step back and tell the teacher. Choose the response that deals with it now.", "done": "Group moved back to the dry path. The lesson carries on." },
+    { "id": "the-operator-asks-about-the-jar", "kind": "Operator question", "key": "say-not-drink", "label": "Say the jar water is not for drinking", "alert": "The operator holds up the clear lake sample and asks if it is safe to drink.", "cue": "Say no, it has not been cleaned and tested yet.", "why": "This is the lesson's safety idea said out loud. Knowing that only treated, tested water is safe to drink protects you anywhere, at a lake, a river or a camp. The operator asks because it matters.", "miss": "You said the clear water looked safe to drink, and the operator had to explain germs before the group could go on.", "wrong": "That misses why the water is not safe yet. Choose the response that deals with it now.", "done": "Not for drinking — explained. The lesson carries on." }
+  ],
+  "crew": ["Science teacher", "Classmate", "Water treatment operator", "Lakefront grounds crew"],
+  "guide": { "start": "Up as vapour, down as rain.", "after": "Cleaned and tested before the tap.", "hazard": "Stop. Clear is not the same as safe." },
+  "lateRecord": "The drawing is made once the cycle and the plant are explored — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the very end of the visit.",
+  "scene": "bench",
+  "order": "c"
+}

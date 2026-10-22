@@ -1,0 +1,330 @@
+{
+  "id": "hazmat-environmental",
+  "kind": "programme",
+  "name": "Hazmat and Environmental Response",
+  "title": "SmartCiti.X Hazmat and Environmental Response — Powered by AGI Corp",
+  "audience": "responders",
+  "summary": "Containment, decontamination and the numbers a neighbourhood relies on. This block runs from the release to the sample bottle, and opens with the real history of one site.",
+  "certification": "OSHA 29 CFR 1910.120 HAZWOPER, NFPA 470 hazardous materials response, and Clean Water Act / Clean Air Act monitoring practice",
+  "programmes": [
+    "hazmat-environmental"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "hunters-point"
+    },
+    {
+      "app": "smartcity",
+      "id": "abatement-chamber"
+    },
+    {
+      "app": "smartcity",
+      "id": "decon-line"
+    },
+    {
+      "app": "smartcity",
+      "id": "air-monitor"
+    },
+    {
+      "app": "smartcity",
+      "id": "stormwater-outfall"
+    },
+    {
+      "app": "trades",
+      "id": "pressure-washer"
+    },
+    {
+      "app": "smartcity",
+      "id": "drum-sampling-and-overpack"
+    },
+    {
+      "app": "smartcity",
+      "id": "hz-level-b-entry-and-scba-change-out"
+    },
+    {
+      "app": "smartcity",
+      "id": "hz-drum-staging-and-compatibility-segregation"
+    },
+    {
+      "app": "smartcity",
+      "id": "hz-decon-corridor-for-a-mass-casualty-drill"
+    }
+  ],
+  "unions": [
+    "liuna",
+    "iaff"
+  ],
+  "unionLine": "LIUNA hazmat and environmental crews, IAFF, and environmental technicians",
+  "k12Bands": [],
+  "path": "disaster-relief",
+  "alsoPaths": [
+    "first-responders"
+  ],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "port-hazmat-response-yard",
+        "west-oakland-air-monitoring-post",
+        "north-shoreline-field-lab"
+      ]
+    },
+    {
+      "world": "underwater",
+      "sites": [
+        "flats-sonde-station",
+        "outfall-diffuser-inspection"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-bernard",
+      "sites": [
+        "sb-fire-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "islais-creek-pump-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-marina",
+      "sites": [
+        "marina-seawall-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "sites": [
+        "hunters-point-shipyard",
+        "shipyard-soil-cell",
+        "yosemite-slough-restoration"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-outer-mission",
+      "sites": [
+        "om-maintenance-crew",
+        "om-gsi-monitoring-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-north-beach",
+      "sites": [
+        "embarcadero-seawall-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-sunset-south",
+      "sites": [
+        "lake-merced-pump-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-west-oakland",
+      "sites": [
+        "west-oakland-air-monitoring-station",
+        "oak-port-trash-capture-middle-harbor"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-fruitvale-estuary",
+      "sites": [
+        "sausal-creek-storm-drain-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-emeryville-berkeley",
+      "sites": [
+        "aquatic-park-storm-drain-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-pablo",
+      "sites": [
+        "san-pablo-stormwater-crew",
+        "sp-gsi-monitoring-point"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-jose",
+      "sites": [
+        "downtown-stormwater-crew-yard",
+        "sj-gsi-site-assessment"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-leandro-bay",
+      "sites": [
+        "slb-trash-capture-device-south",
+        "slb-industrial-frontage-yard",
+        "slb-outfall-monitoring",
+        "slb-debris-haul-transfer"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-san-mateo-shoreline",
+      "sites": [
+        "smc-pcb-soil-sampling",
+        "smc-decon-line",
+        "smc-storm-drain-sediment-sampling",
+        "smc-pcb-equipment-removal",
+        "smc-drum-staging-yard",
+        "smc-outfall-monitoring",
+        "smc-air-monitoring"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bp-nutrient-pilot",
+      "sites": [
+        "npp-chemical-delivery-dock"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "la-avex-new-iberia",
+      "sites": [
+        "lav-stormwater-pond"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "laf-carencro-north",
+      "sites": [
+        "lafc-industrial-park",
+        "lafc-oilfield-service-yard"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "la-meta-richland",
+      "sites": [
+        "lmr-stormwater-pond",
+        "lmr-bayou-buffer-survey"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "la-delta-forge-rapides",
+      "sites": [
+        "ldf-stormwater-pond",
+        "ldf-red-river-levee-patrol"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "la-shintech-plaquemine",
+      "sites": [
+        "lsp-tank-farm",
+        "lsp-emergency-response-station"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "lc-lakefront-downtown",
+      "sites": [
+        "lcd-storm-drain-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "lc-port-of-vinton",
+      "sites": [
+        "lpv-drainage-culvert",
+        "lpv-rice-field-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "nola-french-quarter-cbd",
+      "sites": [
+        "nfq-drainage-line-replacement"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "nola-uptown-garden",
+      "sites": [
+        "nup-drainage-culvert"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "nola-mid-city-gentilly",
+      "sites": [
+        "nmc-drainage-culvert"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "nola-bywater-lower-ninth",
+      "sites": [
+        "nbw-drainage-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "br-downtown-riverfront",
+      "sites": [
+        "brd-storm-drain-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "br-north-industrial",
+      "sites": [
+        "brn-turnaround-staging",
+        "brn-hydrotest-crew",
+        "brn-storm-drain-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "br-riverplex-ascension",
+      "sites": [
+        "brr-drainage-canal"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "hammond-downtown",
+      "sites": [
+        "ham-drainage-canal"
+      ]
+    }
+  ],
+  "stationNames": {
+    "hunters-point": "Hunters Point Briefing",
+    "abatement-chamber": "Abatement Chamber",
+    "decon-line": "Decon Line",
+    "air-monitor": "Perimeter Air",
+    "stormwater-outfall": "Stormwater Outfall",
+    "pressure-washer": "Wash-Down Yard",
+    "drum-sampling-and-overpack": "Drum Sampling & Overpack",
+    "hz-level-b-entry-and-scba-change-out": "Level B Entry & SCBA Change-Out",
+    "hz-drum-staging-and-compatibility-segregation": "Drum Staging & Compatibility Segregation",
+    "hz-decon-corridor-for-a-mass-casualty-drill": "Decon Corridor for a Mass-Casualty Drill"
+  },
+  "version": "1.0.0",
+  "contentHash": "66d7de54",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

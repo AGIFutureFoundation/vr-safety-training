@@ -1,0 +1,407 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "chamber-ready",
+    "name": "Chamber Ready",
+    "note": "The chamber tested, clean of fire load and manned at the console for every minute the diver was in it, and never a door opened under pressure"
+  },
+  "category": "Maritime & Ports",
+  "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.430 diving equipment (decompression chambers), 29 CFR 1910.423 post-dive procedures (the recompression chamber and the diver's condition) and 29 CFR 1910.440 the dive record; ASME PVHO-1 pressure vessels for human occupancy; ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; pressures, times and treatment per the tables the supervisor holds, the chamber manual and the diving physician",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADCI",
+        "citedAs": "ADCI",
+        "id": "adci-consensus-standards",
+        "title": "Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations"
+      },
+      {
+        "body": "ASME",
+        "citedAs": "ASME PVHO-1",
+        "id": "asme-pvho-1",
+        "title": "ASME PVHO-1 — Safety Standard for Pressure Vessels for Human Occupancy (the design, fabrication and marking of decompression and recompression chambers)"
+      },
+      {
+        "body": "union",
+        "citedAs": "Pile Drivers",
+        "id": "carpenters-ictf",
+        "title": "United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.423",
+        "id": "osha-1910-423",
+        "title": "29 CFR 1910.423 — Post-dive procedures (the diver's condition, instructions to report symptoms, the recompression chamber and the record of dive)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.430",
+        "id": "osha-1910-430",
+        "title": "29 CFR 1910.430 — Diving equipment (air compressor systems and their intakes, breathing gas hoses, helmets and masks, decompression chambers, gauges and timekeeping)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.440",
+        "id": "osha-1910-440",
+        "title": "29 CFR 1910.440 — Recordkeeping for commercial diving (the dive record, decompression procedure assessments and their retention)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910 Subpart T",
+        "id": "osha-1910-subpart-t",
+        "title": "29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 197 Subpart B",
+        "id": "uscg-46-cfr-197-subpart-b",
+        "title": "46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction"
+      }
+    ]
+  },
+  "district": "Maritime & Ports",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "brief-first",
+        "name": "Brief First",
+        "note": "The standby brief taken before the chamber was touched"
+      },
+      {
+        "id": "test-true",
+        "name": "Test True",
+        "note": "The test pressure committed inside the band first time"
+      },
+      {
+        "id": "no-fire-load",
+        "name": "No Fire Load",
+        "note": "No hydrocarbon on the door, no phone into the chamber, never off the console, never a door under pressure"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-standby",
+        "name": "Clean Standby",
+        "note": "No corrections from the brief to the chamber log"
+      },
+      {
+        "id": "steady-blowdown",
+        "name": "Steady Blow-down",
+        "note": "The chamber pressed down in band the whole way"
+      },
+      {
+        "id": "logged-in-time",
+        "name": "Logged In Time",
+        "note": "Chamber log written inside 80% of par"
+      }
+    ],
+    "currency": "LOCK",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Outside Tender",
+      "Inside Tender",
+      "Chamber Operator",
+      "Lead Chamber Operator",
+      "Chamber Standby Certified"
+    ],
+    "system": "Chamber Standby"
+  },
+  "hazards": {
+    "leave-console": "You started to leave the chamber console to help the tender at the ladder. The console is the chamber's pressure, its gas and its occupants' voice all at once, and a chamber with someone in it and nobody at the console is a pressure vessel nobody is watching. The operator stays at the console for every minute the chamber is occupied or pressurised.",
+    "phone-into-chamber": "You were about to pass your phone in through the medical lock so the diver could call home. A phone's battery and circuits are an ignition source in an atmosphere that may be oxygen-enriched, and a battery can fail under pressure. Nothing electrical goes into the chamber that the chamber's manual has not approved for it.",
+    "spray-door-hinge": "You reached for the aerosol lubricant to free the chamber door's hinge. A petroleum lubricant inside a chamber that will be breathing oxygen is fuel in an atmosphere that makes everything burn faster and hotter, and chamber fires have killed everyone inside them in seconds. Only the lubricants the chamber's manual approves for oxygen service go anywhere near it.",
+    "undog-door": "You went to undog the inner door to pass something in while the chamber was under pressure. A door opened under pressure blows out with the full force of the chamber behind it, and the occupants are decompressed in an instant — a catastrophic injury for them and for you. Anything that has to go in while the chamber is pressed goes through the medical lock."
+  },
+  "id": "br-hyperbaric-chamber-standby",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "leak-check",
+      "alert": "The chamber's oxygen analyser has alarmed — the oxygen in the chamber's air is climbing, and the built-in masks are still connected from the last check.",
+      "cue": "Open the ventilation valve to flush the chamber with air, then find the source.",
+      "delay": 2,
+      "id": "oxygen-rising",
+      "kind": "Oxygen rising in the chamber",
+      "missNote": "The analyser kept climbing while the leak check carried on; by the time anyone ventilated, the chamber's air was well past the limit the manual sets for a chamber anyone should be inside.",
+      "seconds": 14,
+      "target": "ventilation-valve",
+      "why": "Oxygen above the chamber's limit makes a fire far more likely and far more violent, and the first answer is always to ventilate: flush the chamber through with air so the oxygen comes back down, then find where it came from — a leaking mask, a dump not flowing, a valve left cracked. Ventilation is quick and it is the operator's to do, while the search can wait until the atmosphere is safe.",
+      "wrongNote": "The ventilation valve — flush the chamber with air first, then look for the source."
+    },
+    {
+      "after": "press-down",
+      "alert": "The inside tender calls over the intercom: the diver has a deep ache in the right shoulder that started on the ladder and is getting worse.",
+      "cue": "Call the diving physician on the console phone while the supervisor decides the treatment from the tables they hold.",
+      "delay": 2,
+      "id": "diver-symptoms",
+      "kind": "Diver reports symptoms in the chamber",
+      "missNote": "The blow-down carried on with nobody calling the physician; the supervisor had to leave the tables to make the call, and the treatment started late.",
+      "seconds": 14,
+      "target": "physician-phone",
+      "why": "Pain after a decompression dive is treated as decompression sickness until a physician says otherwise, and the diving physician on the emergency list is called at once — they advise the supervisor, who chooses the treatment from the tables they hold. The operator makes the call because the supervisor is working the tables and the inside tender is with the diver; every minute of delay is a minute of the bubble doing its damage.",
+      "wrongNote": "The physician's phone on the console — the diving physician needs to hear about the shoulder now."
+    }
+  ],
+  "lateNotes": {
+    "blowdown-valve": "The diver is blown down once the stopwatches are set and the medical kit is inside.",
+    "chamber-log": "The chamber log is written once the viewport check is done.",
+    "leak-check": "The chamber is held for leaks once it is at test pressure — read the gauge first."
+  },
+  "name": "Hyperbaric Chamber Standby",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-restoration-maritime-underwater"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "workboat",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "air-supply",
+      "bibs-masks",
+      "blowdown-valve",
+      "chamber-door",
+      "chamber-gauge",
+      "chamber-log",
+      "diver-shoulder",
+      "door-seal",
+      "dump-kink",
+      "exhaust-valve",
+      "leak-check",
+      "leave-console",
+      "lighter-inside",
+      "main-lock-bench",
+      "medical-kit",
+      "phone-into-chamber",
+      "physician-phone",
+      "spray-door-hinge",
+      "standby-brief",
+      "stopwatches",
+      "team-board",
+      "undog-door",
+      "ventilation-valve"
+    ],
+    "meshes": 235
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "At the chamber, in your PFD: the dive's decompression plan, whether it includes surface decompression, the treatment tables the supervisor holds, the diving physician's number and the chamber's operating manual.",
+      "id": "standby-brief",
+      "kind": "select",
+      "prompt": "At the chamber, in your PFD: the dive's decompression plan, whether it includes surface decompression, the treatment tables the supervisor holds, the diving physician's number and the chamber's operating manual.",
+      "target": "standby-brief",
+      "title": "Take the chamber standby brief from the supervisor",
+      "why": "A chamber standing by a decompression dive is part of the dive plan, not an afterthought on the deck. 29 CFR 1910.423 has a chamber ready for the dives that need one, and the operator has to know before the diver leaves the surface whether the plan uses it for surface decompression, which treatment tables the supervisor would call if the diver surfaced with symptoms, and who the diving physician is — because none of that can be looked up calmly once the diver is on the ladder."
+    },
+    {
+      "cue": "Walk the chamber inside and out: the door seals and dogs, the viewports, the penetrators, and anything inside that could burn or ignite.",
+      "id": "chamber-check",
+      "itemNames": {
+        "door-seal": "grit and a nick on the inner door's seal",
+        "lighter-inside": "a lighter left on the bench inside the main lock"
+      },
+      "itemNotes": {
+        "door-seal": "The inner door's seal has grit on it and a small nick at the bottom; under pressure a seal like that leaks, and a leaking door is a chamber that cannot hold the depth a treatment needs.",
+        "lighter-inside": "Someone's lighter is lying on the bench inside the main lock. A lighter is an ignition source and its fuel is a fire load — in a chamber that may breathe oxygen, it is the most dangerous thing on the deck."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the chamber inside and out: the door seals and dogs, the viewports, the penetrators, and anything inside that could burn or ignite.",
+      "targets": [
+        "door-seal",
+        "lighter-inside"
+      ],
+      "title": "Check the chamber for leaks and fire load before it is needed",
+      "why": "A chamber has two ways to fail the diver who needs it: it cannot hold pressure, or it catches fire. The seals, viewports and penetrators are what hold the pressure, and 29 CFR 1910.430 and ASME PVHO-1 hold the chamber to being inspected and maintained for that; the fire load is everything that was carried in and forgotten, found and taken out now, because once the door is shut on a diver breathing oxygen nothing inside can be removed."
+    },
+    {
+      "cue": "Open the chamber's primary air supply valve at the console steadily, with the secondary supply lined up on its own valve.",
+      "id": "line-up-air",
+      "kind": "turn",
+      "prompt": "Open the chamber's primary air supply valve at the console steadily, with the secondary supply lined up on its own valve.",
+      "target": "air-supply",
+      "title": "Line up the chamber's air supply",
+      "turn": {
+        "label": "CHAMBER AIR SUPPLY",
+        "turns": 1
+      },
+      "why": "A chamber is pressed with air from its own supply, and that supply is lined up by hand before it is needed so the operator knows it is open and flowing. The secondary is ready on its own valve because a chamber that loses its only supply in the middle of a treatment cannot hold its occupants at the depth the tables call for, and the switch has to take seconds, not a search."
+    },
+    {
+      "cue": "Press the empty chamber and commit the depth gauge at the test pressure the chamber's manual gives for the pre-dive check.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "CHAMBER DEPTH",
+        "missNote": "Outside the band — let the gauge settle and commit it at the test pressure the chamber's manual gives.",
+        "speed": 0.66
+      },
+      "id": "test-pressure",
+      "kind": "gauge",
+      "prompt": "Press the empty chamber and commit the depth gauge at the test pressure the chamber's manual gives for the pre-dive check.",
+      "target": "chamber-gauge",
+      "title": "Take the chamber to its test pressure",
+      "why": "The pre-dive test proves the chamber holds pressure before a diver's life depends on it holding pressure. It is pressed empty, to the test pressure its own operating manual sets, and the gauge is read as it settles, because a chamber that will not come up to its test, or creeps past it while the supply is shut, has a fault that must be found now rather than with a diver inside."
+    },
+    {
+      "cue": "With the supply shut, hold the chamber at test pressure and watch the gauge, listening at the door and the penetrators, until the manual's hold time has passed without a drop.",
+      "holdBreakNote": "You let the test go before the hold time had passed — a slow leak would not have shown yet. Take the chamber back to test pressure and hold it.",
+      "id": "leak-check",
+      "kind": "hold",
+      "prompt": "With the supply shut, hold the chamber at test pressure and watch the gauge, listening at the door and the penetrators, until the manual's hold time has passed without a drop.",
+      "seconds": 5,
+      "target": "leak-check",
+      "title": "Hold the test and watch for leaks",
+      "why": "A small leak shows as a gauge that creeps down while nobody is adding gas, and as a hiss at a seal or a penetrator. Holding the test long enough to see it is what separates a chamber that holds from one that only seemed to on the way up. A leak found now is a seal cleaned or changed; a leak found in a treatment is a diver who cannot be held at the depth their symptoms need."
+    },
+    {
+      "cue": "Check each built-in breathing mask inside the chamber: its seal and strap, oxygen flowing on demand, and the exhaled gas going out through the overboard dump rather than into the chamber.",
+      "id": "bibs-check",
+      "kind": "select",
+      "prompt": "Check each built-in breathing mask inside the chamber: its seal and strap, oxygen flowing on demand, and the exhaled gas going out through the overboard dump rather than into the chamber.",
+      "target": "bibs-masks",
+      "title": "Check the built-in breathing masks and their dump",
+      "why": "Divers in the chamber breathe oxygen through the built-in masks, and the overboard dump carries what they exhale out of the chamber instead of letting it build up inside. A mask that leaks, or a dump that does not flow, raises the oxygen in the chamber's own air, and every step up in oxygen makes a fire more likely and more violent. The masks and the dump are checked before anyone breathes from them."
+    },
+    {
+      "cue": "Open the exhaust valve and bring the chamber back to surface, watch the gauge reach zero, and only then undog and open the inner door.",
+      "id": "vent-and-open",
+      "itemNames": {
+        "chamber-door": "inner door opened once the gauge reads surface",
+        "exhaust-valve": "chamber vented to surface on the exhaust valve"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — vent the chamber to surface and see the gauge at zero before you touch the door.",
+      "prompt": "Open the exhaust valve and bring the chamber back to surface, watch the gauge reach zero, and only then undog and open the inner door.",
+      "targets": [
+        "exhaust-valve",
+        "chamber-door"
+      ],
+      "title": "Vent the chamber to surface, then open the door",
+      "why": "A door opens only when the chamber on both sides of it is at the same pressure: at surface, the door swings free; under pressure, it is held shut by a force no one can overcome by hand — or, if the dogs are forced, blown open with a violence that kills. The chamber is vented and the gauge seen at surface before a hand goes to the dogs, every time, including after a test."
+    },
+    {
+      "cue": "Carry the chamber's medical kit — first aid, the diagnostic kit, water and the diver's warm clothes — inside the main lock, on the bench where the inside tender will find it.",
+      "drag": {
+        "missNote": "Not on the bench inside the main lock — the kit goes where the inside tender will reach it.",
+        "radius": 0.5,
+        "to": "main-lock-bench"
+      },
+      "id": "kit-inside",
+      "kind": "drag",
+      "prompt": "Carry the chamber's medical kit — first aid, the diagnostic kit, water and the diver's warm clothes — inside the main lock, on the bench where the inside tender will find it.",
+      "target": "medical-kit",
+      "title": "Put the medical kit into the main lock",
+      "why": "Once a diver is being treated, anything the inside tender needs must be in the chamber or come through the medical lock, and the kit that will be needed is known before the dive: first aid, the diagnostic kit, water and dry clothes. Putting it inside now, while the door is open, means the inside tender is not waiting on the lock during the minutes that matter."
+    },
+    {
+      "cue": "Set the two stopwatches at the console and agree with the supervisor who starts them when the diver leaves the last water stop.",
+      "id": "set-timers",
+      "kind": "select",
+      "prompt": "Set the two stopwatches at the console and agree with the supervisor who starts them when the diver leaves the last water stop.",
+      "target": "stopwatches",
+      "title": "Set the stopwatches for the surface interval",
+      "why": "In surface decompression the time between the diver leaving the last water stop and reaching depth in the chamber is limited by the tables the supervisor holds, and it is the operator's job to know that time as it runs. Two stopwatches mean one failure does not lose the interval, and agreeing who starts them means nobody assumes the other did — the diver undressing on deck is working against that clock."
+    },
+    {
+      "cue": "With the diver and the inside tender in and the door dogged, work the blow-down valve to press the chamber at the rate the tables allow, watching the diver clear their ears through the viewport.",
+      "holdBreakNote": "The rate went out of band — too slow for the interval or too fast for the ears. Bring the valve back to the tables' rate and hold it.",
+      "id": "press-down",
+      "kind": "track",
+      "prompt": "With the diver and the inside tender in and the door dogged, work the blow-down valve to press the chamber at the rate the tables allow, watching the diver clear their ears through the viewport.",
+      "seconds": 6,
+      "target": "blowdown-valve",
+      "title": "Blow the diver down at the rate the tables allow",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "BLOW-DOWN RATE",
+        "rise": 0.56,
+        "start": 0.14
+      },
+      "why": "The chamber is pressed down fast enough to meet the tables' surface interval and slowly enough that the diver and the inside tender can clear their ears; a rate that is too slow eats the interval, and a rate that is too fast ruptures an eardrum. The operator watches the occupants through the viewport while holding the rate, because a diver who cannot clear signals it with their hands, not the gauge."
+    },
+    {
+      "cue": "Through the viewport, watch the diver and the inside tender for anything they are not saying, and look along the chamber's lines on deck.",
+      "id": "viewport-watch",
+      "itemNames": {
+        "diver-shoulder": "the diver rubbing their right shoulder",
+        "dump-kink": "a kink in the overboard dump line outside the chamber"
+      },
+      "itemNotes": {
+        "diver-shoulder": "Through the viewport the diver keeps rubbing and flexing their right shoulder — a joint ache after a decompression dive is a symptom until the physician says otherwise.",
+        "dump-kink": "The overboard dump line has been stepped on and kinked where it runs across the deck; with the dump restricted, exhaled oxygen spills into the chamber instead of going overboard."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Through the viewport, watch the diver and the inside tender for anything they are not saying, and look along the chamber's lines on deck.",
+      "targets": [
+        "diver-shoulder",
+        "dump-kink"
+      ],
+      "title": "Watch the occupants and the chamber's lines",
+      "why": "Decompression sickness often starts quietly: a diver rubbing a shoulder, going quiet, or getting clumsy with a mask, and the operator watching through the viewport sees it before the diver admits it. The lines outside the chamber matter as much: an overboard dump kinked on deck turns every exhaled breath of oxygen into oxygen in the chamber's air, and the operator is the one person positioned to see both."
+    },
+    {
+      "cue": "Record the pre-dive test, the time the diver left the last water stop and reached depth, the blow-down, the oxygen periods, the shoulder, the physician's advice and the kinked dump line.",
+      "id": "chamber-log",
+      "kind": "select",
+      "prompt": "Record the pre-dive test, the time the diver left the last water stop and reached depth, the blow-down, the oxygen periods, the shoulder, the physician's advice and the kinked dump line.",
+      "target": "chamber-log",
+      "title": "Write the chamber log",
+      "why": "The chamber log is part of the dive record 29 CFR 1910.440 has the employer keep, and for a diver with symptoms it is also the medical record the physician will treat from: exact times, depths from the gauge, what the diver said and when. It is written as the treatment goes, because a log reconstructed afterwards from memory is the one the physician cannot trust."
+    },
+    {
+      "cue": "At the team board once the diver is settled: what happened and when, who watches the diver afterwards and for how long the physician advised, the dump line, and how everyone is.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "At the team board once the diver is settled: what happened and when, who watches the diver afterwards and for how long the physician advised, the dump line, and how everyone is.",
+      "target": "team-board",
+      "title": "Debrief and check in with the team",
+      "why": "A diver who has been treated is watched afterwards, and the team is told who is watching, what to look for and who to call. A diver in the chamber with symptoms is a hard hour for everyone on the deck — the diver most of all — and the debrief is where it is said out loud; the Pile Drivers Local 34 member assistance line is there for what a deck conversation does not settle."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — Pile Drivers Local 34 — with the employer's employee assistance line behind it",
+  "tagline": "The chamber ready before the diver needs it: the standby brief taken, the door seal and the lighter found, the air lined up, the chamber taken to test pressure and held for leaks while the oxygen climbs, the breathing masks checked, vented to surface before the door opens, the medical kit locked in, the stopwatches set, the diver blown down at the tables' rate while they report a painful shoulder, the viewport watched, and the chamber log written — every step in a PFD",
+  "title": "SmartCiti.X~ Hyperbaric Chamber Standby VR",
+  "trade": "Pile Drivers Local 34 commercial diver as chamber operator standing by a deck decompression chamber during a Bay restoration dive, with the dive supervisor, the tender and the standby diver",
+  "underwater": null,
+  "weather": "overcast"
+}

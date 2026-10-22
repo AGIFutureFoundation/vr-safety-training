@@ -1,0 +1,397 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "lane-held-clean",
+    "name": "Lane Held Clean",
+    "note": "Every back sounded first, the fifth wheel locked before the pull, and never a wheel moved with a pedestrian in the marked crossing"
+  },
+  "category": "Maritime & Ports",
+  "certification": "OSHA 29 CFR 1917 marine terminals for the yard's own traffic rules, 29 CFR 1918 longshoring for the drivers and ground crew sharing the apron, 29 CFR 1910.178 powered industrial truck practice for the hostler itself, the MUTCD for the yard's marked walkways and lane striping, and Teamsters apprenticeship and yard-driver training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "MUTCD",
+        "citedAs": "MUTCD",
+        "id": "mutcd",
+        "title": "Manual on Uniform Traffic Control Devices — temporary traffic control for work zones (Part 6)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.178",
+        "id": "osha-1910-178",
+        "title": "29 CFR 1910.178 — Powered industrial trucks"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1917",
+        "id": "osha-1917",
+        "title": "29 CFR 1917 — Marine terminals"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1918",
+        "id": "osha-1918",
+        "title": "29 CFR 1918 — Safety and health regulations for longshoring"
+      },
+      {
+        "body": "union",
+        "citedAs": "Teamsters",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Maritime",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "coupled-clean",
+        "name": "Coupled Clean",
+        "note": "The fifth wheel locked and the air lines connected before the first pull"
+      },
+      {
+        "id": "lane-held-steady",
+        "name": "Lane Held Steady",
+        "note": "The backing watch stayed inside the lane markers the whole reverse"
+      },
+      {
+        "id": "never-a-shortcut",
+        "name": "Never a Shortcut",
+        "note": "Never backed without the horn, never the marked crossing driven through occupied, never the fifth wheel trusted unlocked"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-move",
+        "name": "Clean Move",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "air-on-the-band",
+        "name": "Air On The Band",
+        "note": "Air pressure gauge committed inside the band first time"
+      },
+      {
+        "id": "move-logged-fast",
+        "name": "Move Logged Fast",
+        "note": "Tally logged inside 80% of par"
+      }
+    ],
+    "currency": "TAG",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Yard Hand",
+      "Hostler Crew",
+      "Lane Lead",
+      "Terminal Certified",
+      "Yard Driver Certified"
+    ],
+    "system": "Yard Lane"
+  },
+  "hazards": {
+    "back-without-horn": "You started backing the hostler without sounding the horn first. The horn is the only warning anyone behind a terminal tractor gets before it moves, and backing without it is trusting that everyone in the lane already happens to be watching the wheels instead of their own work.",
+    "cross-marked-walkway-blind": "You drove through the marked pedestrian crossing without slowing to check it first. The yard's own traffic plan put that stripe there because it is the one place drivers and people on foot are both expected to cross paths, and treating it as just more pavement is how a hostler and a longshoreman end up in the same six feet of ground.",
+    "drive-with-unlocked-fifth-wheel": "You pulled away from the chassis before confirming the fifth wheel had actually locked. A fifth wheel that only looks engaged can separate under the first hard brake or turn, and the chassis it was supposed to be carrying becomes a trailer running loose in a yard full of people on foot.",
+    "stand-in-hustler-blind-spot": "You had the ground guide stand directly behind the cab while the hostler backed instead of staying where the mirrors could see them. A terminal tractor's blind spot directly behind the cab is exactly where a ground guide standing there disappears from every mirror the driver has, which defeats the entire reason a ground guide is there."
+  },
+  "id": "po-yard-hostler-and-pedestrian-separation",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "backing-watch",
+      "alert": "A worker has just stepped into the backing lane behind the chassis while you are still reversing.",
+      "cue": "Stop on the emergency horn now — the lane reading waits.",
+      "delay": 2,
+      "id": "pedestrian-enters-backing-lane",
+      "kind": "A pedestrian steps into the backing lane mid-reverse",
+      "missNote": "The backing move continued while the lane reading was corrected; the worker had to jump clear of the chassis themselves before the hostler ever stopped.",
+      "seconds": 12,
+      "target": "emergency-horn",
+      "why": "A pedestrian in the lane behind a reversing chassis has no warning except the noise you make right now, and sounding the emergency horn and stopping is the only thing that happens fast enough to matter — the lane reading can wait the second it takes to reach for it.",
+      "wrongNote": "The emergency horn — a pedestrian in the backing lane is answered by stopping immediately, not by finishing the correction already underway."
+    },
+    {
+      "after": "spot-chassis",
+      "alert": "A second hostler has entered the intersection ahead on a crossing path, with right of way you do not have.",
+      "cue": "Stop and yield at the marker — the tally log waits.",
+      "delay": 2,
+      "id": "cross-traffic-conflict",
+      "kind": "A second hostler crosses the intersection ahead",
+      "missNote": "The tally was logged first while the second hostler kept closing on the intersection; both trucks ended up stopped nose to nose with neither one having yielded first.",
+      "seconds": 12,
+      "target": "yield-marker",
+      "why": "Two loaded hostlers claiming the same intersection at once is exactly what the yard's right-of-way rule exists to prevent, and yielding now, before either chassis commits further, is what keeps a blind assumption about who goes first from becoming a collision between two vehicles that both outweigh anything else in the yard.",
+      "wrongNote": "The yield marker — a crossing conflict is answered by stopping and yielding, not by finishing paperwork already in hand."
+    }
+  ],
+  "lateNotes": {
+    "air-gauge": "Nothing to gauge yet — connect the glad hands before checking air pressure.",
+    "fifth-wheel-lock": "The hostler has to actually be backed under the chassis before the fifth wheel can lock onto anything.",
+    "kingpin-coupling": "Nothing to couple yet — sound the horn and confirm the lane is clear before backing under the chassis."
+  },
+  "name": "Yard Hostler & Pedestrian Separation",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "port-operations"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "trailer:flatbed",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "yardHustler",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "gladHandGauge",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 3,
+    "hits": [
+      "air-gauge",
+      "back-without-horn",
+      "backing-lane",
+      "cross-marked-walkway-blind",
+      "drive-with-unlocked-fifth-wheel",
+      "drop-zone",
+      "emergency-horn",
+      "fifth-wheel-lock",
+      "glad-hands",
+      "horn",
+      "hostler-fifth-wheel",
+      "hustler-lights",
+      "hustler-mirrors",
+      "kingpin-coupling",
+      "marked-crossing",
+      "shift-log",
+      "stand-in-hustler-blind-spot",
+      "worker-at-corner",
+      "yard-plan",
+      "yard-radio",
+      "yard-tally",
+      "yield-marker"
+    ],
+    "meshes": 296
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the plan: the marked walkways, the blind corner ahead, and the drop zone this chassis is headed for.",
+      "id": "read-yard-plan",
+      "kind": "select",
+      "prompt": "Read the plan: the marked walkways, the blind corner ahead, and the drop zone this chassis is headed for.",
+      "target": "yard-plan",
+      "title": "Read the yard traffic plan",
+      "why": "The yard's own traffic plan is what turns a lane full of moving equipment and people on foot into something predictable — where the marked crossings sit, which corners are blind from the cab, and where today's chassis actually needs to end up. It is read before the engine starts, not worked out lane by lane as the shift goes."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Check the hostler's lights and adjust both mirrors before pulling out of the stall.",
+      "id": "pre-trip-hustler",
+      "itemNames": {
+        "hustler-lights": "lights checked",
+        "hustler-mirrors": "mirrors adjusted"
+      },
+      "kind": "sequence",
+      "prompt": "Check the hostler's lights and adjust both mirrors before pulling out of the stall.",
+      "targets": [
+        "hustler-lights",
+        "hustler-mirrors"
+      ],
+      "title": "Pre-trip the hostler: lights and mirrors",
+      "why": "A hostler spends its whole shift backing in a yard full of people on foot, and mirrors that are not actually adjusted for this driver are mirrors that are quietly not covering the blind spot they are there for — checked now, in the stall, rather than discovered mid-back."
+    },
+    {
+      "cue": "Look down the lane toward the blind corner for anyone on foot before backing anywhere near it.",
+      "id": "spot-pedestrian-blindspot",
+      "itemNames": {
+        "worker-at-corner": "worker crossing at the blind corner ahead"
+      },
+      "itemNotes": {
+        "worker-at-corner": "A longshoreman is walking toward the blind corner ahead of the lane — easy to miss from the cab until the hostler is already committed to the back, and watched until they are clear."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look down the lane toward the blind corner for anyone on foot before backing anywhere near it.",
+      "targets": [
+        "worker-at-corner"
+      ],
+      "title": "Look down the lane before committing to the back",
+      "why": "A blind corner is blind from the cab in exactly the direction a pedestrian is most likely to appear from, and looking for them now, with the hostler still stopped, is the only point in this move where spotting them costs nothing."
+    },
+    {
+      "cue": "Sound the horn before putting the hostler in reverse.",
+      "id": "sound-horn",
+      "kind": "select",
+      "prompt": "Sound the horn before putting the hostler in reverse.",
+      "target": "horn",
+      "title": "Sound the horn before backing",
+      "why": "The horn is what tells everyone in the lane, not just the person you already spotted, that this hostler is about to move backward — sounding it before the truck is already rolling is what makes it a warning instead of a formality."
+    },
+    {
+      "cue": "Back the hostler smoothly under the chassis until the fifth wheel is aligned on the kingpin.",
+      "drag": {
+        "missNote": "Not aligned on the kingpin — the fifth wheel has to back in directly under the chassis's own coupling point, not alongside it.",
+        "radius": 0.5,
+        "to": "kingpin-coupling"
+      },
+      "id": "couple-chassis",
+      "kind": "drag",
+      "prompt": "Back the hostler smoothly under the chassis until the fifth wheel is aligned on the kingpin.",
+      "target": "hostler-fifth-wheel",
+      "title": "Back the fifth wheel under the chassis kingpin",
+      "why": "The fifth wheel only has one position that actually lines up with the kingpin, and backing under it slowly, watching the alignment rather than the mirrors alone, is what keeps this coupling from needing a second and third attempt with the chassis rocking further out of position each time."
+    },
+    {
+      "cue": "Turn the fifth wheel's release handle to check it is locked, not released, before pulling forward.",
+      "id": "lock-fifth-wheel",
+      "kind": "turn",
+      "prompt": "Turn the fifth wheel's release handle to check it is locked, not released, before pulling forward.",
+      "target": "fifth-wheel-lock",
+      "title": "Confirm the fifth wheel locked",
+      "turn": {
+        "label": "5TH WHEEL",
+        "turns": 0.4
+      },
+      "why": "A fifth wheel that has not actually latched can look coupled from the cab and separate the moment the hostler pulls forward, and checking the release handle's own position — locked, not released — is the one physical confirmation that does not depend on how the coupling looked from the mirror."
+    },
+    {
+      "cue": "Connect both glad hands to the chassis before checking air pressure.",
+      "id": "verify-glad-hands",
+      "kind": "select",
+      "prompt": "Connect both glad hands to the chassis before checking air pressure.",
+      "target": "glad-hands",
+      "title": "Connect the air lines",
+      "why": "The chassis's own brakes and lights run off the air and electrical lines this connection carries, and a chassis pulled without them connected is a chassis with no brakes of its own — running entirely on the hostler's, on wheels that are not the hostler's to stop."
+    },
+    {
+      "cue": "Read the glad-hand gauge and commit the reading once it settles inside the band before moving.",
+      "gauge": {
+        "green": [
+          0.55,
+          0.78
+        ],
+        "label": "AIR PSI",
+        "missNote": "Not settled inside the band — hold the gauge until the reading stops moving before you commit it.",
+        "speed": 0.65
+      },
+      "id": "check-air-pressure",
+      "kind": "gauge",
+      "prompt": "Read the glad-hand gauge and commit the reading once it settles inside the band before moving.",
+      "target": "air-gauge",
+      "title": "Gauge the air pressure before pulling out",
+      "why": "A chassis running on air pressure below the band the yard's own pre-trip calls for is a chassis whose brakes cannot be trusted at the drop zone, and reading the gauge now, before the first pull, is what catches a slow leak while the chassis is still stationary and easy to swap."
+    },
+    {
+      "cue": "Back the coupled chassis down the lane, keeping the reading inside the marked lane's band the whole way.",
+      "holdBreakNote": "The lane reading ran outside the markers mid-back — a hostler that drifts out of lane while reversing is exactly the situation the marked walkway beside it exists to be kept clear of.",
+      "id": "backing-watch",
+      "kind": "track",
+      "prompt": "Back the coupled chassis down the lane, keeping the reading inside the marked lane's band the whole way.",
+      "seconds": 6,
+      "target": "backing-lane",
+      "title": "Hold the lane through the backing move",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.28,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "LANE",
+        "rise": 0.3,
+        "start": 0.5
+      },
+      "why": "A hostler that drifts out of its own marked lane while backing is a hostler sharing pavement with pedestrian walkways it was never supposed to enter, and holding the lane reading steady — rather than correcting only once it is already outside the markers — is what keeps this pull inside the space the yard actually planned for it."
+    },
+    {
+      "cue": "Stop at the marked crossing and hold until the pedestrian has fully cleared it.",
+      "holdBreakNote": "The hold broke before the pedestrian was fully clear of the marked crossing — a stop that releases early is a stop that was never really held for the person it was for.",
+      "id": "pedestrian-clearance-hold",
+      "kind": "hold",
+      "prompt": "Stop at the marked crossing and hold until the pedestrian has fully cleared it.",
+      "seconds": 5,
+      "target": "marked-crossing",
+      "title": "Hold at the marked crossing for a pedestrian",
+      "why": "The marked crossing is the one place in this lane where the yard's own plan assumes a driver will stop for a person on foot, and holding until they are fully clear — not just past the front bumper — is what the stripe on the pavement is actually asking for."
+    },
+    {
+      "cue": "Position the chassis inside the drop zone's markers before uncoupling.",
+      "drag": {
+        "missNote": "Not inside the drop zone's markers — the chassis has to be spotted fully inside the zone, not left somewhere close to it.",
+        "radius": 0.6,
+        "to": "drop-zone"
+      },
+      "id": "spot-chassis",
+      "kind": "drag",
+      "prompt": "Position the chassis inside the drop zone's markers before uncoupling.",
+      "target": "kingpin-coupling",
+      "title": "Spot the chassis in the drop zone",
+      "why": "The drop zone's own markers are where the next handler expects to find this chassis, and spotting it inside them — not just somewhere close — is what keeps the next move from starting with someone hunting the yard for a trailer left slightly off its mark."
+    },
+    {
+      "cue": "Record the chassis number, the drop zone, and the air pressure reading on the yard tally.",
+      "id": "tally-log",
+      "kind": "select",
+      "prompt": "Record the chassis number, the drop zone, and the air pressure reading on the yard tally.",
+      "target": "yard-tally",
+      "title": "Log the move on the yard tally",
+      "why": "The yard tally is the terminal's own record of which chassis is where, and a chassis dropped but never logged is a chassis the next shift's dispatcher has to physically go find instead of reading off the board."
+    },
+    {
+      "cue": "Call the ground guide: chassis dropped, tally logged, lane clear for the next move.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the ground guide: chassis dropped, tally logged, lane clear for the next move.",
+      "target": "yard-radio",
+      "title": "Check in with the ground guide",
+      "why": "The ground guide's own job depends on knowing exactly when this move is finished, and calling it in — rather than just driving off toward the next pull — is what keeps the ground guide from still watching a lane that no longer has anything moving through it."
+    },
+    {
+      "cue": "Record every chassis moved today, the pedestrian hold at the crossing, and the final tally before signing off.",
+      "id": "close-shift-log",
+      "kind": "select",
+      "prompt": "Record every chassis moved today, the pedestrian hold at the crossing, and the final tally before signing off.",
+      "target": "shift-log",
+      "title": "Close the shift log",
+      "why": "The shift log is what the next driver reads before their own first move, and a blind-corner pedestrian sighting that never makes the log is a hazard the next shift finds out about only when it happens to them too."
+    }
+  ],
+  "supportLine": "your Teamsters local's member assistance programme",
+  "tagline": "The lane before the next move: the yard traffic plan read for its marked walkways and blind corners, a worker spotted crossing at the blind corner before the hustler ever backs, the horn sounded, the chassis coupled and its fifth wheel locked, the air lines connected and the pressure gauged, the backing lane held clean the whole reverse, a stop held for a pedestrian at the marked crossing, the chassis spotted in the drop zone, the tally logged, the crew checked in, and the shift closed",
+  "title": "SmartCiti.X~ Yard Hostler & Pedestrian Separation VR VR",
+  "trade": "IBT yard hostler driver moving a chassis through the container yard, with a ground guide keeping pedestrian separation",
+  "underwater": null,
+  "weather": "overcast"
+}

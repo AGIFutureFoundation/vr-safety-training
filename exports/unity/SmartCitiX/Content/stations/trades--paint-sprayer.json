@@ -1,0 +1,298 @@
+{
+  "app": "trades",
+  "badge": {
+    "id": "even-build",
+    "name": "Even Build",
+    "note": "A contained, lead-safe spray with an even film and no runs, holidays or drift"
+  },
+  "category": "Surface Prep & Coatings",
+  "certification": "IUPAT — commercial & industrial coatings applicator; EPA RRP lead-safe work practices (40 CFR 745) on pre-1978 surfaces; HAZWOPER awareness (29 CFR 1910.120) for hazmat & environmental crews",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "EPA",
+        "citedAs": "40 CFR 745",
+        "id": "epa-40-cfr-745",
+        "title": "40 CFR Part 745 — Lead-based paint activities and the Renovation, Repair and Painting rule"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUPAT",
+        "id": "iupat-fti",
+        "title": "IUPAT Finishing Trades Institute — industrial painter, glazier and drywall finisher apprenticeship, including lead and containment training"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "HAZWOPER",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": null,
+  "flat": false,
+  "game": null,
+  "hazards": {
+    "sander": "You reached for the orbital sander before the paint was tested. This building is pre-1978 — dry-sanding untested paint puts lead dust in the air and on every surface in the room, and RRP makes that a violation before it's a health problem for the crew.",
+    "space-heater": "That's a fuel-fired heater running in a room you're about to fill with atomised solvent-borne coating. An ignition source inside the containment is the one thing that turns a paint job into a flash fire.",
+    "tip-finger": "You went to clear the clogged tip with your finger over the orifice. An airless gun at 2,000 psi injects paint through skin into the hand — it looks like a pinprick and it's a surgical emergency. Trigger lock on, reverse the tip, clear it that way.",
+    "window-fan": "The box fan is blowing out the open window. Ventilation on this job is filtered negative air, not a fan pushing overspray and lead dust onto the neighbours' cars and the sidewalk."
+  },
+  "id": "paint-sprayer",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "containment",
+      "alert": "The negative-air machine at the door has tripped off. Air just stopped moving through the containment.",
+      "cue": "Get it running again before anything is mixed or opened.",
+      "delay": 4,
+      "id": "negair-trips",
+      "kind": "Ventilation failure",
+      "missNote": "You went on mixing material with the scrubber dead. For however long that ran, the containment did nothing — it was a room with plastic on it, and lead dust and overspray had exactly as much chance of drifting out as if the tarps had never gone up.",
+      "seconds": 13,
+      "target": "airscrubber-switch",
+      "why": "EPA RRP requires directional airflow that pulls air — and any lead dust or overspray riding in it — into the containment rather than pushing it out, and that only happens with the negative-air machine running. A dead unit turns a sealed room into an ordinary one that happens to have plastic on the walls, with nothing left keeping dust or overspray from finding the gap in the seal.",
+      "wrongNote": "That's not the scrubber. It's the boxy unit by the door with the intake grille — the fan that actually stopped is on it."
+    },
+    {
+      "after": "coverage",
+      "alert": "The combustible-gas monitor by the door just alarmed — solvent vapour from the spray is building up faster than the scrubber is clearing it, and the space heater is still lit in the same room.",
+      "cue": "Kill the heater before that reading climbs any further.",
+      "delay": 3,
+      "id": "vapor-heater",
+      "kind": "Atmosphere alarm",
+      "missNote": "You kept spraying with a live heater in a room the gas monitor had already flagged. Solvent vapour looking for somewhere to ignite found the element still glowing in the corner, and that is the difference between a bad smell and a flash fire.",
+      "seconds": 12,
+      "target": "heater-cutoff",
+      "why": "HAZWOPER awareness training exists for exactly this: an atomised solvent-borne coating raises vapour concentration inside a sealed room fast, and an open flame or a glowing element is the one thing that turns that cloud into a flash fire. The alarm buys you the seconds it takes to remove the ignition source — it does not buy you time to keep spraying first.",
+      "wrongNote": "That's not the heater switch. It's on the base of the red cylindrical unit against the wall, and it needs to go off, not the pump."
+    }
+  ],
+  "lateNotes": {
+    "mil-gauge": "Nothing to measure yet. Make the pass first, then check the wet film.",
+    "pressure-dial": "Not yet — the lead test, containment and PPE come before the pump is primed.",
+    "spray-pass": "Set the tip, pressure and a clean test pattern before you spray the wall — a pass at the wrong settings is a wall you'll be sanding tomorrow."
+  },
+  "name": "paint-sprayer",
+  "parSeconds": 265,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": null,
+    "hits": [
+      "airscrubber-switch",
+      "coveralls",
+      "door-seal",
+      "drop-cloth",
+      "film-gap",
+      "heater-cutoff",
+      "lead-swab",
+      "masking-film",
+      "mil-gauge",
+      "pressure-dial",
+      "respirator",
+      "sander",
+      "space-heater",
+      "spec-sheet",
+      "spray-pass",
+      "strainer",
+      "test-card",
+      "tip-211",
+      "tip-517",
+      "tip-619",
+      "tip-finger",
+      "window-fan"
+    ],
+    "meshes": 235
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Check the build year, the product, the tip size and the film thickness the spec calls for.",
+      "id": "workorder",
+      "kind": "select",
+      "prompt": "Check the build year, the product, the tip size and the film thickness the spec calls for.",
+      "target": "spec-sheet",
+      "title": "Read the coating spec",
+      "why": "The spec says 1962 construction, waterborne acrylic, a 517 tip and four to six mils wet, and every one of those numbers changes how the first hour of the job goes. A pre-1978 building triggers EPA RRP before a drop cloth is even down, so the spec gets read in full before anything touches the wall."
+    },
+    {
+      "cue": "Swab the existing paint before any surface is sanded or scraped.",
+      "id": "leadtest",
+      "kind": "select",
+      "prompt": "Swab the existing paint before any surface is sanded or scraped.",
+      "target": "lead-swab",
+      "title": "Test the old paint for lead",
+      "why": "Pre-1978 means presumed lead until a swab says otherwise, and EPA RRP treats that presumption as binding: a positive result turns this from an ordinary paint job into a lead-safe job with containment, HEPA vacuuming and a cleaning verification before anyone signs off. That decision has to happen before the first surface is disturbed, because once dust is airborne it cannot be un-released."
+    },
+    {
+      "cue": "Drop cloth down first, then mask the fixtures and window, then seal the door.",
+      "id": "containment",
+      "itemNames": {
+        "door-seal": "door seal",
+        "drop-cloth": "drop cloth",
+        "masking-film": "masking film"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — floor, then masking, then the door seal that closes the containment.",
+      "prompt": "Drop cloth down first, then mask the fixtures and window, then seal the door.",
+      "targets": [
+        "drop-cloth",
+        "masking-film",
+        "door-seal"
+      ],
+      "title": "Contain the room",
+      "why": "Floor first, because everything else in the room sheds onto it. Masking next, while you can still walk on a clean floor without tracking dust into it. The door seal comes last, because it's what turns a masked room into a contained one — sealing it first means carrying film in and out through the one gap you were trying to close."
+    },
+    {
+      "anyOrder": true,
+      "cue": "P100 half-mask and coveralls on before the pump is primed.",
+      "id": "ppe",
+      "itemNames": {
+        "coveralls": "disposable coveralls",
+        "respirator": "half-mask respirator"
+      },
+      "kind": "sequence",
+      "prompt": "P100 half-mask and coveralls on before the pump is primed.",
+      "targets": [
+        "respirator",
+        "coveralls"
+      ],
+      "title": "Respirator and coveralls",
+      "why": "Airless atomises coating into a respirable mist immediately, and on a lead-safe job the coveralls are what keep dust from riding out of the room on your clothes and into your car, your kitchen, or anywhere else you sit down. Both go on before the pump has pressure in it — putting them on afterward means you already breathed the first several seconds of spray."
+    },
+    {
+      "cue": "Pour the coating through the strainer into the pump bucket.",
+      "id": "strain",
+      "kind": "select",
+      "prompt": "Pour the coating through the strainer into the pump bucket.",
+      "target": "strainer",
+      "title": "Strain the material",
+      "why": "A skin or a dried lump left in the can becomes the clogged tip you'll be tempted to clear with a bare finger ten minutes into the job — and at working pressure that isn't a paint mess, it's an injection injury. Straining the material now removes the debris before the pump ever has the chance to force it through the orifice."
+    },
+    {
+      "cue": "Take the 517 — a 10-inch fan at a 0.017 orifice — for a broad wall with this product.",
+      "id": "tip",
+      "kind": "select",
+      "prompt": "Take the 517 — a 10-inch fan at a 0.017 orifice — for a broad wall with this product.",
+      "target": "tip-517",
+      "title": "Fit the 517 tip",
+      "why": "The first digit of a spray tip number is roughly half the fan width in inches, and the last two are the orifice in thousandths — a 211 is a narrow trim tip that would take all day on this wall and stripe every pass, and a 619 floods this coating on thick enough to sag before it flashes. The spec called out 517 for this product and this wall for a reason."
+    },
+    {
+      "cue": "Dial the pump until the pattern atomises fully without tails.",
+      "gauge": {
+        "green": [
+          0.5,
+          0.66
+        ],
+        "label": "FLUID PSI",
+        "missNote": "Off the band — tails at the low end, overspray at the top. Reset and find the lowest pressure that atomises clean.",
+        "speed": 0.75
+      },
+      "id": "pressure",
+      "kind": "gauge",
+      "prompt": "Dial the pump until the pattern atomises fully without tails.",
+      "target": "pressure-dial",
+      "title": "Set the fluid pressure",
+      "why": "Fluid pressure is set to the lowest reading that still atomises the coating cleanly, not to whatever feels forceful on the trigger. Run it too low and the pattern fingers at the edges instead of laying flat; run it too high and the gun turns more of the can into airborne overspray than it does into film on the wall, which is also more solvent vapour loose inside a sealed room."
+    },
+    {
+      "cue": "Spray the card at working distance and commit when the pattern is even edge to edge.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "PATTERN",
+        "missNote": "Pattern's not even — adjust distance and pressure, then shoot the card again.",
+        "speed": 0.7
+      },
+      "id": "pattern",
+      "kind": "gauge",
+      "prompt": "Spray the card at working distance and commit when the pattern is even edge to edge.",
+      "target": "test-card",
+      "title": "Shoot a test pattern",
+      "why": "The test card shows exactly what the wall is about to get, before it gets it: an hourglass shape means the tails aren't atomising and will show up as light stripes, and a heavy centre means the gun is too close and will lay the coat on thick enough to sag. Fixing the distance and pressure on a piece of cardboard costs nothing; fixing the same fault on the client's wall means resanding and respraying."
+    },
+    {
+      "cue": "Hold the trigger, keep the gun square, and hold a steady 50% overlap at gun speed for the whole pass.",
+      "holdBreakNote": "Trigger let go mid-pass — the lap line shows and you'll be feathering it. Pick the pass back up.",
+      "id": "coverage",
+      "kind": "track",
+      "prompt": "Hold the trigger, keep the gun square, and hold a steady 50% overlap at gun speed for the whole pass.",
+      "seconds": 8,
+      "target": "spray-pass",
+      "title": "Spray the wall",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "OVERLAP",
+        "rise": 0.6,
+        "start": 0.1
+      },
+      "why": "Coverage is overlap and gun speed acting together, not either one alone: each pass needs to fall half over the last, at the speed that lays four to six wet mils. Slow the pass down at that overlap and the film sags before it flashes; speed it up at the same overlap and it goes on thin enough to leave holidays the primer shows straight through. The overlap gauge is the only way to hold both at once."
+    },
+    {
+      "cue": "Set the wet-film gauge on the fresh coat and commit inside the spec band.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "WET PS_FILM",
+        "missNote": "Outside the spec band — thin holidays or a sag waiting to happen. Check the pass and measure again.",
+        "speed": 0.7
+      },
+      "id": "film",
+      "kind": "gauge",
+      "prompt": "Set the wet-film gauge on the fresh coat and commit inside the spec band.",
+      "target": "mil-gauge",
+      "title": "Check the wet film",
+      "why": "Four to six mils wet is the spec, and the gauge is the only honest reading of it — not how the coat looks under the work light, which flatters a film that's already too thin. Come in under that band and the coat won't hide the substrate or hold up over time; go over it and gravity wins before the coating flashes, sagging in exactly the runs a wet-film check would have caught first."
+    },
+    {
+      "cue": "Check the masking line and click where overspray got past it.",
+      "id": "driftcheck",
+      "itemNames": {
+        "film-gap": "gap in the masking film"
+      },
+      "itemNotes": {
+        "film-gap": "The masking lifted at the window frame and there's a fog of overspray on the glass and the sill outside it. That's the drift the walk-down exists to catch — and on a lead-safe job, it's what the cleaning verification would fail on."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the masking line and click where overspray got past it.",
+      "targets": [
+        "film-gap"
+      ],
+      "title": "Walk down the containment",
+      "why": "A wall that looks even doesn't prove the containment held — overspray finds the smallest gap in the masking and rides straight through it, silently, while you're still inside looking at the wall you just finished. Walking the masking edge and finding that gap is what goes on the RRP cleaning verification, not an assumption made from inside the mist."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Airless spray in a pre-1978 room: lead test, containment, tip, pressure, pattern, coverage, film build",
+  "title": "Coatings Bay",
+  "trade": "Painter / coatings applicator",
+  "underwater": null,
+  "weather": null
+}

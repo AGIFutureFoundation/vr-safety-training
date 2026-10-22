@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "safe-at-tap",
+    "name": "Safe at the Tap",
+    "note": "Water treated, dosed, held and proven at the tap, latrines sited right with a basin at every one, and nobody drinking from the bypass"
+  },
+  "category": "Emergency Services",
+  "certification": "The Sphere Handbook's water supply, sanitation and hygiene promotion standards as the WASH cluster applies them under IASC cluster coordination — treated water with a chlorine residual at the point of delivery, latrines sited away from and downhill of water sources, hand washing at every latrine, clean covered household containers; WHO infection prevention and control guidance for chlorine solutions and hand hygiene in an outbreak; CDC isolation precautions for the health facility the water point also serves; OSHA 29 CFR 1910.134 for the respirator worn when handling chlorine concentrate and 29 CFR 1910.1030 for faecal and body-fluid spills; WHO outbreak communication guidance for the hygiene promoter's conversations; worked by SEIU and AFSCME public-health staff with NNU/CNA nurses",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "IASC",
+        "citedAs": "IASC",
+        "id": "iasc-cluster-coordination",
+        "title": "Inter-Agency Standing Committee (IASC) cluster approach and cluster coordination guidance"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "Sphere",
+        "citedAs": "Sphere Handbook",
+        "id": "sphere-handbook",
+        "title": "The Sphere Handbook: Humanitarian Charter and Minimum Standards in Humanitarian Response"
+      },
+      {
+        "body": "WHO",
+        "citedAs": "WHO infection prevention and control guidance",
+        "id": "who-ipc-guidance",
+        "title": "WHO guidance on infection prevention and control in health care"
+      },
+      {
+        "body": "WHO",
+        "citedAs": "WHO outbreak communication guidance",
+        "id": "who-outbreak-communication",
+        "title": "WHO outbreak communication guidance"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Emergency Services",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "jar-test",
+        "name": "Jar Test",
+        "note": "The dose committed on the jar-test mark"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcut",
+        "note": "No dose by eye, no latrine uphill, no open bucket, no tap before the contact time"
+      },
+      {
+        "id": "in-order",
+        "name": "In Order",
+        "note": "Settle, filter, chlorinate — first time"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-point",
+        "name": "Clean Point",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-pump",
+        "name": "Steady Pump",
+        "note": "Dosing pump held matched to flow without a dropout"
+      },
+      {
+        "id": "eight-straight",
+        "name": "Eight Straight",
+        "note": "Eight correct actions in a row"
+      }
+    ],
+    "currency": "LITRE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "WASH Volunteer",
+      "Water Operator",
+      "WASH Officer",
+      "WASH Coordinator",
+      "Water Point Certified"
+    ],
+    "system": "Water Point"
+  },
+  "hazards": {
+    "wsh-by-eye-dose": "You poured the chlorine stock straight into the tank by eye. A chlorine solution mis-mixed either way fails: under-dosed, the water leaves the tap looking treated and carrying whatever was in it; over-dosed, it tastes so strongly that people go back to the river. The dose comes from the jar test, measured.",
+    "wsh-early-tap": "You opened the taps before the contact time was up. Chlorine needs time in the water to work, and water drawn early has been dosed without being disinfected; the contact time is kept by the clock, however long the queue at the tap stand gets.",
+    "wsh-latrine-uphill": "You marked the new latrine uphill of the well. Whatever soaks down from a pit moves with the slope and the groundwater, and a latrine above a water source puts the camp's sanitation into its drinking water; the Sphere Handbook's excreta standards site latrines away from and downhill of water points for exactly that reason.",
+    "wsh-open-bucket": "You filled an open bucket for drinking water. Treated water is only safe until something is dipped into it: open containers collect dust, flies and hands, and a household's drinking water is kept in a clean container with a lid and a narrow neck or tap so nobody has to reach in."
+  },
+  "id": "who-water-sanitation-and-hygiene",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "dosing-pump",
+      "alert": "A child is filling a jerrycan from the bypass pipe that runs straight from the river to the tank — untreated water.",
+      "cue": "Close the bypass valve and send the child to the tap stand.",
+      "delay": 3,
+      "id": "bypass-drinking",
+      "kind": "Untreated bypass",
+      "missNote": "The bypass stayed open. By the afternoon several households were filling from it because there was no queue, and the treated tank stood half full while untreated river water went home in their containers.",
+      "seconds": 14,
+      "target": "wsh-bypass-valve",
+      "why": "A bypass that delivers untreated water beside a treated supply defeats every barrier upstream of it, and people use whichever pipe runs first. Closing it the moment it is seen is what keeps the camp drinking the water the team has just treated.",
+      "wrongNote": "That will not stop it. Close the bypass valve on the river pipe."
+    },
+    {
+      "after": "contact-time",
+      "alert": "A pit latrine in the old block has started overflowing, and the run-off is trickling toward the tap stand's apron.",
+      "cue": "Close off the overflowing latrine and call for it to be emptied.",
+      "delay": 2,
+      "id": "latrine-overflow",
+      "kind": "Latrine overflow",
+      "missNote": "Nobody closed the latrine. The overflow reached the tap stand apron by evening, and children were playing in it while their mothers filled containers.",
+      "seconds": 14,
+      "target": "wsh-latrine-closure",
+      "why": "An overflowing pit is excreta on the surface, heading downhill toward people and water. Closing it off, diverting users to a working latrine and calling the desludging crew stops the spread at the source; hosing it away only moves it somewhere else.",
+      "wrongNote": "Not that. Close off the overflowing latrine with the barrier tape and call for emptying."
+    }
+  ],
+  "lateNotes": {
+    "wsh-comparator": "Read the residual after the contact time — a reading taken while the chlorine is still working tells you nothing about what reaches people.",
+    "wsh-tapstand-valve": "The tap stand opens once the residual has been read in band at the tap, not before."
+  },
+  "name": "Water, Sanitation and Hygiene",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "outbreak-response-who"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "wsh-by-eye-dose",
+      "wsh-bypass-valve",
+      "wsh-comparator",
+      "wsh-crew-board",
+      "wsh-dosing-jug",
+      "wsh-dosing-pump",
+      "wsh-early-tap",
+      "wsh-hw-empty",
+      "wsh-jc-clean",
+      "wsh-jc-lid",
+      "wsh-jc-neck",
+      "wsh-latrine-closure",
+      "wsh-latrine-marker",
+      "wsh-latrine-no-hw",
+      "wsh-latrine-socket",
+      "wsh-latrine-uphill",
+      "wsh-open-bucket",
+      "wsh-promoter",
+      "wsh-site-plan",
+      "wsh-step-chlorinate",
+      "wsh-step-filter",
+      "wsh-step-settle",
+      "wsh-tank-lid",
+      "wsh-tapstand-valve",
+      "wsh-wash-log"
+    ],
+    "meshes": 212
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the plan: where the water points, latrines and hand-wash stations sit, today's jar-test dose, and which way the ground slopes.",
+      "id": "wash-plan",
+      "kind": "select",
+      "prompt": "Read the plan: where the water points, latrines and hand-wash stations sit, today's jar-test dose, and which way the ground slopes.",
+      "target": "wsh-site-plan",
+      "title": "Read the camp's WASH plan",
+      "why": "Everything at a water point is decided by where things are relative to each other — the slope, the well, the latrines, the tap stand — and by what the jar test said this morning. The plan puts all of it on one board, drawn up with the WASH cluster, so the day's decisions are made against the site as it is rather than memory."
+    },
+    {
+      "cue": "Settle, then filter, then chlorinate.",
+      "id": "treatment-order",
+      "itemNames": {
+        "wsh-step-chlorinate": "chlorinate",
+        "wsh-step-filter": "filter",
+        "wsh-step-settle": "settle"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Settle, filter, then chlorinate — chlorine works on clear water, so it goes last.",
+      "prompt": "Settle, then filter, then chlorinate.",
+      "targets": [
+        "wsh-step-settle",
+        "wsh-step-filter",
+        "wsh-step-chlorinate"
+      ],
+      "title": "Treat the water in order",
+      "why": "Chlorine is used up by whatever is suspended in the water, so it works properly only on water that is already clear. Settling and filtering first take out the material that would otherwise swallow the dose, which is why chlorination is the last barrier and not the only one."
+    },
+    {
+      "cue": "Fill the dosing jug and commit when the level sits on this morning's jar-test mark.",
+      "gauge": {
+        "green": [
+          0.48,
+          0.58
+        ],
+        "label": "DOSE",
+        "missNote": "Not on the jar-test mark. Pour back or top up and commit where the jug reads on the mark.",
+        "speed": 0.55
+      },
+      "id": "dose",
+      "kind": "gauge",
+      "prompt": "Fill the dosing jug and commit when the level sits on this morning's jar-test mark.",
+      "target": "wsh-dosing-jug",
+      "title": "Measure the dose from the jar test",
+      "why": "The jar test finds the dose that leaves a residual in this water, today, after its demand is met, and that dose changes with the source and the season. Measuring to it — not to yesterday's figure and not by eye — is what makes the residual at the tap something you can predict rather than hope for."
+    },
+    {
+      "cue": "Hold the dosing pump rate steady against the flow into the tank as it fills.",
+      "holdBreakNote": "The pump rate left the band. Part of the tank is being under- or over-dosed — bring it back to match the flow.",
+      "id": "dosing-pump",
+      "kind": "track",
+      "prompt": "Hold the dosing pump rate steady against the flow into the tank as it fills.",
+      "seconds": 7,
+      "target": "wsh-dosing-pump",
+      "title": "Keep the dosing pump matched to the flow",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "PUMP",
+        "rise": 0.55,
+        "start": 0.2
+      },
+      "why": "A dose that is right in the jug is only right in the tank if it goes in at the same rate the water does. A pump that races or starves while the tank fills leaves layers of over- and under-treated water, and the tap stand draws from whichever layer is at the outlet."
+    },
+    {
+      "cue": "Hold the tank lid shut and the outlet closed until the contact-time timer runs out.",
+      "holdBreakNote": "You opened up before the contact time ran out. Close the lid and let the timer finish.",
+      "id": "contact-time",
+      "kind": "hold",
+      "prompt": "Hold the tank lid shut and the outlet closed until the contact-time timer runs out.",
+      "seconds": 5,
+      "target": "wsh-tank-lid",
+      "title": "Keep the tank closed for the contact time",
+      "why": "The contact time is when the disinfection actually happens. Holding the tank closed until the timer runs out — whatever the queue is doing at the tap stand — is the difference between water that has been disinfected and water that has only had chlorine added to it."
+    },
+    {
+      "cue": "Test a sample from the tap stand with the comparator and confirm it reads in the plan's band.",
+      "id": "residual-read",
+      "kind": "select",
+      "prompt": "Test a sample from the tap stand with the comparator and confirm it reads in the plan's band.",
+      "target": "wsh-comparator",
+      "title": "Read the residual at the tap",
+      "why": "A free chlorine residual at the point of delivery is what the Sphere Handbook uses as the proof that water is protected all the way to the container. It is read at the tap, not at the tank, because the tap is where people fill up, and the reading is logged so a falling residual shows up before a sick household does."
+    },
+    {
+      "cue": "Turn the tap stand's supply valve fully open now that the residual reads in band.",
+      "id": "open-tapstand",
+      "kind": "turn",
+      "prompt": "Turn the tap stand's supply valve fully open now that the residual reads in band.",
+      "target": "wsh-tapstand-valve",
+      "title": "Open the tap stand",
+      "turn": {
+        "axis": "z",
+        "label": "TAP STAND",
+        "turns": 1
+      },
+      "why": "Opening the tap stand is the last step because it is the one that cannot be undone: once water leaves, it is in people's containers. The valve opens only after the residual has been read, so the first jerrycan filled is the same water that was tested, not the water before it."
+    },
+    {
+      "cue": "Carry the latrine stake to the marked plot downhill and away from the well.",
+      "drag": {
+        "missNote": "Not on the downhill plot. The latrine goes below and away from the well, where the plan marks it.",
+        "radius": 0.5,
+        "to": "wsh-latrine-socket"
+      },
+      "id": "site-latrine",
+      "kind": "drag",
+      "prompt": "Carry the latrine stake to the marked plot downhill and away from the well.",
+      "target": "wsh-latrine-marker",
+      "title": "Site the new latrine",
+      "why": "A new latrine block goes where the plan and the slope say it can do no harm to the water supply — downhill and at a distance from any water source — and where people, including women and girls at night, can reach it safely. Siting it for convenience in the one flat spot near the well is how a camp contaminates its own supply."
+    },
+    {
+      "cue": "Walk the latrine block and pick out every place where people cannot wash their hands on the way out.",
+      "id": "handwash-find",
+      "itemNames": {
+        "wsh-hw-empty": "empty hand-wash bucket",
+        "wsh-latrine-no-hw": "latrine with no hand-wash point"
+      },
+      "itemNotes": {
+        "wsh-hw-empty": "The bucket by the middle cubicle is bone dry, its tap left open.",
+        "wsh-latrine-no-hw": "The end cubicle has no hand-wash station at all — people leave it and go straight to the food queue."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the latrine block and pick out every place where people cannot wash their hands on the way out.",
+      "targets": [
+        "wsh-latrine-no-hw",
+        "wsh-hw-empty"
+      ],
+      "title": "Find the missing hand-wash points",
+      "why": "Hand washing after the latrine is one of the simplest barriers in an outbreak, and it only happens where water and soap are in reach at the door. A missing station or an empty bucket is a barrier that exists on the plan and nowhere else, and the only way to find one is to walk the block."
+    },
+    {
+      "anyOrder": true,
+      "cue": "At the tap stand, check a family's container is clean inside, has its lid, and has a narrow neck or tap — any order.",
+      "id": "container-check",
+      "itemNames": {
+        "wsh-jc-clean": "clean inside",
+        "wsh-jc-lid": "lid on",
+        "wsh-jc-neck": "narrow neck or tap"
+      },
+      "kind": "sequence",
+      "prompt": "At the tap stand, check a family's container is clean inside, has its lid, and has a narrow neck or tap — any order.",
+      "targets": [
+        "wsh-jc-clean",
+        "wsh-jc-lid",
+        "wsh-jc-neck"
+      ],
+      "title": "Check the household containers",
+      "why": "Water that leaves the tap safe can be recontaminated in the container on the way home or in the house overnight. A clean container with a lid and a narrow neck keeps hands and cups out of it, and checking a few at the tap stand is how the team learns which households need a replacement container."
+    },
+    {
+      "cue": "Agree today's session with the hygiene promoter: hand washing, safe water storage, and time for people's questions.",
+      "id": "hygiene-talk",
+      "kind": "select",
+      "prompt": "Agree today's session with the hygiene promoter: hand washing, safe water storage, and time for people's questions.",
+      "target": "wsh-promoter",
+      "title": "Brief the hygiene promoter's session",
+      "why": "Hygiene promotion works when it listens — to why people are not using a latrine, or what they have heard about the water — and answers with practical help. A session planned with time for questions is how the team finds out that a basin is broken or a rumour is going round before either becomes a problem."
+    },
+    {
+      "cue": "At the end of the round, check in with the team on the heat and the day, and point anyone who needs it to staff care.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "At the end of the round, check in with the team on the heat and the day, and point anyone who needs it to staff care.",
+      "target": "wsh-crew-board",
+      "title": "Check in with the WASH team",
+      "why": "WASH crews work long days in the sun, on their feet, carrying chlorine and emptying pits, while the camp around them is frightened. Checking in with each other at the end of the round, and naming staff care out loud, keeps the crew on the rota and noticing the small things the job depends on."
+    },
+    {
+      "cue": "Hold the log open and read back the dose, the contact time, the residual at the tap and the latrine faults before you sign.",
+      "holdBreakNote": "You signed without reading it back. Open the log and read the dose, residual and faults out first.",
+      "id": "closing-log",
+      "kind": "hold",
+      "prompt": "Hold the log open and read back the dose, the contact time, the residual at the tap and the latrine faults before you sign.",
+      "seconds": 4,
+      "target": "wsh-wash-log",
+      "title": "Close the water point log",
+      "why": "The water point log is the record that shows the water was treated and tested every day, and it is where a slow fall in the residual or a pattern of broken basins becomes visible. Read back before it is signed, it is evidence; signed unread, it is a routine."
+    }
+  ],
+  "supportLine": "your agency's staff welfare or staff counsellor service, or the peer-support contact named at your deployment briefing",
+  "tagline": "A camp water point in an outbreak: treated in order, dosed from the jar test, contact time kept, a residual read at the tap, latrines downhill with hand washing at every one, clean covered containers and a hygiene promoter who listens",
+  "title": "SmartCiti.X~ Water, Sanitation and Hygiene VR",
+  "trade": "WASH officer and hygiene promoter — SEIU and AFSCME public-health staff, NNU/CNA nurses, and the humanitarian workforce deployed under IASC clusters",
+  "underwater": null,
+  "weather": "clear"
+}

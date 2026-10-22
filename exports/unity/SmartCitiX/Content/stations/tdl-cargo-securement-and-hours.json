@@ -1,0 +1,416 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "legal-load-legal-day",
+    "name": "Legal Load, Legal Day",
+    "note": "Tie-downs enough by count and by limit, the slack strap caught, the shoulder protected and the day planned inside the hours — first time"
+  },
+  "category": "Mobility & Transit",
+  "certification": "FMCSA 49 CFR 393 Subpart I protection against shifting and falling cargo — working load limits, the minimum number of tie-downs by article length and weight, tie-down condition and edge protection; 49 CFR 395 hours of service and the electronic logging device; 49 CFR 396 inspection and the driver vehicle inspection report; 49 CFR 380 Subpart F entry-level driver training, whose Class A theory curriculum covers cargo securement and hours of service; the CVSA North American Standard Out-of-Service Criteria for cargo securement and hours a roadside inspector applies; Teamsters (IBT) freight locals' driver training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CVSA",
+        "citedAs": "CVSA",
+        "id": "cvsa-out-of-service-criteria",
+        "title": "CVSA North American Standard Inspection Program and North American Standard Out-of-Service Criteria for roadside inspection of drivers and commercial motor vehicles"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 380 Subpart F",
+        "id": "fmcsa-49-cfr-380-subpart-f",
+        "title": "49 CFR Part 380 Subpart F — Entry-level driver training requirements for Class A and Class B commercial driver licence applicants, delivered by a provider listed on the Training Provider Registry"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 393",
+        "id": "fmcsa-49-cfr-393",
+        "title": "49 CFR Part 393 — Parts and accessories necessary for safe operation, including brakes, tires, emergency equipment and Subpart I protection against shifting and falling cargo"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 395",
+        "id": "fmcsa-49-cfr-395",
+        "title": "49 CFR Part 395 — Hours of service of drivers, including electronic logging devices"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 396",
+        "id": "fmcsa-49-cfr-396",
+        "title": "49 CFR Part 396 — Inspection, repair and maintenance, including the driver vehicle inspection report"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBT",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": "Mobility & Transit",
+  "domain": "Commercial Driving",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "strap-reader",
+        "name": "Strap Reader",
+        "note": "Every damaged tie-down found without a hint"
+      },
+      {
+        "id": "straight-log",
+        "name": "Straight Log",
+        "note": "Never used a cheater bar, climbed the load, drove past the limit or edited the log"
+      },
+      {
+        "id": "on-the-limit",
+        "name": "On the Limit",
+        "note": "Working load limit read near the centre of the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-day",
+        "name": "Clean Day",
+        "note": "No corrections anywhere"
+      },
+      {
+        "id": "steady-miles",
+        "name": "Steady Miles",
+        "note": "The first miles held in band"
+      },
+      {
+        "id": "on-schedule",
+        "name": "On Schedule",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "WLL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Permit Holder",
+      "Driver Trainee",
+      "Flatbed Driver",
+      "Lead Driver",
+      "Securement Certified"
+    ],
+    "system": "Securement and Hours"
+  },
+  "hazards": {
+    "csh-cheater-bar": "You went to slide a length of pipe over the winch bar for more leverage. A cheater bar over-tensions the strap past anything its rating assumed and turns the bar into a spring: when the winch pawl slips or the bar comes off the winch, it whips round at head height. The winch bar alone, with your body out of its arc, is the tool.",
+    "csh-climb-crate": "You went to climb up onto the crate to throw the strap over. A flatbed deck is already well above the ground and a crate on it puts you higher, on a surface that is not built to stand on; falls from flatbed loads are among the most common serious injuries flatbed drivers have. Straps are thrown from the ground.",
+    "csh-drive-over-hours": "You went to drive the last forty miles past your eleven-hour driving limit to reach the receiver. The limits in 49 CFR 395 exist because crash risk rises sharply with hours at the wheel; the ELD will record the violation, a roadside inspector will put you out of service, and the fatigue is real whether or not anybody checks.",
+    "csh-edit-eld": "You went to edit the log to show off-duty time you actually spent driving. Falsifying a record of duty status is a violation in its own right under 49 CFR 395, the device keeps the original and the edit history, and a false log is exactly what investigators look for after a crash."
+  },
+  "id": "tdl-cargo-securement-and-hours",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "first-miles",
+      "alert": "In the mirror, a strap on the rear crate has gone slack and is flapping, and the crate has crept toward the edge of the deck.",
+      "cue": "Signal, flashers on and get off the road safely.",
+      "delay": 3,
+      "id": "strap-slack",
+      "kind": "Load moving",
+      "missNote": "You kept driving with a slack strap and a moving crate. Loads that come off flatbeds land in the next lane or on the car behind; the first sign is almost always a strap flapping in the mirror.",
+      "seconds": 12,
+      "target": "csh-flashers",
+      "why": "A slack strap on a moving load does not tighten itself; every bump lets the crate walk further. The four-ways and a controlled move to a safe stop — not a panic stop on the lane — is the answer, and then the strap is re-tensioned and the crate re-seated before another mile.",
+      "wrongNote": "It is the four-way flashers. The load is moving and the truck needs to get safely off the road."
+    },
+    {
+      "after": "recheck",
+      "alert": "While you are working on the straps on the shoulder, a passing truck swings close enough that its wind rocks you, and the next one is coming.",
+      "cue": "Protect the stopped truck.",
+      "delay": 3,
+      "id": "truck-passes-close",
+      "kind": "Traffic at the shoulder",
+      "missNote": "You kept working on the traffic side with no warning devices out. Drivers and stopped trucks on shoulders are struck every year by vehicles that never saw them until the last second.",
+      "seconds": 12,
+      "target": "csh-triangle-kit",
+      "why": "A truck stopped on a shoulder is invisible to a tired or distracted driver until it is too late; the warning triangles, placed behind it within ten minutes of stopping as FMCSA's rules require, are what give traffic time to move over. Your own body stays on the side away from the lane.",
+      "wrongNote": "It is the warning triangle kit. The truck is on the shoulder with traffic passing close and nothing behind it to warn anyone."
+    }
+  ],
+  "lateNotes": {
+    "csh-dvir-log": "The report and the log are closed out at the end of the day, once the trip plan is set and the check-in is done.",
+    "csh-recheck": "The re-check comes after the first miles, when the load has settled — straps checked before moving cannot show you what the road has done.",
+    "csh-winch": "The winch is tensioned once the strap is thrown and hooked on both sides — winching a strap that is not seated pulls it off the rail."
+  },
+  "name": "Cargo Securement and Hours",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "job-readiness-edition",
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "boxTruck",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "semiTractor",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "csh-bent-hook",
+      "csh-bill-of-lading",
+      "csh-break-due",
+      "csh-break-stop",
+      "csh-cheater-bar",
+      "csh-climb-crate",
+      "csh-crew-checkin",
+      "csh-cut-strap",
+      "csh-drive-over-hours",
+      "csh-dvir-log",
+      "csh-edge-protect",
+      "csh-edit-eld",
+      "csh-flashers",
+      "csh-knot",
+      "csh-last-legal-stop",
+      "csh-rail-front",
+      "csh-rail-rear",
+      "csh-recheck",
+      "csh-speed",
+      "csh-strap-front",
+      "csh-strap-rear",
+      "csh-triangle-kit",
+      "csh-unassigned",
+      "csh-winch",
+      "csh-window-end",
+      "csh-wll-gauge"
+    ],
+    "meshes": 299
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read what the load is: two crated machines, each seven feet long and 4,200 lb, and where they are going.",
+      "id": "bill-of-lading",
+      "kind": "select",
+      "prompt": "Read what the load is: two crated machines, each seven feet long and 4,200 lb, and where they are going.",
+      "target": "csh-bill-of-lading",
+      "title": "Read the bill of lading",
+      "why": "Every securement decision starts from two numbers per article: how long it is and how heavy it is. 49 CFR 393 sets the minimum number of tie-downs from the length and weight of each article and the minimum total working load limit from its weight. A driver who does not know those numbers is guessing at the straps, and a guess is what an inspector or a hard stop finds out."
+    },
+    {
+      "cue": "Add the working load limits marked on the straps for one crate and commit once the total is at least half the crate's weight.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.85
+        ],
+        "label": "AGGREGATE WLL",
+        "missNote": "That is under half the crate's weight — not enough working load limit on it yet.",
+        "speed": 0.7
+      },
+      "id": "wll",
+      "kind": "gauge",
+      "prompt": "Add the working load limits marked on the straps for one crate and commit once the total is at least half the crate's weight.",
+      "target": "csh-wll-gauge",
+      "title": "Add up the working load limit",
+      "why": "49 CFR 393 requires the aggregate working load limit of the tie-downs on an article to be at least half its weight. Each strap carries its rating on its tag, and the rating counts only if the tag is there and the strap is sound. Adding them up before the straps go on is how you know you are carrying enough restraint, rather than finding out on the first hard stop."
+    },
+    {
+      "cue": "Look along each strap and at its hardware. Find the three that cannot be used.",
+      "id": "strap-inspect",
+      "itemNames": {
+        "csh-bent-hook": "the hook opened out",
+        "csh-cut-strap": "the strap with a cut in the webbing",
+        "csh-knot": "the knotted strap"
+      },
+      "itemNotes": {
+        "csh-bent-hook": "This flat hook has been bent open. An opened hook slides off the rail under load — the strap is only as good as its weakest fitting.",
+        "csh-cut-strap": "A cut across the webbing. A damaged strap's rating means nothing; it comes out of service, and a roadside inspector does not count it toward the working load limit.",
+        "csh-knot": "Someone tied a knot to shorten this strap. 49 CFR 393 does not allow knotted tie-downs; a knot cuts a strap's strength sharply at the worst possible point."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look along each strap and at its hardware. Find the three that cannot be used.",
+      "targets": [
+        "csh-cut-strap",
+        "csh-knot",
+        "csh-bent-hook"
+      ],
+      "title": "Inspect the straps before they go on",
+      "why": "A tie-down is rated for its working load limit only when it is intact: no cuts, no burns, no knots, no stretched or bent hardware. 49 CFR 393 sets out the condition tie-downs must be in, and the CVSA out-of-service criteria count defective ones as missing. Pulling a damaged strap in the yard costs nothing; finding one at the roadside can put the whole load out of service."
+    },
+    {
+      "cue": "From the ground, throw the strap over the front crate and hook it on the rail opposite its winch.",
+      "drag": {
+        "missNote": "The hook is not on the rail — seat it fully on the rail opposite the winch.",
+        "radius": 0.45,
+        "to": "csh-rail-front"
+      },
+      "id": "front-strap",
+      "kind": "drag",
+      "prompt": "From the ground, throw the strap over the front crate and hook it on the rail opposite its winch.",
+      "target": "csh-strap-front",
+      "title": "Throw the second strap on the front crate",
+      "why": "A seven-foot article needs at least two tie-downs under 49 CFR 393, however light it is, because one strap lets it pivot around that strap. The strap goes over from the ground — never from on top of the load — and the hook seats fully on the rail, not on the edge of a stake pocket where it can pop out when the load flexes."
+    },
+    {
+      "cue": "Throw the next strap over the rear crate and hook it on the rail, clear of the first strap.",
+      "drag": {
+        "missNote": "The hook is not on the rail — seat it fully, clear of the other strap.",
+        "radius": 0.45,
+        "to": "csh-rail-rear"
+      },
+      "id": "rear-strap",
+      "kind": "drag",
+      "prompt": "Throw the next strap over the rear crate and hook it on the rail, clear of the first strap.",
+      "target": "csh-strap-rear",
+      "title": "Throw the second strap on the rear crate",
+      "why": "Each article is secured in its own right: the rear crate needs its own two tie-downs and its own working load limit, whatever is holding the front one. Spacing the straps along the crate rather than bunching them keeps it from rotating, and a strap that is not twisted on the corner bears flat and carries its full rating."
+    },
+    {
+      "cue": "Wind the winch with the winch bar until the strap is tight, standing out of the bar's arc, then lock the pawl.",
+      "id": "winch",
+      "kind": "turn",
+      "prompt": "Wind the winch with the winch bar until the strap is tight, standing out of the bar's arc, then lock the pawl.",
+      "target": "csh-winch",
+      "title": "Tension the winch",
+      "turn": {
+        "axis": "x",
+        "label": "WINCH BAR",
+        "turns": 1
+      },
+      "why": "A strap does its job only when it is tight enough that the crate cannot move under it, and the winch is how that tension is set and held. The bar is used alone, with your body to the side of its arc, and the pawl is locked before you let go — a winch that slips under a bar you are pulling is how drivers get hit in the face."
+    },
+    {
+      "cue": "Fit an edge protector wherever a strap crosses a crate corner.",
+      "id": "edge",
+      "kind": "select",
+      "prompt": "Fit an edge protector wherever a strap crosses a crate corner.",
+      "target": "csh-edge-protect",
+      "title": "Put edge protection on the corners",
+      "why": "A strap bearing on a sharp wooden or steel corner is being sawn every time the load flexes on a bump. 49 CFR 393 requires edge protection wherever a tie-down could be cut or abraded where it touches the cargo. The protector also spreads the load so the corner of the crate is not crushed, which is what lets a tight strap stay tight."
+    },
+    {
+      "cue": "Hold a steady speed through the first miles, with smooth starts and stops, and watch the load in the mirrors.",
+      "holdBreakNote": "Speed out of band — hard throttle and hard braking are what move a load. Settle it.",
+      "id": "first-miles",
+      "kind": "track",
+      "prompt": "Hold a steady speed through the first miles, with smooth starts and stops, and watch the load in the mirrors.",
+      "seconds": 8,
+      "target": "csh-speed",
+      "title": "Drive the first miles smoothly",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.38,
+          0.6
+        ],
+        "label": "SPEED",
+        "rise": 0.54,
+        "start": 0.1
+      },
+      "why": "A new load settles in its first miles: crates bed into the deck, straps stretch a little, and anything that was going to move starts to. Smooth acceleration and braking give it the least reason to, and the mirrors are where you see a strap start to flutter. FMCSA's rules ask the driver to re-examine the cargo early in the trip for exactly this reason."
+    },
+    {
+      "cue": "Stopped safely, walk the load and re-tension each strap, holding the bar until each one is tight.",
+      "holdBreakNote": "You let go before the strap was tight. Hold the bar until the tension is back.",
+      "id": "recheck",
+      "kind": "hold",
+      "prompt": "Stopped safely, walk the load and re-tension each strap, holding the bar until each one is tight.",
+      "seconds": 8,
+      "target": "csh-recheck",
+      "title": "Re-check every strap within the first fifty miles",
+      "why": "FMCSA's rules ask a driver to inspect the cargo and its securement within the first fifty miles, and again after three hours of driving or 150 miles, or whenever the duty status changes. Straps lose tension as the load settles, and a strap that was tight in the yard can be slack by the first stop. Re-tensioning each one is the only way to know it is still doing its job."
+    },
+    {
+      "cue": "Open the ELD and find the three things that decide the rest of your day.",
+      "id": "eld-audit",
+      "itemNames": {
+        "csh-break-due": "the 30-minute break due",
+        "csh-unassigned": "the unassigned driving on the device",
+        "csh-window-end": "the fourteen-hour window closing"
+      },
+      "itemNotes": {
+        "csh-break-due": "Seven hours and forty minutes of driving since the last break of 30 minutes or more. After eight hours of driving a 30-minute break is required before driving again.",
+        "csh-unassigned": "The device shows unassigned driving from last night — someone moved this truck without logging in. You review it and accept it only if it was you; otherwise you reject it.",
+        "csh-window-end": "The fourteen-hour window ends at 19:10. After that you may not drive again until you have had ten consecutive hours off duty, however few hours you have driven."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Open the ELD and find the three things that decide the rest of your day.",
+      "targets": [
+        "csh-break-due",
+        "csh-window-end",
+        "csh-unassigned"
+      ],
+      "title": "Read your electronic log",
+      "why": "49 CFR 395 gives a property-carrying driver eleven hours of driving after ten hours off, inside a fourteen-hour window, with a 30-minute break after eight hours of driving, and the electronic logging device counts every minute. Reading it before planning is what stops a driver discovering the limit forty miles short of the receiver. Unassigned driving on the device is yours to accept or reject, not to ignore."
+    },
+    {
+      "cue": "Pick the stop for your 30-minute break, then the last safe, legal parking you can reach before the window closes.",
+      "id": "trip-plan",
+      "itemNames": {
+        "csh-break-stop": "the 30-minute break stop",
+        "csh-last-legal-stop": "the last legal parking before the window closes"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Break first, then the last stop — the break comes earlier in the day and changes where you can reach.",
+      "prompt": "Pick the stop for your 30-minute break, then the last safe, legal parking you can reach before the window closes.",
+      "targets": [
+        "csh-break-stop",
+        "csh-last-legal-stop"
+      ],
+      "title": "Plan the break and the last legal stop",
+      "why": "The limits only protect you if the trip is planned inside them: a break stop before the eight-hour mark and a place to park — a real truck parking space, not a ramp shoulder — before the window closes. Parking is scarce in the evening, so the last legal stop is chosen early and with a margin. Arriving at the receiver tomorrow morning, rested, is the job."
+    },
+    {
+      "cue": "Tell dispatch about the slack strap and the unassigned driving, give them your planned stop, and say honestly how rested you are.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Tell dispatch about the slack strap and the unassigned driving, give them your planned stop, and say honestly how rested you are.",
+      "target": "csh-crew-checkin",
+      "title": "Check in with dispatch",
+      "why": "Dispatch plans tomorrow's appointment around what you tell it today: a truck that will stop short of the receiver tonight is a delivery that has to be moved, and it is far better moved now. FMCSA's rules prohibit driving while too fatigued or ill to drive safely, and the check-in is where a driver says so plainly — the call no rate or appointment should talk anyone out of."
+    },
+    {
+      "cue": "Write up the damaged straps in the inspection report, certify today's log as true, and sign both.",
+      "id": "dvir-log",
+      "kind": "select",
+      "prompt": "Write up the damaged straps in the inspection report, certify today's log as true, and sign both.",
+      "target": "csh-dvir-log",
+      "title": "Close out the report and certify the log",
+      "why": "The damaged straps belong on the driver vehicle inspection report under 49 CFR 396 so they are replaced rather than rolled back into the strap box, and 49 CFR 395 asks you to certify each day's record of duty status as true and correct. Two signatures at the end of the day are what make everything you did during it a record rather than a story."
+    }
+  ],
+  "supportLine": "your carrier's employee assistance programme, or your Teamsters steward if you are not sure how to reach it",
+  "tagline": "A flatbed with two crated machines: the bill of lading, working load limits against half the weight, straps inspected, tie-downs thrown and winched, edge protection, the first miles and the re-check, the shoulder, the log read for what it will force, a legal trip plan and a certified day",
+  "title": "SmartCiti.X~ Cargo Securement and Hours VR",
+  "trade": "Class A driver trainee, TDL pre-apprenticeship — Teamsters freight driving: cargo securement and hours of service under the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F)",
+  "underwater": null,
+  "weather": "clear"
+}

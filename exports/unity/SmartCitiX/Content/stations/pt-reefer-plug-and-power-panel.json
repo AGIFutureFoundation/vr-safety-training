@@ -1,0 +1,384 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "dead-before-open",
+    "name": "Dead Before Open",
+    "note": "The unit off, the breaker locked, the plug out dead and absence of voltage proven before a contact was touched"
+  },
+  "category": "Maritime & Ports",
+  "certification": "ILWU maintenance and repair with the PMA training programme; IUOE stationary engineers for the row's distribution; NFPA 70E electrical safety in the workplace; OSHA 29 CFR 1917 marine terminals; 29 CFR 1910.147 control of hazardous energy; 29 CFR 1910.132 for the arc-rated face shield and gloves",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "ILWU",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 70E",
+        "id": "nfpa-70e",
+        "title": "NFPA 70E — Standard for Electrical Safety in the Workplace"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1917",
+        "id": "osha-1917",
+        "title": "29 CFR 1917 — Marine terminals"
+      }
+    ]
+  },
+  "district": "Maritime & Ports",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "unit-off-first",
+        "name": "Unit Off First",
+        "note": "The reefer shut down at its own controller before the breaker was opened"
+      },
+      {
+        "id": "proven-dead",
+        "name": "Proven Dead",
+        "note": "Absence of voltage held for the full test on every contact"
+      },
+      {
+        "id": "row-discipline",
+        "name": "Row Discipline",
+        "note": "Never a plug pulled live, never a bare hand in the panel, never a lock removed that was not yours"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-replacement",
+        "name": "Clean Replacement",
+        "note": "No corrections anywhere in the replacement"
+      },
+      {
+        "id": "settled-load",
+        "name": "Settled Load",
+        "note": "Held the load current in band as the unit came up"
+      },
+      {
+        "id": "row-back-cold",
+        "name": "Row Back Cold",
+        "note": "Reefer back on power inside 80% of par"
+      }
+    ],
+    "currency": "AMP",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Reefer Hand",
+      "M&R Electrician",
+      "Row Electrician",
+      "Lead Electrician",
+      "Reefer Power Certified"
+    ],
+    "system": "Reefer Row"
+  },
+  "hazards": {
+    "bare-hand-panel": "You opened the pedestal panel door with no arc-rated face shield and no rated gloves. The panel is live until proven otherwise, and an arc flash at a reefer pedestal is a fault current from the row's transformer with your face a forearm away — NFPA 70E puts the arc-rated PPE on before the door, not after the first spark.",
+    "pull-plug-live": "You pulled the reefer plug with the unit running and the breaker closed. A reefer's compressor draws a heavy current, and a plug drawn under that load draws an arc across the contacts as it comes out — into the hand holding it. NFPA 70E treats the plug as a disconnecting means only when the load is off, which is why the unit goes down at its controller and the breaker opens first.",
+    "remove-others-lock": "You cut another electrician's lock off the panel breaker to get the row back sooner. That lock says a person is somewhere on that circuit; 29 CFR 1910.147 lets a lock come off only by the hand that put it on, or by a supervisor who has physically found that person — a bolt cutter has never once found anybody.",
+    "wet-receptacle-plugin": "You plugged the reefer back in with standing water in the receptacle. Fog and wash-down leave water in a row's receptacles, and water across a receptacle's contacts is a fault path the moment the plug lands — the receptacle is dried and checked before a plug goes near it, every time."
+  },
+  "id": "pt-reefer-plug-and-power-panel",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "absence-of-voltage",
+      "alert": "The reefer two pedestals down has thrown a high-pressure fault on its controller — its alarm lamp is flashing and the compressor has cut out.",
+      "cue": "Break off and read the fault at that unit's controller before it is silenced or restarted by anyone else.",
+      "delay": 2,
+      "id": "neighbour-fault-code",
+      "kind": "Fault code on the neighbouring reefer",
+      "missNote": "The fault code sat unread until a reefer clerk reset it to stop the alarm — the code was gone, the compressor restarted, and nobody knew whether it was one unit's pressure switch or the row's supply until the next box tripped.",
+      "seconds": 14,
+      "target": "unit-b-controller",
+      "why": "A reefer that trips on high pressure with its neighbour's receptacle open is either a coincidence or a row with a supply problem — a phase gone soft across the row, a panel breaker heating — and the fault code is the only evidence of which it is, until somebody silences it. Reading it at the controller before it is reset is what keeps a row-wide fault from being handled as one unit's bad day, and the cargo in that box has a temperature clock running while the compressor is out.",
+      "wrongNote": "That unit's controller — the fault code is the only evidence of what tripped, and it is read at the controller before anyone resets it."
+    },
+    {
+      "after": "start-and-watch-load",
+      "alert": "A hustler has swung into the reefer row lane to pull a chassis three slots down, and the pedestal door and the tool chest are out in the lane.",
+      "cue": "Set the row lane flag to stop now — the driver is looking for his chassis, not for you.",
+      "delay": 2,
+      "id": "hustler-reefer-lane",
+      "kind": "Hustler entering the reefer row lane",
+      "missNote": "The hustler came down the lane past the open pedestal with nothing telling the driver to stop; the chassis behind it caught the tool chest and the load watch carried on as if the lane were empty.",
+      "seconds": 12,
+      "target": "row-lane-flag",
+      "why": "The reefer lane is where hustlers pull and drop chassis all shift, and a driver hunting for a box number reads the lane flag and the cones, not the electrician kneeling at a pedestal in the fog. 29 CFR 1917 puts the traffic control on the terminal, and at a pedestal that control is the row lane flag, set the moment a vehicle turns in rather than once it is plainly not slowing.",
+      "wrongNote": "The row lane flag — the driver answers to the flag, and nothing else here is in his eyeline from the cab."
+    }
+  ],
+  "lateNotes": {
+    "plug-collar": "The plug comes out only once the unit is shut down and the branch breaker is open and locked — not while it carries load.",
+    "reefer-start-panel": "Nothing is plugged in and started until the breaker is restored and the receptacle is dry and proven.",
+    "restore-breaker": "The breaker is restored only once the new receptacle is fitted, torqued and its ground proven — not before."
+  },
+  "name": "Reefer Plug & Power Panel",
+  "parSeconds": 270,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "arc-face-shield",
+      "bare-hand-panel",
+      "breaker-lock",
+      "burned-contact",
+      "ground-tester",
+      "new-receptacle",
+      "panel-schedule",
+      "pedestal-breaker",
+      "pedestal-opening",
+      "plug-collar",
+      "pull-plug-live",
+      "rated-gloves",
+      "reefer-start-panel",
+      "remove-others-lock",
+      "restore-breaker",
+      "row-lane-flag",
+      "row-log-board",
+      "row-radio",
+      "torque-driver",
+      "unit-b-controller",
+      "unit-controller-off",
+      "voltage-tester",
+      "wet-receptacle-plugin"
+    ],
+    "meshes": 279
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Match the arcing pedestal's position to its branch circuit on the row panel schedule before anything is opened.",
+      "id": "identify-circuit",
+      "kind": "select",
+      "prompt": "Match the arcing pedestal's position to its branch circuit on the row panel schedule before anything is opened.",
+      "target": "panel-schedule",
+      "title": "Identify the circuit at the row panel",
+      "why": "A reefer row panel feeds a dozen pedestals that look identical, and the breaker that is opened has to be the one that feeds the receptacle being worked on, not its neighbour: opening the wrong one leaves the fault live and drops a working reefer's cargo instead. NFPA 70E starts every job by establishing which circuit is which from the schedule and then verifying it at the equipment, because a label on a pedestal and a breaker in a panel have drifted apart on more rows than anyone admits."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Face shield and hood, rated gloves under their leather protectors — before a panel door or a plug is touched.",
+      "id": "arc-ppe",
+      "itemNames": {
+        "arc-face-shield": "arc-rated face shield and hood",
+        "rated-gloves": "rated insulating gloves with leather protectors"
+      },
+      "kind": "sequence",
+      "prompt": "Face shield and hood, rated gloves under their leather protectors — before a panel door or a plug is touched.",
+      "targets": [
+        "arc-face-shield",
+        "rated-gloves"
+      ],
+      "title": "Put on the arc-rated face shield and the rated gloves",
+      "why": "The pedestal and the row panel are both live equipment until proven dead, and NFPA 70E sets the arc-rated PPE by the incident energy the row's transformer can deliver at the pedestal — which is more than a face can take at the distance a hand reaches. 29 CFR 1910.132 has it on before exposure, and the gloves are rated and tested rather than merely leather because the plug and the panel bus are the two things this job puts a hand near."
+    },
+    {
+      "cue": "Shut the reefer down at its own controller so the load is off, then open the pedestal's branch breaker, then lock it.",
+      "id": "shutdown-and-lock",
+      "itemNames": {
+        "breaker-lock": "your lock on the breaker",
+        "pedestal-breaker": "branch breaker open",
+        "unit-controller-off": "reefer unit shut down at its controller"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Unit off at its controller first, then the breaker, then your lock — the breaker opens onto no load, and the plug never carries current when it moves.",
+      "prompt": "Shut the reefer down at its own controller so the load is off, then open the pedestal's branch breaker, then lock it.",
+      "targets": [
+        "unit-controller-off",
+        "pedestal-breaker",
+        "breaker-lock"
+      ],
+      "title": "Shut the unit down, open the branch breaker, and lock it",
+      "why": "The order takes the load off before the circuit is broken: a breaker opened under a running compressor's current is a breaker asked to interrupt the load, and a plug pulled under it is an arc in the hand, so the unit goes down at its controller first and the breaker opens onto nothing. The lock is yours and stays on until you take it off, because a reefer clerk restoring a row does not know a receptacle is open unless the lock tells them so."
+    },
+    {
+      "cue": "Turn the locking collar back through its half turn and draw the plug out of the receptacle, dead.",
+      "id": "withdraw-plug",
+      "kind": "turn",
+      "prompt": "Turn the locking collar back through its half turn and draw the plug out of the receptacle, dead.",
+      "target": "plug-collar",
+      "title": "Turn the plug's retaining collar and withdraw the plug",
+      "turn": {
+        "label": "PLUG COLLAR",
+        "turns": 0.5
+      },
+      "why": "The plug's collar is what holds it home against a chassis being bumped and a row being washed down, and it comes off with the circuit dead because the moment the plug starts to move is the moment an arc would start if it were live. Drawing it out dead and looking at its pins is also the first inspection of the job: burned pins on the plug say the arc has been on both sides of the connection, and the plug goes back to the shop with the receptacle."
+    },
+    {
+      "cue": "Prove the tester on a known live source, then hold it on each receptacle contact in turn — phase to phase, phase to ground — and prove the tester again.",
+      "holdBreakNote": "Released before every contact was proven — a receptacle is dead on all of its contacts or it is not dead. Start the test again from the live proof.",
+      "id": "absence-of-voltage",
+      "kind": "hold",
+      "prompt": "Prove the tester on a known live source, then hold it on each receptacle contact in turn — phase to phase, phase to ground — and prove the tester again.",
+      "seconds": 5,
+      "target": "voltage-tester",
+      "title": "Test for absence of voltage on every contact",
+      "why": "NFPA 70E's live-dead-live test is the only thing that turns an open breaker and a lock into a proven dead receptacle: the tester is proven working on a known live source, every contact is tested against every other and against ground, and the tester is proven again afterwards, because a tester with a dead battery reads zero on a live bus. The hold is the whole sequence, every contact — a receptacle proven dead on one phase is a receptacle with two unproven ones."
+    },
+    {
+      "cue": "With the receptacle proven dead, inspect each contact for pitting, melted insulation and a spring that has lost its grip.",
+      "id": "inspect-receptacle",
+      "itemNames": {
+        "burned-contact": "burned and pitted contact inside the receptacle"
+      },
+      "itemNotes": {
+        "burned-contact": "The second phase contact is pitted black and its spring has lost its set — the arc has been striking there every time a plug landed on it half-seated. The insulation around it has melted back."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "With the receptacle proven dead, inspect each contact for pitting, melted insulation and a spring that has lost its grip.",
+      "targets": [
+        "burned-contact"
+      ],
+      "title": "Inspect the receptacle for the arc damage",
+      "why": "Arcing at a reefer receptacle is almost always one contact: a spring that has lost its set lets the plug's pin sit loose, the loose pin arcs under load, and the arc pits the contact so the next plug sits looser still. Finding which contact tells you whether the receptacle alone goes, or whether the pedestal wiring behind it has been cooked too — and it is done now, dead, because a pitted contact looks exactly like a clean one from behind a closed door."
+    },
+    {
+      "cue": "Carry the new receptacle from the chest and seat it in the pedestal's opening, gasket to the face.",
+      "drag": {
+        "missNote": "Not seated — the receptacle has to sit flat on its gasket in the opening before a conductor is landed.",
+        "radius": 0.5,
+        "to": "pedestal-opening"
+      },
+      "id": "fit-receptacle",
+      "kind": "drag",
+      "prompt": "Carry the new receptacle from the chest and seat it in the pedestal's opening, gasket to the face.",
+      "target": "new-receptacle",
+      "title": "Fit the replacement receptacle to the pedestal",
+      "why": "The receptacle seats against the pedestal face on its gasket, and the gasket is what keeps the next fog and the next wash-down out of the contacts; a receptacle fitted proud or cocked leaves a gap the water finds inside a week. It goes in dead, with the conductors dressed to reach its terminals without strain, because a conductor pulled tight to a terminal is a terminal that works loose as the pedestal heats and cools through a day of compressor load."
+    },
+    {
+      "cue": "Land each conductor and torque its terminal to the value on the receptacle's label, committing inside the band.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "TERMINAL TORQUE",
+        "missNote": "Outside the band — back the terminal off and come up to the labelled value again, slowly.",
+        "speed": 0.7
+      },
+      "id": "torque-terminals",
+      "kind": "gauge",
+      "prompt": "Land each conductor and torque its terminal to the value on the receptacle's label, committing inside the band.",
+      "target": "torque-driver",
+      "title": "Torque the receptacle terminals to the listed value",
+      "why": "A receptacle's terminals carry a compressor's current for weeks at a time, and a terminal torqued by feel is the next arcing receptacle: too loose and it heats and works looser, too tight and the conductor strands are crushed and the same thing happens more slowly. The torque value is on the label because the manufacturer measured it, and the driver's click is the only evidence that the terminal is at that value rather than at whatever a wrist decided."
+    },
+    {
+      "cue": "Test from the receptacle's ground contact to the pedestal's ground bar and back to the panel — a low reading, not just a tone.",
+      "id": "ground-continuity",
+      "kind": "select",
+      "prompt": "Test from the receptacle's ground contact to the pedestal's ground bar and back to the panel — a low reading, not just a tone.",
+      "target": "ground-tester",
+      "title": "Prove the grounding conductor's continuity",
+      "why": "The ground path is what carries a fault away from the plug and the person holding it, and it is the one conductor whose failure nobody notices until a fault: a reefer runs perfectly well with no ground until the day a phase touches the frame. Proving continuity with a low reading, rather than a continuity tone that says only that something is connected, is what tells you the path can actually carry a fault current and clear the breaker."
+    },
+    {
+      "cue": "Receptacle dry and clear, door closed, your lock off, the branch breaker closed — verify voltage at the receptacle before the plug goes near it.",
+      "id": "restore-breaker",
+      "kind": "select",
+      "prompt": "Receptacle dry and clear, door closed, your lock off, the branch breaker closed — verify voltage at the receptacle before the plug goes near it.",
+      "target": "restore-breaker",
+      "title": "Dry and check the receptacle, remove your lock and restore the breaker",
+      "why": "The lock comes off by the hand that put it on, after the receptacle is closed up and dry, and the breaker closes with the plug still out so the receptacle can be verified live at the right voltage on every phase before anything is connected to it. That verification is the mirror of the absence test earlier — the same tester, the same contacts — and it is what catches a receptacle wired with two phases swapped before a compressor tries to run backwards on it."
+    },
+    {
+      "cue": "Land the plug, lock its collar, start the unit at its controller and hold the current in band as the compressor comes up — no surge held, no drop.",
+      "holdBreakNote": "The current broke out of band — a phase dropping or a surge that would not settle is the fault this watch exists to find. Hold it steady and watch it settle.",
+      "id": "start-and-watch-load",
+      "kind": "track",
+      "prompt": "Land the plug, lock its collar, start the unit at its controller and hold the current in band as the compressor comes up — no surge held, no drop.",
+      "seconds": 6,
+      "target": "reefer-start-panel",
+      "title": "Plug in, start the unit and watch the load current settle",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.48,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "LOAD CURRENT",
+        "rise": 0.6,
+        "start": 0.1
+      },
+      "why": "The compressor's starting current is several times its running current, and how it settles is the first real test of the new receptacle and its terminals under load: a current that hunts or a phase that reads low is a terminal or a contact that is not carrying its share, and it shows here in the first minute rather than as an arc in a week. The row's clerk needs the unit back at temperature, but the unit goes back only once the current has settled where the plate says it should."
+    },
+    {
+      "cue": "Record the pedestal, the contact that failed, the receptacle replaced, the torque and ground readings, and clear the unit back to the reefer clerk.",
+      "id": "reefer-log",
+      "kind": "select",
+      "prompt": "Record the pedestal, the contact that failed, the receptacle replaced, the torque and ground readings, and clear the unit back to the reefer clerk.",
+      "target": "row-log-board",
+      "title": "Log the receptacle replacement and clear the row with the clerk",
+      "why": "The row log is what turns one arcing receptacle into information: the same pedestal failing twice is a wiring fault behind it, and the same contact failing across the row is a plug problem on the chassis fleet rather than a receptacle problem on the pedestals. The reefer clerk needs the unit's off-power time and the restart logged against the box, because the cargo's temperature record is what the shipper will ask for, and the electrician is the only person who knows when the plug was actually out."
+    },
+    {
+      "cue": "Call the reefer mechanic and the row lead: what failed, what was replaced, and how the crew is after a shift in the fog beside the lane.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the reefer mechanic and the row lead: what failed, what was replaced, and how the crew is after a shift in the fog beside the lane.",
+      "target": "row-radio",
+      "title": "Check in with the reefer mechanics and the row crew",
+      "why": "The reefer mechanics work the same row from the other side of the plug, and they deserve to know which contact failed rather than to learn it from the next unit that trips; telling them is what stops the same plug being landed half-seated on the next receptacle. The call is also the crew's own check-in — a shift in fog beside a hustler lane with a fault code going off two boxes over is a shift with a moment or two in it, and the ILWU practice is to say them out loud, and name the support that exists, before the next call."
+    }
+  ],
+  "supportLine": "your ILWU local's member assistance programme, with the PMA-ILWU benefit plan's counselling line behind it",
+  "tagline": "An arcing reefer receptacle: the circuit identified at the panel, arc-rated PPE on, the unit shut down at its own controller before the breaker opens and locks, the plug collar turned and withdrawn dead, absence of voltage proven while a neighbouring reefer throws a fault, the burned contact found, a new receptacle fitted and its terminals torqued, ground proven, the breaker restored and the load current watched settle beside a live lane",
+  "title": "SmartCiti.X~ Reefer Plug & Power Panel VR",
+  "trade": "ILWU maintenance and repair electrician — reefer power, PMA training programme, with IUOE stationary engineers on the row's distribution",
+  "underwater": null,
+  "weather": "fog"
+}

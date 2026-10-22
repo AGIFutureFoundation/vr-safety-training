@@ -1,0 +1,425 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "fit-proven-foam-held",
+    "name": "Fit Proven, Foam Held",
+    "note": "Respirator quantitatively fit-tested, ratio balanced and the pass held to specified thickness with the room posted for its re-entry time"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "Insulators Local 16 heat and frost insulators apprenticeship and training; OSHA 29 CFR 1910.134 respiratory protection and quantitative fit testing; 29 CFR 1910.1000 air contaminants and the permissible exposure limits for isocyanates; 29 CFR 1910.1200 hazard communication for the two-component system; 29 CFR 1926.451 scaffolds and ANSI A10.8 scaffolding safety requirements for the ceiling-pass platform; NIOSH criteria behind the quantitative fit-test protocol and the isocyanate exposure limits",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI A10.8",
+        "id": "ansi-a10-8",
+        "title": "ANSI/ASSP A10.8 — Scaffolding safety requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "Insulators Local 16",
+        "id": "insulators-local-16",
+        "title": "Insulators Local 16 — heat and frost insulators and allied workers apprenticeship and training, as a training body"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1000",
+        "id": "osha-1910-1000",
+        "title": "29 CFR 1910.1000 — Air contaminants and the permissible exposure limits"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.451",
+        "id": "osha-1926-451",
+        "title": "29 CFR 1926.451 — Scaffolds, general requirements"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "no-shortcut-on-fit",
+        "name": "No Shortcut on Fit",
+        "note": "Never sprayed before the quantitative fit test passed"
+      },
+      {
+        "id": "thickness-precise",
+        "name": "Thickness Precise",
+        "note": "Held every gauge and track reading near band centre"
+      },
+      {
+        "id": "fit-disciplined",
+        "name": "Fit Disciplined",
+        "note": "Completed the fit-test sequence with no correction"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-job",
+        "name": "Clean Job",
+        "note": "No corrections from the data sheet to the re-entry post"
+      },
+      {
+        "id": "steady-pass",
+        "name": "Steady Pass",
+        "note": "Held the spray pass through the whole rate"
+      },
+      {
+        "id": "fast-foam",
+        "name": "Fast Foam",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "MIL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Helper",
+      "Applicator",
+      "Lead Applicator",
+      "Spray Foam Foreman",
+      "Spray Foam Certified"
+    ],
+    "system": "Spray Foam Certified"
+  },
+  "hazards": {
+    "early-reentry": "Someone is walking back into this room without a respirator before the posted re-entry time. Isocyanates off-gas from curing foam for a real, specified period, and a room that looks finished is not the same as a room whose air has actually cleared — the posted time is what the label and the ventilation plan both agree on, not a guess based on how long the trigger has been off.",
+    "ignition-source-present": "That space heater is running a few feet from where the spray pass is about to start. The proportioner's heated hose and the blowing agent in this system both make an ignition source close to the spray zone a real hazard, and it gets shut off and moved clear before the trigger is ever pulled, not left running because it is only there to keep the room comfortable.",
+    "isocyanate-no-glove": "You are handling the B-side isocyanate drum bare-handed. Isocyanates cross skin as readily as they cross a poor respirator seal, and repeated bare-hand contact is exactly how a spray foam applicator becomes sensitised to a chemical they will then react to for the rest of their career, at exposure levels far below what it took to sensitise them the first time.",
+    "no-fit-test-skip": "You reached for the respirator hanging by the door and started for the room without running the fit test first. A respirator that has not been quantitatively fit-tested on your own face is a mask you are hoping seals, not one you know does — and isocyanate exposure through a gap in a seal you never checked shows up as sensitisation that does not go away even after you stop being exposed."
+  },
+  "id": "ib-spray-foam-and-respirator-fit",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "spray-pass",
+      "alert": "The makeup air fan has tripped off mid-spray, and haze is starting to build in the room.",
+      "cue": "Reset the fan before the spray pass continues.",
+      "delay": 4,
+      "id": "makeup-air-fan-fails",
+      "kind": "Ventilation down",
+      "missNote": "The pass continued while haze kept building with the fan down. Ventilation that stops moving air is a room filling up with exactly what the respirator and the ventilation plan were both supposed to be handling together.",
+      "seconds": 12,
+      "target": "vent-fan-reset",
+      "why": "Ventilation loss mid-spray is not a pause-and-continue situation — vapour and overspray haze both build fast in a closed room with the fan down, right in the air the crew is working in behind respirators that were only ever fit-tested to work alongside ventilation that is actually running.",
+      "wrongNote": "It is the fan reset. Nothing about this spray pass continues safely with the makeup air down."
+    },
+    {
+      "after": "thickness-check",
+      "alert": "A coworker without a respirator is walking toward the doorway, trying to enter before the posted re-entry time.",
+      "cue": "Stop them at the barrier before they cross into the posted room.",
+      "delay": 4,
+      "id": "bystander-enters-early",
+      "kind": "Early entry",
+      "missNote": "The coworker walked in before the posted time while the barrier went unreinforced. A room that looks done from the doorway is not the same as air that has actually cleared on the schedule the chemistry sets.",
+      "seconds": 12,
+      "target": "entry-barrier",
+      "why": "The posted re-entry time exists precisely for the minutes right after spraying stops, when curing foam is still off-gassing and looks perfectly finished from the doorway — reinforcing the barrier now is what actually keeps somebody without a respirator from walking into exactly the exposure the whole posting exists to prevent.",
+      "wrongNote": "That is not it. The entry barrier is what actually keeps someone out of this room before its posted time is up."
+    }
+  ],
+  "lateNotes": {
+    "reentry-post": "The room only gets posted once the pass is actually finished and measured, not while spraying is still underway.",
+    "spray-gun-target": "The spray pass only starts once the ratio check reads balanced — not on the assumption that the equipment was set up correctly this morning."
+  },
+  "name": "Spray Foam and Respirator Fit",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "insulators-and-boilermakers"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "dropped-masking",
+      "early-reentry",
+      "entry-barrier",
+      "fit-test-instrument",
+      "ibsf-closing-log",
+      "ibsf-crew-checkin",
+      "ignition-source-present",
+      "isocyanate-no-glove",
+      "job-data-sheet",
+      "missed-overspray",
+      "missing-sheeting",
+      "no-fit-test-skip",
+      "proportioner-hose",
+      "ratio-check-valve",
+      "reentry-post",
+      "respirator-don",
+      "seal-check-target",
+      "seal-check-visual",
+      "space-heater",
+      "spray-gun-target",
+      "spray-position",
+      "strap-adjust",
+      "thickness-probe",
+      "uncovered-item",
+      "unlabeled-drum",
+      "vent-fan-reset",
+      "vent-fan-target"
+    ],
+    "meshes": 162
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Confirm the foam system, the isocyanate component and the respiratory protection required.",
+      "id": "spec",
+      "kind": "select",
+      "prompt": "Confirm the foam system, the isocyanate component and the respiratory protection required.",
+      "target": "job-data-sheet",
+      "title": "Read the job data sheet",
+      "why": "The data sheet is what actually sets the respirator requirement for this specific system — full-face with the right cartridge, or supplied air, depending on the room's ventilation and the system's own exposure data — and guessing at that from a similar-looking job is how someone ends up in the wrong protection for the chemical actually in the hose."
+    },
+    {
+      "cue": "Don the full-face respirator, adjust the straps evenly, then visually check the seal in the mirror.",
+      "id": "fit-test-don",
+      "itemNames": {
+        "respirator-don": "respirator donned",
+        "seal-check-visual": "visual seal checked",
+        "strap-adjust": "straps adjusted"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — don the mask, adjust the straps evenly, then check the seal visually before testing it.",
+      "prompt": "Don the full-face respirator, adjust the straps evenly, then visually check the seal in the mirror.",
+      "targets": [
+        "respirator-don",
+        "strap-adjust",
+        "seal-check-visual"
+      ],
+      "title": "Don the respirator for fit testing",
+      "why": "The straps are adjusted evenly, top and bottom together, because a respirator seated crooked can look sealed in the mirror and still leak along one side under the facepiece's own flex — the visual check is what catches an obviously bad seat before the quantitative instrument even starts reading."
+    },
+    {
+      "cue": "Block the cartridges, inhale, and hold the facepiece collapsed for the full count.",
+      "holdBreakNote": "Released before the check was finished. A facepiece that leaks slowly passes a quick squeeze and fails the first time you actually move in it.",
+      "id": "seal-check",
+      "kind": "hold",
+      "prompt": "Block the cartridges, inhale, and hold the facepiece collapsed for the full count.",
+      "seconds": 6,
+      "target": "seal-check-target",
+      "title": "Hold the negative-pressure seal check",
+      "why": "A seal check held for the full count is what actually proves the facepiece stays drawn against the face under load, rather than a quick squeeze that passes on a seal that would leak the moment you turned your head or bent over to reach the spray gun."
+    },
+    {
+      "cue": "Read the fit-test instrument and commit only once the fit factor clears the required minimum.",
+      "gauge": {
+        "green": [
+          0.62,
+          1
+        ],
+        "label": "QUANTITATIVE FIT FACTOR",
+        "missNote": "Below the required fit factor. Reseat the mask and retest — this job does not start on a respirator that has not actually proven its seal.",
+        "speed": 0.55
+      },
+      "id": "fit-test-reading",
+      "kind": "gauge",
+      "prompt": "Read the fit-test instrument and commit only once the fit factor clears the required minimum.",
+      "target": "fit-test-instrument",
+      "title": "Run the quantitative fit-test reading",
+      "why": "A quantitative fit factor is a number, not an impression — it is what actually proves this specific respirator on this specific face meets the protection this job's isocyanate exposure calls for, and no visual check or seal squeeze substitutes for it."
+    },
+    {
+      "cue": "Start the local exhaust fan and confirm fresh-air makeup into the room.",
+      "id": "ventilation-setup",
+      "kind": "select",
+      "prompt": "Start the local exhaust fan and confirm fresh-air makeup into the room.",
+      "target": "vent-fan-target",
+      "title": "Set up ventilation before spraying",
+      "why": "Ventilation set up before the first pass, not partway through, is what keeps isocyanate vapour and overspray moving out of the room instead of building up around the people working in it — the respirator is the last line of defence, and it is only ever tested to work alongside ventilation that is actually running, not in place of it."
+    },
+    {
+      "cue": "Three things about this room are not ready yet. Find them before the trigger gets pulled.",
+      "id": "area-prep",
+      "itemNames": {
+        "missing-sheeting": "the gap in the plastic sheeting",
+        "space-heater": "the running space heater",
+        "uncovered-item": "the uncovered equipment"
+      },
+      "itemNotes": {
+        "missing-sheeting": "A gap in the plastic sheeting is a path for overspray to reach whatever is on the other side of it — the room is sheeted continuously before spraying, not in sections that leave an obvious gap unnoticed.",
+        "space-heater": "A running space heater is an ignition source sitting close to a heated proportioner hose and a blowing agent — it gets shut off and moved clear of the spray zone before hot work of any kind, chemical or otherwise, starts in this room.",
+        "uncovered-item": "Equipment left uncovered in the spray zone gets a permanent coat of overspray the moment the trigger is pulled — it gets sheeted before spraying starts, not wiped down afterward."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things about this room are not ready yet. Find them before the trigger gets pulled.",
+      "targets": [
+        "uncovered-item",
+        "space-heater",
+        "missing-sheeting"
+      ],
+      "title": "Survey the room before spraying",
+      "why": "Overspray goes wherever the room lets it, and every one of these three gaps is easy to close before spraying starts and expensive to fix after the foam has already cured on whatever it landed on."
+    },
+    {
+      "cue": "Carry the heated proportioner hose to the work area without kinking it.",
+      "drag": {
+        "missNote": "Not at the work position yet, and a hose dragged tight around a corner behind you is a hose that is probably kinked somewhere you cannot see.",
+        "radius": 0.5,
+        "to": "spray-position"
+      },
+      "id": "position-hose",
+      "kind": "drag",
+      "prompt": "Carry the heated proportioner hose to the work area without kinking it.",
+      "target": "proportioner-hose",
+      "title": "Position the proportioner hose",
+      "why": "A kinked heated hose changes the pressure and temperature the material actually reaches the gun at, which is exactly the kind of hidden variable that later shows up as an inconsistent ratio nobody can explain from the gun alone."
+    },
+    {
+      "cue": "Turn the ratio check valve and commit once the reading shows the components balanced.",
+      "id": "proportioner-check",
+      "kind": "turn",
+      "prompt": "Turn the ratio check valve and commit once the reading shows the components balanced.",
+      "target": "ratio-check-valve",
+      "title": "Verify the A/B ratio",
+      "turn": {
+        "axis": "z",
+        "label": "A/B RATIO CHECK",
+        "turns": 0.8
+      },
+      "why": "Closed-cell foam only cures to its specified properties when the A and B components arrive at the gun in the ratio the system was designed around — off-ratio material can stay tacky, off-gas longer than expected, or simply never reach the fire and insulation performance the specification is buying."
+    },
+    {
+      "cue": "Hold the gun distance and pass rate steady across the surface.",
+      "holdBreakNote": "Pass rate slipped out of band. An uneven pass here is a density problem the thickness check is about to find.",
+      "id": "spray-pass",
+      "kind": "track",
+      "prompt": "Hold the gun distance and pass rate steady across the surface.",
+      "seconds": 7,
+      "target": "spray-gun-target",
+      "title": "Apply the spray pass",
+      "track": {
+        "drift": 0.11,
+        "fall": 0.44,
+        "green": [
+          0.36,
+          0.6
+        ],
+        "label": "PASS RATE",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "A steady distance and pass rate is what gives closed-cell foam its even rise and density across the whole surface — too close or too slow and it builds too thick to properly expand; too far or too fast and it lands thin, without the density the specification is counting on for both insulation and fire performance."
+    },
+    {
+      "cue": "Probe the cured foam and commit once the reading meets the specified thickness.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.68
+        ],
+        "label": "APPLIED THICKNESS",
+        "missNote": "Below the specified thickness. A second pass goes on now, while the crew and the rig are still set up for it.",
+        "speed": 0.6
+      },
+      "id": "thickness-check",
+      "kind": "gauge",
+      "prompt": "Probe the cured foam and commit once the reading meets the specified thickness.",
+      "target": "thickness-probe",
+      "title": "Check the applied thickness",
+      "why": "Thickness is a specified number tied to the R-value and fire rating this job is actually being paid to deliver, and the only way to know a pass reached it is to measure it — a foam surface that looks like a finished job and one that actually meets spec are not the same thing until this probe says so."
+    },
+    {
+      "cue": "Post the sign naming the re-entry time before anyone without a respirator comes back in.",
+      "id": "reentry-hold",
+      "kind": "select",
+      "prompt": "Post the sign naming the re-entry time before anyone without a respirator comes back in.",
+      "target": "reentry-post",
+      "title": "Post the room for its re-entry time",
+      "why": "Isocyanates continue off-gassing from curing foam for a specified period the label and the ventilation plan both account for, and a posted re-entry time is what stops someone from reading a quiet room as a safe one before the air has actually cleared on the schedule the chemistry, not the silence, sets."
+    },
+    {
+      "cue": "Three things about this room are not right yet. Find them before calling the job done.",
+      "id": "final-walk",
+      "itemNames": {
+        "dropped-masking": "the dropped masking material",
+        "missed-overspray": "the overspray on an unintended surface",
+        "unlabeled-drum": "the unlabeled empty drum"
+      },
+      "itemNotes": {
+        "dropped-masking": "Masking material dropped on the floor is a trip hazard in a room somebody is about to walk back into on the posted re-entry schedule — it gets picked up before the room is called finished.",
+        "missed-overspray": "Overspray on a surface that was never supposed to be sprayed is a cleanup problem that gets harder every hour it cures — it gets found and addressed now, while the material is still workable.",
+        "unlabeled-drum": "An empty isocyanate drum with no label on it is a hazard communication gap for whoever handles it next in the waste stream — it gets labelled before it leaves this room, not assumed obvious because the crew that used it already knows what it held."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things about this room are not right yet. Find them before calling the job done.",
+      "targets": [
+        "missed-overspray",
+        "dropped-masking",
+        "unlabeled-drum"
+      ],
+      "title": "Walk the room before posting it finished",
+      "why": "A room that looks finished and a room that is actually ready to be posted and walked away from are told apart by the overspray, the dropped masking and the unlabeled drum — three things that do not show up in a glance from the doorway."
+    },
+    {
+      "cue": "Report the fit-test result, the heater found running, and how the ratio held through the pass.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Report the fit-test result, the heater found running, and how the ratio held through the pass.",
+      "target": "ibsf-crew-checkin",
+      "title": "Check in with the spray foam foreman",
+      "why": "A fit factor near the minimum needs a note in the file even though it passed, so a future retest knows to watch it, and the running heater needs a reminder posted for the next crew before this room is used again. The check-in is also where a ratio that drifted mid-pass gets flagged before the proportioner goes on the next job unchecked."
+    },
+    {
+      "cue": "Record the fit factor, the thickness readings and the re-entry time posted, then sign.",
+      "id": "closing-log",
+      "kind": "select",
+      "prompt": "Record the fit factor, the thickness readings and the re-entry time posted, then sign.",
+      "target": "ibsf-closing-log",
+      "title": "Sign the application closeout log",
+      "why": "The closeout log ties this specific application to the fit test that cleared the crew to spray it, the thickness actually measured, and the re-entry time posted for whoever comes back into the room next — the record that turns a finished-looking job into one that can actually be verified."
+    }
+  ],
+  "supportLine": "your employer's employee assistance programme, or your Insulators Local 16 business agent if you are not sure how to reach it",
+  "tagline": "A mechanical room sprayed in closed-cell foam behind a respirator fitted and quantitatively tested before the isocyanate component is ever opened",
+  "title": "SmartCiti.X~ Spray Foam and Respirator Fit VR",
+  "trade": "Insulator, spray polyurethane foam application — Insulators Local 16",
+  "underwater": null,
+  "weather": null
+}

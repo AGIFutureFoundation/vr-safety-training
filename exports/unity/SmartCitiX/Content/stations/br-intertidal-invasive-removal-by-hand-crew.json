@@ -1,0 +1,457 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "root-and-branch",
+    "name": "Root And Branch",
+    "note": "Every fragment found, every boot decontaminated, buffer never crossed — first time"
+  },
+  "category": "Water & Environmental",
+  "certification": "LIUNA Local 261 laborers — hand-removal and biosecurity crew; OSHA 29 CFR 1926 general construction safety; U.S. Army Corps of Engineers Clean Water Act (CWA) Section 404 permit conditions; San Francisco Bay Regional Water Quality Control Board CWA Section 401 water quality certification for decon wash water; San Francisco Bay Conservation and Development Commission (BCDC) permit; California Department of Fish and Wildlife habitat protections; U.S. Fish and Wildlife Service Endangered Species Act nesting buffer; work window per the permit",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "BCDC",
+        "citedAs": "BCDC",
+        "id": "bcdc-bay-plan",
+        "title": "San Francisco Bay Plan and BCDC permit conditions under the McAteer-Petris Act"
+      },
+      {
+        "body": "CDFW",
+        "citedAs": "California Department of Fish and Wildlife",
+        "id": "cdfw-lake-streambed-alteration",
+        "title": "California Department of Fish and Wildlife oversight under the California Fish and Game Code, including Lake and Streambed Alteration Agreements (§1602) for work affecting a river, stream or lake"
+      },
+      {
+        "body": "union",
+        "citedAs": "CWA",
+        "id": "cwa-training",
+        "title": "CWA member training for outside-plant, tower and broadcast work"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      },
+      {
+        "body": "RWQCB",
+        "citedAs": "Section 401",
+        "id": "rwqcb-401-certification",
+        "title": "Regional Water Quality Control Board Clean Water Act §401 certification and waste discharge requirements"
+      },
+      {
+        "body": "USACE",
+        "citedAs": "Section 404",
+        "id": "usace-section-404",
+        "title": "Clean Water Act §404 permit conditions for the discharge of dredged or fill material"
+      },
+      {
+        "body": "USFWS",
+        "citedAs": "Endangered Species Act",
+        "id": "usfws-esa",
+        "title": "Endangered Species Act §7 consultation and species protection measures set by the U.S. Fish and Wildlife Service"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "no-spread",
+        "name": "No Spread",
+        "note": "Never a hazard, boots decontaminated between every zone"
+      },
+      {
+        "id": "clean-decon",
+        "name": "Decon Read Clean",
+        "note": "The decon wash reading held inside the safe band"
+      },
+      {
+        "id": "zones-first",
+        "name": "Zones Read Clean",
+        "note": "Zones and buffer both read clean before the first plant came out"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-bench",
+        "name": "Clean Bench",
+        "note": "No corrections across the whole removal run"
+      },
+      {
+        "id": "steady-haul",
+        "name": "Steady Haul",
+        "note": "Held the cart haul inside the working band the whole pass"
+      },
+      {
+        "id": "bench-fast",
+        "name": "Bench Cleared Fast",
+        "note": "Removal closed out inside 80% of par"
+      }
+    ],
+    "currency": "ROOTWAD",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Laborer",
+      "Crew Hand",
+      "Lead Hand",
+      "Site Steward",
+      "Invasive Control Certified"
+    ],
+    "system": "Removal Crew"
+  },
+  "hazards": {
+    "cross-contaminate-boots": "You walked from the treatment zone into the clean buffer without decontaminating your boots first. A root fragment small enough to hide in a boot tread is exactly large enough to start a new stand, and carrying one across the line the decon station exists to hold undoes the whole reason this crew works zone by zone instead of wherever looks thick that day.",
+    "manual-lift-bag-solo": "You went to swing a full disposal bag onto the cart by yourself instead of getting a second set of hands. A bag this size is a wet, awkward weight with no good grip on it, and a back strained loading it is exactly the injury the second person on this crew was there to prevent.",
+    "truck-unspotted-back": "You backed the van toward the staging area without the spotter's call. The van's own body blocks the driver's view of the exact ground the crew works on foot, and backing on a guess instead of a confirmed all-clear is how a vehicle finds a person the mirror never showed.",
+    "wrench-pinch-point": "You worked the weed wrench's lever without keeping your other hand clear of the jaw pivot. The jaw closes on the root with enough force to lever a whole plant out of wet ground, and a finger caught in that pivot when the lever comes down does not get a warning first."
+  },
+  "id": "br-intertidal-invasive-removal-by-hand-crew",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "bag-and-tag",
+      "alert": "A gust off the bay caught one of the tagged bags before it was cinched, and loose fragments are already blowing back across the ground the crew just cleared.",
+      "cue": "Throw the wind guard over the open bags now, before more fragments scatter.",
+      "delay": 3,
+      "id": "gust-scatters-fragments",
+      "kind": "Wind gust scatters fragments from an open bag",
+      "missNote": "The gust kept scattering fragments while the crew finished tagging the other bags, and by the time anyone reached the guard, loose material had already blown past the treatment line into ground the crew had just cleared.",
+      "seconds": 12,
+      "target": "wind-guard",
+      "why": "A fragment that blows back onto cleared ground is a fragment this crew now has to find a second time, if anyone finds it at all — the wind guard is what keeps an unsealed bag from undoing a zone's worth of work in the time it takes to notice the gust.",
+      "wrongNote": "That is not it. The wind guard is what goes over the open bags — nothing else on this bench stops the gust from scattering them further."
+    },
+    {
+      "after": "weed-wrench",
+      "alert": "A ground-nesting bird broke from a clump of cover right at the edge of the buffer flag, close enough that the next wrench pull would have gone straight past it.",
+      "cue": "Stop work now at the buffer strobe. Nothing moves past that flag while a bird is on the ground beside it.",
+      "delay": 4,
+      "id": "bird-flushed-near-buffer",
+      "kind": "Bird flushed from cover near the buffer",
+      "missNote": "The crew kept pulling plants past the flushed bird, and the wrench went in again within a few feet of where it went back to ground. A federally listed species disturbed by continuing work is not a near miss the Endangered Species Act treats as harmless just because no wrench ever touched the bird itself.",
+      "seconds": 12,
+      "target": "buffer-estop",
+      "why": "A bird flushed from cover next to the buffer line is the closure doing exactly what it was drawn for — proof something was closer to the work than the flagged line assumed — and the crew stops at the strobe the moment that is seen, not once the current plant is fully out of the ground.",
+      "wrongNote": "It's the buffer stop-work strobe. Nothing else on this bench halts work at the closure the moment a bird is flushed beside it."
+    }
+  ],
+  "lateNotes": {
+    "boot-brush": "Decontaminate boots only after the bags from this zone are tagged and sealed — brushing off early just means walking back into the treatment zone still carrying whatever the last plant left on your boots.",
+    "van-spotter-radio": "Check in with the spotter only once the cart is loaded and ready to move — calling it in before there is anything to back up to just wastes the spotter's attention on nothing.",
+    "weed-wrench": "Lever the plant out only after the zone is confirmed and the buffer is checked — pulling ahead of either one is pulling material nobody has cleared this crew to touch yet."
+  },
+  "name": "Intertidal Invasive Removal By Hand Crew",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-restoration-maritime-underwater"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "cargoVan",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bag-1",
+      "bag-2",
+      "bag-3",
+      "boot-brush",
+      "buffer-estop",
+      "cart-line",
+      "closing-log",
+      "cross-contaminate-boots",
+      "decon-meter",
+      "disposal-bag",
+      "loaded-bag",
+      "manual-lift-bag-solo",
+      "missed-fragment-flag",
+      "nesting-buffer-flag",
+      "removal-cart",
+      "removal-plan-board",
+      "root-fragment-1",
+      "root-fragment-2",
+      "stage-eye",
+      "stage-gloves",
+      "stage-hi-vis",
+      "truck-unspotted-back",
+      "untagged-bag",
+      "van-spotter-radio",
+      "weed-wrench",
+      "wind-guard",
+      "wrench-pinch-point",
+      "zone-stake-1",
+      "zone-stake-2",
+      "zone-stake-3"
+    ],
+    "meshes": 187
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the treatment zones, the 404 and 401 conditions, the habitat protections, and the nesting buffer before any tool is staged.",
+      "id": "check-in",
+      "kind": "select",
+      "prompt": "Read the treatment zones, the 404 and 401 conditions, the habitat protections, and the nesting buffer before any tool is staged.",
+      "target": "removal-plan-board",
+      "title": "Check the removal plan and the work window before staging",
+      "why": "This bench is worked under the same signatures the rest of the restoration crew answers to — the Corps' Section 404 permit, the Water Board's 401 certification for the decon wash water, California Department of Fish and Wildlife's habitat protections, and a nesting buffer the permit itself sets — and a hand crew that skips the plan because 'it's just pulling weeds' is still bound by every condition on it."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Gloves, high-visibility vest and eye protection before anyone works the treatment zone.",
+      "id": "stage-ppe",
+      "itemNames": {
+        "stage-eye": "eye protection",
+        "stage-gloves": "gloves",
+        "stage-hi-vis": "high-visibility vest"
+      },
+      "kind": "sequence",
+      "prompt": "Gloves, high-visibility vest and eye protection before anyone works the treatment zone.",
+      "targets": [
+        "stage-gloves",
+        "stage-hi-vis",
+        "stage-eye"
+      ],
+      "title": "Stage the removal crew's PPE",
+      "why": "Gloves are for whatever the invasive stand's own stems and the wrench's jaw both do to bare skin over a full shift; the vest is what lets the van driver see a body on a bench the same colour as the exposed mud; eye protection is for the whip-back a root gives the moment the wrench finally breaks it free."
+    },
+    {
+      "cue": "Walk the bench and click the three stakes the treatment zone is built from.",
+      "id": "find-zones",
+      "itemNames": {
+        "zone-stake-1": "zone stake 1 — treatment start",
+        "zone-stake-2": "zone stake 2 — mid-bench",
+        "zone-stake-3": "zone stake 3 — treatment end"
+      },
+      "itemNotes": {
+        "zone-stake-1": "Stake 1 marks where today's treatment zone starts. The crew works from here, not from wherever the stand looks thickest.",
+        "zone-stake-2": "Stake 2 is the mid-bench control — it is what tells the crew the zone is being worked systematically instead of skipped over in patches.",
+        "zone-stake-3": "Stake 3 marks where today's zone ends. Past it is tomorrow's zone, or the buffer, not today's work."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the bench and click the three stakes the treatment zone is built from.",
+      "targets": [
+        "zone-stake-1",
+        "zone-stake-2",
+        "zone-stake-3"
+      ],
+      "title": "Find the stakes that set today's treatment zone",
+      "why": "A bench worked without a marked zone gets the easy plants close to the trail and misses whatever is past the last convenient stopping point — finding all three stakes first is what turns removal into a zone the whole crew covers instead of three honest guesses at where the stand is worst."
+    },
+    {
+      "cue": "Check the buffer flag line along the cover at the edge of the zone before the first plant is pulled.",
+      "id": "buffer-check",
+      "kind": "select",
+      "prompt": "Check the buffer flag line along the cover at the edge of the zone before the first plant is pulled.",
+      "target": "nesting-buffer-flag",
+      "title": "Confirm the nesting buffer is flagged before work starts",
+      "why": "The buffer exists because a bird low in dense cover cannot get up and clear a hand crew that is already working past it, and that is exactly as true for a crew pulling plants by hand as it is for an excavator — the flag has to be checked and respected before anyone is close enough to the cover for it to matter."
+    },
+    {
+      "cue": "Set the wrench's jaw at the base of the stem and lever the whole root out of the ground.",
+      "id": "weed-wrench",
+      "kind": "turn",
+      "prompt": "Set the wrench's jaw at the base of the stem and lever the whole root out of the ground.",
+      "target": "weed-wrench",
+      "title": "Lever the plant out whole with the weed wrench",
+      "turn": {
+        "axis": "y",
+        "label": "WEED WRENCH",
+        "turns": 0.8
+      },
+      "why": "A plant cut at the surface just regrows from whatever root stays in the ground; the wrench's jaw is built to grip below the crown and lever the entire root mass out in one motion, which is the only way this crew's work actually reduces the stand instead of just mowing it for a season."
+    },
+    {
+      "cue": "Check the freshly disturbed ground for any fragment the wrench left behind.",
+      "id": "find-fragments",
+      "itemNotes": {
+        "root-fragment-1": "A root fragment broke off during the pull and is still in the disturbed soil — left here, it resprouts before the season is out.",
+        "root-fragment-2": "A second fragment sits half-buried nearby. Every fragment left behind is a plant this crew will be pulling again next season."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the freshly disturbed ground for any fragment the wrench left behind.",
+      "targets": [
+        "root-fragment-1",
+        "root-fragment-2"
+      ],
+      "title": "Hunt the disturbed soil for root fragments",
+      "why": "A fragment left in the soil looks like nothing to a crew that has already moved on to the next plant, and it is exactly what turns a zone marked complete into a zone that needs the same work again next season — checking now, while the soil is still disturbed and the fragment is still visible, is the only point in the whole job this is easy to catch."
+    },
+    {
+      "cue": "Hold the bag's mouth open while the crew stuffs the pulled material and fragments into it.",
+      "holdBreakNote": "The bag's mouth closed before it was full — reopen it and hold steady until the load is all the way in.",
+      "id": "bag-hold",
+      "kind": "hold",
+      "prompt": "Hold the bag's mouth open while the crew stuffs the pulled material and fragments into it.",
+      "seconds": 5,
+      "target": "disposal-bag",
+      "title": "Hold the disposal bag open while it's loaded",
+      "why": "A bag that collapses shut mid-load spills whatever was already in it back onto the ground the crew just cleared — held open and steady until it's full, it stays a bag doing its job instead of one more thing the wind gets to undo."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Tag all three filled bags with the zone they came from before they leave the bench.",
+      "id": "bag-and-tag",
+      "itemNames": {
+        "bag-1": "bag — zone 1",
+        "bag-2": "bag — zone 2",
+        "bag-3": "bag — zone 3"
+      },
+      "kind": "sequence",
+      "prompt": "Tag all three filled bags with the zone they came from before they leave the bench.",
+      "targets": [
+        "bag-1",
+        "bag-2",
+        "bag-3"
+      ],
+      "title": "Tag each filled bag with its zone",
+      "why": "A bag that reaches the landfill without its zone tag is a bag nobody can trace back to confirm the zone was actually cleared, and this material is landfilled rather than composted specifically because composting does not reliably kill every fragment — the tag is what keeps that chain of custody honest all the way to disposal."
+    },
+    {
+      "cue": "Work each boot across the brush station's bristles before crossing into the next zone or the buffer.",
+      "id": "boot-brush",
+      "kind": "turn",
+      "prompt": "Work each boot across the brush station's bristles before crossing into the next zone or the buffer.",
+      "target": "boot-brush",
+      "title": "Decontaminate boots at the brush station between zones",
+      "turn": {
+        "axis": "y",
+        "label": "BOOT BRUSH",
+        "turns": 0.6
+      },
+      "why": "A boot tread holds a fragment small enough to be invisible and large enough to start a new stand, and the brush station is the one control between a fragment riding out on somebody's boot and that fragment staying exactly where the crew already dealt with it."
+    },
+    {
+      "cue": "Take the reading on the decon station's wash water and commit it inside the permit's limit.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "TURBIDITY",
+        "missNote": "Outside the permit's limit. Let the reading settle and commit again once the wash water clears.",
+        "speed": 0.7
+      },
+      "id": "decon-check",
+      "kind": "gauge",
+      "prompt": "Take the reading on the decon station's wash water and commit it inside the permit's limit.",
+      "target": "decon-meter",
+      "title": "Read the decon wash water turbidity",
+      "why": "The 401 certification treats the decon station's own runoff the same as any other discharge on this bench — reading the meter is what confirms the wash water is still within the permitted limit instead of assuming it is because the brushes look like they're doing their job."
+    },
+    {
+      "cue": "Carry the sealed bag out to the cart before it is left sitting on the treatment zone.",
+      "drag": {
+        "missNote": "Not at the cart — a bag left short of it is a bag still sitting where the wind can still reach it.",
+        "radius": 0.5,
+        "to": "cart-line"
+      },
+      "id": "haul-bag",
+      "kind": "drag",
+      "prompt": "Carry the sealed bag out to the cart before it is left sitting on the treatment zone.",
+      "target": "loaded-bag",
+      "title": "Haul the loaded bag out to the cart",
+      "why": "A bag left sitting on the bench is a bag the next tide or the next gust gets another chance at — moving it to the cart the moment it's sealed is what keeps a cleared zone from quietly becoming a re-seeded one before the crew is even off the bench."
+    },
+    {
+      "cue": "Walk the cart along the bench at a steady pace, staying inside the working band.",
+      "holdBreakNote": "The pull broke and the cart settled into the soft ground. Bring it back to a steady pace before the wheels dig in further.",
+      "id": "cart-haul",
+      "kind": "track",
+      "prompt": "Walk the cart along the bench at a steady pace, staying inside the working band.",
+      "seconds": 7,
+      "target": "removal-cart",
+      "title": "Haul the loaded cart to the staging area",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.36,
+          0.58
+        ],
+        "label": "HAUL",
+        "rise": 0.55,
+        "start": 0.1
+      },
+      "why": "A steady pull keeps the cart's wheels tracking the firm ground instead of digging into the soft bench; too fast and bags bounce loose on the uneven ground, too slow and the cart bogs down in exactly the soft soil the whole crew has been working hard not to compact any further than the treatment already has."
+    },
+    {
+      "cue": "Call the spotter on the radio and get a clear signal before backing the van to load the bagged material.",
+      "id": "cargo-van-spotter",
+      "kind": "select",
+      "prompt": "Call the spotter on the radio and get a clear signal before backing the van to load the bagged material.",
+      "target": "van-spotter-radio",
+      "title": "Check in with the spotter before backing the van",
+      "why": "The van's own body blocks the driver's view of the exact ground the crew works on foot, and backing without the spotter's call is backing on a guess about people the mirror was never going to show in the first place."
+    },
+    {
+      "cue": "Check the missed fragment and the untagged bag before the crew calls this zone done.",
+      "id": "walk-hazards",
+      "itemNotes": {
+        "missed-fragment-flag": "A fragment sits here that the first pass missed — click it to confirm the crew catches it before it has the chance to resprout.",
+        "untagged-bag": "This bag never got its zone tag. Untraced, nobody downstream can confirm which zone it came from."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the missed fragment and the untagged bag before the crew calls this zone done.",
+      "targets": [
+        "missed-fragment-flag",
+        "untagged-bag"
+      ],
+      "title": "Walk the bench and confirm nothing is left behind",
+      "why": "A fragment missed on the first pass or a bag that never got tagged is easy to overlook once the crew's attention has moved to loading the van — walking the zone now, before anyone leaves, is the last chance to catch what next season would otherwise find instead."
+    },
+    {
+      "cue": "Record the zones cleared, the bags tagged, the decon readings, and the buffer status for the crew's record.",
+      "id": "log-removal",
+      "kind": "select",
+      "prompt": "Record the zones cleared, the bags tagged, the decon readings, and the buffer status for the crew's record.",
+      "target": "closing-log",
+      "title": "Log the day's removal",
+      "why": "The next crew on this bench reads today's log, not today's memory of it — a removal run that was clean but never logged looks, from tomorrow's map, exactly like a zone nobody has treated yet, and a buffer status that was never written down is a fact the next shift has no way to confirm on its own."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Hand-pulling an invasive stand out of the upper intertidal with no sprayer at all: zones and buffer checked, roots levered whole and fragments hunted out of the disturbed soil, every bag tagged and held shut against the wind, boots decontaminated between zones, and the bench walked before a single stray fragment gets the chance to resprout or hitch a ride into clean ground",
+  "title": "SmartCiti.X~ Intertidal Invasive Removal By Hand Crew VR",
+  "trade": "Invasive species control laborer — hand-removal crew",
+  "underwater": null,
+  "weather": "clear"
+}

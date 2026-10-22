@@ -1,0 +1,423 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clean-transfer",
+    "name": "Clean Transfer",
+    "note": "A generator tie-in bonded, cammed ground-first and GFCI-proven, with the transfer to shore power held clean and the UPS never dropped"
+  },
+  "category": "Entertainment & Live Events",
+  "certification": "IATSE broadcast and IBEW utility electricians; NEC Article 525 (carnivals, fairs and similar events) and Article 530 (motion picture and television studios); NFPA 70E qualified for the lockout/verification; OSHA 29 CFR 1910.147 lockout/tagout on the generator breaker; NEC 250.6 and 702 on generator neutral-ground bonding and objectionable current",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IATSE",
+        "id": "iatse-training-trust",
+        "title": "IATSE Training Trust Fund — stagecraft, rigging and entertainment electrical skills training"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBEW",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "NEC/NFPA 70",
+        "citedAs": "NEC",
+        "id": "nec-nfpa-70",
+        "title": "NFPA 70 — National Electrical Code"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 70E",
+        "id": "nfpa-70e",
+        "title": "NFPA 70E — Standard for Electrical Safety in the Workplace"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Entertainment",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "bond-proven",
+        "name": "Bond Proven",
+        "note": "The generator's neutral-ground bond was checked before the first cam went on"
+      },
+      {
+        "id": "ground-first",
+        "name": "Ground First",
+        "note": "Camlok connectors landed ground, neutral, then phases, no shortcut"
+      },
+      {
+        "id": "clean-changeover",
+        "name": "Clean Changeover",
+        "note": "Held the transfer inside the make-before-break band the whole way"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-tie-in",
+        "name": "Clean Tie-In",
+        "note": "No corrections from the power plan to the close-out"
+      },
+      {
+        "id": "load-held",
+        "name": "Load Held",
+        "note": "Held the full load test without a break"
+      },
+      {
+        "id": "on-air-on-time",
+        "name": "On Air On Time",
+        "note": "Power live and proven inside 80% of par"
+      }
+    ],
+    "currency": "AMP",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Deck Electrician",
+      "Distro Tech",
+      "Utility Electrician",
+      "Production Electrician",
+      "Tie-In Certified"
+    ],
+    "system": "Tie-In Authority"
+  },
+  "hazards": {
+    "double-bond": "You landed a second bonding jumper between neutral and ground at the truck, on top of the one already at the generator. With the transfer switch already switching the neutral, that second bond opens a parallel path for return current over the safety-ground conductor and the truck's own chassis — the exact 'objectionable current' NEC 250.6 exists to keep off equipment enclosures, and it turns every metal case on this truck into part of the path.",
+    "gfci-bypass": "You ran the camera position's power off a plain stinger cable instead of the GFCI-protected field run. That cable is going out across ground the audience walks on, in whatever weather the show gets, and the GFCI on the proper run is the only thing standing between a nicked jacket out there and somebody getting the fault current instead of a tripped breaker.",
+    "phase-first": "You reached for a phase camlok before the ground was landed at the generator's own distro panel. Landing ground first is what keeps the frame bonded before any conductor downstream could be hot — skip it, and a fault anywhere on this feeder has no path back to the source until somebody notices the hard way.",
+    "wet-camlok": "The generator's distro is standing in the runoff pooling by the ice truck. A metal frame carrying three phases on wet ground is a shock path to whoever touches it next, and it gets moved to dry, level ground before it carries any load at all."
+  },
+  "id": "broadcast-truck",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "transfer",
+      "alert": "The generator's frequency has sagged and the truck's video sync is chasing it.",
+      "cue": "Something else just came onto this generator that the load plan didn't account for.",
+      "delay": 4,
+      "id": "freq-sag",
+      "kind": "Generator",
+      "missNote": "The sag ran through most of the load test with nobody at the governor. Every downstream device chasing that frequency drifted right along with it.",
+      "seconds": 13,
+      "target": "governor-panel",
+      "why": "Broadcast gear locks its timing to the power feeding it, and a generator carrying an unplanned load droops in frequency before anything trips a breaker. The governor panel is where that gets trimmed back, and it has to happen before the drift is large enough to actually drop a video wall or a router out of sync on air.",
+      "wrongNote": "Not that. The governor panel is what corrects a frequency sag, and it corrects it now."
+    },
+    {
+      "after": "load-test",
+      "alert": "The field GFCI has tripped and the stage boxes just went dark.",
+      "cue": "Something on that run just found a ground fault the hard way.",
+      "delay": 4,
+      "id": "gfci-trip",
+      "kind": "Field cabling",
+      "missNote": "The stage boxes stayed dark while the show clock kept running. Nobody at the reset panel meant nobody knew why it tripped either.",
+      "seconds": 12,
+      "target": "gfci-reset",
+      "why": "A GFCI trips because current found a path it was never supposed to take, most often water at a connector out on the field run. The reset panel on the GFCI enclosure is where that gets dealt with — not a blind re-energise somewhere else on the truck, because the fault is still sitting out there on the cable until somebody actually looks at what tripped it.",
+      "wrongNote": "That's not the reset. It's on the GFCI enclosure itself, and that's where this gets answered."
+    }
+  ],
+  "lateNotes": {
+    "cam-ground": "Not yet — the generator breaker is locked out and the bond is proven before any camlok goes on.",
+    "genset-breaker": "The breaker stays locked until the cams are landed in order, strain-relieved and covered.",
+    "gfci-test-button": "Nothing goes out on the field run until the GFCI has been tested and confirmed to trip."
+  },
+  "name": "Broadcast Truck",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "bond-tester",
+      "cam-ground",
+      "cam-l1",
+      "cam-l2",
+      "cam-l3",
+      "cam-neutral",
+      "chassis-ground-rod",
+      "damaged-jacket",
+      "distro-meter",
+      "double-bond",
+      "feeder-whip",
+      "genset-breaker",
+      "gfci-bypass",
+      "gfci-reset",
+      "gfci-tag",
+      "gfci-test-button",
+      "governor-panel",
+      "ground-pin-missing",
+      "load-test",
+      "no-ramp",
+      "phase-first",
+      "power-plan",
+      "spill-kit",
+      "strain-relief",
+      "switch-plate",
+      "transfer-switch",
+      "truck-inlet",
+      "wet-camlok"
+    ],
+    "meshes": 220
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the generator's rated output, the service size, and the load list the truck brings.",
+      "id": "plan",
+      "kind": "select",
+      "prompt": "Check the generator's rated output, the service size, and the load list the truck brings.",
+      "target": "power-plan",
+      "title": "Read the event power plan",
+      "why": "The plan says whether one generator or two carries this show, and which NEC article governs the tie-in — a fairground stage under Article 525 is landed differently than a permanent studio under Article 530, and that distinction is settled here, before any cable is uncoiled."
+    },
+    {
+      "cue": "Throw the breaker off and hang your lock and tag before anything is landed on the panel.",
+      "id": "lockout",
+      "kind": "turn",
+      "prompt": "Throw the breaker off and hang your lock and tag before anything is landed on the panel.",
+      "target": "genset-breaker",
+      "title": "Open and lock the generator's output breaker",
+      "turn": {
+        "axis": "z",
+        "label": "GENSET BREAKER",
+        "turns": 0.5
+      },
+      "why": "The breaker is opened and locked before a single camlok touches it. Your lock is the only thing that stops somebody else closing it while your hands are on the lugs — the same rule that governs every panel on this circuit, generator or building."
+    },
+    {
+      "cue": "Read the bond tester across the generator's neutral and ground bus and commit on what it shows.",
+      "gauge": {
+        "green": [
+          0,
+          0.16
+        ],
+        "label": "BOND",
+        "missNote": "That is not a bonded neutral. Land the bonding jumper at the generator before anything downstream is trusted to trip on a fault.",
+        "speed": 0.7
+      },
+      "id": "bond-check",
+      "kind": "gauge",
+      "prompt": "Read the bond tester across the generator's neutral and ground bus and commit on what it shows.",
+      "target": "bond-tester",
+      "title": "Check the generator's neutral-ground bond",
+      "why": "A portable generator standing as the only source on site has to have its neutral bonded to ground right there, at the generator — that bond is what makes a ground fault downstream trip a breaker instead of just sitting there energised. An open reading here means nothing downstream will ever trip on a fault until somebody finds that out the hard way."
+    },
+    {
+      "cue": "Carry the camlok feeder whip from the generator's distro to the truck's shore-power inlet and seat it in the socket.",
+      "drag": {
+        "missNote": "Not seated in the truck's inlet — a whip that isn't locked home is a connector waiting to arc under the first real load.",
+        "radius": 0.45,
+        "to": "truck-inlet"
+      },
+      "id": "tie-in",
+      "kind": "drag",
+      "prompt": "Carry the camlok feeder whip from the generator's distro to the truck's shore-power inlet and seat it in the socket.",
+      "target": "feeder-whip",
+      "title": "Carry the feeder whip to the truck",
+      "why": "This whip is the only conductor between a generator somebody else sized and a truck full of gear that cannot brown out mid-broadcast. It is carried and seated before anything on either end is energised, the same as any other feeder run on this job."
+    },
+    {
+      "cue": "Ground, then neutral, then the three phases — in that order, latched at the generator's distro.",
+      "id": "cams",
+      "itemNames": {
+        "cam-ground": "ground (green)",
+        "cam-l1": "phase A",
+        "cam-l2": "phase B",
+        "cam-l3": "phase C",
+        "cam-neutral": "neutral (white)"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Ground, neutral, then phases. A phase landed first is the one order this connector exists to prevent.",
+      "prompt": "Ground, then neutral, then the three phases — in that order, latched at the generator's distro.",
+      "targets": [
+        "cam-ground",
+        "cam-neutral",
+        "cam-l1",
+        "cam-l2",
+        "cam-l3"
+      ],
+      "title": "Land the camlok connectors ground-first",
+      "why": "Ground first so the frame and the whole feeder are bonded before any conductor could be hot; neutral before phases so nothing downstream ever sees a floating neutral, even for a second. Breaking the tie-in reverses the order — phases off first, ground last — for exactly the same reason."
+    },
+    {
+      "cue": "Secure the feeder to the distro frame and close the tap cover so no lug is exposed.",
+      "id": "strain",
+      "kind": "select",
+      "prompt": "Secure the feeder to the distro frame and close the tap cover so no lug is exposed.",
+      "target": "strain-relief",
+      "title": "Strain-relieve and cover the taps",
+      "why": "The feeder gets walked on and rolled over all day at a load-in like this one. The strain relief takes that pull instead of the camlok collars, and the cover means nobody finds a live lug with a boot or a hand."
+    },
+    {
+      "cue": "Take your lock off, clear the area, and close the generator's output breaker.",
+      "id": "energize",
+      "kind": "turn",
+      "prompt": "Take your lock off, clear the area, and close the generator's output breaker.",
+      "target": "genset-breaker",
+      "title": "Remove the lock and energise",
+      "turn": {
+        "axis": "z",
+        "label": "GENSET BREAKER",
+        "turns": 0.5
+      },
+      "why": "Your lock, your key, your call to re-energise. The area is clear because the first breaker close is the moment a fault in the feeder or the panel shows itself."
+    },
+    {
+      "cue": "Read phase-to-neutral on each phase at the truck and commit inside the nominal band.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.6
+        ],
+        "label": "VOLTS",
+        "missNote": "Off nominal — do not load it. Recheck the neutral and the cam order before anything downstream is trusted.",
+        "speed": 0.75
+      },
+      "id": "phase-check",
+      "kind": "gauge",
+      "prompt": "Read phase-to-neutral on each phase at the truck and commit inside the nominal band.",
+      "target": "distro-meter",
+      "title": "Read the phases at the truck's distro",
+      "why": "Three phases reading right at the truck's own distro is the proof the tie-in and the cam order both came out correct. A lost neutral shows here first — one leg high, one low — long before it shows as a rack of gear browning out on air."
+    },
+    {
+      "cue": "Press and hold the test button on the field cable's in-line GFCI until the trip indicator confirms it opened.",
+      "holdBreakNote": "Released before the trip confirmed. An untested GFCI is a guess about what happens the first time somebody's cable gets wet.",
+      "id": "gfci-test",
+      "kind": "hold",
+      "prompt": "Press and hold the test button on the field cable's in-line GFCI until the trip indicator confirms it opened.",
+      "seconds": 3,
+      "target": "gfci-test-button",
+      "title": "Test the field cable's GFCI",
+      "why": "A GFCI that has never been tested is a GFCI nobody has actually proven will open on a ground fault. It gets pressed and confirmed before the cable run goes out across the field, where an audience is standing on the other end of it."
+    },
+    {
+      "cue": "Hold the transfer switch handle through the changeover, inside the band — too fast breaks before it makes, too slow overlaps the two sources.",
+      "holdBreakNote": "Transfer out of band — too fast drops the UPS's load, too slow parallels two sources neither one is built to share the bus with.",
+      "id": "transfer",
+      "kind": "track",
+      "prompt": "Hold the transfer switch handle through the changeover, inside the band — too fast breaks before it makes, too slow overlaps the two sources.",
+      "seconds": 6,
+      "target": "transfer-switch",
+      "title": "Ease the transfer to shore power",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "TRANSFER",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "The truck's UPS only bridges a gap it doesn't have to fill — dropped for even a moment, everything downstream that isn't already on battery blinks, and a video wall or router that blinks mid-broadcast doesn't just flicker, it drops sync and takes minutes to recover. Held too long the other way, generator and shore power are briefly paralleled on the same bus, which neither source's protection is built to survive."
+    },
+    {
+      "cue": "Check the transfer switch's data plate confirms it switches the neutral, not just the phases.",
+      "id": "switched-neutral",
+      "kind": "select",
+      "prompt": "Check the transfer switch's data plate confirms it switches the neutral, not just the phases.",
+      "target": "switch-plate",
+      "title": "Confirm the transfer switch is switched-neutral",
+      "why": "With the neutral switched, only one source is ever bonded to ground at a time. A switch that leaves the neutral solid ties the generator's bond and the shore power's bond together every moment both sources are connected — exactly the parallel path NEC 250.6 exists to prevent."
+    },
+    {
+      "cue": "Walk the cable from the truck to the stage box and click the three things that fail this run.",
+      "id": "walk-cable",
+      "itemNames": {
+        "damaged-jacket": "damaged cable jacket",
+        "ground-pin-missing": "missing ground pin",
+        "no-ramp": "cable across the walkway with no ramp"
+      },
+      "itemNotes": {
+        "damaged-jacket": "The jacket is cut through to the conductors where a road case rolled over it. That run gets replaced before the show, not taped and left for the GFCI to catch.",
+        "ground-pin-missing": "The equipment-ground pin has been bent back and removed on this connector. A GFCI trips on some faults with no ground path at all, but the chassis it's supposed to protect has nowhere for a fault current to go until that pin is back.",
+        "no-ramp": "This cable crosses a walkway with nothing over it. It is a trip hazard for the crew and a crush hazard for the cable the moment a loaded cart or a wheelchair rolls over the bare jacket."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the cable from the truck to the stage box and click the three things that fail this run.",
+      "targets": [
+        "damaged-jacket",
+        "ground-pin-missing",
+        "no-ramp"
+      ],
+      "title": "Walk the field cable run",
+      "why": "The tie-in is the interesting part and the field run is where it actually gets tested — foot traffic, weather and the show's own gear all live on this cable, and none of these three faults show up until somebody is standing on one."
+    },
+    {
+      "cue": "Bring the truck's full rig up and hold it steady on generator power before calling the tie-in good.",
+      "holdBreakNote": "Load dropped early — the tie-in was never proven under the load it actually has to carry.",
+      "id": "load-test",
+      "kind": "hold",
+      "prompt": "Bring the truck's full rig up and hold it steady on generator power before calling the tie-in good.",
+      "seconds": 4,
+      "target": "load-test",
+      "title": "Load test on generator power",
+      "why": "A tie-in that reads right unloaded and sags the moment the truck's full load comes up was never actually proven. The load test is what separates a connection that looks correct from one that holds through an actual broadcast."
+    },
+    {
+      "cue": "Click the three things that have to be right before this generator is left running unattended.",
+      "id": "close-out",
+      "itemNames": {
+        "chassis-ground-rod": "ground rod bonded to the chassis",
+        "gfci-tag": "GFCI test tag",
+        "spill-kit": "spill containment under the generator"
+      },
+      "itemNotes": {
+        "chassis-ground-rod": "The ground rod is driven and bonded to the truck's chassis. It's the local path to earth this whole tie-in depends on being there, not assumed.",
+        "gfci-tag": "The GFCI is tagged with today's date and a pass. It's the only record that the test in this shift actually happened, for whoever's on this generator next.",
+        "spill-kit": "There's absorbent containment under the generator's fuel and oil connections. A generator run unattended for a whole show is a leak waiting for somewhere to go, and this is where it goes instead of the ground."
+      },
+      "kind": "find",
+      "prompt": "Click the three things that have to be right before this generator is left running unattended.",
+      "targets": [
+        "chassis-ground-rod",
+        "gfci-tag",
+        "spill-kit"
+      ],
+      "title": "Close out before the show goes live",
+      "why": "None of these are the interesting part of the job, and all three are what an incident report looks for first: the ground rod that's actually bonded, the tag that proves the GFCI was tested today, and the containment that keeps a leak off the ground instead of in it."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Generator power to an outside-broadcast truck: neutral-ground bond checked, camloks landed ground-first, GFCI proven, and the transfer to shore power held clean without dropping the truck's UPS",
+  "title": "SmartCiti.X~ Broadcast Truck VR",
+  "trade": "Outside-broadcast / utility electrician",
+  "underwater": null,
+  "weather": "clear"
+}

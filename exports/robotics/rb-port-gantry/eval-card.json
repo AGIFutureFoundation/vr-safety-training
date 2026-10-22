@@ -1,0 +1,77 @@
+{
+  "v": "rx/1",
+  "scenario": "rb-port-gantry",
+  "name": "Port Automation Lane",
+  "station": "ad-amr-fleet-traffic-and-estop-drill",
+  "policy": {
+    "id": "rx-bc-rb-port-gantry",
+    "version": "d9e4b963",
+    "method": "behaviour-cloning-knn",
+    "file": "rb-port-gantry/policy.json",
+    "modelHash": "d9e4b96357ba131b"
+  },
+  "dataSource": {
+    "id": "rx-ds-rb-port-gantry",
+    "source": "synthetic",
+    "file": "rb-port-gantry/dataset.json",
+    "demosOffered": 40,
+    "demosKept": 25,
+    "rows": 623
+  },
+  "seeds": {
+    "heldOut": "7001-7060",
+    "n": 60
+  },
+  "results": {
+    "random": {
+      "n": 60,
+      "success": 0,
+      "clean": 0.167,
+      "meanSteps": 160
+    },
+    "expert": {
+      "n": 60,
+      "success": 1,
+      "clean": 1,
+      "meanSteps": 27.8
+    },
+    "bcFiltered": {
+      "n": 60,
+      "success": 1,
+      "clean": 1,
+      "meanSteps": 27.7
+    },
+    "bcUnfiltered": {
+      "n": 60,
+      "success": 1,
+      "clean": 1,
+      "meanSteps": 27.917
+    },
+    "gapToExpert": 0
+  },
+  "invariants": {
+    "rules": [
+      "crossing-stop-zone",
+      "pinned-keep-out"
+    ],
+    "unit": "violation steps (a held protective stop repeats every step)",
+    "policyViolations": 0,
+    "policyViolationsByRule": {},
+    "policyEpisodesWithViolations": 0,
+    "policySteps": 1662,
+    "expertViolations": 0,
+    "expertEpisodesWithViolations": 0,
+    "expertSteps": 1668,
+    "of": 60
+  },
+  "lineage": {
+    "datasetId": "rx-ds-rb-port-gantry",
+    "policyId": "rx-bc-rb-port-gantry",
+    "sites": [
+      "rb-site-west-oakland-port-automation"
+    ],
+    "auditHead": "6badf45ae6cf5ea0",
+    "auditLines": 30
+  },
+  "measuredOn": "the simulated scenario only; no hardware run has happened"
+}

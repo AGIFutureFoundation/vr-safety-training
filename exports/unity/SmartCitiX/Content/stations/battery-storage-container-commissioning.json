@@ -1,0 +1,433 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "commissioned-by-the-plan",
+    "name": "Commissioned By The Plan",
+    "note": "Never inside in alarm, zero volts proven before a tool touched the bus, the off-gas and the hot cell both answered, and every connection scanned under load"
+  },
+  "category": "Energy & Power",
+  "certification": "IBEW/NECA JATC training; NFPA 855 stationary energy storage systems, including commissioning, gas detection and explosion control, with NFPA 69 for the exhaust interlock; NFPA 70 (NEC) for the energy storage wiring; NFPA 70E for DC shock and arc-flash work practices; NETA acceptance testing for the insulation and torque checks; OSHA 29 CFR 1910.147 lockout and 29 CFR 1910.333 verification of de-energisation",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IBEW",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "NEC/NFPA 70",
+        "citedAs": "NEC",
+        "id": "nec-nfpa-70",
+        "title": "NFPA 70 — National Electrical Code"
+      },
+      {
+        "body": "NETA",
+        "citedAs": "NETA",
+        "id": "neta-ats",
+        "title": "NETA Acceptance Testing Specifications (ATS) and Maintenance Testing Specifications (MTS) for electrical power equipment"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 69",
+        "id": "nfpa-69",
+        "title": "NFPA 69 — Standard on Explosion Prevention Systems"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 70E",
+        "id": "nfpa-70e",
+        "title": "NFPA 70E — Standard for Electrical Safety in the Workplace"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 855",
+        "id": "nfpa-855",
+        "title": "NFPA 855 — Installation of Stationary Energy Storage Systems"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.333",
+        "id": "osha-1910-333",
+        "title": "29 CFR 1910.333 — Selection and use of work practices for electrical safety"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Energy & Power",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "live-dead-live",
+        "name": "Live, Dead, Live",
+        "note": "Zero volts proven on the DC bus with the meter checked either side"
+      },
+      {
+        "id": "gentle-first-charge",
+        "name": "Gentle First Charge",
+        "note": "The first charge ramped inside the band throughout"
+      },
+      {
+        "id": "never-in-alarm",
+        "name": "Never In Alarm",
+        "note": "Never inside in alarm, never a bare hand on the bus, never a blocked vent, never square to the handle"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-commissioning",
+        "name": "Clean Commissioning",
+        "note": "No corrections anywhere in the commissioning"
+      },
+      {
+        "id": "interlock-on-the-mark",
+        "name": "Interlock On The Mark",
+        "note": "Exhaust setpoint committed inside the band first time"
+      },
+      {
+        "id": "online-on-time",
+        "name": "Online On Time",
+        "note": "Container logged inside 80% of par"
+      }
+    ],
+    "currency": "KWH",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice",
+      "Wireman",
+      "Commissioning Tech",
+      "Lead Commissioning Tech",
+      "Storage Commissioning Certified"
+    ],
+    "system": "Storage Commissioning"
+  },
+  "hazards": {
+    "bare-hand-busbar": "You reached toward the rack's busbar with bare hands. A battery string cannot be switched off — every module is live at its terminals whatever the disconnect says — and DC at that voltage holds on to a hand rather than throwing it off. Work near the bus is done in air-tested rubber gloves with protectors and insulated tools, as NFPA 70E expects for exposed energised parts.",
+    "enter-in-alarm": "You stepped into the container before its gas detection and exhaust had been proven. A lithium-ion container is a closed box full of cells that can vent flammable gas without warning, and its detection and exhaust are what keep that gas from building to a deflagration — until they are proven, nobody can say the air inside is safe, and a person inside is the one thing that turns a vent event into an injury. The door is worked from, not walked through, until the interlock test is done.",
+    "face-of-disconnect": "You squared up in front of the DC disconnect to operate its handle. Operating a switch under load is when an internal failure arcs, and the arc flash comes out of the cabinet's face. The practice NFPA 70E teaches is to stand to the side of the handle, face turned away, operating it with the hand nearest — never square to the door.",
+    "vent-panel-blocked": "You stacked the module packaging against the container's deflagration vent panel. That panel is there to open and relieve a gas ignition inside the container in a direction that was designed for it; blocked with cardboard, it opens late, or the pressure finds the doors instead — which is where the people are. NFPA 855 has explosion control designed in, and it only works if the vent is clear."
+  },
+  "id": "battery-storage-container-commissioning",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "zero-voltage",
+      "alert": "The container's off-gas detector has gone into alarm and the strobe over the door is flashing — something inside is venting.",
+      "cue": "Close the container door and withdraw to the plan's standoff — nobody goes in, and the call goes from outside.",
+      "delay": 2,
+      "id": "off-gas-alarm",
+      "kind": "Off-gas detector alarming",
+      "missNote": "The crew stayed in the open doorway with the detector in alarm; when the gas cloud reached the exhaust fan the pressure pulse came out of the door, not the vent panel, and knocked the crew mate off the pad steps.",
+      "seconds": 12,
+      "target": "container-door",
+      "why": "An off-gas alarm means a cell may be venting flammable gas into the container, and the emergency response plan's first rule is the one the fire service teaches: do not enter, and do not stand in the open doorway, because an ignition inside comes out through the easiest opening. The door is closed so the exhaust and the vent panel do their designed job, and the crew withdraws to the standoff before anything else is decided.",
+      "wrongNote": "The container door — the gas is inside, and closing the door and backing off is the only thing that keeps an ignition away from the crew."
+    },
+    {
+      "after": "first-charge",
+      "alert": "The BMS shows one cell group in rack two climbing several degrees above its neighbours and still rising under charge.",
+      "cue": "Hit the system emergency stop — the charge stops and the string opens before anything else.",
+      "delay": 2,
+      "id": "cell-group-hot",
+      "kind": "Cell group running hot",
+      "missNote": "The charge kept ramping while the cell group climbed; the BMS tripped the string on over-temperature a minute later, by which time the group's modules had to be replaced and the container waited a month for the investigation.",
+      "seconds": 12,
+      "target": "ess-estop",
+      "why": "A cell group climbing ahead of its neighbours under charge is the early sign of a cell heading for thermal runaway, and heat is removed fastest by removing the current that is making it. The system emergency stop drops the power conversion skid and opens the string at once, which the charge ramp's own control does not do; the investigation happens after the current is gone, not while it is still flowing.",
+      "wrongNote": "The system emergency stop — the charge current is what is heating the cell group, and the emergency stop is the one control that removes it at once."
+    }
+  ],
+  "lateNotes": {
+    "bus-link-bolt": "The bus links are torqued once zero volts has been proven on the DC bus — nothing is touched before that.",
+    "commissioning-log": "The container is logged once the thermal scan under load is done — the log is last.",
+    "pcs-ramp": "The first charge starts once the HVAC is running and the BMS and suppression are both confirmed."
+  },
+  "name": "Battery Storage Container Commissioning",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "energy-transition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "arc-hood",
+      "bare-hand-busbar",
+      "bms-screen",
+      "bus-link-bolt",
+      "commissioning-log",
+      "commissioning-plan",
+      "container-door",
+      "dc-lock",
+      "dc-meter",
+      "disconnect-hasp",
+      "enter-in-alarm",
+      "ess-estop",
+      "face-of-disconnect",
+      "gas-detector",
+      "glove-air-test",
+      "hvac-unit",
+      "insulation-tester",
+      "ir-camera",
+      "missing-cover",
+      "pcs-ramp",
+      "site-radio",
+      "suppression-panel",
+      "swollen-module",
+      "vent-panel-blocked"
+    ],
+    "meshes": 229
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the plan: the test sequence, the gas detection and exhaust setpoints, the DC isolation points, the acceptance figures, and what the emergency response plan says to do if a cell vents.",
+      "id": "comm-plan",
+      "kind": "select",
+      "prompt": "Read the plan: the test sequence, the gas detection and exhaust setpoints, the DC isolation points, the acceptance figures, and what the emergency response plan says to do if a cell vents.",
+      "target": "commissioning-plan",
+      "title": "Read the commissioning plan and the emergency response plan",
+      "why": "A battery container is commissioned in a fixed order because each test depends on the one before: nothing is energised until detection is proven, nothing is torqued until zero volts is proven, nothing is charged until the thermal management is running. NFPA 855 expects a commissioning plan and an emergency response plan written with the fire service, and the one moment to learn what the crew does if a cell vents is before the doors open — not while the detector is sounding."
+    },
+    {
+      "cue": "From the doorway, look over every rack: dented or swollen module cases, lifted lids, scorching, loose or missing hardware, anything that moved in transit.",
+      "id": "receiving-walk",
+      "itemNames": {
+        "swollen-module": "swollen module in rack two, second from the top"
+      },
+      "itemNotes": {
+        "swollen-module": "Rack two's second module has a bulged case and its lid seam has lifted — a cell inside has swollen, likely damaged in shipping. It is not connected: it is isolated, tagged, and replaced before the rack is commissioned."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "From the doorway, look over every rack: dented or swollen module cases, lifted lids, scorching, loose or missing hardware, anything that moved in transit.",
+      "targets": [
+        "swollen-module"
+      ],
+      "title": "Walk down the racks for shipping damage",
+      "why": "Lithium-ion cells damaged in transit do not always fail straight away — a crushed or swollen cell can sit quietly until it is charged, and then it is the start of a thermal event. The receiving walkdown is done before anything is connected, from the doorway, looking for the signs a damaged module gives: a swollen case, a lifted seam, a scorch mark. A module that shows them is isolated and replaced, not connected and watched."
+    },
+    {
+      "cue": "Flow the test gas at the detector and commit the reading at which the exhaust fan starts and the alarm sounds, against the design's setpoint.",
+      "gauge": {
+        "green": [
+          0.06,
+          0.2
+        ],
+        "label": "LFL %",
+        "missNote": "Not the trip point — commit the reading at the moment the exhaust fan starts, not before the detector responds or after it has overshot.",
+        "speed": 0.6
+      },
+      "id": "gas-interlock",
+      "kind": "gauge",
+      "prompt": "Flow the test gas at the detector and commit the reading at which the exhaust fan starts and the alarm sounds, against the design's setpoint.",
+      "target": "gas-detector",
+      "title": "Prove the gas detection trips the exhaust at its setpoint",
+      "why": "Cells in thermal runaway vent a flammable mix that can reach its explosive range inside a closed container in minutes, and the defence NFPA 855 designs in — using NFPA 69's approach — is gas detection that starts the exhaust long before the lower flammable limit is approached. The interlock is proven with test gas, reading the level at which the fan actually starts, before anyone relies on it — a detector wired to nothing looks exactly like one that works."
+    },
+    {
+      "cue": "Roll and inflate each rubber glove to check for pinholes, put the leather protectors on, then the arc-rated hood rated for the label's incident energy.",
+      "id": "ppe-seq",
+      "itemNames": {
+        "arc-hood": "arc-rated hood and face shield on",
+        "glove-air-test": "rubber gloves air-tested, protectors on"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Gloves are air-tested before they go on — a pinhole found after the hood is down is found with a hand already near the bus.",
+      "prompt": "Roll and inflate each rubber glove to check for pinholes, put the leather protectors on, then the arc-rated hood rated for the label's incident energy.",
+      "targets": [
+        "glove-air-test",
+        "arc-hood"
+      ],
+      "title": "Air-test the rubber gloves, then the arc-rated hood",
+      "why": "The rubber gloves are the only thing between a hand and a live DC terminal, and a pinhole in one is invisible until it is inflated — so each glove is air-tested before every use, and the leather protectors go over them because a scuffed rubber glove is a failed rubber glove. The arc-rated hood goes on for the disconnect and the bus work, rated for the incident energy on the equipment's label, because DC arcs are sustained rather than self-extinguishing."
+    },
+    {
+      "cue": "Standing to the side, open the DC disconnect, then hang your personal lock and tag on its hasp.",
+      "drag": {
+        "missNote": "Not on the hasp — your lock goes through the disconnect's own lockout hasp with the handle open, not on the cabinet door.",
+        "radius": 0.5,
+        "to": "disconnect-hasp"
+      },
+      "id": "lockout",
+      "kind": "drag",
+      "prompt": "Standing to the side, open the DC disconnect, then hang your personal lock and tag on its hasp.",
+      "target": "dc-lock",
+      "title": "Lock out the DC disconnect",
+      "why": "The DC disconnect separates the battery string from the power conversion skid, and locking it open with a personal lock is what keeps the skid from back-feeding or someone closing it while the crew is on the bus. 29 CFR 1910.147 puts the lock in the hand of the person exposed — and the crew still treats the racks themselves as live, because a battery cannot be locked out at its terminals."
+    },
+    {
+      "cue": "Check the meter on the known live source, test the load side of the disconnect pole to pole and to ground, then check the meter on the live source again — hold the probes until each reading settles.",
+      "holdBreakNote": "Lifted the probes before the reading settled — a DC circuit with capacitance can read low on a quick touch. Hold them on until the number is steady.",
+      "id": "zero-voltage",
+      "kind": "hold",
+      "prompt": "Check the meter on the known live source, test the load side of the disconnect pole to pole and to ground, then check the meter on the live source again — hold the probes until each reading settles.",
+      "seconds": 5,
+      "target": "dc-meter",
+      "title": "Prove zero volts on the DC bus: live, dead, live",
+      "why": "A disconnect that looks open can have a welded contact, and a meter that reads zero can have a broken lead — so the test is live-dead-live: the meter proven on a known live source, the circuit tested, the meter proven again. 29 CFR 1910.333 has the absence of voltage verified before work, and the probes are held long enough at each point for a DC reading to settle, because a quick touch on a capacitive circuit can read low."
+    },
+    {
+      "cue": "With the insulated torque wrench, run each inter-rack bus link bolt to the maker's figure, and mark each one with the torque pen.",
+      "id": "bus-torque",
+      "kind": "turn",
+      "prompt": "With the insulated torque wrench, run each inter-rack bus link bolt to the maker's figure, and mark each one with the torque pen.",
+      "target": "bus-link-bolt",
+      "title": "Torque the rack bus links with the insulated wrench",
+      "turn": {
+        "label": "BUS LINKS",
+        "turns": 1
+      },
+      "why": "A bus link bolted short of its figure is a high-resistance joint that heats under charge current, and heat at a battery connection is a thermal event starting outside the cell. Each bolt is taken to the maker's figure with an insulated wrench — the racks are live whatever the disconnect says — and marked, because a NETA-style acceptance check asks for every joint torqued and verified, and a paint mark is how the next person knows this one was."
+    },
+    {
+      "cue": "Apply the insulation tester's DC test voltage from the string to ground and commit the reading once it stabilises against the acceptance minimum.",
+      "gauge": {
+        "green": [
+          0.62,
+          0.9
+        ],
+        "label": "INSULATION",
+        "missNote": "Not a stable reading above the minimum — let the insulation charge under the test voltage before committing.",
+        "speed": 0.6
+      },
+      "id": "insulation",
+      "kind": "gauge",
+      "prompt": "Apply the insulation tester's DC test voltage from the string to ground and commit the reading once it stabilises against the acceptance minimum.",
+      "target": "insulation-tester",
+      "title": "Test the DC string's insulation resistance to ground",
+      "why": "Insulation resistance to ground is the check that nothing in the string — a pinched cable, a cracked insulator, moisture in a connector — has a path to the rack frame, which is where a ground fault would put the next person's hand. NETA acceptance testing gives minimum values, and the reading is taken once it stabilises because insulation charges up under the test voltage and reads low for the first seconds."
+    },
+    {
+      "cue": "Look over each rack's terminals and bus links: finger-safe covers fitted, nothing left bare, no tools or hardware left in the rack.",
+      "id": "cover-find",
+      "itemNames": {
+        "missing-cover": "missing finger-safe cover on rack three's positive terminal"
+      },
+      "itemNotes": {
+        "missing-cover": "Rack three's main positive terminal is bare — its finger-safe cover was left off after the bus link was torqued. It goes back on before the string is energised, because the next person reaching into the rack will not expect a live terminal there."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over each rack's terminals and bus links: finger-safe covers fitted, nothing left bare, no tools or hardware left in the rack.",
+      "targets": [
+        "missing-cover"
+      ],
+      "title": "Check every terminal cover is back on",
+      "why": "The finger-safe covers on a rack's terminals are what make a live battery safe to stand beside after commissioning, and they come off for the torque work — which is exactly why one gets left off. The racks are looked over after the tools are out and before the string is energised, for bare terminals and for anything left behind, because a washer dropped across a busbar is a short circuit waiting for the first charge."
+    },
+    {
+      "cue": "Check the container's HVAC is running, the temperature is inside the battery maker's range, and the unit's alarms are clear.",
+      "id": "hvac",
+      "kind": "select",
+      "prompt": "Check the container's HVAC is running, the temperature is inside the battery maker's range, and the unit's alarms are clear.",
+      "target": "hvac-unit",
+      "title": "Confirm the HVAC is running and the container is in range",
+      "why": "Lithium-ion cells age, lose capacity and become less stable when they are charged hot, and the container's HVAC is what holds them in the maker's temperature window through a first charge that makes heat of its own. It is confirmed running and in range before any current flows, because a thermal management system discovered to be off during the first charge is discovered by the BMS's temperature alarms."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Check the battery management system shows every module online with no faults and the cell voltages balanced, and the fire detection and suppression panel shows armed and normal.",
+      "id": "bms-suppress",
+      "itemNames": {
+        "bms-screen": "BMS online, no faults, cell voltages balanced",
+        "suppression-panel": "fire detection and suppression armed"
+      },
+      "kind": "sequence",
+      "prompt": "Check the battery management system shows every module online with no faults and the cell voltages balanced, and the fire detection and suppression panel shows armed and normal.",
+      "targets": [
+        "bms-screen",
+        "suppression-panel"
+      ],
+      "title": "Confirm the BMS and the fire suppression are both ready",
+      "why": "The battery management system is the only thing watching every cell's voltage and temperature, and it is what trips the string when one goes wrong — a module offline on the BMS is a module nobody is watching. The fire detection and suppression panel is the other half of NFPA 855's protection, and it is confirmed armed before the first charge rather than assumed, because it is commonly left disabled during installation."
+    },
+    {
+      "cue": "On the commissioning agent's call, ramp the charge current up slowly at the skid and hold it inside the plan's band, watching the BMS temperatures.",
+      "holdBreakNote": "The charge current ran out of the plan's band — ease it back and hold it steady while the temperatures settle.",
+      "id": "first-charge",
+      "kind": "track",
+      "prompt": "On the commissioning agent's call, ramp the charge current up slowly at the skid and hold it inside the plan's band, watching the BMS temperatures.",
+      "seconds": 6,
+      "target": "pcs-ramp",
+      "title": "Ramp the first charge slowly at the power conversion skid",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "CHARGE CURRENT",
+        "rise": 0.6,
+        "start": 0.1
+      },
+      "why": "The first charge is the string's first real load, and it is ramped slowly because it is the moment a hidden defect shows itself — a weak joint heats, a damaged cell's temperature climbs ahead of its neighbours — and a slow ramp gives the BMS and the crew time to see it before the current is high. The current is held inside the plan's band rather than pushed to rating, because the purpose today is to find problems, not to fill the battery."
+    },
+    {
+      "cue": "From the doorway, hold the thermal camera on each rack's bus links and terminals under charge current, looking for any joint hotter than its neighbours.",
+      "holdBreakNote": "Moved the camera on before each rack's joints were compared — a hot joint only shows against its neighbours. Scan them again.",
+      "id": "thermal-scan",
+      "kind": "hold",
+      "prompt": "From the doorway, hold the thermal camera on each rack's bus links and terminals under charge current, looking for any joint hotter than its neighbours.",
+      "seconds": 4,
+      "target": "ir-camera",
+      "title": "Scan the bus connections with the thermal camera under load",
+      "why": "A connection that was torqued short, or has a burr under its washer, shows itself under load as a joint warmer than the identical ones around it — long before it fails. The thermal scan is done under charge current, from the doorway, and held on each rack long enough to compare like with like, because a hot joint is a comparison, not an absolute number."
+    },
+    {
+      "cue": "Record the interlock setpoint, zero-volt verification, torque, insulation readings, the swollen module replaced, the cover refitted, the hot cell trip and the thermal scan.",
+      "id": "comm-log",
+      "kind": "select",
+      "prompt": "Record the interlock setpoint, zero-volt verification, torque, insulation readings, the swollen module replaced, the cover refitted, the hot cell trip and the thermal scan.",
+      "target": "commissioning-log",
+      "title": "Log the commissioning results and the findings",
+      "why": "The commissioning record is what the owner, the fire marshal and the next technician work from: it proves the detection and exhaust worked on the day, that the joints were torqued and the insulation tested, and it carries the findings — the swollen module, the missing cover, the cell group that ran hot on first charge — into the maintenance plan rather than into somebody's memory. NFPA 855 expects it kept."
+    },
+    {
+      "cue": "Call the commissioning agent: the container is logged, the hot cell group is under watch, and check in with your crew mate after the off-gas alarm.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the commissioning agent: the container is logged, the hot cell group is under watch, and check in with your crew mate after the off-gas alarm.",
+      "target": "site-radio",
+      "title": "Check in with the commissioning agent and the crew",
+      "why": "The commissioning agent decides whether the container goes into service or waits on the hot cell group, and that call is made from this one. It is also the crew's own check-in: an off-gas alarm with a door open and a cell running hot on first charge are both moments that stay with the people who were beside the container, and the IBEW's practice is to talk them through before the crew leaves the pad — with the member assistance line named for anyone who wants it."
+    }
+  ],
+  "supportLine": "your IBEW local's member assistance programme, or the employee assistance line on the contractor's site board",
+  "tagline": "A battery container from delivered to first charge: the commissioning plan read, a swollen module found on the walkdown, the gas detection and exhaust interlock proven, gloves air-tested and the hood on, the DC disconnect locked out, zero volts proven while the off-gas detector alarms, the bus links torqued, the insulation tested, a missing finger-safe cover found, the HVAC and BMS confirmed, the first charge ramped while a cell group runs hot, the connections scanned, and the container logged",
+  "title": "SmartCiti.X~ Battery Storage Container Commissioning VR",
+  "trade": "IBEW inside wireman on a battery storage commissioning crew, with the commissioning agent on the radio",
+  "underwater": null,
+  "weather": "clear"
+}

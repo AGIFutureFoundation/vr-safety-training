@@ -1,0 +1,379 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "ticket-closed-right",
+    "name": "Ticket Closed Right",
+    "note": "A hem and a zipper both re-sewn to the customer's own pinned fit, and every pin off the bench before it closed"
+  },
+  "category": "Sewing & Garment Trades",
+  "certification": "Workers United (SEIU) alterations tailor apprenticeship standards; OSHA 29 CFR 1910.212 machine guarding for the alterations machine; 1910.1200 hazard communication for the pressing station; NIOSH ergonomics guidance for close, standing bench work at the form",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Apparel manufacturing",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "ripper-clear",
+        "name": "Ripper Clear",
+        "note": "Never opened the ripper toward the guiding hand"
+      },
+      {
+        "id": "steady-hem",
+        "name": "Steady Hem",
+        "note": "Held the hem seam without a break"
+      },
+      {
+        "id": "to-the-pins",
+        "name": "To The Pins",
+        "note": "Both fit checks close to the customer's own marks"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-ticket",
+        "name": "Clean Ticket",
+        "note": "No corrections through the whole ticket"
+      },
+      {
+        "id": "flagged-fabric",
+        "name": "Flagged Fabric",
+        "note": "Called the limit on a change the fabric couldn't take"
+      },
+      {
+        "id": "ticket-fast",
+        "name": "Ticket Fast",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "SEAM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Presser",
+      "Alterations Hand",
+      "Tailor",
+      "Lead Tailor",
+      "Bench Authority Certified"
+    ],
+    "system": "Bench Authority"
+  },
+  "hazards": {
+    "cord-snag": "The iron's cord is running straight across the floor in front of the dress form's casters instead of clipped up out of the walkway. A cord caught under a rolling form travels with it, and the next thing that moves is either the iron off the board or the form off its wheels.",
+    "iron-face-down": "The iron is sitting face-down and still hot on the padded board, unattended. Left soleplate-down, it scorches whatever's underneath in seconds and stays hot long after anyone's stopped watching it — it stands on its heel the instant it's not moving fabric, every time.",
+    "pins-in-mouth": "Those pins are loose on a tray at exactly the height a tailor parks them in their mouth while both hands are busy pinning a hem. A dropped pin from the mouth is a swallowed or aspirated pin, and the wrist pincushion exists specifically so the habit never has to start.",
+    "ripper-toward-hand": "That seam ripper is lying with its hook turned toward where your guiding hand would sit. A ripper that slips does it fast and close to the fabric it's already inside — it opens away from the hand holding the garment, every time it's picked up, not just when there's room to be careful."
+  },
+  "id": "alteration-repair-ticket",
+  "indoor": "shop",
+  "interrupts": [
+    {
+      "after": "sew-hem",
+      "alert": "Running a hand along the new hem, you feel a straight pin still caught inside it — missed when it was folded and pinned.",
+      "cue": "There's a pin in the finished hem. It doesn't wait for the next step.",
+      "delay": 3,
+      "id": "pin-in-hem",
+      "kind": "Pin found in finished work",
+      "missNote": "The pin stayed in the hem. It goes out the door in the finished garment, and the next hand that finds it isn't a tailor's — it's a customer's, or a child's, running a hand along a hem that's supposed to be finished.",
+      "seconds": 11,
+      "target": "pin-dish",
+      "why": "A pin sewn into a hem is a pin that travels home with the customer and finds their finger, or their child's, the first time anyone runs a hand along it. It comes out the moment it's found and goes straight into the pin dish — not set down loose on the bench, where it becomes the next thing somebody else finds by feel.",
+      "wrongNote": "It's the pin in the hem. Pull it and put it in the dish before anything else happens."
+    },
+    {
+      "after": "sew-zipper",
+      "alert": "The ticket's margin note now asks to take the waist in three more inches — but this seam allowance is barely half an inch and the fabric's already worn thin along it.",
+      "cue": "The ticket wants more than this seam has to give.",
+      "delay": 3,
+      "id": "fabric-limit",
+      "kind": "Ticket beyond the fabric",
+      "missNote": "You tried to take in three inches on an allowance that couldn't hold it. The seam let go the first time it was worn, and the ticket that should have been flagged at the bench came back as a redo — or a refund.",
+      "seconds": 11,
+      "target": "counter-phone",
+      "why": "A seam allowance this narrow physically cannot take a three-inch take-in — forcing it either rips the seam out under the first wear or requires cutting into fabric that isn't there to spare. That's a call to the counter before the machine touches it, not a tailor quietly doing their best and hoping the customer doesn't notice the result.",
+      "wrongNote": "It's the ticket asking for more than this fabric can give. Call the counter before you touch the machine."
+    }
+  ],
+  "lateNotes": {
+    "new-zipper": "Not yet. The old zipper's stitching comes out clean before a new one goes anywhere near the placket.",
+    "seam-ripper": "The garment goes on the form against the customer's pins first — a ripper opened on a seam nobody's confirmed yet is a guess made permanent."
+  },
+  "name": "Alteration Repair Ticket",
+  "parSeconds": 260,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "sewing-garment-trades"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "alt-machine",
+      "alter-ticket",
+      "chalk-marks",
+      "cord-snag",
+      "counter-phone",
+      "foot-pedal-alt",
+      "form-mount",
+      "form-pins",
+      "garment",
+      "hem-crease",
+      "hem-edge",
+      "hem-mark",
+      "hem-stitches",
+      "hem-thread",
+      "iron-face-down",
+      "new-zipper",
+      "old-zipper",
+      "pin-dish",
+      "pins-in-mouth",
+      "price-board",
+      "ripper-left-open",
+      "ripper-toward-hand",
+      "seam-ripper",
+      "tape-measure",
+      "zipper-channel"
+    ],
+    "meshes": 152
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Check what the customer marked: hem, zipper, and any take-in, before touching the garment.",
+      "id": "ticket",
+      "kind": "select",
+      "prompt": "Check what the customer marked: hem, zipper, and any take-in, before touching the garment.",
+      "target": "alter-ticket",
+      "title": "Read the alteration ticket",
+      "why": "The ticket is the customer's own request in their own words, and it's what every cut and stitch that follows answers to — not a memory of what they said at the counter an hour ago. A tailor who starts unpicking before reading the ticket is trusting a recollection over the actual order in front of them."
+    },
+    {
+      "cue": "Carry the garment from the hanger rack and settle it onto the dress form at the customer's pinned marks.",
+      "drag": {
+        "missNote": "Not seated on the form — line the garment up with the customer's pins before letting go.",
+        "radius": 0.3,
+        "to": "form-mount"
+      },
+      "id": "garment-to-form",
+      "kind": "drag",
+      "prompt": "Carry the garment from the hanger rack and settle it onto the dress form at the customer's pinned marks.",
+      "target": "garment",
+      "title": "Mount the garment on the form",
+      "why": "The customer pinned their own fit for a reason: nobody else can feel where a waistband sits or a hem falls on their own body from across a counter. Mounted on the form at those pins, the garment holds the shape it's actually meant to end up in, instead of the shape it happens to hang in on a hanger."
+    },
+    {
+      "cue": "Run the tape from the pinned mark to the hem and commit inside the ticket's tolerance.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "HEM LENGTH",
+        "missNote": "Off the ticket's tolerance — remeasure against the customer's own pin, not the fold.",
+        "speed": 0.8
+      },
+      "id": "measure",
+      "kind": "gauge",
+      "prompt": "Run the tape from the pinned mark to the hem and commit inside the ticket's tolerance.",
+      "target": "tape-measure",
+      "title": "Measure to the customer's pins",
+      "why": "A hem taken up by eye against 'about here' drifts a little on every garment a bench sees in a day; a hem measured against the actual pin the customer placed does not. The tape against their own mark is the only number on this ticket that isn't the tailor's opinion of what looked right."
+    },
+    {
+      "cue": "Pick up the seam ripper and draw it through the stitch line, hook angled away from your guiding hand.",
+      "id": "seam-ripper",
+      "kind": "select",
+      "prompt": "Pick up the seam ripper and draw it through the stitch line, hook angled away from your guiding hand.",
+      "target": "seam-ripper",
+      "title": "Open the old hem with the ripper",
+      "why": "The ripper's hook is what catches a single thread and pulls it clean; pointed toward the hand holding the fabric taut, the same motion that catches a stitch catches a knuckle the moment it skips. Angled away, a slip runs off the fabric's edge into open air instead of into your own hand."
+    },
+    {
+      "cue": "Pull the loose thread tails, pick out the rest of the stitch line, then press out the old crease.",
+      "id": "unpick-hem",
+      "itemNames": {
+        "hem-crease": "pressed-in crease",
+        "hem-stitches": "old stitch line",
+        "hem-thread": "cut thread tails"
+      },
+      "itemNotes": {
+        "hem-thread": "The cut ends get pulled clear first so they don't sew themselves into the next line of stitching by accident."
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Thread tails, then the stitch line, then the crease — pulling the loose ends first is what keeps them out of the next seam.",
+      "prompt": "Pull the loose thread tails, pick out the rest of the stitch line, then press out the old crease.",
+      "targets": [
+        "hem-thread",
+        "hem-stitches",
+        "hem-crease"
+      ],
+      "title": "Clear the old hem in order",
+      "why": "Threads left in the fabric after the stitch line is picked have a way of getting caught under the presser foot on the very next pass, and a crease left pressed in reads as a second hemline the new stitching has to fight against. Clearing all three, in this order, is what leaves clean fabric for the new hem instead of a fold with old evidence still in it."
+    },
+    {
+      "cue": "Fold the raw edge up to the chalk line and pin it in place.",
+      "drag": {
+        "missNote": "Not on the chalk line — fold to the mark before it goes anywhere near the needle.",
+        "radius": 0.28,
+        "to": "hem-mark"
+      },
+      "id": "hem-fold",
+      "kind": "drag",
+      "prompt": "Fold the raw edge up to the chalk line and pin it in place.",
+      "target": "hem-edge",
+      "title": "Fold the new hem to the mark",
+      "why": "The chalk mark is where the measurement from the customer's pin actually lands once the fabric is folded, not a rough guess at 'about two inches.' Pinned exactly on that line, the hem sews to the length that was measured; folded loose and eyeballed under the machine, it sews to whatever the fold happened to settle at."
+    },
+    {
+      "cue": "Feed the folded hem through at a steady stitch length and hold the feed rate in the band.",
+      "holdBreakNote": "Feed rate broke the band. A hem sewn at an uneven pace shows it in the finished stitch — settle back to steady and feed it through again.",
+      "id": "sew-hem",
+      "kind": "track",
+      "prompt": "Feed the folded hem through at a steady stitch length and hold the feed rate in the band.",
+      "seconds": 6,
+      "target": "alt-machine",
+      "title": "Sew the new hem",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.4,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "FEED RATE",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "A rushed feed stretches the fabric under the foot and puckers the finished hem; too slow and the stitch length goes uneven and loose. A steady, held feed rate is what a clean hem actually requires — the machine doesn't correct for a hurried pass, it just sews exactly what it was fed."
+    },
+    {
+      "cue": "Remove the failed zipper's stitching from the placket, both sides.",
+      "id": "zipper-old",
+      "kind": "select",
+      "prompt": "Remove the failed zipper's stitching from the placket, both sides.",
+      "target": "old-zipper",
+      "title": "Pick out the old zipper",
+      "why": "A new zipper pinned in over the old one's leftover stitching sews crooked from the first stitch, because the placket is already puckered around threads that were never fully cleared. The old zipper comes out completely before the new one is ever laid in."
+    },
+    {
+      "cue": "Set the new zipper into the placket, teeth square to the seam, and pin it before it moves.",
+      "drag": {
+        "missNote": "Not square in the placket — pin it straight before it goes under the foot.",
+        "radius": 0.28,
+        "to": "zipper-channel"
+      },
+      "id": "zipper-new",
+      "kind": "drag",
+      "prompt": "Set the new zipper into the placket, teeth square to the seam, and pin it before it moves.",
+      "target": "new-zipper",
+      "title": "Pin the replacement zipper",
+      "why": "A zipper that shifts half a tooth's width between pinning and sewing comes out crooked, catches on the first pull, and gets ripped out and redone — twice the work the pins were there to prevent. Pinned square before it ever nears the needle, it sews exactly where it was set."
+    },
+    {
+      "cue": "Hold the pedal through one continuous pass down each side of the tape.",
+      "holdBreakNote": "Pedal released mid-pass. The stitch line jogs exactly where it stopped — reset to the start of that side and sew it through in one pass.",
+      "id": "sew-zipper",
+      "kind": "hold",
+      "prompt": "Hold the pedal through one continuous pass down each side of the tape.",
+      "seconds": 5,
+      "target": "foot-pedal-alt",
+      "title": "Sew the zipper in",
+      "why": "A zipper stopped and restarted partway leaves a visible jog in the stitch line right where the eye goes first on a finished garment. One continuous, held pass down each side is what a clean zipper actually looks like — stopping to check progress mid-seam is how the jog gets put there."
+    },
+    {
+      "cue": "Hold the finished garment to the form's pinned markers and commit inside tolerance.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "FIT CHECK",
+        "missNote": "Off the customer's mark — check the hem and zipper against the form's pins again.",
+        "speed": 0.75
+      },
+      "id": "fit-check",
+      "kind": "gauge",
+      "prompt": "Hold the finished garment to the form's pinned markers and commit inside tolerance.",
+      "target": "form-pins",
+      "title": "Check the finished fit against the pins",
+      "why": "The pins are still on the form for exactly this reason: the only fit that matters is the one the customer marked, and the only way to confirm the ticket actually delivered it is to hold the finished work against those same pins, not against how it looks on the hanger."
+    },
+    {
+      "cue": "Log what was done, how long it took and what it costs on the ticket.",
+      "id": "price-time",
+      "kind": "select",
+      "prompt": "Log what was done, how long it took and what it costs on the ticket.",
+      "target": "price-board",
+      "title": "Record price and time",
+      "why": "The price and the time on the ticket are what the counter quotes the customer and what the shop bills against — a ticket closed without them is a job nobody can account for later, whether that's a customer disputing the price or a shop trying to work out how long a hem-and-zipper actually takes."
+    },
+    {
+      "cue": "Two things at this bench aren't done yet. Find them by looking.",
+      "id": "closing-check",
+      "itemNames": {
+        "chalk-marks": "chalk marks not brushed off",
+        "ripper-left-open": "seam ripper left open on the bench"
+      },
+      "itemNotes": {
+        "chalk-marks": "Chalk lines left on the finished garment are the fitting marks, not the finish — they brush off before the ticket goes back to the counter, not after the customer notices them.",
+        "ripper-left-open": "An open ripper left loose on the bench is a hooked blade the next hand onto this surface finds by feel."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things at this bench aren't done yet. Find them by looking.",
+      "targets": [
+        "ripper-left-open",
+        "chalk-marks"
+      ],
+      "title": "Walk the bench before the ticket closes",
+      "why": "A ticket that reads as finished on the hanger can still have loose ends sitting right on the bench — a ripper nobody put away, chalk nobody brushed off. Two minutes checking the bench itself is what catches both before the garment goes back to the counter looking done."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Garment on the form, ripper away from the hand, hem re-sewn, zipper replaced, and the ticket closed against the customer's own pins",
+  "title": "SmartCiti.X~ Alteration Repair Ticket VR",
+  "trade": "Alterations tailor — Workers United",
+  "underwater": null,
+  "weather": null
+}

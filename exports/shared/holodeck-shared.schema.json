@@ -1,0 +1,877 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "holodeck-shared.schema.json",
+  "title": "SmartCiti.X Holodeck shared data v2 (Holodeck + TradeQuest / Trade Craft Academy contract)",
+  "type": "object",
+  "required": [
+    "contract",
+    "version",
+    "generatedBy",
+    "packsSource",
+    "packs",
+    "paths",
+    "schemas",
+    "worlds",
+    "parishes",
+    "provenance",
+    "changelog",
+    "budget",
+    "sections",
+    "maps",
+    "palette",
+    "facades",
+    "vehicles",
+    "robotics",
+    "dataset"
+  ],
+  "properties": {
+    "contract": {
+      "const": "smartcitix-holodeck-shared"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "generatedBy": {
+      "type": "string"
+    },
+    "packsSource": {
+      "enum": [
+        "pk-packs",
+        "fallback-programmes"
+      ]
+    },
+    "packs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "stations"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$"
+          },
+          "title": {
+            "type": "string"
+          },
+          "stations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "paths": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9-]+$"
+      }
+    },
+    "schemas": {
+      "type": "object",
+      "required": [
+        "module",
+        "version"
+      ],
+      "properties": {
+        "module": {
+          "type": "object"
+        },
+        "version": {
+          "type": "object"
+        }
+      }
+    },
+    "worlds": {
+      "type": "object"
+    },
+    "parishes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "region",
+          "centre",
+          "bounds"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "region": {
+            "type": "string"
+          },
+          "centre": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "bounds": {
+            "type": "object",
+            "required": [
+              "minLng",
+              "minLat",
+              "maxLng",
+              "maxLat"
+            ]
+          }
+        }
+      }
+    },
+    "provenance": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "what",
+          "source",
+          "provenance"
+        ]
+      }
+    },
+    "changelog": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "version",
+          "date",
+          "changes"
+        ],
+        "properties": {
+          "version": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+\\.\\d+$"
+          },
+          "changes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "budget": {
+      "type": "object",
+      "required": [
+        "maxBytes"
+      ],
+      "properties": {
+        "maxBytes": {
+          "type": "number"
+        }
+      }
+    },
+    "sections": {
+      "type": "object",
+      "required": [
+        "maps",
+        "palette",
+        "facades",
+        "vehicles",
+        "robotics",
+        "dataset",
+        "packs",
+        "paths"
+      ],
+      "properties": {
+        "maps": {
+          "type": "object",
+          "required": [
+            "status",
+            "owner",
+            "sources"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "ready",
+                "partial",
+                "pending"
+              ]
+            }
+          }
+        },
+        "palette": {
+          "type": "object",
+          "required": [
+            "status",
+            "owner",
+            "sources"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "ready",
+                "partial",
+                "pending"
+              ]
+            }
+          }
+        },
+        "facades": {
+          "type": "object",
+          "required": [
+            "status",
+            "owner",
+            "sources"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "ready",
+                "partial",
+                "pending"
+              ]
+            }
+          }
+        },
+        "vehicles": {
+          "type": "object",
+          "required": [
+            "status",
+            "owner",
+            "sources"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "ready",
+                "partial",
+                "pending"
+              ]
+            }
+          }
+        },
+        "robotics": {
+          "type": "object",
+          "required": [
+            "status",
+            "owner",
+            "sources"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "ready",
+                "partial",
+                "pending"
+              ]
+            }
+          }
+        },
+        "dataset": {
+          "type": "object",
+          "required": [
+            "status",
+            "owner",
+            "sources"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "ready",
+                "partial",
+                "pending"
+              ]
+            }
+          }
+        },
+        "packs": {
+          "type": "object",
+          "required": [
+            "status",
+            "owner",
+            "sources"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "ready",
+                "partial",
+                "pending"
+              ]
+            }
+          }
+        },
+        "paths": {
+          "type": "object",
+          "required": [
+            "status",
+            "owner",
+            "sources"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "ready",
+                "partial",
+                "pending"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "maps": {
+      "type": "object",
+      "required": [
+        "status",
+        "owner",
+        "sources",
+        "data"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "ready",
+            "partial",
+            "pending"
+          ]
+        },
+        "owner": {
+          "type": "string"
+        },
+        "sources": {
+          "type": "array"
+        }
+      }
+    },
+    "palette": {
+      "type": "object",
+      "required": [
+        "status",
+        "owner",
+        "sources",
+        "data"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "ready",
+            "partial",
+            "pending"
+          ]
+        },
+        "owner": {
+          "type": "string"
+        },
+        "sources": {
+          "type": "array"
+        }
+      }
+    },
+    "facades": {
+      "type": "object",
+      "required": [
+        "status",
+        "owner",
+        "sources",
+        "data"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "ready",
+            "partial",
+            "pending"
+          ]
+        },
+        "owner": {
+          "type": "string"
+        },
+        "sources": {
+          "type": "array"
+        }
+      }
+    },
+    "vehicles": {
+      "type": "object",
+      "required": [
+        "status",
+        "owner",
+        "sources",
+        "data"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "ready",
+            "partial",
+            "pending"
+          ]
+        },
+        "owner": {
+          "type": "string"
+        },
+        "sources": {
+          "type": "array"
+        }
+      }
+    },
+    "robotics": {
+      "type": "object",
+      "required": [
+        "status",
+        "owner",
+        "sources",
+        "data"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "ready",
+            "partial",
+            "pending"
+          ]
+        },
+        "owner": {
+          "type": "string"
+        },
+        "sources": {
+          "type": "array"
+        }
+      }
+    },
+    "dataset": {
+      "type": "object",
+      "required": [
+        "status",
+        "owner",
+        "sources",
+        "data"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "ready",
+            "partial",
+            "pending"
+          ]
+        },
+        "owner": {
+          "type": "string"
+        },
+        "sources": {
+          "type": "array"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "mapsData": {
+      "type": "object",
+      "required": [
+        "regions",
+        "maps"
+      ],
+      "properties": {
+        "regions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "name",
+              "maps"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9-]+$"
+              },
+              "maps": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9-]+$"
+                }
+              }
+            }
+          }
+        },
+        "maps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "name",
+              "region",
+              "sites",
+              "landmarks",
+              "hills"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9-]+$"
+              },
+              "name": {
+                "type": "string"
+              },
+              "region": {
+                "type": "string",
+                "pattern": "^[a-z0-9-]+$"
+              },
+              "sites": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "name",
+                    "kind",
+                    "stations"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9-]+$"
+                    },
+                    "stations": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "pattern": "^[a-z0-9-]+$"
+                      }
+                    }
+                  }
+                }
+              },
+              "landmarks": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "name",
+                    "lm"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9-]+$"
+                    }
+                  }
+                }
+              },
+              "hills": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "name"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9-]+$"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "vehiclesData": {
+      "type": "object",
+      "required": [
+        "drivables",
+        "classes",
+        "motorworks"
+      ],
+      "properties": {
+        "drivables": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "name",
+              "medium",
+              "class",
+              "gate",
+              "profile"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9-]+$"
+              },
+              "medium": {
+                "enum": [
+                  "road",
+                  "rail",
+                  "site",
+                  "water"
+                ]
+              },
+              "gate": {
+                "type": "object",
+                "required": [
+                  "stations"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "roboticsData": {
+      "type": "object",
+      "required": [
+        "scenarios",
+        "api",
+        "facets"
+      ],
+      "properties": {
+        "scenarios": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^rb-[a-z0-9-]+$"
+              }
+            }
+          }
+        },
+        "facets": {
+          "type": "object",
+          "required": [
+            "scenarios",
+            "programme",
+            "agentGym",
+            "colearn",
+            "governor",
+            "jobs"
+          ],
+          "properties": {
+            "scenarios": {
+              "type": "object",
+              "required": [
+                "status",
+                "source"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "ready",
+                    "partial",
+                    "pending"
+                  ]
+                }
+              }
+            },
+            "programme": {
+              "type": "object",
+              "required": [
+                "status",
+                "source"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "ready",
+                    "partial",
+                    "pending"
+                  ]
+                }
+              }
+            },
+            "agentGym": {
+              "type": "object",
+              "required": [
+                "status",
+                "source"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "ready",
+                    "partial",
+                    "pending"
+                  ]
+                }
+              }
+            },
+            "colearn": {
+              "type": "object",
+              "required": [
+                "status",
+                "source"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "ready",
+                    "partial",
+                    "pending"
+                  ]
+                }
+              }
+            },
+            "governor": {
+              "type": "object",
+              "required": [
+                "status",
+                "source"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "ready",
+                    "partial",
+                    "pending"
+                  ]
+                }
+              }
+            },
+            "jobs": {
+              "type": "object",
+              "required": [
+                "status",
+                "source"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "ready",
+                    "partial",
+                    "pending"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "roboticsProgramme": {
+      "type": "object",
+      "required": [
+        "name",
+        "brand",
+        "standards",
+        "levels",
+        "credentials",
+        "tracks",
+        "coverage"
+      ],
+      "properties": {
+        "levels": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "title",
+              "requiredScore"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9-]+$"
+              }
+            }
+          }
+        },
+        "tracks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "title",
+              "scenario",
+              "ladder"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9-]+$"
+              },
+              "ladder": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "level",
+                    "stations",
+                    "capstone",
+                    "credential"
+                  ],
+                  "properties": {
+                    "level": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9-]+$"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "roboticsAgentGym": {
+      "type": "object",
+      "required": [
+        "schema",
+        "config",
+        "summary",
+        "robotStations"
+      ],
+      "properties": {
+        "summary": {
+          "type": "object"
+        }
+      }
+    },
+    "roboticsColearn": {
+      "type": "object",
+      "required": [
+        "version",
+        "data",
+        "policies"
+      ],
+      "properties": {
+        "policies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "scenario",
+              "random",
+              "expert",
+              "bc"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

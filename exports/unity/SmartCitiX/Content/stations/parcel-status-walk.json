@@ -1,0 +1,365 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "map-honest",
+    "name": "Map Honest",
+    "note": "Every parcel called from the regulator's own map, the discrepancy caught and photographed, and the resident answered honestly from the map in hand"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "The kind of parcel-status walk the Community Pollution Patrol Network trains; EPA Superfund community-involvement practice and the regulator's own current parcel map and institutional-controls registry as the only source a patrol answers from; DTSC and the Regional Water Board as the state agencies that record a parcel's cleanup status; BAAQMD's Community Advisory Council process for what a patrol reports up the chain; OSHA 29 CFR 1910.120 HAZWOPER as the separate gate for anyone who goes past a fence, which this walk never does",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "BAAQMD",
+        "citedAs": "BAAQMD",
+        "id": "baaqmd-regulations",
+        "title": "Bay Area Air Quality Management District regulations, complaint line and Community Advisory Council process"
+      },
+      {
+        "body": "DTSC",
+        "citedAs": "DTSC",
+        "id": "dtsc-hazardous-waste-control",
+        "title": "California Department of Toxic Substances Control — state hazardous waste control rules and oversight of contaminated-site cleanups"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "HAZWOPER",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "map-first",
+        "name": "Map First",
+        "note": "Read the regulator's map before the walk and answered the resident from it, clean"
+      },
+      {
+        "id": "never-crossed",
+        "name": "Never Crossed",
+        "note": "Read every parcel from the public sidewalk, never through a fence"
+      },
+      {
+        "id": "standoff-true",
+        "name": "Standoff True",
+        "note": "Held the posted standoff distance the whole walk"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-walk",
+        "name": "Clean Walk",
+        "note": "No corrections anywhere on the route"
+      },
+      {
+        "id": "steady-pace",
+        "name": "Steady Pace",
+        "note": "Never broke the patrol walking pace"
+      },
+      {
+        "id": "map-back-fast",
+        "name": "Map Back Fast",
+        "note": "Annotated map filed inside 80% of par"
+      }
+    ],
+    "currency": "PARCEL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Walker",
+      "Route Reader",
+      "Patrol Member",
+      "Patrol Lead",
+      "Community Patrol Certified"
+    ],
+    "system": "Patrol Record"
+  },
+  "hazards": {
+    "cross-fence": "You went through the fence to get a closer look at the sign. A parcel behind a fence is behind a fence for a reason whatever its status — transferred, under cleanup or being retested — and a community patrol reads every one of them from the public sidewalk, never from the other side of the wire.",
+    "guess-status": "You told the bystander the street looked cleared without checking the map first. A fence that looks quiet from the sidewalk is not the same thing as a parcel the regulator's own map has actually closed out — a guess dressed up as reassurance is worse than saying you need to check.",
+    "report-without-photo": "You filed the walk report before photographing the sign that didn't match the map. Whoever reviews this report has no way to see what you saw at that fence — a discrepancy that isn't photographed is a claim nobody downstream can verify.",
+    "skip-map": "You started down the block without opening the regulator's own parcel map first. Reading fence signage from memory or from what looked true on last month's walk is exactly how a patrol reports a parcel's status one revision behind the record that actually governs it."
+  },
+  "id": "parcel-status-walk",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "walk-loop",
+      "alert": "The access gate on the parcel behind you stands wide open onto the sidewalk, and there's nobody from the site crew anywhere near it.",
+      "cue": "Flag the open, unattended gate before you're two more signs down the block and it slips your notes entirely.",
+      "delay": 4,
+      "id": "open-gate",
+      "kind": "Open gate",
+      "missNote": "The gate was still open when the patrol reached the corner five signs later, with no note of when it was first seen — by the time it got mentioned back at the office, nobody could say whether it had been open five minutes or the whole afternoon.",
+      "seconds": 13,
+      "target": "gate-flag",
+      "why": "An open gate with nobody watching it is itself something worth the regulator knowing about, whatever the parcel's own status says — the institutional controls a map records assume the site stays secured, and a patrol that notices a breach in that security and just keeps walking has thrown away the one chance to log it while the gate is still open and the time still means something.",
+      "wrongNote": "Not that — the gate. It's standing open with no one at it, and that's what needs flagging before the walk moves on."
+    },
+    {
+      "after": "final-check",
+      "alert": "A resident stops beside you on the sidewalk and asks straight out whether their street is \"cleared\" now that the fence signs look different from last year.",
+      "cue": "Answer from the map you're holding — not from how the fence happens to look today.",
+      "delay": 3,
+      "id": "resident-question",
+      "kind": "A resident asks",
+      "missNote": "The resident walked away with a guess instead of an answer, and a wrong reassurance repeated down the block is exactly the kind of thing a patrol spends months trying to correct once it starts going around the neighbourhood as fact.",
+      "seconds": 13,
+      "target": "parcel-map",
+      "why": "A resident asking that question deserves the same honesty the whole walk is built on: the map, not the sidewalk view, is what actually says whether a parcel closed out, and a patrol that answers from appearances because it's faster is giving a health-relevant answer it cannot actually back up.",
+      "wrongNote": "Not that — the map is what actually answers her question. Read it back to her from there, not from the fence."
+    }
+  ],
+  "lateNotes": {
+    "map-pin": "Nothing to pin on the map yet — the discrepancy has to actually be found and photographed before there's a location worth marking.",
+    "mismatched-sign": "Walk the route and read the map's own call on each parcel before deciding which sign doesn't match it — there's nothing to flag as a discrepancy until you know what the map actually says.",
+    "photo-cam": "Nothing worth photographing yet — find the sign that doesn't match the map before the camera has anything to prove."
+  },
+  "name": "Parcel Status Walk",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-can-we-live"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "binocular-focus",
+      "clipboard-review",
+      "cross-fence",
+      "gate-flag",
+      "guess-status",
+      "ic-board",
+      "map-case",
+      "map-pin",
+      "mismatched-sign",
+      "parcel-map",
+      "patrol-boots",
+      "photo-cam",
+      "pin-socket",
+      "rangefinder",
+      "report-clip",
+      "report-without-photo",
+      "sign-a",
+      "sign-b",
+      "sign-c",
+      "skip-map",
+      "vest"
+    ],
+    "meshes": 193
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Put on the hi-vis vest and pick up the map case before stepping off the corner.",
+      "id": "gear-up",
+      "itemNames": {
+        "map-case": "map case",
+        "vest": "hi-vis vest"
+      },
+      "kind": "sequence",
+      "prompt": "Put on the hi-vis vest and pick up the map case before stepping off the corner.",
+      "targets": [
+        "vest",
+        "map-case"
+      ],
+      "title": "Vest and map case",
+      "why": "The block this walk covers has real traffic and real machinery moving behind the fences, and the vest is what keeps a patrol member visible to both. The map case is what the whole walk is organised around — nothing about a parcel's status gets decided without it in hand."
+    },
+    {
+      "cue": "Open the map case and read today's status for every parcel on this block before the walk starts.",
+      "id": "map",
+      "kind": "select",
+      "prompt": "Open the map case and read today's status for every parcel on this block before the walk starts.",
+      "target": "parcel-map",
+      "title": "Read the regulator's parcel map",
+      "why": "The map is the regulator's own current record — DTSC and the Regional Water Board's, not a patrol's own guess — and it is the only thing every fence sign gets checked against for the rest of the walk. Starting the route without reading it first means walking a block of signs with nothing to actually judge them by."
+    },
+    {
+      "cue": "Turn the focus ring until the parcel sign across the block reads clearly from the sidewalk.",
+      "id": "focus",
+      "kind": "turn",
+      "prompt": "Turn the focus ring until the parcel sign across the block reads clearly from the sidewalk.",
+      "target": "binocular-focus",
+      "title": "Focus the binoculars on the far sign",
+      "turn": {
+        "axis": "y",
+        "label": "FOCUS",
+        "turns": 0.5
+      },
+      "why": "Some of this block's signage sits well back from the fence line, and a patrol that stays on the public sidewalk needs the sign to come to it rather than walking closer to read it — the binoculars are what make that possible without ever approaching the fence."
+    },
+    {
+      "cue": "Read the rangefinder and commit once you're outside the posted standoff distance.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "STANDOFF",
+        "missNote": "Not outside the posted standoff yet — read the rangefinder again and commit once the distance clears the line the map's own notes call for.",
+        "speed": 0.62
+      },
+      "id": "standoff",
+      "kind": "gauge",
+      "prompt": "Read the rangefinder and commit once you're outside the posted standoff distance.",
+      "target": "rangefinder",
+      "title": "Confirm standoff from the fence line",
+      "why": "The posted standoff distance is there so a patrol member reading signage or taking a photograph never has a reason to lean toward the fence to get a better look — confirming it here, before the walk starts, is what keeps the whole route honestly on the public side for its full length."
+    },
+    {
+      "cue": "Walk the sidewalk past Parcel A, then B, then C, reading the posted sign at each fence.",
+      "id": "route",
+      "itemNames": {
+        "sign-a": "Parcel A sign",
+        "sign-b": "Parcel B sign",
+        "sign-c": "Parcel C sign"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Not the next parcel in the route — the map lists them A, B, C, and reading them out of order is how a sign ends up written down against the wrong fence.",
+      "prompt": "Walk the sidewalk past Parcel A, then B, then C, reading the posted sign at each fence.",
+      "targets": [
+        "sign-a",
+        "sign-b",
+        "sign-c"
+      ],
+      "title": "Read each parcel's posted sign, in order",
+      "why": "Reading the parcels in the map's own order is what keeps every note in this walk matched to the right fence once the patrol is back at a desk — read them out of order and it becomes easy to write Parcel C's sign into the note meant for Parcel B."
+    },
+    {
+      "cue": "Keep your walking pace inside the band the whole block — not so fast you miss a sign, not so slow you're loitering at a fence.",
+      "holdBreakNote": "Pace drifted out of the band — bring it back before a sign gets missed or the walk starts to look like it's lingering at the fence.",
+      "id": "walk-loop",
+      "kind": "track",
+      "prompt": "Keep your walking pace inside the band the whole block — not so fast you miss a sign, not so slow you're loitering at a fence.",
+      "seconds": 9,
+      "target": "patrol-boots",
+      "title": "Hold a steady patrol pace down the block",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "PATROL PACE",
+        "rise": 0.55,
+        "start": 0.1
+      },
+      "why": "A pace that's too fast walks straight past a sign that's been changed or a gate that's come open without ever registering it; a pace that's too slow starts to look, from the other side of the fence, like someone lingering at a security line rather than a patrol walking a public sidewalk. The same steady pace that reads every sign is the pace that keeps the walk looking like exactly what it is."
+    },
+    {
+      "cue": "Check the map's own call again, then click the sign for the parcel it lists as still under active cleanup.",
+      "id": "status-check",
+      "kind": "select",
+      "prompt": "Check the map's own call again, then click the sign for the parcel it lists as still under active cleanup.",
+      "target": "sign-b",
+      "title": "Confirm which parcel the map calls under cleanup",
+      "why": "The point of walking with the map open isn't just reading the signs once — it's being able to answer, on demand, which parcel the regulator's own record says is still under cleanup right now, because that is exactly the kind of question a resident on this block is going to ask."
+    },
+    {
+      "cue": "Read the deed-restriction placard posted on the transferred parcel before assuming transferred means unrestricted.",
+      "id": "institutional-controls",
+      "kind": "select",
+      "prompt": "Read the deed-restriction placard posted on the transferred parcel before assuming transferred means unrestricted.",
+      "target": "ic-board",
+      "title": "Read the institutional-controls notice",
+      "why": "A parcel can transfer to a new owner and still carry an institutional control — a deed restriction on digging, on groundwater use, on residential building — that the map records separately from the transfer itself. A patrol that reads \"transferred\" and stops there is one step short of what the map is actually saying about that ground."
+    },
+    {
+      "cue": "Walk the block again against the map and click the one posted sign that is behind the current record.",
+      "id": "discrepancy",
+      "itemNames": {
+        "mismatched-sign": "outdated sign"
+      },
+      "itemNotes": {
+        "mismatched-sign": "That sign still reads \"under cleanup,\" but the map you're carrying already lists this parcel as being retested — the posted sign is behind the record, and that gap is exactly what this walk exists to catch."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the block again against the map and click the one posted sign that is behind the current record.",
+      "targets": [
+        "mismatched-sign"
+      ],
+      "title": "Find the sign that doesn't match the map",
+      "why": "Signage gets reprinted on somebody else's schedule, not the map's — a sign can sit unchanged for months after a parcel's status actually moves, and a patrol that never checks the posted sign against the map has no way to know which fence is telling the truth and which one is just telling last quarter's truth."
+    },
+    {
+      "cue": "Photograph the mismatched sign against the fence it's posted on, from the standoff line.",
+      "id": "photo",
+      "kind": "select",
+      "prompt": "Photograph the mismatched sign against the fence it's posted on, from the standoff line.",
+      "target": "photo-cam",
+      "title": "Photograph the outdated sign",
+      "why": "A discrepancy that only lives in a patrol member's memory is a discrepancy nobody downstream can check — the photograph is what lets whoever reviews the walk see the same gap between the sign and the map that the patrol saw on the sidewalk."
+    },
+    {
+      "cue": "Carry the annotation pin to the exact parcel on the map where the sign didn't match.",
+      "drag": {
+        "missNote": "Not on the right parcel — a pin dropped anywhere else on the map points the next reader at the wrong fence.",
+        "radius": 0.35,
+        "to": "pin-socket"
+      },
+      "id": "annotate",
+      "kind": "drag",
+      "prompt": "Carry the annotation pin to the exact parcel on the map where the sign didn't match.",
+      "target": "map-pin",
+      "title": "Pin the discrepancy on the map",
+      "why": "The pin is what turns a photograph and a memory into a specific correction on the one document everyone downstream actually reads — a note that isn't tied to the map at the right parcel is a note that has to be tracked down and matched up by someone who wasn't there."
+    },
+    {
+      "cue": "Hold position at the corner and read your notes back against the map before the walk closes out.",
+      "holdBreakNote": "Broke off the review before it finished — an interrupted read-back isn't a check, it's a glance at the page.",
+      "id": "final-check",
+      "kind": "hold",
+      "prompt": "Hold position at the corner and read your notes back against the map before the walk closes out.",
+      "seconds": 6,
+      "target": "clipboard-review",
+      "title": "Hold a final read of the notes against the map",
+      "why": "The walk is only as good as the last check on it — reading the notes back against the map here, at the corner, before anything gets filed, is what catches a sign transposed with another or a status copied down wrong before it ever leaves this block."
+    },
+    {
+      "cue": "Clip the annotated map to the route report and file it before leaving the corner.",
+      "id": "report-file",
+      "kind": "select",
+      "prompt": "Clip the annotated map to the route report and file it before leaving the corner.",
+      "target": "report-clip",
+      "title": "File the annotated map",
+      "why": "The annotated map is the whole point of the walk — everything the patrol read, confirmed and photographed only reaches anyone else once it's actually filed, clipped to the report a reviewer can trust was written from this block and no other."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Walking the public sidewalk around a shipyard's fenced parcels with the regulator's own map: which parcel transferred, which is under cleanup, which is being retested, the institutional-controls signage, and the map annotated with exactly what the walk found",
+  "title": "SmartCiti.X~ Parcel Status Walk VR",
+  "trade": "Community environmental monitor",
+  "underwater": null,
+  "weather": "overcast"
+}

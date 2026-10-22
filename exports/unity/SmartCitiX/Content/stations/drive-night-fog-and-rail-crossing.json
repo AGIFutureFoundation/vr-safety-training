@@ -1,0 +1,573 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "one-gear-across",
+    "name": "One Gear Across",
+    "note": "Lights right for the fog, the stop in the band, both tracks looked for and across without a shift — first time"
+  },
+  "category": "Mobility & Transit",
+  "certification": "FMCSA 49 CFR 380 Subpart F entry-level driver training, whose Class A curriculum includes night operation, extreme driving conditions and railroad-highway grade crossings; 49 CFR 383 for the skills test; 49 CFR 392 for driving a commercial motor vehicle, including the stop a hazmat cargo tank must make at a rail crossing and the no-shifting rule on the tracks; 49 CFR 393 for headlamps and lamps; PHMSA 49 CFR 177 for the shipping papers' place in the cab; 49 CFR 395 for the duty status; the state CDL handbook's night, fog and railroad-crossing guidance; CVSA roadside inspection practice; Teamsters (IBT) freight locals' driver training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CVSA",
+        "citedAs": "CVSA",
+        "id": "cvsa-out-of-service-criteria",
+        "title": "CVSA North American Standard Inspection Program and North American Standard Out-of-Service Criteria for roadside inspection of drivers and commercial motor vehicles"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 380 Subpart F",
+        "id": "fmcsa-49-cfr-380-subpart-f",
+        "title": "49 CFR Part 380 Subpart F — Entry-level driver training requirements for Class A and Class B commercial driver licence applicants, delivered by a provider listed on the Training Provider Registry"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 383",
+        "id": "fmcsa-49-cfr-383",
+        "title": "49 CFR Part 383 — Commercial driver's license standards; requirements and penalties, including the Class A, B and C vehicle groups and the knowledge and skills tests"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 392",
+        "id": "fmcsa-49-cfr-392",
+        "title": "49 CFR Part 392 — Driving of commercial motor vehicles, including conduct at railroad grade crossings, hazardous conditions, and the hand-held mobile phone and texting prohibitions"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 393",
+        "id": "fmcsa-49-cfr-393",
+        "title": "49 CFR Part 393 — Parts and accessories necessary for safe operation, including brakes, tires, emergency equipment and Subpart I protection against shifting and falling cargo"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 395",
+        "id": "fmcsa-49-cfr-395",
+        "title": "49 CFR Part 395 — Hours of service of drivers, including electronic logging devices"
+      },
+      {
+        "body": "PHMSA",
+        "citedAs": "49 CFR 177",
+        "id": "phmsa-49-cfr-177",
+        "title": "49 CFR Part 177 — Carriage by public highway, including loading, unloading and segregation of hazardous materials on the vehicle"
+      },
+      {
+        "body": "state CDL handbook",
+        "citedAs": "state CDL handbook",
+        "id": "state-cdl-handbook",
+        "title": "The commercial driver's license manual each state issues for its CDL knowledge and skills tests — driving safely, space management, speed and following distance, mountain, night and fog driving, railroad crossings and backing"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBT",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": "Mobility & Transit",
+  "domain": "Commercial Driving",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "low-beams",
+        "name": "Low Beams",
+        "note": "All three drives with every check on time"
+      },
+      {
+        "id": "never-on-the-tracks",
+        "name": "Never on the Tracks",
+        "note": "Never used high beams in fog, raced the train, stopped on the tracks or reached for the phone"
+      },
+      {
+        "id": "sight-distance",
+        "name": "Inside Sight Distance",
+        "note": "Every drive and the fog speed held in band with no excursion"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-night",
+        "name": "Clean Night",
+        "note": "No corrections anywhere"
+      },
+      {
+        "id": "fifteen-to-fifty",
+        "name": "Fifteen to Fifty",
+        "note": "The stop point and drives near the centre of their bands"
+      },
+      {
+        "id": "on-time",
+        "name": "On Time",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "RAIL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Permit Holder",
+      "Night Trainee",
+      "Tank Driver",
+      "Hazmat Lead",
+      "Crossing Certified"
+    ],
+    "system": "Crossing"
+  },
+  "hazards": {
+    "drn-high-beams": "You went to switch to high beams in the fog. Fog reflects a high beam straight back into your eyes as a white wall, and you see less, not more. Low beams — and fog lamps if the rig has them — light the road under the fog instead of the fog itself.",
+    "drn-phone": "You went to pick up the hand-held phone. 49 CFR 392 prohibits hand-held mobile phone use and texting by commercial drivers, and at a crossing at night you need your ears as much as your eyes: the radio off, the fan off, nothing in your hand.",
+    "drn-race-train": "You went to beat the train across. A train cannot stop or swerve, it is usually closer and faster than it looks at night, and a tractor-trailer takes a long time to clear a crossing. Nobody ever needed the time they save by racing a train.",
+    "drn-stop-on-tracks": "You went to stop with the trailer still over the tracks because traffic is queued beyond the crossing. Never start across unless there is room to clear the tracks completely on the far side — a rig stopped on a crossing is the crash the whole procedure exists to prevent."
+  },
+  "id": "drive-night-fog-and-rail-crossing",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "drn-into-fog",
+      "alert": "Out of the fog ahead, the crossing's red lights have started flashing and the bell is ringing — a train is coming.",
+      "cue": "Stop short of the crossing.",
+      "delay": 3,
+      "id": "drn-signals",
+      "kind": "Crossing signals",
+      "missNote": "You kept rolling toward a crossing with its lights flashing. A train cannot stop for you, fog hides how close it is, and a placarded tank on a crossing is the worst crash in this whole course.",
+      "seconds": 10,
+      "target": "drn-brake-pedal",
+      "why": "Flashing lights and a bell mean a train is close, whatever you can or cannot see down the tracks in the fog. The answer is a controlled stop short of the crossing and a wait until the lights stop and the track is clear — never a run at it.",
+      "wrongNote": "It is the brake. The crossing signals are flashing — the rig stops short of the tracks."
+    },
+    {
+      "after": "drn-fog-bank",
+      "alert": "A person in dark clothes has appeared at the edge of your low beams, walking on the shoulder toward you, close to the lane.",
+      "cue": "Slow down and give them room.",
+      "delay": 3,
+      "id": "drn-walker",
+      "kind": "Pedestrian in the fog",
+      "missNote": "You held your speed past a pedestrian at the edge of the lane in fog. Dark clothing at night is seen late, and the trailer's side and mirror pass far closer to the shoulder than the cab does.",
+      "seconds": 10,
+      "target": "drn-brake-pedal",
+      "why": "At night in fog a pedestrian in dark clothing is visible for a moment before you reach them. Braking at once and easing away from the shoulder if the lane allows gives them the room and gives you the time — the tank's side and its mirror pass within feet of the shoulder.",
+      "wrongNote": "It is the brake. Someone is walking at the edge of the lane in the fog."
+    }
+  ],
+  "lateNotes": {
+    "drn-shipping-papers": "The papers go in the door pocket when you leave the cab at the end — not while you are driving.",
+    "drn-stop-gauge": "The stop point is judged on the approach, once the crossing is in sight.",
+    "drn-window-crank": "The window comes down on the approach to the crossing, so you can listen before you stop."
+  },
+  "name": "Night Fog and Rail Crossing",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "job-readiness-edition",
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "semiTractor",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "tractorTrailer",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "trailer:tanker",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "drn-brake-pedal",
+      "drn-crew-checkin",
+      "drn-defrost",
+      "drn-door-pocket",
+      "drn-eld-status",
+      "drn-far-queue",
+      "drn-high-beams",
+      "drn-low-clearance",
+      "drn-mirror-heat",
+      "drn-phone",
+      "drn-race-train",
+      "drn-rig",
+      "drn-second-track",
+      "drn-shipping-papers",
+      "drn-stop-gauge",
+      "drn-stop-on-tracks",
+      "drn-throttle",
+      "drn-trip-card",
+      "drn-window-crank",
+      "drn-wipers"
+    ],
+    "meshes": 267
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "drive",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the trip card: a placarded cargo tank, the fog advisory, and the rail crossing on the route.",
+      "id": "drn-card",
+      "kind": "select",
+      "prompt": "Read the trip card: a placarded cargo tank, the fog advisory, and the rail crossing on the route.",
+      "target": "drn-trip-card",
+      "title": "Read the load and the night",
+      "why": "What you are hauling changes how you drive this road. A placarded cargo tank is one of the vehicles 49 CFR 392 requires to stop at a rail crossing, the fog advisory decides your speed and your lights before you see a single wisp of it, and knowing a crossing is coming means you are listening for a train a long way before the crossbuck appears out of the fog."
+    },
+    {
+      "cue": "Before the fog: wipers on intermittent, defrost on, and the mirror heaters on.",
+      "id": "drn-cab",
+      "itemNames": {
+        "drn-defrost": "defrost on the windscreen",
+        "drn-mirror-heat": "heated mirrors on",
+        "drn-wipers": "wipers on intermittent"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wipers, then defrost, then the mirror heaters — clear the windscreen first, it is where you look most.",
+      "prompt": "Before the fog: wipers on intermittent, defrost on, and the mirror heaters on.",
+      "targets": [
+        "drn-wipers",
+        "drn-defrost",
+        "drn-mirror-heat"
+      ],
+      "title": "Wipers, defrost, heated mirrors",
+      "why": "Fog is water in the air, and it settles on the glass and the mirrors as a film that scatters every light into glare. Wipers on intermittent, the defroster on the windscreen and the mirror heaters on keep the surfaces you look through clear before the fog thickens, instead of being fiddled with once you are already in it with a tank behind you."
+    },
+    {
+      "cue": "Low beams on before you pull away, then slow into the fog with a look in each mirror.",
+      "drive": {
+        "bandLabel": "slow for the fog, per the posted limit",
+        "checkWindow": 1.2,
+        "checks": [
+          {
+            "at": 0,
+            "kind": "lights",
+            "note": "Low beams on before you move — in fog the high beam blinds you with your own light."
+          },
+          {
+            "at": 2,
+            "kind": "mirror-left",
+            "note": "Left mirror: nobody closing fast behind you in the murk."
+          },
+          {
+            "at": 3,
+            "kind": "mirror-right",
+            "note": "Right mirror: the tank's side and the shoulder edge, the only line you can see."
+          }
+        ],
+        "controls": {
+          "brake": "drn-brake-pedal"
+        },
+        "graceSeconds": 1.8,
+        "laneNote": "You left the lane in the fog — the edge line is all there is to follow, and past it is the ditch.",
+        "laneWidth": 1.5,
+        "path": [
+          [
+            -6.2,
+            -1.2
+          ],
+          [
+            -6.3,
+            -3
+          ],
+          [
+            -6,
+            -4.6
+          ],
+          [
+            -5.4,
+            -5.6
+          ],
+          [
+            -4.6,
+            -5.8
+          ]
+        ],
+        "sceneRate": 0.08,
+        "speedBand": [
+          10,
+          25
+        ]
+      },
+      "holdBreakNote": "Out of the lane or out of the band in the fog. Hold a speed you can stop inside the distance you can see.",
+      "id": "drn-into-fog",
+      "kind": "drive",
+      "prompt": "Low beams on before you pull away, then slow into the fog with a look in each mirror.",
+      "target": "drn-rig",
+      "title": "Low beams and into the fog",
+      "why": "Headlamps are for being seen as much as for seeing, and in fog the low beam does both better than the high: it lights the road surface under the fog, not the fog itself. Slowing as you enter keeps your stopping distance inside the distance your lights reach — overdriving your headlights in fog is how a stopped car becomes a crash."
+    },
+    {
+      "cue": "Wind the window down on the approach, with the radio and fan off, so you can hear a train.",
+      "id": "drn-window",
+      "kind": "turn",
+      "prompt": "Wind the window down on the approach, with the radio and fan off, so you can hear a train.",
+      "target": "drn-window-crank",
+      "title": "Window down to listen",
+      "turn": {
+        "axis": "z",
+        "label": "WINDOW",
+        "turns": 1
+      },
+      "why": "In fog you may hear a train long before you see its headlight, but not through a closed window with the fan roaring and the radio on. Winding the window down and silencing the cab on the approach to every crossing costs nothing, and at night in fog it can be the only warning you get."
+    },
+    {
+      "cue": "Judge where the cab stops: no closer than 15 feet and within 50 feet of the nearest rail. Commit when it is right.",
+      "gauge": {
+        "green": [
+          0.2,
+          0.72
+        ],
+        "label": "TO NEAREST RAIL",
+        "missNote": "That stop point is outside fifteen to fifty feet from the nearest rail — judge it again before the cab gets there.",
+        "speed": 0.7
+      },
+      "id": "drn-stop-point",
+      "kind": "gauge",
+      "prompt": "Judge where the cab stops: no closer than 15 feet and within 50 feet of the nearest rail. Commit when it is right.",
+      "target": "drn-stop-gauge",
+      "title": "Judge the stop point",
+      "why": "49 CFR 392 has the vehicles it requires to stop — a hazmat cargo tank among them — stop within fifty feet of the nearest rail and no closer than fifteen. Too far back and you cannot see down the tracks past the buildings and brush; too close and the overhang of a passing train, or a slide on a wet road, reaches you."
+    },
+    {
+      "cue": "Hold the rig stopped at the stop point while you look and listen both ways.",
+      "holdBreakNote": "You rolled off the stop before the look and listen were done — hold it until you have checked both ways.",
+      "id": "drn-stop",
+      "kind": "hold",
+      "prompt": "Hold the rig stopped at the stop point while you look and listen both ways.",
+      "seconds": 4,
+      "target": "drn-brake-pedal",
+      "title": "Stop and hold at the crossing",
+      "why": "The stop is only worth making if the rig stays stopped long enough to look and listen properly — both directions, down both tracks, with the window open. Rolling forward while still looking puts the cab closer to the rails with every second, and in fog the headlight of a train can appear and be on you faster than a creeping truck can react."
+    },
+    {
+      "cue": "Look both ways down every track and past the crossing. Find what would trap the rig on the rails.",
+      "id": "drn-look",
+      "itemNames": {
+        "drn-far-queue": "traffic stopped just past the crossing",
+        "drn-low-clearance": "the low ground clearance sign",
+        "drn-second-track": "the second set of tracks"
+      },
+      "itemNotes": {
+        "drn-far-queue": "Cars stopped just beyond the crossing. Do not start across until there is room for the whole rig past the tracks.",
+        "drn-low-clearance": "Low ground clearance: a humped crossing can hang up a low-slung trailer on the rails. Know it before you are on it.",
+        "drn-second-track": "A second track. When one train passes, another can be coming the other way on the second — look again before you go."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look both ways down every track and past the crossing. Find what would trap the rig on the rails.",
+      "targets": [
+        "drn-second-track",
+        "drn-low-clearance",
+        "drn-far-queue"
+      ],
+      "title": "Look both ways, and past the tracks",
+      "why": "A crossing is cleared in three directions, not two: both ways down every track, because a second track can hide a second train, and past the crossing, because a queue on the far side can leave a trailer's tail on the rails. A humped crossing is the third trap — a low trailer hung up on the rails is stuck exactly where a train will be."
+    },
+    {
+      "cue": "Go across in the gear you started in — no shifting on the tracks — and watch the tank clear in the right mirror.",
+      "drive": {
+        "bandLabel": "steady, one gear, no shifting",
+        "checkWindow": 1.6,
+        "checks": [
+          {
+            "at": 2,
+            "kind": "mirror-right",
+            "note": "Right mirror: is the whole tank past the far rail yet?"
+          },
+          {
+            "at": 4,
+            "kind": "mirror-left",
+            "note": "Left mirror as you pull away: the crossing behind you and the road ahead."
+          }
+        ],
+        "controls": {
+          "brake": "drn-brake-pedal"
+        },
+        "forbid": {
+          "gear-down": "You shifted gears on the crossing. A missed shift on the tracks can leave the rig in neutral on the rails — choose the gear before you start across and stay in it.",
+          "gear-up": "You shifted gears on the crossing. A missed shift on the tracks can leave the rig in neutral on the rails — choose the gear before you start across and stay in it."
+        },
+        "graceSeconds": 1.8,
+        "laneWidth": 1.5,
+        "path": [
+          [
+            -4.6,
+            -5.8
+          ],
+          [
+            -1,
+            -5.8
+          ],
+          [
+            2,
+            -5.8
+          ],
+          [
+            4.6,
+            -5.6
+          ],
+          [
+            6.2,
+            -4.4
+          ]
+        ],
+        "sceneRate": 0.18,
+        "speedBand": [
+          3,
+          12
+        ]
+      },
+      "holdBreakNote": "Out of lane or band on the crossing — steady and in one gear, not stopping and not rushing.",
+      "id": "drn-across",
+      "kind": "drive",
+      "prompt": "Go across in the gear you started in — no shifting on the tracks — and watch the tank clear in the right mirror.",
+      "target": "drn-rig",
+      "title": "Across in one gear",
+      "why": "The gear for the crossing is chosen before you start, because a missed shift on the tracks can leave the rig in neutral with a train coming. Going across in one gear, steadily, and watching in the right mirror until the whole tank is clear of the far rail, is the procedure; 49 CFR 392 forbids shifting gears while crossing for exactly that reason."
+    },
+    {
+      "cue": "The fog thickens past the crossing. Hold a speed at which you could stop within what your lights show.",
+      "holdBreakNote": "Speed out of band in the fog — slow enough to stop within what you can see, not slower than you need.",
+      "id": "drn-fog-speed",
+      "kind": "track",
+      "prompt": "The fog thickens past the crossing. Hold a speed at which you could stop within what your lights show.",
+      "seconds": 5,
+      "target": "drn-throttle",
+      "title": "Hold your speed inside your sight",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.44,
+        "green": [
+          0.3,
+          0.52
+        ],
+        "label": "SPEED",
+        "rise": 0.5,
+        "start": 0.2
+      },
+      "why": "The handbook's answer to fog is simple and unpopular: slow down until you could stop within the distance you can see, and if you cannot see, find a safe place off the road. The trap is creeping back up to speed as your eyes adjust — the fog did not get thinner just because you got used to it."
+    },
+    {
+      "cue": "Through the thickest fog: check left for the edge, right for the tank, and follow the fog line.",
+      "drive": {
+        "bandLabel": "fog — inside your sight distance",
+        "checkWindow": 1.3,
+        "checks": [
+          {
+            "at": 1,
+            "kind": "mirror-left",
+            "note": "Left mirror: the centre line, and anyone trying to pass blind."
+          },
+          {
+            "at": 3,
+            "kind": "mirror-right",
+            "note": "Right mirror: the tank and the shoulder, where a stopped car or a person would be."
+          }
+        ],
+        "controls": {
+          "brake": "drn-brake-pedal"
+        },
+        "graceSeconds": 1.8,
+        "laneWidth": 1.5,
+        "path": [
+          [
+            6.2,
+            -4.4
+          ],
+          [
+            6.6,
+            -3
+          ],
+          [
+            6.7,
+            -1.4
+          ],
+          [
+            6.5,
+            0.4
+          ],
+          [
+            5.8,
+            2
+          ]
+        ],
+        "sceneRate": 0.09,
+        "speedBand": [
+          8,
+          20
+        ]
+      },
+      "holdBreakNote": "Out of lane or band in the fog bank — follow the edge line and hold your speed down.",
+      "id": "drn-fog-bank",
+      "kind": "drive",
+      "prompt": "Through the thickest fog: check left for the edge, right for the tank, and follow the fog line.",
+      "target": "drn-rig",
+      "title": "Through the fog bank",
+      "why": "In the thickest fog the right edge line is the most reliable guide you have, and the mirrors tell you the tank is tracking where you think it is. Keeping checks going while your eyes want to lock on the patch of road in the headlights is what stops the rig drifting onto the shoulder, where people who have stopped in fog are standing."
+    },
+    {
+      "cue": "Leaving the cab at the stop: put the shipping papers in the driver's door pocket.",
+      "drag": {
+        "missNote": "Not in the pocket — the papers go in the holder on the driver's door, all the way in.",
+        "radius": 0.45,
+        "to": "drn-door-pocket"
+      },
+      "id": "drn-papers",
+      "kind": "drag",
+      "prompt": "Leaving the cab at the stop: put the shipping papers in the driver's door pocket.",
+      "target": "drn-shipping-papers",
+      "title": "Shipping papers in the door pocket",
+      "why": "If something happens to a hazmat load while the driver is away from the controls, the first responder needs the shipping papers without searching the cab. PHMSA's 49 CFR 177 puts them in a holder on the inside of the driver's door or on the driver's seat whenever you are out of it, where anyone at the door will find them."
+    },
+    {
+      "cue": "Go over the crossing, the pedestrian in the fog and your speed with the trainer, and say how the night felt.",
+      "id": "drn-debrief",
+      "kind": "select",
+      "prompt": "Go over the crossing, the pedestrian in the fog and your speed with the trainer, and say how the night felt.",
+      "target": "drn-crew-checkin",
+      "title": "Talk the night through with the trainer",
+      "why": "Night fog with a tank behind you is draining, and the tiredness it leaves is a hazard for the rest of the shift. Talking through the crossing, the pedestrian who appeared at the edge of the beams and how slow the fog made you feel, with a trainer who has driven it, turns a tense run into judgement you can use next time — and names fatigue before it names itself."
+    },
+    {
+      "cue": "Change the electronic log to on duty, not driving, for the stop.",
+      "id": "drn-log",
+      "kind": "select",
+      "prompt": "Change the electronic log to on duty, not driving, for the stop.",
+      "target": "drn-eld-status",
+      "title": "Log the stop",
+      "why": "Night hours count exactly like day hours under 49 CFR 395, and a slow drive through fog eats into the day's driving time faster than planned. Logging the stop honestly when the wheels stop keeps the record true, and a true record is what tells you — and your dispatcher — that you are out of hours before the next leg rather than halfway through it."
+    }
+  ],
+  "supportLine": "your carrier's employee assistance programme, or your Teamsters steward if you are not sure how to reach it",
+  "tagline": "A placarded tank at night into fog and over the tracks: low beams, a speed inside your sight distance, the window down, the stop the rule requires, both tracks and the far side checked, across in one gear",
+  "title": "SmartCiti.X~ Night Fog and Rail Crossing VR",
+  "trade": "Class A driver trainee, Job Readiness Edition deep driving — Teamsters tank and hazmat freight at night: fog, lights and railroad crossings under the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F)",
+  "underwater": null,
+  "weather": "fog"
+}

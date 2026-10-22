@@ -1,0 +1,146 @@
+{
+  "id": "k12-es-the-tidal-marsh-nursery",
+  "index": "874",
+  "prefix": "esn",
+  "accent": "#7aa060",
+  "floor": ["#6a6652", "#5e5a48"],
+  "wall": ["#e2e6d2", "#d0d8bc"],
+  "trade": "Science walk with the wetland restoration crew at a tidal marsh — learner and restoration crew lead",
+  "header": "Upper-primary science at Heron's Head Wetland Restoration in San Francisco: why a tidal marsh is a nursery where young fish and birds start life, with sheltered channels, food and hiding places observed from the boardwalk and a model channel, using only what the marsh and the model in the scene show.",
+  "name": "The Tidal Marsh Nursery",
+  "tagline": "Shallow channels, food and hiding places make the marsh a nursery — look closely, then help the crew",
+  "badge": { "id": "nursery-watcher", "name": "Nursery Watcher", "note": "Found what makes a marsh a safe nursery, watched young fish in a model channel and helped the crew keep the boardwalk quiet" },
+  "board": { "name": "Nursery Board", "currency": "SPROUTS", "ranks": ["Egg", "Hatchling", "Fledgling", "Swimmer", "Marsh Friend"] },
+  "hazards": [
+    { "id": "marsh-is-just-mud", "label": "Say the marsh is just empty mud?", "face": "JUST\nMUD?", "text": "You said the marsh is just mud. The mud and channels are full of small life: tiny crabs, worms and young fish. That food and shelter is why fish and birds raise their young here." },
+    { "id": "leave-the-boardwalk", "label": "Step off the boardwalk onto the marsh?", "face": "STEP\nOFF", "text": "You stepped off the boardwalk. Marsh mud is soft and can hold a boot fast, and feet crush nests and young plants. The boardwalk is there so people can watch without harming the nursery." },
+    { "id": "chase-the-birds", "label": "Run closer to see the birds?", "face": "RUN\nCLOSER", "text": "You ran towards the birds. Parent birds leave their nests when people rush close, and the eggs get cold. Move slowly, stay on the boardwalk and use the binoculars to see them up close." },
+    { "id": "catch-a-fish", "label": "Scoop a young fish out of the channel?", "face": "SCOOP\nIT", "text": "You reached to scoop a young fish. Young fish are small and easily hurt. Watch them in the model channel or through the viewer, and leave the marsh's fish in the water." }
+  ],
+  "find1": {
+    "title": "Find what makes the marsh a nursery",
+    "cue": "Mark the three things that help young fish and birds grow up here.",
+    "why": "A nursery is a safe place for young animals to grow. In a tidal marsh, shallow channels keep out big fish that hunt, tall grass gives hiding places, and the mud is full of tiny animals to eat. Food, shelter and calm water together make the marsh a place where young life can start.",
+    "items": [
+      ["channel", "the shallow winding channel", "Big hunting fish cannot follow."],
+      ["grass", "the tall marsh grass", "Young birds and fish hide here."],
+      ["mud", "the mud full of tiny animals", "Plenty of food for the young."]
+    ],
+    "decoy": ["bench", "the boardwalk bench", "A good place to rest, but not part of the nursery."]
+  },
+  "select1": {
+    "title": "Move quietly onto the boardwalk",
+    "cue": "Walk slowly and quietly onto the boardwalk with the crew lead.",
+    "why": "Birds nesting in the marsh notice noise and quick movement. Walking slowly and talking quietly lets you watch without making parent birds leave their nests. The restoration crew works the same way, calmly and gently, so the nursery stays a calm place.",
+    "key": "quiet-card",
+    "label": "Quiet on the boardwalk",
+    "face": "SLOW AND\nQUIET"
+  },
+  "seq": {
+    "title": "Put the tide's visit in order",
+    "cue": "Put the steps of the tide coming into the marsh and going out in order.",
+    "why": "Twice a day the tide rises and falls. As it rises, water fills the channels and brings in young fish and food. As it falls, the channels drain and the mud is left for birds to feed on. Knowing this order explains why the marsh is busy at every stage of the tide.",
+    "oon": "Out of order. Start with the tide rising into the channels.",
+    "items": [
+      ["ord-rise", "the tide rises into the channels"],
+      ["ord-fish", "young fish swim in to feed and hide"],
+      ["ord-fall", "the tide falls and the channels drain"],
+      ["ord-birds", "birds feed on the open mud"]
+    ]
+  },
+  "turn": {
+    "title": "Focus the binoculars",
+    "cue": "Turn the focus wheel until the nest across the channel is sharp.",
+    "why": "Binoculars let you see small things from far away, so you do not need to go closer. A sharp picture helps you notice details, like how the nest is hidden in the grass. Good watching from a distance is how scientists study animals without disturbing them.",
+    "key": "focus-dial",
+    "label": "Binocular focus",
+    "dial": "FOCUS"
+  },
+  "gauge": {
+    "title": "Read the water level in the model channel",
+    "cue": "Commit when the marker sits at the water line on the channel post.",
+    "why": "The model channel shows the tide rising and falling. Reading the water line on the post shows how deep the channel is right now. Shallow water is the key to the nursery, because it keeps the big hunters out while the small fish stay safe.",
+    "key": "tide-meter",
+    "label": "Channel water level",
+    "meter": "TIDE",
+    "miss": "Not at the water line. Read where the water meets the post."
+  },
+  "hold": {
+    "title": "Hold the viewer still over the channel",
+    "cue": "Hold the underwater viewer still until the young fish come back.",
+    "why": "Young fish dart away from movement and come back when all is calm. Holding the viewer still for a while lets them return so you can see them. Patience is a big part of watching wildlife, and the crew counts fish in exactly this careful way.",
+    "brk": "The viewer moved and the fish darted off. Hold it still again and wait.",
+    "key": "viewer-hold",
+    "label": "Hold the viewer"
+  },
+  "drag": {
+    "title": "Place the grass clump in the model marsh",
+    "cue": "Drag the model grass clump to the bare edge of the channel.",
+    "why": "The restoration crew plants grass along bare channel edges so young fish have more hiding places. Putting the model clump on the bare edge shows how each new plant adds shelter. A marsh with more grass along its channels can shelter more young animals.",
+    "key": "grass-clump",
+    "label": "Grass clump",
+    "spot": "edge-spot",
+    "spotLabel": "The bare channel edge",
+    "miss": "Not on the bare edge yet. Place it where the channel has no grass."
+  },
+  "find2": {
+    "title": "Spot the young animals in the marsh",
+    "cue": "Look from the boardwalk and mark each young animal you can see.",
+    "why": "Spotting young animals is proof that the nursery is working. A line of ducklings behind a parent, tiny fish in a channel and a nest tucked in the grass all show that the marsh is doing its job. Crews use sightings like these to know a restored marsh is healthy.",
+    "items": [
+      ["ducklings", "ducklings following a parent", "Young birds learning to feed."],
+      ["fry", "tiny fish in the channel", "Young fish growing in calm water."],
+      ["nest", "a nest tucked in the grass", "Eggs kept warm and hidden."]
+    ],
+    "decoy": ["gull", "a grown gull on a post", "A lovely bird, but a grown-up, not a young one."]
+  },
+  "select2": {
+    "title": "Say why the marsh is a nursery",
+    "cue": "Choose the sentence that says why young animals start life here.",
+    "why": "You saw food in the mud, hiding places in the grass and shallow water that keeps big hunters away. A good answer puts those together: the marsh is a nursery because it gives young animals food and shelter. It says what you saw and nothing more.",
+    "key": "result-card",
+    "label": "State why",
+    "face": "WHY A\nNURSERY?"
+  },
+  "track": {
+    "title": "Follow a young fish along the channel",
+    "cue": "Keep the marker on one young fish as it swims into the grass.",
+    "why": "Following one fish shows how it uses the marsh. It swims along the shallow channel, then slips into the grass when something moves. Watching that shows you exactly why the grass edges matter so much to the nursery.",
+    "brk": "The marker lost the fish. Find it again and follow it into the grass.",
+    "key": "fish-track",
+    "label": "Fish followed",
+    "meter": "FOLLOW"
+  },
+  "record": {
+    "title": "Record what you saw at each place",
+    "cue": "Write one line for the channel, the grass and the mud.",
+    "why": "A short note for each place shows how the parts of the marsh work together. Anyone reading your notes can see where the young animals were and why. The crew keeps records the same way, so they can compare the marsh from year to year.",
+    "key": "marsh-log",
+    "label": "Marsh record",
+    "done": "Marsh recorded"
+  },
+  "share": {
+    "title": "Compare sightings with another group",
+    "cue": "Put your notes next to another group's and look for the same animals.",
+    "why": "Two groups watching the same marsh may see different things. Comparing notes gives a fuller picture of the nursery. Scientists share sightings in the same way, because many careful watchers see more than one.",
+    "key": "share-board",
+    "label": "Compare sightings",
+    "done": "Sightings compared"
+  },
+  "checkin": {
+    "title": "Check in before leaving the boardwalk",
+    "cue": "Why is the marsh a nursery? What is one way people keep it calm?",
+    "why": "The crew talks about the day before leaving, and the class does the same. Each learner says one reason the marsh is a nursery and one way visitors help. If anyone thinks the marsh is just empty mud, the group sorts it out now.",
+    "label": "End-of-walk check-in"
+  },
+  "interrupts": [
+    { "id": "a-flock-lifts-off-the-mud", "kind": "Birds lifting", "key": "freeze", "label": "Stop still and stay quiet", "alert": "A flock of birds lifts off the mud near the boardwalk.", "cue": "Stop still, stay quiet and let the birds settle again.", "why": "Birds lift when something startles them. Standing still and quiet shows them there is no danger, so they land again and keep feeding. The crew pauses its work the same way when birds are close.", "miss": "The class kept moving and talking, and the flock flew off to the far side of the marsh.", "wrong": "That keeps the birds startled. Stop still and stay quiet. Choose the response that deals with it now.", "done": "Class still, the flock settled. The lesson carries on." },
+    { "id": "the-crew-lead-asks-about-the-grass", "kind": "Crew question", "key": "name-grass", "label": "Say why the grass edges matter", "alert": "The crew lead asks why they plant grass along the channel edges.", "cue": "Say the grass gives young fish and birds places to hide.", "why": "Knowing why the grass matters shows you understand the nursery. Every clump along a channel is another hiding place. That is why the crew plants the edges first when it restores a marsh.", "miss": "You could not say why the grass matters, and the crew lead had to explain before the class could go on.", "wrong": "That does not explain the grass. Say what young animals use it for. Choose the response that deals with it now.", "done": "Grass explained. The lesson carries on." }
+  ],
+  "crew": ["Science teacher", "Classmate", "Restoration crew lead", "Crew member with binoculars"],
+  "guide": { "start": "Slow and quiet on the boardwalk.", "after": "Food and shelter for the young.", "hazard": "Stop. Stay on the boardwalk." },
+  "lateRecord": "The marsh record is written once you have seen each place — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the very end of the walk.",
+  "scene": "deck",
+  "order": "a"
+}

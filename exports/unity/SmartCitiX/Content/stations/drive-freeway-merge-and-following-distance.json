@@ -1,0 +1,598 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "seven-seconds",
+    "name": "Seven Seconds",
+    "note": "A clean merge, a full space cushion held, a car cutting in handled without drama and the exit queue warned — first time"
+  },
+  "category": "Mobility & Transit",
+  "certification": "FMCSA 49 CFR 380 Subpart F entry-level driver training, whose Class A curriculum includes space management, speed management and visual search; 49 CFR 383 for the Class A skills test's road portion; 49 CFR 392 for driving a commercial motor vehicle, including the hand-held phone and texting prohibitions; 49 CFR 393 for mirrors, lamps and the four-way flashers; 49 CFR 395 for the duty status at the end of the leg; the state CDL handbook's following-distance rule and merging guidance; CVSA roadside inspection practice; Teamsters (IBT) freight locals' driver training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CVSA",
+        "citedAs": "CVSA",
+        "id": "cvsa-out-of-service-criteria",
+        "title": "CVSA North American Standard Inspection Program and North American Standard Out-of-Service Criteria for roadside inspection of drivers and commercial motor vehicles"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 380 Subpart F",
+        "id": "fmcsa-49-cfr-380-subpart-f",
+        "title": "49 CFR Part 380 Subpart F — Entry-level driver training requirements for Class A and Class B commercial driver licence applicants, delivered by a provider listed on the Training Provider Registry"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 383",
+        "id": "fmcsa-49-cfr-383",
+        "title": "49 CFR Part 383 — Commercial driver's license standards; requirements and penalties, including the Class A, B and C vehicle groups and the knowledge and skills tests"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 392",
+        "id": "fmcsa-49-cfr-392",
+        "title": "49 CFR Part 392 — Driving of commercial motor vehicles, including conduct at railroad grade crossings, hazardous conditions, and the hand-held mobile phone and texting prohibitions"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 393",
+        "id": "fmcsa-49-cfr-393",
+        "title": "49 CFR Part 393 — Parts and accessories necessary for safe operation, including brakes, tires, emergency equipment and Subpart I protection against shifting and falling cargo"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 395",
+        "id": "fmcsa-49-cfr-395",
+        "title": "49 CFR Part 395 — Hours of service of drivers, including electronic logging devices"
+      },
+      {
+        "body": "state CDL handbook",
+        "citedAs": "state CDL handbook",
+        "id": "state-cdl-handbook",
+        "title": "The commercial driver's license manual each state issues for its CDL knowledge and skills tests — driving safely, space management, speed and following distance, mountain, night and fog driving, railroad crossings and backing"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBT",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": "Mobility & Transit",
+  "domain": "Commercial Driving",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "gap-finder",
+        "name": "Gap Finder",
+        "note": "The merge and the lane change done with every mirror and signal on time"
+      },
+      {
+        "id": "cushion",
+        "name": "Cushion Keeper",
+        "note": "Never tailgated, passed on the shoulder, stopped at the ramp end or reached for the phone"
+      },
+      {
+        "id": "steady-foot",
+        "name": "Steady Foot",
+        "note": "Every drive and the speed hold in band with no excursion"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-leg",
+        "name": "Clean Leg",
+        "note": "No corrections anywhere"
+      },
+      {
+        "id": "right-count",
+        "name": "Right Count",
+        "note": "Following distance and drives near the centre of their bands"
+      },
+      {
+        "id": "on-time",
+        "name": "On Time",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "SECOND",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Permit Holder",
+      "Highway Trainee",
+      "Freeway Driver",
+      "Linehaul Lead",
+      "Space Certified"
+    ],
+    "system": "Space"
+  },
+  "hazards": {
+    "drf-phone": "You went to pick up the hand-held phone at freeway speed. 49 CFR 392 prohibits hand-held mobile phone use and texting by commercial drivers, and a glance down at freeway speed covers the length of a football field with nobody watching the road.",
+    "drf-ramp-stop": "You went to stop at the end of the on-ramp and wait for a gap. From a standstill a loaded tractor-trailer needs a long run to get anywhere near the speed of freeway traffic, so a stop at the ramp's end turns a merge into a crawl across lanes of fast cars. Build speed on the ramp and fit into a gap you picked in the mirror.",
+    "drf-shoulder-pass": "You went to pass on the shoulder. The shoulder is where broken-down vehicles, debris and people changing tyres are, and it is not a lane: passing on it takes the trailer past someone standing beside a car at freeway speed. Stay in the travel lanes and wait.",
+    "drf-tailgate": "You went to close up on the car ahead. A heavy vehicle needs far more distance to stop than a car, and following close leaves you nothing when the traffic ahead brakes — the rear-end crash that pushes a car into the next one. Keep the space cushion the handbook gives you, and more in bad weather."
+  },
+  "id": "drive-freeway-merge-and-following-distance",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "drf-move-over",
+      "alert": "A car has swerved from the right lane into the space cushion in front of your cab, and its brake lights are on.",
+      "cue": "Brake and rebuild the gap.",
+      "delay": 3,
+      "id": "drf-cut-in",
+      "kind": "Car cutting in",
+      "missNote": "You held your speed with a car braking in the gap in front of you. A loaded rig cannot stop in the space a car leaves when it cuts in, and this is how a heavy truck ends up in the back of a sedan.",
+      "seconds": 10,
+      "target": "drf-brake-pedal",
+      "why": "A car that cuts into your cushion has just spent the space that was keeping you safe. Easing onto the brake — not stabbing it, with a glance at the mirror for whoever is behind — rebuilds the gap before the car ahead does anything else sudden.",
+      "wrongNote": "It is the brake. A car has cut in and is slowing in front of you — ease off and rebuild the space."
+    },
+    {
+      "after": "drf-exit",
+      "alert": "Round the ramp curve the traffic has stopped dead, with its tail almost at the freeway, and a car is following close behind your trailer.",
+      "cue": "Warn the traffic behind you.",
+      "delay": 3,
+      "id": "drf-exit-queue",
+      "kind": "Queue on the exit",
+      "missNote": "You slowed for the queue with nothing to warn the car close behind. A driver following a trailer cannot see past it, and a sudden stop without a warning is how the rear of a truck gets hit.",
+      "seconds": 10,
+      "target": "drf-flashers",
+      "why": "When you have to slow sharply where the driver behind does not expect it, the four-way flashers tell them before your brake lights alone can. On an exit queue the flashers go on as you come off the throttle, so the car behind is slowing with you instead of into you.",
+      "wrongNote": "It is the four-way flashers. Traffic is stopped round the curve, and the car behind needs the warning."
+    }
+  ],
+  "lateNotes": {
+    "drf-convex-knob": "The convex mirror is set in the cab before the ramp, not while you are merging.",
+    "drf-eld-status": "The log changes when the leg ends at the exit, not before.",
+    "drf-follow-count": "Count the seconds once you are settled in the lane behind the car ahead — not while you are still merging."
+  },
+  "name": "Freeway Merge and Following Distance",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "job-readiness-edition",
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "sedan",
+        "count": 2,
+        "kit": "fleet"
+      },
+      {
+        "builder": "semiTractor",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "tractorTrailer",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "trailer:dryVan",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "drf-belt",
+      "drf-brake-lights",
+      "drf-brake-pedal",
+      "drf-clipboard",
+      "drf-convex-knob",
+      "drf-crew-checkin",
+      "drf-cruise-hold",
+      "drf-door-pocket",
+      "drf-eld-status",
+      "drf-flashers",
+      "drf-follow-count",
+      "drf-gauges",
+      "drf-lane-sign",
+      "drf-mirror-set",
+      "drf-phone",
+      "drf-ramp-stop",
+      "drf-rig",
+      "drf-shoulder-car",
+      "drf-shoulder-pass",
+      "drf-tailgate",
+      "drf-trip-plan"
+    ],
+    "meshes": 278
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "drive",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the trip plan: the on-ramp, the merge ahead from the right, the exit and the traffic report.",
+      "id": "drf-plan",
+      "kind": "select",
+      "prompt": "Read the trip plan: the on-ramp, the merge ahead from the right, the exit and the traffic report.",
+      "target": "drf-trip-plan",
+      "title": "Read the leg before you roll",
+      "why": "A freeway leg is a series of decisions made at speed, so the ones you can make early you make in the cab: which lane you want after the merge, where the next on-ramp will feed traffic in beside you, which exit you need and what the traffic report says about it. A driver who knows the exit is coming does not dive across two lanes for it at the last moment."
+    },
+    {
+      "cue": "Belt first, then the flat mirrors so each shows a strip of trailer and the lane beside it, then read the gauges.",
+      "id": "drf-cab",
+      "itemNames": {
+        "drf-belt": "seat belt on",
+        "drf-gauges": "air pressure and temperatures read",
+        "drf-mirror-set": "flat mirrors set to the trailer's sides"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Belt, then mirrors, then gauges — you set mirrors from the driving position, belted in.",
+      "prompt": "Belt first, then the flat mirrors so each shows a strip of trailer and the lane beside it, then read the gauges.",
+      "targets": [
+        "drf-belt",
+        "drf-mirror-set",
+        "drf-gauges"
+      ],
+      "title": "Belt, flat mirrors, gauges",
+      "why": "Freeway speed turns a small unsecured thing into a big problem: an unbelted driver in a sudden stop, a mirror that shows sky instead of the lane you are merging into, a pressure warning you first notice in the left lane. Each is set in a few seconds before the ramp, and none of them can be fixed safely once the rig is at speed in traffic."
+    },
+    {
+      "cue": "Turn the convex mirror so it covers the blind area beside the tractor's right door.",
+      "id": "drf-convex",
+      "kind": "turn",
+      "prompt": "Turn the convex mirror so it covers the blind area beside the tractor's right door.",
+      "target": "drf-convex-knob",
+      "title": "Set the convex mirror on the no-zone",
+      "turn": {
+        "axis": "z",
+        "label": "CONVEX MIRROR",
+        "turns": 0.5
+      },
+      "why": "The flat mirrors show the lanes behind; the convex mirror is what covers the space right beside the tractor, where a car sitting alongside disappears from view. That no-zone is exactly where a merging car or a car you are about to change lanes into will be hiding, so the convex is angled to cover it before you need it."
+    },
+    {
+      "cue": "Up a gear as you build speed on the ramp, signal left, find your gap in the left mirror twice, and fit in without forcing anyone.",
+      "drive": {
+        "bandLabel": "matching traffic, per the posted limit",
+        "checkWindow": 1.6,
+        "checks": [
+          {
+            "at": 0,
+            "kind": "gear-up",
+            "note": "Up through the gears on the ramp: the ramp is where the speed for the merge is built."
+          },
+          {
+            "at": 1,
+            "kind": "signal-left",
+            "note": "Signal left early on the ramp so the right lane sees you coming."
+          },
+          {
+            "at": 2,
+            "kind": "mirror-left",
+            "note": "First look: find the gap you are aiming for."
+          },
+          {
+            "at": 3,
+            "kind": "mirror-left",
+            "note": "Second look: confirm the gap is still there before the lines end."
+          }
+        ],
+        "controls": {
+          "brake": "drf-brake-pedal"
+        },
+        "graceSeconds": 1.8,
+        "laneNote": "You left the lane and stayed out on the merge — onto the shoulder or across the lane line into traffic.",
+        "laneWidth": 1.5,
+        "path": [
+          [
+            -6.2,
+            -1
+          ],
+          [
+            -6.3,
+            -2.6
+          ],
+          [
+            -5.9,
+            -4.1
+          ],
+          [
+            -4.76,
+            -5.67
+          ],
+          [
+            -3.7,
+            -6.41
+          ],
+          [
+            -2.53,
+            -6.95
+          ],
+          [
+            -1.28,
+            -7.29
+          ]
+        ],
+        "sceneRate": 0.045,
+        "speedBand": [
+          30,
+          60
+        ]
+      },
+      "holdBreakNote": "Out of the lane or out of the band on the ramp. Build speed steadily and hold the ramp's lane until the gap is yours.",
+      "id": "drf-merge",
+      "kind": "drive",
+      "prompt": "Up a gear as you build speed on the ramp, signal left, find your gap in the left mirror twice, and fit in without forcing anyone.",
+      "target": "drf-rig",
+      "title": "Build speed on the ramp and merge",
+      "why": "A merge is decided in the mirror, not at the end of the ramp. Building speed on the ramp gives you a chance of matching the traffic; the signal tells the drivers in the right lane you are coming; two looks in the left mirror find a gap and confirm it is still there. The traffic on the freeway has the right of way, and a good merge never makes anyone brake."
+    },
+    {
+      "cue": "As the car ahead passes a fixed mark, count the seconds until your cab reaches it. Commit when the count is right for this rig.",
+      "gauge": {
+        "green": [
+          0.62,
+          0.88
+        ],
+        "label": "SECONDS",
+        "missNote": "That count is short for a rig this long at this speed — drop back until the car ahead passes the mark seven seconds before you.",
+        "speed": 0.7
+      },
+      "id": "drf-follow",
+      "kind": "gauge",
+      "prompt": "As the car ahead passes a fixed mark, count the seconds until your cab reaches it. Commit when the count is right for this rig.",
+      "target": "drf-follow-count",
+      "title": "Count your following distance",
+      "why": "The state CDL handbook gives the rule in time, not length: at least one second for every ten feet of vehicle length at speeds below 40 mph, and one second more above that — so a sixty-foot rig at freeway speed wants seven seconds. Counting from a fixed mark is how you know you have it, because at speed every gap looks bigger than it is."
+    },
+    {
+      "cue": "Signal left, check the left mirror for your gap, move over into the left lane, then check the right mirror as you settle.",
+      "drive": {
+        "bandLabel": "with the flow, per the posted limit",
+        "checkWindow": 1.3,
+        "checks": [
+          {
+            "at": 1,
+            "kind": "signal-left",
+            "note": "Signal before you move, not as you move — the lane you want needs the warning."
+          },
+          {
+            "at": 2,
+            "kind": "mirror-left",
+            "note": "Left mirror right back past the trailer: nobody should be in the lane you are about to take."
+          },
+          {
+            "at": 4,
+            "kind": "mirror-right",
+            "note": "Right mirror as you settle: the whole trailer is across, and the merging car has its room."
+          }
+        ],
+        "controls": {
+          "brake": "drf-brake-pedal"
+        },
+        "graceSeconds": 1.8,
+        "laneWidth": 1.6,
+        "path": [
+          [
+            -1.28,
+            -7.29
+          ],
+          [
+            0,
+            -7.4
+          ],
+          [
+            1.28,
+            -7.29
+          ],
+          [
+            2.7,
+            -7.55
+          ],
+          [
+            3.89,
+            -8.34
+          ]
+        ],
+        "sceneRate": 0.028,
+        "speedBand": [
+          40,
+          60
+        ]
+      },
+      "holdBreakNote": "Out of lane or band during the lane change — make it slowly and hold your speed while you do.",
+      "id": "drf-move-over",
+      "kind": "drive",
+      "prompt": "Signal left, check the left mirror for your gap, move over into the left lane, then check the right mirror as you settle.",
+      "target": "drf-rig",
+      "title": "Move left for the next merge",
+      "why": "Moving left ahead of an on-ramp gives the merging traffic room and keeps you out of the scrum where two streams meet. A lane change in a long rig is slow on purpose: signal first, confirm in the mirror that the lane is clear back past your trailer, move over gradually, then check the right mirror to see the trailer is fully across and what you left behind."
+    },
+    {
+      "cue": "Scan far ahead and on both shoulders. Find what will change your plan.",
+      "id": "drf-scan",
+      "itemNames": {
+        "drf-brake-lights": "brake lights far ahead",
+        "drf-lane-sign": "the lane-closed sign ahead",
+        "drf-shoulder-car": "the car on the shoulder with its door open"
+      },
+      "itemNotes": {
+        "drf-brake-lights": "Brake lights a long way ahead: the traffic is compressing, and the sooner you ease off the more cushion you keep.",
+        "drf-lane-sign": "A lane-closed sign well ahead. Merging early, with a signal, beats a forced move at the cones.",
+        "drf-shoulder-car": "A car stopped on the shoulder with its door open — someone may step out. Move over or slow, and give it room."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Scan far ahead and on both shoulders. Find what will change your plan.",
+      "targets": [
+        "drf-brake-lights",
+        "drf-shoulder-car",
+        "drf-lane-sign"
+      ],
+      "title": "Look well down the road",
+      "why": "At freeway speed the things that matter are far away when there is still time to deal with them: brake lights several vehicles ahead, a car on the shoulder, a sign for a lane that is about to close. Looking far ahead, not just at the bumper in front, is what turns an emergency stop into an easy lift of the throttle."
+    },
+    {
+      "cue": "Foot off the throttle and hovering on the brake while the traffic ahead compresses.",
+      "holdBreakNote": "You came off the brake too soon while the traffic was still bunching — keep covering it until the gaps open again.",
+      "id": "drf-cover",
+      "kind": "hold",
+      "prompt": "Foot off the throttle and hovering on the brake while the traffic ahead compresses.",
+      "seconds": 4,
+      "target": "drf-brake-pedal",
+      "title": "Cover the brake as traffic bunches",
+      "why": "Covering the brake — foot off the throttle and resting over the pedal — takes the reaction delay out of a stop before you need one. When traffic ahead bunches up, easing off early and covering the brake keeps the space cushion you built instead of eating it, and lets the rig slow smoothly rather than in one hard stab that surprises the driver behind."
+    },
+    {
+      "cue": "Hold the rig at a steady speed through the long curve — no surging, no drifting back.",
+      "holdBreakNote": "The speed wandered out of band on the curve — smooth, small corrections.",
+      "id": "drf-steady",
+      "kind": "track",
+      "prompt": "Hold the rig at a steady speed through the long curve — no surging, no drifting back.",
+      "seconds": 5,
+      "target": "drf-cruise-hold",
+      "title": "Hold a steady speed round the curve",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.44,
+        "green": [
+          0.44,
+          0.64
+        ],
+        "label": "SPEED",
+        "rise": 0.5,
+        "start": 0.2
+      },
+      "why": "A steady speed is the kindest thing you can give the traffic round you: drivers behind can predict you, the space in front stays the size you set, and the trailer tracks quietly through a curve instead of being pushed and pulled. Surging and dropping back is also how following distances collapse without the driver noticing."
+    },
+    {
+      "cue": "Signal right, check the right mirror, move back and take the exit ramp — down a gear for the ramp curve, and a last look left.",
+      "drive": {
+        "bandLabel": "ramp — slow before the curve",
+        "checkWindow": 1.4,
+        "checks": [
+          {
+            "at": 0,
+            "kind": "signal-right",
+            "note": "Signal right well before the exit so the traffic behind knows you are leaving."
+          },
+          {
+            "at": 1,
+            "kind": "mirror-right",
+            "note": "Right mirror: nobody on the ramp or in the lane you are moving back into."
+          },
+          {
+            "at": 3,
+            "kind": "gear-down",
+            "note": "Down a gear for the ramp curve — the engine holds the speed and the brakes stay ready."
+          },
+          {
+            "at": 4,
+            "kind": "mirror-left",
+            "note": "Last look left at the ramp's end before you join the queue."
+          }
+        ],
+        "controls": {
+          "brake": "drf-brake-pedal",
+          "lights": "drf-flashers"
+        },
+        "graceSeconds": 1.8,
+        "laneWidth": 1.6,
+        "path": [
+          [
+            3.89,
+            -8.34
+          ],
+          [
+            4.9,
+            -6.9
+          ],
+          [
+            5.4,
+            -5.6
+          ],
+          [
+            5.9,
+            -4.2
+          ],
+          [
+            6.1,
+            -2.6
+          ]
+        ],
+        "sceneRate": 0.035,
+        "speedBand": [
+          20,
+          50
+        ]
+      },
+      "holdBreakNote": "Out of lane or band leaving the freeway — slow down on the ramp, before the curve.",
+      "id": "drf-exit",
+      "kind": "drive",
+      "prompt": "Signal right, check the right mirror, move back and take the exit ramp — down a gear for the ramp curve, and a last look left.",
+      "target": "drf-rig",
+      "title": "Back right and off at the exit",
+      "why": "Exits are planned a mile out, not at the gore: signal, check the right mirror for anyone in the lane or on the ramp, move back and slow on the ramp rather than on the freeway, where the traffic behind is still at speed. The ramp's curve is tighter than it looks with a high trailer behind you, so the gear comes down before it and the brakes stay for the queue."
+    },
+    {
+      "cue": "At the ramp stop, put the loose clipboard in the door pocket before you roll on.",
+      "drag": {
+        "missNote": "Not in the pocket — slide the clipboard fully into the door pocket.",
+        "radius": 0.45,
+        "to": "drf-door-pocket"
+      },
+      "id": "drf-clipboard",
+      "kind": "drag",
+      "prompt": "At the ramp stop, put the loose clipboard in the door pocket before you roll on.",
+      "target": "drf-clipboard",
+      "title": "Stow the loose clipboard",
+      "why": "Anything loose on the dash becomes a missile in a hard stop or a crash, and a clipboard sliding off the seat is the kind of thing a driver reaches for without thinking. Stowing it at a stop, not while moving, keeps both your hands and your eyes where they belong for the next time the traffic stops without warning."
+    },
+    {
+      "cue": "Go over the merge, the car that cut in and the exit queue with the trainer, and say how the freeway felt.",
+      "id": "drf-debrief",
+      "kind": "select",
+      "prompt": "Go over the merge, the car that cut in and the exit queue with the trainer, and say how the freeway felt.",
+      "target": "drf-crew-checkin",
+      "title": "Talk the leg through with the trainer",
+      "why": "Freeway driving is where a new driver's stress hides best, because everything happens fast and nothing looks like a crisis until it is one. Going over the merge, the car that dived into the cushion and the queue on the exit with the trainer fixes what went well; saying out loud that the freeway was tiring is the start of managing fatigue rather than pushing through it."
+    },
+    {
+      "cue": "At the stop, change the electronic log's duty status from driving to on duty, not driving.",
+      "id": "drf-log",
+      "kind": "select",
+      "prompt": "At the stop, change the electronic log's duty status from driving to on duty, not driving.",
+      "target": "drf-eld-status",
+      "title": "Close out the leg in the log",
+      "why": "The freeway leg counts toward the day's driving limit under 49 CFR 395, and the minutes after it — fuel, paperwork, the walk-around — are on-duty work that is not driving. Changing the status when the wheels stop keeps the electronic record matching what the day really was, which is the record that decides whether you can legally take the next leg."
+    }
+  ],
+  "supportLine": "your carrier's employee assistance programme, or your Teamsters steward if you are not sure how to reach it",
+  "tagline": "Up the ramp and into traffic: build speed, signal, take a gap you found in the mirror, count your seconds of space, move over for the next merge, and come off at an exit where the queue is round the bend",
+  "title": "SmartCiti.X~ Freeway Merge and Following Distance VR",
+  "trade": "Class A driver trainee, Job Readiness Edition deep driving — Teamsters over-the-road freight: merging, space management and following distance under the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F)",
+  "underwater": null,
+  "weather": "clear"
+}

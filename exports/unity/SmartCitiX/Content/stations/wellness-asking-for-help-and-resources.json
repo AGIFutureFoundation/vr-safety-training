@@ -1,0 +1,432 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "asked",
+    "name": "Asked",
+    "note": "Every problem matched to its door, one call made and stayed on, nothing posted, nothing borrowed at four hundred percent, and a follow-up on the calendar"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "SAMHSA's guidance on help-seeking and its national helpline, its trauma-informed care principles applied to the person asking, and the 988 Suicide and Crisis Lifeline for the door that is for a crisis; Psychological First Aid's look, listen, link, turned on yourself — practical needs first, then the link — as the Red Cross and NCTSN teach it; the Sphere Handbook's minimum standard on mental health and psychosocial support for the layered model of help this room is arranged by; OSHA's medical services and first aid rule in 29 CFR 1910.151, the floor under an employer's duty to have somebody a worker can go to; HIPAA, for what the employee assistance programme's clinician keeps and the employer never sees; NIOSH's work-organisation and stress guidance for the signs read at the start; the SEIU and AFSCME locals whose members staff wellness and benefits rooms like this one, and the Teamsters' training programmes on the warehouse side",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "HHS",
+        "citedAs": "HIPAA",
+        "id": "hipaa-privacy-rule",
+        "title": "HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.151",
+        "id": "osha-1910-151",
+        "title": "29 CFR 1910.151 — Medical services and first aid"
+      },
+      {
+        "body": "NCTSN",
+        "citedAs": "Psychological First Aid",
+        "id": "pfa-field-guide",
+        "title": "Psychological First Aid Field Operations Guide (NCTSN and the National Center for PTSD), and the WHO field guide"
+      },
+      {
+        "body": "Red Cross",
+        "citedAs": "Red Cross",
+        "id": "red-cross-disaster-services",
+        "title": "American Red Cross shelter operations, Disaster Mental Health and first aid/CPR course standards"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "SAMHSA",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "Sphere",
+        "citedAs": "Sphere Handbook",
+        "id": "sphere-handbook",
+        "title": "The Sphere Handbook: Humanitarian Charter and Minimum Standards in Humanitarian Response"
+      },
+      {
+        "body": "union",
+        "citedAs": "Teamsters",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Workforce readiness",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "read-yourself",
+        "name": "Read Yourself",
+        "note": "Every sign on your own week found before the dial was touched"
+      },
+      {
+        "id": "no-shortcuts",
+        "name": "No Shortcuts",
+        "note": "No unsafe action anywhere in the run — the app, the chat and the no-show left alone"
+      },
+      {
+        "id": "stayed-on-the-line",
+        "name": "Stayed on the Line",
+        "note": "The call and the intake both carried their full count"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-ask",
+        "name": "Clean Ask",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "honest-number",
+        "name": "Honest Number",
+        "note": "The stress check committed inside the band first time"
+      },
+      {
+        "id": "six-straight",
+        "name": "Six Straight",
+        "note": "Six correct actions in a row"
+      }
+    ],
+    "currency": "REACH",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Trainee",
+      "Asked Once",
+      "Knows the Doors",
+      "Resource Navigator",
+      "Job Ready"
+    ],
+    "system": "Wellness Resource Center"
+  },
+  "hazards": {
+    "crew-chat-post": "You posted the whole situation in the cohort chat. Twenty people now know about the notice, the court date and the temper, none of them can do anything about any of it, and the one person who could — the case manager — heard it fourth-hand. Asking is done to a door, by name, not to a room.",
+    "ghost-the-shift": "You decided not to go in tomorrow and not to call. A no-show is the one thing a training programme and an employer both read the same way, and it turns a week that could have been fixed with a schedule adjustment into a week that ended the placement. The call that asks for the day is ten seconds long; the silence costs the job.",
+    "payday-advance-app": "You opened the payday-advance app to cover the rent notice. A loan against next week's pay at a few hundred percent a year is the fastest way to make a one-week rent problem a three-month one, and it is exactly what the consumer bodies the financial coaching block cites warn about first. The case manager's door is on the same wall, and the rent is what it is for.",
+    "wait-for-crisis": "You put the card back — \"I'll deal with it when it's actually a crisis.\" Every door in this room is easier to walk through on a Tuesday than at two in the morning, and the crisis line exists for the people who waited. SAMHSA's guidance on help-seeking says the same thing the case manager would: the earlier the ask, the smaller the door has to be."
+  },
+  "id": "wellness-asking-for-help-and-resources",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "make-the-call",
+      "alert": "A cohort-mate has come in for a coffee and sat down at the next table, well inside earshot of the phone.",
+      "cue": "Ask for the room — plainly, without saying why. The call can hold for ten seconds.",
+      "delay": 3,
+      "id": "coworker-within-earshot",
+      "kind": "Somebody sits down within earshot",
+      "missNote": "He sat there through the call and you gave the intake the short version. The case manager got \"a rough week\" and a leaflet's worth of help, and the rent notice still has its date on it.",
+      "seconds": 12,
+      "target": "ask-for-the-room",
+      "why": "The sign on the door did its job until somebody did not read it, and the call is about to reach the rent and the court date. Asking a cohort-mate for the room — \"can I have five minutes in here?\" — is a sentence people find harder than the call itself, and it is the one that keeps the call honest; a person answering intake questions with somebody they know at the next table gives the minimised version. You are allowed to ask for privacy for your own conversation.",
+      "wrongNote": "Not the handset, and not the door sign. The thing that has to happen is asking the person in the room for it — the sign is not going to say it for you."
+    },
+    {
+      "after": "honest-intake",
+      "alert": "The second line lights up: the landlord, calling about the notice, while the intake worker is mid-question.",
+      "cue": "Let it ring. Finish the intake; call the landlord back with the case manager's letter in hand.",
+      "delay": 3,
+      "id": "landlord-on-the-other-line",
+      "kind": "Landlord calling on the other line",
+      "missNote": "You picked up the second line and the intake worker was left holding. The landlord got a promise you could not keep, the intake got closed as incomplete, and both calls have to be made again.",
+      "seconds": 12,
+      "target": "let-it-ring",
+      "why": "The landlord's call feels like the urgent one and is the wrong one to take now: a tenant who answers with nothing arranged agrees to whatever is offered, and a tenant who calls back an hour later with a case manager's letter and a payment plan is a different conversation. Dropping the intake to take it also ends the ask halfway, which the intake worker reads as the trainee not being serious. Let it ring; the number is on the screen.",
+      "wrongNote": "Not the intake point, and not the handset you are already holding. The right answer is the card that says let it ring — the landlord is a call-back, with the letter in hand."
+    }
+  ],
+  "lateNotes": {
+    "followup-card": "The follow-up goes on the calendar after the call is made, or you are booking a check on a plan that does not exist yet.",
+    "tell-need": "Tell the instructor after the call, not before it — a schedule ask with a plan behind it is a request; one without is an excuse."
+  },
+  "name": "Wellness — Asking for Help and Resources",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "job-readiness-edition",
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "ask-card",
+      "ask-for-the-room",
+      "cal-today",
+      "cal-week",
+      "case-manager-door",
+      "checkin-board",
+      "crew-chat-post",
+      "desk-phone",
+      "door-sign",
+      "followup-card",
+      "ghost-the-shift",
+      "intake-point",
+      "let-it-ring",
+      "lifeline-card",
+      "payday-advance-app",
+      "plate-court",
+      "plate-rent",
+      "plate-sleep",
+      "records-card",
+      "sign-late-bus",
+      "sign-rent-notice",
+      "sign-snapped",
+      "sign-tired-friday",
+      "sign-two-nights",
+      "stress-dial",
+      "tell-need",
+      "tell-plan",
+      "tell-when",
+      "wait-for-crisis"
+    ],
+    "meshes": 234
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Three things on this board are signs. Two are just a week. Find the signs.",
+      "decoyNotes": {
+        "sign-late-bus": "The bus was late. That is a bus.",
+        "sign-tired-friday": "Tired on a Friday after a week of dock work is Friday. The signs that matter are the changes."
+      },
+      "id": "read-your-week",
+      "itemNames": {
+        "sign-rent-notice": "the notice on the apartment door",
+        "sign-snapped": "the temper at the instructor this morning",
+        "sign-two-nights": "two nights of sleep missed"
+      },
+      "itemNotes": {
+        "sign-rent-notice": "A pay-or-quit notice with a date on it. It has a deadline, which means it goes to the door that can move deadlines, today.",
+        "sign-snapped": "You went at the instructor over a tool-count. That is the sign the people around you saw first, and it is a stress reaction, not a character flaw.",
+        "sign-two-nights": "Two nights of no real sleep, from somebody who was sleeping fine in week two. It is a change, and it is the one that makes the other two worse."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things on this board are signs. Two are just a week. Find the signs.",
+      "targets": [
+        "sign-two-nights",
+        "sign-rent-notice",
+        "sign-snapped"
+      ],
+      "title": "Read your own week the way you would read a friend's",
+      "why": "The hardest person to read honestly is yourself, and the point of this step is to use the same eye on your own week that the peer-support station taught you to use on somebody else's: a change in sleep, a deadline with a date on it, a reaction the people around you noticed. NIOSH's guidance on work stress describes the pattern in the same terms, and a trainee who can name three concrete things is a trainee who can walk to a door and say them, which is the whole station."
+    },
+    {
+      "cue": "The dial swings one to ten. Commit it where the week actually is.",
+      "gauge": {
+        "green": [
+          0.62,
+          0.86
+        ],
+        "label": "STRESS",
+        "missNote": "That number does not match the board. A rent notice, two missed nights and a temper you did not recognise is not a four — and the doors you choose next depend on the number being true.",
+        "speed": 0.6
+      },
+      "id": "stress-check",
+      "kind": "gauge",
+      "prompt": "The dial swings one to ten. Commit it where the week actually is.",
+      "target": "stress-dial",
+      "title": "Rate the stress honestly",
+      "why": "The stress check is the guide's own card, and here it has a job beyond honesty: the number decides which doors you go to first. A seven with a rent deadline goes to the case manager today; a nine with the words \"I can't do this\" behind it goes to the crisis line first and the case manager second. Rating it low to feel better is choosing the wrong door for the week you are actually having, and SAMHSA's guidance on help-seeking says the number is the person's own to give."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Three problems onto the board — a deadline, a pattern and a schedule. Order does not matter yet.",
+      "id": "sort-the-plate",
+      "itemNames": {
+        "plate-court": "the court date on a class day — a schedule",
+        "plate-rent": "the rent notice — a deadline",
+        "plate-sleep": "the sleep — a pattern"
+      },
+      "kind": "sequence",
+      "prompt": "Three problems onto the board — a deadline, a pattern and a schedule. Order does not matter yet.",
+      "targets": [
+        "plate-rent",
+        "plate-sleep",
+        "plate-court"
+      ],
+      "title": "Sort what is on your plate",
+      "why": "A week that feels like one problem is usually three, and they go to three different doors. Sorting them on a board — the rent is a deadline, the sleep is a pattern, the court date is a schedule clash — is what turns \"everything is falling apart\" into three asks, each of which somebody in this building can answer. It is the same move a case manager makes in the first five minutes, and doing it yourself is what lets you walk in with a list instead of a feeling."
+    },
+    {
+      "cue": "The deadline goes to the case manager — emergency rent help, a letter to the landlord, today. Not the app beside it.",
+      "id": "rent-to-case-manager",
+      "kind": "select",
+      "prompt": "The deadline goes to the case manager — emergency rent help, a letter to the landlord, today. Not the app beside it.",
+      "target": "case-manager-door",
+      "title": "Match the rent notice to its door",
+      "why": "A pay-or-quit notice has a date on it, and the door that can do anything about a date is the programme's case manager: emergency assistance funds, a letter to the landlord, a payment plan, a referral to legal aid — all of which exist and none of which a payday-advance app is. The financial coaching block of this edition spends a whole station on why that app is the wrong door; this step is the moment the two blocks meet, at a wall with both doors on it."
+    },
+    {
+      "cue": "Carry the ask card to today's slot. Not tomorrow, not \"this week\".",
+      "drag": {
+        "missNote": "Not on today. An ask booked for \"this week\" is an ask booked for the day after the rent deadline.",
+        "radius": 0.5,
+        "to": "cal-today"
+      },
+      "id": "ask-on-today",
+      "kind": "drag",
+      "prompt": "Carry the ask card to today's slot. Not tomorrow, not \"this week\".",
+      "target": "ask-card",
+      "title": "Put the ask on today's calendar",
+      "why": "The distance between deciding to ask and asking is where most asks die, and the calendar is how you close it: a slot, today, with the door's name on it. It also makes the ask a thing that exists outside your head, which matters on a week when your head is the least reliable thing in the room. The case manager's hours are on the wall; the slot is yours to fill."
+    },
+    {
+      "cue": "Turn the sign to In Use. This call is not made in a corridor.",
+      "id": "privacy-sign",
+      "kind": "turn",
+      "prompt": "Turn the sign to In Use. This call is not made in a corridor.",
+      "target": "door-sign",
+      "title": "Turn the door sign before the call",
+      "turn": {
+        "axis": "y",
+        "label": "DOOR SIGN",
+        "turns": 0.5
+      },
+      "why": "The call you are about to make will include the rent, the court date and how you are sleeping, and none of it belongs to whoever walks in for a coffee. The sign is the same one the peer-support station turns for somebody else; here you turn it for yourself, and the fact that it feels harder is the point. Privacy is a thing you are allowed to arrange for your own conversation, not only for other people's."
+    },
+    {
+      "cue": "Pick up the handset and hold through the hold music and the first questions. Do not hang up at the menu.",
+      "holdBreakNote": "You hung up at the menu. Nobody heard the ask — pick it up and hold through the wait; it is shorter than it feels.",
+      "id": "make-the-call",
+      "kind": "hold",
+      "prompt": "Pick up the handset and hold through the hold music and the first questions. Do not hang up at the menu.",
+      "seconds": 8,
+      "target": "desk-phone",
+      "title": "Make the call and stay on it",
+      "why": "The first call to a case manager or an employee assistance line has a menu, a wait and three questions before a person is on the line, and the trainee who hangs up at the menu has asked nobody for anything and will say afterwards that they tried. Holding through it is the whole skill — the wait is not a sign the door is closed, it is what every door sounds like at ten in the morning. Stay on until somebody says their name."
+    },
+    {
+      "cue": "Answer the intake questions in the band — not minimising, not spiralling.",
+      "holdBreakNote": "The intake got away from you — into \"it's fine\" or into everything at once. Come back to the three things on the board and the number on the dial.",
+      "id": "honest-intake",
+      "kind": "track",
+      "prompt": "Answer the intake questions in the band — not minimising, not spiralling.",
+      "seconds": 7,
+      "target": "intake-point",
+      "title": "Keep the intake honest",
+      "track": {
+        "drift": 0.15,
+        "fall": 0.42,
+        "green": [
+          0.36,
+          0.68
+        ],
+        "label": "INTAKE",
+        "rise": 0.5,
+        "start": 0.5
+      },
+      "why": "An intake conversation drifts two ways. Minimise — \"it's fine, just a rough week\" — and the person on the line closes the file with a leaflet; spiral, and the three problems become one undifferentiated flood nobody can act on. Honest sits between: the rent notice and its date, two nights of sleep, the court date on a class day, the number you gave the dial. It is the sorted plate, said out loud, and it is what gets the case manager to open the emergency fund instead of the pamphlet drawer."
+    },
+    {
+      "cue": "Read the 988 card: it is for the night you cannot keep yourself safe. The case manager is for the rent. Know the difference before you need it.",
+      "id": "which-door-is-988",
+      "kind": "select",
+      "prompt": "Read the 988 card: it is for the night you cannot keep yourself safe. The case manager is for the rent. Know the difference before you need it.",
+      "target": "lifeline-card",
+      "title": "Know which door is for a crisis",
+      "why": "The wall has doors for a Tuesday and one door for a night, and a trainee who knows the difference will use both correctly: the case manager for the rent, the employee assistance programme for the counselling, the peer team for the conversation, and the 988 Suicide and Crisis Lifeline for the hour when none of those is open and the thought in the room is about not being here. Reading the card on a Tuesday is what makes the number available at two in the morning; nobody learns it for the first time then."
+    },
+    {
+      "cue": "The need, then the plan, then the date. No diagnosis, no apology tour.",
+      "id": "instructor-what",
+      "itemNames": {
+        "tell-need": "what you need — the court date off, and a make-up session",
+        "tell-plan": "what you are doing about the rest — the case manager, the call made",
+        "tell-when": "by when — the follow-up date"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Need, then plan, then date. Leading with the plan is telling somebody your business before they know what you are asking; leading with the date is a demand.",
+      "prompt": "The need, then the plan, then the date. No diagnosis, no apology tour.",
+      "targets": [
+        "tell-need",
+        "tell-plan",
+        "tell-when"
+      ],
+      "title": "Tell the instructor what you need — not what is wrong with you",
+      "why": "An instructor can move a class, arrange a make-up and note the absence as planned; an instructor cannot fix the rent or the sleep and does not need the story. The order — what you need, what you are doing about the rest, by when — gives them the three things they can act on and nothing they have to carry. It also keeps your medical and financial life where it belongs: with the case manager and the employee assistance clinician, whose records the programme does not read."
+    },
+    {
+      "cue": "Read the records card: the clinician's file is the clinician's under HIPAA. The employer learns that you called, at most — never what you said.",
+      "id": "what-eap-keeps",
+      "kind": "select",
+      "prompt": "Read the records card: the clinician's file is the clinician's under HIPAA. The employer learns that you called, at most — never what you said.",
+      "target": "records-card",
+      "title": "Know what the employee assistance programme keeps",
+      "why": "The fear that stops most asks is that asking becomes a record the employer reads, and the answer is on the card: the employee assistance programme's clinician keeps their own file under HIPAA, the employer may learn that the service was used and nothing more, and the programme's case manager keeps the rent conversation in a case file the instructor does not open. Knowing where each thing is written down is what lets a person say the true version of the week to the person who can act on it."
+    },
+    {
+      "cue": "Carry the follow-up card to the one-week slot. The case manager will want to know the letter went and the rent moved.",
+      "drag": {
+        "missNote": "Not on the calendar. A follow-up that lives as \"I'll come back\" is one that comes back after the next notice.",
+        "radius": 0.5,
+        "to": "cal-week"
+      },
+      "id": "book-the-follow-up",
+      "kind": "drag",
+      "prompt": "Carry the follow-up card to the one-week slot. The case manager will want to know the letter went and the rent moved.",
+      "target": "followup-card",
+      "title": "Book the follow-up",
+      "why": "One call is a start, not a plan; the follow-up is where the case manager finds out whether the landlord answered the letter and where you find out whether the sleep plan from the shift-work station held. A week is soon enough that a missed step can still be caught and late enough that something has had time to happen. Written on the same calendar as the ask, it turns a hard week into a sequence of appointments, which is what a hard week is supposed to become."
+    },
+    {
+      "cue": "Answer the guide's question. It is never scored, and it is the same question the week was about.",
+      "id": "check-in",
+      "kind": "select",
+      "prompt": "Answer the guide's question. It is never scored, and it is the same question the week was about.",
+      "target": "checkin-board",
+      "title": "Take the check-in",
+      "why": "A trainee who has just asked for help four times in one room — the case manager, the phone, the instructor, the calendar — has done the thing the whole Wellness Resource Center block exists to make ordinary, and the guide's check-in is the last ask, aimed at yourself. The answer stays in your own browser; the peer-support team and the employee assistance line are on the card for the run where the honest answer is \"need a minute\"; and \"steady\" is allowed to be true."
+    }
+  ],
+  "supportLine": "the programme's peer-support team or the employee assistance programme (EAP) line your employer or union carries — and, in a crisis, the 988 Suicide and Crisis Lifeline",
+  "tagline": "The week your own life goes sideways: the signs read on yourself, the stress rated, the plate sorted, each problem matched to its door, one call made and stayed on, the crisis line told apart from the case manager, the instructor told what you need, and the follow-up booked",
+  "title": "SmartCiti.X~ Wellness — Asking for Help and Resources VR",
+  "trade": "Pre-apprentice — the trainee whose week is going sideways",
+  "underwater": null,
+  "weather": "rain"
+}

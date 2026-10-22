@@ -1,0 +1,103 @@
+{
+  "accent": "#4fb6c9",
+  "anchors": [
+    {
+      "id": "ct-tool-crib-west-oakland-robotics-centre",
+      "name": "Tool crib · West Oakland Robotics and Depot Training Centre",
+      "position": [
+        -332.2,
+        98.7
+      ],
+      "stations": [
+        "ad-robot-cell-lockout-and-safe-reentry",
+        "ad-cobot-risk-assessment-and-speed-separation",
+        "ad-depot-tool-control-and-fod-walk"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "west-oakland"
+    },
+    {
+      "id": "west-oakland-robotics-centre",
+      "name": "West Oakland Robotics and Depot Training Centre",
+      "position": [
+        -352,
+        96
+      ],
+      "stations": [
+        "ad-robot-cell-lockout-and-safe-reentry",
+        "ad-cobot-risk-assessment-and-speed-separation",
+        "ad-depot-tool-control-and-fod-walk"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "west-oakland"
+    }
+  ],
+  "certification": "ISO 10218 for the safety of industrial robots, ANSI/RIA R15.06 for their adoption in North America, and the teach-pendant and e-stop rules a cell is commissioned against",
+  "competency": {
+    "id": "robot-control-basics",
+    "kind": "programme",
+    "require": 3,
+    "standards": [
+      "iso-10218",
+      "ansi-r15-06"
+    ],
+    "stations": [
+      "rt-teach-pendant-safe-jogging",
+      "rt-cobot-power-force-limit-check",
+      "rt-speed-separation-monitoring-setup",
+      "rt-robot-estop-recovery-and-restart",
+      "ad-amr-fleet-traffic-and-estop-drill"
+    ],
+    "title": "Jog, bound and restart a robot cell without ever entering its reach unsafely"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "ibew-local6-training",
+    "iso-10218",
+    "ansi-r15-06"
+  ],
+  "id": "robot-control-basics",
+  "ladder": {
+    "atBar": 0,
+    "lessonBar": 75,
+    "lessons": 1320,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 20,
+    "stationsNeeded": 1,
+    "tasks": 100
+  },
+  "name": "Robot Control Basics — Entry Point",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "rt-teach-pendant-safe-jogging",
+      "why": "The shared opener: the pendant in hand, the speed held low and the deadman switch respected."
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-cobot-power-force-limit-check",
+      "why": "Measuring what a cobot may touch before a person works beside it."
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-speed-separation-monitoring-setup",
+      "why": "Setting the zones so the robot slows before a person reaches them."
+    },
+    {
+      "app": "smartcity",
+      "id": "rt-robot-estop-recovery-and-restart",
+      "why": "Bringing a robot back after an e-stop only once the cause is cleared."
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-amr-fleet-traffic-and-estop-drill",
+      "why": "The site stop drilled for a mobile fleet, shared with the ethics entry point."
+    }
+  ],
+  "summary": "The entry point for controlling a robot safely: jog it from the pendant at a safe speed, measure what a cobot may touch, set up speed and separation monitoring, and bring it back after an e-stop. The stations are the robot-control ones and the stop rule they all share; the ROS-specific stations are not written yet, and this pack says so rather than claim them.",
+  "union": "IBEW and IUOE technicians and the operators who teach and supervise a robot cell; taught against the safety standards, not a union apprenticeship"
+}

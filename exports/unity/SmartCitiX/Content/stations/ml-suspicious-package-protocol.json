@@ -1,0 +1,405 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "zone-held",
+    "name": "Zone Held",
+    "note": "A suspicious parcel left untouched, the area cleared and cordoned, the call made per the facility's plan, and the zone held until the all clear"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "OSHA 29 CFR 1910.38 emergency action plans — the facility's own written plan for reporting an emergency, evacuating and accounting for everyone; Cal/OSHA's Injury and Illness Prevention Program, 8 CCR 3203, as the model for a written plant safety programme; Labor Code §6310 protection against retaliation for stopping work and reporting a hazard; APWU training for mail processing clerks and NPMHU training for mail handlers, as the training bodies",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "APWU",
+        "id": "apwu-training",
+        "title": "APWU apprenticeship and training, as a training body"
+      },
+      {
+        "body": "Cal/OSHA",
+        "citedAs": "8 CCR 3203",
+        "id": "cal-osha-3203",
+        "title": "8 CCR 3203 — Injury and Illness Prevention Program"
+      },
+      {
+        "body": "Cal. Labor Code",
+        "citedAs": "Labor Code §6310",
+        "id": "labor-code-6310",
+        "title": "California Labor Code §6310 — no retaliation for reporting an unsafe condition"
+      },
+      {
+        "body": "union",
+        "citedAs": "NPMHU",
+        "id": "npmhu-training",
+        "title": "NPMHU apprenticeship and training, as a training body"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.38",
+        "id": "osha-1910-38",
+        "title": "29 CFR 1910.38 — Emergency action plans"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Postal & Mail Processing",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "hands-off",
+        "name": "Hands Off",
+        "note": "The parcel left exactly where it was found"
+      },
+      {
+        "id": "all-accounted",
+        "name": "All Accounted",
+        "note": "The assembly headcount matched the tour roster"
+      },
+      {
+        "id": "zone-kept",
+        "name": "Zone Kept",
+        "note": "Nobody back in until responders gave the all clear"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-tour",
+        "name": "Clean Tour",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-brief",
+        "name": "Steady Brief",
+        "note": "Held the responder brief the full count, first try"
+      },
+      {
+        "id": "prompt-plan",
+        "name": "Prompt Plan",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "SORT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "New Clerk",
+      "Belt Certified",
+      "Lead Clerk",
+      "Tour Supervisor",
+      "Emergency Plan Certified"
+    ],
+    "system": "Plant Emergency Standard"
+  },
+  "hazards": {
+    "carry-outside-decoy": "An empty tote labelled \"move it to the dock.\" Carrying a suspicious parcel outside feels like getting it away from people, but it means handling it, walking it past everyone between here and the door, and leaving it somewhere nobody is watching. It stays where it was found.",
+    "fan-on-decoy": "A pedestal fan blowing straight across the belt. Moving air across a suspicious item can carry whatever is on it further across the floor — the facility's plan says what to do with fans and air handling, and switching one on here is not it.",
+    "open-to-check-decoy": "A box cutter on the culling table. Opening a parcel to find out whether it's dangerous is exactly the thing the plan exists to prevent — the parcel stays closed and untouched, and finding out what it is belongs to the responders.",
+    "resume-sort-decoy": "A card reading \"dispatch deadline — restart belt at 0600 regardless.\" A deadline doesn't reopen a zone. The belt and the area stay down until responders give the all clear, and the plan protects the people who hold that line."
+  },
+  "id": "ml-suspicious-package-protocol",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "clear-area",
+      "alert": "A coworker turns back toward the belt, saying they'll just carry the parcel out to the dock to get it out of the building.",
+      "cue": "Call them back — nobody handles it.",
+      "delay": 2,
+      "id": "coworker-goes-back",
+      "kind": "Coworker heads back to the belt",
+      "missNote": "The coworker picked the parcel up and carried it across the floor. It is now somewhere nobody is watching, and they are the person who handled it.",
+      "seconds": 12,
+      "target": "callback-horn",
+      "why": "Carrying the parcel out means handling it and walking it past everyone between the belt and the door. Calling the coworker back, firmly and by name, is quicker than arguing about it and keeps the parcel exactly where the responders will expect to find it.",
+      "wrongNote": "Call them back on the horn — the plan's answer is to leave it, not to move it somewhere better."
+    },
+    {
+      "after": "brief-responders",
+      "alert": "A manager arrives and says the dispatch deadline means the belt has to restart now, zone or no zone.",
+      "cue": "The zone stays down until the all clear — point to the plan.",
+      "delay": 2,
+      "id": "manager-restart",
+      "kind": "Pressure to restart the belt",
+      "missNote": "The belt restarted with the parcel still on it and responders not yet arrived. The zone that was cleared is now full of people again.",
+      "seconds": 12,
+      "target": "plan-contact-phone",
+      "why": "A deadline has no bearing on whether the zone is safe. Pointing the manager to the plan contact and holding the zone until responders give the all clear is what the plan asks, and raising a safety concern like this is protected from retaliation.",
+      "wrongNote": "Route it through the plan contact — the belt restarts on the all clear, not on the dispatch schedule."
+    }
+  ],
+  "lateNotes": {
+    "incident-report": "Hold that — the report is written after responders give the all clear, not while the zone is still being held.",
+    "notify-supervisor": "Not yet — move people clear and cordon the zone first, then make the call from outside it."
+  },
+  "name": "Suspicious Package Protocol",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "postal-and-mail-processing"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "conveyorSection",
+        "count": 3,
+        "kit": "equipment"
+      },
+      {
+        "builder": "1.04x1.7x1.24",
+        "count": 2,
+        "kit": "unknown"
+      },
+      {
+        "builder": "2.62x4.22x1.18",
+        "count": 1,
+        "kit": "unknown"
+      }
+    ],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "all-clear-board",
+      "belt-stop-selector",
+      "blocked-exit",
+      "call-per-plan",
+      "callback-horn",
+      "carry-outside-decoy",
+      "cordon-socket",
+      "cordon-stand",
+      "dark-exit-sign",
+      "emergency-plan-board",
+      "evac-pace",
+      "fan-on-decoy",
+      "fan-switch",
+      "hands-off-marker",
+      "handwash-station",
+      "incident-report",
+      "notify-supervisor",
+      "odd-parcel",
+      "open-to-check-decoy",
+      "plan-contact-phone",
+      "resume-sort-decoy",
+      "roster-panel",
+      "step-back-spot",
+      "witness-clipboard"
+    ],
+    "meshes": 208
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the facility's posted emergency plan: who to tell, how to call it in and where the assembly point is.",
+      "id": "plan-review",
+      "kind": "select",
+      "prompt": "Read the facility's posted emergency plan: who to tell, how to call it in and where the assembly point is.",
+      "target": "emergency-plan-board",
+      "title": "Know the plan before the sort starts",
+      "why": "In the first minute of something going wrong nobody reads a binder. Knowing who to tell, how the call is made and where the tour assembles before the sort starts is what lets the right steps happen in the right order when a parcel looks wrong, instead of a crowd forming while people work it out."
+    },
+    {
+      "cue": "Two things on this route would slow an evacuation. Find them.",
+      "id": "exit-scan",
+      "itemNames": {
+        "blocked-exit": "a pallet parked across the exit route",
+        "dark-exit-sign": "an exit sign that isn't lit"
+      },
+      "itemNotes": {
+        "blocked-exit": "An evacuation that has to squeeze around a pallet is slower and more crowded than the plan assumes. It gets moved now, while moving it is a chore rather than an obstacle.",
+        "dark-exit-sign": "An unlit exit sign is a route people won't find in a hurry, especially anyone new on the tour. It gets reported to maintenance before the sort starts, not noticed during an evacuation."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things on this route would slow an evacuation. Find them.",
+      "targets": [
+        "blocked-exit",
+        "dark-exit-sign"
+      ],
+      "title": "Walk the exit route before the belt starts",
+      "why": "The emergency action plan is only as good as the route it sends people along. Finding a blocked aisle or a dark sign before the belt runs means the plan works as written the day it is needed, rather than the day someone finally notices the route no longer matches the map."
+    },
+    {
+      "cue": "Look at the parcel on the culling belt — the stain, the heavy tape, the restrictive markings, no return address. Look, don't touch.",
+      "id": "notice-parcel",
+      "kind": "select",
+      "prompt": "Look at the parcel on the culling belt — the stain, the heavy tape, the restrictive markings, no return address. Look, don't touch.",
+      "target": "odd-parcel",
+      "title": "Notice the parcel that doesn't look right",
+      "why": "Most odd-looking parcels are just badly packed, but the plan asks for the same response every time because the clerk at the belt can't tell the difference by looking. Noticing it and saying so is the whole of the clerk's job at this point — the judgement about what it is belongs to the responders."
+    },
+    {
+      "cue": "Turn the belt's selector to STOP so the parcel travels no further into the plant.",
+      "id": "stop-belt",
+      "kind": "turn",
+      "prompt": "Turn the belt's selector to STOP so the parcel travels no further into the plant.",
+      "target": "belt-stop-selector",
+      "title": "Stop the belt",
+      "turn": {
+        "axis": "z",
+        "label": "BELT",
+        "turns": 0.3
+      },
+      "why": "A running belt carries the parcel toward more people and more machinery, and every metre it travels widens the area that has to be cleared. Stopping the belt at its own control, without reaching for the parcel, keeps the problem in one place."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Keep your hands off the parcel — don't move, open, shake or smell it — then step back from the belt.",
+      "id": "isolate",
+      "itemNames": {
+        "hands-off-marker": "leave it exactly where it is",
+        "step-back-spot": "step back from the belt"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Hands off first, then step back — backing away with the parcel still in hand has already broken the one rule that mattered.",
+      "prompt": "Keep your hands off the parcel — don't move, open, shake or smell it — then step back from the belt.",
+      "targets": [
+        "hands-off-marker",
+        "step-back-spot"
+      ],
+      "title": "Leave it where it is, then step back",
+      "why": "Every time a suspicious parcel is handled, whatever risk it carries is disturbed and spread to whoever touched it. Leaving it exactly where it lies and then putting distance between yourself and it is the plan's first and most important instruction, and it costs nothing to follow."
+    },
+    {
+      "cue": "Walk the people near the belt toward the exit route — steady, not running, not dawdling.",
+      "holdBreakNote": "The pace broke into a rush or stalled — bring it back to a steady walk rather than hurrying people along.",
+      "id": "clear-area",
+      "kind": "track",
+      "prompt": "Walk the people near the belt toward the exit route — steady, not running, not dawdling.",
+      "seconds": 5,
+      "target": "evac-pace",
+      "title": "Move people clear at a calm pace",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "EVAC PACE",
+        "rise": 0.5,
+        "start": 0.5
+      },
+      "why": "People follow the pace of whoever is leading them out. Running spreads alarm and causes falls on a plant floor full of trays and pallets; dawdling leaves people near the parcel longer than they need to be. A steady walk along the known route gets everyone clear in the order the plan expects."
+    },
+    {
+      "cue": "Move the cordon stand across the aisle to the zone boundary the plan marks.",
+      "drag": {
+        "missNote": "The cordon isn't across the aisle — a barrier to one side stops nobody walking in.",
+        "radius": 0.45,
+        "to": "cordon-socket"
+      },
+      "id": "cordon",
+      "kind": "drag",
+      "prompt": "Move the cordon stand across the aisle to the zone boundary the plan marks.",
+      "target": "cordon-stand",
+      "title": "Cordon the zone",
+      "why": "Once the area is empty, the cordon is what keeps it empty — a forklift driver or a clerk from the next belt who didn't hear the call will walk straight in otherwise. A visible barrier does the job without anyone having to stand guard inside the zone."
+    },
+    {
+      "cue": "Switch off the local fans near the belt, as the facility's plan directs.",
+      "id": "air-per-plan",
+      "kind": "select",
+      "prompt": "Switch off the local fans near the belt, as the facility's plan directs.",
+      "target": "fan-switch",
+      "title": "Handle fans and air as the plan directs",
+      "why": "Air moving across the belt can carry anything on the parcel's surface further across the floor. The facility's plan says who controls fans and air handling in an event like this; following it — rather than improvising with doors and fans — keeps the zone the size the responders will expect."
+    },
+    {
+      "cue": "Anyone who was at the belt washes their hands with soap and water at the station outside the cordon.",
+      "id": "wash-hands",
+      "kind": "select",
+      "prompt": "Anyone who was at the belt washes their hands with soap and water at the station outside the cordon.",
+      "target": "handwash-station",
+      "title": "Wash hands at the station outside the zone",
+      "why": "Washing with soap and water is simple, harmless whether or not the parcel turns out to be anything, and it keeps whatever may have been on the belt from travelling on hands to faces, food and phones. It happens outside the zone so nobody lingers near the parcel to do it."
+    },
+    {
+      "cue": "From outside the cordon, tell the supervisor and make the call the facility's plan names.",
+      "id": "notify",
+      "itemNames": {
+        "call-per-plan": "make the call the plan names",
+        "notify-supervisor": "tell the supervisor"
+      },
+      "kind": "sequence",
+      "prompt": "From outside the cordon, tell the supervisor and make the call the facility's plan names.",
+      "targets": [
+        "notify-supervisor",
+        "call-per-plan"
+      ],
+      "title": "Tell the supervisor and make the call per the plan",
+      "why": "The plan decides who calls whom, and following it means responders hear about the parcel once, clearly, from someone who saw it — rather than several times in several versions. Making the call from outside the cordon keeps the caller safe and able to answer follow-up questions."
+    },
+    {
+      "cue": "Read the assembly headcount against the tour roster and commit only when everyone is accounted for.",
+      "gauge": {
+        "green": [
+          0.82,
+          1
+        ],
+        "label": "ACCOUNTED FOR",
+        "missNote": "Committed with names still missing from the roster. Responders were told everyone was out when nobody actually knew.",
+        "speed": 0.55
+      },
+      "id": "assembly-count",
+      "kind": "gauge",
+      "prompt": "Read the assembly headcount against the tour roster and commit only when everyone is accounted for.",
+      "target": "roster-panel",
+      "title": "Account for everyone at the assembly point",
+      "why": "The first thing responders ask is whether anyone is still inside. A headcount matched against the tour roster answers it with a fact rather than a guess, and it is the step an emergency action plan exists to make routine, because a missing person is only found quickly when somebody notices they are missing."
+    },
+    {
+      "cue": "Press and hold the witness clipboard: stay at the assembly point and be ready to tell responders what you saw.",
+      "holdBreakNote": "You left the assembly point before responders had your account. What you saw at the belt went with you.",
+      "id": "brief-responders",
+      "kind": "hold",
+      "prompt": "Press and hold the witness clipboard: stay at the assembly point and be ready to tell responders what you saw.",
+      "seconds": 5,
+      "target": "witness-clipboard",
+      "title": "Stay at the assembly point to brief responders",
+      "why": "The clerk who noticed the parcel is the only person who can describe where it is, what it looked like and who was near it. Staying at the assembly point until responders arrive, rather than drifting back to work or home, puts that account in their hands when it is most useful."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Nobody re-enters until responders give the all clear; then write the incident report.",
+      "id": "close-out",
+      "itemNames": {
+        "all-clear-board": "wait for the responders' all clear",
+        "incident-report": "write the incident report"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "The all clear first, then the report — a report filed while the zone is still held is written about an incident that hasn't ended.",
+      "prompt": "Nobody re-enters until responders give the all clear; then write the incident report.",
+      "targets": [
+        "all-clear-board",
+        "incident-report"
+      ],
+      "title": "Wait for the all clear, then report",
+      "why": "The all clear comes from the responders who assessed the parcel, not from a supervisor under deadline pressure or from time passing. The report is written after, while memories are fresh, so the facility can check whether its plan worked as written and fix what didn't."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "The plan and the exits known before the sort, a parcel that doesn't look right left exactly where it is, the belt stopped, people moved clear, the zone cordoned, the call made per the plan, and nobody back in until responders give the all clear",
+  "title": "SmartCiti.X~ Suspicious Package Protocol VR",
+  "trade": "Mail processing clerk and mail handler — suspicious parcel on the culling belt",
+  "underwater": null,
+  "weather": null
+}

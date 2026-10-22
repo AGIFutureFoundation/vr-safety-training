@@ -1,0 +1,39 @@
+{
+ "map": "orleans",
+ "name": "Orleans Parish",
+ "region": "new-orleans",
+ "frame": "scene: column = x, row = z, over the map's whole field (not north-up)",
+ "bbox": [
+  -90.125,
+  29.9119,
+  -89.98,
+  30.03812
+ ],
+ "px": 512,
+ "tier": "city",
+ "quality": 65,
+ "bytes": 60542,
+ "scenes": [
+  {
+   "tile": "15RYP",
+   "scene": "S2B_15RYP_20260906_1_L2A",
+   "datetime": "2026-09-06T16:55:11.238000Z",
+   "cloud_cover": 9.672096,
+   "local_cloud": 0.039
+  },
+  {
+   "tile": "16RBU",
+   "scene": "S2B_16RBU_20260923_0_L2A",
+   "datetime": "2026-09-23T16:45:13.921000Z",
+   "cloud_cover": 0.222362,
+   "local_cloud": 0.055
+  }
+ ],
+ "date": "2026-09-23",
+ "cloud_cover": 9.672096,
+ "local_cloud": 0.055,
+ "coverage": 1.0,
+ "attribution": "Contains modified Copernicus Sentinel data 2026",
+ "source": "Copernicus Sentinel-2 L2A, AWS Open Data (sentinel-cogs), true colour",
+ "licence": "free and open (Copernicus); credit line required"
+}

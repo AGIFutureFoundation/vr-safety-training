@@ -1,0 +1,400 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "level-and-escorted",
+    "name": "Level and Escorted",
+    "note": "Every shackle pin moused before a bag went on, the load brought level before it lifted, and the whole rise escorted without a hand ever on the load itself"
+  },
+  "category": "Maritime & Ports",
+  "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.421 pre-dive procedures (planning and assessment, hazardous activities nearby) and 29 CFR 1910.422 procedures during the dive (communications, power tools); ADCI International Consensus Standards for Commercial Diving and Underwater Operations, including its guidance on lift bag rigging; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADCI",
+        "citedAs": "ADCI",
+        "id": "adci-consensus-standards",
+        "title": "Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations"
+      },
+      {
+        "body": "union",
+        "citedAs": "Pile Drivers",
+        "id": "carpenters-ictf",
+        "title": "United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.421",
+        "id": "osha-1910-421",
+        "title": "29 CFR 1910.421 — Pre-dive procedures (emergency aid list, planning and assessment of the dive, hazardous activities nearby, the team briefing, equipment inspection and the warning signal)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.422",
+        "id": "osha-1910-422",
+        "title": "29 CFR 1910.422 — Procedures during the dive (water entry and exit, communications, decompression tables, power tools, termination of the dive)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910 Subpart T",
+        "id": "osha-1910-subpart-t",
+        "title": "29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 197 Subpart B",
+        "id": "uscg-46-cfr-197-subpart-b",
+        "title": "46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction"
+      }
+    ]
+  },
+  "district": "bay-underwater",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "moused-before-lift",
+        "name": "Moused Before Lift",
+        "note": "Both shackle pins moused before either bag was clipped on, first time"
+      },
+      {
+        "id": "matched-capacity",
+        "name": "Matched Capacity",
+        "note": "The combined lift matched to the skid's tagged weight inside the band, first time"
+      },
+      {
+        "id": "hands-off-the-load",
+        "name": "Hands Off The Load",
+        "note": "Never a hand on the load itself, never an unmoused pin trusted, never the umbilical left across the bridle, never kept venting blind through dead comms"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-lift",
+        "name": "Clean Lift",
+        "note": "No corrections from the on-bottom report to the check-in"
+      },
+      {
+        "id": "steady-escort",
+        "name": "Steady Escort",
+        "note": "The ascent escorted in band the whole way up"
+      },
+      {
+        "id": "recovered-in-time",
+        "name": "Recovered In Time",
+        "note": "The lift reported inside 80% of par"
+      }
+    ],
+    "currency": "BUOYANCY",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Diver Trainee",
+      "Diver",
+      "Rigging Diver",
+      "Lead Rigging Diver",
+      "Lift Bag Rigging Certified"
+    ],
+    "system": "Two-Bag Lift"
+  },
+  "hazards": {
+    "hand-on-the-load": "You put a hand flat on the skid to steady it as it came up off the silt instead of working the tag line. A rigged load under lift is moving under its own buoyancy, not yours, and a hand caught between the skid and anything it swings against — the pier, the barge's hull, your own knee — is a hand that stays there while the load keeps moving. The tag line is what you guide it with; your hands never go on the load itself.",
+    "skip-mousing": "You clipped a lift bag onto the shackle before the pin was moused with wire. A shackle pin only stays screwed in on its own thread, and the shock of a bag taking up slack, or the skid swinging once it clears the silt, is exactly the kind of jolt that backs an unmoused pin out. The wire is what keeps the pin in the shackle after the thread lets go, and it goes on before any load, not after the lift is already under way.",
+    "umbilical-across-bridle": "You worked the far shackle with your umbilical draped straight across the bridle's near leg. The moment that leg comes under load, anything lying across it gets pinned there, and an umbilical trapped under a loaded sling leg on a rig that is about to lift is not something you can free by hand once the weight comes on. The umbilical is walked clear of both legs before either shackle is touched.",
+    "vent-blind-no-comms": "You kept working the dump valve on your own judgement after the comms went dead partway up the escort. Venting a lift bag is a two-way decision — the tender at the surface can see how fast the bag is actually closing on the boat, which you cannot from underneath it — and a diver venting blind on a guess is as likely to dump too much and lose the lift as too little. When the comms drop mid-escort, you hold the ascent rate you have and wait, you do not keep adjusting alone."
+  },
+  "id": "uw-lift-bag-rigging-and-object-recovery",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "guide-liftoff",
+      "alert": "The skid has shifted inside its bridle as it broke free — it is hanging canted and swinging toward the near leg.",
+      "cue": "Get back to the turnbuckle and relevel the load before it swings any further.",
+      "delay": 2,
+      "id": "load-slides-in-bridle",
+      "kind": "Skid slides inside the bridle as it clears the silt",
+      "missNote": "You tried to push the skid straight with your hands instead of reaching the turnbuckle; it kept swinging and dragged the tag line across the near leg before you got it releveled.",
+      "seconds": 14,
+      "target": "relevel-point",
+      "why": "A load that starts sliding inside its own bridle keeps shifting weight onto whichever leg is taking more of it, and a leg carrying more than its share is a leg closer to being overloaded the longer the slide goes uncorrected. The turnbuckle is the same tool that levelled it on the bottom, and reaching it again now is faster than trying to muscle the skid straight by hand.",
+      "wrongNote": "The turnbuckle — relevel the load properly rather than pushing the skid straight by hand."
+    },
+    {
+      "after": "escort-ascent",
+      "alert": "The lead bag's air has expanded faster than the rise was planned for — the rig is accelerating and starting to outrun you.",
+      "cue": "Get to the quick-vent toggle and spill air fast before the rig gets further ahead of you.",
+      "delay": 2,
+      "id": "bag-overtakes-fill",
+      "kind": "Lead bag starts to run on the way up",
+      "missNote": "You tried to swim up alongside the rig instead of venting it; the bag kept accelerating and the rig reached the surface well ahead of you, out of anyone's control on the way.",
+      "seconds": 14,
+      "target": "quick-vent-toggle",
+      "why": "A bag that starts to outrun its escort only gets faster from there, because the same expansion that got it moving keeps compounding every metre it climbs, and a diver who chases it instead of venting is trying to out-swim a problem that is accelerating while they are not. The quick-vent toggle dumps air fast enough to catch it before it is gone past where you can reach it at all.",
+      "wrongNote": "The quick-vent toggle — spill air fast rather than trying to catch up to the rig by swimming."
+    }
+  ],
+  "lateNotes": {
+    "guide-liftoff": "The skid comes off the silt once the cable and the umbilical are both confirmed clear of the bridle — not while either one is still lying across a leg.",
+    "lift-bag-one": "The first bag goes on once both shackles are set and moused — never onto a bridle leg that still has a bare pin.",
+    "lift-capacity-gauge": "The fill is matched to the tag once both bags are actually clipped on — not estimated before the rigging is even finished."
+  },
+  "name": "Lift Bag Rigging & Object Recovery",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "ascent-escort",
+      "bridle-leg-one",
+      "bridle-leg-two",
+      "bridle-turnbuckle",
+      "cable-near-bridle",
+      "guide-liftoff",
+      "hand-on-the-load",
+      "lift-bag-one",
+      "lift-bag-two",
+      "lift-capacity-gauge",
+      "quick-vent-toggle",
+      "relevel-point",
+      "shackle-attach",
+      "shackle-mouse",
+      "skid-lift-eyes",
+      "skip-mousing",
+      "stage-checkin",
+      "trailing-power-cable",
+      "ulbr-comms",
+      "umbilical-across-bridle",
+      "umbilical-near-bridle",
+      "vent-blind-no-comms",
+      "vent-valve-checkpoint"
+    ],
+    "meshes": 163
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Call the supervisor: on the bottom at the skid, off the stage, feeling good, and starting the rig.",
+      "id": "report-on-bottom",
+      "kind": "select",
+      "prompt": "Call the supervisor: on the bottom at the skid, off the stage, feeling good, and starting the rig.",
+      "target": "ulbr-comms",
+      "title": "Report on the bottom at the skid",
+      "why": "The supervisor at the panel is about to plan a lift around your word alone, and the on-bottom report is what tells them the dive has actually reached the skid and is ready to start rigging. It is also the comms check that proves the voice circuit works before two loaded lift bags and a swinging skid are put in motion depending on it."
+    },
+    {
+      "cue": "Before rigging anything: find the skid's own lift eyes, and look for any cable or line still trailing from it.",
+      "id": "locate-and-assess",
+      "itemNames": {
+        "skid-lift-eyes": "pair of lift eyes cast into the skid",
+        "trailing-power-cable": "power cable still trailing from the skid"
+      },
+      "itemNotes": {
+        "skid-lift-eyes": "Two forged eyes built into the skid's frame for exactly this — the only points on it rated to take a rigged load.",
+        "trailing-power-cable": "A length of armoured cable still connected to the skid, running off into the silt toward wherever it parted from the barge."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Before rigging anything: find the skid's own lift eyes, and look for any cable or line still trailing from it.",
+      "targets": [
+        "skid-lift-eyes",
+        "trailing-power-cable"
+      ],
+      "title": "Find the lift eyes and anything still attached",
+      "why": "A bridle only does its job clipped to points the skid was actually built to be lifted by — anywhere else on the frame can bend or tear loose under load — and a trailing cable found now is a cable that gets accounted for before it becomes a surprise halfway through the lift. Both are worth knowing before a single shackle goes on."
+    },
+    {
+      "cue": "Shackle a bridle leg through each lift eye and screw the pins home first, then wire-mouse both pins so neither can back out.",
+      "id": "rig-bridle",
+      "itemNames": {
+        "shackle-attach": "shackles pinned through both lift eyes",
+        "shackle-mouse": "both pins moused with wire"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — both pins are screwed home before either one gets moused, and both get moused before any bag goes on.",
+      "prompt": "Shackle a bridle leg through each lift eye and screw the pins home first, then wire-mouse both pins so neither can back out.",
+      "targets": [
+        "shackle-attach",
+        "shackle-mouse"
+      ],
+      "title": "Pin the shackles, then mouse both of them",
+      "why": "A pin has to actually be through the eye and screwed home before mousing it means anything, so the order is pin first, wire second — never the other way round. Both pins get moused before either leg takes a bag, because a bridle is only as safe as its weakest shackle, and a rig checked as 'good enough' with one pin still bare is a rig that fails exactly where nobody looked."
+    },
+    {
+      "cue": "Bring the first lift bag over and clip it onto the bridle leg nearest the skid's marked heavy end.",
+      "drag": {
+        "missNote": "Not on the bridle leg — the bag clips to the moused shackle, not anywhere else on the rig.",
+        "radius": 0.5,
+        "to": "bridle-leg-one"
+      },
+      "id": "clip-bag-one",
+      "kind": "drag",
+      "prompt": "Bring the first lift bag over and clip it onto the bridle leg nearest the skid's marked heavy end.",
+      "target": "lift-bag-one",
+      "title": "Clip the first lift bag to its bridle leg",
+      "why": "Two bags share a load unevenly if they are not placed with some thought for where the weight actually sits, and starting with the heavier end gives that leg the lift it will need first rather than leaving it to the second bag to make up the difference. A bag clipped on an already-moused leg is a bag clipped to something proven, not to a shackle nobody has checked yet."
+    },
+    {
+      "cue": "Bring the second lift bag over and clip it onto the remaining bridle leg.",
+      "drag": {
+        "missNote": "Not on the second leg — both bags have to be rigged before either one takes any air.",
+        "radius": 0.5,
+        "to": "bridle-leg-two"
+      },
+      "id": "clip-bag-two",
+      "kind": "drag",
+      "prompt": "Bring the second lift bag over and clip it onto the remaining bridle leg.",
+      "target": "lift-bag-two",
+      "title": "Clip the second lift bag to the other leg",
+      "why": "One bag alone was never rated for this skid's weight, which is the entire reason the bridle has two legs instead of one — a two-bag lift only works as a two-bag lift once both bags are actually rigged and ready to take air together, not one now and the other found on the way to the surface."
+    },
+    {
+      "cue": "Read the weight stamped on the skid's tag, then crack air into both bags together and commit once their combined lift matches it.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "COMBINED LIFT VS TAGGED WEIGHT",
+        "speed": 0.7
+      },
+      "id": "match-lift-capacity",
+      "kind": "gauge",
+      "prompt": "Read the weight stamped on the skid's tag, then crack air into both bags together and commit once their combined lift matches it.",
+      "target": "lift-capacity-gauge",
+      "title": "Match the combined fill to the skid's tagged weight",
+      "why": "Underfilled, the two bags together still cannot break the skid free of the silt no matter how long you wait; overfilled, the combined lift keeps growing as both bags expand on the way up and the rig accelerates past anyone's control. Matching the fill to the actual tagged weight, not a guess at how heavy the skid looks, is what keeps the lift exactly as strong as the job needs and no stronger."
+    },
+    {
+      "cue": "Turn the bridle's equalizing turnbuckle until the skid hangs level between its two bags rather than canted to one side.",
+      "id": "level-the-load",
+      "kind": "turn",
+      "prompt": "Turn the bridle's equalizing turnbuckle until the skid hangs level between its two bags rather than canted to one side.",
+      "target": "bridle-turnbuckle",
+      "title": "Work the turnbuckle to bring the skid level",
+      "turn": {
+        "label": "BRIDLE TURNBUCKLE",
+        "turns": 0.6
+      },
+      "why": "A skid rigged tilted lifts tilted, and a tilted load slides inside its own bridle as it rises, shifting weight onto whichever leg is now taking more of it than it was rigged for. Levelling it here, on the bottom, before anything is under way, is far easier than trying to correct a load that has already started shifting halfway up."
+    },
+    {
+      "cue": "Before signalling ready: check the cable is clear of both legs, and check your own umbilical has not drifted near them either.",
+      "id": "route-hazards",
+      "itemNames": {
+        "cable-near-bridle": "power cable lying across a bridle leg",
+        "umbilical-near-bridle": "your own umbilical near the rigging"
+      },
+      "itemNotes": {
+        "cable-near-bridle": "The trailing power cable found earlier, now lying directly across the near bridle leg where it will be pinned the instant that leg takes weight.",
+        "umbilical-near-bridle": "Your own umbilical, close enough to the bridle's legs that a wrong move before the lift starts could drape it across one of them."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Before signalling ready: check the cable is clear of both legs, and check your own umbilical has not drifted near them either.",
+      "targets": [
+        "cable-near-bridle",
+        "umbilical-near-bridle"
+      ],
+      "title": "Check nothing is lying across the rig before it lifts",
+      "why": "Everything that could get pinned under a bridle leg has to be found and moved before the legs take any weight, because there is no freeing anything from under a loaded sling leg once the lift is under way. This is the last check before the skid comes off the silt, which is exactly why it is worth doing slowly rather than skipping straight to the lift."
+    },
+    {
+      "cue": "Hold the tag line steady, well clear of the bridle, while the skid breaks free of the silt and settle to watch it hang level.",
+      "holdBreakNote": "You let go of the tag line before the skid settled level — it needs steering through those first unsteady seconds, not left to swing on its own.",
+      "id": "guide-liftoff",
+      "kind": "hold",
+      "prompt": "Hold the tag line steady, well clear of the bridle, while the skid breaks free of the silt and settle to watch it hang level.",
+      "seconds": 5,
+      "target": "guide-liftoff",
+      "title": "Guide the skid off the silt on the tag line",
+      "why": "The tag line lets you steer the skid's swing without ever putting a hand on the load itself, which matters most in the first few seconds off the bottom, when suction from the silt can let go unevenly and tip the load before the bags have found their own balance. Holding the line steady, not the skid, is what keeps your hands clear of whatever the load does next."
+    },
+    {
+      "cue": "Rise alongside the skid without touching it, watching how fast it is closing on the surface and ready to signal for a vent the moment it quickens.",
+      "holdBreakNote": "The closing rate broke out of band — the rig stalled or started to run. Signal for a vent or a touch more air and bring it back to a steady rise.",
+      "id": "escort-ascent",
+      "kind": "track",
+      "prompt": "Rise alongside the skid without touching it, watching how fast it is closing on the surface and ready to signal for a vent the moment it quickens.",
+      "seconds": 6,
+      "target": "ascent-escort",
+      "title": "Escort the rise, watching the closing rate",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "CLOSING RATE ON THE SURFACE",
+        "rise": 0.56,
+        "start": 0.14
+      },
+      "why": "A lift bag's air expands as it rises, so a rig that looked matched to the load at the bottom gets more buoyant, not less, every metre it climbs — the escort's whole job is catching that acceleration early, while a vent still brings it back to a controlled rate, rather than after it has already gathered speed near the surface where a runaway load does the most damage."
+    },
+    {
+      "cue": "At the planned stop, open the dump valve on the lead bag until the rise eases to a crawl, then close it again.",
+      "id": "vent-at-stop",
+      "kind": "turn",
+      "prompt": "At the planned stop, open the dump valve on the lead bag until the rise eases to a crawl, then close it again.",
+      "target": "vent-valve-checkpoint",
+      "title": "Work the vent at the safety stop",
+      "turn": {
+        "label": "DUMP VALVE",
+        "turns": 0.5
+      },
+      "why": "The safety stop exists to slow a rising load down deliberately, on purpose, rather than trusting it to arrive at the surface at whatever speed the last few metres happened to build to. A short, controlled vent here costs a little of the lift; skipping it costs whoever is standing by at the rail when a two-bag rig arrives at full speed."
+    },
+    {
+      "cue": "Tell the supervisor: skid rigged and lifted level, the trailing cable found and left for the work plan, and the closing rate managed the whole way up.",
+      "id": "report-lift",
+      "kind": "select",
+      "prompt": "Tell the supervisor: skid rigged and lifted level, the trailing cable found and left for the work plan, and the closing rate managed the whole way up.",
+      "target": "ulbr-comms",
+      "title": "Report the lift and the cable left behind",
+      "why": "The barge crew waiting at the surface plan the next few minutes entirely around this report, from where to stand as the rig breaks the surface to what to do with a cable still running off into the silt. Giving it now, while the lift is still fresh, is worth more to them than a summary pieced together after the gear is already back aboard."
+    },
+    {
+      "cue": "Clip on at the stage and tell the supervisor how the rig behaved on the way up, including the moment it slid inside the bridle and whatever the comms drop cost you, before you signal ready to come up.",
+      "id": "check-in",
+      "kind": "select",
+      "prompt": "Clip on at the stage and tell the supervisor how the rig behaved on the way up, including the moment it slid inside the bridle and whatever the comms drop cost you, before you signal ready to come up.",
+      "target": "stage-checkin",
+      "title": "Check in at the stage before leaving the water",
+      "why": "A load that shifted in its bridle partway up and a stretch of dead comms mid-escort are both the kind of thing worth saying honestly rather than leaving out because the lift ended up fine anyway, and the ascent itself only happens once the supervisor has heard it and called it. The Pile Drivers Local 34 member assistance line is there for whatever a debrief on the deck does not fully settle."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — Pile Drivers Local 34 — with the employer's employee assistance line behind it",
+  "tagline": "The skid rigged for two bags: on-bottom report, the lift eyes and a trailing power cable found, the bridle's shackles set and moused in order, a bag clipped to each leg, the fill matched against the skid's tagged weight, the turnbuckle worked to bring it level, the cable and the umbilical checked clear before anything lifts, the skid guided off the silt on the tag line through a slide inside the bridle, the rise escorted while a bag threatens to run, the vent worked at the safety stop, the lift reported, and the crew checked in",
+  "title": "SmartCiti.X~ Lift Bag Rigging & Object Recovery VR",
+  "trade": "Pile Drivers Local 34 commercial diver rigging a two-bag lift on a dropped hydraulic power unit skid, with the dive supervisor on the comms, the tender on the umbilical and the standby diver dressed at the ladder",
+  "underwater": {
+    "bottomTimeSeconds": 720,
+    "depthLabel": "Per dive plan"
+  },
+  "weather": "clear"
+}

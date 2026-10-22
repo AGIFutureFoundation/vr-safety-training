@@ -1,0 +1,376 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "cool-under-fire",
+    "name": "Cool Under Fire",
+    "note": "A clean line walk and a burn drill run to the full twenty minutes"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "UNITE HERE Local 2 line cooks; OSHA 29 CFR 1910.151 medical services and first aid; Cal/OSHA's general industry safety orders; NFPA 96 ventilation control and fire protection of commercial cooking operations, especially the grease baffle filters a flambé never gets lit near; NSF/ANSI 4 commercial cooking equipment; the American Burn Association's first-aid guidance for thermal burns",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 96",
+        "id": "nfpa-96",
+        "title": "NFPA 96 — Ventilation Control and Fire Protection of Commercial Cooking Operations"
+      },
+      {
+        "body": "NSF",
+        "citedAs": "NSF/ANSI 4",
+        "id": "nsf-ansi-4",
+        "title": "NSF/ANSI 4 — Commercial cooking, rethermalization and powered hot food holding equipment"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.151",
+        "id": "osha-1910-151",
+        "title": "29 CFR 1910.151 — Medical services and first aid"
+      },
+      {
+        "body": "union",
+        "citedAs": "UNITE HERE",
+        "id": "unite-here-training",
+        "title": "UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Culinary & Hospitality",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "never-ice-butter",
+        "name": "Never Ice, Never Butter",
+        "note": "Never reached for either on a burn"
+      },
+      {
+        "id": "clean-line-walk",
+        "name": "Clean Line Walk",
+        "note": "No corrections anywhere on the line"
+      },
+      {
+        "id": "full-twenty",
+        "name": "The Full Twenty",
+        "note": "Held the cool-water drill for the full count"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "line-ready-fast",
+        "name": "Line Ready Fast",
+        "note": "Set up inside 80% of par"
+      },
+      {
+        "id": "one-pass-line",
+        "name": "One-Pass Line",
+        "note": "Line walk clean on the first pass"
+      },
+      {
+        "id": "seven-straight-line",
+        "name": "Seven Straight",
+        "note": "Seven correct actions in a row"
+      }
+    ],
+    "currency": "SEARS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Line Trainee",
+      "Line Cook",
+      "Sauté Station",
+      "Line Lead",
+      "Cool Under Fire Certified"
+    ],
+    "system": "Cool Under Fire"
+  },
+  "hazards": {
+    "butter-dish": "Butter on a burn is a line-cook myth that will not die: it does nothing to stop the burn going deeper, it seals heat in rather than drawing it out, and it hands the clinic a wound they now have to clean grease out of before they can even look at it.",
+    "filter-flambe": "That's directly under the grease baffle filters. A flambé's open flame reaching a filter loaded with rendered grease is exactly the fire NFPA 96 is written to keep out of a duct — the pan gets pulled clear of the hood before it gets lit, not lit and then moved.",
+    "ice-bucket": "That's the ice bucket. Ice on a burn drives the tissue temperature down hard and fast enough to add a cold-injury on top of the heat injury already there — the American Burn Association calls for cool running water, never ice, for exactly this reason.",
+    "wet-pan-oil": "That pan still has water beading in it. Oil poured into a wet pan spatters the instant it hits the water, and it spatters upward, toward the hand holding the bottle — the pan gets wiped bone dry before anything goes in it, every time."
+  },
+  "id": "grill-line-burns",
+  "indoor": "kitchen",
+  "interrupts": [
+    {
+      "after": "food-to-pan",
+      "alert": "A runner is jogging up behind you with a stock box, and you're about to swing a hot sauté pan off the flame toward the pass.",
+      "cue": "Something is closing on your back. Call it before you turn.",
+      "delay": 4,
+      "id": "runner-behind",
+      "kind": "Blind approach",
+      "missNote": "You swung the pan without calling it. The runner walked into the space you were already moving through, and a hot pan meeting a moving person is how a kitchen burn becomes two people's injury instead of a near miss.",
+      "seconds": 11,
+      "target": "runner-alert",
+      "why": "A pan coming off an open flame moves through the exact space behind a cook that they can't see, and the call is what buys the half-second a runner needs to stop rather than walk into a pan already swinging toward the pass.",
+      "wrongNote": "It's the runner closing on your back. Call it now, before the pan starts moving."
+    },
+    {
+      "after": "flambe-ignite",
+      "alert": "A hand is reaching for the wet towel hanging by the burner to grab the flambé pan's handle.",
+      "cue": "That towel is wet. The dry stack is right there.",
+      "delay": 3,
+      "id": "wet-towel-grab",
+      "kind": "Reach hazard",
+      "missNote": "The wet towel closed around a hot handle. Steam came off it in the same second the hand did, and the burn drill that follows this station exists because of exactly this reach.",
+      "seconds": 10,
+      "target": "dry-towel-rack",
+      "why": "A wet towel conducts heat straight through to the skin almost as fast as no towel at all — the water in it flashes to steam against a hot handle, and what should have been a routine grab becomes the burn this whole drill exists to answer.",
+      "wrongNote": "It's the wet towel by the burner. Grab the dry one off the rack instead — a hot handle through a wet towel is a burn every time."
+    }
+  ],
+  "lateNotes": {
+    "burn-station-sink": "Not yet — the cool-water drill starts once the burn is actually identified, not before.",
+    "cover-clean": "The dressing goes on after the full cool-water count, not instead of it."
+  },
+  "name": "Grill Line Burns",
+  "parSeconds": 245,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "culinary-kitchen"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "burn-chart",
+      "burn-station-sink",
+      "butter-dish",
+      "call-behind",
+      "call-hot",
+      "clinic-referral",
+      "close-board",
+      "cover-clean",
+      "dry-pan",
+      "dry-towel-rack",
+      "dry-towel-stack",
+      "filter-flambe",
+      "flambe-clear-zone",
+      "flambe-pan",
+      "handle-out",
+      "ice-bucket",
+      "incident-board",
+      "missing-drip-pan",
+      "oil-pan",
+      "protein-tray",
+      "runner-alert",
+      "shift-board",
+      "wet-pan-oil",
+      "wet-towel-near-flame"
+    ],
+    "meshes": 151
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence"
+  ],
+  "steps": [
+    {
+      "cue": "Check tonight's line assignment and who is running the flambé station.",
+      "id": "shift-board",
+      "kind": "select",
+      "prompt": "Check tonight's line assignment and who is running the flambé station.",
+      "target": "shift-board",
+      "title": "Read the shift board",
+      "why": "The board tells you who is on the grill, who is on sauté, and whether flambé service is running tonight at all — a line cook stepping onto a station cold, not knowing whether an open flame is coming off it in twenty minutes, is exactly how a call of 'behind' arrives at somebody who wasn't expecting one."
+    },
+    {
+      "cue": "Three things on this line are not right. Find them before the first ticket comes in.",
+      "decoyNotes": {
+        "dry-towel-stack": "Those towels are dry and stacked where they belong. Leave them."
+      },
+      "id": "line-walk",
+      "itemNames": {
+        "handle-out": "the pan handle turned into the aisle",
+        "missing-drip-pan": "the gap where the fryer's drip pan should be",
+        "wet-towel-near-flame": "the wet towel draped by the burner"
+      },
+      "itemNotes": {
+        "handle-out": "A handle sticking into the walkway is a handle anybody passing can catch with a hip or an elbow, and a full pan comes with it.",
+        "missing-drip-pan": "No drip pan under the fryer means the floor under it is collecting grease instead, and a grease-slicked tile at a station full of open flame is a slip that lands somebody in the fire, not just on the ground.",
+        "wet-towel-near-flame": "A damp towel left by an open flame is the towel somebody grabs half a second from now without checking — and a wet towel over a hot handle turns to steam against your palm before you can let go."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things on this line are not right. Find them before the first ticket comes in.",
+      "targets": [
+        "handle-out",
+        "wet-towel-near-flame",
+        "missing-drip-pan"
+      ],
+      "title": "Walk the line before service",
+      "why": "Every one of these gets checked with your own eyes before service starts, because none of them look wrong from across the kitchen — a handle out, a wet towel and a missing drip pan are all things you only actually notice by walking the station, and by then it may already be somebody's hand."
+    },
+    {
+      "cue": "Take the pan that's been wiped bone dry, not the one still beaded with rinse water.",
+      "id": "dry-pan-check",
+      "kind": "select",
+      "prompt": "Take the pan that's been wiped bone dry, not the one still beaded with rinse water.",
+      "target": "dry-pan",
+      "title": "Confirm the sauté pan is dry",
+      "why": "A pan straight off the rack can still be carrying rinse water nobody would call wet from across the station — oil hitting even a few droplets of it spatters instantly, and it spatters toward whoever is standing over the pan pouring."
+    },
+    {
+      "cue": "Bring the oil up and commit once it's shimmering, before it starts smoking.",
+      "gauge": {
+        "green": [
+          0.55,
+          0.74
+        ],
+        "label": "OIL — SHIMMER POINT",
+        "missNote": "Off the window — too cold does nothing to the food and too far past shimmer is already smoking. Bring it back before anything goes in.",
+        "speed": 0.7
+      },
+      "id": "oil-temp",
+      "kind": "gauge",
+      "prompt": "Bring the oil up and commit once it's shimmering, before it starts smoking.",
+      "target": "oil-pan",
+      "title": "Heat the oil to shimmer, not smoke",
+      "why": "Shimmering oil is at temperature and ready for food; smoking oil is past its flash point and already breaking down, which is the difference between a sear and a flare the moment the protein hits the pan. The window between the two is short enough that this is read by watching the pan, not by guessing at a burner setting."
+    },
+    {
+      "cue": "Pick up the portioned tray and set it into the hot oil.",
+      "drag": {
+        "missNote": "Not into the pan — set the tray directly into the hot oil, not onto the rail beside it.",
+        "radius": 0.5,
+        "to": "oil-pan"
+      },
+      "id": "food-to-pan",
+      "kind": "drag",
+      "prompt": "Pick up the portioned tray and set it into the hot oil.",
+      "target": "protein-tray",
+      "title": "Carry the protein to the hot pan",
+      "why": "The protein goes into the pan the moment the oil is at temperature, not before and not a long minute after — held too long next to a pan that's already shimmering, it's oil breaking down for nothing, and dropped in too early it never sears at all."
+    },
+    {
+      "cue": "Call \"hot\" pulling the sheet pan from the oven, then \"behind\" carrying it back through the aisle.",
+      "id": "sheet-pan-calls",
+      "itemNames": {
+        "call-behind": "\"behind\" — moving through the aisle",
+        "call-hot": "\"hot\" — pulling the sheet pan"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Call \"hot\" coming out of the oven, then \"behind\" moving through the aisle — the order matches the two moments someone else can't see you coming.",
+      "prompt": "Call \"hot\" pulling the sheet pan from the oven, then \"behind\" carrying it back through the aisle.",
+      "targets": [
+        "call-hot",
+        "call-behind"
+      ],
+      "title": "Call it through the kitchen",
+      "why": "Nobody behind you can see a sheet pan coming out of an oven at shoulder height, and nobody in front of you can see you closing on their back — the two calls cover the two blind spots in order, the oven first and the aisle second, because that is the order your body actually moves through them."
+    },
+    {
+      "cue": "Move the flambé pan onto the open flat-top space, clear of the baffle filters overhead.",
+      "drag": {
+        "missNote": "Still under the hood line. Slide the pan out to the open flat-top before lighting anything.",
+        "radius": 0.5,
+        "to": "flambe-clear-zone"
+      },
+      "id": "flambe-clear",
+      "kind": "drag",
+      "prompt": "Move the flambé pan onto the open flat-top space, clear of the baffle filters overhead.",
+      "target": "flambe-pan",
+      "title": "Clear the flambé off the hood",
+      "why": "Grease-laden filters sit right over the range for a reason that has nothing to do with a flambé — they exist to keep the duct clean, and an open flame reaching one of them lights the one thing in the room built out of accumulated fat. The pan moves to open space before it moves to fire."
+    },
+    {
+      "cue": "Tilt the pan to the burner and hold the flame steady for the full count, clear of the hood.",
+      "holdBreakNote": "You pulled the pan back before the flame settled. A flambé cut short and re-lit is more fuel vapour meeting the same flame a second time, closer to your hand than the first.",
+      "id": "flambe-ignite",
+      "kind": "hold",
+      "prompt": "Tilt the pan to the burner and hold the flame steady for the full count, clear of the hood.",
+      "seconds": 5,
+      "target": "flambe-pan",
+      "title": "Hold the flambé under control",
+      "why": "A flambé's flame is controlled by the angle of the pan and how long it's held there, not by how dramatic it looks — held too long or tipped too far, the flame reaches higher than the cook standing over it planned for, over a station full of fabric and other people's hands."
+    },
+    {
+      "cue": "Hold the burned hand under cool running water for the drill count.",
+      "holdBreakNote": "You pulled the hand out early. A burn that stops cooling before the full twenty minutes is a burn that keeps damaging tissue underneath skin that already looks fine on top.",
+      "id": "cool-water",
+      "kind": "hold",
+      "prompt": "Hold the burned hand under cool running water for the drill count.",
+      "seconds": 8,
+      "target": "burn-station-sink",
+      "title": "Run the burn under cool water",
+      "why": "The American Burn Association calls for cool — not cold, not iced — running water for a full twenty minutes, because that is how long it actually takes to carry heat out of the tissue below the skin's surface. This drill compresses the clock, but the standard it is teaching does not: on a real burn, the full twenty minutes is not optional."
+    },
+    {
+      "cue": "Read the burn against the chart and commit once you've placed it correctly for the clinic decision.",
+      "gauge": {
+        "green": [
+          0.6,
+          0.82
+        ],
+        "label": "BURN — SIZE / DEPTH",
+        "missNote": "Not read correctly against the chart — a burn this size on a hand is a clinic referral, not a wrap-and-return-to-station call.",
+        "speed": 0.6
+      },
+      "id": "burn-assess",
+      "kind": "gauge",
+      "prompt": "Read the burn against the chart and commit once you've placed it correctly for the clinic decision.",
+      "target": "burn-chart",
+      "title": "Read the size and depth",
+      "why": "OSHA's first-aid standard draws the line at how a burn is read, not how it feels: a small superficial burn is managed on-site, but anything partial-thickness larger than a few inches, or anything on the hand at all, is a clinic referral. Reading it correctly is what decides which of those two happens next."
+    },
+    {
+      "cue": "Cover the burn loosely with a clean, dry dressing, then confirm the clinic referral the size and depth call for.",
+      "id": "burn-response",
+      "itemNames": {
+        "clinic-referral": "clinic referral",
+        "cover-clean": "clean, dry dressing"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Cover it first, then refer it — a referral means nothing if the open burn travels there uncovered, and a dressing means nothing if it's the last thing that happens.",
+      "prompt": "Cover the burn loosely with a clean, dry dressing, then confirm the clinic referral the size and depth call for.",
+      "targets": [
+        "cover-clean",
+        "clinic-referral"
+      ],
+      "title": "Cover the burn, then refer it",
+      "why": "The dressing protects the burn on the way to care, it is not the care itself — covering it and sending the worker back to the line without the referral the assessment already called for is treating the bandage as the endpoint instead of the trip to the clinic it's meant to get them to."
+    },
+    {
+      "cue": "Record the burn, the cause and the response on the incident report.",
+      "id": "incident-log",
+      "kind": "select",
+      "prompt": "Record the burn, the cause and the response on the incident report.",
+      "target": "incident-board",
+      "title": "Log the incident",
+      "why": "OSHA's recordkeeping rule and the union's own safety committee both read this log, and a burn that never gets written up is a repeat waiting to happen on the same station with nobody able to point at the pattern — this is the only record that a wet towel by this burner has already caused a problem once."
+    },
+    {
+      "cue": "Confirm the drip pans are emptied and the floor mats are down and clean before you clock out.",
+      "id": "close-check",
+      "kind": "select",
+      "prompt": "Confirm the drip pans are emptied and the floor mats are down and clean before you clock out.",
+      "target": "close-board",
+      "title": "Reset the line for the next shift",
+      "why": "A grease-slicked tile under tomorrow's opening cook is the same fall risk it was under you tonight, and Cal/OSHA's duty to keep a walking surface clean and dry doesn't end when your shift does — the mats and drip pans are reset for whoever is standing on this line next, not just for the rest of tonight."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "The grill and sauté line: handles in, a dry pan, calls through the aisle, a flambé clear of the filters, and the burn drill run cold",
+  "title": "SmartCiti.X~ Grill Line Burns VR",
+  "trade": "Line cook — grill / sauté",
+  "underwater": null,
+  "weather": null
+}

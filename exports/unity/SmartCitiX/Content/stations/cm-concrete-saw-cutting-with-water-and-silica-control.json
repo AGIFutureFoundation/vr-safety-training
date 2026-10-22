@@ -1,0 +1,370 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "wet-every-cut",
+    "name": "Wet Every Cut",
+    "note": "Every joint cut with water on the blade, a guard fitted and the air watched in the enclosed space — first time"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "OPCMIA Local 300 cement mason apprenticeship as a training body; OSHA 29 CFR 1926.1153 respirable crystalline silica — Table 1's wet-cutting method for saws; OSHA 29 CFR 1926 Subpart Q concrete and masonry construction; OSHA 29 CFR 1910.212 machine guarding, as applied to the saw's blade guard; ANSI/ASSP A10.9 concrete and masonry construction safety requirements; the cutting plan and the equipment manufacturer's manual for depth and water flow",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "OPCMIA",
+        "id": "opcmia-local-300",
+        "title": "OPCMIA Local 300 - cement masons and plasterers apprenticeship, as a training body"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.1153",
+        "id": "osha-1926-1153",
+        "title": "29 CFR 1926.1153 — Respirable crystalline silica in construction"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction & Structural Trades",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "checked-before-charge",
+        "name": "Checked Before It Turns",
+        "note": "The saw walk found the loose guard and the empty tank before the blade ever spun, first time"
+      },
+      {
+        "id": "never-dry",
+        "name": "Never Dry, Never Blind To The Air",
+        "note": "Never cut dry, never worked with the guard off, never ran the saw past a CO alarm, never a cord in the slurry"
+      },
+      {
+        "id": "on-the-line",
+        "name": "On The Line",
+        "note": "Water flow and cutting depth both held inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-joint",
+        "name": "Clean Joint",
+        "note": "No corrections through the whole cut"
+      },
+      {
+        "id": "steady-cut",
+        "name": "Steady Cut",
+        "note": "The cutting depth held for the whole joint"
+      },
+      {
+        "id": "joint-by-break",
+        "name": "Joint By Break",
+        "note": "Cut, vacuumed and logged inside 80% of par"
+      }
+    ],
+    "currency": "JOINT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Laborer",
+      "Saw Hand",
+      "Cement Mason",
+      "Lead Cutter",
+      "Cutting Crew Certified"
+    ],
+    "system": "Cutting Crew"
+  },
+  "hazards": {
+    "co-buildup-keep-cutting": "You kept the gas saw running in the stairwell after the CO alarm went off. Carbon monoxide from a gas engine has nowhere to go in an enclosed stairwell, and it builds to a dangerous concentration long before it is visible or has an obvious smell — the alarm is the only warning most crews get before symptoms start.",
+    "cord-in-slurry": "You went to plug the vacuum in with the cord lying in the wet slurry. Cutting slurry is water and ground concrete sitting on the floor conducting current the moment a compromised cord touches it, and a mason standing in it is not insulated from a live short. The cord stays out of the slurry and the circuit is GFCI-protected before anything gets plugged in.",
+    "dry-cut-no-water": "You went to make the cut with the water off. A dry-cut saw blade throws respirable crystalline silica into the air at many times the permissible limit, in dust fine enough to reach deep into the lungs and never come back out — OSHA's silica rule's Table 1 method for saws is water on the blade for exactly this reason.",
+    "saw-kickback-unguarded": "You went to push the cut through a bind with the blade guard off. A blade that binds in a cut without its guard kicks the saw straight back at the operator with the full force of the motor behind it, and the guard is what deflects that kick instead of it landing on a hand or a leg."
+  },
+  "id": "cm-concrete-saw-cutting-with-water-and-silica-control",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "make-cut",
+      "alert": "The water line feeding the blade has kinked and stopped, and the saw is starting to throw visible dust mid-cut.",
+      "cue": "Kill the saw before it cuts another inch dry.",
+      "delay": 2,
+      "id": "water-line-fails",
+      "kind": "Water line to the blade fails mid-cut",
+      "missNote": "The saw kept cutting dry through the rest of the pass while the water line stayed kinked; a visible dust cloud hung over the joint by the time anyone reached the switch.",
+      "seconds": 12,
+      "target": "saw-kill",
+      "why": "A saw that loses its water mid-cut does not stop being dangerous just because it was wet a moment ago — every second it keeps spinning dry now is dust at full concentration going into the operator's breathing zone. The kill switch stops the cut immediately so the line can be cleared before cutting resumes, rather than finishing the pass dry to save time.",
+      "wrongNote": "The saw kill switch — a dry blade throwing dust has to stop cutting immediately, not finish the pass first."
+    },
+    {
+      "after": "cut-depth-track",
+      "alert": "The CO monitor on the stairwell wall has started alarming from the gas saw's exhaust building up in the enclosed space.",
+      "cue": "Shut the saw down and get the ventilation fan running before anyone breathes more of it.",
+      "delay": 2,
+      "id": "co-alarm",
+      "kind": "CO monitor alarms in the enclosed stairwell",
+      "missNote": "The saw kept running through the alarm while the crew worked the last few feet of the joint; the air in the stairwell stayed thick with exhaust for the rest of the cut.",
+      "seconds": 12,
+      "target": "vent-fan",
+      "why": "Carbon monoxide from a gas engine has no smell and no colour, and by the time a crew notices symptoms the concentration is already well past where the alarm first sounded. The saw stops adding to it immediately and the fan clears what has already built up — waiting to see if the alarm clears itself is exactly the gap the monitor exists to close.",
+      "wrongNote": "The ventilation fan — a CO alarm in an enclosed stairwell means the saw stops and the air gets cleared before anything else."
+    }
+  ],
+  "lateNotes": {
+    "close-log": "The day is logged once the slurry is cleared and the air in the stairwell has been checked again.",
+    "depth-wheel": "The depth is only set once the joint layout has actually been marked — a depth set before the line is struck is a depth for the wrong joint.",
+    "saw-trigger": "The saw only starts once the guard is fitted, the water line is connected and the cut path is clear — none of that is optional because the saw is already staged on the line."
+  },
+  "name": "Concrete Saw Cutting with Water & Silica Control",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "cement-masons-and-plasterers"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "clear-cord",
+      "close-log",
+      "co-buildup-keep-cutting",
+      "cord-across-path",
+      "cord-in-slurry",
+      "crew-radio",
+      "cut-path-zone",
+      "cut-progress",
+      "cutting-plan",
+      "depth-wheel",
+      "dry-cut-no-water",
+      "empty-tank",
+      "fill-tank",
+      "hearing-eye-ppe",
+      "loose-guard",
+      "saw-kickback-unguarded",
+      "saw-kill",
+      "saw-trigger",
+      "seat-guard",
+      "slurry-vacuum",
+      "slurry-zone",
+      "vent-fan",
+      "water-valve"
+    ],
+    "meshes": 185
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the joint layout, the cutting depth, the timing window the slab allows for cutting, and the ventilation note for the stairwell.",
+      "id": "cutting-plan",
+      "kind": "select",
+      "prompt": "Read the joint layout, the cutting depth, the timing window the slab allows for cutting, and the ventilation note for the stairwell.",
+      "target": "cutting-plan",
+      "title": "Read the cutting plan",
+      "why": "A control joint cut too shallow does not relieve the shrinkage stress it is there for, and cut too late or too early relative to the slab's strength either ravels the edge or misses the crack window entirely. The plan sets all three, plus the ventilation note for a gas saw working in a partly enclosed stairwell, and none of it is a call the operator makes on the fly."
+    },
+    {
+      "cue": "Walk the saw, the water tank and the cutting path, and click every defect you find.",
+      "id": "saw-walk",
+      "itemNames": {
+        "cord-across-path": "an extension cord lying across the cut path",
+        "empty-tank": "an empty water tank",
+        "loose-guard": "a blade guard not seated"
+      },
+      "itemNotes": {
+        "cord-across-path": "An extension cord for the shop light is lying directly across the line the saw is about to cut along.",
+        "empty-tank": "The water tank feeding the blade is empty; the saw will cut dry the moment the trigger is pulled.",
+        "loose-guard": "The blade guard is sitting on the saw but not seated and pinned — it will not hold position once the saw starts vibrating."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the saw, the water tank and the cutting path, and click every defect you find.",
+      "targets": [
+        "loose-guard",
+        "empty-tank",
+        "cord-across-path"
+      ],
+      "title": "Walk the saw and the cut line before starting",
+      "why": "Every one of these is a fix made with the blade dead and nothing running. Found once the saw is cutting, a loose guard is a kickback with nothing deflecting it, an empty tank is a lungful of silica dust before anyone notices the water stopped, and a cord under the saw's path is a cut cord live under a wet slab — the walk is what a quick fix looks like instead of any of that."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Seat and pin the guard, fill the water tank, and clear the cord from the cutting path.",
+      "id": "fix",
+      "itemNames": {
+        "clear-cord": "cord cleared from the path",
+        "fill-tank": "water tank filled",
+        "seat-guard": "guard seated and pinned"
+      },
+      "kind": "sequence",
+      "prompt": "Seat and pin the guard, fill the water tank, and clear the cord from the cutting path.",
+      "targets": [
+        "seat-guard",
+        "fill-tank",
+        "clear-cord"
+      ],
+      "title": "Correct what the walk found",
+      "why": "The saw is not actually safe to start until the guard is seated, the tank is full and the cord is clear — noting those three problems and leaving them for later gives the crew false confidence that is arguably worse than not having checked, since everyone downstream now assumes the saw passed its walk."
+    },
+    {
+      "cue": "Move bystanders and other trades out of the line the saw is about to cut before starting it.",
+      "id": "clear-path",
+      "kind": "select",
+      "prompt": "Move bystanders and other trades out of the line the saw is about to cut before starting it.",
+      "target": "cut-path-zone",
+      "title": "Clear the cutting path",
+      "why": "A concrete saw throws slurry and occasionally kicks along the line it is cutting, and the operator's attention is on the joint line, not on who might step into it from the side. The path is cleared before the saw starts, which is the only point anyone can be sure it is actually empty."
+    },
+    {
+      "cue": "Open the water valve and commit inside the manufacturer's band before the first cut starts.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "WATER FLOW",
+        "missNote": "Off the manufacturer's band — adjust the valve and check the flow again before cutting.",
+        "speed": 0.68
+      },
+      "id": "water-flow",
+      "kind": "gauge",
+      "prompt": "Open the water valve and commit inside the manufacturer's band before the first cut starts.",
+      "target": "water-valve",
+      "title": "Set the water flow to the blade",
+      "why": "Too little water and the blade still throws dust even though the valve is technically open; too much and the slurry floods the cut and hides the line the operator is trying to follow. The manufacturer's band is the flow that actually keeps the blade wet enough to suppress dust without drowning the joint."
+    },
+    {
+      "cue": "Turn the depth adjustment wheel to the cutting plan's depth for this joint before the blade touches the slab.",
+      "id": "depth-wheel",
+      "kind": "turn",
+      "prompt": "Turn the depth adjustment wheel to the cutting plan's depth for this joint before the blade touches the slab.",
+      "target": "depth-wheel",
+      "title": "Set the blade depth for the joint",
+      "turn": {
+        "label": "DEPTH",
+        "turns": 1
+      },
+      "why": "Cut too shallow, the joint never relieves the shrinkage crack it exists to control and the slab cracks somewhere else instead; cut too deep, it weakens the slab more than the plan intended and risks cutting into embedded conduit or mesh the drawing shows below the surface. The depth is set once, to the plan, before the first pass."
+    },
+    {
+      "cue": "Put on hearing protection and a face shield before the blade ever turns.",
+      "id": "don-ppe",
+      "kind": "select",
+      "prompt": "Put on hearing protection and a face shield before the blade ever turns.",
+      "target": "hearing-eye-ppe",
+      "title": "Don hearing and eye protection",
+      "why": "A gas or electric saw running at full speed is loud enough on its own to cause hearing damage over a shift, and a wet-cut blade still throws slurry droplets and the occasional chip back at the operator even with the guard fitted. Both go on before the first cut, not after the first close call."
+    },
+    {
+      "cue": "Hold the saw steady on the chalk line and guide it through the first pass at a controlled feed rate.",
+      "holdBreakNote": "The saw wandered off the chalk line mid-pass. Reset at the last true point on the line and guide the pass again.",
+      "id": "make-cut",
+      "kind": "hold",
+      "prompt": "Hold the saw steady on the chalk line and guide it through the first pass at a controlled feed rate.",
+      "seconds": 5,
+      "target": "saw-trigger",
+      "title": "Make the first pass along the joint",
+      "why": "A controlled, steady feed is what keeps the blade cutting on line instead of wandering off it or binding hard enough to kick; a joint cut in one smooth pass is straighter and truer than one corrected halfway through because the operator rushed the feed."
+    },
+    {
+      "cue": "Keep the feed rate steady so the cutting depth stays inside the plan's band for the whole length of the joint.",
+      "holdBreakNote": "The depth left the band while the feed kept going. Slow down over the hard stretch and bring it back into band.",
+      "id": "cut-depth-track",
+      "kind": "track",
+      "prompt": "Keep the feed rate steady so the cutting depth stays inside the plan's band for the whole length of the joint.",
+      "seconds": 6,
+      "target": "saw-trigger",
+      "title": "Hold the cutting depth along the joint's length",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "CUT DEPTH",
+        "rise": 0.5,
+        "start": 0.2
+      },
+      "why": "Fed too fast, the blade rides shallow over harder aggregate and never reaches the plan's depth for that stretch; fed too slow, the blade can overheat and glaze, which dulls it and throws more dust for the same water flow. An even feed is what keeps the whole joint at one consistent depth."
+    },
+    {
+      "cue": "Carry the wet vacuum along the fresh joint and pick up the slurry before it dries on the slab.",
+      "drag": {
+        "missNote": "Not along the joint — the vacuum has to pick up the slurry the cut actually left, not a patch of dry floor.",
+        "radius": 0.6,
+        "to": "slurry-zone"
+      },
+      "id": "slurry-clear",
+      "kind": "drag",
+      "prompt": "Carry the wet vacuum along the fresh joint and pick up the slurry before it dries on the slab.",
+      "target": "slurry-vacuum",
+      "title": "Vacuum the slurry off the joint",
+      "why": "Wet slurry left to dry on a slab becomes a film of fine cement dust that the next foot traffic or sweep kicks straight back into the air, undoing the whole point of cutting wet in the first place. Vacuumed up while it is still wet, it is no different from any other liquid spill to handle."
+    },
+    {
+      "cue": "Kill the saw at the switch and inspect the blade for damage before it goes back in the case.",
+      "id": "shutdown-check",
+      "kind": "select",
+      "prompt": "Kill the saw at the switch and inspect the blade for damage before it goes back in the case.",
+      "target": "saw-kill",
+      "title": "Shut down and inspect the blade",
+      "why": "A blade that took a hard bind during the cut can crack or chip without it being obvious at a glance while it is still spinning down, and a damaged blade started up again on the next joint is a blade that can fail under load. Shutting down and inspecting before it is put away is what catches that before the next cut, not after."
+    },
+    {
+      "cue": "Record the joints cut, the slurry cleared and the air checked in the stairwell.",
+      "id": "close-out",
+      "kind": "select",
+      "prompt": "Record the joints cut, the slurry cleared and the air checked in the stairwell.",
+      "target": "close-log",
+      "title": "Log the day's cuts",
+      "why": "The cutting log is how the foreman knows every joint on the plan was actually cut to depth rather than skipped when the schedule got tight, and it is where the CO alarm and the empty water tank get written down so the next crew starting in this stairwell knows both were already found once."
+    },
+    {
+      "cue": "Call the foreman: joints cut, slurry cleared, air checked. Then check in with the crew about the water line and the CO alarm.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the foreman: joints cut, slurry cleared, air checked. Then check in with the crew about the water line and the CO alarm.",
+      "target": "crew-radio",
+      "title": "Check in with the crew and the foreman",
+      "why": "Whether the next stairwell gets cut on schedule, and with what fan running, comes down to what actually gets reported on this call. A water line failed mid-cut and a CO alarm sounded while the saw kept turning — neither one belongs left out, and neither does the fact that the OPCMIA member assistance line is available to whoever the shift left uneasy."
+    }
+  ],
+  "supportLine": "your OPCMIA Local 300 member assistance programme, or the employee assistance line posted on the contractor's site board",
+  "tagline": "Joints cut clean in a stairwell: the guard and the water line checked before the blade turns, the cut path cleared, water flow set ahead of the first cut, the joint cut to depth and length, the slurry vacuumed up, the saw's exhaust watched in the enclosed space, and the day logged",
+  "title": "SmartCiti.X~ Concrete Saw Cutting with Water & Silica Control VR",
+  "trade": "Cement mason — OPCMIA Local 300, concrete saw operator",
+  "underwater": null,
+  "weather": "clear"
+}

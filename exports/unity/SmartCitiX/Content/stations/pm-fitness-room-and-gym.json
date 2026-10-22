@@ -1,0 +1,409 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "safe-reps",
+    "name": "Safe Reps",
+    "note": "Both machines repaired under lockout, the disinfectant given its full contact time, and the AED on its way inside the window"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "OSHA 29 CFR 1910.147 lockout on the treadmill before its motor hood comes off; 29 CFR 1910.1030 bloodborne pathogens for blood on the equipment; 29 CFR 1910.151 first aid and the AED in the room; 29 CFR 1910.1200 hazard communication for the disinfectant's label and contact time; 29 CFR 1910.305 for the cords and outlets that feed the machines; the Fair Housing Act for a resident's assistance animal; UNITE HERE residential hospitality training, SEIU building-staff practice and the apartment association's CAMT credential",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.151",
+        "id": "osha-1910-151",
+        "title": "29 CFR 1910.151 — Medical services and first aid"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.305",
+        "id": "osha-1910-305",
+        "title": "29 CFR 1910.305 — Wiring methods, components and equipment for general use"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "union",
+        "citedAs": "UNITE HERE",
+        "id": "unite-here-training",
+        "title": "UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Building Systems & Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "unplugged-first",
+        "name": "Unplugged First",
+        "note": "Treadmill locked out before the hood came off"
+      },
+      {
+        "id": "clean-hands",
+        "name": "Clean Hands",
+        "note": "No unsafe act anywhere in the gym"
+      },
+      {
+        "id": "centred-belt",
+        "name": "Centred Belt",
+        "note": "Kept the belt tracking through the whole test run"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-room",
+        "name": "Clean Room",
+        "note": "No corrections across the whole job"
+      },
+      {
+        "id": "steady-run",
+        "name": "Steady Run",
+        "note": "Held the test run without breaking the band"
+      },
+      {
+        "id": "quick-reopen",
+        "name": "Quick Reopen",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "REPS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Attendant",
+      "Amenity Tech",
+      "Lead Tech",
+      "Amenity Manager",
+      "Fitness Room Certified"
+    ],
+    "system": "Residents' Gym"
+  },
+  "hazards": {
+    "barehand-blood": "You wiped the blood off the bench with a paper towel and a bare hand. The bloodborne pathogens standard treats blood on equipment as infectious until proven otherwise; gloves go on first, the spill kit's absorbent and disinfectant go down, and the towel goes in the bag, not the open bin.",
+    "bleach-quat-mix": "You started topping up the quat disinfectant bottle with bleach from the janitor's jug. The two are never mixed — each label is written for its own product alone, mixing them can release irritating gases in a closed room, and what you end up with is a solution whose strength and contact time no label vouches for.",
+    "hand-under-stack": "You slid a hand under the raised weight stack to straighten the cable. A stack held up by a fraying cable or a half-seated pin drops the moment either lets go, and a hundred and fifty pounds of plates lands on the hand that was under it.",
+    "hood-off-live": "You reached under the treadmill's motor hood with the plug still in the wall. The drive motor and its controller carry line voltage and the belt can start from the console or a stuck key — a plug-connected machine is safe to work on only when you hold the unplugged cord yourself."
+  },
+  "id": "pm-fitness-room-and-gym",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "pin-stack",
+      "alert": "While you hold the stack pin, a resident comes to the door with a dog and asks whether it can come in — the sign on the door says no pets.",
+      "cue": "Call the office on the intercom so the manager handles it as an accommodation request. Don't ask about her disability or demand papers.",
+      "delay": 3,
+      "id": "assistance-animal",
+      "kind": "Resident with an assistance-animal question",
+      "missNote": "She stood at the door with the dog the whole window and nobody answered her. Left unanswered, a resident reads the sign as the building's answer, and that is how a fair housing complaint starts.",
+      "seconds": 13,
+      "target": "office-intercom",
+      "why": "Under the Fair Housing Act an assistance animal is not a pet, and a no-pets sign does not settle whether this one may come in. Front-line staff do not ask what a resident's disability is or demand documents at the door — the office runs the accommodation process, and routing her there politely is both the law and the respect she is owed.",
+      "wrongNote": "That doesn't answer her. The intercom to the office puts the question with the people who handle accommodation requests."
+    },
+    {
+      "after": "test-run",
+      "alert": "The resident on the rower slumps sideways off the seat and does not respond when the machine's handle clatters to the floor.",
+      "cue": "Get the AED from its cabinet — its alarm calls the desk — and call 911 on the way. The treadmill test can wait.",
+      "delay": 3,
+      "id": "rower-collapse",
+      "kind": "Resident collapses on the rower",
+      "missNote": "The resident lay by the rower the whole window with the AED still in its cabinet. Those were the minutes that decide whether a cardiac arrest is survivable.",
+      "seconds": 12,
+      "target": "aed-cabinet",
+      "why": "In a sudden cardiac arrest every minute without a shock costs a large share of the chance of survival, and an AED in the room only helps if somebody brings it. Opening the cabinet sounds the alarm to the desk, the unit talks the rescuer through the pads, and 911 is called at the same moment — first aid is minutes, not a work order.",
+      "wrongNote": "That doesn't help the resident. The AED cabinet on the wall is what has to reach him — open it and call 911."
+    }
+  ],
+  "lateNotes": {
+    "contact-time": "The disinfectant dwell comes after the bottles are sorted — a wet surface from the wrong bottle is not disinfected however long it sits.",
+    "new-cable": "Not yet — the new cable goes on only after the stack is pinned and the old cable is off."
+  },
+  "name": "Fitness Room & Gym",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "property-management"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "aed-cabinet",
+      "attendant-checkin",
+      "barehand-blood",
+      "belt-deflection",
+      "belt-tension-bolt",
+      "belt-tracking",
+      "bleach-quat-mix",
+      "building-log",
+      "contact-time",
+      "cord-under-mat",
+      "decanted-bottle",
+      "frayed-cable",
+      "hand-under-stack",
+      "hood-off-live",
+      "new-cable",
+      "office-intercom",
+      "plug-cap-off",
+      "plug-lockout-cap",
+      "pulley-slot",
+      "stack-pin",
+      "treadmill-plug-in",
+      "treadmill-tryout",
+      "treadmill-unplug",
+      "wipes-empty",
+      "work-order-card"
+    ],
+    "meshes": 201
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the residents' reports on treadmill two and the cable machine before touching either.",
+      "id": "read-work-order",
+      "kind": "select",
+      "prompt": "Read the residents' reports on treadmill two and the cable machine before touching either.",
+      "target": "work-order-card",
+      "title": "Read the gym's work orders",
+      "why": "Residents report what they felt, not what failed: a treadmill that 'hesitates under my feet' is a belt slipping on its roller, and a cable machine that 'squeaks at the top' is often a cable wearing through at the pulley. Reading the reports first tells you which machine is merely annoying and which one could drop a weight stack on somebody today."
+    },
+    {
+      "cue": "Find what is about to hurt a resident who walks in right now.",
+      "id": "walk-gym",
+      "itemNames": {
+        "cord-under-mat": "treadmill cord crushed under a floor mat",
+        "frayed-cable": "frayed strands at the top pulley"
+      },
+      "itemNotes": {
+        "cord-under-mat": "Treadmill one's power cord runs under a rubber mat and is being walked on and rolled over. A cord crushed like that breaks its insulation where nobody can see it, on a machine drawing heavy current.",
+        "frayed-cable": "Broken wires are fanning out of the cable where it wraps the top pulley. A steel cable fails a few strands at a time and then all at once — this machine is out of service until the cable is replaced."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find what is about to hurt a resident who walks in right now.",
+      "targets": [
+        "frayed-cable",
+        "cord-under-mat"
+      ],
+      "title": "Walk the gym before you start",
+      "why": "A residents' gym is unstaffed most of the day, so nobody is there to stop a resident using a machine that is about to fail. The walk finds the failure that is not on any work order yet, and it lets you take a machine out of service before the next early-morning resident discovers the problem with their hands."
+    },
+    {
+      "cue": "Unplug it, lock the plug in its cap, then press start to prove it will not run.",
+      "id": "lockout-treadmill",
+      "itemNames": {
+        "plug-lockout-cap": "plug locked in its cap",
+        "treadmill-tryout": "start pressed to prove it dead",
+        "treadmill-unplug": "treadmill unplugged"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Unplug, cap, then try it — pressing start with the plug still in proves nothing, and an uncapped plug is anybody's to push back in.",
+      "prompt": "Unplug it, lock the plug in its cap, then press start to prove it will not run.",
+      "targets": [
+        "treadmill-unplug",
+        "plug-lockout-cap",
+        "treadmill-tryout"
+      ],
+      "title": "Lock out treadmill two",
+      "why": "A plug-connected machine counts as locked out only when the plug is out and under your exclusive control — a plug left on the floor gets pushed back in by a resident who thinks the treadmill was knocked off. The lockout cap keeps the plug yours, and the start button proves you unplugged the right machine."
+    },
+    {
+      "cue": "Turn the rear roller's tension bolt a quarter turn at a time, both sides even.",
+      "id": "tension-belt",
+      "kind": "turn",
+      "prompt": "Turn the rear roller's tension bolt a quarter turn at a time, both sides even.",
+      "target": "belt-tension-bolt",
+      "title": "Take up the belt tension",
+      "turn": {
+        "axis": "x",
+        "label": "TENSION BOLT",
+        "turns": 0.5
+      },
+      "why": "A treadmill belt slips when it has stretched and lost its grip on the drive roller, and that hesitation under a running resident's foot is how ankles turn and people fall off the back. Tensioning both rear bolts evenly takes up the stretch without pulling the belt off-centre, which a bolt cranked on one side always does."
+    },
+    {
+      "cue": "Lift the belt at mid-deck and commit when the gauge sits in the manufacturer's band.",
+      "gauge": {
+        "green": [
+          0.36,
+          0.58
+        ],
+        "label": "BELT LIFT",
+        "missNote": "Outside the manufacturer's band — loose slips under a runner, tight burns out the motor. Adjust and read it again.",
+        "speed": 0.55
+      },
+      "id": "check-deflection",
+      "kind": "gauge",
+      "prompt": "Lift the belt at mid-deck and commit when the gauge sits in the manufacturer's band.",
+      "target": "belt-deflection",
+      "title": "Check the belt's lift at mid-deck",
+      "why": "Too loose and the belt slips; too tight and it overloads the motor, wears the rollers and burns out the controller within weeks. The manufacturer's lift figure at mid-deck is the one number that says both are right, and reading it is quicker than guessing at the bolt and discovering the answer when the motor fails."
+    },
+    {
+      "cue": "Seat the pin through the stack's bottom plate and hold it while the old cable is taken off.",
+      "holdBreakNote": "You let go before the cable was off. A pin that has not been held home can walk out, and the stack comes down onto whatever is beneath it — hold it through.",
+      "id": "pin-stack",
+      "kind": "hold",
+      "prompt": "Seat the pin through the stack's bottom plate and hold it while the old cable is taken off.",
+      "seconds": 5,
+      "target": "stack-pin",
+      "title": "Hold the weight stack on its safety pin",
+      "why": "While the frayed cable comes off, the only thing holding the weight stack is what you put under it. Seating the pin fully through the bottom plate into the frame lets the plates rest on steel rather than on a cable with broken strands, and holding it until the cable is clear keeps the stack from shifting on a half-seated pin."
+    },
+    {
+      "cue": "Carry the manufacturer's replacement cable to the top pulley and seat it.",
+      "drag": {
+        "missNote": "Not seated in the pulley — a cable riding the guard or the flange frays itself in a week.",
+        "radius": 0.5,
+        "to": "pulley-slot"
+      },
+      "id": "fit-new-cable",
+      "kind": "drag",
+      "prompt": "Carry the manufacturer's replacement cable to the top pulley and seat it.",
+      "target": "new-cable",
+      "title": "Fit the new cable over the top pulley",
+      "why": "A replacement cable has to be the manufacturer's length, diameter and end fittings, because a cable a little long lets the stack bottom out and a little thin fails early. Carrying the new one up to the pulley and seating it in the groove — not across the guard — is what makes the machine the machine it was designed to be."
+    },
+    {
+      "cue": "Restore power and run it at walking speed, keeping the belt centred on the deck.",
+      "holdBreakNote": "The belt drifted off centre. Left running, it frays against the frame — bring it back to centre with the bolt, a quarter at a time.",
+      "id": "test-run",
+      "kind": "track",
+      "prompt": "Restore power and run it at walking speed, keeping the belt centred on the deck.",
+      "seconds": 7,
+      "target": "belt-tracking",
+      "title": "Test run the treadmill and watch the belt track",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.38,
+        "green": [
+          0.38,
+          0.62
+        ],
+        "label": "BELT TRACKING",
+        "rise": 0.44,
+        "start": 0.25
+      },
+      "why": "A belt tensioned unevenly walks towards one side under load and starts to fray on the frame, and the first sign of it is in the first few minutes of running. Watching the belt track at walking speed, with the rear bolts in reach, catches the drift while it is a quarter-turn adjustment rather than a new belt."
+    },
+    {
+      "cue": "Find what stops residents disinfecting properly — or has them using the wrong thing.",
+      "id": "walk-disinfectant",
+      "itemNames": {
+        "decanted-bottle": "unlabelled spray bottle of mystery cleaner",
+        "wipes-empty": "empty disinfectant wipe dispenser"
+      },
+      "itemNotes": {
+        "decanted-bottle": "Somebody decanted a cleaner into a bare spray bottle. With no label there is no contact time, no incompatibility warning and no first aid — it comes off the station.",
+        "wipes-empty": "The wipe dispenser by the door is empty. Residents who cannot wipe down a bench on the way out do not, and the next resident lies on it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find what stops residents disinfecting properly — or has them using the wrong thing.",
+      "targets": [
+        "decanted-bottle",
+        "wipes-empty"
+      ],
+      "title": "Walk the disinfectant station",
+      "why": "A gym is a shared surface for skin, sweat and occasionally blood, and the disinfectant station is the building's only control on it most of the day. The hazard communication standard's label rule is the whole point here: a disinfectant only works at its labelled concentration and contact time, and a bottle with no label has neither."
+    },
+    {
+      "cue": "Keep the bench visibly wet for the label's full contact time before wiping.",
+      "holdBreakNote": "You wiped before the contact time was up. The surface looks clean and has not been disinfected — keep it wet through the full time.",
+      "id": "contact-time",
+      "kind": "hold",
+      "prompt": "Keep the bench visibly wet for the label's full contact time before wiping.",
+      "seconds": 5,
+      "target": "contact-time",
+      "title": "Hold the disinfectant's contact time on the bench",
+      "why": "A disinfectant's label claim — the germs it kills — only holds if the surface stays wet for the contact time printed on it. Sprayed and wiped dry straight away, the bench looks clean and has been disinfected of almost nothing, which is the difference between a cleaning habit and the label the manufacturer tested."
+    },
+    {
+      "cue": "Take your lockout cap off, then plug the treadmill back into its own outlet.",
+      "id": "return-treadmill",
+      "itemNames": {
+        "plug-cap-off": "lockout cap off the plug",
+        "treadmill-plug-in": "treadmill plugged back in"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Cap off first, then the plug — you cannot plug in a capped plug, and trying to is a sign the walk-round has been skipped.",
+      "prompt": "Take your lockout cap off, then plug the treadmill back into its own outlet.",
+      "targets": [
+        "plug-cap-off",
+        "treadmill-plug-in"
+      ],
+      "title": "Return treadmill two to service",
+      "why": "The cap comes off only when you have finished, walked the machine and put the motor hood back on, because the moment the plug is back in a resident can start the belt. Plugging it into its own outlet — not a power strip — matters on a treadmill: the motor's starting current is exactly what overheats a strip and its cord."
+    },
+    {
+      "cue": "Hand over the cable machine's history and the collapse, and ask how the attendant is doing.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Hand over the cable machine's history and the collapse, and ask how the attendant is doing.",
+      "target": "attendant-checkin",
+      "title": "Check in with the attendant on shift",
+      "why": "The attendant who opens the gym tomorrow needs to know which machine was repaired and which resident went down, so they are not caught out by either. And a colleague who has just helped with a collapse on the rower is carrying something — asking how they are, in person, is part of the same care the room just gave the resident."
+    },
+    {
+      "cue": "Log the lockouts, the cable replaced, the belt readings, the disinfectant findings and the AED use.",
+      "id": "building-log",
+      "kind": "select",
+      "prompt": "Log the lockouts, the cable replaced, the belt readings, the disinfectant findings and the AED use.",
+      "target": "building-log",
+      "title": "Enter the repairs and the incident in the building log",
+      "why": "The building log is where the cable's replacement date lives when the next one frays, and where the AED use is recorded so the unit can be restocked and the pads replaced. It is also the record that shows a resident's injury, if one is ever claimed, happened on a machine that had been inspected, repaired under lockout and tested."
+    }
+  ],
+  "supportLine": "your union steward or member-assistance contact, or your employer's employee assistance program — after a resident collapses, that call is part of the job",
+  "tagline": "The residents' gym: a slipping treadmill and a frayed cable repaired under lockout, disinfectant held to its label, an assistance-animal question routed right, and the AED reached when a resident goes down",
+  "title": "SmartCiti.X~ Fitness Room & Gym VR",
+  "trade": "Amenity attendant and maintenance technician — UNITE HERE residential hospitality staff, SEIU building staff and the apartment association's CAMT credential",
+  "underwater": null,
+  "weather": null
+}

@@ -1,0 +1,421 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "read-it-dont-force-it",
+    "name": "Read It, Don't Force It",
+    "note": "A final possession run through the decision hierarchy in order, calm under the clock instead of forced into the first option that showed up"
+  },
+  "category": "Youth Sports & Coaching",
+  "certification": "USA Basketball youth development guidelines on developing every player's decision-making rather than funnelling every close game to one player; the Association for Applied Sport Psychology's guidance on decision-making under pressure and a read-in-order hierarchy a young athlete can actually run with a clock winding down; NFHS basketball rules on game administration and timing for a possession that has to be timed and called correctly; CDC Heads Up for a knock to the head taken diving for a loose ball late in a close game; the American Red Cross first aid course for checking a player over before sending them back in for a final possession; the U.S. Center for SafeSport for how a player who misses the final shot is treated afterwards",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "Association for Applied Sport Psychology",
+        "citedAs": "Association for Applied Sport Psychology",
+        "id": "aasp-sport-psychology-guidance",
+        "title": "Association for Applied Sport Psychology guidance on mental-skills routines for young athletes: composure after a mistake, pre-performance routines, coach feedback and growth mindset, and decision-making under pressure"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC Heads Up",
+        "id": "cdc-heads-up",
+        "title": "CDC Heads Up concussion-in-youth-sports training for coaches, parents and athletes: recognise the signs, remove the player from play, refer for evaluation, and return only with clearance"
+      },
+      {
+        "body": "NFHS",
+        "citedAs": "NFHS",
+        "id": "nfhs-basketball-rules",
+        "title": "National Federation of State High School Associations (NFHS) basketball rules and its sports medicine advisory guidance on concussion, heat and hydration for school sport"
+      },
+      {
+        "body": "Red Cross",
+        "citedAs": "American Red Cross first aid",
+        "id": "red-cross-first-aid-course",
+        "title": "American Red Cross first aid, CPR and AED course for coaches and staff: check the scene, call, care, and hand over to emergency services"
+      },
+      {
+        "body": "U.S. Center for SafeSport",
+        "citedAs": "U.S. Center for SafeSport",
+        "id": "safesport-code",
+        "title": "U.S. Center for SafeSport abuse-prevention training and policies for adults who work with young athletes: two adults present, observable and interruptible interactions, and reporting"
+      },
+      {
+        "body": "USA Basketball",
+        "citedAs": "USA Basketball",
+        "id": "usa-basketball-youth-guidelines",
+        "title": "USA Basketball youth development guidelines: age-appropriate play, practice length and frequency, rest and multi-sport participation for young players, and the coach licence that teaches them"
+      }
+    ]
+  },
+  "district": "gym-court",
+  "domain": "Youth Sports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clear-floor-first",
+        "name": "Clear Floor First",
+        "note": "Every hazard on the floor found before the final possession starts"
+      },
+      {
+        "id": "no-forced-shot",
+        "name": "No Forced Shot",
+        "note": "No unsafe action anywhere in the session"
+      },
+      {
+        "id": "steady-under-the-clock",
+        "name": "Steady Under the Clock",
+        "note": "Shot-clock urgency and composure through the possession both inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-session",
+        "name": "Clean Session",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "unshaken",
+        "name": "Unshaken",
+        "note": "Held composure in band through the whole final possession"
+      },
+      {
+        "id": "quick-read",
+        "name": "Quick Read",
+        "note": "Practice log reached inside 80% of par"
+      }
+    ],
+    "currency": "READ POINTS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Bench Helper",
+      "Line Coach",
+      "Assistant Coach",
+      "Head Coach",
+      "Decision Mentor"
+    ],
+    "system": "Final Possession Board"
+  },
+  "hazards": {
+    "berate-the-player-who-missed-the-final-shot": "You yelled at the player who missed the final shot in front of the whole team the moment it happened. The U.S. Center for SafeSport's standard for correction is calm and private, and a player who just took the pressure shot the coach's own hierarchy sent them into does not need a public verdict on the result — they need the same composure routine every other miss in this programme gets.",
+    "call-a-play-only-for-one-star-player-every-time": "You drew up the final shot for the same player every single time regardless of what the defense actually showed. USA Basketball's youth development guidelines are built around every player learning to read the game, and always funnelling the last shot to one player teaches everyone else on the floor that their read of the defense never actually matters.",
+    "let-the-clock-run-with-no-reset-check": "You started the final possession without confirming the game clock and shot clock were actually set correctly. NFHS rules on game administration exist because a possession played against a clock nobody checked can be argued, replayed or protested after the fact, and a young team's biggest moment of the season deserves a clock that was actually verified before the ball was inbounded.",
+    "push-a-player-back-in-after-a-hard-fall-to-finish-the-possession": "You sent a player who took a hard fall diving for the loose ball straight back in to finish the final possession without anyone checking on them first. CDC Heads Up is explicit that any knock to the head gets the player out of play and evaluated, and the importance of the moment on the scoreboard changes none of that — a possession is never worth risking a second hit on a player who has not been checked."
+  },
+  "id": "bb-final-possession-decision-under-pressure",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-the-huddle-quiet-to-hear-the-call",
+      "alert": "The opposing team calls a quick timeout right as your huddle breaks, trying to ice your shooter with extra time to think about the pressure.",
+      "cue": "Get the shooter to the reset-focus spot for a calm word, away from the rest of the huddle's nervous energy.",
+      "delay": 3,
+      "id": "opposing-team-ices-the-shooter",
+      "kind": "Iced timeout",
+      "missNote": "The shooter sat in the middle of an increasingly anxious huddle for the whole extra timeout, and stepped out to inbound more rattled than before the whistle blew.",
+      "seconds": 12,
+      "target": "reset-focus-spot",
+      "why": "A defensive timeout called specifically to give a shooter more time to worry is a real tactic, and the answer is not to let the shooter sit inside a huddle that is now also getting more nervous by the second. Pulling them aside calmly for one settling word keeps the extra time from working the way the other team intended it to.",
+      "wrongNote": "That does not settle the shooter. Get them to the reset-focus spot for a calm word on their own."
+    },
+    {
+      "after": "hold-composure-through-the-final-possession",
+      "alert": "The whole bench jumps to its feet as the possession unfolds, spilling into the sideline and blocking the assistant's view of the play.",
+      "cue": "Send the assistant to get the bench to sit back down and clear the sideline — the coaching view of the play matters more than the celebration.",
+      "delay": 3,
+      "id": "bench-jumps-up-blocking-the-sideline",
+      "kind": "Sideline moment",
+      "missNote": "The bench stayed crowded onto the sideline for the rest of the possession, and nobody on the coaching staff could actually see the read develop from behind the wall of players.",
+      "seconds": 12,
+      "target": "bench-sit-spot",
+      "why": "A bench crowding the sideline mid-possession is a real obstruction — it blocks the coaching staff's view of exactly the play everyone needs to be reading clearly, and it is one shove away from spilling onto the live floor. Getting the bench to sit back down calmly, without losing the moment's energy entirely, keeps the sideline clear for the possession that is still being decided.",
+      "wrongNote": "That does not clear the sideline. Send the assistant to get the bench to sit back down."
+    }
+  ],
+  "lateNotes": {
+    "crew-checkin-board": "The staff check-in comes after the log, at the very end.",
+    "practice-log-board": "The log closes the possession once the read has run and the team has regrouped — nothing to record yet."
+  },
+  "name": "Final Possession, Decision Under Pressure",
+  "parSeconds": 335,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "basketball-fundamentals"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bench-sit-spot",
+      "bench-standing-calmly",
+      "berate-the-player-who-missed-the-final-shot",
+      "call-a-play-only-for-one-star-player-every-time",
+      "clock-operator-unconfirmed",
+      "crew-checkin-board",
+      "decision-token",
+      "help-defender-cheating-off-ball",
+      "hierarchy-card",
+      "huddle-marker",
+      "let-the-clock-run-with-no-reset-check",
+      "open-teammate-spot",
+      "panic-calm-hands-ready",
+      "panic-forcing-a-shot-early",
+      "panic-freezing-with-the-ball",
+      "panic-not-calling-for-it",
+      "play-call-dial",
+      "play-cut",
+      "play-screen",
+      "play-shot-options",
+      "play-spacing",
+      "possession-composure-meter",
+      "practice-log-board",
+      "push-a-player-back-in-after-a-hard-fall-to-finish-the-possession",
+      "quiet-word-spot",
+      "read-choice-card",
+      "reset-focus-spot",
+      "shot-clock-gauge",
+      "timeout-decision-card",
+      "trailing-shoelace-under-pressure"
+    ],
+    "meshes": 241
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Look at the clock, the floor and the defense. Mark what has to be fixed and what the defense is already telling you.",
+      "decoyNotes": {
+        "bench-standing-calmly": "A bench standing and watching calmly is exactly the composure this possession needs. Look for what still needs attention."
+      },
+      "id": "scan-the-floor-before-the-final-possession",
+      "itemNames": {
+        "clock-operator-unconfirmed": "the scorer's table clock, not yet confirmed",
+        "help-defender-cheating-off-ball": "a help defender already cheating off the ball",
+        "trailing-shoelace-under-pressure": "a player with a shoelace already coming untied"
+      },
+      "itemNotes": {
+        "clock-operator-unconfirmed": "A final possession played against a clock nobody confirmed is a possession that can be argued after the fact. Check it before the inbound.",
+        "help-defender-cheating-off-ball": "A defender already sagging off their assignment is telling you exactly who is going to be open. That is the read the whole play should be built around.",
+        "trailing-shoelace-under-pressure": "A loose lace with the game on the line is a rolled ankle on the exact cut the play calls for. Tie it before the inbound, not during it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the clock, the floor and the defense. Mark what has to be fixed and what the defense is already telling you.",
+      "targets": [
+        "clock-operator-unconfirmed",
+        "trailing-shoelace-under-pressure",
+        "help-defender-cheating-off-ball"
+      ],
+      "title": "Scan the floor before the final possession",
+      "why": "The seconds before a final possession are not just about calling a play, they are the last chance to catch a clock nobody verified, a lace about to come undone on the exact cut the play needs, and a defensive tendency that tells you who is actually going to be open — all three read in the same glance before the ball is even inbounded."
+    },
+    {
+      "cue": "Post the call: use the last timeout to set the play, rather than letting the possession start unorganised.",
+      "id": "call-timeout-or-play-through",
+      "kind": "select",
+      "prompt": "Post the call: use the last timeout to set the play, rather than letting the possession start unorganised.",
+      "target": "timeout-decision-card",
+      "title": "Decide: call the timeout, or play through",
+      "why": "A timeout used to set a clear play and a clear decision hierarchy is worth more with the game on the line than saving it for a moment that may never come. Deciding this deliberately, rather than by habit or hesitation, is the first read of the possession and it happens before the ball ever moves."
+    },
+    {
+      "cue": "Put up the order: read one is the open teammate, read two is the closeout you can drive, read three is your own shot, last.",
+      "id": "post-the-decision-hierarchy",
+      "kind": "select",
+      "prompt": "Put up the order: read one is the open teammate, read two is the closeout you can drive, read three is your own shot, last.",
+      "target": "hierarchy-card",
+      "title": "Post the decision hierarchy before the huddle breaks",
+      "why": "The Association for Applied Sport Psychology's guidance on decision-making under pressure is built on giving a player an order to read through rather than a single instruction to follow, because a clock winding down narrows attention fast — a hierarchy read in order still works when a single plan does not survive first contact with what the defense actually shows."
+    },
+    {
+      "cue": "Screen first, then the cut off it, then the floor spaced, then the shot options read last.",
+      "id": "build-the-final-play-in-order",
+      "itemNames": {
+        "play-cut": "cut off the screen",
+        "play-screen": "set the screen",
+        "play-shot-options": "read the shot options last",
+        "play-spacing": "space the floor"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. The screen comes first — a cut with no screen set is just running, and reading shot options before the floor is spaced is reading a picture that has not developed yet.",
+      "prompt": "Screen first, then the cut off it, then the floor spaced, then the shot options read last.",
+      "targets": [
+        "play-screen",
+        "play-cut",
+        "play-spacing",
+        "play-shot-options"
+      ],
+      "title": "Build the final play in order",
+      "why": "Each part of the play sets up the next: the screen has to be set before the cut off it means anything, the floor has to be spaced before the cutter has anywhere to go, and the shot options are read last because they depend on how the defense actually reacted to everything that came before — reading them first is guessing before the defense has shown you anything."
+    },
+    {
+      "cue": "Turn the play-call dial to the set you are calling — the whole team sees the same call, not five different guesses.",
+      "id": "turn-to-the-called-set",
+      "kind": "turn",
+      "prompt": "Turn the play-call dial to the set you are calling — the whole team sees the same call, not five different guesses.",
+      "target": "play-call-dial",
+      "title": "Turn the board to the play actually being called",
+      "turn": {
+        "axis": "y",
+        "label": "SET CALLED",
+        "turns": 0.5
+      },
+      "why": "A play called out loud in a loud gym gets misheard by at least one player, and a final possession run on five different guesses about what was called is not a play at all. Turning the dial to a visible call that everyone in the huddle can actually see removes the guessing before the ball is ever inbounded."
+    },
+    {
+      "cue": "Everyone quiet, eyes on the coach, while the call is actually given — hold here, no side conversations.",
+      "holdBreakNote": "The huddle broke before the call finished. Hold it quiet a few more seconds so everyone actually hears the whole call.",
+      "id": "hold-the-huddle-quiet-to-hear-the-call",
+      "kind": "hold",
+      "prompt": "Everyone quiet, eyes on the coach, while the call is actually given — hold here, no side conversations.",
+      "seconds": 6,
+      "target": "huddle-marker",
+      "title": "Hold the huddle quiet long enough to hear the call",
+      "why": "A huddle that is still talking while the coach is calling the play means at least one player steps onto the floor not actually knowing what they are supposed to do. Holding the huddle quiet long enough for the call to be heard, completely, by every player, is what makes the play that follows an actual plan instead of four players guessing and one player who heard it."
+    },
+    {
+      "cue": "Commit when the urgency reads timed right — not rushed before the action develops, not so late the clock decides for you.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "URGENCY",
+        "missNote": "Outside the band. Deciding too soon means the play has not developed enough to show the real read; deciding too late lets the clock make the decision instead of the player. Find timed right and commit.",
+        "speed": 0.62
+      },
+      "id": "read-the-shot-clock-urgency",
+      "kind": "gauge",
+      "prompt": "Commit when the urgency reads timed right — not rushed before the action develops, not so late the clock decides for you.",
+      "target": "shot-clock-gauge",
+      "title": "Read the shot-clock urgency before committing to a decision",
+      "why": "A decision made before the play has developed is a guess dressed up as a read, and a decision left until the last half-second is not a decision at all — it is whatever shot is available when the buzzer is about to sound. Reading the urgency honestly, rather than by instinct alone, is what keeps a player deciding on purpose instead of by accident."
+    },
+    {
+      "cue": "Post the read: the help defender collapsed, so the ball goes to the teammate that left open, not to the first shot available.",
+      "id": "read-the-defense-and-choose-the-right-option",
+      "kind": "select",
+      "prompt": "Post the read: the help defender collapsed, so the ball goes to the teammate that left open, not to the first shot available.",
+      "target": "read-choice-card",
+      "title": "Read the defense and choose the option the hierarchy points to",
+      "why": "This is the moment the whole hierarchy was built for: the defense has shown its hand, and the read points to a specific teammate rather than whichever option happens to feel most familiar under pressure. Choosing the option the actual defense created, not the option that was planned before anyone moved, is what decision-making under pressure means in practice."
+    },
+    {
+      "cue": "Watch the floor for who the clock is getting to, not just who has the ball. Mark what needs a calm word from the bench.",
+      "decoyNotes": {
+        "panic-calm-hands-ready": "A player with calm hands ready to catch and shoot is exactly what the possession needs. Look for who the pressure is actually getting to."
+      },
+      "id": "spot-the-signs-of-panic",
+      "itemNames": {
+        "panic-forcing-a-shot-early": "a player forcing a contested shot before the play develops",
+        "panic-freezing-with-the-ball": "a player freezing with the ball, no decision coming",
+        "panic-not-calling-for-it": "the open teammate not calling for the ball at all"
+      },
+      "itemNotes": {
+        "panic-forcing-a-shot-early": "A shot forced before the defense has actually reacted is the hierarchy skipped entirely. That is exactly what the read-in-order routine exists to prevent.",
+        "panic-freezing-with-the-ball": "Freezing with the ball and the clock running is the pressure winning. A calm, loud call from the bench can restart the read before the clock does it for them.",
+        "panic-not-calling-for-it": "An open teammate who stays silent might as well be covered. Calling for the ball is part of making the read work for the whole team, not just the one holding it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Watch the floor for who the clock is getting to, not just who has the ball. Mark what needs a calm word from the bench.",
+      "targets": [
+        "panic-freezing-with-the-ball",
+        "panic-forcing-a-shot-early",
+        "panic-not-calling-for-it"
+      ],
+      "title": "Spot the signs of panic under pressure",
+      "why": "Panic under pressure rarely looks like nothing happening — it looks like a freeze, a forced shot, or an open teammate who goes quiet exactly when calling for the ball would matter most. Catching those signs from the bench, in real time, is what lets a coach's voice cut through and restart the read before the clock makes the decision for the team."
+    },
+    {
+      "cue": "Drag the decision token from the ball-handler to the open teammate the defense actually left uncovered.",
+      "drag": {
+        "missNote": "Not with the open teammate. A read that finds the open player but does not actually get them the ball is a read that changed nothing — move the decision all the way there.",
+        "radius": 0.45,
+        "to": "open-teammate-spot"
+      },
+      "id": "move-the-decision-to-the-open-teammate",
+      "kind": "drag",
+      "prompt": "Drag the decision token from the ball-handler to the open teammate the defense actually left uncovered.",
+      "target": "decision-token",
+      "title": "Move the ball to the teammate the read actually found open",
+      "why": "Seeing the right read and actually making it are two different things under pressure, and a physical decision — moving the ball to the teammate the defense left open — is what turns a correct read into a correct possession. A read that stays only in a player's head, with the ball still going somewhere else, is worth nothing to the scoreboard."
+    },
+    {
+      "cue": "Step to the side with the player about to take the final shot — a short, calm word, not more pressure stacked on top.",
+      "id": "quiet-word-before-the-inbound",
+      "kind": "select",
+      "prompt": "Step to the side with the player about to take the final shot — a short, calm word, not more pressure stacked on top.",
+      "target": "quiet-word-spot",
+      "title": "Give the player taking the last shot a quiet word",
+      "why": "A player about to take a pressure shot does not need reminding how much is riding on it — they already know. A quiet word that keeps things simple and calm is worth more than one more instruction added on top of everything already in their head in the final seconds."
+    },
+    {
+      "cue": "Keep the bench and the floor's composure in band as the possession actually plays out — not frozen silent, not shouting over the play.",
+      "holdBreakNote": "Composure left the band — frozen silent, or shouting over the play. Bring the bench back to steady before the shot goes up.",
+      "id": "hold-composure-through-the-final-possession",
+      "kind": "track",
+      "prompt": "Keep the bench and the floor's composure in band as the possession actually plays out — not frozen silent, not shouting over the play.",
+      "seconds": 8,
+      "target": "possession-composure-meter",
+      "title": "Hold composure through the live final possession",
+      "track": {
+        "drift": 0.15,
+        "fall": 0.42,
+        "green": [
+          0.38,
+          0.62
+        ],
+        "label": "COMPOSURE",
+        "rise": 0.5,
+        "start": 0.32
+      },
+      "why": "A bench gone silent from nerves cannot call out a read the player on the floor cannot see for themselves, and a bench shouting over each other drowns out the one voice that might actually help. Holding composure in band on the sideline while the possession plays out live is what keeps the bench useful to the play instead of one more source of pressure."
+    },
+    {
+      "cue": "Record which read was made, how it was executed, and anything the athletic trainer checked after the loose-ball fall.",
+      "id": "log-the-possession-and-decision",
+      "kind": "select",
+      "prompt": "Record which read was made, how it was executed, and anything the athletic trainer checked after the loose-ball fall.",
+      "target": "practice-log-board",
+      "title": "Log the possession and the decision made",
+      "why": "Which read a player actually made under pressure, how cleanly it was executed and anything the athletic trainer checked after a hard fall are what the next close game needs to build on, whether the shot went in or not — the decision is what gets coached, not only the result on the scoreboard."
+    },
+    {
+      "cue": "After the possession: how the read looked from the bench, anything either of you saw, and is everybody good to carry on?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "After the possession: how the read looked from the bench, anything either of you saw, and is everybody good to carry on?",
+      "target": "crew-checkin-board",
+      "title": "Check in with the assistant coach and the athletic trainer",
+      "why": "A close final possession takes something out of the adults on the bench too, win or lose. A short check-in — what did you see, how did the read look from your angle, is anyone worth a follow-up call — keeps the staff working as a team and is exactly the kind of noticing the guide's check-in points to."
+    }
+  ],
+  "supportLine": "your league's coach coordinator, or the assistant and athletic trainer who were on the bench with you for the final possession — a close finish is worth talking through afterwards whichever way it went",
+  "tagline": "The clock winding down does not change what the right read is, only how hard it is to make calmly — a decision hierarchy read in order beats a forced shot every time",
+  "title": "SmartCiti.X~ Final Possession, Decision Under Pressure VR",
+  "trade": "Youth basketball coach",
+  "underwater": null,
+  "weather": "clear"
+}

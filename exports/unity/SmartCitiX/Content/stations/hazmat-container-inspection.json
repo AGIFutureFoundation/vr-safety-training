@@ -1,0 +1,361 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "apron-cleared",
+    "name": "Apron Cleared",
+    "note": "Declaration matched, segregation held, a leak found from a safe standoff and isolated before anyone got closer — first time"
+  },
+  "category": "Maritime & Ports",
+  "certification": "ILWU marine clerks — U.S. Coast Guard regulations for waterfront facilities handling dangerous cargo (33 CFR Part 126); IMO's International Maritime Dangerous Goods (IMDG) Code placarding and segregation rules; OSHA HAZWOPER 29 CFR 1910.120 hazard recognition",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "ILWU",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.120",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Maritime",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "declaration-matched",
+        "name": "Declaration Matched",
+        "note": "Every placard checked against the DGD before anything else"
+      },
+      {
+        "id": "standoff-held",
+        "name": "Standoff Held",
+        "note": "Never closer than the safe distance, never through the seal"
+      },
+      {
+        "id": "reading-true-hz",
+        "name": "Reading True",
+        "note": "Standoff scan and vent reading both held inside the working band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-inspection",
+        "name": "Clean Inspection",
+        "note": "No corrections anywhere on the apron"
+      },
+      {
+        "id": "scan-steady",
+        "name": "Scan Steady",
+        "note": "Held the perimeter scan without a break"
+      },
+      {
+        "id": "closed-out-fast",
+        "name": "Closed Out Fast",
+        "note": "Inspection complete inside 80% of par"
+      }
+    ],
+    "currency": "MANIFEST",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Checker",
+      "Marine Clerk",
+      "Senior Clerk",
+      "Lead Clerk",
+      "Dangerous Goods Certified"
+    ],
+    "system": "Dangerous Goods Desk"
+  },
+  "hazards": {
+    "open-early": "You reached for the door handle before the inspection closed out. A sealed dangerous-goods container is evidence of what is inside it right up until the seal is broken — breaking it before the class, the segregation and the leak check are all done throws away the one thing that told you what you were about to open.",
+    "skip-uscg": "You closed the record without ever calling the Coast Guard. Notifying the terminal tells the people working around this box; notifying the Coast Guard is the separate, required call that a dangerous-goods incident on a waterfront facility does not get to stay a purely internal matter.",
+    "sniff-close": "You leaned in over the vent to smell for yourself instead of reading the meter from arm's length. Whatever concentration is venting off this box is exactly what a nose right at the source gets the full dose of, and a meter held at a safe standoff exists precisely so nobody has to find out that way.",
+    "wave-mismatch": "You clicked past a placard that doesn't match the declaration instead of stopping on it. A placard is the only warning anyone approaching this box from a distance actually gets, and one that doesn't match the class actually inside it is worse than no placard at all — it tells the wrong emergency response to whatever happens next."
+  },
+  "id": "hazmat-container-inspection",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "standoff-scan",
+      "alert": "A yard tractor has backed under the chassis and the driver is reaching for the fifth-wheel release, about to pull this box before the inspection is closed.",
+      "cue": "That box is still under inspection. Stop the driver before the wheels move.",
+      "delay": 3,
+      "id": "driver-hookup",
+      "kind": "Tractor hooking up mid-inspection",
+      "missNote": "The tractor pulled out with the box still mid-inspection. Whatever the standoff scan had or had not yet found was now somewhere else on the terminal, hooked to a machine that had no idea it was carrying an open dangerous-goods hold.",
+      "seconds": 11,
+      "target": "chassis-hold-flag",
+      "why": "A hold flag only works if somebody actually sees it before they hook up, and a driver working fast down a row of chassis does not always look — waving them off at the flag, in person, the moment they back under this one is the difference between an inspection that finishes where the box is sitting and one that has to be repeated wherever it ends up next.",
+      "wrongNote": "It's the hold flag. A driver hooking up mid-inspection is answered by getting their attention on it, not by anything back at the meter."
+    },
+    {
+      "after": "door-seam",
+      "alert": "A second clerk has walked up from the row and put a hand on the door handle, about to break the seal to look inside.",
+      "cue": "That seam is already staining. Stop them before that door comes open.",
+      "delay": 2,
+      "id": "second-clerk-door",
+      "kind": "Second clerk reaching for the door",
+      "missNote": "The door came open before the tape went up. Whatever had been weeping against that seal now had a second person standing directly in front of it with no meter and no warning.",
+      "seconds": 11,
+      "target": "exclusion-tape",
+      "why": "The second clerk was not standing here for the door-seam check and has no reason yet to know this box is any different from the one they inspected an hour ago — getting the tape up between them and that handle is what tells them, faster than an explanation would, that this door does not open until the isolation is set and reported.",
+      "wrongNote": "It's the exclusion tape. A second clerk reaching for the door is stopped by getting the line up between them and it, not by anything at the vent."
+    }
+  ],
+  "lateNotes": {
+    "exclusion-tape": "The exclusion goes up once the leak is confirmed at the door seam, not before there's anything to isolate.",
+    "vent-meter": "Nothing to read at the vent until the perimeter scan is done and the meter has already proven itself steady at a safe distance."
+  },
+  "name": "Hazmat Container Inspection",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "ports-maritime-ecology"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "chassis-hold-flag",
+      "dgd-form",
+      "exclusion-cones-hz",
+      "exclusion-tape",
+      "gas-meter-track",
+      "hi-vis-clerk",
+      "meter-cal",
+      "notify-terminal",
+      "notify-uscg",
+      "open-early",
+      "placard-mismatch",
+      "radio-checkin-hz",
+      "record-board",
+      "seal-intact",
+      "seal-number",
+      "seam-light",
+      "segregation-board",
+      "skip-uscg",
+      "sniff-close",
+      "vent-meter",
+      "wave-mismatch"
+    ],
+    "meshes": 168
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Put on the high-vis vest and radio terminal control before approaching the box.",
+      "id": "brief",
+      "itemNames": {
+        "hi-vis-clerk": "high-vis vest",
+        "radio-checkin-hz": "radio check-in with terminal control"
+      },
+      "kind": "sequence",
+      "prompt": "Put on the high-vis vest and radio terminal control before approaching the box.",
+      "targets": [
+        "hi-vis-clerk",
+        "radio-checkin-hz"
+      ],
+      "title": "Suit up and check in with terminal control",
+      "why": "A dangerous-goods box sitting alone on the apron is still parked in an active traffic lane worked by tractors and other clerks, and the radio call is what tells terminal control a clerk is standing next to a box on the manifest before anyone hooks up to move it out from under that inspection."
+    },
+    {
+      "cue": "Set the hold flag on the chassis before starting the inspection so nobody hooks up to pull it.",
+      "id": "hold-flag",
+      "kind": "select",
+      "prompt": "Set the hold flag on the chassis before starting the inspection so nobody hooks up to pull it.",
+      "target": "chassis-hold-flag",
+      "title": "Flag the chassis on hold",
+      "why": "A chassis sitting on the apron looks exactly like every other chassis waiting for a tractor unless something on it says otherwise — the hold flag is the one signal a driver walking the row actually sees, and it goes on before the inspection starts, not after somebody has already backed under it."
+    },
+    {
+      "cue": "Check the DGD for the UN number, class, packing group and quantity declared for this box.",
+      "id": "dgd",
+      "kind": "select",
+      "prompt": "Check the DGD for the UN number, class, packing group and quantity declared for this box.",
+      "target": "dgd-form",
+      "title": "Read the dangerous goods declaration",
+      "why": "The declaration is the one document that says what a shipper claims is actually inside a sealed box, and every check that follows — the placards, the segregation, even what a leak might mean — is measured against what this piece of paper says before anyone assumes they already know."
+    },
+    {
+      "cue": "Walk all four sides and click the placard that doesn't match the DGD.",
+      "id": "placard-check",
+      "itemNames": {
+        "placard-mismatch": "placard not matching the declared class"
+      },
+      "itemNotes": {
+        "placard-mismatch": "That side's placard shows a different class diamond than the one on the DGD — it does not match what this box is declared to be carrying."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk all four sides and click the placard that doesn't match the DGD.",
+      "targets": [
+        "placard-mismatch"
+      ],
+      "title": "Check every placard against the declaration",
+      "why": "A placard is read by everyone who is not standing here with the declaration in hand — the driver in the next lane, the fire crew that gets called if something goes wrong — and a box placarded for a different class than it is declared to hold sends every one of them the wrong information at the moment it matters most."
+    },
+    {
+      "cue": "Confirm the classes stowed on either side of this box are compatible under the segregation table.",
+      "id": "segregation",
+      "kind": "select",
+      "prompt": "Confirm the classes stowed on either side of this box are compatible under the segregation table.",
+      "target": "segregation-board",
+      "title": "Check IMDG segregation from the boxes alongside",
+      "why": "The IMDG Code's segregation rules exist because some classes react with each other given nothing more than proximity and a warm afternoon, and a box correctly placarded and properly sealed can still be sitting somewhere it should never have been parked if the boxes on either side of it were never checked against it."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Match the seal number to the manifest and confirm it is unbroken.",
+      "id": "seal-check",
+      "itemNames": {
+        "seal-intact": "seal checked unbroken",
+        "seal-number": "seal number matched to the manifest"
+      },
+      "kind": "sequence",
+      "prompt": "Match the seal number to the manifest and confirm it is unbroken.",
+      "targets": [
+        "seal-number",
+        "seal-intact"
+      ],
+      "title": "Verify the seal",
+      "why": "The seal is the only proof that nothing has been added, removed or swapped since this box left the shipper, and it is worth exactly nothing if the number is never actually checked against the manifest — a broken seal with a number that still matches is a different finding than a broken seal on a box that was never supposed to be sealed with this one to begin with."
+    },
+    {
+      "cue": "Hold the meter in clean air away from the box until it zeroes before using it near a suspect leak.",
+      "holdBreakNote": "Pulled away before it zeroed — hold it in clean air a moment longer.",
+      "id": "meter-zero",
+      "kind": "hold",
+      "prompt": "Hold the meter in clean air away from the box until it zeroes before using it near a suspect leak.",
+      "seconds": 3,
+      "target": "meter-cal",
+      "title": "Zero the gas meter in clean air",
+      "why": "A meter that has not been zeroed in air nobody doubts carries whatever bias it drifted to sitting in the truck, and a meter reading wrong low is the one thing that turns a real all-clear over a venting box into a false one — it is zeroed here, away from the box, specifically so the reading it gives later can actually be trusted."
+    },
+    {
+      "cue": "Walk the perimeter at a safe distance, keeping the meter's reading in view the whole way round.",
+      "holdBreakNote": "Reading climbed and the scan broke off early — hold your distance and keep the meter running the rest of the way round.",
+      "id": "standoff-scan",
+      "kind": "track",
+      "prompt": "Walk the perimeter at a safe distance, keeping the meter's reading in view the whole way round.",
+      "seconds": 6,
+      "target": "gas-meter-track",
+      "title": "Scan the box from a safe standoff",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.45,
+        "green": [
+          0,
+          0.3
+        ],
+        "label": "PERIMETER READING",
+        "rise": 0.5,
+        "start": 0.05
+      },
+      "why": "A dangerous-goods box that is venting does not always vent from the one seam anybody happens to be standing closest to, and a standoff scan of the whole perimeter is what catches a leak on the far side before anyone has walked around to that side without a meter running at all."
+    },
+    {
+      "cue": "Hold the meter to the vent from arm's length and commit the reading.",
+      "gauge": {
+        "green": [
+          0,
+          0.28
+        ],
+        "label": "VENT READING",
+        "missNote": "That reading is over the working limit for this class — stop here and treat the box as leaking, not clear.",
+        "speed": 0.6
+      },
+      "id": "vent-read",
+      "kind": "gauge",
+      "prompt": "Hold the meter to the vent from arm's length and commit the reading.",
+      "target": "vent-meter",
+      "title": "Read the vent for leaks and odours",
+      "why": "The vent is the one opening on a sealed container that a clerk on the apron is actually allowed to read, and doing it from arm's length with a meter rather than up close with a nose is what keeps 'checking for leaks and odours' from meaning the same thing as being the first exposure to whatever is escaping."
+    },
+    {
+      "cue": "Hold the light steady along the seam and check the whole length for staining.",
+      "holdBreakNote": "Light moved off the seam before the sweep finished — hold it steady along the full length, not partway.",
+      "id": "door-seam",
+      "kind": "hold",
+      "prompt": "Hold the light steady along the seam and check the whole length for staining.",
+      "seconds": 4,
+      "target": "seam-light",
+      "title": "Light the door seam",
+      "why": "A drum that has started leaking inside a closed container shows up outside it, if at all, as nothing more than a stain tracking down the one seam it can reach — a light run slowly and steadily along that seam, not swept past it, is what turns a box that reads clean on the meter into one a clerk still knows to isolate rather than wave through."
+    },
+    {
+      "cue": "Tape off the approach and ring the box with cones before anyone gets closer.",
+      "id": "isolate",
+      "itemNames": {
+        "exclusion-cones-hz": "exclusion cones set",
+        "exclusion-tape": "approach taped off"
+      },
+      "kind": "sequence",
+      "prompt": "Tape off the approach and ring the box with cones before anyone gets closer.",
+      "targets": [
+        "exclusion-tape",
+        "exclusion-cones-hz"
+      ],
+      "title": "Set the exclusion around the box",
+      "why": "A box that has just been found leaking is the one thing on this apron everybody else needs to be kept a known distance from, and the tape and the cones are what make that distance visible to a driver or another clerk who was not standing here for the door-seam check and has no other way of knowing this box is no longer just another box on the manifest."
+    },
+    {
+      "cue": "Call the terminal operations desk first, then make the required notification to the Coast Guard.",
+      "id": "notify",
+      "itemNames": {
+        "notify-terminal": "terminal operations notified",
+        "notify-uscg": "Coast Guard notified"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Terminal first, then the Coast Guard — the people working this apron right now are cleared before the report that follows the incident up the chain.",
+      "prompt": "Call the terminal operations desk first, then make the required notification to the Coast Guard.",
+      "targets": [
+        "notify-terminal",
+        "notify-uscg"
+      ],
+      "title": "Notify the terminal, then the Coast Guard",
+      "why": "The terminal call is what gets the apron around this box cleared and worked around; the Coast Guard notification is the separate, required report that a dangerous-goods release at a waterfront facility does not stay an internal matter simply because the terminal has already handled its own side of it."
+    },
+    {
+      "cue": "Log the class, the finding, the isolation and both notifications on the record.",
+      "id": "record",
+      "kind": "select",
+      "prompt": "Log the class, the finding, the isolation and both notifications on the record.",
+      "target": "record-board",
+      "title": "Complete the inspection record",
+      "why": "The record is what the terminal, the shipper and the Coast Guard all eventually read back against each other, and an inspection with nothing written down leaves nobody afterward able to say what this clerk actually found, when, or what was done about it before the box ever left the apron."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A dangerous-goods box on the apron: placards checked against the declaration, IMDG segregation confirmed, the seal verified, a leak found through the door seam from a safe standoff, the box isolated, and the terminal and the Coast Guard notified",
+  "title": "SmartCiti.X~ Hazmat Container Inspection VR",
+  "trade": "Marine clerk — ILWU, with the Coast Guard's inspection standard",
+  "underwater": null,
+  "weather": "overcast"
+}

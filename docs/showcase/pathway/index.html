@@ -1,0 +1,696 @@
+<title>Pathway Edition Demo</title>
+<style>
+:root{
+  --ground:#eef2ef; --surface:#ffffff; --sunk:#e4eae6; --ink:#15201d; --muted:#52615c; --rule:#cfd8d3;
+  --amber:#9a650c; --amber-fill:#e0a23f; --amber-wash:#f7e7c6; --teal:#1d6b63; --teal-wash:#d6ebe7;
+  --k-jobs:#1d6b63; --k-warehouse:#8a5a0a; --k-classa:#2d5a8c; --k-apprentice:#7a3f73; --k-finance:#3f6b1f; --k-tdl:#6b5314; --k-wellness:#8c3d3d;
+  --mark:rgba(224,162,63,.32);
+  --f-display:"Archivo","Arial Narrow",Arial,sans-serif; --f-body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif; --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  color-scheme:dark; --ground:#0e1513; --surface:#151f1c; --sunk:#1b2723; --ink:#e4ebe8; --muted:#9aa9a4; --rule:#2a3733;
+  --amber:#e9b457; --amber-fill:#e0a23f; --amber-wash:#3a2c12; --teal:#6fc0b4; --teal-wash:#173330;
+  --k-jobs:#6fc0b4; --k-warehouse:#e0a84f; --k-classa:#86b2e3; --k-apprentice:#d59bcf; --k-finance:#9fcf7a; --k-tdl:#d6bb6a; --k-wellness:#e59a9a;
+  --mark:rgba(224,162,63,.26);
+}}
+:root[data-theme="dark"]{
+  color-scheme:dark; --ground:#0e1513; --surface:#151f1c; --sunk:#1b2723; --ink:#e4ebe8; --muted:#9aa9a4; --rule:#2a3733;
+  --amber:#e9b457; --amber-fill:#e0a23f; --amber-wash:#3a2c12; --teal:#6fc0b4; --teal-wash:#173330;
+  --k-jobs:#6fc0b4; --k-warehouse:#e0a84f; --k-classa:#86b2e3; --k-apprentice:#d59bcf; --k-finance:#9fcf7a; --k-tdl:#d6bb6a; --k-wellness:#e59a9a;
+  --mark:rgba(224,162,63,.26);
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;margin:0;padding-inline:16px}
+.wrap{max-width:1080px;margin:0 auto;padding-block:32px 72px;display:grid;gap:56px}
+a{color:var(--teal);text-underline-offset:2px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--amber-fill);outline-offset:2px;border-radius:3px}
+h1,h2,h3,h4{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.15}
+h2{font-size:clamp(24px,3.2vw,32px);font-weight:750;font-stretch:108%;letter-spacing:-.01em}
+h3{font-size:19px;font-weight:700;font-stretch:104%}
+h4{font-size:16px;font-weight:700}
+p{margin:0;max-width:68ch}
+code{font-family:var(--f-mono);font-size:.82em}
+.dim{color:var(--muted)}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+section{display:grid;gap:20px}
+.sec-head{display:grid;gap:6px;border-top:2px solid var(--ink);padding-top:14px}
+/* header */
+header{display:grid;gap:18px}
+.proto{display:inline-flex;align-items:center;gap:8px;font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;border:1.5px dashed var(--amber);color:var(--amber);padding:4px 10px;border-radius:4px;width:max-content;max-width:100%}
+.proto::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--amber-fill)}
+h1{font-size:clamp(40px,7vw,76px);font-weight:800;font-stretch:115%;letter-spacing:-.02em;line-height:1}
+h1 small{display:block;font-size:.38em;font-weight:600;font-stretch:100%;letter-spacing:0;color:var(--muted);margin-top:10px}
+.purpose{font-size:clamp(17px,2vw,20px);max-width:60ch}
+.for{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;font-size:15px}
+.for b{font-weight:650}
+.facts{display:flex;flex-wrap:wrap;gap:8px 22px;font-family:var(--f-mono);font-size:13px;color:var(--muted);border-block:1px solid var(--rule);padding-block:10px}
+.facts b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+/* video */
+.video{background:#0b1210;border-radius:8px;overflow:hidden;aspect-ratio:16/9;max-width:100%}
+.video video{width:100%;height:100%;display:block;background:#0b1210}
+.vcap{font-size:14px;color:var(--muted)}
+/* quote */
+blockquote{margin:0;background:var(--surface);border:1px solid var(--rule);border-radius:8px;padding:22px 24px;display:grid;gap:12px;font-size:17px}
+blockquote p{max-width:72ch}
+blockquote footer{font-size:13px;color:var(--muted)}
+mark{background:var(--mark);color:inherit;padding:0 2px;border-radius:2px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.titles{display:flex;flex-wrap:wrap;gap:8px}
+.ptitle{font-family:var(--f-mono);font-size:13px;border:1px solid var(--rule);background:var(--surface);padding:3px 9px;border-radius:4px}
+.maps{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:12px}
+.maprow{background:var(--surface);border:1px solid var(--rule);border-radius:8px;padding:14px 16px;display:grid;gap:8px;align-content:start}
+.maphead{display:flex;justify-content:space-between;gap:10px;align-items:baseline;font-size:15px}
+.maphead q{font-style:italic}
+.count{font-family:var(--f-mono);font-size:12px;color:var(--muted);white-space:nowrap}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:13px;text-decoration:none;color:var(--ink);background:var(--sunk);border-radius:4px;padding:2px 8px;display:inline-flex;gap:6px;align-items:baseline}
+.chip.ms{background:var(--amber-wash)}
+.chip b{font-family:var(--f-mono);font-size:11px;color:var(--amber)}
+.chip:hover{outline:1px solid var(--teal)}
+.rule{font-size:12.5px;color:var(--muted)}
+.note{font-size:14px;color:var(--muted);max-width:75ch}
+/* journey */
+.route{list-style:none;margin:0;padding:0;display:grid;gap:0;position:relative}
+.stop{display:grid;grid-template-columns:44px 1fr;gap:14px;padding-bottom:18px;position:relative}
+.stop:not(:last-child)::before{content:"";position:absolute;left:21px;top:40px;bottom:0;border-left:3px dotted var(--amber-fill)}
+.stopn{width:44px;height:44px;border-radius:50%;background:var(--amber-fill);color:#1d1507;font-family:var(--f-display);font-weight:800;font-size:19px;display:grid;place-items:center}
+.stop div{display:grid;gap:4px;padding-top:9px}
+.stop .meta{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+@media (min-width:860px){.route{grid-template-columns:1fr 1fr;column-gap:36px}.route .stop:nth-child(4)::before{display:none}.route{grid-auto-flow:column;grid-template-rows:repeat(4,auto)}}
+/* grading */
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.panel{background:var(--surface);border:1px solid var(--rule);border-radius:8px;padding:16px 18px;display:grid;gap:8px;align-content:start}
+.panel ul{margin:0;padding-left:18px;display:grid;gap:4px}
+.big{font-family:var(--f-display);font-size:30px;font-weight:800;font-stretch:110%;font-variant-numeric:tabular-nums;line-height:1}
+.ladder{display:flex;gap:3px;align-items:flex-end;height:28px}
+.ladder span{flex:1;background:var(--teal);opacity:.85;border-radius:2px 2px 0 0}
+/* tables */
+.tscroll{overflow-x:auto;border:1px solid var(--rule);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--rule)}
+th{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500;background:var(--sunk);position:sticky;top:0}
+tr:last-child td{border-bottom:0}
+.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-size:12.5px}
+td.num,th.num{text-align:right;white-space:nowrap}
+.stations{min-width:1060px}
+.stations tr.ms td{background:color-mix(in srgb,var(--amber-wash) 55%,transparent)}
+.stations .st{min-width:170px}.stations .st .nm{display:block;font-weight:650}.stations .st code{color:var(--muted);font-size:11px}
+.stations .why{min-width:260px;max-width:340px}
+.stations .kinds,.stations .ints{font-size:12px;color:var(--muted);min-width:150px}
+.stations .kinds .num,.stations .ints .num{color:var(--ink);font-weight:600;margin-right:4px}
+.stations tr:target td{outline:2px solid var(--amber-fill);outline-offset:-2px}
+.tag{display:inline-block;font-size:11px;font-weight:600;border-radius:3px;padding:1px 6px;margin:0 4px 4px 0;color:var(--surface);white-space:nowrap}
+.tag.k-jobs{background:var(--k-jobs)}.tag.k-warehouse{background:var(--k-warehouse)}.tag.k-classa{background:var(--k-classa)}.tag.k-apprentice{background:var(--k-apprentice)}.tag.k-finance{background:var(--k-finance)}.tag.k-tdl{background:var(--k-tdl)}.tag.k-wellness{background:var(--k-wellness)}
+.filters{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.filters button{font:inherit;font-size:13px;border:1px solid var(--rule);background:var(--surface);color:var(--ink);border-radius:999px;padding:3px 12px;cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--ground);border-color:var(--ink)}
+.filters .shown{font-family:var(--f-mono);font-size:12px;color:var(--muted);margin-left:6px}
+/* screens */
+.shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+figure{margin:0;display:grid;gap:8px;align-content:start}
+figure img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:6px;border:1px solid var(--rule);background:var(--sunk)}
+figcaption{font-size:13.5px;color:var(--muted)}
+/* build */
+.links{columns:2 280px;column-gap:24px;margin:0;padding-left:18px}
+.links li{break-inside:avoid;margin-bottom:4px;font-size:14px}
+.next{display:grid;gap:12px;counter-reset:none;margin:0;padding:0;list-style:none}
+.next li{background:var(--surface);border:1px solid var(--rule);border-radius:8px;padding:14px 18px;display:grid;gap:4px}
+.next li b{font-family:var(--f-display);font-size:17px}
+footer.page{font-size:13px;color:var(--muted);border-top:1px solid var(--rule);padding-top:14px}
+@media (prefers-reduced-motion:no-preference){.chip,.filters button{transition:background .15s,color .15s}}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=IBM+Plex+Mono:wght@400;500;600&family=Public+Sans:ital,wght@0,400..700;1,400&display=swap">
+
+<div class="wrap">
+<header>
+  <span class="proto">Working prototype · SmartCiti.X ~ Holodeck</span>
+  <h1>Pathway Edition<small>with the Job Readiness Edition, built around wojrc.org’s own description of its programmes</small></h1>
+  <p class="purpose">A participant’s route from intake to an alumni mentor, practised as graded procedures in a phone browser, on a laptop or in a headset.</p>
+  <p class="for"><b>Prepared for Joyce Guy and the team</b><span class="dim">named by the sponsor of this edition</span></p>
+  <div class="facts">
+    <span><b>40</b> stations in the Pathway Edition</span>
+    <span><b>8</b> milestone stations</span>
+    <span><b>32</b> in the Job Readiness Edition</span>
+    <span><b>20</b> levels</span>
+    <span>eval mean <b>95.7</b></span>
+    <span>catalog ids <code>wojrc-pathway-edition</code> · <code>job-readiness-edition</code></span>
+  </div>
+</header>
+
+<section id="video" aria-labelledby="h-video">
+  <div class="sec-head"><span class="eyebrow">Video demo</span><h2 id="h-video">102 seconds through the pathway</h2></div>
+  <div class="video"><video controls playsinline preload="metadata" poster="assets/poster.jpg" src="demo.mp4"></video></div>
+  <p class="vcap">The home page, the Pathway track, five milestone stations and two trade stations recorded from real runs, then the Bay World job board where the edition is anchored. Narrated by a synthetic voice.</p>
+</section>
+
+<section id="overview" aria-labelledby="h-over">
+  <div class="sec-head"><span class="eyebrow">Overview</span><h2 id="h-over">What the organisation says, and where each line is practised</h2></div>
+  <p>The only facts this page states about the organisation are the words it publishes about itself. Each highlighted phrase is mapped below to the stations that practise it.</p>
+  <blockquote>
+    <p>Everyone who is willing to work hard deserves an opportunity to succeed. For the past 14 years, we have been helping low-income Bay Area residents' <mark class="k-jobs">gain the skills and confidence they need to get and keep jobs</mark>, and build financial security that support themselves and their families.</p>
+    <p>How We Help: We offer <mark class="k-warehouse">training for warehouse</mark> and <mark class="k-classa">Commercial A truck driver positions</mark>. We prepare you and help you <mark class="k-apprentice">navigate and enroll in union construction trades apprenticeship programs</mark>. We offer <mark class="k-finance">financial coaching to help build your credit score, reduce debt, and build savings</mark>.</p>
+    <div class="titles"><span class="dim" style="font-size:13px">Page titles:</span><span class="ptitle">“TDL Pre-Apprenticeship Training”</span><span class="ptitle">“Wellness Resource Center”</span></div>
+    <footer>wojrc.org, its own published text, as supplied by the sponsor of this edition.</footer>
+  </blockquote>
+  <div class="maps">
+    <div class="maprow"><div class="maphead"><q>gain the skills and confidence they need to get and keep jobs</q><span class="count">4 stations</span></div><div class="chips"><a class="chip ms" href="#st-wp-intake-and-pathway-planning"><b>1</b>Intake and Pathway Planning</a><a class="chip ms" href="#st-wp-mock-interview-and-resume"><b>2</b>Mock Interview and Resume</a><a class="chip ms" href="#st-wp-employer-meet-and-greet"><b>3</b>Employer Meet-and-Greet</a><a class="chip ms" href="#st-wp-graduation-and-alumni-mentors"><b>8</b>Graduation and Alumni-Mentor Day</a></div><p class="rule">Mapped from the catalog: the milestone stations for intake, interview, job fair and graduation.</p></div>
+    <div class="maprow"><div class="maphead"><q>training for warehouse</q><span class="count">7 stations</span></div><div class="chips"><a class="chip ms" href="#st-wp-warehouse-ride-along"><b>4</b>Warehouse Ride-Along Day</a><a class="chip" href="#st-forklift-dock">Forklift Dock</a><a class="chip" href="#st-tdl-pallet-jack-and-racking">Pallet Jack and Racking</a><a class="chip" href="#st-tdl-pick-pack-and-scan">Pick, Pack and Scan</a><a class="chip" href="#st-tdl-trailer-loading-and-dock-plate">Trailer Loading and Dock Plate</a><a class="chip" href="#st-tdl-hazmat-labeling-and-segregation">Hazmat Labeling and Segregation</a><a class="chip" href="#st-tdl-lifting-and-ergonomics">Lifting and Ergonomics</a></div><p class="rule">Mapped from the catalog: why line opens “Warehouse:”, plus the ride-along milestone.</p></div>
+    <div class="maprow"><div class="maphead"><q>Commercial A truck driver positions</q><span class="count">12 stations</span></div><div class="chips"><a class="chip ms" href="#st-wp-permit-study-and-knowledge-test"><b>5</b>Permit Study and Knowledge-Test Day</a><a class="chip" href="#st-tdl-pretrip-inspection">Pre-Trip Inspection</a><a class="chip" href="#st-tdl-air-brake-test">Air Brake Test</a><a class="chip" href="#st-tdl-coupling-and-uncoupling">Coupling and Uncoupling</a><a class="chip" href="#st-tdl-backing-and-docking">Backing and Docking</a><a class="chip" href="#st-tdl-cargo-securement-and-hours">Cargo Securement and Hours</a><a class="chip" href="#st-drive-city-route-and-turns">City Route and Turns</a><a class="chip" href="#st-drive-freeway-merge-and-following-distance">Freeway Merge and Following Distance</a><a class="chip" href="#st-drive-mountain-grade-and-engine-brake">Mountain Grade and Engine Brake</a><a class="chip" href="#st-drive-night-fog-and-rail-crossing">Night Fog and Rail Crossing</a><a class="chip" href="#st-drive-backing-serpentine-and-alley-dock">Backing Serpentine and Alley Dock</a><a class="chip" href="#st-drive-light-vehicle-fleet-and-forklift-course">Light Vehicle Fleet and Forklift Course</a></div><p class="rule">Mapped from the catalog: why line opens “Class A:”, plus the permit-study milestone.</p></div>
+    <div class="maprow"><div class="maphead"><q>navigate and enroll in union construction trades apprenticeship programs</q><span class="count">8 stations</span></div><div class="chips"><a class="chip ms" href="#st-wp-mock-interview-and-resume"><b>2</b>Mock Interview and Resume</a><a class="chip ms" href="#st-wp-apprenticeship-enrollment-day"><b>6</b>Apprenticeship Enrollment Day</a><a class="chip" href="#st-apprenticeship-standards-reading">Reading an Apprenticeship Standard</a><a class="chip" href="#st-apprenticeship-application-and-test">Apprenticeship Application &amp; Test</a><a class="chip" href="#st-jobsite-orientation-and-osha-10">Jobsite Orientation &amp; OSHA 10</a><a class="chip" href="#st-union-hall-and-dispatch">Union Hall &amp; Dispatch</a><a class="chip" href="#st-first-period-evaluation">First-Period Evaluation</a><a class="chip" href="#st-trades-lineage-briefing">Trades Lineage Briefing</a></div><p class="rule">Mapped from the catalog: why line opens “Apprenticeship:”, plus the interview and enrolment milestones.</p></div>
+    <div class="maprow"><div class="maphead"><q>financial coaching to help build your credit score, reduce debt, and build savings</q><span class="count">6 stations</span></div><div class="chips"><a class="chip ms" href="#st-wp-first-paycheck-coaching"><b>7</b>First-Paycheck Coaching</a><a class="chip" href="#st-credit-report-reading">Credit Report Reading</a><a class="chip" href="#st-debt-reduction-plan">Debt Reduction Plan</a><a class="chip" href="#st-pay-stub-and-withholding">Pay Stub &amp; Withholding</a><a class="chip" href="#st-budget-with-irregular-income">Budget With Irregular Income</a><a class="chip" href="#st-emergency-savings-and-predatory-lending">Emergency Savings &amp; Predatory Lending</a></div><p class="rule">Mapped from the catalog: why line opens “Financial coaching:”, plus the first-paycheck milestone.</p></div>
+    <div class="maprow"><div class="maphead"><span>Page title <q>TDL Pre-Apprenticeship Training</q></span><span class="count">10 stations</span></div><div class="chips"><a class="chip" href="#st-tdl-pallet-jack-and-racking">Pallet Jack and Racking</a><a class="chip" href="#st-tdl-pick-pack-and-scan">Pick, Pack and Scan</a><a class="chip" href="#st-tdl-trailer-loading-and-dock-plate">Trailer Loading and Dock Plate</a><a class="chip" href="#st-tdl-hazmat-labeling-and-segregation">Hazmat Labeling and Segregation</a><a class="chip" href="#st-tdl-lifting-and-ergonomics">Lifting and Ergonomics</a><a class="chip" href="#st-tdl-pretrip-inspection">Pre-Trip Inspection</a><a class="chip" href="#st-tdl-air-brake-test">Air Brake Test</a><a class="chip" href="#st-tdl-coupling-and-uncoupling">Coupling and Uncoupling</a><a class="chip" href="#st-tdl-backing-and-docking">Backing and Docking</a><a class="chip" href="#st-tdl-cargo-securement-and-hours">Cargo Securement and Hours</a></div><p class="rule">Mapped from the catalog: catalog trade field names the TDL pre-apprenticeship.</p></div>
+    <div class="maprow"><div class="maphead"><span>Page title <q>Wellness Resource Center</q></span><span class="count">5 stations</span></div><div class="chips"><a class="chip ms" href="#st-wp-first-paycheck-coaching"><b>7</b>First-Paycheck Coaching</a><a class="chip" href="#st-wellness-shift-work-sleep-and-stress">Wellness — Shift Work, Sleep and Stress</a><a class="chip" href="#st-wellness-peer-support-conversation">Wellness — Peer Support Conversation</a><a class="chip" href="#st-wellness-substance-use-and-the-job">Wellness — Substance Use and the Job</a><a class="chip" href="#st-wellness-asking-for-help-and-resources">Wellness — Asking for Help and Resources</a></div><p class="rule">Mapped from the catalog: why line opens “Wellness:”, plus the first-paycheck milestone set at the wellness resource centre.</p></div>
+  </div>
+  <p class="note">A station can practise more than one line; milestone stations are shaded and carry their number. No endorsement, partnership or review by wojrc.org is claimed. The organisation’s staff are invited to review every station before any learner sees it.</p>
+
+  <h3>The participant’s journey, in order</h3>
+  <p>The Pathway Edition opens with 8 milestone stations, in the order a participant meets them. Each is a full station: 12 to 14 steps, several kinds of interaction, hazards to catch and interruptions that change the scene. After them come the 32 Job Readiness stations, grouped by service.</p>
+  <ol class="route">
+<li class="stop"><span class="stopn">1</span><div><h4>Intake and Pathway Planning</h4><p>The pathway's first appointment: a coach helps an applicant choose warehouse or Commercial Class A from an honest self-assessment rather than a coin flip.</p><p class="meta">13 steps · 8 kinds · 4 hazards · 2 interruptions: Pressure to skip the comparison; Another applicant leans in to copy · eval 96</p></div></li>
+<li class="stop"><span class="stopn">2</span><div><h4>Mock Interview and Resume</h4><p>Before any application goes in, a resume is built section by section and a mock interview is sat until the posture, the eye contact and the hardest question all hold steady.</p><p class="meta">13 steps · 8 kinds · 4 hazards · 2 interruptions: Phone buzzing mid-answer; Fire alarm test in the building · eval 95</p></div></li>
+<li class="stop"><span class="stopn">3</span><div><h4>Employer Meet-and-Greet</h4><p>The job fair floor where the resume and the rehearsed pitch meet an actual employer table and the apprenticeship coordinator in person.</p><p class="meta">12 steps · 8 kinds · 4 hazards · 2 interruptions: Sparking power strip behind the table; Another job seeker cuts into the conversation · eval 96</p></div></li>
+<li class="stop"><span class="stopn">4</span><div><h4>Warehouse Ride-Along Day</h4><p>The warehouse track's first live day: a supervisor beside you on a real pallet-jack route, walking pace and the horn at every cross aisle.</p><p class="meta">14 steps · 8 kinds · 4 hazards · 2 interruptions: Forklift crossing the aisle; Pedestrian walks up to the raised load · eval 95</p></div></li>
+<li class="stop"><span class="stopn">5</span><div><h4>Permit Study and Knowledge-Test Day</h4><p>The Class A track's first milestone: the manual studied honestly and the knowledge test sat without rushing, permit in hand at the end of it.</p><p class="meta">13 steps · 8 kinds · 4 hazards · 2 interruptions: A folded cheat sheet slides under the table; Testing system reboot warning · eval 96</p></div></li>
+<li class="stop"><span class="stopn">6</span><div><h4>Apprenticeship Enrollment Day</h4><p>The paperwork day that turns an offer into an enrolment: documents, the drug-test consent actually understood before it is signed, a physical, and the coordinator's own checklist — every requirement stated only as the programme's own.</p><p class="meta">13 steps · 8 kinds · 4 hazards · 2 interruptions: Coordinator hands you the wrong form; The applicant ahead faints at the blood draw · eval 96</p></div></li>
+<li class="stop"><span class="stopn">7</span><div><h4>First-Paycheck Coaching</h4><p>The wellness resource centre's financial coaching desk the week the first check actually arrives: direct deposit, a budget for the real number, and a benefits election made before the window closes.</p><p class="meta">13 steps · 8 kinds · 4 hazards · 2 interruptions: Caller posing as payroll; Coworker asks to borrow against your check · eval 94</p></div></li>
+<li class="stop"><span class="stopn">8</span><div><h4>Graduation and Alumni-Mentor Day</h4><p>The pathway's last station: a certificate earned in front of the cohort, and an alumni mentor matched with real 30, 60 and 90-day check-ins booked before anyone leaves the hall.</p><p class="meta">13 steps · 8 kinds · 4 hazards · 2 interruptions: Microphone feedback squeals through the hall; A photographer interrupts the mentor conversation · eval 96</p></div></li>
+  </ol>
+
+  <h3>How a learner is graded</h3>
+  <div class="cols">
+    <div class="panel"><h4>What a learner does</h4><p>Each station is a procedure worked one step at a time, using 9 kinds of interaction: select, find, hold, gauge, track, drag, sequence, turn, drive. Hazards in the scene must be caught, and interruptions arrive mid-run and must be answered with the right control. Across the edition that is 504 steps, 160 hazards and 76 interruptions.</p></div>
+    <div class="panel"><h4>Passing</h4><ul><li>Completion rule: every station has a passing attempt (stars &gt;= 2, no unsafe action).</li><li>Stars are earned per run; two or more is a pass.</li><li>A run with any unsafe action does not count as a pass, whatever its stars.</li><li>Competency: a mastery run on 6 of the 40 stations, from <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/docs/programmes/wojrc-pathway-edition.md">the programme file</a>.</li></ul></div>
+    <div class="panel"><h4>The ladder</h4><div class="big">20 levels</div><div class="ladder" aria-hidden="true"><span title="Level 1" style="height:100%"></span><span title="Level 2" style="height:100%"></span><span title="Level 3" style="height:100%"></span><span title="Level 4" style="height:100%"></span><span title="Level 5" style="height:100%"></span><span title="Level 6" style="height:100%"></span><span title="Level 7" style="height:100%"></span><span title="Level 8" style="height:100%"></span><span title="Level 9" style="height:100%"></span><span title="Level 10" style="height:100%"></span><span title="Level 11" style="height:100%"></span><span title="Level 12" style="height:100%"></span><span title="Level 13" style="height:100%"></span><span title="Level 14" style="height:100%"></span><span title="Level 15" style="height:100%"></span><span title="Level 16" style="height:100%"></span><span title="Level 17" style="height:100%"></span><span title="Level 18" style="height:100%"></span><span title="Level 19" style="height:100%"></span><span title="Level 20" style="height:100%"></span></div><p>1592 lessons and 126 tasks; all 20 levels meet the 75-lesson bar. A lesson is one station step under one condition (weather, hour, interruption).</p></div>
+  </div>
+
+  <h3>Two editions, one roster</h3>
+  <div class="tscroll"><table>
+    <thead><tr><th></th><th>Pathway Edition</th><th>Job Readiness Edition</th></tr></thead>
+    <tbody>
+      <tr><td>Catalog id</td><td><code>wojrc-pathway-edition</code></td><td><code>job-readiness-edition</code></td></tr>
+      <tr><td>Stations</td><td class="num" style="text-align:left">40 (8 milestones + 32 shared)</td><td class="num" style="text-align:left">32</td></tr>
+      <tr><td>Ladder</td><td>20 levels, 1592 lessons, 126 tasks</td><td>20 levels, 1593 lessons, 127 tasks</td></tr>
+      <tr><td>Eval, mean / min</td><td class="num" style="text-align:left">95.7 / 84</td><td class="num" style="text-align:left">95.7 / 84</td></tr>
+      <tr><td>Bay World anchor</td><td><b>Port Container Terminal</b> <span class="dim">(port)</span></td><td><b>West Oakland Truck Yard</b> <span class="dim">(west-oakland)</span> and <b>Emery Distribution Center</b> <span class="dim">(emery-crossing)</span></td></tr>
+      <tr><td>Unions named</td><td>Teamsters for warehouse and driving work, the building-trades apprenticeship programmes the pathway prepares people for, and SEIU/AFSCME for the public-benefit and wellness staff a participant meets along the way</td><td>Teamsters for warehouse and driving work, ILWU for the port side, the building-trades apprenticeship programmes the edition prepares people for, and SEIU/AFSCME for the public-benefit and wellness staff</td></tr>
+    </tbody></table></div>
+</section>
+
+<section id="details" aria-labelledby="h-det">
+  <div class="sec-head"><span class="eyebrow">Details</span><h2 id="h-det">All 40 stations</h2></div>
+  <p>In catalog order. “What it trains” is the programme’s own why line (the station tagline where the programme gives none). Eval is the content-eval score from <code>docs/investor/stations.csv</code>.</p>
+  <div class="filters" role="group" aria-label="Filter stations by line">
+    <button type="button" id="f-all" data-k="all" aria-pressed="true">All</button>
+    <button type="button" id="f-jobs" data-k="jobs" aria-pressed="false">Get and keep jobs</button><button type="button" id="f-warehouse" data-k="warehouse" aria-pressed="false">Warehouse</button><button type="button" id="f-classa" data-k="classa" aria-pressed="false">Commercial A</button><button type="button" id="f-apprentice" data-k="apprentice" aria-pressed="false">Apprenticeship</button><button type="button" id="f-finance" data-k="finance" aria-pressed="false">Financial coaching</button><button type="button" id="f-tdl" data-k="tdl" aria-pressed="false">TDL page</button><button type="button" id="f-wellness" data-k="wellness" aria-pressed="false">Wellness page</button>
+    <span class="shown" id="shown">40 shown</span>
+  </div>
+  <div class="tscroll"><table class="stations">
+    <thead><tr><th class="num">#</th><th>Station</th><th>What it trains</th><th>Practises</th><th class="num">Steps</th><th>Interaction kinds</th><th class="num">Hazards</th><th>Interruptions</th><th class="num">Eval</th></tr></thead>
+    <tbody>
+<tr id="st-wp-intake-and-pathway-planning" data-lines="jobs" class="ms">
+<td class="num">1</td>
+<td class="st"><span class="nm">Intake and Pathway Planning</span><code>wp-intake-and-pathway-planning</code></td>
+<td class="why">The pathway's first appointment: a coach helps an applicant choose warehouse or Commercial Class A from an honest self-assessment rather than a coin flip.</td>
+<td class="ln"><span class="tag k-jobs">Get and keep jobs</span></td>
+<td class="num">13</td>
+<td class="kinds"><span class="num">8</span> select, find, hold, gauge, track, drag, sequence, turn</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Pressure to skip the comparison; Another applicant leans in to copy</td>
+<td class="num ev">96</td></tr>
+<tr id="st-wp-mock-interview-and-resume" data-lines="apprentice jobs" class="ms">
+<td class="num">2</td>
+<td class="st"><span class="nm">Mock Interview and Resume</span><code>wp-mock-interview-and-resume</code></td>
+<td class="why">Before any application goes in, a resume is built section by section and a mock interview is sat until the posture, the eye contact and the hardest question all hold steady.</td>
+<td class="ln"><span class="tag k-apprentice">Apprenticeship</span><span class="tag k-jobs">Get and keep jobs</span></td>
+<td class="num">13</td>
+<td class="kinds"><span class="num">8</span> select, hold, find, sequence, gauge, track, turn, drag</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Phone buzzing mid-answer; Fire alarm test in the building</td>
+<td class="num ev">95</td></tr>
+<tr id="st-wp-employer-meet-and-greet" data-lines="jobs" class="ms">
+<td class="num">3</td>
+<td class="st"><span class="nm">Employer Meet-and-Greet</span><code>wp-employer-meet-and-greet</code></td>
+<td class="why">The job fair floor where the resume and the rehearsed pitch meet an actual employer table and the apprenticeship coordinator in person.</td>
+<td class="ln"><span class="tag k-jobs">Get and keep jobs</span></td>
+<td class="num">12</td>
+<td class="kinds"><span class="num">8</span> select, hold, find, sequence, gauge, track, drag, turn</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Sparking power strip behind the table; Another job seeker cuts into the conversation</td>
+<td class="num ev">96</td></tr>
+<tr id="st-wp-warehouse-ride-along" data-lines="warehouse" class="ms">
+<td class="num">4</td>
+<td class="st"><span class="nm">Warehouse Ride-Along Day</span><code>wp-warehouse-ride-along</code></td>
+<td class="why">The warehouse track's first live day: a supervisor beside you on a real pallet-jack route, walking pace and the horn at every cross aisle.</td>
+<td class="ln"><span class="tag k-warehouse">Warehouse</span></td>
+<td class="num">14</td>
+<td class="kinds"><span class="num">8</span> select, sequence, hold, find, drive, gauge, turn, drag</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Forklift crossing the aisle; Pedestrian walks up to the raised load</td>
+<td class="num ev">95</td></tr>
+<tr id="st-wp-permit-study-and-knowledge-test" data-lines="classa" class="ms">
+<td class="num">5</td>
+<td class="st"><span class="nm">Permit Study and Knowledge-Test Day</span><code>wp-permit-study-and-knowledge-test</code></td>
+<td class="why">The Class A track's first milestone: the manual studied honestly and the knowledge test sat without rushing, permit in hand at the end of it.</td>
+<td class="ln"><span class="tag k-classa">Commercial A</span></td>
+<td class="num">13</td>
+<td class="kinds"><span class="num">8</span> select, hold, sequence, track, find, gauge, turn, drag</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> A folded cheat sheet slides under the table; Testing system reboot warning</td>
+<td class="num ev">96</td></tr>
+<tr id="st-wp-apprenticeship-enrollment-day" data-lines="apprentice" class="ms">
+<td class="num">6</td>
+<td class="st"><span class="nm">Apprenticeship Enrollment Day</span><code>wp-apprenticeship-enrollment-day</code></td>
+<td class="why">The paperwork day that turns an offer into an enrolment: documents, the drug-test consent actually understood before it is signed, a physical, and the coordinator's own checklist — every requirement stated only as the programme's own.</td>
+<td class="ln"><span class="tag k-apprentice">Apprenticeship</span></td>
+<td class="num">13</td>
+<td class="kinds"><span class="num">8</span> select, find, sequence, hold, gauge, track, turn, drag</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Coordinator hands you the wrong form; The applicant ahead faints at the blood draw</td>
+<td class="num ev">96</td></tr>
+<tr id="st-wp-first-paycheck-coaching" data-lines="finance wellness" class="ms">
+<td class="num">7</td>
+<td class="st"><span class="nm">First-Paycheck Coaching</span><code>wp-first-paycheck-coaching</code></td>
+<td class="why">The wellness resource centre's financial coaching desk the week the first check actually arrives: direct deposit, a budget for the real number, and a benefits election made before the window closes.</td>
+<td class="ln"><span class="tag k-finance">Financial coaching</span><span class="tag k-wellness">Wellness page</span></td>
+<td class="num">13</td>
+<td class="kinds"><span class="num">8</span> select, hold, find, sequence, gauge, track, drag, turn</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Caller posing as payroll; Coworker asks to borrow against your check</td>
+<td class="num ev">94</td></tr>
+<tr id="st-wp-graduation-and-alumni-mentors" data-lines="jobs" class="ms">
+<td class="num">8</td>
+<td class="st"><span class="nm">Graduation and Alumni-Mentor Day</span><code>wp-graduation-and-alumni-mentors</code></td>
+<td class="why">The pathway's last station: a certificate earned in front of the cohort, and an alumni mentor matched with real 30, 60 and 90-day check-ins booked before anyone leaves the hall.</td>
+<td class="ln"><span class="tag k-jobs">Get and keep jobs</span></td>
+<td class="num">13</td>
+<td class="kinds"><span class="num">8</span> select, sequence, hold, find, gauge, track, drag, turn</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Microphone feedback squeals through the hall; A photographer interrupts the mentor conversation</td>
+<td class="num ev">96</td></tr>
+<tr id="st-forklift-dock" data-lines="warehouse">
+<td class="num">9</td>
+<td class="st"><span class="nm">Forklift Dock</span><code>forklift-dock</code></td>
+<td class="why">Warehouse: the shared opener, where the forklift and the dock are where the training wojrc.org describes actually starts.</td>
+<td class="ln"><span class="tag k-warehouse">Warehouse</span></td>
+<td class="num">12</td>
+<td class="kinds"><span class="num">6</span> select, sequence, drag, gauge, track, find</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Trailer moving; Pedestrian in path</td>
+<td class="num ev">91</td></tr>
+<tr id="st-tdl-pallet-jack-and-racking" data-lines="warehouse tdl">
+<td class="num">10</td>
+<td class="st"><span class="nm">Pallet Jack and Racking</span><code>tdl-pallet-jack-and-racking</code></td>
+<td class="why">Warehouse: the walkie pallet jack and the rack it feeds, inspected, rated and put away the standard's own way.</td>
+<td class="ln"><span class="tag k-warehouse">Warehouse</span><span class="tag k-tdl">TDL page</span></td>
+<td class="num">13</td>
+<td class="kinds"><span class="num">8</span> select, find, sequence, gauge, hold, track, turn, drag</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Rack strike; Pedestrian in path</td>
+<td class="num ev">96</td></tr>
+<tr id="st-tdl-pick-pack-and-scan" data-lines="warehouse tdl">
+<td class="num">11</td>
+<td class="st"><span class="nm">Pick, Pack and Scan</span><code>tdl-pick-pack-and-scan</code></td>
+<td class="why">Warehouse: one pick wave from scanner to shipping label, with the forklift lane respected the whole way.</td>
+<td class="ln"><span class="tag k-warehouse">Warehouse</span><span class="tag k-tdl">TDL page</span></td>
+<td class="num">13</td>
+<td class="kinds"><span class="num">8</span> select, sequence, find, track, drag, hold, turn, gauge</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Forklift in the cross lane; Hand toward the belt</td>
+<td class="num ev">98</td></tr>
+<tr id="st-tdl-trailer-loading-and-dock-plate" data-lines="warehouse tdl">
+<td class="num">12</td>
+<td class="st"><span class="nm">Trailer Loading and Dock Plate</span><code>tdl-trailer-loading-and-dock-plate</code></td>
+<td class="why">Warehouse: a dropped trailer loaded through a plate door that is rated, chocked and released the way the standard requires.</td>
+<td class="ln"><span class="tag k-warehouse">Warehouse</span><span class="tag k-tdl">TDL page</span></td>
+<td class="num">13</td>
+<td class="kinds"><span class="num">8</span> select, find, sequence, hold, gauge, drag, track, turn</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Trailer about to move; Truck crossing behind</td>
+<td class="num ev">98</td></tr>
+<tr id="st-tdl-hazmat-labeling-and-segregation" data-lines="warehouse tdl">
+<td class="num">13</td>
+<td class="st"><span class="nm">Hazmat Labeling and Segregation</span><code>tdl-hazmat-labeling-and-segregation</code></td>
+<td class="why">Warehouse: the hazmat cage at an outbound door, checked by the person whose signature goes on the shipper's certification.</td>
+<td class="ln"><span class="tag k-warehouse">Warehouse</span><span class="tag k-tdl">TDL page</span></td>
+<td class="num">13</td>
+<td class="kinds"><span class="num">8</span> select, sequence, find, gauge, turn, hold, drag, track</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Leak in the cage; Placard off</td>
+<td class="num ev">98</td></tr>
+<tr id="st-tdl-lifting-and-ergonomics" data-lines="warehouse tdl">
+<td class="num">14</td>
+<td class="st"><span class="nm">Lifting and Ergonomics</span><code>tdl-lifting-and-ergonomics</code></td>
+<td class="why">Warehouse: the manual handling under every warehouse job, scored the way the Revised NIOSH Lifting Equation actually scores it.</td>
+<td class="ln"><span class="tag k-warehouse">Warehouse</span><span class="tag k-tdl">TDL page</span></td>
+<td class="num">13</td>
+<td class="kinds"><span class="num">8</span> select, sequence, gauge, find, turn, hold, drag, track</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Obstruction in the carry path; Coworker injured</td>
+<td class="num ev">98</td></tr>
+<tr id="st-tdl-pretrip-inspection" data-lines="classa tdl">
+<td class="num">15</td>
+<td class="st"><span class="nm">Pre-Trip Inspection</span><code>tdl-pretrip-inspection</code></td>
+<td class="why">Class A: the pre-trip that entry-level driver training starts from, with every defect written up before the truck moves.</td>
+<td class="ln"><span class="tag k-classa">Commercial A</span><span class="tag k-tdl">TDL page</span></td>
+<td class="num">13</td>
+<td class="kinds"><span class="num">8</span> select, sequence, find, gauge, turn, hold, drag, track</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Vehicle backing toward you; Engine overheating</td>
+<td class="num ev">98</td></tr>
+<tr id="st-tdl-air-brake-test" data-lines="classa tdl">
+<td class="num">16</td>
+<td class="st"><span class="nm">Air Brake Test</span><code>tdl-air-brake-test</code></td>
+<td class="why">Class A: the in-cab air brake check a skills examiner watches, read against the manual's own figures.</td>
+<td class="ln"><span class="tag k-classa">Commercial A</span><span class="tag k-tdl">TDL page</span></td>
+<td class="num">14</td>
+<td class="kinds"><span class="num">8</span> select, drag, track, gauge, turn, sequence, hold, find</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Sudden air loss; Person between the units</td>
+<td class="num ev">97</td></tr>
+<tr id="st-tdl-coupling-and-uncoupling" data-lines="classa tdl">
+<td class="num">17</td>
+<td class="st"><span class="nm">Coupling and Uncoupling</span><code>tdl-coupling-and-uncoupling</code></td>
+<td class="why">Class A: hooking and dropping a trailer the manual's way, so a high hook never leaves the yard.</td>
+<td class="ln"><span class="tag k-classa">Commercial A</span><span class="tag k-tdl">TDL page</span></td>
+<td class="num">13</td>
+<td class="kinds"><span class="num">8</span> select, find, drag, gauge, sequence, track, hold, turn</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Person between the units; Person on the rig</td>
+<td class="num ev">98</td></tr>
+<tr id="st-tdl-backing-and-docking" data-lines="classa tdl">
+<td class="num">18</td>
+<td class="st"><span class="nm">Backing and Docking</span><code>tdl-backing-and-docking</code></td>
+<td class="why">Class A: the alley dock that range training drills, with a spotter who stops the truck the moment they leave the mirror.</td>
+<td class="ln"><span class="tag k-classa">Commercial A</span><span class="tag k-tdl">TDL page</span></td>
+<td class="num">13</td>
+<td class="kinds"><span class="num">8</span> select, sequence, find, gauge, turn, track, hold, drag</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Spotter lost; Person at the dock edge</td>
+<td class="num ev">96</td></tr>
+<tr id="st-tdl-cargo-securement-and-hours" data-lines="classa tdl">
+<td class="num">19</td>
+<td class="st"><span class="nm">Cargo Securement and Hours</span><code>tdl-cargo-securement-and-hours</code></td>
+<td class="why">Class A: a flatbed load secured by count and working load limit, driven inside an hours-of-service day the log can certify.</td>
+<td class="ln"><span class="tag k-classa">Commercial A</span><span class="tag k-tdl">TDL page</span></td>
+<td class="num">13</td>
+<td class="kinds"><span class="num">8</span> select, gauge, find, drag, turn, track, hold, sequence</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Load moving; Traffic at the shoulder</td>
+<td class="num ev">98</td></tr>
+<tr id="st-drive-city-route-and-turns" data-lines="classa">
+<td class="num">20</td>
+<td class="st"><span class="nm">City Route and Turns</span><code>drive-city-route-and-turns</code></td>
+<td class="why">Class A: the first time the learner drives the rig themselves, a block of right turns with the trailer behind.</td>
+<td class="ln"><span class="tag k-classa">Commercial A</span></td>
+<td class="num">13</td>
+<td class="kinds"><span class="num">9</span> select, sequence, drive, find, gauge, hold, turn, track, drag</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Car on your right; Pedestrian in the crosswalk</td>
+<td class="num ev">96</td></tr>
+<tr id="st-drive-freeway-merge-and-following-distance" data-lines="classa">
+<td class="num">21</td>
+<td class="st"><span class="nm">Freeway Merge and Following Distance</span><code>drive-freeway-merge-and-following-distance</code></td>
+<td class="why">Class A: up the ramp and into traffic at the wheel, with the handbook's own space cushion counted.</td>
+<td class="ln"><span class="tag k-classa">Commercial A</span></td>
+<td class="num">13</td>
+<td class="kinds"><span class="num">9</span> select, sequence, turn, drive, gauge, find, hold, track, drag</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Car cutting in; Queue on the exit</td>
+<td class="num ev">96</td></tr>
+<tr id="st-drive-mountain-grade-and-engine-brake" data-lines="classa">
+<td class="num">22</td>
+<td class="st"><span class="nm">Mountain Grade and Engine Brake</span><code>drive-mountain-grade-and-engine-brake</code></td>
+<td class="why">Class A: a long downgrade driven on the engine, with a brake-fade warning answered the manual's way.</td>
+<td class="ln"><span class="tag k-classa">Commercial A</span></td>
+<td class="num">13</td>
+<td class="kinds"><span class="num">8</span> select, sequence, drive, gauge, track, find, hold, turn</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Brake-fade warning; Car stopped on the curve</td>
+<td class="num ev">96</td></tr>
+<tr id="st-drive-night-fog-and-rail-crossing" data-lines="classa">
+<td class="num">23</td>
+<td class="st"><span class="nm">Night Fog and Rail Crossing</span><code>drive-night-fog-and-rail-crossing</code></td>
+<td class="why">Class A: a placarded tank driven at night in fog, with the crossing stop 49 CFR 392 requires.</td>
+<td class="ln"><span class="tag k-classa">Commercial A</span></td>
+<td class="num">13</td>
+<td class="kinds"><span class="num">9</span> select, sequence, drive, turn, gauge, hold, find, track, drag</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Crossing signals; Pedestrian in the fog</td>
+<td class="num ev">96</td></tr>
+<tr id="st-drive-backing-serpentine-and-alley-dock" data-lines="classa">
+<td class="num">24</td>
+<td class="st"><span class="nm">Backing Serpentine and Alley Dock</span><code>drive-backing-serpentine-and-alley-dock</code></td>
+<td class="why">Class A: the yard station's own backing, driven, with the truck stopped the moment the spotter leaves the mirror.</td>
+<td class="ln"><span class="tag k-classa">Commercial A</span></td>
+<td class="num">13</td>
+<td class="kinds"><span class="num">8</span> select, sequence, drive, find, drag, turn, gauge, hold</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Forklift behind the trailer; Spotter out of view</td>
+<td class="num ev">96</td></tr>
+<tr id="st-drive-light-vehicle-fleet-and-forklift-course" data-lines="classa">
+<td class="num">25</td>
+<td class="st"><span class="nm">Light Vehicle Fleet and Forklift Course</span><code>drive-light-vehicle-fleet-and-forklift-course</code></td>
+<td class="why">Class A: the two check-rides a terminal gives before the keys, a pool car and a forklift both driven load-low.</td>
+<td class="ln"><span class="tag k-classa">Commercial A</span></td>
+<td class="num">13</td>
+<td class="kinds"><span class="num">8</span> select, find, drive, hold, sequence, gauge, track, drag</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Child between cars; Pedestrian at the aisle end</td>
+<td class="num ev">97</td></tr>
+<tr id="st-apprenticeship-standards-reading" data-lines="apprentice">
+<td class="num">26</td>
+<td class="st"><span class="nm">Reading an Apprenticeship Standard</span><code>apprenticeship-standards-reading</code></td>
+<td class="why">Apprenticeship: the briefing that opens the steps, reading a registered standard sourced and flat.</td>
+<td class="ln"><span class="tag k-apprentice">Apprenticeship</span></td>
+<td class="num">10</td>
+<td class="kinds"><span class="num">3</span> select, find, sequence</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">0</span> </td>
+<td class="num ev">88</td></tr>
+<tr id="st-apprenticeship-application-and-test" data-lines="apprentice">
+<td class="num">27</td>
+<td class="st"><span class="nm">Apprenticeship Application &amp; Test</span><code>apprenticeship-application-and-test</code></td>
+<td class="why">Apprenticeship: the way in, a recruitment notice read, the documents gathered, and an aptitude test sat at a steady pace.</td>
+<td class="ln"><span class="tag k-apprentice">Apprenticeship</span></td>
+<td class="num">12</td>
+<td class="kinds"><span class="num">8</span> select, find, sequence, hold, drag, turn, gauge, track</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Caller claiming to be the programme; Asked for answers mid-test</td>
+<td class="num ev">98</td></tr>
+<tr id="st-jobsite-orientation-and-osha-10" data-lines="apprentice">
+<td class="num">28</td>
+<td class="st"><span class="nm">Jobsite Orientation &amp; OSHA 10</span><code>jobsite-orientation-and-osha-10</code></td>
+<td class="why">Apprenticeship: the first morning on site, with the OSHA 10 card understood as awareness and the orientation 29 CFR 1926.21 owes every new hand.</td>
+<td class="ln"><span class="tag k-apprentice">Apprenticeship</span></td>
+<td class="num">12</td>
+<td class="kinds"><span class="num">8</span> select, hold, find, gauge, sequence, drag, turn, track</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Foreman skipping the orientation; Truck backing across the walkway</td>
+<td class="num ev">98</td></tr>
+<tr id="st-union-hall-and-dispatch" data-lines="apprentice">
+<td class="num">29</td>
+<td class="st"><span class="nm">Union Hall &amp; Dispatch</span><code>union-hall-and-dispatch</code></td>
+<td class="why">Apprenticeship: the hall between jobs, a dispatch slip read for what it actually says before the morning is planned back from it.</td>
+<td class="ln"><span class="tag k-apprentice">Apprenticeship</span></td>
+<td class="num">12</td>
+<td class="kinds"><span class="num">8</span> select, find, hold, drag, gauge, sequence, turn, track</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Dispatch outside your apprenticeship; Cash job offer</td>
+<td class="num ev">97</td></tr>
+<tr id="st-first-period-evaluation" data-lines="apprentice">
+<td class="num">30</td>
+<td class="st"><span class="nm">First-Period Evaluation</span><code>first-period-evaluation</code></td>
+<td class="why">Apprenticeship: the end of the first period, a guarded skills demonstration and the next rate read off the standard's own wage schedule.</td>
+<td class="ln"><span class="tag k-apprentice">Apprenticeship</span></td>
+<td class="num">12</td>
+<td class="kinds"><span class="num">8</span> select, find, hold, gauge, turn, track, drag, sequence</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Sent up a lift alone; Blade guard sticking open</td>
+<td class="num ev">98</td></tr>
+<tr id="st-trades-lineage-briefing" data-lines="apprentice">
+<td class="num">31</td>
+<td class="st"><span class="nm">Trades Lineage Briefing</span><code>trades-lineage-briefing</code></td>
+<td class="why">Apprenticeship: the heritage opener, the trades as a lineage and a plain line around what this edition does and does not know.</td>
+<td class="ln"><span class="tag k-apprentice">Apprenticeship</span></td>
+<td class="num">8</td>
+<td class="kinds"><span class="num">2</span> select, sequence</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">0</span> </td>
+<td class="num ev">84</td></tr>
+<tr id="st-credit-report-reading" data-lines="finance">
+<td class="num">32</td>
+<td class="st"><span class="nm">Credit Report Reading</span><code>credit-report-reading</code></td>
+<td class="why">Financial coaching: the free report pulled from the right place, every line read and the errors disputed with both companies.</td>
+<td class="ln"><span class="tag k-finance">Financial coaching</span></td>
+<td class="num">12</td>
+<td class="kinds"><span class="num">8</span> select, find, hold, gauge, sequence, drag, turn, track</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Caller claiming to screen your rental; Phishing text</td>
+<td class="num ev">96</td></tr>
+<tr id="st-debt-reduction-plan" data-lines="finance">
+<td class="num">33</td>
+<td class="st"><span class="nm">Debt Reduction Plan</span><code>debt-reduction-plan</code></td>
+<td class="why">Financial coaching: every debt on the table sorted highest rate first, with a finish date nothing gets to move.</td>
+<td class="ln"><span class="tag k-finance">Financial coaching</span></td>
+<td class="num">12</td>
+<td class="kinds"><span class="num">8</span> select, find, gauge, hold, drag, sequence, turn, track</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Collector threatening arrest; Consolidation offer</td>
+<td class="num ev">96</td></tr>
+<tr id="st-pay-stub-and-withholding" data-lines="finance">
+<td class="num">34</td>
+<td class="st"><span class="nm">Pay Stub &amp; Withholding</span><code>pay-stub-and-withholding</code></td>
+<td class="why">Financial coaching: the first stub read properly, the rate and the hours checked and the W-4 checked with the IRS's own estimator.</td>
+<td class="ln"><span class="tag k-finance">Financial coaching</span></td>
+<td class="num">13</td>
+<td class="kinds"><span class="num">8</span> select, find, gauge, drag, sequence, hold, turn, track</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Caller using the IRS's name; Refund-advance pitch</td>
+<td class="num ev">97</td></tr>
+<tr id="st-budget-with-irregular-income" data-lines="finance">
+<td class="num">35</td>
+<td class="st"><span class="nm">Budget With Irregular Income</span><code>budget-with-irregular-income</code></td>
+<td class="why">Financial coaching: construction pay budgeted on the lean month, with the good months feeding a buffer.</td>
+<td class="ln"><span class="tag k-finance">Financial coaching</span></td>
+<td class="num">12</td>
+<td class="kinds"><span class="num">8</span> select, find, gauge, sequence, drag, hold, turn, track</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Car repair quote; Buy-now-pay-later offer</td>
+<td class="num ev">96</td></tr>
+<tr id="st-emergency-savings-and-predatory-lending" data-lines="finance">
+<td class="num">36</td>
+<td class="st"><span class="nm">Emergency Savings &amp; Predatory Lending</span><code>emergency-savings-and-predatory-lending</code></td>
+<td class="why">Financial coaching: an emergency fund built automatically and every loan offer read by its APR before anything is signed.</td>
+<td class="ln"><span class="tag k-finance">Financial coaching</span></td>
+<td class="num">12</td>
+<td class="kinds"><span class="num">8</span> select, gauge, track, drag, find, hold, sequence, turn</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Car won't start; Lender pushing to sign now</td>
+<td class="num ev">96</td></tr>
+<tr id="st-wellness-shift-work-sleep-and-stress" data-lines="wellness">
+<td class="num">37</td>
+<td class="st"><span class="nm">Wellness — Shift Work, Sleep and Stress</span><code>wellness-shift-work-sleep-and-stress</code></td>
+<td class="why">Wellness: the week the roster flips to nights, with a stress check rated honestly and a block of anchor sleep held.</td>
+<td class="ln"><span class="tag k-wellness">Wellness page</span></td>
+<td class="num">13</td>
+<td class="kinds"><span class="num">8</span> find, gauge, sequence, track, turn, select, drag, hold</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Dispatch text — extra shift; Coworker with keys out</td>
+<td class="num ev">95</td></tr>
+<tr id="st-wellness-peer-support-conversation" data-lines="wellness">
+<td class="num">38</td>
+<td class="st"><span class="nm">Wellness — Peer Support Conversation</span><code>wellness-peer-support-conversation</code></td>
+<td class="why">Wellness: a cohort-mate who cannot keep doing this, met with the signs noticed first and a direct question asked plainly.</td>
+<td class="ln"><span class="tag k-wellness">Wellness page</span></td>
+<td class="num">13</td>
+<td class="kinds"><span class="num">8</span> find, turn, drag, select, sequence, track, gauge, hold</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Instructor at the door; The sentence that changes the conversation</td>
+<td class="num ev">93</td></tr>
+<tr id="st-wellness-substance-use-and-the-job" data-lines="wellness">
+<td class="num">39</td>
+<td class="st"><span class="nm">Wellness — Substance Use and the Job</span><code>wellness-substance-use-and-the-job</code></td>
+<td class="why">Wellness: four in the morning on the dock, the forklift key taken before the conversation and the doors named that do not cost the job.</td>
+<td class="ln"><span class="tag k-wellness">Wellness page</span></td>
+<td class="num">13</td>
+<td class="kinds"><span class="num">8</span> find, select, turn, drag, sequence, track, gauge, hold</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Crew group chat — photo posted; He gets up for the dock</td>
+<td class="num ev">95</td></tr>
+<tr id="st-wellness-asking-for-help-and-resources" data-lines="wellness">
+<td class="num">40</td>
+<td class="st"><span class="nm">Wellness — Asking for Help and Resources</span><code>wellness-asking-for-help-and-resources</code></td>
+<td class="why">Wellness: the week your own life goes sideways, each problem matched to its door and the crisis line told apart from the case manager.</td>
+<td class="ln"><span class="tag k-wellness">Wellness page</span></td>
+<td class="num">13</td>
+<td class="kinds"><span class="num">8</span> find, gauge, sequence, select, drag, turn, hold, track</td>
+<td class="num">4</td>
+<td class="ints"><span class="num">2</span> Somebody sits down within earshot; Landlord calling on the other line</td>
+<td class="num ev">93</td></tr>
+    </tbody></table></div>
+
+  <h3>Where it lives in the open worlds</h3>
+  <div class="cols">
+    <div class="panel"><h4>Bay World sites</h4><p>The Pathway Edition’s job board is at <b>Port Container Terminal</b> <span class="dim">(port)</span>. The Job Readiness Edition is anchored at <b>West Oakland Truck Yard</b> <span class="dim">(west-oakland)</span> and <b>Emery Distribution Center</b> <span class="dim">(emery-crossing)</span>, where its driving and dock stations stand.</p><p class="dim" style="font-size:14px">In the SmartCiti.X city, 11 stations stand in the Mobility &amp; Transit district and 1 stations stand in the Construction &amp; Structural Trades district; the other 28 open from the programme list.</p></div>
+    <div class="panel"><h4>Pathway side quests</h4><ul><li><b>Pathway Edition — wojrc.org — First Shift</b> (opener, given by the programme's training lead): Intake and Pathway Planning, Mock Interview and Resume, Employer Meet-and-Greet</li><li><b>Pathway Edition — wojrc.org — Capstone</b> (capstone, given by the programme's certifying evaluator): Wellness — Peer Support Conversation, Wellness — Substance Use and the Job, Wellness — Asking for Help and Resources</li></ul></div>
+  </div>
+  <p>Bay World’s main story arc follows the edition from start to finish, 7 quests, each unlocked by the one before it:</p>
+  <div class="tscroll"><table style="min-width:760px">
+    <thead><tr><th class="num">#</th><th>Quest</th><th>Given by</th><th>Site <span style="text-transform:none">(map site)</span></th><th>Stations</th></tr></thead>
+    <tbody><tr><td class="num">1</td><td><b>Where the Trades Began</b></td><td>the hall's history keeper</td><td>Trades Heritage Walk <span class="dim">(West Oakland Union Hall)</span></td><td>Trades Lineage Briefing</td></tr><tr><td class="num">2</td><td><b>First Day on the Floor</b></td><td>the warehouse floor supervisor</td><td>Bay Intermodal Warehouse <span class="dim">(West Oakland Warehouse District)</span></td><td>Forklift Dock, Pallet Jack and Racking, Pick, Pack and Scan, Trailer Loading and Dock Plate, Hazmat Labeling and Segregation, Lifting and Ergonomics</td></tr><tr><td class="num">3</td><td><b>Yard Qualified</b></td><td>the yard trainer</td><td>Class A Training Yard <span class="dim">(West Oakland Truck Yard)</span></td><td>Pre-Trip Inspection, Air Brake Test, Coupling and Uncoupling, Backing and Docking, Cargo Securement and Hours</td></tr><tr><td class="num">4</td><td><b>On the Road</b></td><td>the driving instructor</td><td>Class A Training Yard <span class="dim">(West Oakland Truck Yard)</span></td><td>City Route and Turns, Freeway Merge and Following Distance, Mountain Grade and Engine Brake, Night Fog and Rail Crossing, Backing Serpentine and Alley Dock, Light Vehicle Fleet and Forklift Course</td></tr><tr><td class="num">5</td><td><b>Sign the Book</b></td><td>the apprenticeship coordinator</td><td>Apprenticeship Hall <span class="dim">(West Oakland Union Hall)</span></td><td>Reading an Apprenticeship Standard, Apprenticeship Application &amp; Test, Jobsite Orientation &amp; OSHA 10, Union Hall &amp; Dispatch, First-Period Evaluation</td></tr><tr><td class="num">6</td><td><b>Balance the Books</b></td><td>the financial coach</td><td>Financial Coaching Center <span class="dim">(Fruitvale Community College)</span></td><td>Credit Report Reading, Debt Reduction Plan, Pay Stub &amp; Withholding, Budget With Irregular Income, Emergency Savings &amp; Predatory Lending</td></tr><tr><td class="num">7</td><td><b>Ask for the Door</b></td><td>the wellness guide</td><td>Wellness Resource Center <span class="dim">(Fruitvale Community College)</span></td><td>Wellness — Shift Work, Sleep and Stress, Wellness — Peer Support Conversation, Wellness — Substance Use and the Job, Wellness — Asking for Help and Resources</td></tr></tbody></table></div>
+
+  <div class="cols">
+    <div class="panel"><h4>The Guide</h4><p>A Guide button sits on every page. Ask it about the edition and it answers with a link, “Open the Pathway Edition”, to the track page. Answers come from a knowledge base built on the device, and the only text in it about wojrc.org is the sourced quotation, which <code>check_guide.mjs</code> checks word for word.</p></div>
+    <div class="panel"><h4>Devices</h4><p>One build runs in three places. A phone or classroom browser is enough for the whole pathway. A laptop adds keyboard and mouse. A headset is optional; the device profiles cover VR, hand-tracked and mixed-reality headsets.</p></div>
+  </div>
+</section>
+
+<section id="screens" aria-labelledby="h-scr">
+  <div class="sec-head"><span class="eyebrow">Screens</span><h2 id="h-scr">From the recorded runs</h2></div>
+  <div class="shots">
+    <figure><img src="assets/intake.jpg" alt="Milestone 1, Intake and Pathway Planning: the learner reads both tracks before choosing one." loading="lazy" width="1280" height="720"><figcaption>Milestone 1, Intake and Pathway Planning: the learner reads both tracks before choosing one.</figcaption></figure>
+    <figure><img src="assets/ride-along.jpg" alt="Milestone 4, Warehouse Ride-Along Day: the pallet-jack route, with the drive panel at walking pace." loading="lazy" width="1280" height="720"><figcaption>Milestone 4, Warehouse Ride-Along Day: the pallet-jack route, with the drive panel at walking pace.</figcaption></figure>
+    <figure><img src="assets/city-route.jpg" alt="Class A, City Route and Turns: the first station where the learner drives the rig." loading="lazy" width="1280" height="720"><figcaption>Class A, City Route and Turns: the first station where the learner drives the rig.</figcaption></figure>
+    <figure><img src="assets/enrollment.jpg" alt="Milestone 6, Apprenticeship Enrollment Day: documents and forms at the coordinator’s desk." loading="lazy" width="1280" height="720"><figcaption>Milestone 6, Apprenticeship Enrollment Day: documents and forms at the coordinator’s desk.</figcaption></figure>
+    <figure><img src="assets/finder.jpg" alt="The home page’s programme finder, searched for “wojrc”: both editions and their station counts." loading="lazy" width="1280" height="720"><figcaption>The home page’s programme finder, searched for “wojrc”: both editions and their station counts.</figcaption></figure>
+    <figure><img src="assets/bay-board.jpg" alt="Bay World: the job board at the Port Container Terminal, where the Pathway Edition is anchored." loading="lazy" width="1280" height="720"><figcaption>Bay World: the job board at the Port Container Terminal, where the Pathway Edition is anchored.</figcaption></figure>
+  </div>
+</section>
+
+<section id="build" aria-labelledby="h-build">
+  <div class="sec-head"><span class="eyebrow">Build info</span><h2 id="h-build">How it was built and what guards it</h2></div>
+  <div class="cols">
+    <div class="panel"><h4>Content eval</h4><div class="big">95.7</div><p>Mean across the 40 stations; lowest 84, highest 98. The 8 milestone stations average 95.5.</p></div>
+    <div class="panel"><h4>Checkers</h4><p>Every change passes all 66 checkers in <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/tools/check_all.mjs"><code>tools/check_all.mjs</code></a>. These guard this programme directly:</p></div>
+  </div>
+  <ul class="links"><li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/tools/check_smartcity.mjs"><code>check_smartcity.mjs</code></a> builds every station against a stubbed scene and plays a scripted run through the real procedure engine; it names all eight milestone station files</li><li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/tools/check_interrupts.mjs"><code>check_interrupts.mjs</code></a> validates every interruption the way steps and hazards are validated</li><li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/tools/check_lessons.mjs"><code>check_lessons.mjs</code></a> checks the lesson composer against the real station roster</li><li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/tools/check_standards.mjs"><code>check_standards.mjs</code></a> gates every citation against the standards registry</li><li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/tools/check_competency.mjs"><code>check_competency.mjs</code></a> checks the competency and proof-of-training layer</li><li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/tools/check_ladders.mjs"><code>check_ladders.mjs</code></a> checks that every programme has exactly twenty levels</li><li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/tools/check_tracks.mjs"><code>check_tracks.mjs</code></a> checks each track page: every level, task deep link and station card</li><li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/tools/check_bay_quests.mjs"><code>check_bay_quests.mjs</code></a> checks the Bay World quest layer, and that no quest text names the person the sponsor named</li><li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/tools/check_guide.mjs"><code>check_guide.mjs</code></a> checks that the Guide's only text about wojrc.org is the sourced quotation, verbatim</li><li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/tools/check_investor.mjs"><code>check_investor.mjs</code></a> checks that the generated programme overviews match the data byte for byte</li></ul>
+  <h3>Standards it cites</h3>
+  <p class="note">From the programme file, in the registry’s form. The certification line reads: Registered apprenticeship standards as a category, the OSHA Outreach Training Program's OSHA 10 course, FMCSA 49 CFR 380 Subpart F entry-level driver training with 49 CFR 383, 393 and 395, OSHA 29 CFR 1910.178 powered industrial trucks and ANSI/ITSDF B56.1, the Revised NIOSH Lifting Equation, HIPAA's Privacy Rule, CFPB and IRS consumer guidance, and SAMHSA's guidance on help-seeking — every credential and requirement stated only as the cited body publishes it, or as &quot;per the programme's requirements&quot; where this edition does not have a source for the organisation's own paperwork.</p>
+  <ul class="links"><li><code>hipaa-privacy-rule</code> HHS: HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)</li><li><code>ilwu-pma-training</code> union: ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division</li><li><code>osha-1910-178</code> OSHA: 29 CFR 1910.178 — Powered industrial trucks</li><li><code>samhsa-trauma-informed</code> SAMHSA: SAMHSA's six principles of a trauma-informed approach</li><li><code>seiu-training</code> union: SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members</li><li><code>teamsters-training</code> union: Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work</li></ul>
+  <h3>Commits</h3>
+  <p class="note">28 of the 47 commits touching this edition’s station files, brief and programme file name its content in the subject. Repository head at build: <code>ce62330</code> (2026-09-28).</p>
+  <div class="tscroll" style="max-height:420px"><table style="min-width:640px">
+    <thead><tr><th>Commit</th><th class="num">Date</th><th>Subject</th></tr></thead>
+    <tbody><tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/61f363f"><code>61f363f</code></a></td><td class="num">2026-09-27</td><td>Investor data pack and per-programme overviews generated under docs/investor and docs/programmes</td></tr><tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/7713486"><code>7713486</code></a></td><td class="num">2026-09-27</td><td>Pitch docs: the Pathway Edition deep feature, from wojrc.org's own published text and the catalog, and the prototype introduction letter</td></tr><tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/7359346"><code>7359346</code></a></td><td class="num">2026-09-27</td><td>Pathway Edition station: Graduation and Alumni-Mentor Day</td></tr><tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/383131c"><code>383131c</code></a></td><td class="num">2026-09-27</td><td>Pathway Edition station: First-Paycheck Coaching</td></tr><tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/95b4915"><code>95b4915</code></a></td><td class="num">2026-09-27</td><td>Pathway Edition station: Apprenticeship Enrollment Day</td></tr><tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/e9eb885"><code>e9eb885</code></a></td><td class="num">2026-09-27</td><td>Pathway Edition station: Permit Study and Knowledge-Test Day</td></tr><tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/f07b97e"><code>f07b97e</code></a></td><td class="num">2026-09-27</td><td>Pathway Edition station: Warehouse Ride-Along Day</td></tr><tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/354f3d9"><code>354f3d9</code></a></td><td class="num">2026-09-27</td><td>Pathway Edition station: Employer Meet-and-Greet</td></tr><tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/ee685b0"><code>ee685b0</code></a></td><td class="num">2026-09-27</td><td>Pathway Edition station: Mock Interview and Resume</td></tr><tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/4968a4a"><code>4968a4a</code></a></td><td class="num">2026-09-27</td><td>Pathway Edition station: Intake and Pathway Planning</td></tr><tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/cd650d1"><code>cd650d1</code></a></td><td class="num">2026-09-27</td><td>Bay World quest layer: main arc, side quests, 24 landmark eggs, side activities</td></tr><tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/2661a77"><code>2661a77</code></a></td><td class="num">2026-09-24</td><td>Add the light vehicle fleet and forklift course deep driving station</td></tr><tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/90e8d17"><code>90e8d17</code></a></td><td class="num">2026-09-24</td><td>Add the backing serpentine and alley dock deep driving station with reverse drive steps</td></tr><tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/3a60979"><code>3a60979</code></a></td><td class="num">2026-09-24</td><td>Add the night fog and rail crossing deep driving station; drive steps may forbid a control; tune route timing</td></tr><tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/25f4577"><code>25f4577</code></a></td><td class="num">2026-09-24</td><td>Add the mountain grade and engine brake deep driving station</td></tr><tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/d89ad7e"><code>d89ad7e</code></a></td><td class="num">2026-09-24</td><td>Add the freeway merge and following distance deep driving station</td></tr><tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/9f4eacb"><code>9f4eacb</code></a></td><td class="num">2026-09-24</td><td>Retrofit forklift dock: kit counterbalance truck; belt, chains, forks, rider, tires and controls on its parts; mast tilts and carriage lifts</td></tr><tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/07a2af0"><code>07a2af0</code></a></td><td class="num">2026-09-24</td><td>Retrofit trailer loading: kit forklift drives the load in, kit yard tractor backs to the nose</td></tr><tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/1841f79"><code>1841f79</code></a></td><td class="num">2026-09-24</td><td>Retrofit cargo securement: kit day cab under the flatbed deck, kit dual wheels on the deck, kit box truck passes close</td></tr><tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/cad40f2"><code>cad40f2</code></a></td><td class="num">2026-09-24</td><td>Retrofit coupling and uncoupling: kit day cab backs under a kit pup; kit fifth wheel, release handle, glad hands and landing gear carry the controls</td></tr><tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/9c70d19"><code>9c70d19</code></a></td><td class="num">2026-09-24</td><td>Add the city route and turns deep driving station and register 49 CFR 383, 392 and the state CDL handbook</td></tr><tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/dbaec58"><code>dbaec58</code></a></td><td class="num">2026-09-24</td><td>Retrofit air brake test: kit day cab and pup, kit glad-hand line blows off, a kit pup dropped in the yard</td></tr><tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/a4f6a00"><code>a4f6a00</code></a></td><td class="num">2026-09-24</td><td>Retrofit pre-trip inspection: kit day cab and pup van, kit yard tractor, defects on the kit truck's own surfaces, hood tilts after securing</td></tr><tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/80b5620"><code>80b5620</code></a></td><td class="num">2026-09-23</td><td>Add the TDL pre-apprenticeship block: five warehouse and five Class A driving stations under OSHA powered-industrial-truck and FMCSA rules, with FMCSA, PHMSA, CVSA and NIOSH lifting registry entries</td></tr><tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/1fed2ed"><code>1fed2ed</code></a></td><td class="num">2026-09-23</td><td>Add the Job Readiness apprenticeship-navigation and financial-coaching blocks: ten stations from reading an apprenticeship standard to emergency savings, with CFPB, IRS and OSHA 10 registry entries</td></tr><tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/359ceb1"><code>359ceb1</code></a></td><td class="num">2026-09-23</td><td>Add the Job Readiness wellness block and the trades-lineage briefing, sourced only from the sponsor's text</td></tr><tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/7fad384"><code>7fad384</code></a></td><td class="num">2026-09-23</td><td>Open the Job Readiness Edition for the wojrc.org programmes: TDL warehouse and Class A driving, apprenticeship navigation, financial coaching and wellness, sourced only from the sponsor's text</td></tr><tr><td><a href="https://github.com/AGIFutureFoundation/vr-safety-training/commit/4b30db1"><code>4b30db1</code></a></td><td class="num">2026-09-17</td><td>SmartCiti.X stations 38–39: Chlorine Room (Water &amp; Environmental) and Forklift Dock (Manufacturing &amp; Automation)</td></tr></tbody></table></div>
+  <h3>Source</h3>
+  <ul class="links">
+    <li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/tree/claude/vr-ar-safety-training-wkwmve">Repository, branch <code>claude/vr-ar-safety-training-wkwmve</code></a></li>
+    <li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/docs/programmes/wojrc-pathway-edition.md"><code>docs/programmes/wojrc-pathway-edition.md</code></a></li>
+    <li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/docs/programmes/job-readiness-edition.md"><code>docs/programmes/job-readiness-edition.md</code></a></li>
+    <li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/docs/pitch/pathway-edition-feature.md"><code>docs/pitch/pathway-edition-feature.md</code></a></li>
+    <li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/tools/briefs/wojrc-brief.md"><code>tools/briefs/wojrc-brief.md</code></a> (the sourced text)</li>
+    <li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/curricula.js"><code>WebXR/smartcity/js/curricula.js</code></a></li>
+    <li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/catalog.json"><code>WebXR/smartcity/catalog.json</code></a></li>
+    <li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/bayworld/js/quests-data.js"><code>WebXR/bayworld/js/quests-data.js</code></a></li>
+    <li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/shared/bayworld-data.js"><code>WebXR/shared/bayworld-data.js</code></a></li>
+    <li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/wp-intake-and-pathway-planning.js"><code>sims/wp-intake-and-pathway-planning.js</code></a></li><li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/wp-mock-interview-and-resume.js"><code>sims/wp-mock-interview-and-resume.js</code></a></li><li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/wp-employer-meet-and-greet.js"><code>sims/wp-employer-meet-and-greet.js</code></a></li><li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/wp-warehouse-ride-along.js"><code>sims/wp-warehouse-ride-along.js</code></a></li><li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/wp-permit-study-and-knowledge-test.js"><code>sims/wp-permit-study-and-knowledge-test.js</code></a></li><li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/wp-apprenticeship-enrollment-day.js"><code>sims/wp-apprenticeship-enrollment-day.js</code></a></li><li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/wp-first-paycheck-coaching.js"><code>sims/wp-first-paycheck-coaching.js</code></a></li><li><a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/claude/vr-ar-safety-training-wkwmve/WebXR/smartcity/js/sims/wp-graduation-and-alumni-mentors.js"><code>sims/wp-graduation-and-alumni-mentors.js</code></a></li>
+  </ul>
+</section>
+
+<section id="next" aria-labelledby="h-next">
+  <div class="sec-head"><span class="eyebrow">Next steps for a pilot</span><h2 id="h-next">Questions for your team</h2></div>
+  <ol class="next">
+    <li><b>Would your staff review every station?</b><span>Each of the 40 stations can be walked line by line before any learner sees it. Anything that does not match how your programmes run can be corrected or removed.</span></li>
+    <li><b>Do the milestones match your participants’ route?</b><span>The 8 milestone stations follow the order above. If intake, the job fair, enrolment or graduation work differently for you, the sequence and the scenes can change.</span></li>
+    <li><b>Would you pilot it with a cohort?</b><span>A cohort can run it from phones or a classroom browser. An instructor console shows attempts, stars, unsafe actions and interruptions handled, and records export as CSV and xAPI.</span></li>
+    <li><b>What should the organisation’s own words be?</b><span>Today the page quotes only the published text above. If you want different wording, or none, that is your call.</span></li>
+  </ol>
+</section>
+
+<footer class="page">Built 2026-09-28 from the repository’s own data: <code>WebXR/smartcity/catalog.json</code>, <code>docs/programmes/</code>, <code>docs/investor/stations.csv</code>, the Bay World data modules and <code>git log</code>. SmartCiti.X ~ Holodeck is a working prototype. No outcome, placement rate, cohort size, funding or endorsement is stated or implied.</footer>
+</div>
+<script>
+(function(){
+  var btns=[].slice.call(document.querySelectorAll(".filters button"));
+  var rows=[].slice.call(document.querySelectorAll(".stations tbody tr"));
+  var shown=document.getElementById("shown");
+  function apply(k){
+    var n=0;
+    rows.forEach(function(r){var on=k==="all"||(" "+r.getAttribute("data-lines")+" ").indexOf(" "+k+" ")>=0;r.hidden=!on;if(on)n++;});
+    btns.forEach(function(b){b.setAttribute("aria-pressed",String(b.getAttribute("data-k")===k));});
+    shown.textContent=n+" shown";
+  }
+  btns.forEach(function(b){b.addEventListener("click",function(){apply(b.getAttribute("data-k"));});});
+  document.querySelectorAll(".chip").forEach(function(a){a.addEventListener("click",function(){apply("all");});});
+})();
+</script>

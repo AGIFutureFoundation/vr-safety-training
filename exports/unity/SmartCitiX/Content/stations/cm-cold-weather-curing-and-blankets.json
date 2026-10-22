@@ -1,0 +1,379 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "held-the-heat",
+    "name": "Held The Heat",
+    "note": "A slab blanketed, heated and vented safely through a freeze, with the blankets held until the plan's strength was actually reached"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "OPCMIA Local 300 cement mason apprenticeship as a training body; ACI 306 guide to cold weather concreting; OSHA 29 CFR 1926 Subpart Q concrete and masonry construction; OSHA 29 CFR 1926.352 fire prevention, as applied to the enclosure heater; OSHA 29 CFR 1926.57 ventilation, for the heater's exhaust; ANSI/ASSP A10.9 concrete and masonry construction safety requirements; the cold weather concreting plan and the heater manufacturer's manual",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ACI",
+        "citedAs": "ACI 306",
+        "id": "aci-306",
+        "title": "ACI 306 - Guide to Cold Weather Concreting"
+      },
+      {
+        "body": "union",
+        "citedAs": "OPCMIA",
+        "id": "opcmia-local-300",
+        "title": "OPCMIA Local 300 - cement masons and plasterers apprenticeship, as a training body"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.352",
+        "id": "osha-1926-352",
+        "title": "29 CFR 1926.352 - Fire prevention"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.57",
+        "id": "osha-1926-57",
+        "title": "29 CFR 1926.57 - Ventilation"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction & Structural Trades",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "walked-the-cold",
+        "name": "Walked The Cold",
+        "note": "The night walk found the cold joint and the heater too close to the blanket before ignition, first time"
+      },
+      {
+        "id": "never-vented-inside",
+        "name": "Never Vented Inside",
+        "note": "Never ran the heater's exhaust into the enclosure, never left a blanket touching the heater, never pulled the blankets before the strength was reached, never worked exposed skin in the wind chill"
+      },
+      {
+        "id": "held-the-temperature",
+        "name": "Held The Temperature",
+        "note": "The under-blanket temperature and the mix temperature both held inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-protection",
+        "name": "Clean Protection",
+        "note": "No corrections through the whole night's setup"
+      },
+      {
+        "id": "held-the-night",
+        "name": "Held The Night",
+        "note": "The temperature held in band for the whole overnight watch"
+      },
+      {
+        "id": "protected-by-break",
+        "name": "Protected By Break",
+        "note": "Blanketed, heated, vented and logged inside 80% of par"
+      }
+    ],
+    "currency": "DEGREE-HOUR",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Laborer",
+      "Blanket Hand",
+      "Cement Mason",
+      "Lead Finisher",
+      "Winter Crew Certified"
+    ],
+    "system": "Winter Crew"
+  },
+  "hazards": {
+    "bare-skin-wind-chill": "You worked the blanket ties with bare hands in the wind chill for longer than the cold exposure limits allow. Frostbite sets in faster than it feels like it should in a cutting wind, and a crew working through a hard freeze rotates and covers exposed skin on the same schedule the cold weather plan sets for the concrete.",
+    "blanket-touching-heater": "You draped the curing blanket so it touches the heater's hot side. Insulated curing blankets are exactly the fuel a space heater is built to sit near without touching, and contact between the two is how a cold weather protection setup starts an enclosure fire instead of preventing one.",
+    "heater-exhaust-inside": "You ran the heater's exhaust hose loose inside the enclosure instead of ducted outside it. An indirect-fired heater burns fuel and its exhaust carries carbon monoxide, which has no smell and no colour and builds fast in a tented enclosure with the blankets sealing the wind out — the exhaust is ducted outside the enclosure every time, not treated as good enough if the tent has a gap somewhere.",
+    "pull-blankets-early": "You went to pull the blankets before the slab reached the cold weather plan's strength. Concrete that freezes before it reaches a minimum strength never recovers that strength once it thaws — the damage is permanent and invisible until the slab is loaded. The blankets stay until the plan's temperature and time have both been met, not until the crew is ready to go home."
+  },
+  "id": "cm-cold-weather-curing-and-blankets",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "heater-start",
+      "alert": "The heater's exhaust duct has worked loose and is now venting straight into the enclosure instead of outside it.",
+      "cue": "Shut the heater down before the enclosure fills with exhaust.",
+      "delay": 2,
+      "id": "heater-exhaust-fails",
+      "kind": "Heater exhaust duct comes loose inside the enclosure",
+      "missNote": "The heater kept running with the duct loose for the rest of the check; the enclosure's air stayed thick with exhaust the whole time nobody was watching it.",
+      "seconds": 12,
+      "target": "fuel-shutoff",
+      "why": "Carbon monoxide has no smell and no colour, and a duct venting into a sealed, wind-skirted enclosure builds a dangerous concentration long before anyone inside would notice anything wrong. The fuel shutoff kills the flame at its source immediately; reconnecting the duct comes after it is already off, not while it is still running.",
+      "wrongNote": "The fuel shutoff — a duct venting into a sealed enclosure means the flame has to stop before anything else happens."
+    },
+    {
+      "after": "overnight-track",
+      "alert": "A hard gust has torn the wind skirt loose at the corner, and cold air is pouring straight onto the blanketed slab.",
+      "cue": "Re-secure the skirt panel before the corner of the slab loses its protection.",
+      "delay": 2,
+      "id": "wind-gust-skirt",
+      "kind": "Wind gust tears the enclosure's skirt",
+      "missNote": "The gap in the skirt stayed open through the rest of the watch; the corner nearest it read colder than the rest of the slab for the remainder of the night.",
+      "seconds": 12,
+      "target": "skirt-panel-a",
+      "why": "A torn skirt in a hard wind strips the heat the blankets are holding faster than the heater can replace it, and the corner nearest the tear is the first part of the slab to actually drop toward freezing. Re-securing the panel immediately is what stops that corner from becoming the one part of the pour that never reaches the plan's strength.",
+      "wrongNote": "The skirt panel — cold air pouring onto the slab through a torn skirt has to be closed off before the corner loses its protection."
+    }
+  ],
+  "lateNotes": {
+    "blanket-roll": "The blankets only go down once the finish work is actually done — laying them over a slab that is not finished yet just means pulling them back off again.",
+    "close-log": "The night is logged once the strength has been confirmed and the blankets have actually come off.",
+    "heater-switch": "The heater only starts once its exhaust is ducted outside the enclosure and no blanket is touching it — starting it before that is starting a carbon monoxide or a fire risk on purpose."
+  },
+  "name": "Cold Weather Curing & Blankets",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "cement-masons-and-plasterers"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bare-skin-wind-chill",
+      "blanket-roll",
+      "blanket-touching-heater",
+      "close-log",
+      "close-skirt-gap",
+      "cold-joint-exposed",
+      "cold-plan",
+      "cover-joint",
+      "crew-radio",
+      "fuel-shutoff",
+      "gap-in-skirt",
+      "ground-thermometer",
+      "heater-exhaust",
+      "heater-exhaust-inside",
+      "heater-switch",
+      "heater-too-close",
+      "move-heater",
+      "pull-blankets-early",
+      "skirt-panel-a",
+      "skirt-panel-b",
+      "slab-zone",
+      "strength-ticket",
+      "temp-monitor"
+    ],
+    "meshes": 176
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Read the minimum concrete temperature, the protection duration, the strength the slab must reach before the blankets come off, and the heater's ventilation requirement.",
+      "id": "cold-plan",
+      "kind": "select",
+      "prompt": "Read the minimum concrete temperature, the protection duration, the strength the slab must reach before the blankets come off, and the heater's ventilation requirement.",
+      "target": "cold-plan",
+      "title": "Read the cold weather concreting plan",
+      "why": "Cold weather concreting is governed by ACI 306 because concrete that freezes before it gains enough strength is permanently damaged, not just slowed down — the plan sets the temperature the mix has to be placed at, how long it has to be protected, and the strength it has to reach before protection is removed, and none of those numbers are a judgment call once the truck is on its way in a freeze."
+    },
+    {
+      "cue": "Walk the joints, the heater placement and the enclosure skirt, and click every defect you find.",
+      "id": "night-walk",
+      "itemNames": {
+        "cold-joint-exposed": "a construction joint left uncovered",
+        "gap-in-skirt": "a gap in the enclosure's wind skirt",
+        "heater-too-close": "a heater staged against the blanket line"
+      },
+      "itemNotes": {
+        "cold-joint-exposed": "The construction joint at the end of yesterday's pour has no blanket over it — that edge will freeze first because it has the least mass to hold its own heat.",
+        "gap-in-skirt": "A gap in the enclosure's wind skirt is letting cold air straight onto the corner of the slab, undoing whatever heat the blankets are holding everywhere else.",
+        "heater-too-close": "The space heater is staged close enough that its housing is already touching the edge of a folded blanket."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the joints, the heater placement and the enclosure skirt, and click every defect you find.",
+      "targets": [
+        "cold-joint-exposed",
+        "heater-too-close",
+        "gap-in-skirt"
+      ],
+      "title": "Walk the slab and the enclosure before the freeze sets in",
+      "why": "Made before the temperature actually drops, in daylight with the crew still on site, all three of these are quick corrections. Wait until two in the morning to find them instead and an exposed joint is concrete that has already frozen past saving, a heater touching a blanket is a fire nobody is watching, and a gap in the skirt has been feeding cold air onto the slab all night."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Cover the exposed joint, move the heater clear of the blanket, and close the gap in the skirt.",
+      "id": "fix",
+      "itemNames": {
+        "close-skirt-gap": "skirt gap closed",
+        "cover-joint": "joint covered",
+        "move-heater": "heater moved clear"
+      },
+      "kind": "sequence",
+      "prompt": "Cover the exposed joint, move the heater clear of the blanket, and close the gap in the skirt.",
+      "targets": [
+        "cover-joint",
+        "move-heater",
+        "close-skirt-gap"
+      ],
+      "title": "Correct what the walk found",
+      "why": "Writing down an exposed joint or a heater too close to a blanket and leaving it that way is worse than never having noticed, because the crew now trusts an enclosure that was only fixed on paper. The joint actually has to be covered, the heater actually moved clear and the skirt actually closed before anyone treats the enclosure as ready for the freeze."
+    },
+    {
+      "cue": "Read the ground temperature and the mix as it arrives, and commit inside the cold weather plan's minimum band before placement.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.62
+        ],
+        "label": "TEMPERATURE",
+        "missNote": "Below the plan's minimum — warm the ground or wait for a warmer load before placing.",
+        "speed": 0.66
+      },
+      "id": "temp-check",
+      "kind": "gauge",
+      "prompt": "Read the ground temperature and the mix as it arrives, and commit inside the cold weather plan's minimum band before placement.",
+      "target": "ground-thermometer",
+      "title": "Check the ground and mix temperature",
+      "why": "Placing concrete onto frozen or near-frozen ground pulls heat out of the fresh mix from underneath before it ever gets a chance to start curing, no matter how warm the truck delivered it. The plan's minimum is checked at both the ground and the mix because either one being too cold defeats the other being right."
+    },
+    {
+      "cue": "Carry the blanket roll across the finished slab and lay it flat, overlapping the seams.",
+      "drag": {
+        "missNote": "Not across the slab — the blanket has to cover the finished surface, overlapped at the seams, not left folded on the ground.",
+        "radius": 0.6,
+        "to": "slab-zone"
+      },
+      "id": "blanket-lay",
+      "kind": "drag",
+      "prompt": "Carry the blanket roll across the finished slab and lay it flat, overlapping the seams.",
+      "target": "blanket-roll",
+      "title": "Lay the curing blankets",
+      "why": "Insulated blankets hold the heat of hydration in the slab instead of letting it radiate away into freezing air, and overlapped seams are what keep a cold seam from forming exactly where two blankets meet — a gap at the seam is a stripe of the slab that gets none of the protection the rest of it has."
+    },
+    {
+      "cue": "Close both skirt panels around the blanketed slab to cut the wind off the enclosure.",
+      "id": "skirt-enclosure",
+      "itemNames": {
+        "skirt-panel-a": "wind skirt panel A closed",
+        "skirt-panel-b": "wind skirt panel B closed"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Panel A first, then panel B — closing them in order keeps the enclosure from standing half-open to the wind partway through.",
+      "prompt": "Close both skirt panels around the blanketed slab to cut the wind off the enclosure.",
+      "targets": [
+        "skirt-panel-a",
+        "skirt-panel-b"
+      ],
+      "title": "Close the enclosure's wind skirt",
+      "why": "Wind moving across a blanketed slab strips heat off it far faster than still cold air does, and the skirt is what actually stops that — a slab under blankets in open wind can still lose the protection the blankets were laid to give it."
+    },
+    {
+      "cue": "Connect the exhaust duct and route it outside the enclosure before the heater is started.",
+      "id": "heater-vent",
+      "kind": "select",
+      "prompt": "Connect the exhaust duct and route it outside the enclosure before the heater is started.",
+      "target": "heater-exhaust",
+      "title": "Duct the heater's exhaust outside the enclosure",
+      "why": "An indirect-fired heater's exhaust carries carbon monoxide, and a sealed, wind-skirted enclosure is exactly the kind of space that traps it if the exhaust is not ducted clear — the duct is connected and routed outside before the heater is ever lit, not added after somebody notices a smell that carbon monoxide does not actually have."
+    },
+    {
+      "cue": "Hold the heater's start switch and confirm it lights and holds a steady flame with the exhaust running clear.",
+      "holdBreakNote": "The switch let go before the flame held steady. Reset it and hold until the heater is confirmed running clear.",
+      "id": "heater-start",
+      "kind": "hold",
+      "prompt": "Hold the heater's start switch and confirm it lights and holds a steady flame with the exhaust running clear.",
+      "seconds": 5,
+      "target": "heater-switch",
+      "title": "Start and confirm the heater",
+      "why": "A heater confirmed running steady, with its exhaust actually pulling and no blanket touching its housing, is what the whole overnight protection depends on — a heater that trips or smolders unnoticed after the crew leaves is a slab that spends the coldest hours of the night with no heat at all."
+    },
+    {
+      "cue": "Confirm who is watching the enclosure on what rotation, with exposed skin covered per the cold weather plan's limits.",
+      "id": "cold-stress-check",
+      "kind": "select",
+      "prompt": "Confirm who is watching the enclosure on what rotation, with exposed skin covered per the cold weather plan's limits.",
+      "target": "crew-radio",
+      "title": "Set the crew's cold exposure rotation before the overnight watch",
+      "why": "The concrete is not the only thing this plan protects — a crew member watching the enclosure through the coldest hours is exposed to the same freeze the blankets are fighting, and frostbite sets in on a schedule the cold weather plan sets a rotation against. Confirming the rotation before the watch starts is what keeps the overnight check from costing the crew what it is protecting the slab from."
+    },
+    {
+      "cue": "Watch the temperature reading through the coldest part of the night and keep it inside the plan's protection band.",
+      "holdBreakNote": "The temperature left the band overnight. Find the cause — heater, skirt or blanket — and bring it back into band.",
+      "id": "overnight-track",
+      "kind": "track",
+      "prompt": "Watch the temperature reading through the coldest part of the night and keep it inside the plan's protection band.",
+      "seconds": 7,
+      "target": "temp-monitor",
+      "title": "Track the under-blanket temperature overnight",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.5,
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "UNDER-BLANKET TEMP",
+        "rise": 0.3,
+        "start": 0.5
+      },
+      "why": "The plan's protection band is the temperature the slab has to stay above for its whole protection duration to actually gain the strength cold weather concreting depends on, and the coldest hours of the night are exactly when a heater trip or a skirt gap shows up first. Watching it through the night is what catches a failing setup before the slab has already frozen."
+    },
+    {
+      "cue": "Read the strength result against the cold weather plan's minimum before touching a single blanket.",
+      "id": "strength-confirm",
+      "kind": "select",
+      "prompt": "Read the strength result against the cold weather plan's minimum before touching a single blanket.",
+      "target": "strength-ticket",
+      "title": "Confirm the slab has reached the plan's strength",
+      "why": "The blankets protect the slab exactly until the concrete has gained the strength the plan requires to survive a freeze without permanent damage, and that is a fact proven by a test result, not a guess based on how many hours have passed. Pulling protection on a schedule instead of on the confirmed result is how a slab gets frozen the night before it would have made it."
+    },
+    {
+      "cue": "Remove the blankets and the skirt now that the strength is confirmed, and record the night's protection.",
+      "id": "blanket-pull",
+      "kind": "select",
+      "prompt": "Remove the blankets and the skirt now that the strength is confirmed, and record the night's protection.",
+      "target": "close-log",
+      "title": "Pull the blankets and log the slab",
+      "why": "The cold weather log is how the foreman and the inspector both know this slab actually reached its required strength under protection rather than being uncovered on a schedule — it is also where the exposed joint and the heater placement get written down so the next night's setup starts from what this one already found."
+    },
+    {
+      "cue": "Call the foreman: slab protected and confirmed, blankets pulled. Then check in with the crew about the heater and the cold.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the foreman: slab protected and confirmed, blankets pulled. Then check in with the crew about the heater and the cold.",
+      "target": "crew-radio",
+      "title": "Check in with the crew and the foreman",
+      "why": "How the foreman sets up the next pour's protection and the heater rotation depends entirely on getting an honest account on this call. A heater stalled sometime overnight and hands got colder than they should have working the ties — both deserve saying, and so does the reminder that the OPCMIA member assistance line is there for a crew that came off a rough, cold night."
+    }
+  ],
+  "supportLine": "your OPCMIA Local 300 member assistance programme, or the employee assistance line posted on the contractor's site board",
+  "tagline": "A slab protected through a hard freeze: the cold weather plan read, the pour walked for a cold joint and a heater staged too close to a blanket, ground and mix temperature checked, the slab blanketed and skirted, the heater vented outside the enclosure, the temperature tracked through the night, and the blankets held until the slab has the plan's strength",
+  "title": "SmartCiti.X~ Cold Weather Curing & Blankets VR",
+  "trade": "Cement mason — OPCMIA Local 300, cold weather protection crew",
+  "underwater": null,
+  "weather": "wind"
+}

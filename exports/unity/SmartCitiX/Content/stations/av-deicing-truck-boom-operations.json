@@ -1,0 +1,434 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clean-wing",
+    "name": "Clean Wing",
+    "note": "The pad cleared, the pass run top-down clear of every intake, and the surfaces confirmed clean before the holdover clock started"
+  },
+  "category": "Mobility & Transit",
+  "certification": "IAM and TWU ramp training; FAA 14 CFR Part 121 icing and de-icing programme requirements and 14 CFR Part 139 movement-area operations; OSHA 29 CFR 1910.1200 hazard communication, 29 CFR 1910.132 personal protective equipment and 29 CFR 1910.134 respiratory protection",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IAM",
+        "id": "iam-winpisinger-center",
+        "title": "IAM — the William W. Winpisinger Education and Technology Center's machinist and transportation training"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      },
+      {
+        "body": "union",
+        "citedAs": "TWU",
+        "id": "twu-training",
+        "title": "TWU member training for transit and airline ground operations"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Aviation",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clear-pad",
+        "name": "Clear Pad",
+        "note": "Never sprayed with anyone inside the pad who was not part of the crew"
+      },
+      {
+        "id": "top-down",
+        "name": "Top Down",
+        "note": "Ran the pass in the plan's own order, first time"
+      },
+      {
+        "id": "steady-basket",
+        "name": "Steady Basket",
+        "note": "Held the basket steady near band centre through the whole pass"
+      },
+      {
+        "id": "clean-inspection",
+        "name": "Clean Inspection Certified",
+        "note": "Found every defect on the truck, first pass"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-deice",
+        "name": "Quick De-ice",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "frost-streak",
+        "name": "Frost Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "FROST",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ramp Hand",
+      "Boom Qualified",
+      "Fluid Certified",
+      "Lead Operator",
+      "Clean Wing Certified"
+    ],
+    "system": "Clean Wing"
+  },
+  "hazards": {
+    "engine-intake-spray-hazard": "That aims the spray straight into the engine intake. Fluid pulled into a running or soon-to-run engine does not clean anything — it is exactly the kind of contamination the pass is supposed to avoid, on a part of the aircraft this crew has no business spraying at all.",
+    "ground-personnel-in-spray-hazard": "Somebody who is not part of the spray crew is standing inside the boom's own swing radius. The basket moves through a wide arc at height, and a person under it has nowhere to go the moment that arc swings toward where they are standing.",
+    "no-ppe-spray-hazard": "You are running the boom without the chemical-resistant suit and respirator on. De-icing fluid drifts as a fine mist the whole time the boom is spraying, and skin contact or breathing it in over a full shift is exactly what that PPE is there to stop happening at all.",
+    "skip-clean-check-hazard": "That releases the aircraft without checking the surfaces are actually clean. A wing that looks clear from the ground can still be holding frost in a spot the pass did not fully reach, and the only way to know for certain is the check this crew is about to skip."
+  },
+  "id": "av-deicing-truck-boom-operations",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-basket-position",
+      "alert": "A gust has pushed the fluid spray back toward the truck cab, well outside the pattern the pass was aimed at.",
+      "cue": "Hit the boom stop now, before the blowback reaches anyone at the truck.",
+      "delay": 5,
+      "id": "wind-gust-blows-spray-back",
+      "kind": "Spray blowback",
+      "missNote": "The boom kept running while the blowback reached the truck itself. Fluid that ends up somewhere it was never aimed is exactly the exposure this crew's own PPE cannot fully protect against if it keeps happening.",
+      "seconds": 12,
+      "target": "boom-estop",
+      "why": "A pattern that has drifted this far off target is no longer a controlled pass — it is fluid landing somewhere nobody planned for it to land, and the boom stops the instant that happens rather than continuing on the assumption the wind will settle back down.",
+      "wrongNote": "Not the fix — the blowback reaching the truck is the thing that stops this pass first."
+    },
+    {
+      "after": "spray-top-down",
+      "alert": "A coworker has walked into the boom's own swing radius to check something on the far side of the truck.",
+      "cue": "Stop the boom now and get them clear before it swings again.",
+      "delay": 4,
+      "id": "coworker-enters-swing-radius",
+      "kind": "Swing-radius incursion",
+      "missNote": "The boom kept swinging while a coworker was inside its own radius. A basket at height does not announce itself before it reaches somewhere a person already is.",
+      "seconds": 11,
+      "target": "boom-estop",
+      "why": "The swing radius is not a suggestion — it is the space the basket physically occupies at some point in every full pass, and the one defence against a person inside it is a boom that stops moving the instant they are seen there.",
+      "wrongNote": "Wrong move — somebody is in the swing radius, and that is what stops the boom, not this."
+    }
+  ],
+  "lateNotes": {
+    "frost-patch-wing": "The surfaces get checked by eye and by hand before the holdover clock starts, not assumed clean because the pass looked thorough from the truck.",
+    "holdover-panel": "The holdover time gets communicated to the flight deck the moment the last fluid application ends, not estimated later from memory."
+  },
+  "name": "De-icing Truck Boom Operations",
+  "parSeconds": 310,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "aviation-maintenance-and-ground"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "deicingTruck",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "regionalJet",
+        "count": 1,
+        "kit": "equipment"
+      }
+    ],
+    "error": null,
+    "footprint": 2.9,
+    "hits": [
+      "basket-control",
+      "boom-estop",
+      "boom-hydraulic-leak",
+      "boom-raise-lever",
+      "chem-suit",
+      "clean-panel",
+      "closing-log",
+      "cones-deice",
+      "cracked-nozzle",
+      "deice-plan-board",
+      "engine-intake-spray-hazard",
+      "face-shield-deice",
+      "fluid-mix-panel",
+      "frost-patch-tail",
+      "frost-patch-wing",
+      "fuselage-sprayed",
+      "ground-personnel-in-spray-hazard",
+      "heater-fault",
+      "holdover-panel",
+      "mix-ratio-gauge",
+      "no-ppe-spray-hazard",
+      "pad-clear",
+      "respirator",
+      "skip-clean-check-hazard",
+      "sound-fluid-tank",
+      "tail-sprayed",
+      "truck-body",
+      "truck-position",
+      "wings-sprayed"
+    ],
+    "meshes": 160
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Chemical-resistant suit, face shield and respirator before the boom moves.",
+      "id": "ppe",
+      "itemNames": {
+        "chem-suit": "chemical-resistant suit",
+        "face-shield-deice": "face shield",
+        "respirator": "respirator"
+      },
+      "kind": "sequence",
+      "prompt": "Chemical-resistant suit, face shield and respirator before the boom moves.",
+      "targets": [
+        "chem-suit",
+        "face-shield-deice",
+        "respirator"
+      ],
+      "title": "Suit up for the pass",
+      "why": "A de-icing pass puts this crew directly in a fine drifting mist for the length of the whole spray, in a way a normal ramp job does not, and the suit and respirator are matched to that specific exposure rather than borrowed from a general PPE kit."
+    },
+    {
+      "cue": "Confirm the fluid type, the mix ratio and the holdover chart reference before staging anything.",
+      "id": "brief",
+      "kind": "select",
+      "prompt": "Confirm the fluid type, the mix ratio and the holdover chart reference before staging anything.",
+      "target": "deice-plan-board",
+      "title": "Read the de-icing plan",
+      "why": "The plan is what ties today's fluid mix to today's actual conditions, and a crew running a pass without reading it first has no way to know whether the holdover time they are about to quote the flight deck even applies to the fluid going on this aircraft."
+    },
+    {
+      "cue": "Walk the truck and boom. Three problems are hiding — find them by looking.",
+      "decoyNotes": {
+        "sound-fluid-tank": "The fluid tank gauge reads normal with no leak at the fitting. Nothing to flag there."
+      },
+      "id": "inspect-truck",
+      "itemNames": {
+        "boom-hydraulic-leak": "hydraulic leak at the boom joint",
+        "cracked-nozzle": "cracked spray nozzle",
+        "heater-fault": "fault light on the fluid heater"
+      },
+      "itemNotes": {
+        "boom-hydraulic-leak": "A leak at a boom joint is control this crew is losing over exactly the arm they are about to swing over a parked aircraft.",
+        "cracked-nozzle": "A cracked nozzle sprays an uneven pattern, and an uneven pattern is a wing that reads clean from the truck while still holding frost somewhere the check has to catch.",
+        "heater-fault": "Fluid applied at the wrong temperature does not perform the way the holdover chart assumes it does, which makes the fault light this crew's one warning before the chart's own numbers stop meaning anything."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the truck and boom. Three problems are hiding — find them by looking.",
+      "targets": [
+        "boom-hydraulic-leak",
+        "cracked-nozzle",
+        "heater-fault"
+      ],
+      "title": "Inspect the truck and boom",
+      "why": "A boom that looks ready from the ground is not the same thing as one a competent person has actually walked before it swings over a parked aircraft — a leak, a cracked nozzle or a heater fault found now costs a repair, and found mid-pass costs a spray this crew cannot trust the coverage of."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Clear every vehicle and person who is not part of the spray crew, then cone the boundary.",
+      "id": "clear-area",
+      "itemNames": {
+        "cones-deice": "cones set at the pad boundary",
+        "pad-clear": "pad cleared of other ground equipment"
+      },
+      "kind": "sequence",
+      "prompt": "Clear every vehicle and person who is not part of the spray crew, then cone the boundary.",
+      "targets": [
+        "pad-clear",
+        "cones-deice"
+      ],
+      "title": "Clear the pad",
+      "why": "Everyone and everything inside the pad the moment the boom starts moving is inside the one area this pass is going to put fluid, wind gusts and a swinging basket into, and clearing it first is what keeps that area matching the one the plan actually accounted for."
+    },
+    {
+      "cue": "Drive the truck to the pass position alongside the aircraft.",
+      "drag": {
+        "missNote": "Not on the pass position — bring the truck fully into position before raising the boom.",
+        "radius": 0.5,
+        "to": "truck-position"
+      },
+      "id": "position-truck",
+      "kind": "drag",
+      "prompt": "Drive the truck to the pass position alongside the aircraft.",
+      "target": "truck-body",
+      "title": "Position the truck",
+      "why": "The boom's own reach only covers the pattern the plan calls for from one specific position — a truck parked a little off that mark is a pass that either cannot reach part of the aircraft or has to be run twice to cover what the first position missed."
+    },
+    {
+      "cue": "Turn the raise lever to bring the boom up to the pass position.",
+      "id": "raise-boom",
+      "kind": "turn",
+      "prompt": "Turn the raise lever to bring the boom up to the pass position.",
+      "target": "boom-raise-lever",
+      "title": "Raise the boom",
+      "turn": {
+        "axis": "z",
+        "label": "BOOM HEIGHT",
+        "turns": 0.45
+      },
+      "why": "The boom has to clear the aircraft's own structure before it ever swings toward it, and raising it fully to the pass height first is what keeps the first swing from being the moment this crew discovers it was not high enough."
+    },
+    {
+      "cue": "Confirm the fluid type and mix ratio match the plan before the pass starts.",
+      "id": "select-fluid-mix",
+      "kind": "select",
+      "prompt": "Confirm the fluid type and mix ratio match the plan before the pass starts.",
+      "target": "fluid-mix-panel",
+      "title": "Set the fluid mix",
+      "why": "The mix ratio is what the holdover chart's own numbers are built around — a pass run on the wrong mix is a holdover time the flight deck is about to be quoted that does not actually apply to the fluid now on the aircraft."
+    },
+    {
+      "cue": "Spray the wings first, then the fuselage, then the tail — top-down, clear of every intake.",
+      "id": "spray-top-down",
+      "itemNames": {
+        "fuselage-sprayed": "fuselage sprayed",
+        "tail-sprayed": "tail sprayed",
+        "wings-sprayed": "wings sprayed"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wings, then fuselage, then tail — top-down, the order the plan runs the pass in.",
+      "prompt": "Spray the wings first, then the fuselage, then the tail — top-down, clear of every intake.",
+      "targets": [
+        "wings-sprayed",
+        "fuselage-sprayed",
+        "tail-sprayed"
+      ],
+      "title": "Run the pass top-down",
+      "why": "Top-down is the order that lets fluid already applied keep draining clear of surfaces still to be sprayed, rather than running back down over a wing this pass already finished — and every intake on the aircraft stays outside the pattern the whole time."
+    },
+    {
+      "cue": "Read the mix ratio gauge and commit only once it is inside the plan's band.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.6
+        ],
+        "label": "FLUID MIX",
+        "missNote": "Outside the plan's band — confirm the mix ratio before continuing the pass.",
+        "speed": 0.6
+      },
+      "id": "monitor-mix-ratio",
+      "kind": "gauge",
+      "prompt": "Read the mix ratio gauge and commit only once it is inside the plan's band.",
+      "target": "mix-ratio-gauge",
+      "title": "Check the mix ratio",
+      "why": "The gauge is the one number that tells this crew the tank is actually delivering the mix the plan called for, rather than a ratio that drifted while the pass was already running."
+    },
+    {
+      "cue": "Hold the basket control steady through the pass, watching the pattern the whole time.",
+      "holdBreakNote": "Let go of the basket control mid-pass. Hold it steady — that is what keeps the pattern matching the coverage the holdover time assumes.",
+      "id": "hold-basket-position",
+      "kind": "hold",
+      "prompt": "Hold the basket control steady through the pass, watching the pattern the whole time.",
+      "seconds": 6,
+      "target": "basket-control",
+      "title": "Hold the basket steady",
+      "why": "A basket that drifts mid-pass is a pattern that no longer matches the one the plan called for, and holding it steady is what keeps every part of the surface getting the coverage the holdover time is about to be calculated against."
+    },
+    {
+      "cue": "Check the wing and tail by eye and by hand — two spots are still holding frost.",
+      "decoyNotes": {
+        "clean-panel": "This panel is clean and dry to the touch. Nothing to flag there."
+      },
+      "id": "verify-clean-surfaces",
+      "itemNames": {
+        "frost-patch-tail": "frost patch on the tail",
+        "frost-patch-wing": "frost patch on the wing"
+      },
+      "itemNotes": {
+        "frost-patch-tail": "The tail's own surfaces get the same check as the wings — contamination anywhere on a lifting or control surface is contamination the flight crew needs to know did not happen.",
+        "frost-patch-wing": "A patch this small is exactly what a pass can miss and a ground check by eye and by hand is built to catch before it matters."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the wing and tail by eye and by hand — two spots are still holding frost.",
+      "targets": [
+        "frost-patch-wing",
+        "frost-patch-tail"
+      ],
+      "title": "Check the surfaces are clean",
+      "why": "A wing that reads clean from the truck can still be holding frost in a spot the pass did not fully reach, and the only way this crew actually knows before releasing the aircraft is checking it by eye and by hand rather than trusting how the pass looked going on."
+    },
+    {
+      "cue": "Communicate the holdover start time to the flight deck the moment the last application ends.",
+      "id": "start-holdover-clock",
+      "kind": "select",
+      "prompt": "Communicate the holdover start time to the flight deck the moment the last application ends.",
+      "target": "holdover-panel",
+      "title": "Start the holdover clock",
+      "why": "The flight deck is timing their own departure against this exact moment, and a holdover start that is estimated or given late hands them a clock that no longer matches the fluid actually protecting the aircraft."
+    },
+    {
+      "cue": "Turn the lever back to lower and stow the boom before the truck moves.",
+      "id": "stow-boom",
+      "kind": "turn",
+      "prompt": "Turn the lever back to lower and stow the boom before the truck moves.",
+      "target": "boom-raise-lever",
+      "title": "Stow the boom",
+      "turn": {
+        "axis": "z",
+        "label": "BOOM HEIGHT",
+        "turns": 0.45
+      },
+      "why": "A boom left raised is a truck that cannot move without striking something overhead, so it comes all the way down and stows clean before this truck goes anywhere else on the ramp."
+    },
+    {
+      "cue": "Log the fluid type, the mix ratio and the holdover start time before signing off.",
+      "id": "closeout-log",
+      "kind": "select",
+      "prompt": "Log the fluid type, the mix ratio and the holdover start time before signing off.",
+      "target": "closing-log",
+      "title": "Log the de-icing pass",
+      "why": "The next crew and the flight deck's own dispatch release both read this record rather than ask this crew what happened — a pass that went perfectly but never gets logged leaves the holdover clock with nothing behind it but this crew's memory of when it started."
+    }
+  ],
+  "supportLine": "your IAM or TWU local's member assistance programme, or the site's employee assistance line if a close call under the boom is what stayed with you",
+  "tagline": "A jet cleaned before departure: the boom walked for a defect, the pad cleared of everyone outside the spray crew, the fluid mixed to the plan, the pass run top-down and clear of every intake, the basket held steady, and the surfaces checked clean before the holdover clock starts",
+  "title": "SmartCiti.X~ De-icing Truck Boom Operations VR",
+  "trade": "De-icing truck operator — IAM/TWU ramp crew",
+  "underwater": null,
+  "weather": "wind"
+}

@@ -1,0 +1,366 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "cphv-badge",
+    "name": "Zero Volts Proven",
+    "note": "The service disconnect locked, the wait sat out and the meter proving zero before a single orange cable was touched"
+  },
+  "category": "Maritime & Ports",
+  "certification": "ILWU maintenance and repair training; OSHA 29 CFR 1917 marine terminals; 29 CFR 1910.147 the control of hazardous energy (lockout/tagout); NFPA 70E electrical safety in the workplace, including the shock protection boundary for DC systems, insulating gloves and the absence-of-voltage test; NFPA 70 (NEC) for the equipment's charging inlet circuit; and the equipment maker's own high-voltage service procedure and discharge wait time, stated only as the manual states it",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "ILWU",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "NEC/NFPA 70",
+        "citedAs": "NEC",
+        "id": "nec-nfpa-70",
+        "title": "NFPA 70 — National Electrical Code"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 70E",
+        "id": "nfpa-70e",
+        "title": "NFPA 70E — Standard for Electrical Safety in the Workplace"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1917",
+        "id": "osha-1917",
+        "title": "29 CFR 1917 — Marine terminals"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Maritime",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "cphv-clean-read",
+        "name": "Clean Read",
+        "note": "The key reading committed inside its band first time"
+      },
+      {
+        "id": "cphv-held",
+        "name": "Held Steady",
+        "note": "Every watch and hold ran unbroken"
+      },
+      {
+        "id": "cphv-safe",
+        "name": "Never a Shortcut",
+        "note": "No unsafe action reached for anywhere in the run"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "cphv-clean",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "cphv-fast",
+        "name": "Inside Par",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "TAG",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Yard Hand",
+      "Zero-Emission Crew",
+      "Lead Hand",
+      "Certified Hand",
+      "Journey Level"
+    ],
+    "system": "Zero Volts Proven"
+  },
+  "hazards": {
+    "reinsert-plug-early": "You went to put the service plug back before the release checklist was walked. Restoring energy with tools still in the frame or a cover off turns the first contactor click into a fault at the one place someone was just working.",
+    "skip-discharge-wait": "You opened the inverter cover straight after pulling the plug. The capacitors behind that cover hold their charge after the pack is disconnected, and the maker's wait is the time they need to bleed down — skipping it puts your hand where the stored energy still is.",
+    "touch-cable-bare-handed": "You reached for the orange cable with bare hands before the isolation was proven. A high-voltage cable is live until an absence-of-voltage test says otherwise, and bare skin inside the shock boundary is exactly what NFPA 70E's glove rule exists to prevent.",
+    "use-untested-gloves": "You pulled on the insulating gloves without rolling them for an air test. A pinhole in rubber insulating gloves is invisible to the eye and is the whole difference between a barrier and a false sense of one."
+  },
+  "id": "cp-high-voltage-lockout-on-electric-cargo-equipment",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "apply-personal-lock",
+      "alert": "A co-worker has climbed onto the tractor's step and is reaching into the cab to try the key switch while you sit out the wait.",
+      "cue": "Stop them now and point to the lock box — the timer waits.",
+      "delay": 2,
+      "id": "coworker-reaches-for-key",
+      "kind": "A co-worker reaches into the cab for the key",
+      "missNote": "The wait continued while your co-worker reached into the cab; they were turning the switch before anyone told them the tractor was locked out, and only the pulled plug kept the contactors from closing.",
+      "seconds": 12,
+      "target": "stop-coworker",
+      "why": "Someone who has not seen the lock box does not know the tractor is isolated, and a key switch tried during a lockout is the exact action the lockout is meant to make impossible; stopping them keeps the procedure the only thing controlling that energy.",
+      "wrongNote": "Stop the co-worker first — a person reaching for the controls of isolated equipment is answered before the task in hand."
+    },
+    {
+      "after": "watch-insulation-resistance",
+      "alert": "A second electric yard tractor is backing into the next bay, almost silent, and the bay's barrier chain is still down.",
+      "cue": "Raise the bay barrier and wave it off — the coolant check waits.",
+      "delay": 2,
+      "id": "second-tractor-backs-in",
+      "kind": "A second tractor backs into the next bay",
+      "missNote": "The coolant check went on while the tractor kept reversing toward the bay; its rear wheels were at the chain before the driver saw anyone was working there.",
+      "seconds": 12,
+      "target": "bay-barrier",
+      "why": "Battery-electric equipment makes little noise at low speed, so the rumble people used to hear is gone; a raised barrier and a clear signal are what keep a quiet tractor from reversing into a bay where someone is working on the floor.",
+      "wrongNote": "The barrier first — a vehicle backing toward a work bay is answered immediately, not after the check you were on."
+    }
+  ],
+  "lateNotes": {},
+  "name": "High-Voltage Lockout on Electric Cargo Equipment",
+  "parSeconds": 360,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 3,
+    "hits": [
+      "bay-barrier",
+      "cable-clamp",
+      "chafed-hv-cable",
+      "discharge-timer",
+      "hv-lock-point",
+      "hv-meter",
+      "hv-service-order",
+      "insulating-gloves",
+      "insulation-tester",
+      "key-switch",
+      "leather-protectors",
+      "pack-coolant-weep",
+      "plug-lockbox",
+      "reinsert-plug-early",
+      "release-checklist",
+      "service-plug",
+      "shop-radio",
+      "skip-discharge-wait",
+      "stop-coworker",
+      "touch-cable-bare-handed",
+      "use-untested-gloves"
+    ],
+    "meshes": 228
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the order: a coolant fault on the pack, the tractor's unit number, and the maker's high-voltage service steps with its stated discharge wait.",
+      "id": "read-hv-service-order",
+      "kind": "select",
+      "prompt": "Read the order: a coolant fault on the pack, the tractor's unit number, and the maker's high-voltage service steps with its stated discharge wait.",
+      "target": "hv-service-order",
+      "title": "Read the work order and the high-voltage procedure",
+      "why": "A battery-electric tractor keeps hundreds of volts of direct current in its pack whether or not the key is on, so the job starts with the maker's own isolation steps and wait time in front of you — memory of a different model's procedure is how a disconnect gets missed."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Roll each rubber insulating glove to trap air and check for leaks, then pull the leather protectors on over them.",
+      "id": "don-insulating-gloves",
+      "itemNames": {
+        "insulating-gloves": "rubber insulating gloves, air-tested",
+        "leather-protectors": "leather protector gloves"
+      },
+      "kind": "sequence",
+      "prompt": "Roll each rubber insulating glove to trap air and check for leaks, then pull the leather protectors on over them.",
+      "targets": [
+        "insulating-gloves",
+        "leather-protectors"
+      ],
+      "title": "Air-test the insulating gloves and put protectors over them",
+      "why": "NFPA 70E expects rubber insulating gloves rated for the system voltage whenever you are inside the shock boundary, and a pinhole you cannot see is exactly what the air test finds; the leather protectors keep a frame edge or a cable tie from cutting the rubber you are trusting."
+    },
+    {
+      "cue": "Look along every orange high-voltage cable from the pack to the inverter and the charge inlet for chafing, crushing or a loose clip.",
+      "id": "find-chafed-cable",
+      "itemNames": {
+        "chafed-hv-cable": "chafed orange high-voltage cable at a frame clip"
+      },
+      "itemNotes": {
+        "chafed-hv-cable": "The orange cable running under the cab to the drive inverter has rubbed through its outer jacket where a frame clip has worked loose — braid showing, not copper yet."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look along every orange high-voltage cable from the pack to the inverter and the charge inlet for chafing, crushing or a loose clip.",
+      "targets": [
+        "chafed-hv-cable"
+      ],
+      "title": "Walk the orange cable runs before touching anything",
+      "why": "Orange is the industry colour for high-voltage conductors on electric vehicles, and on a yard tractor that spends its shift over rough terminal pavement the clips that hold those cables loosen; a chafe found before the isolation is a job to plan, found by a hand it is a shock path."
+    },
+    {
+      "cue": "Turn the key off, take it out and keep it on you, then open the low-voltage battery disconnect that powers the high-voltage contactors.",
+      "id": "key-off-and-pocket",
+      "kind": "select",
+      "prompt": "Turn the key off, take it out and keep it on you, then open the low-voltage battery disconnect that powers the high-voltage contactors.",
+      "target": "key-switch",
+      "title": "Key off, key in your pocket, 12-volt disconnect off",
+      "why": "The contactors that connect the pack to the rest of the tractor are switched by the low-voltage system, so taking the key and opening that disconnect removes the command that could close them while you work — a key left in the dash is an invitation to anyone passing."
+    },
+    {
+      "cue": "Pull the pack's service disconnect plug and carry it to the lock box on the bay wall.",
+      "drag": {
+        "missNote": "The plug is not in the lock box — carry it all the way in so the box can be closed and locked over it, not left on the bench beside it.",
+        "radius": 0.5,
+        "to": "plug-lockbox"
+      },
+      "id": "pull-service-disconnect",
+      "kind": "drag",
+      "prompt": "Pull the pack's service disconnect plug and carry it to the lock box on the bay wall.",
+      "target": "service-plug",
+      "title": "Pull the service disconnect and put it in the lock box",
+      "why": "The service disconnect physically breaks the pack's circuit in the middle, and putting the plug where only your lock can release it means nobody can reinsert it because the tractor looks finished; a plug left on the seat is a plug someone helpfully puts back."
+    },
+    {
+      "cue": "Close the lock box over the plug and hang your own lock and tag on it, with your name and the date.",
+      "id": "apply-personal-lock",
+      "kind": "select",
+      "prompt": "Close the lock box over the plug and hang your own lock and tag on it, with your name and the date.",
+      "target": "hv-lock-point",
+      "title": "Your lock and tag on the box",
+      "why": "Under 29 CFR 1910.147 each person working on isolated equipment puts on their own lock, so the energy source stays controlled by the one person exposed to it; a shared lock or a tag without a name tells the next shift nothing about who is still inside the frame."
+    },
+    {
+      "cue": "Start the timer and stay clear of the orange cables until the maker's stated wait has fully run.",
+      "holdBreakNote": "You stepped back into the frame before the wait ran out — the capacitors behind the inverter cover are still bleeding down, and the timer restarts from zero.",
+      "id": "sit-out-discharge-wait",
+      "kind": "hold",
+      "prompt": "Start the timer and stay clear of the orange cables until the maker's stated wait has fully run.",
+      "seconds": 6,
+      "target": "discharge-timer",
+      "title": "Sit out the discharge wait in full",
+      "why": "The drive inverter and the onboard charger hold capacitors that stay charged after the pack is disconnected, and the maker's wait is the time those take to bleed down through their resistors; cutting it short means your meter is the first thing that meets that stored charge — or your hand."
+    },
+    {
+      "cue": "Check the meter on a known source, test the inverter's DC terminals phase to phase and to chassis, then check the meter again, and commit once it reads zero.",
+      "gauge": {
+        "green": [
+          0,
+          0.05
+        ],
+        "label": "DC VOLTS",
+        "missNote": "The reading had not settled at zero — hold the probes on the terminals until the display stops falling before you commit it.",
+        "speed": 0.62
+      },
+      "id": "prove-absence-of-voltage",
+      "kind": "gauge",
+      "prompt": "Check the meter on a known source, test the inverter's DC terminals phase to phase and to chassis, then check the meter again, and commit once it reads zero.",
+      "target": "hv-meter",
+      "title": "Prove absence of voltage, live-dead-live",
+      "why": "NFPA 70E treats a circuit as live until an absence-of-voltage test proves otherwise, and testing the meter on a known source before and after is what shows the zero you read was the circuit, not a blown fuse in the meter itself."
+    },
+    {
+      "cue": "Fit the new clip with a cushion sleeve over the chafed section and turn the insulated driver until it clicks at spec.",
+      "id": "torque-new-clip",
+      "kind": "turn",
+      "prompt": "Fit the new clip with a cushion sleeve over the chafed section and turn the insulated driver until it clicks at spec.",
+      "target": "cable-clamp",
+      "title": "Replace the clip and torque it to spec",
+      "turn": {
+        "label": "TORQUE",
+        "turns": 1
+      },
+      "why": "A clip too loose lets the cable saw against the frame again over a few hundred terminal moves, and one overtightened crushes the insulation it is meant to protect; the insulated tool's click is the one sign the clamp is holding the cable without biting into it."
+    },
+    {
+      "cue": "Run the insulation tester on the repaired cable and keep the reading inside the band for the whole test.",
+      "holdBreakNote": "The reading dropped out of band before the test finished — a cable signed off on half a test is a cable whose leak shows up under a driver instead of under the tester.",
+      "id": "watch-insulation-resistance",
+      "kind": "track",
+      "prompt": "Run the insulation tester on the repaired cable and keep the reading inside the band for the whole test.",
+      "seconds": 6,
+      "target": "insulation-tester",
+      "title": "Watch the insulation resistance stay in band",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.26,
+        "green": [
+          0.42,
+          0.68
+        ],
+        "label": "MEGOHMS",
+        "rise": 0.3,
+        "start": 0.5
+      },
+      "why": "A chafe can nick the inner insulation without showing on the outside, and an insulation resistance reading held through the whole test is what tells you the conductor is still sealed; a reading that sags is current finding its way toward the frame the driver sits on."
+    },
+    {
+      "cue": "Look under the pack along the thermal loop lines for the weep that set the coolant fault.",
+      "id": "find-coolant-weep",
+      "itemNames": {
+        "pack-coolant-weep": "coolant weeping at the pack's thermal loop fitting"
+      },
+      "itemNotes": {
+        "pack-coolant-weep": "A glycol stain under the pack's thermal loop fitting — the coolant fault on the work order, and a liquid that has no business near high-voltage connectors."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look under the pack along the thermal loop lines for the weep that set the coolant fault.",
+      "targets": [
+        "pack-coolant-weep"
+      ],
+      "title": "Find the coolant fault on the work order",
+      "why": "The pack's cooling loop keeps its cells in their temperature window, and coolant tracking toward a high-voltage connector is both the fault you were sent for and a new leakage path; finding the source now, while the system is still locked out, keeps the repair from becoming live work."
+    },
+    {
+      "cue": "Tools out of the frame, covers back on, everyone clear, the plug reinserted only after the checklist is signed.",
+      "id": "walk-release-checklist",
+      "kind": "select",
+      "prompt": "Tools out of the frame, covers back on, everyone clear, the plug reinserted only after the checklist is signed.",
+      "target": "release-checklist",
+      "title": "Walk the release checklist before your lock comes off",
+      "why": "Releasing lockout is its own procedure under 29 CFR 1910.147: tools accounted for, guards and covers replaced, people told and clear, and only then the energy restored — a socket left on an inverter cover is found by the contactor closing."
+    },
+    {
+      "cue": "Radio the foreman: clip replaced, insulation in band, coolant weep found at the loop fitting, tractor still tagged for the coolant repair.",
+      "id": "report-to-foreman",
+      "kind": "select",
+      "prompt": "Radio the foreman: clip replaced, insulation in band, coolant weep found at the loop fitting, tractor still tagged for the coolant repair.",
+      "target": "shop-radio",
+      "title": "Tell the bay foreman what you found",
+      "why": "The foreman decides which tractors go out to the berth, and a tractor with a coolant weep near its high-voltage connectors is not ready even though the chafe is fixed; saying exactly what was found keeps that decision on facts rather than on the tractor looking finished."
+    }
+  ],
+  "supportLine": "your union's member assistance programme",
+  "tagline": "A battery-electric yard tractor in the shop bay with a coolant fault on its work order: the service procedure read, insulating gloves air-tested and on, a chafed orange cable found at a frame clip, the key out and in your pocket, the service disconnect pulled and locked in its box, the discharge wait sat out in full, absence of voltage proven live-dead-live, the clip replaced and torqued, insulation resistance watched in band, a coolant weep at the pack found, the release checklist walked, and the bay foreman told",
+  "title": "SmartCiti.X~ High-Voltage Lockout on Electric Cargo Equipment VR VR",
+  "trade": "ILWU maintenance mechanic or IAM machinist isolating the high-voltage system on a battery-electric yard tractor in a terminal shop bay",
+  "underwater": null,
+  "weather": "overcast"
+}

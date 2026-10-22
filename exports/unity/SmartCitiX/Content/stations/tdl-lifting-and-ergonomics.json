@@ -1,0 +1,413 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "power-zone",
+    "name": "Power Zone",
+    "note": "A shift of lifts with the station changed to fit the worker, the team lift called and the discomfort reported early — first time"
+  },
+  "category": "Mobility & Transit",
+  "certification": "The Revised NIOSH Lifting Equation and its Applications Manual — recommended weight limit and lifting index for two-handed lifts; NIOSH ergonomics research on repetitive manual handling; OSHA 29 CFR 1904 recording and reporting of work-related injuries, including a worker's right to report without retaliation; 29 CFR 1910.22 walking-working surfaces; 29 CFR 1910.178 and ANSI B56.1 for the pallet trucks that share the floor; Teamsters (IBT) warehouse locals' safety committees and ergonomics programmes",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI B56.1",
+        "id": "ansi-b56-1",
+        "title": "ANSI/ITSDF B56.1 — Safety standard for low lift and high lift trucks"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "Revised NIOSH Lifting Equation",
+        "id": "niosh-lifting-equation",
+        "title": "Revised NIOSH Lifting Equation and its Applications Manual — recommended weight limit and lifting index for two-handed manual lifting"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1904",
+        "id": "osha-1904",
+        "title": "29 CFR 1904 — Recording and reporting occupational injuries and illnesses"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.178",
+        "id": "osha-1910-178",
+        "title": "29 CFR 1910.178 — Powered industrial trucks"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.22",
+        "id": "osha-1910-22",
+        "title": "29 CFR 1910.22 — Walking-working surfaces, general requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBT",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Warehouse & Distribution",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "changed-the-job",
+        "name": "Changed the Job",
+        "note": "Every station risk found without a hint"
+      },
+      {
+        "id": "no-twist",
+        "name": "No Twist",
+        "note": "Never twisted with a load, lifted overhead, lifted a team case alone or a wet carton"
+      },
+      {
+        "id": "under-one",
+        "name": "Under One",
+        "note": "The lifting index read near the centre of the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "No corrections anywhere at the station"
+      },
+      {
+        "id": "steady-push",
+        "name": "Steady Push",
+        "note": "The cart push held in band the whole way"
+      },
+      {
+        "id": "on-rate",
+        "name": "On Rate, Not Rushed",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "LIFT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "New Associate",
+      "Case Picker",
+      "Station Lead",
+      "Ergonomics Rep",
+      "Manual Handling Certified"
+    ],
+    "system": "Manual Handling"
+  },
+  "hazards": {
+    "lfe-overhead-shelf": "You went to put the 40 lb case on the top shelf above your shoulders. Lifts above shoulder height load the shoulder and the lower back at once, with the load at arm's length and your view of it lost. Heavy stock lives in the waist-high zone; the top shelf is for light, slow-moving items.",
+    "lfe-solo-heavy": "You went to lift the case marked for a team lift on your own. The mark is this warehouse's policy for a weight that exceeds a safe one-person lift for most people, and it is not a test of strength: a two-person lift or a lift assist halves what the back carries.",
+    "lfe-twist-lift": "You went to lift the case from the pallet and swing it round to the cart without moving your feet. Twisting under load puts the spine's discs in shear and compression at the same time — the lifting equation marks it down hard for exactly that reason. Turn by stepping, or turn the pallet.",
+    "lfe-wet-carton": "You went to lift the carton with the soaked, split bottom. A wet carton fails mid-lift, the contents drop and you instinctively try to catch them — a sudden, twisting, unplanned load, which is the lift most likely to injure a back. It is re-boxed or slid onto a tray first."
+  },
+  "id": "tdl-lifting-and-ergonomics",
+  "indoor": "garage",
+  "interrupts": [
+    {
+      "after": "carry-hold",
+      "alert": "Someone has left a pallet jack with its forks out across the walkway you are carrying the case along.",
+      "cue": "Set the case down; do not step over the forks with it.",
+      "delay": 3,
+      "id": "jack-in-walkway",
+      "kind": "Obstruction in the carry path",
+      "missNote": "You carried on toward the forks with a case blocking your view. Trips over pallet-jack forks while carrying are a classic warehouse fall — you cannot put your hands out because they are full.",
+      "seconds": 10,
+      "target": "lfe-staging-table",
+      "why": "Stepping over pallet-jack forks with a case in your arms blocks your view of your feet exactly where there is something to trip on. Setting the case on the staging table and moving the jack first costs ten seconds; the fall costs weeks.",
+      "wrongNote": "It is the staging table. There is a trip hazard in your path and your arms are full; put the load down first."
+    },
+    {
+      "after": "cart-push",
+      "alert": "Your team-lift partner has stopped with a hand on his lower back and says something just went.",
+      "cue": "Stop the job and get him help.",
+      "delay": 3,
+      "id": "partner-hurt",
+      "kind": "Coworker injured",
+      "missNote": "You kept pushing while your partner stood there hurt. The shift's rate is never worth a coworker finishing a job on an injured back; the call gets him seen and gets the injury on the record today.",
+      "seconds": 12,
+      "target": "lfe-first-aid-call",
+      "why": "A back that 'just went' is an injury, not a moment to push through: the right response is to stop the task, call the lead and first aid, and not let him lift again until someone has looked at it. Carrying on to finish the rate is how a strain becomes a disc.",
+      "wrongNote": "It is the first-aid call point. Your partner has just hurt his back and everything else waits."
+    }
+  ],
+  "lateNotes": {
+    "lfe-case": "The case goes on the shelf after the pallet has been raised and turned and the carry held close — the easy lift is the one you set up first.",
+    "lfe-lift-count": "The count starts once your partner has been called and both of you have a grip — a count with one person ready is a solo lift.",
+    "lfe-warehouse-log": "The log closes the shift: it is written after the check-in, so the discomfort you reported goes into it."
+  },
+  "name": "Lifting and Ergonomics",
+  "parSeconds": 250,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "job-readiness-edition",
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "lfe-carry-hold",
+      "lfe-cart-handle",
+      "lfe-case",
+      "lfe-crew-checkin",
+      "lfe-far-reach",
+      "lfe-first-aid-call",
+      "lfe-floor-pallet",
+      "lfe-job-card",
+      "lfe-lift-count",
+      "lfe-lifting-index",
+      "lfe-no-handholds",
+      "lfe-overhead-shelf",
+      "lfe-partner-call",
+      "lfe-path-check",
+      "lfe-rate-board",
+      "lfe-rotation-board",
+      "lfe-shelf-socket",
+      "lfe-solo-heavy",
+      "lfe-staging-table",
+      "lfe-tip-test",
+      "lfe-turntable",
+      "lfe-twist-lift",
+      "lfe-warehouse-log",
+      "lfe-weight-label",
+      "lfe-wet-carton",
+      "lfe-worn-gloves"
+    ],
+    "meshes": 199
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the case weights, the rate for the hour, the shelf heights and which cases are marked for a team lift.",
+      "id": "job-card",
+      "kind": "select",
+      "prompt": "Read the case weights, the rate for the hour, the shelf heights and which cases are marked for a team lift.",
+      "target": "lfe-job-card",
+      "title": "Read the job card",
+      "why": "The job card is where the load, the pace and the reach are written down before the first lift. Those three together decide the risk: a light case lifted six hundred times an hour from the floor can hurt a back as surely as a heavy one lifted once. Knowing which cases are team lifts before you meet them is what stops you deciding by feel with one already in your hands."
+    },
+    {
+      "cue": "Read the weight label, tip a corner to feel the load and whether it shifts, then look at the path you will carry it along.",
+      "id": "size-up",
+      "itemNames": {
+        "lfe-path-check": "check the path is clear",
+        "lfe-tip-test": "tip a corner to test it",
+        "lfe-weight-label": "read the weight label"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Label, tip, path — know what it weighs before you test it, and know where it is going before you lift it.",
+      "prompt": "Read the weight label, tip a corner to feel the load and whether it shifts, then look at the path you will carry it along.",
+      "targets": [
+        "lfe-weight-label",
+        "lfe-tip-test",
+        "lfe-path-check"
+      ],
+      "title": "Size up the lift",
+      "why": "Most back injuries in warehouses come from a lift that was different from what the lifter expected: heavier, off-centre, with contents that slide, or carried into something on the floor. Reading the label, tipping one corner and looking at the path takes three seconds and removes every one of those surprises before the load is off the pallet."
+    },
+    {
+      "cue": "Set the lift's reach, height, twist and rate into the calculator and commit when the lifting index is at or under one.",
+      "gauge": {
+        "green": [
+          0.2,
+          0.5
+        ],
+        "label": "LIFTING INDEX",
+        "missNote": "That index is over one — change the lift before anybody does it six hundred times.",
+        "speed": 0.7
+      },
+      "id": "lifting-index",
+      "kind": "gauge",
+      "prompt": "Set the lift's reach, height, twist and rate into the calculator and commit when the lifting index is at or under one.",
+      "target": "lfe-lifting-index",
+      "title": "Score the lift",
+      "why": "The Revised NIOSH Lifting Equation starts from a load of 51 lb under ideal conditions and reduces it for everything that makes a lift harder: the load held far from the body, lifted from near the floor or above the shoulders, carried over a long vertical distance, twisted, lifted often, or hard to grip. The load divided by that recommended limit is the lifting index; over one, the lift carries increased risk for some workers and the job, not the worker, should change."
+    },
+    {
+      "cue": "Look at the station, not at yourself. Find the three things that make every lift here worse than it needs to be.",
+      "id": "station-risks",
+      "itemNames": {
+        "lfe-far-reach": "the far side of the pallet an arm's length away",
+        "lfe-floor-pallet": "the pallet sitting on the floor",
+        "lfe-no-handholds": "the case with no handholds"
+      },
+      "itemNotes": {
+        "lfe-far-reach": "The far row is an arm's length away across the pallet. Horizontal reach is the biggest single penalty in the lifting equation; turning the pallet brings that row to you.",
+        "lfe-floor-pallet": "The pallet is on the floor, so every bottom-layer case starts at shin height. Raising it on the lift table takes the lowest, worst lifts out of the shift.",
+        "lfe-no-handholds": "This case has no handholds and a slick film. A poor grip is its own penalty — the fingers tire first and the case slips. Handle it with a hook or ask for cut-outs from the supplier."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the station, not at yourself. Find the three things that make every lift here worse than it needs to be.",
+      "targets": [
+        "lfe-floor-pallet",
+        "lfe-far-reach",
+        "lfe-no-handholds"
+      ],
+      "title": "Find what makes this station hard",
+      "why": "Ergonomics fixes the job so it fits the person, not the other way round. A pallet on the floor, a far reach and a poor grip are each a multiplier in the lifting equation that drives the recommended limit down, and each has a simple engineering fix. Finding them is worth more over a shift than any amount of lifting technique applied to a station that is set up badly."
+    },
+    {
+      "cue": "Raise the pallet on the lift table to waist height and rotate the turntable to bring the far row in front of you.",
+      "id": "turntable",
+      "kind": "turn",
+      "prompt": "Raise the pallet on the lift table to waist height and rotate the turntable to bring the far row in front of you.",
+      "target": "lfe-turntable",
+      "title": "Raise and turn the pallet",
+      "turn": {
+        "axis": "y",
+        "label": "TURNTABLE",
+        "turns": 0.25
+      },
+      "why": "A lift table that keeps the working layer at waist height and a turntable that brings the far side round to you remove the two worst multipliers at this station at once: the low lift and the long reach. Turning the pallet instead of reaching across it is also what stops the twist, because the load comes to your feet rather than your feet staying put while your back goes to the load."
+    },
+    {
+      "cue": "Lift with the case tight to your body between knuckle and shoulder height, and hold it close through the carry.",
+      "holdBreakNote": "The case drifted away from your body. Bring it back in close and hold it there.",
+      "id": "carry-hold",
+      "kind": "hold",
+      "prompt": "Lift with the case tight to your body between knuckle and shoulder height, and hold it close through the carry.",
+      "seconds": 8,
+      "target": "lfe-carry-hold",
+      "title": "Carry the case close",
+      "why": "The further a load is from your body, the more the lower back has to work to hold it: a case held at arm's length loads the spine far more than the same case hugged to the stomach. Keeping it close and between knuckle and shoulder height is the power zone, where the big muscles do the work and you can still see where you are putting your feet."
+    },
+    {
+      "cue": "Step your feet round to face the shelf and set the case on the waist-high shelf, not the top one.",
+      "drag": {
+        "missNote": "Not on the waist-high shelf — heavy cases live in the power zone.",
+        "radius": 0.45,
+        "to": "lfe-shelf-socket"
+      },
+      "id": "shelve",
+      "kind": "drag",
+      "prompt": "Step your feet round to face the shelf and set the case on the waist-high shelf, not the top one.",
+      "target": "lfe-case",
+      "title": "Set the case on the waist-high shelf",
+      "why": "Setting a load down is half the lift and the half people rush. Facing the shelf by stepping rather than twisting, and setting heavy stock at waist height, keeps the put-away as easy as the pick. The top shelf is for light, slow-moving product for a reason: every heavy case put up there is a case somebody else has to lift down from above their shoulders."
+    },
+    {
+      "cue": "Call your partner for the team-lift case, agree who counts, and lift together on the count.",
+      "id": "team-lift",
+      "itemNames": {
+        "lfe-lift-count": "lift together on a count",
+        "lfe-partner-call": "call your partner"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Partner first, then the count — a count with one person on the case is a solo lift.",
+      "prompt": "Call your partner for the team-lift case, agree who counts, and lift together on the count.",
+      "targets": [
+        "lfe-partner-call",
+        "lfe-lift-count"
+      ],
+      "title": "Call the team lift",
+      "why": "A team lift only halves the load if both people take it at the same moment; one person lifting early takes the whole weight for the half second that matters. Calling the partner before touching the case, agreeing who counts, and lifting and setting down on that count is what turns two people standing near a heavy box into an actual team lift."
+    },
+    {
+      "cue": "Push the cart, do not pull it, with steady force at walking pace to the outbound lane.",
+      "holdBreakNote": "Force out of band — a shove and a coast puts the peak load on your back. Settle to a steady push.",
+      "id": "cart-push",
+      "kind": "track",
+      "prompt": "Push the cart, do not pull it, with steady force at walking pace to the outbound lane.",
+      "seconds": 8,
+      "target": "lfe-cart-handle",
+      "title": "Push the loaded cart",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.38,
+          0.6
+        ],
+        "label": "PUSH FORCE",
+        "rise": 0.56,
+        "start": 0.1
+      },
+      "why": "Pushing lets you use your body weight and keeps you facing where the cart is going; pulling twists the spine and puts the load behind you. The hardest part of a push is starting it, so steady force at a walking pace — not a shove and a coast — keeps the peak load on the shoulders and back low and the cart under control at the lane end."
+    },
+    {
+      "cue": "Check the rotation board and move to the labelling task for the next hour.",
+      "id": "rotation",
+      "kind": "select",
+      "prompt": "Check the rotation board and move to the labelling task for the next hour.",
+      "target": "lfe-rotation-board",
+      "title": "Rotate to the lighter task",
+      "why": "Job rotation spreads repetitive load across different muscle groups and gives the ones you have been using a real recovery window. It works only if the next task is genuinely different — labelling after case picking, not picking a different aisle — and only if people actually rotate when the board says so rather than staying put to keep a rate."
+    },
+    {
+      "cue": "Before you start again, find what will make the next hour harder than this one.",
+      "id": "next-hour",
+      "itemNames": {
+        "lfe-rate-board": "the rate raised for the next hour",
+        "lfe-worn-gloves": "the gloves worn through at the fingers"
+      },
+      "itemNotes": {
+        "lfe-rate-board": "The rate for the next hour has gone up by a third. Frequency is a multiplier in the lifting equation — the same case at a higher rate is a harder job, and that belongs in the check-in.",
+        "lfe-worn-gloves": "These gloves are worn through at the fingertips. A poor grip makes every lift harder on the forearms and more likely to slip; new gloves are a two-minute fix."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Before you start again, find what will make the next hour harder than this one.",
+      "targets": [
+        "lfe-rate-board",
+        "lfe-worn-gloves"
+      ],
+      "title": "Look at the next hour",
+      "why": "Risk from manual handling builds with time and pace as much as with weight: a higher rate, a tiring grip and a shift running long all push the same lifts toward injury. Noticing them before the hour starts is what lets you do something about them — raise the rate with the lead, change the gloves — instead of noticing the ache afterwards."
+    },
+    {
+      "cue": "Report your partner's back, the rate change and the station fixes, and say honestly how your own back and hands feel.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Report your partner's back, the rate change and the station fixes, and say honestly how your own back and hands feel.",
+      "target": "lfe-crew-checkin",
+      "title": "Check in with the lead",
+      "why": "Musculoskeletal injuries rarely arrive all at once; they announce themselves as stiffness, tingling and aches weeks before the day someone cannot lift. Saying it early gets a station changed or a task rotated while it is still discomfort. A worker has the right to report a work-related injury without retaliation, and a check-in where the honest answer is welcome is how that right gets used."
+    },
+    {
+      "cue": "Log the station changes, your partner's injury and first aid, and your own discomfort report, then sign it.",
+      "id": "warehouse-log",
+      "kind": "select",
+      "prompt": "Log the station changes, your partner's injury and first aid, and your own discomfort report, then sign it.",
+      "target": "lfe-warehouse-log",
+      "title": "Write the warehouse log",
+      "why": "Your partner's back is a work-related injury, and whether it is recordable under 29 CFR 1904 depends on what treatment follows, which is why it is written down today with a time and a task. A discomfort report on its own is not an injury record, but it is the pattern-spotting a safety committee needs: three people reporting the same station is a station that needs changing."
+    }
+  ],
+  "supportLine": "your employer's employee assistance programme, or your Teamsters steward if you are not sure how to reach it",
+  "tagline": "A case-picking station: the job card, each lift sized up and scored the way the NIOSH Lifting Equation scores it, the pallet raised and turned instead of reached across, a carry held close, the power-zone shelf, a team lift on a count, a partner who hurts his back, and a discomfort report made early",
+  "title": "SmartCiti.X~ Lifting and Ergonomics VR",
+  "trade": "Warehouse associate, TDL pre-apprenticeship — Teamsters warehouse work: manual lifting and ergonomics, ahead of the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F) for those going on to Class A",
+  "underwater": null,
+  "weather": null
+}

@@ -1,0 +1,398 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clean-board",
+    "name": "Clean Board",
+    "note": "A full prep run with the edge honed, the glove on for the mandoline, and nothing left in the sink"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "UNITE HERE Local 2 — hospitality and food service; the FDA Food Code as adopted in the California Retail Food Code; California Food Handler card and ServSafe Food Protection Manager; Cal/OSHA General Industry Safety Orders; OSHA 29 CFR 1910.138 hand protection; ANSI/ISEA 105 cut-resistance ratings; NSF/ANSI 2 food-contact equipment for the boards and prep surfaces",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI/ISEA A4",
+        "id": "ansi-isea-105",
+        "title": "ANSI/ISEA 105 — Hand protection classification, including the A1–A9 cut levels"
+      },
+      {
+        "body": "CalCode",
+        "citedAs": "California Retail Food Code",
+        "id": "calcode-retail-food",
+        "title": "California Retail Food Code (Health and Safety Code Division 104, Part 7) — the FDA Food Code as California adopts it"
+      },
+      {
+        "body": "FDA",
+        "citedAs": "FDA Food Code",
+        "id": "fda-food-code",
+        "title": "FDA Food Code — the model code for retail food establishments"
+      },
+      {
+        "body": "NSF",
+        "citedAs": "NSF/ANSI 2",
+        "id": "nsf-ansi-2",
+        "title": "NSF/ANSI 2 — Food equipment"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.138",
+        "id": "osha-1910-138",
+        "title": "29 CFR 1910.138 — Hand protection"
+      },
+      {
+        "body": "ServSafe",
+        "citedAs": "ServSafe",
+        "id": "servsafe-certification",
+        "title": "ServSafe Food Protection Manager and ServSafe Alcohol certification (National Restaurant Association)"
+      },
+      {
+        "body": "union",
+        "citedAs": "UNITE HERE",
+        "id": "unite-here-training",
+        "title": "UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Food service",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "no-sink-blade",
+        "name": "No Sink Blade",
+        "note": "Never left a blade for the sink to hide"
+      },
+      {
+        "id": "gloved-up",
+        "name": "Gloved Up",
+        "note": "Never touched the mandoline's edge bare-handed"
+      },
+      {
+        "id": "even-dice",
+        "name": "Even Dice",
+        "note": "Held the claw-grip cut close to the target size"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-prep",
+        "name": "Clean Prep",
+        "note": "No corrections through the whole run"
+      },
+      {
+        "id": "steady-hone",
+        "name": "Steady Hone",
+        "note": "Held the honing angle without a break"
+      },
+      {
+        "id": "ticket-fast",
+        "name": "Ticket Fast",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "DICE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Dish Hand",
+      "Prep Cook",
+      "Line Cook",
+      "Lead Prep",
+      "Board Authority Certified"
+    ],
+    "system": "Board Authority"
+  },
+  "hazards": {
+    "bare-blade-check": "You touched the mandoline's edge directly to see how sharp it was. That edge is exposed the width of the carriage on purpose — it is not the thing you put a fingertip against to find out.",
+    "dull-knife": "That blade on the rack is visibly nicked and dull. A dull edge needs more downward force to make the same cut, and force is exactly what turns a slip into a laceration — the fix is the honing steel, never leaning on it harder.",
+    "mandoline-no-guard": "That spare mandoline on the shelf has no hand guard clipped to it. A mandoline blade is exposed edge to edge across the full width of the carriage; run one bare and the only thing between your fingertips and the blade is how far down the vegetable you've gotten.",
+    "sink-knife": "There is a blade under that cloudy water. Knives never go into a soaking sink — the next person plunging a hand in to find a whisk finds the edge first, and nobody who does that sees it coming."
+  },
+  "id": "knife-skills",
+  "indoor": "kitchen",
+  "interrupts": [
+    {
+      "after": "hone",
+      "alert": "A co-worker leans right across your board for the salt tin while you're mid-stroke on the steel.",
+      "cue": "Their hand is crossing the same line your blade just came off of.",
+      "delay": 3,
+      "id": "reach-across",
+      "kind": "Co-worker reach",
+      "missNote": "You kept working the steel while they reached past it. It happened to clear you this time. The next co-worker who reaches across a moving blade is trusting a habit you haven't actually built yet.",
+      "seconds": 11,
+      "target": "chef-knife",
+      "why": "The honing steel and a hand reaching across the same six inches of counter do not share that space safely. Set the blade down flat on the board, edge turned away, until the reach is clear — a knife kept moving because stopping felt like losing time is how a co-worker's forearm meets an edge that was never aimed at them.",
+      "wrongNote": "Set the knife down — flat on the board, edge away from the reach — before anything else happens."
+    },
+    {
+      "after": "slice",
+      "alert": "Another cook just dropped a paring knife into the soapy sink beside you and walked off to answer the pass.",
+      "cue": "There's a blade under that water now and your hands are full of mandoline.",
+      "delay": 4,
+      "id": "knife-in-sink",
+      "kind": "Blade in the soak sink",
+      "missNote": "The blade stayed under the water for the rest of the run. Nobody happened to reach in blind. That was luck, not a fixed hazard — the next hand into that sink still finds it exactly the way this one would have.",
+      "seconds": 12,
+      "target": "sink-knife",
+      "why": "A knife dropped into a full sink disappears the instant the water settles — cloudy soap water hides an edge completely, and the next hand into that basin, yours or anyone else's, finds it by feel. It gets pulled and set on the rack the moment it's noticed, not left for whoever reaches in next.",
+      "wrongNote": "It's the soak sink — there's a blade under that water. Fish it out and onto the rack before it's forgotten."
+    }
+  ],
+  "lateNotes": {
+    "chef-knife": "Board anchored on the towel first. A knife in your hand over a board that can still slide is the slip waiting to happen.",
+    "green-board": "The raw board goes through wash, rinse and sanitiser before a clean board comes off the rack — swapping straight across skips the step that actually protects the produce.",
+    "mandoline": "Not yet — the guard clips on and the glove goes on the guiding hand before that carriage ever sees a vegetable."
+  },
+  "name": "Knife Skills",
+  "parSeconds": 230,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "culinary-kitchen"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "bare-blade-check",
+      "board-sani",
+      "board-wash",
+      "board-wrong-slot",
+      "chef-knife",
+      "cut-glove",
+      "cutting-board",
+      "dull-knife",
+      "green-board",
+      "honing-steel",
+      "knife-rack",
+      "mandoline",
+      "mandoline-guard",
+      "mandoline-no-guard",
+      "prep-ticket",
+      "red-board",
+      "sani-spray",
+      "sink-knife",
+      "towel-bunched",
+      "towel-pad"
+    ],
+    "meshes": 159
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Check what's being cut, for which dish, and how much of it.",
+      "id": "ticket",
+      "kind": "select",
+      "prompt": "Check what's being cut, for which dish, and how much of it.",
+      "target": "prep-ticket",
+      "title": "Read the prep ticket",
+      "why": "The ticket sets the cut size and the quantity before the first board comes down. A prep cook who starts cutting before reading it is guessing at both, and a guess that's wrong is a whole tray recut on the clock."
+    },
+    {
+      "cue": "Pull the red board for the raw chicken thighs on the ticket.",
+      "id": "board",
+      "kind": "select",
+      "prompt": "Pull the red board for the raw chicken thighs on the ticket.",
+      "target": "red-board",
+      "title": "Take the raw-protein board",
+      "why": "Red is raw meat and poultry, every station, every shift — the colour code exists so the right board is a glance across a busy line rather than a decision made from memory under pressure, and so this board never turns up under produce later."
+    },
+    {
+      "cue": "Carry the board onto the folded damp towel so it can't slide.",
+      "drag": {
+        "missNote": "Not lined up with the towel — the board has to sit fully on the damp cloth or it can still walk.",
+        "radius": 0.28,
+        "to": "towel-pad"
+      },
+      "id": "anchor",
+      "kind": "drag",
+      "prompt": "Carry the board onto the folded damp towel so it can't slide.",
+      "target": "cutting-board",
+      "title": "Anchor the board on a damp towel",
+      "why": "A board with nothing under it walks across a stainless counter the first time the knife bites at an angle, and a moving board under a moving blade is how a controlled cut turns into an uncontrolled one. The damp towel grips both surfaces and stops that dead."
+    },
+    {
+      "cue": "Draw the chef knife off the magnetic rack — not the nicked one beside it.",
+      "id": "knife",
+      "kind": "select",
+      "prompt": "Draw the chef knife off the magnetic rack — not the nicked one beside it.",
+      "target": "chef-knife",
+      "title": "Take the chef knife",
+      "why": "A rack holds more than one blade for a reason, and the one with a chip in the edge is there to be sent for sharpening, not carried to a board because it was closer to hand. The knife that comes off this rack is the one that gets checked before it cuts anything."
+    },
+    {
+      "cue": "Draw the blade down the steel at a steady angle, heel to tip, and hold it in the band.",
+      "holdBreakNote": "Angle wandered off the steel. An inconsistent pass rounds the edge instead of straightening it — reset and draw it through again.",
+      "id": "hone",
+      "kind": "track",
+      "prompt": "Draw the blade down the steel at a steady angle, heel to tip, and hold it in the band.",
+      "seconds": 6,
+      "target": "honing-steel",
+      "title": "Check and hone the edge",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.42,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "HONING ANGLE",
+        "rise": 0.55,
+        "start": 0.1
+      },
+      "why": "Honing straightens a rolled edge back into line; it does not sharpen a genuinely dull blade, but it is what tells you which one you're holding. A consistent angle every pass is what keeps the edge true — wander the angle and you round it off instead of correcting it."
+    },
+    {
+      "cue": "Curl the guiding hand into a claw, knuckles to the blade, and commit the cut inside the target band.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "DICE SIZE",
+        "missNote": "Off the ticket's dice size — reset the claw grip, guide with the knuckles, and cut again.",
+        "speed": 0.85
+      },
+      "id": "dice",
+      "kind": "gauge",
+      "prompt": "Curl the guiding hand into a claw, knuckles to the blade, and commit the cut inside the target band.",
+      "target": "chef-knife",
+      "title": "Dice to the ticket size with a claw grip",
+      "why": "The claw grip puts your knuckles between the edge and your fingertips, so the blade always has a flat, blunt surface to travel against no matter where your hand has moved to. Even pieces from that grip also cook evenly — a ragged dice leaves the small pieces overdone before the big ones are through."
+    },
+    {
+      "cue": "Pull the ANSI/ISEA A4-rated cut-resistant glove onto your guiding hand.",
+      "id": "glove",
+      "kind": "select",
+      "prompt": "Pull the ANSI/ISEA A4-rated cut-resistant glove onto your guiding hand.",
+      "target": "cut-glove",
+      "title": "Glove the guiding hand",
+      "why": "A mandoline blade runs the full width of the carriage with nothing to stop a fingertip that follows the vegetable down too far. The rated glove is graded to resist that cut — OSHA 1910.138 is why it exists at this station, and it goes on before the guard, not after the first pass."
+    },
+    {
+      "cue": "Seat the food holder guard onto the carriage before the blade is used for anything.",
+      "id": "guard",
+      "kind": "select",
+      "prompt": "Seat the food holder guard onto the carriage before the blade is used for anything.",
+      "target": "mandoline-guard",
+      "title": "Clip the hand guard onto the mandoline",
+      "why": "The guard is what actually keeps your hand off the blade — the glove is the backup, not the plan. A mandoline used without its guard is a mandoline used the way it puts most people in urgent care: it works fine, right up until the vegetable runs out before your hand does."
+    },
+    {
+      "cue": "Push the guard through in even, unhurried strokes and hold the feed rate in the band.",
+      "holdBreakNote": "Feed rate broke out of the band. Bring the stroke back to a steady, guarded pace before the next pass.",
+      "id": "slice",
+      "kind": "track",
+      "prompt": "Push the guard through in even, unhurried strokes and hold the feed rate in the band.",
+      "seconds": 6,
+      "target": "mandoline",
+      "title": "Feed the mandoline at a steady stroke",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.4,
+        "green": [
+          0.38,
+          0.6
+        ],
+        "label": "FEED RATE",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "Too fast and the carriage can bind or kick the slice back at you; too slow and the blade wobbles the cut uneven. A steady, guarded stroke is what a mandoline is designed around — rushing it is the only way this tool bites the hand that's actually protected."
+    },
+    {
+      "cue": "Lift the chef knife point-down at your side and return it to the rack.",
+      "drag": {
+        "missNote": "Not on the rack — a knife set down anywhere else is a knife the next person finds by hand.",
+        "radius": 0.3,
+        "to": "knife-rack"
+      },
+      "id": "carry-back",
+      "kind": "drag",
+      "prompt": "Lift the chef knife point-down at your side and return it to the rack.",
+      "target": "chef-knife",
+      "title": "Carry the knife back point-down",
+      "why": "A knife travels point-down and close to the body, never swinging out at hip height where it can catch a passing cook, and it goes back to the rack — never left on the board, never set down in a sink to deal with later. Every knife has exactly two places it belongs: the rack or the hand holding it."
+    },
+    {
+      "cue": "Wash the red board, sanitise it, then take the green board down for produce.",
+      "id": "swap",
+      "itemNames": {
+        "board-sani": "sanitise — hold contact time",
+        "board-wash": "wash — detergent",
+        "green-board": "clean produce board"
+      },
+      "itemNotes": {
+        "board-wash": "Detergent and friction take the raw protein's film off the board. Nothing sanitises through a layer of fat and blood."
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wash before sanitiser, always. Sanitiser poured onto a soiled board never reaches the surface it's meant to disinfect.",
+      "prompt": "Wash the red board, sanitise it, then take the green board down for produce.",
+      "targets": [
+        "board-wash",
+        "board-sani",
+        "green-board"
+      ],
+      "title": "Retire the raw board and bring up a clean one",
+      "why": "The board that carried raw chicken does not go straight back into service on anything else, and it does not get rinsed and called done — wash first, then sanitiser held for its full contact time, in that order, or the swap protects nobody."
+    },
+    {
+      "cue": "Spray down the counter and board and hold while the sanitiser stands its full contact time.",
+      "holdBreakNote": "Wiped off early. The surface went dry before contact time was up — spray it again and let it stand the full count.",
+      "id": "close",
+      "kind": "hold",
+      "prompt": "Spray down the counter and board and hold while the sanitiser stands its full contact time.",
+      "seconds": 6,
+      "target": "sani-spray",
+      "title": "Sanitise the station and let it stand",
+      "why": "The station gets the same treatment the board just did: sprayed and left wet for its labelled contact time, not wiped dry the second it's sprayed. A dry surface is a clean surface that was never actually sanitised — the chemical only earns its kill claim while it's still sitting there wet."
+    },
+    {
+      "cue": "Two things at this bench are out of place. Find them by looking.",
+      "id": "walk",
+      "itemNames": {
+        "board-wrong-slot": "board back in the wrong rack slot",
+        "towel-bunched": "bunched towel underfoot"
+      },
+      "itemNotes": {
+        "board-wrong-slot": "A produce board sitting in the raw-meat slot. The next cook grabs by colour without looking twice, and this is exactly how the wrong board ends up under raw poultry.",
+        "towel-bunched": "The anchor towel has bunched up on the floor by the counter leg. A folded towel stops a board from sliding; a bunched one on the tile is just something to catch a boot on."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things at this bench are out of place. Find them by looking.",
+      "targets": [
+        "board-wrong-slot",
+        "towel-bunched"
+      ],
+      "title": "Walk the station before the next ticket",
+      "why": "A line moves fast enough that nobody stops to inspect a station between tickets unless it's part of the routine. Two minutes spent looking at your own bench catches the board in the wrong slot and the towel on the floor before either one becomes somebody else's problem."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Board anchored, edge honed, claw grip, the cut-resistant glove on the mandoline, and a clean sanitised close",
+  "title": "SmartCiti.X~ Knife Skills VR",
+  "trade": "Prep cook",
+  "underwater": null,
+  "weather": null
+}

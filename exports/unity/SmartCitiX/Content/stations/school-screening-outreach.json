@@ -1,0 +1,453 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "hall-run-right",
+    "name": "Hall Run Right",
+    "note": "A whole screening day with consent honoured, privacy held and every referral triaged and followed up"
+  },
+  "category": "Dental & Oral Health",
+  "certification": "The state dental practice act's public-health-setting provisions — the standing order or protocol under which a community dental health worker or hygienist may screen and apply fluoride varnish away from a dental office, and the supervision level it requires; the ADA's Community Dental Health Coordinator programme as the role's own training route; the CDC's school sealant programme guidance and its oral health surveillance work; the ASTDD (Association of State and Territorial Dental Directors) Basic Screening Survey, which is the instrument state oral health programmes report against; the AAPD's caries-risk assessment guidance for the triage; FERPA for the school's education records and HIPAA's Privacy Rule for the clinical record the screening creates; OSHA 29 CFR 1910.1030 bloodborne pathogens, which applies in a gym exactly as it does in an operatory; AFSCME and SEIU as the unions representing public-health dental staff",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "AAPD",
+        "citedAs": "AAPD",
+        "id": "aapd-reference-manual",
+        "title": "AAPD Reference Manual guidance on behaviour guidance and preventive care for paediatric patients"
+      },
+      {
+        "body": "ADA",
+        "citedAs": "ADA's",
+        "id": "ada-radiographic-guidance",
+        "title": "American Dental Association and FDA guidance on prescribing dental radiographs"
+      },
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "HHS",
+        "citedAs": "HIPAA",
+        "id": "hipaa-privacy-rule",
+        "title": "HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "state dental board",
+        "citedAs": "dental practice act",
+        "id": "state-dental-board",
+        "title": "The state dental board and its dental practice act: licensure, scope of practice, and the allowable-duties rules for dental assistants and hygienists"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Dental & Oral Health",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "consent-first",
+        "name": "Consent First",
+        "note": "Nobody screened who was not consented for"
+      },
+      {
+        "id": "nobody-held-down",
+        "name": "Nobody Held Down",
+        "note": "No unsafe action anywhere in the day"
+      },
+      {
+        "id": "triaged-true",
+        "name": "Triaged True",
+        "note": "Urgency committed where the findings actually put it"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-day",
+        "name": "Clean Day",
+        "note": "No corrections anywhere in the day"
+      },
+      {
+        "id": "held-the-set",
+        "name": "Held The Set",
+        "note": "Every timed hold carried to full duration first time"
+      },
+      {
+        "id": "before-the-bell",
+        "name": "Before The Bell",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "REACH",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Outreach Volunteer",
+      "Community Health Worker",
+      "Screening Lead",
+      "Programme Coordinator",
+      "Oral Health Programme Lead"
+    ],
+    "system": "Community Oral Health"
+  },
+  "hazards": {
+    "bulk-varnish-tube": "That is a multi-use tube of varnish being squeezed out for one child after another. A unit-dose package exists so the dose is known and nothing goes back into a shared container after touching a mouth — the tube gives you neither, and in a gym with no sink it is the single most direct cross-contamination route on the table.",
+    "floor-tray": "That instrument tray is sitting on the gym floor. A gym floor is not a clean surface and a tray set on one is contaminated for the rest of the day; instruments here go on a barrier-covered table, because OSHA's bloodborne pathogens standard does not relax because the room has basketball lines painted on it.",
+    "open-referral-list": "That referral list is face-up on the table with children's names and findings on it, and the queue is reading it. Those are education records and clinical findings at once — FERPA and HIPAA both land on this — and the child who is named on it as needing urgent care is about to hear about it from the line behind them.",
+    "unreturned-consent": "That name card is in the not-returned tray, which means this child's family has not consented to anything. No consent is not the same as no objection: a child screened on the strength of being in the queue has been examined without permission, and the finding cannot be used, shared or followed up — so there was no point doing it and real harm in having done it."
+  },
+  "id": "school-screening-outreach",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "mirror-survey",
+      "alert": "A teacher has walked another child over and asked you to 'just take a quick look' — they are not on your consent list.",
+      "cue": "Check the consent binder before anything else happens.",
+      "delay": 4,
+      "id": "child-without-consent",
+      "kind": "No consent on file",
+      "missNote": "The child was screened with nothing on file. Whatever was found cannot be recorded, cannot be sent home and cannot be followed up, so a child who may genuinely need care has now been examined for no benefit at all — and their family was never asked.",
+      "seconds": 12,
+      "target": "consent-binder",
+      "why": "A teacher's request is not consent and neither is a child's willingness, because neither of them holds the authority a guardian does. The binder is what answers it, and the answer being no is not a refusal of care — it is a form that goes home tonight so this child can be screened properly next week instead of unlawfully today.",
+      "wrongNote": "It is the consent binder. The question is not whether this child needs looking at; it is whether anybody has authorised you to look."
+    },
+    {
+      "after": "varnish-set",
+      "alert": "The child has started to cry and wipe at their mouth, and the parent volunteer has stepped in and is holding their hands down.",
+      "cue": "Get the volunteer back. Nobody is held down here.",
+      "delay": 3,
+      "id": "volunteer-holds-child",
+      "kind": "Unconsented restraint",
+      "missNote": "The child was held through the rest of the application. The varnish is on, and so is a memory of being pinned by an adult in a school hall while somebody worked in their mouth — which is the thing this programme spends the rest of its existence trying to undo.",
+      "seconds": 12,
+      "target": "volunteer-mark",
+      "why": "Protective stabilisation of a child is a clinical decision requiring specific consent and training, and neither exists in a school hall with a volunteer. A child held down for a fluoride varnish learns something about dental care that will outlast the varnish by decades, and the correct response is to stop, let them sit up and finish another day if they will not have it now.",
+      "wrongNote": "It is the volunteer's step-back mark. The varnish is not what needs attention in the next five seconds; the hands on the child are."
+    }
+  ],
+  "lateNotes": {
+    "screening-log": "The day is not finished. The log is written from the screenings that happened, at the end, rather than filled in from the list of children who were booked.",
+    "sealant-roster": "Hold off. The sealant day is built from the triage, so the roster goes on the calendar once the referrals have actually been sorted.",
+    "varnish-applicator": "Not yet. Nothing is painted on a tooth before the screening has actually found what is there and the triage has decided this child is a varnish candidate today."
+  },
+  "name": "School Screening Outreach",
+  "parSeconds": 285,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "dental-careers-unspoken-smiles"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "agreed-signal",
+      "bulk-varnish-tube",
+      "consent-binder",
+      "early-pile",
+      "extraoral-look",
+      "floor-tray",
+      "hand-rub",
+      "knee-level-stool",
+      "language-mismatch",
+      "layout-mark",
+      "mouth-mirror",
+      "no-guardian-name",
+      "nurse-board",
+      "open-referral-list",
+      "outreach-gloves",
+      "outreach-mask",
+      "privacy-screen",
+      "routine-pile",
+      "school-calendar",
+      "screening-chair",
+      "screening-log",
+      "sealant-roster",
+      "show-tell-mirror",
+      "soft-tissue-check",
+      "tooth-survey",
+      "triage-board",
+      "unit-dose-varnish",
+      "unreturned-consent",
+      "unsigned-form",
+      "urgent-pile",
+      "varnish-applicator",
+      "volunteer-mark"
+    ],
+    "meshes": 262
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Three of these consents will not hold up. Find them before the first class comes down.",
+      "id": "consent-audit",
+      "itemNames": {
+        "language-mismatch": "the form sent home in the wrong language",
+        "no-guardian-name": "the form with no guardian named",
+        "unsigned-form": "the form with no signature"
+      },
+      "itemNotes": {
+        "language-mismatch": "This form went home in a language the family does not read, and came back signed. A signature on a document somebody could not read is not informed consent to anything, and the fix is an interpreter and a form in their language rather than a signature on file.",
+        "no-guardian-name": "A signature with no printed guardian name cannot be matched to anybody with authority over this child. Foster placements, split custody and grandparents raising grandchildren all make this a real question rather than a formality.",
+        "unsigned-form": "A form that came back with the boxes ticked and no signature is not a consent. It is very tempting to treat it as one because somebody clearly filled it in on purpose — and it still cannot authorise anybody to look in a child's mouth."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three of these consents will not hold up. Find them before the first class comes down.",
+      "targets": [
+        "unsigned-form",
+        "no-guardian-name",
+        "language-mismatch"
+      ],
+      "title": "Sort the consent forms before anybody is called in",
+      "why": "Consent is the whole legal basis for a screening day, and it is the one part that cannot be repaired afterwards: a child screened without it has been examined without permission, and the finding cannot be recorded, shared with the school nurse or followed up. Doing this sort before the first class arrives is also the only time it is possible — once forty children are queueing, every doubtful form becomes a decision made under pressure with a teacher waiting."
+    },
+    {
+      "cue": "Put the chair on the marked spot — facing away from the line, with the light behind you.",
+      "drag": {
+        "missNote": "Not on the mark. A chair facing the queue means every child is examined in front of an audience, which is the part they will remember about dentistry.",
+        "radius": 0.4,
+        "to": "layout-mark"
+      },
+      "id": "station-layout",
+      "kind": "drag",
+      "prompt": "Put the chair on the marked spot — facing away from the line, with the light behind you.",
+      "target": "screening-chair",
+      "title": "Set the screening chair where the queue cannot see it",
+      "why": "A screening station in the middle of a hall turns every child's mouth into a performance for the queue, and the ones with the worst teeth are the ones who have already learned to expect that. Turning the chair away from the line costs nothing and changes what the day feels like for exactly the children this programme exists for — it is also what makes the findings a private matter rather than something the hall overheard."
+    },
+    {
+      "cue": "Turn the folding screen to close the sightline between the chair and the waiting line.",
+      "id": "privacy-screen",
+      "kind": "turn",
+      "prompt": "Turn the folding screen to close the sightline between the chair and the waiting line.",
+      "target": "privacy-screen",
+      "title": "Angle the privacy screen",
+      "turn": {
+        "axis": "y",
+        "label": "SCREEN ANGLE",
+        "turns": 1
+      },
+      "why": "The screen is the difference between a screening station and a table in a gym, and it works only at the angle that actually blocks the line rather than the angle it happened to be unfolded at. It also gives the child in the chair somewhere to be upset without forty classmates watching, which is worth more on a day like this than any instrument on the table."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Gloves, mask, and the alcohol rub that is standing in for the sink this hall does not have.",
+      "id": "ppe-hands",
+      "itemNames": {
+        "hand-rub": "alcohol hand rub",
+        "outreach-gloves": "gloves",
+        "outreach-mask": "mask"
+      },
+      "kind": "sequence",
+      "prompt": "Gloves, mask, and the alcohol rub that is standing in for the sink this hall does not have.",
+      "targets": [
+        "outreach-gloves",
+        "outreach-mask",
+        "hand-rub"
+      ],
+      "title": "Set up PPE and hand hygiene without a sink",
+      "why": "OSHA's bloodborne pathogens standard applies in a school hall exactly as it does in an operatory, and the thing a hall does not have is a sink — so the alcohol rub, positioned at the chair rather than across the room, is what makes hand hygiene between children actually happen. Gloves change between every child regardless of how brief the look was, because a screening is still a mouth."
+    },
+    {
+      "cue": "Three things on this table are what turn a screening into something a scared child can consent to. Find them.",
+      "id": "trauma-informed",
+      "itemNames": {
+        "agreed-signal": "the stop signal agreed before you start",
+        "knee-level-stool": "the low stool that puts you at their eye level",
+        "show-tell-mirror": "the spare mirror they can hold themselves"
+      },
+      "itemNotes": {
+        "agreed-signal": "A stop signal agreed out loud before you begin — a raised hand, and you stop — gives the child the one thing they do not otherwise have, which is a way out. Honouring it the first time they use it is what makes it real for every child behind them in the queue.",
+        "knee-level-stool": "Standing over a seated six-year-old with a light is the posture of something being done to them. Sitting down to their eye level first changes the encounter into a conversation, and it costs one second.",
+        "show-tell-mirror": "Letting a child hold and look at the mirror before it goes near their mouth is tell-show-do, and it works because the thing they are afraid of is the unknown instrument rather than the examination. A child who has handled the mirror usually opens their mouth."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things on this table are what turn a screening into something a scared child can consent to. Find them.",
+      "targets": [
+        "knee-level-stool",
+        "show-tell-mirror",
+        "agreed-signal"
+      ],
+      "title": "Find what makes this safe for a frightened child",
+      "why": "A child who is frightened of a dental examination at six is frequently still frightened of one at thirty, and a school screening is where a great many people form that opinion. Getting to their eye level, letting them hold the mirror and agreeing a stop signal are not softenings of the procedure — they are how the procedure actually gets done on a child who would otherwise clamp shut, and they are what a trauma-informed programme means in practice."
+    },
+    {
+      "cue": "Outside the mouth first, then the soft tissues, then the teeth.",
+      "id": "screening-order",
+      "itemNames": {
+        "extraoral-look": "the extraoral look",
+        "soft-tissue-check": "the soft tissues",
+        "tooth-survey": "the teeth"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Starting at the teeth is how a swollen face and an ulcer both get missed — outside the mouth, then the tissues, then the teeth, every time.",
+      "prompt": "Outside the mouth first, then the soft tissues, then the teeth.",
+      "targets": [
+        "extraoral-look",
+        "soft-tissue-check",
+        "tooth-survey"
+      ],
+      "title": "Work the screening in its fixed order",
+      "why": "The order is fixed because the things that get missed are the ones nobody was looking for: facial swelling and a draining sinus are visible from outside and say more about urgency than any cavity, and the soft tissues get skipped entirely by anybody who starts counting teeth. The ASTDD Basic Screening Survey is built on the same sequence, which is what makes one worker's findings comparable with another's."
+    },
+    {
+      "cue": "Hold the light and mirror where you can actually see the occlusal surfaces — steady, and watch the child's face.",
+      "holdBreakNote": "You lost the view. A screening that never saw the biting surfaces of the molars has looked at the part of the mouth where decay mostly is not.",
+      "id": "mirror-survey",
+      "kind": "track",
+      "prompt": "Hold the light and mirror where you can actually see the occlusal surfaces — steady, and watch the child's face.",
+      "seconds": 8,
+      "target": "mouth-mirror",
+      "title": "Survey the teeth with light and mirror",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.44,
+        "green": [
+          0.38,
+          0.62
+        ],
+        "label": "FIELD OF VIEW",
+        "rise": 0.5,
+        "start": 0.14
+      },
+      "why": "A screening is a visual examination with a light and a mirror and nothing else, so what you can see is entirely decided by where the light is and how the mirror is angled — held badly, the biting surfaces of the back teeth, where most of the decay is, never come into view at all. Holding it steady on a child who is nervous also means watching their face rather than only the mouth, because the first sign this is going wrong is up there."
+    },
+    {
+      "cue": "Routine, early, or urgent — commit where what you actually saw puts this child.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "URGENCY",
+        "missNote": "Not where these findings sit. Over-triaging buries the child who genuinely needs today; under-triaging sends a child in pain home with a leaflet.",
+        "speed": 0.5
+      },
+      "id": "risk-triage",
+      "kind": "gauge",
+      "prompt": "Routine, early, or urgent — commit where what you actually saw puts this child.",
+      "target": "triage-board",
+      "title": "Assign the urgency the findings support",
+      "why": "Triage is the one judgement on this table that changes what happens to a child, and it is wrong in both directions: everybody marked urgent means the genuinely urgent child waits behind forty others, and a child with a draining abscess marked routine gets a letter home about a check-up in six months. The AAPD's caries-risk framework is what turns a look in a mouth into a category somebody downstream can act on."
+    },
+    {
+      "cue": "Pick the single-use package sized for this age — not a squeeze from a shared tube.",
+      "id": "varnish-dose",
+      "kind": "select",
+      "prompt": "Pick the single-use package sized for this age — not a squeeze from a shared tube.",
+      "target": "unit-dose-varnish",
+      "title": "Take the unit dose for this child's age",
+      "why": "Fluoride varnish is applied here under the standing order the state dental practice act allows in a public-health setting, and that order specifies a dose by age. A unit-dose package is what makes that dose real: it is the amount, it is for one child, and whatever is left goes in the waste — which is also the only way to have no shared container on a table with no sink behind it."
+    },
+    {
+      "cue": "Paint all surfaces, then keep the mouth dry while it sets — and keep talking to them.",
+      "holdBreakNote": "The set was cut short. Varnish that has not set comes off with the next swallow, which means the fluoride this child was brought down here for went down their throat rather than onto their teeth.",
+      "id": "varnish-set",
+      "kind": "hold",
+      "prompt": "Paint all surfaces, then keep the mouth dry while it sets — and keep talking to them.",
+      "seconds": 7,
+      "target": "varnish-applicator",
+      "title": "Apply the varnish and let it set",
+      "why": "Varnish sets on contact with saliva and needs the seconds afterwards undisturbed to stay where it was painted, which is why this is a hold rather than a stroke. It is also the longest the child has had to sit still, so the talking matters: a child who gets through the set because somebody was telling them what was happening leaves with a different idea of dentistry than one who got through it because they were held there."
+    },
+    {
+      "cue": "Urgent first with a call today, then early care, then the routine recalls.",
+      "id": "referral-triage",
+      "itemNames": {
+        "early-pile": "the early-care referrals",
+        "routine-pile": "the routine recalls",
+        "urgent-pile": "the urgent referrals"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. The urgent referrals are the ones that need a person on a phone today; sorting the routine pile first is spending the day's follow-up capacity on the children who need it least.",
+      "prompt": "Urgent first with a call today, then early care, then the routine recalls.",
+      "targets": [
+        "urgent-pile",
+        "early-pile",
+        "routine-pile"
+      ],
+      "title": "Sort the referrals and build the follow-up list",
+      "why": "A referral list is worth exactly as much as the follow-up behind it, and the follow-up is finite — so the urgent ones are worked first, by phone, today, while the routine ones go home as letters. Sorting in this order is also what stops the day's genuinely urgent children disappearing into a stack of forty envelopes that somebody will get to next week."
+    },
+    {
+      "cue": "Put the roster on the school calendar with the children the triage identified.",
+      "drag": {
+        "missNote": "Not on the calendar. A sealant day that exists only as an intention gets displaced by the first thing the school books over it.",
+        "radius": 0.4,
+        "to": "school-calendar"
+      },
+      "id": "sealant-day",
+      "kind": "drag",
+      "prompt": "Put the roster on the school calendar with the children the triage identified.",
+      "target": "sealant-roster",
+      "title": "Book the sealant day",
+      "why": "School sealant programmes are one of the few oral health interventions with a real evidence base behind them, and the CDC's guidance is built on the programme returning to the same school to place them rather than referring children out and hoping. Booking the date now, on the school's own calendar, with a named list, is what turns a screening day into a course of treatment rather than a survey."
+    },
+    {
+      "cue": "Log the children screened, the varnish applied, the referrals by urgency, and what goes to the state survey.",
+      "id": "outreach-log",
+      "kind": "select",
+      "prompt": "Log the children screened, the varnish applied, the referrals by urgency, and what goes to the state survey.",
+      "target": "screening-log",
+      "title": "Write the day up",
+      "why": "This log is three documents at once: a clinical record for each child, the school's own record of what happened in its hall, and the data the state oral health programme reports against the Basic Screening Survey. Writing it at the end from what actually happened — rather than from the list of who was booked — is what makes all three true, and it is the only version that will still be defensible when a parent rings in a fortnight."
+    },
+    {
+      "cue": "Walk the urgent list with the nurse, and ask the parent volunteer how they found the morning.",
+      "id": "nurse-handover",
+      "kind": "select",
+      "prompt": "Walk the urgent list with the nurse, and ask the parent volunteer how they found the morning.",
+      "target": "nurse-board",
+      "title": "Hand over to the school nurse and check on your volunteer",
+      "why": "The school nurse is the only person who will still be here tomorrow, so the urgent list is handed to them in person rather than posted — they are the one who can catch the child whose family never opens the envelope. The volunteer needs asking too: somebody who spent the morning holding a crying child's hand has had a harder day than the paperwork records, and they are the reason a day like this is possible at all."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A school screening day: consent sorted first, stations laid out private, a basic screening by light and mirror, varnish under standing order, referrals triaged and a sealant day booked",
+  "title": "SmartCiti.X~ School Screening Outreach VR",
+  "trade": "Community dental health worker",
+  "underwater": null,
+  "weather": null
+}

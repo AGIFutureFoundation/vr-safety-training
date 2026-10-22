@@ -1,0 +1,434 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "load-watch",
+    "name": "Load Watch",
+    "note": "Blind zones mapped, the driver clear of the swing path every pass, the truck chocked, and the load weighed against the ticket"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "IUOE Local 3 operating engineer training; OSHA 29 CFR 1926.602 Material handling equipment and 29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations; 29 CFR 1926.21 safety training and education; NIOSH fatality-investigation findings on struck-by incidents around loading equipment",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.21",
+        "id": "osha-1926-21",
+        "title": "29 CFR 1926.21 — Safety training and education in construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.602",
+        "id": "osha-1926-602",
+        "title": "OSHA 29 CFR 1926.602 Material handling equipment"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations",
+        "id": "osha-1926-subpart-o",
+        "title": "OSHA 29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "never-over-cab",
+        "name": "Never Over the Cab",
+        "note": "Never swung a loaded bucket over the occupied cab"
+      },
+      {
+        "id": "chocked-first",
+        "name": "Chocked First",
+        "note": "Never loaded a truck that was not chocked"
+      },
+      {
+        "id": "steady-pass",
+        "name": "Steady Pass",
+        "note": "Held the gauge readings near band centre all shift"
+      },
+      {
+        "id": "blind-mapped",
+        "name": "Blind Zones Mapped Clean",
+        "note": "Map every blind zone, first try"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-load",
+        "name": "Quick Load",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "load-streak",
+        "name": "Load Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "LOAD",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ground Hand",
+      "Loader Hand",
+      "Blind-Spot Certified",
+      "Load Authority",
+      "Load Watch Certified"
+    ],
+    "system": "Load Watch"
+  },
+  "hazards": {
+    "blind-zone-stand": "You are standing in the loader's rear blind quadrant while the machine is running. A wheel loader's mirrors do not cover the ground directly behind and to the side of the counterweight, and NIOSH's struck-by fatality investigations around loading equipment keep finding the same pattern: someone in the one place the operator's own seat cannot see.",
+    "bucket-over-cab": "That swings a loaded bucket directly over the truck's occupied cab. A bucket that lets go of even a little spill from that height comes down on the roof a driver is sitting under, which is exactly why the swing path is planned to clear the cab, not to pass over it and hope nothing falls.",
+    "overload-hazard": "That is one more pass logged past the scale's rated payload for this truck. A truck loaded over its rated capacity carries a load its own suspension, brakes and tyres were never rated for, and the scale reading is the only thing standing between a legal load and a guess.",
+    "unchocked-truck": "That truck has no chocks under its wheels yet. A loaded bucket coming down on one side of an unchocked truck can rock it enough to start it rolling on anything but dead-flat ground, and the chocks are what take that possibility off the table before the first pass."
+  },
+  "id": "op-loader-truck-loading-and-blind-spots",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "fill-pass",
+      "alert": "The truck driver has started walking back toward the cab door while the bucket is still swinging toward the bed.",
+      "cue": "Hold the load until the driver is confirmed clear of the swing path.",
+      "delay": 4,
+      "id": "driver-returns-to-cab",
+      "kind": "Driver returns",
+      "missNote": "The bucket kept swinging while the driver closed on the cab door underneath its path. A load that lets go from that height does not wait for someone to finish walking to safety.",
+      "seconds": 12,
+      "target": "loader-stop-flag",
+      "why": "The whole plan for where the bucket swings assumes the driver is where the plan expects them to be — the moment that stops being true, the plan is void until somebody actually confirms where the driver is now, not assumed from where they were a minute ago.",
+      "wrongNote": "Not that — the driver's position is what has to be confirmed before this swing continues."
+    },
+    {
+      "after": "bucket-path",
+      "alert": "The bucket's swing has drifted toward the blind quadrant behind the counterweight while attention was on the truck bed.",
+      "cue": "Signal the correction now, before the swing closes on the blind side.",
+      "delay": 4,
+      "id": "spotter-blind-drift",
+      "kind": "Path drift",
+      "missNote": "The swing kept drifting toward the blind quadrant unremarked. Struck-by incidents around loading equipment happen in exactly that quadrant, for exactly that reason.",
+      "seconds": 11,
+      "target": "path-correct-flag",
+      "why": "A swing that drifts toward the one quadrant the operator cannot see is drifting toward the one place a person could be standing without anyone noticing until the machine is already there — the correction has to come from outside the cab, because the cab is exactly where that drift is invisible from.",
+      "wrongNote": "Not that — the drift toward the blind quadrant is what has to be corrected before this swing continues."
+    }
+  ],
+  "lateNotes": {
+    "chock-roll": "The chocks go under the wheels before the first bucket pass, not after the truck has already been rocked by one.",
+    "payload-scale": "The scale gets read after each pass adds to the load, not once at the end when the only correction left is unloading it again."
+  },
+  "name": "Loader Truck Loading & Blind Spots",
+  "parSeconds": 265,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "heavy-equipment-operators"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "dumpTruck",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "wheelLoader",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "chock",
+        "count": 1,
+        "kit": "toolkit"
+      },
+      {
+        "builder": "1.37x1.26x1.83",
+        "count": 1,
+        "kit": "unknown"
+      }
+    ],
+    "error": null,
+    "footprint": 2.7,
+    "hits": [
+      "backup-alarm",
+      "blind-left",
+      "blind-over-hood",
+      "blind-rear",
+      "blind-zone-stand",
+      "bucket-over-cab",
+      "chock-roll",
+      "chock-socket",
+      "clear-zone-front",
+      "closing-log",
+      "cone-a",
+      "cone-b",
+      "hard-hat",
+      "hi-vis-vest",
+      "load-ticket-board",
+      "loader-controls",
+      "loader-stop-flag",
+      "overload-hazard",
+      "path-correct-flag",
+      "payload-scale",
+      "spotter",
+      "tally-dial",
+      "truck-driver",
+      "truck-spot-marker",
+      "unchocked-truck",
+      "zone-barrier"
+    ],
+    "meshes": 251
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Hi-vis vest and hard hat before anyone is near the machine.",
+      "id": "ppe",
+      "itemNames": {
+        "hard-hat": "hard hat",
+        "hi-vis-vest": "hi-vis vest"
+      },
+      "kind": "sequence",
+      "prompt": "Hi-vis vest and hard hat before anyone is near the machine.",
+      "targets": [
+        "hi-vis-vest",
+        "hard-hat"
+      ],
+      "title": "Suit up before the loading zone",
+      "why": "A loader's blind zones already cost the operator part of the picture — a spotter who does not stand out from the dirt and steel around them is giving away the one advantage a vest and a hard hat are there to provide, on the one machine where that advantage is already stretched thin by design."
+    },
+    {
+      "cue": "Walk around the machine. Three zones the cab cannot see are hiding around it — find them by looking.",
+      "decoyNotes": {
+        "clear-zone-front": "The area straight ahead of the bucket is inside the operator's direct sightline the whole time. Nothing to flag there."
+      },
+      "id": "blind-spot-map",
+      "itemNames": {
+        "blind-left": "blind zone on the left quarter",
+        "blind-over-hood": "blind zone over the raised hood",
+        "blind-rear": "blind zone behind the counterweight"
+      },
+      "itemNotes": {
+        "blind-left": "The left quarter panel behind the articulation joint sits outside every mirror's field at once.",
+        "blind-over-hood": "With the boom raised, the hood itself blocks the forward-down view — someone at the front wheel disappears from the cab's sightline.",
+        "blind-rear": "The mirrors do not reach directly behind the counterweight — anyone standing here is invisible to the cab."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk around the machine. Three zones the cab cannot see are hiding around it — find them by looking.",
+      "targets": [
+        "blind-rear",
+        "blind-left",
+        "blind-over-hood"
+      ],
+      "title": "Map the loader's blind zones",
+      "why": "A wheel loader's mirrors were designed around the machine's shape, not around where a person might actually be standing, and the gaps between them are fixed facts about this machine, not something the operator can compensate for by paying closer attention — the only fix is knowing exactly where those gaps are before anyone works near them."
+    },
+    {
+      "cue": "Place the spotter where the operator has a clear, direct line of sight — never inside a mapped blind zone.",
+      "id": "spotter-position",
+      "kind": "select",
+      "prompt": "Place the spotter where the operator has a clear, direct line of sight — never inside a mapped blind zone.",
+      "target": "spotter",
+      "title": "Position the spotter in view of the cab",
+      "why": "A spotter is only doing their job if the operator can actually see them the whole time — a spotter standing in one of the loader's own blind zones is providing signals from a position that defeats the entire reason a spotter exists in the first place."
+    },
+    {
+      "cue": "Confirm the truck driver is in the position the site's traffic control plan calls for before the first pass.",
+      "id": "driver-safe-position",
+      "kind": "select",
+      "prompt": "Confirm the truck driver is in the position the site's traffic control plan calls for before the first pass.",
+      "target": "truck-driver",
+      "title": "Confirm the driver's position",
+      "why": "Every following step assumes the driver is exactly where the plan expects — confirming it now, out loud, with the driver themselves, is what turns an assumption into a fact the operator can actually load against, instead of a guess that only gets tested the moment the bucket is already swinging."
+    },
+    {
+      "cue": "Carry the wheel chocks to the truck and set them before the first bucket pass.",
+      "drag": {
+        "missNote": "Not against the wheel — set the chock so it actually blocks the tyre, not beside it.",
+        "radius": 0.4,
+        "to": "chock-socket"
+      },
+      "id": "chock-truck",
+      "kind": "drag",
+      "prompt": "Carry the wheel chocks to the truck and set them before the first bucket pass.",
+      "target": "chock-roll",
+      "title": "Chock the truck",
+      "why": "A loaded bucket coming down unevenly on one side of the bed can rock a truck enough to start it moving on anything short of dead-flat, dry ground, and the chocks are the one control that removes that possibility before it is ever tested."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Cone both approaches and set the barrier around the full loading area.",
+      "id": "barricade-zone",
+      "itemNames": {
+        "cone-a": "cone at the approach",
+        "cone-b": "cone at the far side",
+        "zone-barrier": "loading zone barrier"
+      },
+      "kind": "sequence",
+      "prompt": "Cone both approaches and set the barrier around the full loading area.",
+      "targets": [
+        "cone-a",
+        "cone-b",
+        "zone-barrier"
+      ],
+      "title": "Barricade the loading zone",
+      "why": "A barrier around the loading zone is what keeps anyone not part of this pick — a delivery, a visitor, a coworker cutting a corner — out of a space where a machine with known blind zones is actively swinging a loaded bucket."
+    },
+    {
+      "cue": "Trigger the alarm and commit only once it reads in the audible range over yard noise.",
+      "gauge": {
+        "green": [
+          0.5,
+          0.72
+        ],
+        "label": "TRAVEL ALARM — SOUND LEVEL",
+        "missNote": "Too quiet to carry over the yard. Get it serviced before this machine moves again.",
+        "speed": 0.6
+      },
+      "id": "backup-alarm",
+      "kind": "gauge",
+      "prompt": "Trigger the alarm and commit only once it reads in the audible range over yard noise.",
+      "target": "backup-alarm",
+      "title": "Test the travel alarm",
+      "why": "A travel alarm nobody can hear over the yard's own noise has already failed the one job it has — testing it against today's actual conditions is what confirms it will actually carry to somebody stepping into the loader's path."
+    },
+    {
+      "cue": "Turn the tally dial back to zero before the first pass on this truck.",
+      "id": "tally-reset",
+      "kind": "turn",
+      "prompt": "Turn the tally dial back to zero before the first pass on this truck.",
+      "target": "tally-dial",
+      "title": "Reset the pass counter",
+      "turn": {
+        "axis": "z",
+        "label": "TALLY RESET",
+        "turns": 0.5
+      },
+      "why": "A pass count that was never reset is counting this truck's load against whatever the last truck left on the dial — resetting it is what makes the count that follows actually mean something against this truck's own payload target, instead of a number that was already wrong before the first bucket went in."
+    },
+    {
+      "cue": "Confirm the bed sits inside the bucket's planned swing arc before the first pass.",
+      "id": "spot-truck",
+      "kind": "select",
+      "prompt": "Confirm the bed sits inside the bucket's planned swing arc before the first pass.",
+      "target": "truck-spot-marker",
+      "title": "Confirm the truck is spotted correctly",
+      "why": "A truck spotted too close or too far changes the swing arc the whole plan was built around — confirming the spot before the first pass is what keeps every pass after it landing where the plan actually put the bed, not wherever the truck happened to stop."
+    },
+    {
+      "cue": "Hold the controls steady through one slow, controlled pass into the bucket.",
+      "holdBreakNote": "Released the controls mid-pass. Hold it through the whole scoop — that is what keeps the load balanced going into the swing.",
+      "id": "fill-pass",
+      "kind": "hold",
+      "prompt": "Hold the controls steady through one slow, controlled pass into the bucket.",
+      "seconds": 6,
+      "target": "loader-controls",
+      "title": "Make a controlled fill pass",
+      "why": "A controlled pass is slow on purpose — a fast, confident scoop is exactly the pass that catches an edge of the pile wrong and swings an unbalanced load right when the bucket is coming up over the bed, with the least margin to correct it before the swing is already underway."
+    },
+    {
+      "cue": "Keep the spotter's signal steady, holding the swing clear of both the cab and the blind quadrant.",
+      "holdBreakNote": "The swing drifted out of the safe path. Bring it back on the spotter's signal before the bucket swings again.",
+      "id": "bucket-path",
+      "kind": "track",
+      "prompt": "Keep the spotter's signal steady, holding the swing clear of both the cab and the blind quadrant.",
+      "seconds": 8,
+      "target": "spotter",
+      "title": "Swing the load clear of the cab",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "SWING PATH",
+        "rise": 0.5,
+        "start": 0.12
+      },
+      "why": "The swing has two things it has to clear at once — the occupied cab on one side and the blind quadrant on the other — and continuous signals from a spotter who can see both are what keep the operator from narrowing down to whichever one happens to be in view."
+    },
+    {
+      "cue": "Confirm the tally against the truck's payload target before the next pass.",
+      "id": "load-count",
+      "kind": "select",
+      "prompt": "Confirm the tally against the truck's payload target before the next pass.",
+      "target": "tally-dial",
+      "title": "Confirm the pass count",
+      "why": "The tally is what tells you how many more passes this truck can actually take — loading by eye past the point the tally says is full is exactly how a truck ends up over its rated payload without anyone deciding that on purpose."
+    },
+    {
+      "cue": "Read the scale and commit only inside the truck's legal payload band.",
+      "gauge": {
+        "green": [
+          0.45,
+          0.72
+        ],
+        "label": "PAYLOAD SCALE",
+        "missNote": "Over the rated payload for this truck. Pull material back off the bed before it leaves the yard.",
+        "speed": 0.55
+      },
+      "id": "payload-scale",
+      "kind": "gauge",
+      "prompt": "Read the scale and commit only inside the truck's legal payload band.",
+      "target": "payload-scale",
+      "title": "Weigh the load",
+      "why": "The tally counts passes, and the scale is what actually confirms the weight those passes added up to — a truck loaded to the right pass count on the wrong material density can still be over its rated payload, and the scale is the only reading that catches that."
+    },
+    {
+      "cue": "Log the pass count and the scale reading before waving the truck through.",
+      "id": "shutdown-log",
+      "kind": "select",
+      "prompt": "Log the pass count and the scale reading before waving the truck through.",
+      "target": "closing-log",
+      "title": "Close out the load ticket",
+      "why": "The load ticket is the record the scale house and the next inspection both read — a truck that left clean but was never logged against its own scale reading leaves nothing behind to prove the payload was actually checked."
+    }
+  ],
+  "supportLine": "your IUOE local's member assistance programme, or the site's employee assistance line if a close call in the loading zone is what stayed with you",
+  "tagline": "Wheel loader loading a haul truck: blind zones mapped, the spotter positioned where the cab can see them, the driver clear before the bucket swings, the truck chocked, and every pass counted against the scale",
+  "title": "SmartCiti.X~ Loader Truck Loading & Blind Spots VR",
+  "trade": "Wheel loader operator — IUOE Local 3 operating engineer",
+  "underwater": null,
+  "weather": "clear"
+}

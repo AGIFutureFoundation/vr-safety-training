@@ -1,0 +1,390 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "lift-plan-certified",
+    "name": "Lift Plan Certified",
+    "note": "The chart never pushed past the plan's limit, the load held plumb the whole pick, and the exclusion zone never crossed while the boom was loaded"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "ASME B30.5 mobile and locomotive cranes, ASME B30.9 slings, ASME B30.26 rigging hardware, NCCCO signalperson certification for the hand and radio signals this lift runs on, and OSHA 29 CFR 1926.1425 keeping clear of the load",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASME",
+        "citedAs": "ASME B30.26",
+        "id": "asme-b30-26",
+        "title": "ASME B30.26 — Rigging hardware"
+      },
+      {
+        "body": "ASME",
+        "citedAs": "ASME B30.5",
+        "id": "asme-b30-5",
+        "title": "ASME B30.5 — Mobile and locomotive cranes"
+      },
+      {
+        "body": "ASME",
+        "citedAs": "ASME B30.9",
+        "id": "asme-b30-9",
+        "title": "ASME B30.9 — Slings"
+      },
+      {
+        "body": "NCCCO",
+        "citedAs": "NCCCO",
+        "id": "nccco-certification",
+        "title": "NCCCO mobile crane, tower crane and rigger/signalperson certification"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.1425",
+        "id": "osha-1926-1425",
+        "title": "29 CFR 1926.1425 — Keeping clear of the load (cranes and derricks in construction)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "rigging-checked-clean",
+        "name": "Rigging Checked Clean",
+        "note": "The cracked shackle found and set aside before it reached the load"
+      },
+      {
+        "id": "plumb-held",
+        "name": "Plumb Held",
+        "note": "The load stayed plumb the whole pick, no correction"
+      },
+      {
+        "id": "never-a-shortcut",
+        "name": "Never a Shortcut",
+        "note": "Never a damaged shackle used, never the chart pushed past the plan, never a signal taken from anyone but the signalperson"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-lift",
+        "name": "Clean Lift",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "chart-on-the-plan",
+        "name": "Chart On The Plan",
+        "note": "Load chart gauge committed inside the band first time"
+      },
+      {
+        "id": "lift-logged-fast",
+        "name": "Lift Logged Fast",
+        "note": "Lift log closed inside 80% of par"
+      }
+    ],
+    "currency": "TAG",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Rigging Hand",
+      "Signal Crew",
+      "Lift Lead",
+      "Signalperson Certified",
+      "Crane Operator Certified"
+    ],
+    "system": "Critical Lift"
+  },
+  "hazards": {
+    "accept-signal-from-unauthorized-person": "You moved the boom on a hand signal from someone other than the certified signalperson. A critical lift runs on one voice for a reason — a second person waving from the ground, however well-meaning, has not seen what the signalperson has seen, and taking direction from them is how a boom moves on information nobody actually verified.",
+    "force-lift-over-chart": "You started the pick with the load chart reading over the plan's own limit. A critical lift plan sets its chart percentage below the crane's full rated capacity specifically so there is margin left for a gust, a misjudged radius or a load that weighs slightly more than paper said — pushing past that limit spends the margin the whole plan was built on before the load has even left the ground.",
+    "use-damaged-shackle": "You pulled the cracked shackle from the rigging set instead of a good one. ASME B30.26 rates rigging hardware to a working load limit that assumes sound metal all the way through — a shackle with a visible crack has already started failing, and it is the one piece of this rig that sits directly between the load and the crane's own hook.",
+    "walk-through-exclusion-zone": "You walked into the marked exclusion zone while the crane still had a load on the hook. The zone is drawn at the crane's own swing radius for exactly this reason — anyone inside it is standing where a load would land if a rigging point ever let go, and the zone only protects someone who actually stays outside it."
+  },
+  "id": "rl-critical-lift-plan-and-signalperson",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "watch-load-plumb",
+      "alert": "A wind gust has just caught the load and it is swinging hard, well outside the plumb band.",
+      "cue": "Call an all-stop on the radio now — the exclusion zone check waits.",
+      "delay": 2,
+      "id": "load-starts-swinging",
+      "kind": "The load starts swinging on a wind gust mid-pick",
+      "missNote": "The exclusion zone check continued while the load kept swinging; the boom slewed further before anyone called a stop.",
+      "seconds": 12,
+      "target": "lift-radio",
+      "why": "A load swinging outside the plumb band is a load whose landing point nobody can predict anymore, and calling the all-stop the moment it starts is what keeps the boom from slewing any further while the load is doing something the plan never accounted for.",
+      "wrongNote": "The lift radio's all-stop call — a swinging load is answered by stopping the pick, not by finishing a check already underway."
+    },
+    {
+      "after": "hold-for-signal",
+      "alert": "A passing vehicle has just blocked the signalperson's own line of sight to the load.",
+      "cue": "Hold the boom on the all-stop horn until sightline is confirmed restored — the pick waits.",
+      "delay": 2,
+      "id": "signalperson-loses-sightline",
+      "kind": "The signalperson loses sightline on the load",
+      "missNote": "The pick continued while the signalperson's sightline was still blocked; the boom moved for several seconds on a signal given without eyes on the load.",
+      "seconds": 12,
+      "target": "all-stop-horn",
+      "why": "A signalperson who cannot see the load can no longer signal anything meaningful about it, and holding the boom on the all-stop horn until that sightline is actually restored is what keeps this lift from running on a signal given blind.",
+      "wrongNote": "The all-stop horn — a lost sightline is answered by holding the boom, not by continuing the pick on a signal given blind."
+    }
+  ],
+  "lateNotes": {
+    "boom-hoist-control": "Nothing to take up yet — the load has to be rigged before the slack comes out of the line.",
+    "load-on-hook": "Nothing to land yet — the load has to actually clear the exclusion zone before it is set down.",
+    "shackle-pin": "The sling has to be attached to the load before the shackle pin is set — not before."
+  },
+  "name": "Critical Lift Plan & Signalperson",
+  "parSeconds": 340,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "rigging-lifting"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "mobileCrane",
+        "count": 1,
+        "kit": "equipment"
+      }
+    ],
+    "error": null,
+    "footprint": 3,
+    "hits": [
+      "accept-signal-from-unauthorized-person",
+      "all-stop-horn",
+      "boom-hoist-control",
+      "cracked-shackle",
+      "crane-outriggers",
+      "exclusion-boundary",
+      "force-lift-over-chart",
+      "hard-hat",
+      "hi-vis-vest",
+      "landing-marker",
+      "lift-log",
+      "lift-plan",
+      "lift-radio",
+      "lift-signal",
+      "load-chart",
+      "load-on-hook",
+      "plumb-watch",
+      "shackle-pin",
+      "signalperson-brief",
+      "sling-attached",
+      "use-damaged-shackle",
+      "walk-through-exclusion-zone"
+    ],
+    "meshes": 192
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the plan: the load weight, the working radius, the chart percentage limit, and the exclusion zone this pick is marked to.",
+      "id": "read-lift-plan",
+      "kind": "select",
+      "prompt": "Read the plan: the load weight, the working radius, the chart percentage limit, and the exclusion zone this pick is marked to.",
+      "target": "lift-plan",
+      "title": "Read the critical lift plan",
+      "why": "A critical lift plan sets the numbers this whole pick has to stay inside — the radius the chart was calculated at, the percentage of capacity the plan allows, and where the exclusion zone actually sits — and reading it before the crane is even positioned is what keeps the operator, the rigger and the signalperson working from the same numbers instead of three different guesses."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Hi-vis vest and hard hat on before stepping into the rigging area under the boom.",
+      "id": "don-ppe",
+      "itemNames": {
+        "hard-hat": "hard hat",
+        "hi-vis-vest": "hi-vis vest"
+      },
+      "kind": "sequence",
+      "prompt": "Hi-vis vest and hard hat on before stepping into the rigging area under the boom.",
+      "targets": [
+        "hi-vis-vest",
+        "hard-hat"
+      ],
+      "title": "Hi-vis vest and hard hat on before rigging the load",
+      "why": "Everyone working this pad is working under a boom that will be carrying a load over their heads for part of the lift, and the hi-vis vest is what keeps the operator and signalperson able to actually see where the rigging crew is at every point in the pick."
+    },
+    {
+      "cue": "Check every sling, shackle and hook in the rigging set for a crack, a bend, or a worn pin before rigging the load.",
+      "id": "inspect-rigging",
+      "itemNames": {
+        "cracked-shackle": "cracked shackle in the rigging set"
+      },
+      "itemNotes": {
+        "cracked-shackle": "One shackle in the rigging set has a hairline crack at the pin hole — easy to miss under the pad's own lighting, and set aside before it is ever pinned to a load."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check every sling, shackle and hook in the rigging set for a crack, a bend, or a worn pin before rigging the load.",
+      "targets": [
+        "cracked-shackle"
+      ],
+      "title": "Check the rigging set before it goes on the load",
+      "why": "A rigging set that looks fine laid out on the bench is not the same as a rigging set proven sound, and checking it now — before any of it is under load — is the only point in this lift where a cracked shackle costs nothing but a look to catch."
+    },
+    {
+      "cue": "Read the crane's load chart at today's radius and commit the reading once it settles inside the plan's own band.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "CHART %",
+        "missNote": "Not settled inside the plan's band — hold the reading until it stops moving before you commit it.",
+        "speed": 0.65
+      },
+      "id": "verify-load-chart",
+      "kind": "gauge",
+      "prompt": "Read the crane's load chart at today's radius and commit the reading once it settles inside the plan's own band.",
+      "target": "load-chart",
+      "title": "Check the load chart against the plan's limit",
+      "why": "The chart tells you what the crane can lift at this specific radius, not what it can lift in general, and reading it now — at the radius this pick will actually use — is what confirms the plan's own percentage limit is still being honoured before the boom ever takes a load."
+    },
+    {
+      "cue": "Set and level the crane's outriggers fully before any load goes on the hook.",
+      "id": "set-outriggers",
+      "kind": "select",
+      "prompt": "Set and level the crane's outriggers fully before any load goes on the hook.",
+      "target": "crane-outriggers",
+      "title": "Deploy the crane's outriggers",
+      "why": "A crane's own load chart is only valid on outriggers fully deployed and level — the chart the plan just checked assumes exactly that base, and setting it now is what makes the chart reading from the last step actually mean something."
+    },
+    {
+      "cue": "Confirm the radio channel and the hand signals with the signalperson before the load is rigged.",
+      "id": "brief-signalperson",
+      "kind": "select",
+      "prompt": "Confirm the radio channel and the hand signals with the signalperson before the load is rigged.",
+      "target": "signalperson-brief",
+      "title": "Brief the signalperson on the channel and signals",
+      "why": "This lift runs on one certified signalperson's word for its entire duration, and confirming the channel and the signal set now — rather than assuming everyone remembers the same convention — is what keeps a boom movement from ever depending on a signal the operator has to guess the meaning of."
+    },
+    {
+      "cue": "Attach the sling to the load's rigging points, then pin and mouse the shackle.",
+      "id": "rig-the-load",
+      "itemNames": {
+        "shackle-pin": "shackle pinned and moused",
+        "sling-attached": "sling attached to the load"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "The sling goes onto the load first — the shackle only gets pinned once the sling is actually seated in it.",
+      "prompt": "Attach the sling to the load's rigging points, then pin and mouse the shackle.",
+      "targets": [
+        "sling-attached",
+        "shackle-pin"
+      ],
+      "title": "Rig the load: sling first, then the shackle",
+      "why": "A shackle pinned before the sling is properly seated in its bow is a shackle carrying the load at an angle it was never rated for, and rigging in order — sling first, pin and mouse the shackle second — is what keeps every piece of this rig carrying the load the way ASME B30.9 and B30.26 actually rate it for."
+    },
+    {
+      "cue": "Turn the boom hoist control slowly, taking up slack in the line rather than jerking it tight.",
+      "id": "tension-check",
+      "kind": "turn",
+      "prompt": "Turn the boom hoist control slowly, taking up slack in the line rather than jerking it tight.",
+      "target": "boom-hoist-control",
+      "title": "Take up the slack before the pick",
+      "turn": {
+        "label": "HOIST",
+        "turns": 0.5
+      },
+      "why": "Taking up slack slowly lets the rigging crew watch the sling seat properly under load before the full weight comes on, and a hoist control worked in short jerks instead is how a rigging point that was not quite seated gets discovered only once the load is already off the ground."
+    },
+    {
+      "cue": "Hold position with the load just off the ground until the signalperson gives the clear signal to continue.",
+      "holdBreakNote": "The lift continued before the signalperson's own confirmation came through — a pause that ends early is a pause that never actually checked for the stop it existed to catch.",
+      "id": "hold-for-signal",
+      "kind": "hold",
+      "prompt": "Hold position with the load just off the ground until the signalperson gives the clear signal to continue.",
+      "seconds": 5,
+      "target": "lift-signal",
+      "title": "Hold for the signalperson's own word before lifting",
+      "why": "The pause with the load barely off the ground is the last chance anyone has to call a stop before the pick actually starts, and holding here for the signalperson's own confirmation — rather than continuing on your own judgement — is exactly what a certified signalperson's authority over this lift means in practice."
+    },
+    {
+      "cue": "Watch the load as it lifts, keeping the plumb reading inside the band the whole way up.",
+      "holdBreakNote": "The plumb reading ran outside the band mid-pick — a load that swings unwatched is a load nobody can predict the landing point of anymore.",
+      "id": "watch-load-plumb",
+      "kind": "track",
+      "prompt": "Watch the load as it lifts, keeping the plumb reading inside the band the whole way up.",
+      "seconds": 6,
+      "target": "plumb-watch",
+      "title": "Watch the load stay plumb through the pick",
+      "track": {
+        "drift": 0.16,
+        "fall": 0.28,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "PLUMB",
+        "rise": 0.3,
+        "start": 0.5
+      },
+      "why": "A load that starts swinging partway through a pick is a load whose actual position under the hook nobody can predict anymore, and holding the plumb watch through the whole lift — rather than looking away once it clears the ground — is what catches a swing building before it becomes the reason the pick has to stop."
+    },
+    {
+      "cue": "Confirm nobody is inside the marked exclusion zone before the boom slews toward the landing point.",
+      "id": "clear-exclusion-zone",
+      "kind": "select",
+      "prompt": "Confirm nobody is inside the marked exclusion zone before the boom slews toward the landing point.",
+      "target": "exclusion-boundary",
+      "title": "Confirm the exclusion zone is clear",
+      "why": "A slewing boom carries its load through an arc the exclusion zone was drawn around specifically, and confirming the zone is actually clear — not assuming it stayed that way since the pick started — is what keeps that arc from passing over someone who wandered in while everyone watched the load instead of the ground."
+    },
+    {
+      "cue": "Guide the load down onto the landing marker, setting it fully inside the mark before slacking the line.",
+      "drag": {
+        "missNote": "Not on the mark — the load has to be set down fully inside the landing marker before the line is slacked.",
+        "radius": 0.55,
+        "to": "landing-marker"
+      },
+      "id": "land-the-load",
+      "kind": "drag",
+      "prompt": "Guide the load down onto the landing marker, setting it fully inside the mark before slacking the line.",
+      "target": "load-on-hook",
+      "title": "Land the load on its mark",
+      "why": "The landing marker is where the next crew expects to find this load, and setting it fully inside the mark — not just close — is what keeps the rigging crew from having to walk the load into position by hand after the crane has already released tension."
+    },
+    {
+      "cue": "Call it in: load landed on its mark, chart held inside the plan's limit, zone clear the whole pick.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call it in: load landed on its mark, chart held inside the plan's limit, zone clear the whole pick.",
+      "target": "lift-radio",
+      "title": "Check in with the signalperson and rigging crew",
+      "why": "The signalperson's own record of this lift is only as good as what actually gets confirmed on the radio, and calling it in now is what keeps the operator's account of the pick matching the signalperson's before either of them moves to the next lift."
+    },
+    {
+      "cue": "Record the chart percentage used, the cracked shackle set aside, and the landing before signing off the pick.",
+      "id": "close-lift-log",
+      "kind": "select",
+      "prompt": "Record the chart percentage used, the cracked shackle set aside, and the landing before signing off the pick.",
+      "target": "lift-log",
+      "title": "Close the lift log",
+      "why": "The lift log is the crane's own record that this specific pick stayed inside its plan, and a cracked shackle pulled from the rigging set that never makes the log is a piece of hardware the next lift's rigger has no way of knowing was already found once."
+    }
+  ],
+  "supportLine": "your IUOE local's member assistance programme",
+  "tagline": "The pad before the pick: the critical lift plan read for its chart percentage and exclusion zone, hi-vis and a hard hat on, a cracked shackle found in the rigging set before it is used, the load chart read against the plan's own limit, the outriggers set, the signalperson briefed on the channel and the signals, the sling and shackle rigged in order, the slack taken up slow, the lift held for the signalperson's own word before the boom moves, the load watched plumb the whole pick, the exclusion zone cleared, the load landed on its mark, the crew checked in, and the lift logged",
+  "title": "SmartCiti.X~ Critical Lift Plan & Signalperson VR VR",
+  "trade": "IUOE mobile crane operator running a critical lift with a certified signalperson and an ironworkers rigging crew",
+  "underwater": null,
+  "weather": "wind"
+}

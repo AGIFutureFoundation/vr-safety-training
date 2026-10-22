@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "bed-established",
+    "name": "Bed Established",
+    "note": "A donor bed harvested to its permitted share and a new bed planted to the grid, with every diver accounted for the whole time"
+  },
+  "category": "Water & Environmental",
+  "certification": "Pile Drivers Local 34 (United Brotherhood of Carpenters) commercial divers; OSHA 29 CFR 1910 Subpart T commercial diving operations; Association of Diving Contractors International (ADCI) consensus standards; U.S. Army Corps of Engineers Clean Water Act (CWA) Section 404 permit conditions; San Francisco Bay Conservation and Development Commission (BCDC) permit; NOAA Fisheries eelgrass mitigation policy for California; USCG diver-down flag carriage requirements",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADCI",
+        "citedAs": "ADCI",
+        "id": "adci-consensus-standards",
+        "title": "Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations"
+      },
+      {
+        "body": "BCDC",
+        "citedAs": "BCDC",
+        "id": "bcdc-bay-plan",
+        "title": "San Francisco Bay Plan and BCDC permit conditions under the McAteer-Petris Act"
+      },
+      {
+        "body": "union",
+        "citedAs": "Carpenters",
+        "id": "carpenters-ictf",
+        "title": "United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship"
+      },
+      {
+        "body": "union",
+        "citedAs": "CWA",
+        "id": "cwa-training",
+        "title": "CWA member training for outside-plant, tower and broadcast work"
+      },
+      {
+        "body": "NOAA Fisheries",
+        "citedAs": "NOAA Fisheries",
+        "id": "noaa-fisheries-mmpa-esa",
+        "title": "NOAA Fisheries (National Marine Fisheries Service) Marine Mammal Protection Act authorizations and Endangered Species Act consultation for in-water work affecting marine mammals"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.424",
+        "id": "osha-1910-424",
+        "title": "29 CFR 1910.424 — SCUBA diving"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910 Subpart T",
+        "id": "osha-1910-subpart-t",
+        "title": "29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)"
+      },
+      {
+        "body": "USACE",
+        "citedAs": "Section 404",
+        "id": "usace-section-404",
+        "title": "Clean Water Act §404 permit conditions for the discharge of dredged or fill material"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "plan-honest",
+        "name": "Plan Honest",
+        "note": "Read the dive plan and the tide/visibility window clean before anyone splashed"
+      },
+      {
+        "id": "every-diver-up",
+        "name": "Every Diver Up",
+        "note": "Never a hazard, never a diver unaccounted for"
+      },
+      {
+        "id": "true-spacing",
+        "name": "True Spacing",
+        "note": "Holding time and planting spacing both read inside the working band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-splash",
+        "name": "Clean Splash",
+        "note": "No corrections across the whole dive"
+      },
+      {
+        "id": "steady-comms",
+        "name": "Steady Comms",
+        "note": "Held the comms check steady the whole way"
+      },
+      {
+        "id": "surface-early",
+        "name": "Surface Early",
+        "note": "Bed planted and divers recovered inside 80% of par"
+      }
+    ],
+    "currency": "SHOOT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Tender",
+      "Dive Deck Hand",
+      "Dive Supervisor",
+      "Lead Supervisor",
+      "Dive Deck Certified"
+    ],
+    "system": "Dive Deck"
+  },
+  "hazards": {
+    "manual-shoot-overpull": "You pulled shoots past the donor bed's permitted harvest share to round out the bundle. NOAA Fisheries' mitigation policy caps what one bed gives up because a donor bed is itself a wild population, not a nursery — take past the cap and the planting that was supposed to offset a habitat loss creates a second one at the source.",
+    "shoots-left-on-deck": "You left a bundle of harvested shoots sitting on deck past the holding time instead of getting them back in the water. Eelgrass desiccates fast out of water, and a bundle held past its window goes into the substrate as compost, not as a transplant — the clock on a shoot starts the moment it leaves the donor bed, not when somebody remembers it is still on deck.",
+    "solo-diver-signal": "You sent the diver down without a standby diver dressed and ready on deck. 29 CFR 1910.424 requires a standby diver at the ready position for any dive that isn't from the surface, because the only way to reach a diver in trouble underwater is another diver already dressed to go — not one who starts suiting up after the emergency starts.",
+    "umbilical-slack-drop": "You let the diver's umbilical go slack and drop into the prop wash instead of tending it taut. A slack line is a line a passing hull or a prop can catch, and it is also a line that can no longer tell the surface anything about where the diver is or whether they are pulling on it — the tender's whole job is keeping that line a channel, not a hazard."
+  },
+  "id": "eelgrass-transplant",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "splash",
+      "alert": "A vessel has crossed the dive flag line and is inside the exclusion zone while the diver is still down on the grid.",
+      "cue": "Recall the diver now — sound the recall before that hull gets any closer.",
+      "delay": 4,
+      "id": "vessel-incursion",
+      "kind": "Vessel entering exclusion zone",
+      "missNote": "The vessel kept closing while the diver stayed on the grid finishing the row, and the boat crossed directly over the diver's bubbles before anyone signaled a recall — exactly the moment a hull strike or a fouled prop actually happens.",
+      "seconds": 13,
+      "target": "recall-signal",
+      "why": "A diver working a grid a few feet down cannot see or hear a hull approaching from the surface, and a vessel inside the exclusion zone with a diver still under it is the single most common way a commercial dive turns into a fatality. The recall signal is sounded the moment the incursion is seen, not once the vessel is judged to be getting close enough to matter — there is no safe distance to wait and find out.",
+      "wrongNote": "That's not it. The recall signal is the one thing on this deck that reaches a diver who cannot see the boat closing on them."
+    },
+    {
+      "after": "tender-watch",
+      "alert": "The turbidity off the grid has jumped and the diver's reported visibility has dropped under the plan's stated minimum.",
+      "cue": "Call the dive per the plan — check the visibility reading and recall if it's still under minimum.",
+      "delay": 4,
+      "id": "visibility-drop",
+      "kind": "Visibility dropping below plan minimum",
+      "missNote": "The dive carried on into water the plan's own minimum said not to work in, and for the rest of that row nobody on deck could have told whether the diver was in trouble or simply hard to see — which is the entire reason the minimum exists.",
+      "seconds": 13,
+      "target": "visibility-gauge",
+      "why": "The dive plan's visibility minimum is not a courtesy, it is the number below which a diver working blind on a grid loses the standby diver's ability to reach them fast enough if something goes wrong — ADCI's own consensus standards are built on that response-time math. Reading it and recalling the moment it reads under minimum is what keeps a planting dive from turning into a dive nobody can actually supervise from the surface.",
+      "wrongNote": "Not that. The visibility gauge is the one reading that tells you whether this dive is still inside the plan the crew briefed to."
+    }
+  ],
+  "lateNotes": {
+    "bundle-station": "Bundle and weight the shoots after they are harvested. There is nothing to bundle before the shears have actually been in the bed.",
+    "grid-marker-1": "Plant at the grid after the dive supervisor's checks are done and the diver is actually in the water — a grid marker on the surface does not move sediment on its own.",
+    "harvest-shears": "Harvest after the donor bed's permitted percentage is confirmed on the board — cutting shoots before the cap is read is cutting blind.",
+    "tender-line": "Tend the line once the diver has actually gone in. There is nothing on the umbilical to mind before the dive starts."
+  },
+  "name": "Eelgrass Transplant",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-bay-restoration"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "bundle-station",
+      "check-comms",
+      "check-standby",
+      "check-umbilical",
+      "dive-ladder",
+      "dive-plan-board",
+      "dive-winch",
+      "grid-marker-1",
+      "grid-marker-2",
+      "grid-marker-3",
+      "harvest-cap-meter",
+      "harvest-shears",
+      "log-book-check",
+      "manual-shoot-overpull",
+      "o2-kit-check",
+      "recall-signal",
+      "shoots-left-on-deck",
+      "solo-diver-signal",
+      "stage-comms",
+      "stage-flag",
+      "stage-pfd",
+      "tender-line",
+      "tide-current-meter",
+      "umbilical-slack-drop",
+      "visibility-gauge",
+      "weight-station"
+    ],
+    "meshes": 274
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check today's dive plan: depth, bottom time, visibility minimum, and the Corps §404 / BCDC harvest conditions.",
+      "id": "dive-plan",
+      "kind": "select",
+      "prompt": "Check today's dive plan: depth, bottom time, visibility minimum, and the Corps §404 / BCDC harvest conditions.",
+      "target": "dive-plan-board",
+      "title": "Read the dive plan and the permit conditions",
+      "why": "Everything the crew does today is bounded by a plan written before anyone left the dock — how deep, how long, how clear the water has to stay, and how much of the donor bed NOAA Fisheries' mitigation policy allows to be cut. Diving first and checking the plan afterward is how a crew finds out its limits only after crossing one."
+    },
+    {
+      "cue": "Read the current meter at the grid and commit it against the plan's working window.",
+      "gauge": {
+        "green": [
+          0.38,
+          0.58
+        ],
+        "label": "CURRENT",
+        "missNote": "Outside the plan's working window. Wait for slack and read the meter again before anyone gears up.",
+        "speed": 0.7
+      },
+      "id": "tide-window",
+      "kind": "gauge",
+      "prompt": "Read the current meter at the grid and commit it against the plan's working window.",
+      "target": "tide-current-meter",
+      "title": "Check the tide and current window",
+      "why": "A diver working against a running current burns air and energy fast and drifts off the grid on every breath; the plan's tide window exists because slack water is the only time a planting dive on a fixed grid is actually a controlled dive rather than a fight with the current."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Comms box, life vest, and the diver-down flag before anyone gears up.",
+      "id": "stage",
+      "itemNames": {
+        "stage-comms": "dive comms box",
+        "stage-flag": "diver-down flag",
+        "stage-pfd": "supervisor's life vest"
+      },
+      "kind": "sequence",
+      "prompt": "Comms box, life vest, and the diver-down flag before anyone gears up.",
+      "targets": [
+        "stage-comms",
+        "stage-pfd",
+        "stage-flag"
+      ],
+      "title": "Stage the dive supervisor's own station",
+      "why": "The supervisor runs this dive from the surface and never gets in the water — the comms box is the only channel to a diver working a grid out of sight, the vest is buoyancy on a working boat deck, and the flag is the only signal a passing vessel has that there is a diver down here at all."
+    },
+    {
+      "cue": "Umbilical and harness, then comms, then confirm the standby diver is dressed and at the ready position.",
+      "id": "diver-checks",
+      "itemNames": {
+        "check-comms": "diver comms",
+        "check-standby": "standby diver dressed",
+        "check-umbilical": "umbilical and harness"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Umbilical and harness first, then comms, then the standby diver. Checking the standby before comms are proven leaves no way to call for the standby if something is already wrong.",
+      "prompt": "Umbilical and harness, then comms, then confirm the standby diver is dressed and at the ready position.",
+      "targets": [
+        "check-umbilical",
+        "check-comms",
+        "check-standby"
+      ],
+      "title": "Run the pre-dive checks in order",
+      "why": "Each check only means something once the one before it has passed — a comms check on a harness that isn't clipped is a comms check on a diver about to go in the water unsecured, and a standby confirmed before comms are proven is a standby who cannot be called if the primary diver's line goes quiet."
+    },
+    {
+      "cue": "Read the harvest meter against NOAA Fisheries' mitigation cap for this bed and commit before the shears go in.",
+      "gauge": {
+        "green": [
+          0.3,
+          0.5
+        ],
+        "label": "HARVEST SHARE",
+        "missNote": "Over the permitted share. Stop cutting and confirm the cap again before the shears go back in.",
+        "speed": 0.7
+      },
+      "id": "harvest",
+      "kind": "gauge",
+      "prompt": "Read the harvest meter against NOAA Fisheries' mitigation cap for this bed and commit before the shears go in.",
+      "target": "harvest-cap-meter",
+      "title": "Confirm the donor bed's permitted harvest share",
+      "why": "The cap on this reading is not a target to work up to, it is the line past which the donor bed itself is being drawn down rather than sustainably harvested — a bed cut past its share this season gives up less shoots next season, and the whole point of mitigation is a net gain in eelgrass, not a transfer of loss from one bed to another."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Cut the shoots, bundle them, and clip a weight to each bundle before they leave the boat.",
+      "id": "harvest-shoots",
+      "itemNames": {
+        "bundle-station": "bundling table",
+        "harvest-shears": "harvest shears at the donor bed",
+        "weight-station": "weight clips"
+      },
+      "kind": "sequence",
+      "prompt": "Cut the shoots, bundle them, and clip a weight to each bundle before they leave the boat.",
+      "targets": [
+        "harvest-shears",
+        "bundle-station",
+        "weight-station"
+      ],
+      "title": "Harvest, bundle and weight the shoots",
+      "why": "A bundle with no weight floats off the moment it goes back over the side, and loose, unbundled shoots are impossible to plant on a spacing grid one blade at a time — bundled and weighted is what turns a boat deck of cuttings into something a diver can actually carry down and plant."
+    },
+    {
+      "cue": "Hold the go signal at the ladder for the full count — a rushed splash is a diver going in before the last check actually lands.",
+      "holdBreakNote": "The signal broke early — that is a diver splashing before the supervisor actually confirmed the last check. Reset and hold the full count.",
+      "id": "splash",
+      "kind": "hold",
+      "prompt": "Hold the go signal at the ladder for the full count — a rushed splash is a diver going in before the last check actually lands.",
+      "seconds": 5,
+      "target": "dive-ladder",
+      "title": "Clear the diver to splash",
+      "why": "The go signal held for the full count is the supervisor's own confirmation that every earlier check — harness, comms, standby — actually happened rather than being waved through, because the diver in the water in the next ten seconds is trusting that this moment wasn't rushed."
+    },
+    {
+      "cue": "Call the diver across markers 1, then 2, then 3, planting at the design spacing as they go.",
+      "id": "plant-grid",
+      "itemNames": {
+        "grid-marker-1": "grid marker 1",
+        "grid-marker-2": "grid marker 2",
+        "grid-marker-3": "grid marker 3"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Marker 1, then marker 2, then marker 3 — the design spacing only holds if the grid gets planted in the order it was laid out in.",
+      "prompt": "Call the diver across markers 1, then 2, then 3, planting at the design spacing as they go.",
+      "targets": [
+        "grid-marker-1",
+        "grid-marker-2",
+        "grid-marker-3"
+      ],
+      "title": "Direct the diver to plant at the grid, marker to marker",
+      "why": "The mitigation permit specifies a planting density, not just a planted area, and a diver working without a called sequence drifts toward planting wherever the last bundle happens to be rather than the spacing the design actually calls for. Calling it marker to marker is how a boat deck's plan becomes an even bed on the bottom."
+    },
+    {
+      "cue": "Hold the line tension in the working range — no slack for a hull to catch, no drag on the diver.",
+      "holdBreakNote": "The line went out of band and the tension broke rhythm — bring it back before it either fouls or drags.",
+      "id": "tender-watch",
+      "kind": "track",
+      "prompt": "Hold the line tension in the working range — no slack for a hull to catch, no drag on the diver.",
+      "seconds": 7,
+      "target": "tender-line",
+      "title": "Tend the umbilical through the planting run",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "LINE TENSION",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "A tender pays the line in and out against exactly what the diver's position needs — too slack and the line can foul a prop or the diver's own fins, too taut and it drags the diver off the grid mid-plant. Steady tension is what keeps the umbilical doing its job of tracking the diver instead of fighting them."
+    },
+    {
+      "cue": "Wind the ladder winch to bring the diver up at a steady rate.",
+      "id": "recover",
+      "kind": "turn",
+      "prompt": "Wind the ladder winch to bring the diver up at a steady rate.",
+      "target": "dive-winch",
+      "title": "Recover the diver up the ladder",
+      "turn": {
+        "axis": "y",
+        "label": "LADDER WINCH",
+        "turns": 0.85
+      },
+      "why": "A diver brought up too fast off a shallow working dive still has decompression obligations the plan accounts for, and a rushed recovery skips the safety stop the dive computer is counting on. Steady is what makes the recovery match the dive the plan actually authorized."
+    },
+    {
+      "cue": "Check the emergency oxygen kit and the dive log before this dive is closed out.",
+      "id": "walk",
+      "itemNames": {
+        "log-book-check": "the dive log",
+        "o2-kit-check": "the emergency oxygen kit"
+      },
+      "itemNotes": {
+        "log-book-check": "The dive log hasn't been filled in for this dive — bottom time, visibility, and the standby diver's name all belong in it before the crew moves on.",
+        "o2-kit-check": "The emergency oxygen kit's seal is broken and the cylinder is showing under pressure — it needs swapping before the next dive of the day, not after somebody needs it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the emergency oxygen kit and the dive log before this dive is closed out.",
+      "targets": [
+        "o2-kit-check",
+        "log-book-check"
+      ],
+      "title": "Walk the deck before the crew stands down",
+      "why": "The oxygen kit is the one piece of gear on this deck that only matters in the exact moment it is needed, and the log is the only record that this dive happened inside the plan it was briefed against — both get checked now, while the crew is still standing here, not after everyone has already broken down the gear."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Diver-assisted eelgrass restoration: the dive plan and the tide window read, the donor bed harvested to its permitted share, shoots bundled inside the holding time, the standby diver ready before anyone splashes, planted to the grid on the surface tender's line, and the divers recalled the moment a vessel or the visibility says so",
+  "title": "SmartCiti.X~ Eelgrass Transplant VR",
+  "trade": "Dive supervisor / commercial diving crew",
+  "underwater": null,
+  "weather": "clear"
+}

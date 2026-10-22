@@ -1,0 +1,444 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "one-visit-crown",
+    "name": "One-Visit Crown",
+    "note": "A scan, a margin check, a design and a mill carried end to end without a remake"
+  },
+  "category": "Dental & Oral Health",
+  "certification": "The state dental board's allowable-duties list for assistants, which decides whether an assistant may take a digital impression at all and under what supervision; the ADA's guidance on the dental team and the ADA's CDT code set for the restoration the dentist records; the CDC's dental infection-control guidelines for a semi-critical scanner tip reprocessed to its manufacturer's instructions; OSHA 29 CFR 1910.1030 bloodborne pathogens for the saliva and blood the tip carries; NIOSH guidance on dust from grinding milled ceramic; HIPAA's privacy and security rules for a scan file that identifies a person; SEIU and UFCW clinic and dental staff; Unspoken Smiles, the programme this platform is built for",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADA",
+        "citedAs": "CDT",
+        "id": "ada-cdt-code",
+        "title": "The ADA's Code on Dental Procedures and Nomenclature (CDT), the procedure-code set dental claims and pre-authorisations are written in; cited as the body and the code set, never by a code number"
+      },
+      {
+        "body": "ADA",
+        "citedAs": "ADA's",
+        "id": "ada-radiographic-guidance",
+        "title": "American Dental Association and FDA guidance on prescribing dental radiographs"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "HHS",
+        "citedAs": "HIPAA",
+        "id": "hipaa-privacy-rule",
+        "title": "HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "state dental board",
+        "citedAs": "state dental board",
+        "id": "state-dental-board",
+        "title": "The state dental board and its dental practice act: licensure, scope of practice, and the allowable-duties rules for dental assistants and hygienists"
+      },
+      {
+        "body": "union",
+        "citedAs": "UFCW",
+        "id": "ufcw-training",
+        "title": "UFCW member training for retail food, clinic and dental support work"
+      },
+      {
+        "body": "Unspoken Smiles",
+        "citedAs": "Unspoken Smiles",
+        "id": "unspoken-smiles-programme",
+        "title": "Unspoken Smiles, the programme this platform is built for; named only, not described — its own materials are not sourced in this repository"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Dental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "margin-read",
+        "name": "Margin Read",
+        "note": "Both margin faults found before the design began"
+      },
+      {
+        "id": "clean-chain",
+        "name": "Clean Chain",
+        "note": "No unsafe action anywhere in the appointment"
+      },
+      {
+        "id": "steady-wand",
+        "name": "Steady Wand",
+        "note": "The scan path and the mill door carried without a break"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "no-remake",
+        "name": "No Remake",
+        "note": "No corrections anywhere in the appointment"
+      },
+      {
+        "id": "light-right",
+        "name": "Light Right",
+        "note": "The operatory light set near the middle of its band"
+      },
+      {
+        "id": "chair-time",
+        "name": "Chair Time",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "SCAN",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Assisting Student",
+      "Scanning Assistant",
+      "CAD/CAM Assistant",
+      "Digital Lead",
+      "Digital Chairside Certified"
+    ],
+    "system": "Digital Chairside"
+  },
+  "hazards": {
+    "dsc-dry-trim": "That is the dry grinding wheel on the open bench, with the extraction switched off. Milled ceramic ground dry throws a fine dust straight into the breathing zone of whoever is holding it, and the chips fly at the face; the sprue is finished wet, behind a shield, with the local extraction running, which is what NIOSH's dust guidance and plain sense both ask.",
+    "dsc-latex-box": "That is a box of latex examination gloves, and this patient's chart carries a latex allergy flag. A latex allergy runs from a rash to anaphylaxis, and the reaction is to the proteins on the glove, so the only safe glove at this chair is the non-latex one from the dispenser — picked before anybody touches the patient, not swapped after their lips start to swell.",
+    "dsc-personal-usb": "That is somebody's personal memory stick, offered to carry the scan file home to finish the design. A full-arch scan with a name on it is identifiable health information under HIPAA, and an unencrypted stick in a bag is the commonest way a small practice loses a record — the file stays in the practice's secured system and goes to a laboratory only through the portal the practice has an agreement with.",
+    "dsc-uncleaned-tip": "That tip is still in the holder from the last patient, fogged and unbagged. A scanner tip goes into mouth after mouth and touches saliva and often blood, which makes it a semi-critical device under the CDC's dental guidelines: it is reprocessed to its manufacturer's instructions or replaced between patients, and a tip that has only been wiped carries the last person's mouth into this one."
+  },
+  "id": "dn-digital-intraoral-scanning-and-cad-cam",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "dsc-scan-path",
+      "alert": "The patient's lips are reddening and itching where your glove touched them — the chart's allergy flag says latex, and these gloves came from the unlabelled box.",
+      "cue": "Stop the scan, strip the gloves and re-glove from the non-latex dispenser, then call the dentist to the chair.",
+      "delay": 3,
+      "id": "dsc-latex-reaction",
+      "kind": "Latex allergy",
+      "missNote": "The scan carried on with latex gloves on the patient's lips. A contact reaction left in place can progress to swelling of the lips and airway, and every minute of scanning was another minute of exposure to the very thing the chart flagged.",
+      "seconds": 12,
+      "target": "dsc-nitrile-dispenser",
+      "why": "A latex reaction can move from a rash to swelling and breathing trouble quickly, and it keeps going for as long as the protein is on the skin. Stopping, removing the source and re-gloving in non-latex comes first; the dentist assesses the patient, and the emergency kit stays close by in case it keeps progressing.",
+      "wrongNote": "It is the non-latex glove dispenser. The gloves come off and non-latex ones go on before anything else touches this patient."
+    },
+    {
+      "after": "dsc-mill-door",
+      "alert": "While you hold the mill door, a courier at the open window is reading the design screen — the patient's name, date of birth and full-arch scan are on it.",
+      "cue": "Lock the workstation screen — the mill will hold its own door.",
+      "delay": 2.5,
+      "id": "dsc-screen-breach",
+      "kind": "Privacy breach",
+      "missNote": "The record stayed on show to the window for the rest of the cycle. That is a disclosure of identifiable health information to a stranger, and it happened because the screen was left open while everyone's attention was on the machine.",
+      "seconds": 11,
+      "target": "dsc-screen-lock",
+      "why": "A screen with a name, a birth date and a scan on it, facing a window, is a disclosure happening in real time. Locking it takes a second and ends it; the mill's interlock carries on without you, which is why you can step away from the door once it has latched.",
+      "wrongNote": "It is the workstation's screen lock. The disclosure is on the monitor, so the monitor is what has to go dark."
+    }
+  ],
+  "lateNotes": {
+    "dsc-case-log": "The appointment is not over. The record is written from what actually happened — the tip, the block lot and the cycle — at the end.",
+    "dsc-crew-checkin": "The dentist has nothing to approve yet. The check-in happens with a finished, milled restoration on the tray, not before the block is even cut.",
+    "dsc-record-archive": "Not yet. The scan is archived once it is a scan worth keeping — after the margin has been checked and the design is done, not while it is still being captured."
+  },
+  "name": "Digital Intraoral Scanning & CAD/CAM",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "dental-careers-unspoken-smiles"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "dsc-block",
+      "dsc-cal-overdue",
+      "dsc-case-log",
+      "dsc-crew-checkin",
+      "dsc-design-axis",
+      "dsc-design-margin",
+      "dsc-design-thickness",
+      "dsc-dry-trim",
+      "dsc-heater-cold",
+      "dsc-holder-screw",
+      "dsc-latex-box",
+      "dsc-light-dimmer",
+      "dsc-margin-tissue",
+      "dsc-margin-void",
+      "dsc-mill-chuck",
+      "dsc-mill-door-latch",
+      "dsc-nitrile-dispenser",
+      "dsc-personal-usb",
+      "dsc-record-archive",
+      "dsc-reprocess-cassette",
+      "dsc-scan-wand",
+      "dsc-screen-lock",
+      "dsc-tip-pouch",
+      "dsc-uncleaned-tip",
+      "dsc-wet-wheel"
+    ],
+    "meshes": 182
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Open a sealed, reprocessed tip in front of the patient and seat it on the wand.",
+      "id": "dsc-tip-mount",
+      "kind": "select",
+      "noRobot": false,
+      "prompt": "Open a sealed, reprocessed tip in front of the patient and seat it on the wand.",
+      "target": "dsc-tip-pouch",
+      "title": "Seat a reprocessed scanner tip from a sealed pouch",
+      "why": "The scanner tip is the only part of a very expensive camera that goes into the mouth, so it is the part the infection-control chain is built around. A tip from a sealed, indicator-changed pouch is a tip that went through the manufacturer's reprocessing cycle; one taken off the holder is a guess. Opening it where the patient can see it is also the first moment they learn this office does things properly — and that habit is exactly what gets an assistant trusted with the scanner, which is the door into digital dentistry."
+    },
+    {
+      "cue": "Two things on the scanner cart will spoil this scan. Find both before the wand goes near the patient.",
+      "id": "dsc-precheck",
+      "itemNames": {
+        "dsc-cal-overdue": "the calibration-overdue flag",
+        "dsc-heater-cold": "the tip heater still cold"
+      },
+      "itemNotes": {
+        "dsc-cal-overdue": "The scanner's calibration is past due. An uncalibrated scanner stitches a slightly wrong arch without warning anyone, and a crown designed to it rocks on the tooth — the calibration takes two minutes with the target the manufacturer supplies.",
+        "dsc-heater-cold": "The tip heater has not come up to temperature. A cold mirror fogs the instant it meets a warm breath, and a fogged scan is a scan full of holes the software quietly fills with guesses."
+      },
+      "kind": "find",
+      "noHint": true,
+      "noRobot": false,
+      "prompt": "Two things on the scanner cart will spoil this scan. Find both before the wand goes near the patient.",
+      "targets": [
+        "dsc-cal-overdue",
+        "dsc-heater-cold"
+      ],
+      "title": "Find the two things that would ruin the scan before it starts",
+      "why": "A digital impression fails silently. The software always produces a model, and a model built from a fogged mirror or an uncalibrated sensor looks perfectly plausible on the screen until the crown will not seat. The two minutes spent calibrating and warming the tip are the difference between one visit and a remake appointment, and an assistant who checks the machine before trusting it is the one a practice lets run its digital workflow on their own."
+    },
+    {
+      "cue": "Turn the overhead light down until the arch is lit by the scanner, not flooded by the lamp.",
+      "gauge": {
+        "green": [
+          0.28,
+          0.48
+        ],
+        "label": "OPERATORY LIGHT",
+        "missNote": "Outside the band. Too bright and the lamp's glare swamps the scanner's own light; too dark and you cannot see the field to keep the wand where it belongs.",
+        "speed": 0.62
+      },
+      "id": "dsc-light-down",
+      "kind": "gauge",
+      "noRobot": false,
+      "prompt": "Turn the overhead light down until the arch is lit by the scanner, not flooded by the lamp.",
+      "target": "dsc-light-dimmer",
+      "title": "Bring the operatory light down so it stops washing out the optics",
+      "why": "An optical scanner reads the light it projects onto the teeth, and a bright operatory lamp swamps it with glare and reflection off wet enamel, which the software reads as gaps. Too dark, and the operator loses the field. The right setting is low enough that the scanner's own light leads and bright enough that you can still see soft tissue, and learning to read that is one of the small practical skills that separates a trained digital assistant from somebody who has only watched a demonstration."
+    },
+    {
+      "cue": "Keep the wand moving at an even pace along the arch — occlusal first, then the tongue side, then the cheek side.",
+      "holdBreakNote": "The scan path broke. Go back to the last good tooth and pick the path up from there — the software stitches overlapping frames, not jumps.",
+      "id": "dsc-scan-path",
+      "kind": "track",
+      "noRobot": true,
+      "prompt": "Keep the wand moving at an even pace along the arch — occlusal first, then the tongue side, then the cheek side.",
+      "robotNote": "Intraoral. The scanner wand goes into a live patient's mouth, so the scan is always the clinician's; the robot stages the cart and the light around it.",
+      "seconds": 9,
+      "target": "dsc-scan-wand",
+      "title": "Walk the scan along one path: occlusal, then lingual, then buccal",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.42,
+        "green": [
+          0.38,
+          0.62
+        ],
+        "label": "SCAN PACE",
+        "rise": 0.5,
+        "start": 0.2
+      },
+      "why": "The scanner builds the arch by stitching overlapping frames, so the path matters as much as the pictures. Occlusal first gives the software a clear spine to stitch the rest to; lingual and buccal follow while it still knows where it is. Move too fast and there are holes; linger or jump about and the stitching drifts, so the far molar ends up a fraction out of place. A clean full-arch scan is a genuinely marketable skill, and in many states it is one of the expanded functions an assistant is paid more to perform."
+    },
+    {
+      "cue": "Take the used tip off the wand and drop it in the closed reprocessing cassette for the sterilisation room.",
+      "id": "dsc-tip-return",
+      "kind": "select",
+      "noRobot": false,
+      "prompt": "Take the used tip off the wand and drop it in the closed reprocessing cassette for the sterilisation room.",
+      "target": "dsc-reprocess-cassette",
+      "title": "Send the used tip back to reprocessing in its own cassette",
+      "why": "A used tip is contaminated the moment it leaves the mouth, and where it goes next decides whether the chain holds. The closed cassette carries it to the processing room without anybody handling it on the way, where it is cleaned and reprocessed to its manufacturer's instructions before it is bagged again. Leave it on the cart and it becomes the next patient's unbagged tip. Knowing how a device travels through the sterilisation chain is what lets an assistant move between the chair and the processing room — two careers, not one."
+    },
+    {
+      "cue": "Rotate the model and find the two places where the margin is not really there.",
+      "id": "dsc-margin-check",
+      "itemNames": {
+        "dsc-margin-tissue": "tissue collapsed over the buccal margin",
+        "dsc-margin-void": "a data hole at the distal margin"
+      },
+      "itemNotes": {
+        "dsc-margin-tissue": "The gingiva has collapsed over the buccal margin, so the scan shows soft tissue where the finish line should be. That margin has to be re-exposed and rescanned by the operator; designing to it builds a crown that stops short of the preparation.",
+        "dsc-margin-void": "There is a hole in the data right at the distal margin. The software has bridged it with a smooth guess, and a crown designed to a guessed margin is open there — the one place decay will start again."
+      },
+      "kind": "find",
+      "noHint": true,
+      "noRobot": false,
+      "prompt": "Rotate the model and find the two places where the margin is not really there.",
+      "targets": [
+        "dsc-margin-void",
+        "dsc-margin-tissue"
+      ],
+      "title": "Check the margin on the screen before anybody designs to it",
+      "why": "Everything downstream is built to the margin: the design, the mill path and the fit on the tooth. A scan can look immaculate from the front and still have a hole at the distal finish line or gum tissue lying over it, and the only time to catch that is now, while the patient is still in the chair and a rescan takes a minute rather than a whole new appointment. Reading margins on a screen is the skill laboratories and specialty practices hire digital assistants and technicians for."
+    },
+    {
+      "cue": "Trace the margin, set the path of insertion, then check the material's minimum thickness — in that order.",
+      "id": "dsc-design-order",
+      "itemNames": {
+        "dsc-design-axis": "set the insertion axis",
+        "dsc-design-margin": "trace the margin line",
+        "dsc-design-thickness": "check the minimum thickness"
+      },
+      "kind": "sequence",
+      "noRobot": false,
+      "outOfOrderNote": "Out of order. The margin is traced first because everything else is measured from it; the axis follows, and the thickness check comes last because the axis changes it.",
+      "prompt": "Trace the margin, set the path of insertion, then check the material's minimum thickness — in that order.",
+      "targets": [
+        "dsc-design-margin",
+        "dsc-design-axis",
+        "dsc-design-thickness"
+      ],
+      "title": "Lay the crown out on the screen in order",
+      "why": "CAD software will happily let you do these in any order, and every one done early is undone by the next. The margin line defines the edge of the restoration; the insertion axis decides which undercuts matter; the minimum thickness check only means something once both are set, because the material's own minimum is what stops it cracking in function. The dentist approves the design, but an assistant who lays it out cleanly is the one who ends up running the practice's digital workflow."
+    },
+    {
+      "cue": "Take the block that matches the design's material and the shade the dentist chose, and seat it in the mill's holder.",
+      "drag": {
+        "missNote": "That is not the chuck. Carry the block to the mill's holder and seat it on the spindle side, with its shade label facing out.",
+        "radius": 0.4,
+        "to": "dsc-mill-chuck"
+      },
+      "id": "dsc-block-in",
+      "kind": "drag",
+      "noRobot": false,
+      "prompt": "Take the block that matches the design's material and the shade the dentist chose, and seat it in the mill's holder.",
+      "target": "dsc-block",
+      "title": "Carry the block of the prescribed shade and material to the mill",
+      "why": "The block is where a digital design becomes a physical object, and it is also where the wrong decision is hardest to see afterwards. The material has to be the one the design was set up for, because minimum thickness and mill strategy depend on it, and the shade has to match what the dentist chose with the patient. The block's lot number goes in the record. A mill operator who reads the label before seating the block is the one a laboratory keeps on its milling line."
+    },
+    {
+      "cue": "Turn the holder screw until the block is seated hard against its stop.",
+      "id": "dsc-block-screw",
+      "kind": "turn",
+      "noRobot": false,
+      "prompt": "Turn the holder screw until the block is seated hard against its stop.",
+      "target": "dsc-holder-screw",
+      "title": "Torque the holder screw so the block cannot chatter",
+      "turn": {
+        "axis": "z",
+        "label": "HOLDER SCREW",
+        "turns": 1.25
+      },
+      "why": "A block that is not seated hard against its stop moves under the burs, and a moving block produces a crown that is slightly the wrong shape everywhere and chipped at the margin where it vibrated. The holder screw is the only thing resisting the cutting forces of two burs spinning at tens of thousands of revolutions a minute. Setting it by feel, every time, is the kind of bench discipline that makes a milling technician worth their wage."
+    },
+    {
+      "cue": "Close the door and hold it until the interlock clicks and coolant is running over the burs.",
+      "holdBreakNote": "You let go before the interlock latched. The cycle will not start — or worse, on a worn latch it starts with the door able to open. Close it again and hold.",
+      "id": "dsc-mill-door",
+      "kind": "hold",
+      "noRobot": false,
+      "prompt": "Close the door and hold it until the interlock clicks and coolant is running over the burs.",
+      "seconds": 6,
+      "target": "dsc-mill-door-latch",
+      "title": "Hold the mill door until the interlock latches and the coolant runs",
+      "why": "The mill's door interlock is what keeps coolant, ceramic chips and a broken bur inside the machine, and it only protects anybody once it has actually latched. Holding the door until the latch clicks and coolant is visibly running also proves the coolant reached the burs, because a mill cutting dry overheats the block and cracks it. Treating a machine's guard as something to confirm rather than assume is the habit every trade with a mill in it asks of its people."
+    },
+    {
+      "cue": "Save the scan and the design into the practice's record system and clear them off the scanner's local drive.",
+      "id": "dsc-record-archive",
+      "kind": "select",
+      "noRobot": false,
+      "prompt": "Save the scan and the design into the practice's record system and clear them off the scanner's local drive.",
+      "target": "dsc-record-archive",
+      "title": "Archive the scan in the patient record, not on the scanner",
+      "why": "The scanner keeps a local copy of everything it captures, and a cart that is wheeled between rooms or sent away for service is a cart full of identifiable scans. HIPAA's security rule expects the practice to know where its records live and to protect them there. Archiving to the record system and clearing the cart means the scan is backed up, attributable and gone from the one place nobody is watching — the kind of routine a practice looks for when it promotes someone to run its technology."
+    },
+    {
+      "cue": "Hold the restoration to the water-cooled wheel behind the shield until the sprue is flush.",
+      "holdBreakNote": "You pulled away with the sprue still proud. Put it back to the wet wheel behind the shield and finish it — a stub left on the contact is adjusted in the mouth instead.",
+      "id": "dsc-wet-finish",
+      "kind": "hold",
+      "noRobot": false,
+      "prompt": "Hold the restoration to the water-cooled wheel behind the shield until the sprue is flush.",
+      "seconds": 5,
+      "target": "dsc-wet-wheel",
+      "title": "Finish the sprue wet, behind the shield, with extraction running",
+      "why": "The milled crown comes out attached to the block by a sprue that has to be removed and the spot polished smooth. Doing it on a water-cooled wheel keeps the ceramic from heat-cracking and keeps the dust wet and out of the air; the shield and the extraction catch what the water does not. A smooth sprue site is also a smooth contact against the next tooth. Finishing ceramic safely is a laboratory bench skill, and it is the one that moves an assistant toward a dental technology career."
+    },
+    {
+      "cue": "Hand the finished crown over with what you saw — the margin, the block lot, any rescans — and ask how the chair is going.",
+      "id": "dsc-crew-checkin",
+      "kind": "select",
+      "noRobot": false,
+      "prompt": "Hand the finished crown over with what you saw — the margin, the block lot, any rescans — and ask how the chair is going.",
+      "target": "dsc-crew-checkin",
+      "title": "Check in with the dentist and the team before the try-in",
+      "why": "The fit on the tooth, the contacts and the bite are the dentist's call under every state dental board's rules, so the assistant hands over rather than seats. What makes that handover worth anything is detail: the rescan at the distal margin, the latex flag, the block lot. Asking the team how the chair is going at the same moment is how a long restorative day stays safe for everybody, and an assistant who does both is the one people want as a lead."
+    },
+    {
+      "cue": "Record the tip's pouch number, the scanner calibration, the block's material, shade and lot, and the mill cycle.",
+      "id": "dsc-case-log",
+      "kind": "select",
+      "noRobot": false,
+      "prompt": "Record the tip's pouch number, the scanner calibration, the block's material, shade and lot, and the mill cycle.",
+      "target": "dsc-case-log",
+      "title": "Write the digital case log",
+      "why": "The case log makes the restoration traceable: which reprocessed tip went into this mouth, whether the scanner was calibrated, which lot of which material became this crown and which cycle cut it. If a material is recalled or the crown fractures, that record is the way back to what actually happened, and the ADA's CDT code the dentist records for the restoration has to be supported by the same notes. Documentation like this is what lets an assistant move into treatment coordination or practice management later."
+    }
+  ],
+  "supportLine": "your clinic's employee assistance line, or the lead assistant you debrief with — a long restorative day at the scanner is tiring work",
+  "tagline": "A crown made in one visit, done properly: a reprocessed tip, a scanner proved ready, one steady scan path, a margin checked before anybody designs to it, a block milled behind a closed door and a file that never leaves the record",
+  "title": "SmartCiti.X~ Digital Intraoral Scanning & CAD/CAM VR",
+  "trade": "Dental assistant — digital scanning and chairside CAD/CAM (expanded-function assistant where the state allows it)",
+  "underwater": null,
+  "weather": "clear"
+}

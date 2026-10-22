@@ -1,0 +1,365 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "galley-secure",
+    "name": "Galley Secure",
+    "note": "The cart braked and stowed, hot liquid capped, the galley scanned clean, and everything secured for descent the moment the sign called for it"
+  },
+  "category": "Mobility & Transit",
+  "certification": "AFA-CWA cabin-safety training; the airline's own galley and cart-service procedure under 14 CFR 121; OSHA 29 CFR 1910.151 medical services and first aid for a scald or a strain this station's securing habit is built to prevent",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFA-CWA",
+        "id": "afa-cwa-training",
+        "title": "AFA-CWA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "FAA",
+        "citedAs": "14 CFR 121",
+        "id": "faa-14-cfr-121",
+        "title": "14 CFR Part 121 — Operating requirements for domestic, flag and supplemental air carriers"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.151",
+        "id": "osha-1910-151",
+        "title": "29 CFR 1910.151 — Medical services and first aid"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Aviation",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "cart-braked",
+        "name": "Cart Braked",
+        "note": "The cart's wheel brake set and the restraint strap tension confirmed"
+      },
+      {
+        "id": "hot-liquid-capped",
+        "name": "Hot Liquid Capped",
+        "note": "Every hot-liquid container capped before it ever left the galley"
+      },
+      {
+        "id": "descent-secure",
+        "name": "Descent Secure Certified",
+        "note": "The whole galley latched and secured for descent, nothing left loose"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-shift",
+        "name": "Clean Service",
+        "note": "No corrections anywhere in the service"
+      },
+      {
+        "id": "steady-tray",
+        "name": "Steady Tray",
+        "note": "Carried the hot-liquid tray level the whole count, first try"
+      },
+      {
+        "id": "fast-service",
+        "name": "Fast Turn",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "STOW",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "New Flight Attendant",
+      "Line Qualified",
+      "Lead Flight Attendant",
+      "Purser",
+      "Galley Secure Certified"
+    ],
+    "system": "Galley Secure"
+  },
+  "hazards": {
+    "oven-left-on-hazard": "That galley oven is still on. An oven running with nobody actively cooking in it is a heat source this galley has no reason to be carrying into descent, and it gets switched off as part of securing, not left for whoever notices next.",
+    "unbraked-cart-hazard": "That cart is standing in the aisle with its brake off. An unbraked cart on a moving aircraft does not stay where it was left — it rolls, and a rolling cart loaded with hot liquid and glass is its own hazard before it ever reaches anyone.",
+    "uncapped-liquid-hazard": "That hot-liquid container is sitting uncapped. An uncapped container of anything hot has no business leaving this galley — a cap costs nothing to close and everything to have skipped the one time the aircraft moves without warning.",
+    "unlatched-cabinet-hazard": "That galley cabinet door is not latched. An unlatched cabinet at altitude does not stay closed on its own, and whatever is stacked behind it becomes exactly as loose as the door the moment turbulence actually tests it."
+  },
+  "id": "ca-galley-and-cart-safety",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "carry-tray-level",
+      "alert": "The fasten-seatbelt sign illuminates while the cart is still out in the aisle.",
+      "cue": "That cart gets braked and stowed right now, service or no service.",
+      "delay": 3,
+      "id": "seatbelt-sign-illuminates",
+      "kind": "Seatbelt sign illuminates mid-service",
+      "missNote": "The cart stayed out in the aisle after the sign came on. An unbraked, unstowed cart on an aircraft that's about to move is the hazard this entire procedure is built around.",
+      "seconds": 12,
+      "target": "cart-wheel-brake",
+      "why": "The sign illuminating mid-service is not a suggestion to finish the row first — it means the aircraft expects to move unexpectedly, and a cart still loose in the aisle when that happens is exactly the hazard this whole station exists to prevent.",
+      "wrongNote": "Brake and stow the cart — nothing else in this galley matters more the moment that sign comes on."
+    },
+    {
+      "after": "secure-for-descent",
+      "alert": "A jolt knocks a capped container loose and hot liquid spills across the galley floor.",
+      "cue": "That gets contained before anyone steps in it, not chased down mid-descent.",
+      "delay": 3,
+      "id": "hot-liquid-spill",
+      "kind": "Hot liquid spills in the galley",
+      "missNote": "The spill sat on the galley floor while the closeout continued around it. That is exactly the scald-and-fall combination this station exists to keep off the floor.",
+      "seconds": 12,
+      "target": "galley-spill-kit",
+      "why": "A hot-liquid spill on a galley floor is a scald and a fall risk stacked on top of each other, and containing it at the source, right now, is what keeps either one from actually reaching someone during the one part of the flight everyone is already trying to stay seated for.",
+      "wrongNote": "Contain the spill first — everything else about closing out the galley can wait the few seconds that takes."
+    }
+  ],
+  "lateNotes": {
+    "cart-wheel-brake": "Not yet — the galley scan comes first. A cart braked before the hazards around it are actually found just means one more loose thing to work around.",
+    "latch-cart-bay": "Hold that. The cabinets get their final check right alongside this, not after it."
+  },
+  "name": "Galley and Cart Safety",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "airline-cabin-and-flight-crew"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "cabinInterior",
+        "count": 1,
+        "kit": "equipment"
+      }
+    ],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "cabinet-door",
+      "cap-coffee-pot",
+      "cap-hot-water",
+      "cart-restraint-strap",
+      "cart-wheel-brake",
+      "coffee-temp-gauge",
+      "galley-checklist-board",
+      "galley-log",
+      "galley-spill-kit",
+      "hot-liquid-tray",
+      "latch-all-cabinets",
+      "latch-cart-bay",
+      "oven-left-on-hazard",
+      "oven-switch",
+      "push-cart-to-aisle",
+      "release-cart-brake",
+      "unbraked-cart-hazard",
+      "uncapped-liquid",
+      "uncapped-liquid-hazard",
+      "unlatched-cabinet",
+      "unlatched-cabinet-hazard"
+    ],
+    "meshes": 146
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Open the galley safety checklist before touching the cart or the cabinets.",
+      "id": "pull-galley-checklist",
+      "kind": "select",
+      "prompt": "Open the galley safety checklist before touching the cart or the cabinets.",
+      "target": "galley-checklist-board",
+      "title": "Pull the galley safety checklist",
+      "why": "The checklist is what keeps this from turning into whichever steps happen to feel most urgent in the moment — a hot liquid capped out of order is still capped, but a step skipped because the checklist was never opened is a step nobody catches until it costs something."
+    },
+    {
+      "cue": "Two things in this galley aren't secured yet. Find them before the cart moves.",
+      "id": "scan-galley",
+      "itemNames": {
+        "uncapped-liquid": "an uncapped hot-liquid container",
+        "unlatched-cabinet": "a cabinet door that isn't latched"
+      },
+      "itemNotes": {
+        "uncapped-liquid": "This gets capped the moment it's found, not carried another step uncapped — a cap is the only thing standing between this container and a scald the instant the aircraft moves.",
+        "unlatched-cabinet": "A cabinet that isn't fully latched gets closed and confirmed now, while the galley is calm, instead of found open the moment turbulence actually shakes it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things in this galley aren't secured yet. Find them before the cart moves.",
+      "targets": [
+        "uncapped-liquid",
+        "unlatched-cabinet"
+      ],
+      "title": "Scan the galley before service",
+      "why": "Everything this scan catches is a five-second fix right now and a real hazard the instant the aircraft moves without warning — that trade only works if the scan actually happens before service starts, not sometime during it."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Cap the coffee pot and the hot water urn before either one leaves the galley.",
+      "id": "cap-hot-liquid",
+      "itemNames": {
+        "cap-coffee-pot": "cap the coffee pot",
+        "cap-hot-water": "cap the hot water urn"
+      },
+      "kind": "sequence",
+      "prompt": "Cap the coffee pot and the hot water urn before either one leaves the galley.",
+      "targets": [
+        "cap-coffee-pot",
+        "cap-hot-water"
+      ],
+      "title": "Cap every hot-liquid container",
+      "why": "A capped container is a container that survives a jolt without becoming a scald — this happens before anything with hot liquid in it crosses the galley threshold, not on the way out the door with the cart already moving."
+    },
+    {
+      "cue": "Check the brew temperature gauge before pouring for service.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.68
+        ],
+        "label": "BREW TEMP",
+        "missNote": "Poured outside the safe brew band. Too hot to pour is exactly the cup that scalds the first passenger it reaches.",
+        "speed": 0.6
+      },
+      "id": "coffee-temp-check",
+      "kind": "gauge",
+      "prompt": "Check the brew temperature gauge before pouring for service.",
+      "target": "coffee-temp-gauge",
+      "title": "Read the coffee maker's temperature",
+      "why": "A brew that hasn't finished or one running too hot are both a problem this gauge exists to catch before the first cup is ever poured, not after someone downstream says it tasted burnt or felt too hot to hold."
+    },
+    {
+      "cue": "Turn the wheel brake lever to locked before loading the cart.",
+      "id": "cart-brake-set",
+      "kind": "turn",
+      "prompt": "Turn the wheel brake lever to locked before loading the cart.",
+      "target": "cart-wheel-brake",
+      "title": "Set the cart's wheel brake",
+      "turn": {
+        "axis": "y",
+        "label": "CART BRAKE",
+        "turns": 0.3
+      },
+      "why": "A cart with its brake off is a cart that moves on its own the instant the floor tilts even slightly, and locking the brake before loading is what keeps it exactly where it was parked while it's being loaded, not partway down the aisle."
+    },
+    {
+      "cue": "Hold tension on the restraint strap and confirm it's actually snug against the load.",
+      "holdBreakNote": "Let go before the tension was actually confirmed. A strap that was never checked snug is a strap this cart cannot actually trust.",
+      "id": "restraint-strap-check",
+      "kind": "hold",
+      "prompt": "Hold tension on the restraint strap and confirm it's actually snug against the load.",
+      "seconds": 5,
+      "target": "cart-restraint-strap",
+      "title": "Check the cart restraint strap tension",
+      "why": "A restraint strap that looks clipped in place and one that's actually snug against the load are two different things, and the only way to know the second one is true is to hold real tension against it and feel it hold, not glance at the buckle."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Release the brake, then push the cart into the aisle — never the other way round.",
+      "id": "cart-service-sequence",
+      "itemNames": {
+        "push-cart-to-aisle": "push the cart into the aisle",
+        "release-cart-brake": "release the brake"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Release the brake first, then push — pushing against a set brake is how a cart frame gets bent for no reason at all.",
+      "prompt": "Release the brake, then push the cart into the aisle — never the other way round.",
+      "targets": [
+        "release-cart-brake",
+        "push-cart-to-aisle"
+      ],
+      "title": "Move the cart into service",
+      "why": "A cart pushed against its own set brake just strains the frame and goes nowhere, and releasing the brake first is what actually lets this cart move where the service needs it, in the order that keeps the frame from taking that strain every single push."
+    },
+    {
+      "cue": "Keep the tray level while the aircraft rides through light chop.",
+      "holdBreakNote": "The tray tipped out of level. A hot-liquid tray that isn't held level is a spill waiting on the next bit of chop, not an if.",
+      "id": "carry-tray-level",
+      "kind": "track",
+      "prompt": "Keep the tray level while the aircraft rides through light chop.",
+      "seconds": 6,
+      "target": "hot-liquid-tray",
+      "title": "Carry the hot-liquid tray level",
+      "track": {
+        "drift": 0.16,
+        "fall": 0.4,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "TRAY LEVEL",
+        "rise": 0.4,
+        "start": 0.5
+      },
+      "why": "A tray held level is a tray that survives ordinary chop without spilling on anyone, and the only way it stays level is actively correcting for the aircraft's own small movements the whole way down the aisle, not carrying it and hoping."
+    },
+    {
+      "cue": "Push and confirm each galley cabinet door is fully latched before moving on.",
+      "id": "cabinet-latch-confirm",
+      "kind": "select",
+      "prompt": "Push and confirm each galley cabinet door is fully latched before moving on.",
+      "target": "cabinet-door",
+      "title": "Confirm every cabinet is latched",
+      "why": "A cabinet that looks shut and a cabinet that's actually latched are not the same fact, and pushing to confirm the latch caught is the only way to know which one this cabinet actually is before the galley is called secure."
+    },
+    {
+      "cue": "Check the oven switch and confirm it's off before securing for descent.",
+      "id": "oven-off-confirm",
+      "kind": "select",
+      "prompt": "Check the oven switch and confirm it's off before securing for descent.",
+      "target": "oven-switch",
+      "title": "Confirm the galley oven is off",
+      "why": "An oven left running into descent is a heat source with nobody actively watching it, and confirming it off now is what this galley takes into descent instead of an assumption that somebody else already checked it."
+    },
+    {
+      "cue": "Latch the cart into its bay, then confirm every cabinet is latched one more time.",
+      "id": "secure-for-descent",
+      "itemNames": {
+        "latch-all-cabinets": "confirm every cabinet latched again",
+        "latch-cart-bay": "latch the cart into its stowage bay"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Cart first, then the cabinets — a cabinet re-check with the cart still loose in the aisle is checking the wrong thing first.",
+      "prompt": "Latch the cart into its bay, then confirm every cabinet is latched one more time.",
+      "targets": [
+        "latch-cart-bay",
+        "latch-all-cabinets"
+      ],
+      "title": "Secure the galley for descent",
+      "why": "Descent is exactly when a galley that was fine all flight suddenly isn't — securing the cart into its own bay and re-confirming every cabinet is what makes sure nothing that held together in cruise is left to find out the hard way whether it holds together in a descent."
+    },
+    {
+      "cue": "Record the galley as secured before returning to your jumpseat.",
+      "id": "log-galley-secure",
+      "kind": "select",
+      "prompt": "Record the galley as secured before returning to your jumpseat.",
+      "target": "galley-log",
+      "title": "Log the galley secure",
+      "why": "The log is the only record that this galley was actually checked and secured on this specific flight — without it, the next crew member through here has no way to know whether this happened or was simply assumed."
+    }
+  ],
+  "supportLine": "your AFA-CWA local's member assistance resources, or the airline's own employee assistance line — a scald or a strain in the galley is worth reporting even when it felt minor",
+  "tagline": "The cart braked and latched between every push, hot liquid capped and never carried uncovered, a galley scanned for what turbulence would turn loose, and the whole galley secured for descent the moment the seatbelt sign says so",
+  "title": "SmartCiti.X~ Galley and Cart Safety VR",
+  "trade": "Flight attendant — AFA-CWA cabin crew",
+  "underwater": null,
+  "weather": null
+}

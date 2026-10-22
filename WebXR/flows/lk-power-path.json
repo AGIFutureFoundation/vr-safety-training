@@ -1,0 +1,104 @@
+{
+  "id": "lk-power-path",
+  "title": "Louisiana Lesson — Follow the Energy",
+  "version": 1,
+  "start": "brief",
+  "meta": {
+    "audience": "A learner or a small group at a Louisiana map site, lower secondary; a teacher or a union hall can run it with a class code.",
+    "why": "One idea about the places the Louisiana maps show, taught at a mapped site, checked with one question, then used straight away in a two-minute game.",
+    "hostNotes": "The SmartCiti.X side of the flow contract only (docs/flowhub.md, docs/k12.md): nothing here states how Cognition.X or any other host stores or presents it. The apply node is external: the host runs LA-COHORTS' game (WebXR/shared/lco-la-flows.js) and posts the resume.",
+    "lowConnectivity": "Works offline once the page has loaded; the run waits in this browser's own storage.",
+    "lacohorts": {
+      "lesson": "lk-lesson-power-path",
+      "theme": "energy and electricity",
+      "map": "la-meta-richland",
+      "site": "lmr-substation-build",
+      "band": "lower secondary",
+      "programme": "k12-science",
+      "generated": "tools/gen_lco_flows.mjs"
+    }
+  },
+  "nodes": [
+    {
+      "id": "brief",
+      "kind": "brief",
+      "app": "smartcity",
+      "ref": "k12-lk-where-a-data-center-gets-its-power",
+      "title": "Pre-brief — Follow the Energy",
+      "why": "The station's own study card, read first, so the learner knows the one idea the lesson is for."
+    },
+    {
+      "id": "lesson",
+      "kind": "station",
+      "app": "smartcity",
+      "ref": "k12-lk-where-a-data-center-gets-its-power",
+      "title": "Follow the Energy",
+      "why": "The K-12 station itself, launched from its mapped site; a run that does not pass goes back to the brief."
+    },
+    {
+      "id": "check",
+      "kind": "checkin",
+      "app": "smartcity",
+      "title": "Check question — Follow the Energy",
+      "why": "One question on the idea just taught, answered before the game; a wrong answer shows the why and asks again. Never scored against anyone.",
+      "params": {
+        "check": {
+          "q": "Where does most energy used by computers end up?",
+          "options": [
+            "As heat",
+            "It vanishes",
+            "Back in the gas"
+          ],
+          "answer": 0,
+          "why": "Energy changes form but never disappears; computers turn it into heat."
+        }
+      }
+    },
+    {
+      "id": "apply",
+      "kind": "external",
+      "app": "host",
+      "ref": "lco-apply-energy-path",
+      "title": "Apply it — Energy Path",
+      "why": "A two-minute game that uses the idea just taught; the passport records the lesson and the game.",
+      "params": {
+        "parish": "la-meta-richland",
+        "site": "lmr-substation-build",
+        "minutes": 2,
+        "idea": "Energy changes form at every step and never disappears."
+      }
+    },
+    {
+      "id": "close",
+      "kind": "checkin",
+      "app": "smartcity",
+      "title": "End-of-lesson check-in",
+      "why": "The lesson closes on the learner's own answer about how it went, not on a score."
+    }
+  ],
+  "edges": [
+    {
+      "from": "brief",
+      "to": "lesson"
+    },
+    {
+      "from": "lesson",
+      "to": "check",
+      "when": {
+        "passed": true
+      }
+    },
+    {
+      "from": "lesson",
+      "to": "brief"
+    },
+    {
+      "from": "check",
+      "to": "apply"
+    },
+    {
+      "from": "apply",
+      "to": "close"
+    }
+  ]
+}

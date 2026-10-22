@@ -1,0 +1,385 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "every-pile-read",
+    "name": "Every Pile Read",
+    "note": "Both piles inspected, every defect photographed against a scale, the umbilical never fouled and never a free ascent"
+  },
+  "category": "Maritime & Ports",
+  "certification": "Pile Drivers of the Carpenters commercial diver apprenticeship and the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations; ADCI consensus standards for commercial diving and underwater inspection; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas and decompression per the dive plan and the tables the supervisor holds",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADCI",
+        "citedAs": "ADCI",
+        "id": "adci-consensus-standards",
+        "title": "Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations"
+      },
+      {
+        "body": "union",
+        "citedAs": "UBC",
+        "id": "carpenters-ictf",
+        "title": "United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910 Subpart T",
+        "id": "osha-1910-subpart-t",
+        "title": "29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 197 Subpart B",
+        "id": "uscg-46-cfr-197-subpart-b",
+        "title": "46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction"
+      }
+    ]
+  },
+  "district": "bay-underwater",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "umbilical-proven",
+        "name": "Umbilical Proven",
+        "note": "The umbilical checked hand over hand before the work started"
+      },
+      {
+        "id": "measured-true",
+        "name": "Measured True",
+        "note": "Pneumo committed inside the band first time"
+      },
+      {
+        "id": "clear-of-the-brace",
+        "name": "Clear Of The Brace",
+        "note": "Never through the brace, never bare-handed on the growth, never under the timber, never a free ascent"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-inspection-dive",
+        "name": "Clean Dive",
+        "note": "No corrections from the on-bottom report to the log"
+      },
+      {
+        "id": "paced-breathing",
+        "name": "Paced Breathing",
+        "note": "Breathing held on the supply the whole band clean"
+      },
+      {
+        "id": "inside-the-plan",
+        "name": "Inside The Plan",
+        "note": "Findings read up inside 80% of par"
+      }
+    ],
+    "currency": "BENT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Diver Trainee",
+      "Diver",
+      "Inspection Diver",
+      "Lead Inspection Diver",
+      "Pile Inspection Certified"
+    ],
+    "system": "Pile Inspection"
+  },
+  "hazards": {
+    "bare-hand-growth": "You pulled a glove off to feel the edge of the spall. Barnacle, mussel and exposed rebar edges open a hand in a moment, the water under a pier carries whatever the harbour carries, and a cut hand is a diver who cannot grip the umbilical or the downline. You feel with the glove on and let the caliper and the camera do the measuring.",
+    "free-ascent": "You started up the pile toward the surface on your own. The ascent is the supervisor's call: it is run on the umbilical or the stage at the rate and with the stops the tables the supervisor holds give for this dive, and a diver who leaves the bottom alone skips both — an uncontrolled ascent is how divers are bent or embolised.",
+    "through-the-brace": "You went through the gap between the crossbrace and the pile to reach the far side. Your umbilical follows your path, and a diver who passes inside a brace and comes back round the other way has tied their gas, comms and lifting line round the pier's structure — the tender cannot pull you clear and the standby has to come and untangle you. You work round the outside and come back the way you went.",
+    "under-timber": "You moved in under the loose timber hanging from the pier deck. Something that has come loose from the structure above can come the rest of the way down with the next swell or the next truck on the deck, and a diver under it has nowhere to go fast. You report it to the supervisor and stay clear of the fall line."
+  },
+  "id": "mw-pier-pile-inspection-dive",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "umbilical-check",
+      "alert": "The supervisor's voice has gone — nothing in the helmet speaker, and no answer to your call.",
+      "cue": "Give line-pull signals on your umbilical to the tender and stay where you are.",
+      "delay": 2,
+      "id": "comms-dead-bottom",
+      "kind": "Comms lost with the surface",
+      "missNote": "You carried on with the umbilical check in silence; the surface, hearing nothing, did not know whether your comms had failed or you had, and the standby started to dress.",
+      "seconds": 14,
+      "target": "umbilical-signal",
+      "why": "When the comms fail, the umbilical is the line back: the diver gives the agreed line-pull signals and the tender answers the same way, so both ends know the diver is well and staying put. Staying where you are, on the umbilical, keeps you where the surface expects you while they sort the comms, rather than moving off and making the team guess.",
+      "wrongNote": "Line-pull signals on the umbilical — with the comms dead, that is how the tender knows you are all right."
+    },
+    {
+      "after": "clean-band",
+      "alert": "The current has picked up hard across the bottom — silt is streaming past the piles and your umbilical is bellying away down-current.",
+      "cue": "Stop the work and take hold of the downline, then tell the supervisor what the current is doing.",
+      "delay": 2,
+      "id": "current-shift-piles",
+      "kind": "Current shift on the bottom",
+      "missNote": "You kept scraping while the current bellied your umbilical round the second pile; by the time you stopped, it had taken a turn round the brace.",
+      "seconds": 14,
+      "target": "downline",
+      "why": "A current shift carries the umbilical off in a belly that pulls the diver with it, and a diver swept off the work under a pier is a diver dragged into the structure. The downline is fixed and it is where the surface expects the diver to be; holding it stops you being carried while the supervisor decides, per the dive plan, whether the dive goes on.",
+      "wrongNote": "The downline — hold the fixed line first so the current cannot carry you, then report."
+    }
+  ],
+  "lateNotes": {
+    "band-two": "The second pile's band is cleaned once the first pile has been read and measured — one pile at a time.",
+    "caliper": "The section is measured once the pile has been inspected and the pneumo read — find the loss before you put a caliper on it.",
+    "diver-slate": "The findings are read up for the dive log once the defects are photographed and the tools are back on the stage."
+  },
+  "name": "Pier Pile Inspection Dive",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "anode-lead-broken",
+      "band-two",
+      "bare-hand-growth",
+      "caliper",
+      "diver-comms",
+      "diver-slate",
+      "downline",
+      "free-ascent",
+      "free-flow-valve",
+      "jacket-split",
+      "pile-band",
+      "pneumo-end",
+      "scale-bar",
+      "scraper",
+      "section-loss",
+      "spall-rebar",
+      "stage-rail",
+      "through-the-brace",
+      "tool-bag",
+      "umbilical-harness",
+      "umbilical-signal",
+      "under-timber",
+      "uw-camera"
+    ],
+    "meshes": 188
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Call the supervisor: on the bottom, off the stage, feeling good, visibility and current as you find them, starting on the first pile.",
+      "id": "on-bottom",
+      "kind": "select",
+      "prompt": "Call the supervisor: on the bottom, off the stage, feeling good, visibility and current as you find them, starting on the first pile.",
+      "target": "diver-comms",
+      "title": "Report on the bottom to the supervisor",
+      "why": "The supervisor at the panel sees your gas and your depth but not you, and your voice is how the surface knows you arrived where the plan put you, that you are breathing easily and that you can see. The on-bottom report also starts the clock the decompression obligation will be read against, so it is made the moment you leave the stage, in plain words, and repeated back."
+    },
+    {
+      "cue": "Run a hand down the umbilical from the helmet to the harness: strain relief clipped to the harness ring, no turns round the stage bridle, slack enough to reach the work and no more.",
+      "holdBreakNote": "Let go before the check reached the harness — the part you skipped is the part that fouls. Start again from the helmet.",
+      "id": "umbilical-check",
+      "kind": "hold",
+      "prompt": "Run a hand down the umbilical from the helmet to the harness: strain relief clipped to the harness ring, no turns round the stage bridle, slack enough to reach the work and no more.",
+      "seconds": 4,
+      "target": "umbilical-harness",
+      "title": "Check your umbilical hand over hand to the harness",
+      "why": "The umbilical is the dive — gas, comms, pneumo and the line the tender recovers you on — and the strain relief on the harness is what makes a pull on it a pull on you rather than on the helmet's fittings. The check is done by hand on the bottom because the path it took from the stage is only visible to the diver who made it, and a turn round the stage bridle found now is a foul that never happens."
+    },
+    {
+      "cue": "Unclip the scraper from the stage rail on its lanyard and bring it to the band on the first pile.",
+      "drag": {
+        "missNote": "Not at the band — take the scraper to the marked band on the first pile, on its lanyard.",
+        "radius": 0.5,
+        "to": "pile-band"
+      },
+      "id": "scraper-down",
+      "kind": "drag",
+      "prompt": "Unclip the scraper from the stage rail on its lanyard and bring it to the band on the first pile.",
+      "target": "scraper",
+      "title": "Take the scraper off the stage to the pile",
+      "why": "Tools go down on the stage and come off it on a lanyard, because a tool dropped on the bottom under a pier is lost in the silt and a tool swinging free is a weight on the umbilical. Taken to the band on its lanyard, the scraper stays attached to you and to the work — and the stage stays where the plan put it, as the place you come back to."
+    },
+    {
+      "cue": "Look along the scraped band and down to the mudline: cracks, spalls, exposed rebar, rust staining, and any loss of section where the pile meets the silt.",
+      "id": "pile-one",
+      "itemNames": {
+        "section-loss": "section loss at the mudline",
+        "spall-rebar": "spall at the band with rebar exposed"
+      },
+      "itemNotes": {
+        "section-loss": "Just above the silt the pile has necked in where it meets the mudline — the zone where scour and abrasion take concrete away fastest, and where the pile's section is the one the engineer needs measured.",
+        "spall-rebar": "The concrete cover at the scraped band has spalled off in a patch with two bars of reinforcing steel exposed and rust-coloured — steel in seawater expands as it corrodes and pushes more cover off, so a spall grows."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look along the scraped band and down to the mudline: cracks, spalls, exposed rebar, rust staining, and any loss of section where the pile meets the silt.",
+      "targets": [
+        "spall-rebar",
+        "section-loss"
+      ],
+      "title": "Inspect the first pile at the band and the mudline",
+      "why": "A pier pile is inspected where it fails: in the splash and tidal zone where the cover spalls and the steel starts to rust, and at the mudline where scour and abrasion take the section away. Marine growth hides both, which is why a band is scraped clean; the inspection is what the engineer's rating of the pier is built on, so what the diver does not see is what the engineer does not know."
+    },
+    {
+      "cue": "Hold the pneumo hose's end at the spall while the supervisor bleeds it, and commit the reading against the depth the dive plan gives for this bent.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "PNEUMO AT DEFECT",
+        "missNote": "Outside the band — hold the pneumo's end still at the defect while the supervisor bleeds and reads it against the plan.",
+        "speed": 0.7
+      },
+      "id": "pneumo-depth",
+      "kind": "gauge",
+      "prompt": "Hold the pneumo hose's end at the spall while the supervisor bleeds it, and commit the reading against the depth the dive plan gives for this bent.",
+      "target": "pneumo-end",
+      "title": "Hold the pneumo at the defect and let the supervisor read it",
+      "why": "The defect's depth is recorded so the engineer can place it on the pile and so the next inspection can find it, and it is read on the pneumo at the defect rather than guessed from where the stage is. It also tells the supervisor where you are against the plan: working deeper than planned puts you on a different line of the tables the supervisor holds, and the surface needs to know that as it happens."
+    },
+    {
+      "cue": "Open the helmet's free-flow valve a part turn to clear the fogging off the faceplate for the close look, then close it back.",
+      "id": "clear-faceplate",
+      "kind": "turn",
+      "prompt": "Open the helmet's free-flow valve a part turn to clear the fogging off the faceplate for the close look, then close it back.",
+      "target": "free-flow-valve",
+      "title": "Crack the free-flow to clear the faceplate",
+      "turn": {
+        "label": "FREE-FLOW",
+        "turns": 0.5
+      },
+      "why": "A fogged faceplate is a diver working by feel beside exposed rebar, and the free-flow is how a demand helmet clears it: a part turn sends gas across the inside of the faceplate. It is opened only as far as needed and closed again, because the free-flow uses the supply much faster than breathing does, and the supervisor sees it on the panel as gas the dive plan did not count on."
+    },
+    {
+      "cue": "Set the caliper across the pile at the mudline necking and read the measurement up to the supervisor for the record.",
+      "id": "measure-section",
+      "kind": "select",
+      "prompt": "Set the caliper across the pile at the mudline necking and read the measurement up to the supervisor for the record.",
+      "target": "caliper",
+      "title": "Measure the remaining section with the caliper",
+      "why": "A description of section loss is not something an engineer can rate a pier on; a measurement is. The caliper across the pile at the worst section gives the number the engineer compares to the design, and reading it up to the supervisor immediately puts it in the record while you are still holding the caliper, rather than trusting it to memory through the rest of the dive."
+    },
+    {
+      "cue": "Scrape the band on the second pile steadily, pacing your breathing so the supervisor sees you steady on the supply — not racing the growth.",
+      "holdBreakNote": "The pace broke out of band — either racing and overbreathing, or stopped. Settle your breathing and take it up again steadily.",
+      "id": "clean-band",
+      "kind": "track",
+      "prompt": "Scrape the band on the second pile steadily, pacing your breathing so the supervisor sees you steady on the supply — not racing the growth.",
+      "seconds": 6,
+      "target": "band-two",
+      "title": "Clean the second pile's band at a pace your supply holds",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "BREATHING ON THE SUPPLY",
+        "rise": 0.56,
+        "start": 0.14
+      },
+      "why": "Scraping marine growth is heavy work, and a diver working hard breathes more gas than the supply was set for at rest: overbreathing a demand helmet feels like not getting a breath, which makes a diver work harder still. Pacing the work to the breathing keeps the gas within what the dive plan and the supervisor's panel allow, and a diver who is breathing hard tells the supervisor and stops rather than pushing through."
+    },
+    {
+      "cue": "Look along the jacket for splits and washed-out grout, and follow the cathodic protection lead from the pile to its anode on the silt.",
+      "id": "pile-two",
+      "itemNames": {
+        "anode-lead-broken": "broken lead between the pile and its anode",
+        "jacket-split": "split in the second pile's jacket"
+      },
+      "itemNotes": {
+        "anode-lead-broken": "The lead from the pile's steel to the sacrificial anode on the silt has parted: the anode is no longer protecting anything, and the pile's steel is corroding in its place.",
+        "jacket-split": "The fibreglass jacket round the second pile has split along a seam and the grout behind it is washing out — a jacket is protection only while it is whole."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look along the jacket for splits and washed-out grout, and follow the cathodic protection lead from the pile to its anode on the silt.",
+      "targets": [
+        "jacket-split",
+        "anode-lead-broken"
+      ],
+      "title": "Inspect the second pile's jacket and its anode lead",
+      "why": "A pile jacket and a sacrificial anode are both repairs that protect the pile only while they work, and they fail quietly: a split jacket lets the grout wash out and seawater back in, and a broken lead leaves the anode sitting on the silt protecting nothing. The inspection follows each to its end, because a repair that has failed looks, at a glance, exactly like one that is working."
+    },
+    {
+      "cue": "Place the scale bar flat against the spall first, then take the photograph square to it with the strobe.",
+      "id": "photograph",
+      "itemNames": {
+        "scale-bar": "scale bar placed against the defect",
+        "uw-camera": "photograph taken"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — the scale bar goes against the defect first, so the photograph has something to measure it by.",
+      "prompt": "Place the scale bar flat against the spall first, then take the photograph square to it with the strobe.",
+      "targets": [
+        "scale-bar",
+        "uw-camera"
+      ],
+      "title": "Photograph each defect against a scale",
+      "why": "A photograph without a scale in it cannot be measured, and the engineer reading the inspection needs to know whether the spall is the size of a hand or a door. The scale bar goes on first so every photograph has one, and the camera is held square to the surface so the scale reads true — the photographs are the part of the dive the engineer actually sees."
+    },
+    {
+      "cue": "Clip the tool bag back onto the stage rail so it goes up with you, nothing left on the bottom.",
+      "drag": {
+        "missNote": "Not on the stage — clip the bag to the stage rail so it comes up with you.",
+        "radius": 0.5,
+        "to": "stage-rail"
+      },
+      "id": "tools-up",
+      "kind": "drag",
+      "prompt": "Clip the tool bag back onto the stage rail so it goes up with you, nothing left on the bottom.",
+      "target": "tool-bag",
+      "title": "Send the tools back up on the stage",
+      "why": "Tools go back on the stage for the same reason they came down on it: nothing loose in the water column, nothing left on the bottom to foul the next diver's umbilical. A tool bag clipped to the stage comes up with the diver on the supervisor's ascent, and the tender does not have to haul a separate line past a diver doing decompression stops."
+    },
+    {
+      "cue": "Read your slate to the supervisor: pile, depth, the spall and the rebar, the section measured, the jacket split and the broken anode lead, the loose timber.",
+      "id": "findings-up",
+      "kind": "select",
+      "prompt": "Read your slate to the supervisor: pile, depth, the spall and the rebar, the section measured, the jacket split and the broken anode lead, the loose timber.",
+      "target": "diver-slate",
+      "title": "Read your findings up for the dive log",
+      "why": "The supervisor writes the dive log and the inspection record from what you read up, and it is read from the slate while you are still at the piles so anything unclear can be looked at again before you leave the bottom. The loose timber goes in as well, because the next diver on this pier will be working under it."
+    },
+    {
+      "cue": "Tell the supervisor you are on the stage and ready to leave the bottom, how you feel after the band and the current, and wait for the call.",
+      "id": "leave-bottom",
+      "kind": "select",
+      "prompt": "Tell the supervisor you are on the stage and ready to leave the bottom, how you feel after the band and the current, and wait for the call.",
+      "target": "diver-comms",
+      "title": "Check in and leave the bottom on the supervisor's call",
+      "why": "The ascent is the supervisor's: they read the obligation from the tables they hold and call the stage up and the stops. Your check-in tells them you are on the stage, clipped on and well — and it is also the diver's own chance to say how the dive was, the dead comms and the current included, which is what the member assistance line exists to hear if the debrief does not."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — the Pile Drivers of the Carpenters — with the employer's employee assistance line behind it",
+  "tagline": "On the bottom under the pier: on-bottom report to the supervisor, the umbilical checked hand over hand while the comms go dead, the scraper passed off the stage, the first pile's spall and section loss found, the pneumo read, the faceplate cleared, the section measured, the second pile's band cleaned at a breathing pace the supply can hold through a current shift, the jacket and anode lead found, the defects photographed against a scale, the tools sent up and the findings read up for the dive log",
+  "title": "SmartCiti.X~ Pier Pile Inspection Dive VR",
+  "trade": "Pile Drivers of the Carpenters commercial diver on a surface-supplied pier inspection dive, with the dive supervisor, the tender and the standby diver at the surface",
+  "underwater": {
+    "bottomTimeSeconds": 600,
+    "depthLabel": "Per dive plan"
+  },
+  "weather": "clear"
+}

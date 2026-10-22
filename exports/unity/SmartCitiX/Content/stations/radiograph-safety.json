@@ -1,0 +1,402 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "alara-certified",
+    "name": "ALARA Certified",
+    "note": "A full bitewing series taken with the selection criteria checked, the patient shielded, every exposure made from behind the barrier, and the log complete"
+  },
+  "category": "Dental & Oral Health",
+  "certification": "SEIU and UFCW dental and clinic staff; the ADHA's standards for clinical dental hygiene practice; the ADA/FDA's Dental Radiographic Examinations recommendations (selection criteria); the ALARA principle and California's Title 17 radiation control regulations; the Dental Hygiene Board of California's radiography permit; OSHA 29 CFR 1910.1030 and the CDC's Guidelines for Infection Control in Dental Health-Care Settings for the sensor barrier",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADA",
+        "citedAs": "ADA/FDA",
+        "id": "ada-radiographic-guidance",
+        "title": "American Dental Association and FDA guidance on prescribing dental radiographs"
+      },
+      {
+        "body": "ADHA",
+        "citedAs": "ADHA",
+        "id": "adha-standards",
+        "title": "ADHA Standards for Clinical Dental Hygiene Practice"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "union",
+        "citedAs": "UFCW",
+        "id": "ufcw-training",
+        "title": "UFCW member training for retail food, clinic and dental support work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Dental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "criteria-first",
+        "name": "Criteria First",
+        "note": "Selection criteria and the pregnancy question both answered clean"
+      },
+      {
+        "id": "never-in-the-beam",
+        "name": "Never in the Beam",
+        "note": "Every exposure made from behind the barrier, nothing skipped"
+      },
+      {
+        "id": "diagnostic-first-try",
+        "name": "Diagnostic First Try",
+        "note": "Exposure settings inside the tight band every time"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-series",
+        "name": "Clean Series",
+        "note": "No corrections anywhere in the series"
+      },
+      {
+        "id": "steady-hand",
+        "name": "Steady Hand",
+        "note": "Both timed holds carried clean without a break"
+      },
+      {
+        "id": "series-in-time",
+        "name": "Series in Time",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "mAs",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Radiography Trainee",
+      "Registered Operator",
+      "Series Lead",
+      "Radiation Safety Officer",
+      "Beam Discipline Certified"
+    ],
+    "system": "Beam Discipline"
+  },
+  "hazards": {
+    "fire-from-chairside": "You reached to trigger the exposure from beside the chair instead of from behind the barrier. Standing in the room during an exposure puts you in the scatter field on every image of every patient all day — the regulation's distance and angle exist because the dose that is trivial once is not trivial repeated hundreds of times a year.",
+    "reused-barrier": "That barrier sleeve already has a peeled tab — it was used on the last patient. A torn or reused barrier defeats the entire point of covering the sensor: it is there so the sensor that just sat in one patient's mouth is not the same surface that goes into the next one's.",
+    "skip-log": "You moved to the next view without logging the one you just took. California's Title 17 radiation control regulations require an exposure record for a reason: it is how an unusually high dose, a faulty timer or a pattern across patients ever gets noticed instead of disappearing into images nobody can trace back to a setting.",
+    "unshielded-exposure": "You reached for the exposure switch before the lead apron and thyroid collar were on the patient. Shielding is not optional weight on the chest — it is the difference between scatter absorbed by lead and scatter absorbed by thyroid tissue, and ALARA means every exposure the patient is not shielded for is one that was avoidable."
+  },
+  "id": "radiograph-safety",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "operator-position",
+      "alert": "The door opens and a parent walks straight toward the chair to comfort their child, crossing into the room while the exposure switch is still held down.",
+      "cue": "Somebody just walked into the field mid-exposure.",
+      "delay": 3,
+      "id": "parent-enters",
+      "kind": "Room breach during exposure",
+      "missNote": "You let the exposure run to completion with the parent standing in the room. Whatever the image came out like, an unplanned person just took scatter dose that ALARA exists specifically to prevent — the fix is stopping the exposure the instant it happens, not finishing it.",
+      "seconds": 10,
+      "target": "abort-exposure",
+      "why": "The barrier and the distance protect the operator, not a parent who did not know to stay out. The moment anyone else crosses into the room during an exposure, the correct response is to release the switch and stop the cycle, not to keep holding it because the count is almost done.",
+      "wrongNote": "It is the exposure switch. Release it and stop the cycle before anything else happens."
+    },
+    {
+      "after": "reseat-sensor",
+      "alert": "As you reseat the sensor for the next view, you notice the disposable barrier has a tear right over the cable boot.",
+      "cue": "That barrier is compromised, mid-series.",
+      "delay": 3,
+      "id": "torn-barrier-found",
+      "kind": "Equipment defect",
+      "missNote": "You kept going with a torn barrier over the sensor. The whole reason the sleeve exists is to keep the sensor's actual surface off the next thing it touches, and a tear at the exact point the sensor sees the most contact defeats that immediately.",
+      "seconds": 10,
+      "target": "barrier-box",
+      "why": "A tear at the cable boot means the sensor underneath is no longer actually covered, whatever the rest of the sleeve looks like. The series pauses, a fresh barrier goes on, and the exposure continues — a torn barrier is not something to note for later.",
+      "wrongNote": "It is the spare barrier box. Replace the torn sleeve before the next exposure, not after it."
+    }
+  ],
+  "lateNotes": {
+    "exposure-switch": "Nothing is ready to expose yet — the settings and the positioning come first, or this switch has nothing to fire correctly.",
+    "log-panel": "There is nothing to log until the exposure has actually been made."
+  },
+  "name": "Radiograph Safety",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "dental-hygiene-unspoken-smiles"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "abort-exposure",
+      "apron-removed",
+      "barrier-box",
+      "barrier-sleeve",
+      "bite-block-socket",
+      "criteria-panel",
+      "exposure-settings",
+      "exposure-switch",
+      "fire-from-chairside",
+      "image-check",
+      "lead-apron",
+      "log-panel",
+      "positioning-device",
+      "pregnancy-panel",
+      "reseat-sensor",
+      "reused-barrier",
+      "sensor-body",
+      "sensor-removed",
+      "skip-log",
+      "spare-barrier-box",
+      "thyroid-collar",
+      "tube-head-align",
+      "tube-parked",
+      "unshielded-exposure",
+      "view-molar-l",
+      "view-molar-r",
+      "view-pm-l"
+    ],
+    "meshes": 149
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Confirm why these images are needed now, against the chart and the last exposure date.",
+      "id": "criteria-panel",
+      "kind": "select",
+      "prompt": "Confirm why these images are needed now, against the chart and the last exposure date.",
+      "target": "criteria-panel",
+      "title": "Check the selection criteria",
+      "why": "The ADA/FDA's selection criteria exist so radiographs are ordered by clinical need and the interval since the last series, not by habit or by the calendar. A bitewing taken because it is \"time for x-rays\" rather than because something on the chart calls for it is a dose with no diagnostic question behind it."
+    },
+    {
+      "cue": "Ask the patient directly and record the answer before anything else proceeds.",
+      "id": "pregnancy-panel",
+      "kind": "select",
+      "prompt": "Ask the patient directly and record the answer before anything else proceeds.",
+      "target": "pregnancy-panel",
+      "title": "Ask and record the pregnancy question",
+      "why": "The question is asked every time, out loud, regardless of what an old chart says, because a status can change between visits and nobody downstream can act on an answer that was never recorded."
+    },
+    {
+      "cue": "Take a sealed barrier sleeve and cover the sensor before it touches this patient.",
+      "drag": {
+        "missNote": "Not seated on the sensor — the sleeve has to cover the whole body and the cable boot before it goes anywhere near a mouth.",
+        "radius": 0.35,
+        "to": "sensor-body"
+      },
+      "id": "barrier-sleeve",
+      "kind": "drag",
+      "prompt": "Take a sealed barrier sleeve and cover the sensor before it touches this patient.",
+      "target": "barrier-sleeve",
+      "title": "Fit a fresh barrier on the sensor",
+      "why": "The sensor is reused patient after patient; the barrier is the only thing that changes between them. A fresh, intact sleeve on this sensor for this patient is the whole of the infection-control claim the practice can make about digital sensors."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Drape the lead apron and the thyroid collar before the tubehead is aimed at anyone.",
+      "forceClass": "light",
+      "id": "shielding",
+      "itemNames": {
+        "lead-apron": "lead apron",
+        "thyroid-collar": "thyroid collar"
+      },
+      "kind": "sequence",
+      "prompt": "Drape the lead apron and the thyroid collar before the tubehead is aimed at anyone.",
+      "robotNote": "The apron and collar are laid on the patient rather than pressed, which is contact a robot may make.",
+      "targets": [
+        "lead-apron",
+        "thyroid-collar"
+      ],
+      "title": "Shield the patient",
+      "why": "The apron and collar are both worn on every patient for every exposure — the collar because the thyroid is one of the more radiosensitive tissues anywhere near the beam, and the apron because scatter does not stop at the collarbone."
+    },
+    {
+      "cue": "Fit the bitewing holder to the sensor and seat it against the teeth for this view.",
+      "drag": {
+        "missNote": "Not seated in the holder socket — the sensor has to sit square in the bite block before the tubehead is aimed at it.",
+        "radius": 0.4,
+        "to": "bite-block-socket"
+      },
+      "id": "positioning-device",
+      "kind": "drag",
+      "prompt": "Fit the bitewing holder to the sensor and seat it against the teeth for this view.",
+      "target": "positioning-device",
+      "title": "Attach the positioning device",
+      "why": "A positioning device holds the sensor parallel to the tooth and aims the beam through a fixed ring rather than through wherever the patient happens to be biting. Free-handing the sensor is how a series comes back needing to be retaken — another exposure that ALARA says should never have been necessary."
+    },
+    {
+      "cue": "Bring the cone square onto the positioning device's aiming ring.",
+      "forceClass": "light",
+      "id": "tube-head-align",
+      "kind": "turn",
+      "prompt": "Bring the cone square onto the positioning device's aiming ring.",
+      "robotNote": "The tubehead swings past the patient's face — inside the keep-out volume, under a light ceiling.",
+      "target": "tube-head-align",
+      "title": "Align the tubehead to the aiming ring",
+      "turn": {
+        "axis": "y",
+        "label": "TUBEHEAD ANGLE",
+        "turns": 0.3
+      },
+      "why": "The aiming ring on the positioning device is the target the cone has to be square to — off by even a few degrees and the beam either cone-cuts the image or elongates the teeth on it, and either one is a retake and another exposure."
+    },
+    {
+      "cue": "Dial the kV, mA and time to this patient's size and commit inside the band.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "kVp / mA / TIME",
+        "missNote": "Off the setting for this patient's size — too little underexposes and forces a retake, too much is dose with nothing gained.",
+        "speed": 0.62
+      },
+      "id": "exposure-settings",
+      "kind": "gauge",
+      "prompt": "Dial the kV, mA and time to this patient's size and commit inside the band.",
+      "target": "exposure-settings",
+      "title": "Set the exposure for this patient's size",
+      "why": "A child and a large adult do not take the same exposure, and the machine does not know which one is in the chair unless it is told. The right setting the first time is the one that produces a diagnostic image without a second exposure to get there."
+    },
+    {
+      "cue": "From behind the barrier, hold the exposure switch until the cycle completes.",
+      "holdBreakNote": "The switch was released before the cycle finished — the exposure is incomplete and the image will need retaking from the start.",
+      "id": "operator-position",
+      "kind": "hold",
+      "prompt": "From behind the barrier, hold the exposure switch until the cycle completes.",
+      "seconds": 5,
+      "target": "exposure-switch",
+      "title": "Expose from behind the barrier",
+      "why": "The exposure switch is a dead-man control on purpose — it fires only while held, and it is held from behind a barrier or at the distance and angle the regulation sets, because the operator taking this same exposure hundreds of times a year is the one ALARA is actually protecting."
+    },
+    {
+      "cue": "Review the image on the monitor before moving to the next view.",
+      "id": "image-check",
+      "kind": "select",
+      "prompt": "Review the image on the monitor before moving to the next view.",
+      "target": "image-check",
+      "title": "Check the image for diagnostic quality",
+      "why": "An image checked now, with the patient still positioned and the holder still in place, can be retaken in seconds. The same problem found after the patient has left the chair means calling them back for another exposure that a few seconds of review would have caught."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Take the right molar, left premolar and left molar bitewings — order doesn't matter.",
+      "forceClass": "light",
+      "id": "remaining-views",
+      "itemNames": {
+        "view-molar-l": "left molar bitewing",
+        "view-molar-r": "right molar bitewing",
+        "view-pm-l": "left premolar bitewing"
+      },
+      "kind": "sequence",
+      "noRobot": true,
+      "prompt": "Take the right molar, left premolar and left molar bitewings — order doesn't matter.",
+      "robotNote": "Every further view means the sensor was moved inside the mouth again.",
+      "targets": [
+        "view-molar-r",
+        "view-pm-l",
+        "view-molar-l"
+      ],
+      "title": "Complete the remaining views",
+      "why": "A bitewing series is four views because no single image shows every interproximal contact in the mouth; skipping one to save an exposure just moves the missed decay past the point this series exists to catch it."
+    },
+    {
+      "cue": "Hold the holder steady while you reseat the sensor against the next arch.",
+      "forceClass": "light",
+      "holdBreakNote": "The holder slipped before the sensor was properly seated — steady it fully before the next exposure.",
+      "id": "reseat-sensor",
+      "kind": "hold",
+      "noRobot": true,
+      "prompt": "Hold the holder steady while you reseat the sensor against the next arch.",
+      "robotNote": "Intraoral: the sensor is seated in the mouth, between the teeth and the tongue.",
+      "seconds": 5,
+      "target": "reseat-sensor",
+      "title": "Reposition the sensor for the next view",
+      "why": "A sensor that moves while it is being reseated is a retake in the making — holding the holder steady until it is genuinely seated is what keeps the next exposure diagnostic on the first try instead of the second."
+    },
+    {
+      "cue": "Record the view, the settings and the count on the exposure log.",
+      "id": "log-exposure",
+      "kind": "select",
+      "prompt": "Record the view, the settings and the count on the exposure log.",
+      "target": "log-panel",
+      "title": "Log the exposure",
+      "why": "The log is the only record that ties a dose to a patient, a date and a setting. Without it, a machine drifting out of calibration or a pattern of repeat exposures on one operator has nothing for anyone to notice it in."
+    },
+    {
+      "cue": "Three things need to be true before this patient leaves the chair — find them.",
+      "decoyNotes": {
+        "spare-barrier-box": "The spare barrier box is exactly where it should be — leave it stocked for the next patient."
+      },
+      "forceClass": "light",
+      "id": "close-out",
+      "itemNames": {
+        "apron-removed": "lead apron and collar off and hung",
+        "sensor-removed": "sensor out of the patient's mouth",
+        "tube-parked": "tubehead returned to its parked position"
+      },
+      "itemNotes": {
+        "apron-removed": "Left on the patient, the apron becomes dead weight on someone about to be reclined for the rest of the visit.",
+        "sensor-removed": "A sensor still seated after the last exposure is a cable and a holder the patient is now sitting on, not a finished series.",
+        "tube-parked": "A tubehead left extended over the chair is the next hygienist's forehead — it is parked the same way every time for exactly that reason."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things need to be true before this patient leaves the chair — find them.",
+      "robotNote": "Lifting the apron back off the patient is the last contact of the appointment.",
+      "targets": [
+        "apron-removed",
+        "sensor-removed",
+        "tube-parked"
+      ],
+      "title": "Walk the room before releasing the patient",
+      "why": "A series that scores as complete but leaves the sensor in the patient's mouth or the tubehead parked over their face is not actually finished — the room is left the way the next exposure, on the next patient, needs it to be."
+    }
+  ],
+  "supportLine": "the ADHA's member resources, or your employer's employee assistance program if the dose questions are following you home",
+  "tagline": "A bitewing series under ALARA: selection criteria, shielding, positioning, the operator behind the barrier, exposure only with the room clear, and every image logged",
+  "title": "SmartCiti.X~ Radiograph Safety VR",
+  "trade": "Dental hygienist — radiographer",
+  "underwater": null,
+  "weather": null
+}

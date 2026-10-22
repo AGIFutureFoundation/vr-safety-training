@@ -1,0 +1,414 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "wall-sealed-clean",
+    "name": "Wall Sealed Clean",
+    "note": "A wall waterproofed to coverage and boarded before backfill, with the trench edge, the heater and the air all answered for"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "OSHA 29 CFR 1926 Subpart P Excavations for the protective system, the barricade and the ladder access; 29 CFR 1926.1053 for the ladder itself; NFPA 51B for the small heater warming the hot material; NRCA and URW below-grade waterproofing practice; Roofers Local 40 apprenticeship and training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 51B",
+        "id": "nfpa-51b",
+        "title": "NFPA 51B — Fire Prevention During Welding, Cutting and Other Hot Work"
+      },
+      {
+        "body": "NRCA",
+        "citedAs": "NRCA",
+        "id": "nrca-roofing-practices",
+        "title": "National Roofing Contractors Association — roofing and waterproofing application, safety and quality practices"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.1053",
+        "id": "osha-1926-1053",
+        "title": "29 CFR 1926.1053 — Ladders"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926 Subpart P Excavations",
+        "id": "osha-1926-subpart-p",
+        "title": "OSHA 29 CFR 1926 Subpart P Excavations"
+      },
+      {
+        "body": "union",
+        "citedAs": "Roofers Local 40",
+        "id": "roofers-local-40-training",
+        "title": "Roofers Local 40 — United Union of Roofers, Waterproofers and Allied Workers apprenticeship and training"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction & Structural Trades",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "plan-first",
+        "name": "Plan First",
+        "note": "The excavation plan read before the ladder was ever climbed"
+      },
+      {
+        "id": "steady-wall",
+        "name": "Steady Wall",
+        "note": "The wall was mopped without a break in pace"
+      },
+      {
+        "id": "never-past-the-barricade",
+        "name": "Never Past The Barricade",
+        "note": "No step past the spoil pile edge, no primer left open, no board carried across the wind"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-wall",
+        "name": "Clean Wall",
+        "note": "No corrections anywhere on this run"
+      },
+      {
+        "id": "on-the-mil",
+        "name": "On The Mil",
+        "note": "The coverage reading committed inside the band first time"
+      },
+      {
+        "id": "wall-closed",
+        "name": "Wall Closed",
+        "note": "Logged inside 80% of par"
+      }
+    ],
+    "currency": "SEAL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice",
+      "Wall Hand",
+      "Membrane Runner",
+      "Lead Waterproofer",
+      "Below-Grade Certified"
+    ],
+    "system": "Trench Run"
+  },
+  "hazards": {
+    "board-catch-wind": "You are about to carry the drainage board flat across the gust coming over the spoil pile. A board this wide and this light catches wind exactly like an unclipped roof panel does, and a gust that gets under it at the top of a ladder access can as easily pull a person off balance as take the board out of their hands.",
+    "hot-material-splash": "You are reaching toward the heated pot of rubberized asphalt without your gauntlets on. This material is held well above a temperature that burns skin on contact, the same as a roofing kettle's brew, and it is handled with the same rule — gauntlets and a face shield on before a hand goes anywhere near it.",
+    "primer-fumes-pooling": "The primer can is open at the bottom of the trench, and its solvent vapour has nowhere to go in a space this low and this still — it pools instead of dispersing, exactly the way a low corner behind a parapet does, only worse, because a trench does not have an open side for the wind to reach. It is capped between uses, every time.",
+    "trench-edge-no-barrier": "You are about to step past the stretch of spoil-pile edge with no barricade up. 29 CFR 1926 Subpart P treats the lip of an open excavation as an edge people can go over just as surely as a roof edge, and a barricade around it is what stops a person walking backward with a hose or a roll of membrane from finding that out the hard way."
+  },
+  "id": "rf-below-grade-waterproofing-and-drainage-board",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "board-place",
+      "alert": "A gust catches the next drainage board staged at grade, and it starts sliding flat toward the open trench edge.",
+      "cue": "Get to grade and set the board down flat before it slides over the edge onto anyone below.",
+      "delay": 2,
+      "id": "gust-catches-board",
+      "kind": "Gust catches a board at grade",
+      "missNote": "The board slid over the spoil-pile edge and dropped into the trench, missing the wall by less than its own width.",
+      "seconds": 14,
+      "target": "board-flat",
+      "why": "A board sliding toward an open trench edge is a falling-object hazard for whoever is working at the bottom of it, which is exactly why boards are staged flat and weighted rather than left to lean where a gust can pick them up — setting it down flat the moment it starts moving is the fastest way to take the wind's leverage away from it.",
+      "wrongNote": "That does not stop a sliding board. Get to it and set it down flat before it reaches the edge."
+    },
+    {
+      "after": "wall-mop",
+      "alert": "The waterproofer working the far end of the wall radios that the primer smell has gotten strong enough to make their eyes water.",
+      "cue": "Cap the open primer can that is pooling fumes at this end of the trench.",
+      "delay": 3,
+      "id": "fumes-in-trench",
+      "kind": "Worker below reports fumes",
+      "missNote": "The can stayed open and the fumes kept building at the far end of the trench until the other waterproofer had to climb out to clear their head.",
+      "seconds": 14,
+      "target": "primer-can",
+      "why": "A trench holds still air the way a low corner behind a parapet does, only more completely, and solvent vapour from an open can has nowhere to go but into whatever the two of you are both breathing down there. Capping it is the only thing that stops adding to what has already pooled.",
+      "wrongNote": "Not that. Cap the primer can that is filling the trench with fumes."
+    }
+  ],
+  "lateNotes": {
+    "coverage-mil": "Coverage is read once the wall has actually been mopped — there is nothing to check yet.",
+    "heater-valve": "The heater is not lit until the plan, the wall and the trench air have all been checked — not before.",
+    "log-board": "The log is written once the wall has been walked for gaps, not before."
+  },
+  "name": "Below-Grade Waterproofing & Drainage Board",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "roofers-and-waterproofers"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "air-monitor",
+      "barricade",
+      "board-catch-wind",
+      "board-flat",
+      "board-seam-open",
+      "coverage-mil",
+      "damp-wall-spot",
+      "drainage-board",
+      "drainage-board-seat",
+      "gap-in-coverage",
+      "heater-valve",
+      "hot-material-splash",
+      "ladder",
+      "log-board",
+      "membrane-roll",
+      "moisture-meter",
+      "mop-wand",
+      "plan-board",
+      "primer-can",
+      "primer-fumes-pooling",
+      "radio",
+      "torn-roll",
+      "trench-edge-no-barrier",
+      "wall-line"
+    ],
+    "meshes": 157
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the plan: the protective system for this trench, the barricade line, the ladder access, and the waterproofing coverage specified for the wall.",
+      "id": "excavation-plan",
+      "kind": "select",
+      "prompt": "Read the plan: the protective system for this trench, the barricade line, the ladder access, and the waterproofing coverage specified for the wall.",
+      "target": "plan-board",
+      "title": "Read the excavation and waterproofing plan",
+      "why": "29 CFR 1926 Subpart P puts the protective system, the spoil setback and the access into one plan the competent person has already worked out, and it is read before anyone climbs down rather than assumed from how the trench looked yesterday — soil moves, and what held the wall open yesterday is not a guarantee about today."
+    },
+    {
+      "cue": "Confirm the barricade is up around the open edge, then climb down the ladder into the trench facing it, hands on the rails.",
+      "id": "trench-access",
+      "itemNames": {
+        "barricade": "barricade confirmed up around the spoil-pile edge",
+        "ladder": "ladder climbed down into the trench"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Barricade first — the edge is protected before anyone climbs down into a trench it is supposed to be guarding.",
+      "prompt": "Confirm the barricade is up around the open edge, then climb down the ladder into the trench facing it, hands on the rails.",
+      "targets": [
+        "barricade",
+        "ladder"
+      ],
+      "title": "Confirm the barricade, then climb down",
+      "why": "The barricade protects the edge for everyone walking at grade, and it is confirmed before anyone's attention goes underground with them — a barricade checked after the climb is a barricade that has already had a chance to fail unnoticed. 29 CFR 1926.1053 wants the ladder climbed with both hands free the whole way down."
+    },
+    {
+      "cue": "Check the membrane rolls for damage and run a hand over the wall's surface, looking for anywhere still damp.",
+      "id": "wall-inspect",
+      "itemNames": {
+        "damp-wall-spot": "a damp patch on the foundation wall",
+        "torn-roll": "a torn membrane roll on the stack"
+      },
+      "itemNotes": {
+        "damp-wall-spot": "A patch of the wall is still visibly damp from yesterday's rain. Hot rubberized asphalt applied over damp concrete does not bond to it — it bonds to a thin film of water instead, and that film is exactly what lets the whole patch peel off the wall the first time the backfill settles.",
+        "torn-roll": "One roll on the stack has a split down its core wrap, torn in handling — rolled out anyway, that split becomes a hole in the waterproofing exactly where nobody was looking for one."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the membrane rolls for damage and run a hand over the wall's surface, looking for anywhere still damp.",
+      "targets": [
+        "torn-roll",
+        "damp-wall-spot"
+      ],
+      "title": "Inspect the membrane stock and the wall before mopping",
+      "why": "A torn roll and a damp wall both fail the same way — invisibly, until the waterproofing they were part of lets water through years after the backfill has gone back in and nobody can see the wall to check either one again."
+    },
+    {
+      "cue": "Read the moisture meter against the wall and commit only once it sits under the manufacturer's application threshold.",
+      "gauge": {
+        "green": [
+          0.1,
+          0.4
+        ],
+        "label": "WALL MOISTURE",
+        "missNote": "Above the manufacturer's threshold. Let the wall dry further and read it again before priming.",
+        "speed": 0.55
+      },
+      "id": "wall-moisture",
+      "kind": "gauge",
+      "prompt": "Read the moisture meter against the wall and commit only once it sits under the manufacturer's application threshold.",
+      "target": "moisture-meter",
+      "title": "Check the wall's moisture content before priming",
+      "why": "A concrete wall that reads dry to the touch can still be carrying moisture just under its surface, and the manufacturer's threshold exists because that hidden moisture is exactly what keeps a primer or a hot-applied membrane from ever actually bonding to the substrate underneath it."
+    },
+    {
+      "cue": "Read the air monitor at the bottom of the trench before settling in to mop the wall.",
+      "id": "atmosphere-check",
+      "kind": "select",
+      "prompt": "Read the air monitor at the bottom of the trench before settling in to mop the wall.",
+      "target": "air-monitor",
+      "title": "Test the trench air before working it for long",
+      "why": "A trench this deep does not move air the way open ground does, and solvent primer or an idling heater can both add to what is already sitting still down there. Testing it before committing to a long stretch of work is what turns a trench into a checked space rather than an assumed one."
+    },
+    {
+      "cue": "Carry the roll down the ladder access and set it at the wall, keeping it low and out of the gust crossing the top of the trench.",
+      "drag": {
+        "missNote": "Not at the wall. Carry the roll all the way down to the wall line before letting go.",
+        "radius": 0.55,
+        "to": "wall-line"
+      },
+      "id": "membrane-carry",
+      "kind": "drag",
+      "prompt": "Carry the roll down the ladder access and set it at the wall, keeping it low and out of the gust crossing the top of the trench.",
+      "target": "membrane-roll",
+      "title": "Bring the membrane roll down out of the wind",
+      "why": "A roll carried high across the top of an open trench is exactly where a gust reaches it hardest, and a dropped roll of membrane into a trench with a waterproofer already at the bottom is a falling-object hazard on top of the wind hazard. Kept low and carried down deliberately, it never becomes either."
+    },
+    {
+      "cue": "Open the heater's fuel valve and light it once the pot is in place and clear of anything that could catch.",
+      "id": "heater-valve",
+      "kind": "turn",
+      "prompt": "Open the heater's fuel valve and light it once the pot is in place and clear of anything that could catch.",
+      "target": "heater-valve",
+      "title": "Light the heater warming the hot material",
+      "turn": {
+        "axis": "z",
+        "label": "HEATER VALVE",
+        "turns": 0.4
+      },
+      "why": "The heater is a small open flame doing the same job a kettle's burner does, warming material well above a temperature that burns — NFPA 51B's open-flame logic applies here at the scale of a trench just as it does to a roof: clear the area, then light it, not the other way round."
+    },
+    {
+      "cue": "Spread the hot rubberized asphalt up the wall at a steady pace — too slow cools before the next lift, too fast starves the coverage.",
+      "holdBreakNote": "The sweep broke out of the steady band. Bring the wand back to a steady pace before the material cools unevenly.",
+      "id": "wall-mop",
+      "kind": "track",
+      "prompt": "Spread the hot rubberized asphalt up the wall at a steady pace — too slow cools before the next lift, too fast starves the coverage.",
+      "seconds": 6,
+      "target": "mop-wand",
+      "title": "Mop the wall at a steady pace",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.42,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "MOP SWEEP RATE",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "Hot rubberized asphalt only bonds and seals while it is still hot and evenly spread, and a wall mopped too slowly cools into ridges before the next lift goes over it, while one mopped too fast leaves thin patches that never reach the specified thickness. A steady pace keeps the whole wall at the coverage the specification calls for."
+    },
+    {
+      "cue": "Press the wet-film gauge into the fresh membrane and commit once the reading sits inside the specification's thickness band.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "WET FILM THICKNESS",
+        "missNote": "Off the specification's thickness band. Mop the light patch again before it skins over.",
+        "speed": 0.55
+      },
+      "id": "coverage-mil",
+      "kind": "gauge",
+      "prompt": "Press the wet-film gauge into the fresh membrane and commit once the reading sits inside the specification's thickness band.",
+      "target": "coverage-mil",
+      "title": "Check the wet film coverage on the wall",
+      "why": "A wall that looks fully coated can still be thin in patches, and a thin patch of below-grade waterproofing is invisible from the day the backfill goes in until the day water finds it from the inside. The gauge is what turns 'looks coated' into a thickness the specification can actually stand behind."
+    },
+    {
+      "cue": "Carry the board down to the wall while the membrane is still tacky enough to take it.",
+      "drag": {
+        "missNote": "Not at the wall. Carry the board all the way down while the membrane is still tacky.",
+        "radius": 0.55,
+        "to": "wall-line"
+      },
+      "id": "board-place",
+      "kind": "drag",
+      "prompt": "Carry the board down to the wall while the membrane is still tacky enough to take it.",
+      "target": "drainage-board",
+      "title": "Bring the drainage board to the fresh membrane",
+      "why": "Drainage board only presses into a membrane that is still tacky — set against a wall that has already skinned over, it just leans there loose, ready to slide the moment the backfill starts going in around it."
+    },
+    {
+      "cue": "Press the board flat against the fresh membrane and hold it there until it has taken.",
+      "holdBreakNote": "The board came off before the membrane had taken it — press it back on and hold a little longer.",
+      "id": "board-seat",
+      "kind": "hold",
+      "prompt": "Press the board flat against the fresh membrane and hold it there until it has taken.",
+      "seconds": 4,
+      "target": "drainage-board-seat",
+      "title": "Press and hold the board into the membrane",
+      "why": "A board pressed on and released immediately can spring back off a membrane that has not quite grabbed it yet, leaving a gap between the board and the wall that becomes a channel for water to travel down instead of the drainage plane it was installed to be. Held until it has actually taken, it stays where it was pressed."
+    },
+    {
+      "cue": "Walk the wall against the plan: find the stretch of membrane that never got mopped and the board seam that was never closed.",
+      "id": "wall-walk",
+      "itemNames": {
+        "board-seam-open": "a drainage board seam left open",
+        "gap-in-coverage": "a gap in the membrane coverage"
+      },
+      "itemNotes": {
+        "board-seam-open": "Two boards meet here without their seam taped or overlapped — water will find the open seam and run behind the board instead of down it, straight back to the wall it was installed to protect.",
+        "gap-in-coverage": "A hand-width of the wall was never mopped — it will not show as a leak until the backfill has settled around it and the wall is no longer visible to fix."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the wall against the plan: find the stretch of membrane that never got mopped and the board seam that was never closed.",
+      "targets": [
+        "gap-in-coverage",
+        "board-seam-open"
+      ],
+      "title": "Walk the finished wall for what the plan says should already be closed",
+      "why": "Once the backfill goes back in, this wall is not visible again for the life of the building, which makes the walk-round with the plan in hand the last real chance to catch a skipped patch or an open seam before it becomes a foundation leak years from now."
+    },
+    {
+      "cue": "Write the torn roll discarded, the damp patch dried and mopped, the gap closed, and the coverage readings into the log.",
+      "id": "log-board",
+      "kind": "select",
+      "prompt": "Write the torn roll discarded, the damp patch dried and mopped, the gap closed, and the coverage readings into the log.",
+      "target": "log-board",
+      "title": "Log the wall, the finds and the coverage",
+      "why": "This wall disappears behind backfill the same day it is finished, so the log is the only record anyone will ever have of what actually went onto it — the next engineer who has to explain a leak reads this log before they ever get a shovel near the wall again."
+    },
+    {
+      "cue": "Radio the spotter watching the trench from grade: the wall is boarded, the plan is closed out, and name the support line.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Radio the spotter watching the trench from grade: the wall is boarded, the plan is closed out, and name the support line.",
+      "target": "radio",
+      "title": "Check in with the spotter at grade",
+      "why": "Nobody working alone at the bottom of an open trench should be out of contact with someone at grade, and a short check-in when the wall is finished is what lets the spotter stand down knowing the person they have been watching all shift is on their way back up the ladder."
+    }
+  ],
+  "supportLine": "Roofers Local 40's member assistance programme, or your contractor's employee assistance line",
+  "tagline": "The excavation plan read, the barricade confirmed and the ladder climbed, a torn roll and a damp patch on the wall found, the wall's moisture checked, the trench air tested, the membrane brought down out of the wind, the heater lit, the wall mopped at a steady rate and its coverage checked, the drainage board pressed in and held, the wall walked for gaps, the day logged, with a gust catching a board at grade and a second worker calling up about fumes pooling below along the way",
+  "title": "SmartCiti.X~ Below-Grade Waterproofing & Drainage Board VR",
+  "trade": "Waterproofer applying hot rubberized-asphalt waterproofing and drainage board to a foundation wall inside an open excavation",
+  "underwater": null,
+  "weather": "wind"
+}

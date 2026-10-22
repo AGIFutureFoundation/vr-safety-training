@@ -1,0 +1,474 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "ride-along-clean",
+    "name": "Ride-Along Clean",
+    "note": "PPE checked in order, the pre-trip found clean, both legs driven at walking pace with the horn sounded and the crossings answered, and the truck squared away"
+  },
+  "category": "Mobility & Transit",
+  "certification": "OSHA 29 CFR 1910.178 powered industrial trucks, which covers motorized hand trucks and requires operator training and evaluation under paragraph (l); ANSI/ITSDF B56.1 for low-lift trucks like the walkie pallet jack this ride-along is driven on; 29 CFR 1910.22 walking-working surfaces for the aisles and the pedestrian lane a ride-along shares with everyone else on the floor; the Revised NIOSH Lifting Equation for the hand work around the pallet; ANSI/ISEA 107 for the high-visibility vest a ride-along wears from the first step onto the floor; Teamsters (IBT) warehouse locals' powered-truck training programmes, which this ride-along day is a first taste of",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI/ISEA 107",
+        "id": "ansi-isea-107",
+        "title": "ANSI/ISEA 107 — High-visibility safety apparel and accessories"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "Revised NIOSH Lifting Equation",
+        "id": "niosh-lifting-equation",
+        "title": "Revised NIOSH Lifting Equation and its Applications Manual — recommended weight limit and lifting index for two-handed manual lifting"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.178",
+        "id": "osha-1910-178",
+        "title": "29 CFR 1910.178 — Powered industrial trucks"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.22",
+        "id": "osha-1910-22",
+        "title": "29 CFR 1910.22 — Walking-working surfaces, general requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBT",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Warehouse & Distribution",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-pretrip",
+        "name": "Clean Pre-Trip",
+        "note": "The pre-trip defects found without a hint"
+      },
+      {
+        "id": "off-the-forks",
+        "name": "Off The Forks",
+        "note": "Never rode the forks, blocked the exit, wore headphones on the floor or looked at a phone mid-instruction"
+      },
+      {
+        "id": "steady-legs",
+        "name": "Steady Legs",
+        "note": "Both driven legs held in lane and band the whole way"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "No corrections anywhere on the floor"
+      },
+      {
+        "id": "honest-comfort",
+        "name": "Honest Comfort",
+        "note": "The comfort gauge committed near the middle of the band"
+      },
+      {
+        "id": "full-shift-pace",
+        "name": "Full-Shift Pace",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "AISLE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Sideline",
+      "PPE Checked",
+      "Route Driven",
+      "Load Set",
+      "Ride-Along Certified"
+    ],
+    "system": "Floor Ride-Along"
+  },
+  "hazards": {
+    "wp-wr-blocked-exit": "Pallets from the last shift have been stacked in front of the marked emergency exit at the end of this aisle. An exit blocked even for an afternoon is an exit nobody can use in the ninety seconds a real fire gives a floor to clear — the pallets get moved before anything else, not left for the next shift to notice.",
+    "wp-wr-headphones": "You were about to put your own earbuds in for the walk down the aisle. A ride-along floor runs forklifts and jacks on the same aisles pedestrians use, and the horn and a shouted warning are the only signal that reaches you round a blind rack corner — earbuds in is exactly how a warning goes unheard on a first day.",
+    "wp-wr-phone-distraction": "Your phone buzzed and you were about to check it while the supervisor was mid-sentence pointing out the aisle's cross traffic. A missed instruction on a live floor is not a missed text message — it is the one thing that was going to keep you clear of the forklift lane a minute later. The phone waits until you are off the floor.",
+    "wp-wr-ride-forks": "You were about to step onto the forks to ride the jack down the aisle instead of walking it. A walkie truck is built for an operator walking at the tiller, in front of the load, where the brakes and the deadman arc both assume your feet are on the floor — riding the forks puts your heels over the drive wheel and the rack corner both."
+  },
+  "id": "wp-warehouse-ride-along",
+  "indoor": "garage",
+  "interrupts": [
+    {
+      "after": "leg-one",
+      "alert": "A forklift carrying a raised load pulls out of the cross aisle directly ahead, crossing your path.",
+      "cue": "Stop.",
+      "delay": 3,
+      "id": "wp-wr-forklift-cross",
+      "kind": "Forklift crossing the aisle",
+      "missNote": "You kept the jack moving with the forklift crossing ahead, and in the version where you did, the forklift driver never saw the jack until the loads were already sharing the same six feet of aisle.",
+      "seconds": 10,
+      "target": "wp-wr-tiller-brake",
+      "why": "A forklift with a raised load has a blind spot in front of it that grows with the height of the load, and the driver may not see a walkie jack approaching from the side at all. Stopping and letting it clear is the only answer — nothing about right-of-way matters next to a load that could come off the forks.",
+      "wrongNote": "It is the tiller brake. A forklift with a raised load is crossing right in front of you — everything stops until it clears."
+    },
+    {
+      "after": "raise-hold",
+      "alert": "A coworker has walked up close to the raised pallet to ask you a question, well inside the load's swing radius.",
+      "cue": "Sound the horn and wave them back before you answer.",
+      "delay": 3,
+      "id": "wp-wr-pedestrian-near-load",
+      "kind": "Pedestrian walks up to the raised load",
+      "missNote": "You answered the question with the load still up and someone standing beside it, and in the version where the pallet shifted as you moved off, they were exactly where it would have come down.",
+      "seconds": 10,
+      "target": "wp-wr-horn",
+      "why": "A raised load can shift or drop the moment it is moved, and anyone standing inside its swing radius when that happens has no time to react — the horn and a wave back is the whole answer, said before the question, not after the load has already been made to wait for a conversation.",
+      "wrongNote": "Not the lift button. The horn is what moves them back — sound that first, then answer."
+    }
+  ],
+  "lateNotes": {
+    "wp-wr-park-forks": "Not yet. The truck is parked once the load is actually set in its bay — not before the route is finished.",
+    "wp-wr-ridealong-log": "The log closes out the day last, with what the supervisor actually said in the debrief."
+  },
+  "name": "Warehouse Ride-Along Day",
+  "parSeconds": 340,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "wp-wr-blocked-exit",
+      "wp-wr-blocked-flue",
+      "wp-wr-blocked-lane",
+      "wp-wr-comfort-dial",
+      "wp-wr-damaged-pallet",
+      "wp-wr-floor-bay",
+      "wp-wr-headphones",
+      "wp-wr-horn",
+      "wp-wr-jack",
+      "wp-wr-lift-button",
+      "wp-wr-loose-cover",
+      "wp-wr-pallet",
+      "wp-wr-park-forks",
+      "wp-wr-park-key",
+      "wp-wr-pedestrian-ahead",
+      "wp-wr-phone-distraction",
+      "wp-wr-ppe-boots",
+      "wp-wr-ppe-glasses",
+      "wp-wr-ppe-vest",
+      "wp-wr-ride-forks",
+      "wp-wr-ridealong-log",
+      "wp-wr-route-card",
+      "wp-wr-signin-board",
+      "wp-wr-supervisor",
+      "wp-wr-tiller",
+      "wp-wr-tiller-brake",
+      "wp-wr-worn-wheel"
+    ],
+    "meshes": 161
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "drive",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Sign in at the floor board and confirm today's assignment with the supervisor.",
+      "id": "report-in",
+      "kind": "select",
+      "prompt": "Sign in at the floor board and confirm today's assignment with the supervisor.",
+      "target": "wp-wr-signin-board",
+      "title": "Report to the supervisor",
+      "why": "A ride-along starts with the supervisor knowing exactly who is on the floor and for how long, because everyone else driving a truck or pushing a cart down these aisles is planning around who they expect to see there. Signing in is also the same habit every real shift starts with — the floor board is never skipped, ride-along or not."
+    },
+    {
+      "cue": "Vest, then boots, then glasses — in that order, before you cross the yellow line.",
+      "id": "ppe-check",
+      "itemNames": {
+        "wp-wr-ppe-boots": "steel-toe boots on",
+        "wp-wr-ppe-glasses": "safety glasses on",
+        "wp-wr-ppe-vest": "high-visibility vest on"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Vest, then boots, then glasses — the vest goes on first because it is what makes you visible to every truck on the floor from the moment you step past the line, before the boots and glasses that protect you once you are actually working.",
+      "prompt": "Vest, then boots, then glasses — in that order, before you cross the yellow line.",
+      "targets": [
+        "wp-wr-ppe-vest",
+        "wp-wr-ppe-boots",
+        "wp-wr-ppe-glasses"
+      ],
+      "title": "Put on PPE in the order the floor expects",
+      "why": "ANSI/ISEA 107 is why the vest goes on first: a forklift operator's first read of the floor is who is wearing high-vis, and that has to be true the second you cross the line, not once you happen to get around to it. Boots and glasses protect you once you are working; the vest protects you the whole time you are simply present."
+    },
+    {
+      "cue": "Hold at the route card and read where you are going, what you are carrying, and where the forklift lane crosses it.",
+      "holdBreakNote": "You left the card before the forklift-crossing line. That is the one detail the whole route depends on — read it through.",
+      "id": "route-briefing",
+      "kind": "hold",
+      "prompt": "Hold at the route card and read where you are going, what you are carrying, and where the forklift lane crosses it.",
+      "seconds": 6,
+      "target": "wp-wr-route-card",
+      "title": "Read the route briefing with the supervisor",
+      "why": "The supervisor's briefing names the one thing a first-day ride-along cannot guess on its own: where this warehouse's forklift traffic actually crosses the pedestrian route, which is different in every building and is exactly where a first-day incident happens. Reading it fully, with the supervisor still standing there to answer a question, is what the rest of the day is built on."
+    },
+    {
+      "cue": "Walk the jack with the supervisor watching. Find what needs fixing before it moves.",
+      "id": "pretrip-check",
+      "itemNames": {
+        "wp-wr-blocked-lane": "cartons left in the pedestrian lane",
+        "wp-wr-loose-cover": "the loose battery cover",
+        "wp-wr-worn-wheel": "the worn load wheel"
+      },
+      "itemNotes": {
+        "wp-wr-blocked-lane": "Cartons sitting across the painted pedestrian lane push foot traffic into the truck aisle instead of around it — they get moved before the route starts, not stepped over.",
+        "wp-wr-loose-cover": "A battery cover that is not latched can shift and expose the terminals to a dropped tool or a stray hand. It gets closed and latched before the key turns.",
+        "wp-wr-worn-wheel": "A visibly worn load wheel drags and can jump a floor joint with a load on it — it gets tagged before the truck goes anywhere."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the jack with the supervisor watching. Find what needs fixing before it moves.",
+      "targets": [
+        "wp-wr-worn-wheel",
+        "wp-wr-loose-cover",
+        "wp-wr-blocked-lane"
+      ],
+      "title": "Pre-trip the truck before you touch the controls",
+      "why": "A ride-along's pre-trip is watched by the same eyes that would catch a real defect on a real shift, and finding all three here — before the key turns — is the habit the rest of the apprenticeship is built on. A truck taken out on a defect the operator saw and drove anyway is the story behind most of the incidents this checklist exists to prevent."
+    },
+    {
+      "cue": "Walk the jack forward at walking pace, sounding the horn as you approach the first cross aisle.",
+      "drive": {
+        "bandLabel": "walking pace",
+        "checkWindow": 1,
+        "checks": [
+          {
+            "at": 1,
+            "kind": "horn",
+            "note": "Horn at the cross aisle — your view is blocked both ways here, and the horn is the only warning that reaches round the rack."
+          }
+        ],
+        "controls": {
+          "brake": "wp-wr-tiller-brake"
+        },
+        "graceSeconds": 1.8,
+        "laneNote": "You left the aisle and stayed out. On a live floor that is either the forklift lane or the racking upright.",
+        "laneWidth": 1.2,
+        "path": [
+          [
+            0,
+            3.2
+          ],
+          [
+            0,
+            1.6
+          ],
+          [
+            0,
+            0.4
+          ]
+        ],
+        "sceneRate": 0.2,
+        "speedBand": [
+          2,
+          6
+        ]
+      },
+      "holdBreakNote": "Out of the lane or the band. Settle back to walking pace before the cross aisle, not in it.",
+      "id": "leg-one",
+      "kind": "drive",
+      "prompt": "Walk the jack forward at walking pace, sounding the horn as you approach the first cross aisle.",
+      "target": "wp-wr-jack",
+      "title": "Drive the first leg at walking pace",
+      "why": "A walkie is driven from in front, on foot, at a pace slow enough to stop inside its own length for anyone stepping out of a cross aisle — which is exactly what the horn at that cross aisle is for. Holding a steady walking pace with the supervisor beside you is the whole first leg: not creeping, which drifts the load, and not rushing, which is how a first day ends with an incident report."
+    },
+    {
+      "cue": "The dial runs one to ten. Commit it where you actually are after the first leg, not where you want to be.",
+      "gauge": {
+        "green": [
+          0.35,
+          0.65
+        ],
+        "label": "COMFORT",
+        "missNote": "That number does not match somebody who just corrected out of the lane twice. Rate it honestly — the supervisor plans the second leg around the real number.",
+        "speed": 0.6
+      },
+      "id": "comfort-gauge",
+      "kind": "gauge",
+      "prompt": "The dial runs one to ten. Commit it where you actually are after the first leg, not where you want to be.",
+      "target": "wp-wr-comfort-dial",
+      "title": "Rate your comfort with the controls honestly",
+      "why": "The supervisor uses this number to decide how much to narrate on the second leg, not to pass or fail the day. An inflated number gets less coaching exactly when a shaky first leg needed more of it, and an honest one gets a supervisor walking closer and talking through the next cross aisle before you reach it rather than after you miss it."
+    },
+    {
+      "cue": "Look down the aisle ahead. Find what the supervisor would want you to notice before you start the second leg.",
+      "id": "scan-ahead",
+      "itemNames": {
+        "wp-wr-blocked-flue": "a load shoved into the flue space",
+        "wp-wr-damaged-pallet": "a damaged pallet leaning in the rack",
+        "wp-wr-pedestrian-ahead": "a pedestrian ahead reading a scanner"
+      },
+      "itemNotes": {
+        "wp-wr-blocked-flue": "A load pushed all the way to the back of its bay, closing the flue space a sprinkler head needs. Worth pointing out to the supervisor even on a ride-along.",
+        "wp-wr-damaged-pallet": "A pallet with a split deck board leaning in the rack ahead. It gets reported, not lifted, the way the full inspection in the warehouse block already teaches.",
+        "wp-wr-pedestrian-ahead": "Someone walking the pedestrian lane with their eyes on a handheld scanner, not on the aisle. They will not see the jack before the jack sees them."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look down the aisle ahead. Find what the supervisor would want you to notice before you start the second leg.",
+      "targets": [
+        "wp-wr-pedestrian-ahead",
+        "wp-wr-damaged-pallet",
+        "wp-wr-blocked-flue"
+      ],
+      "title": "Scan the second aisle before you move into it",
+      "why": "A ride-along is as much about learning to see a floor as it is about driving a truck, and a supervisor watching a trainee scan ahead — really look, not just glance — before moving is watching for the habit that keeps a whole career free of the incidents this floor is built to prevent."
+    },
+    {
+      "cue": "Continue at walking pace toward the drop-off bay, horn again at the second cross aisle.",
+      "drive": {
+        "bandLabel": "walking pace",
+        "checkWindow": 1,
+        "checks": [
+          {
+            "at": 1,
+            "kind": "horn",
+            "note": "Horn at the second cross aisle — the same blind corner as the first, on the other side of the floor."
+          }
+        ],
+        "controls": {
+          "brake": "wp-wr-tiller-brake"
+        },
+        "graceSeconds": 1.8,
+        "laneWidth": 1.2,
+        "path": [
+          [
+            0,
+            0.4
+          ],
+          [
+            0,
+            -1.2
+          ],
+          [
+            0,
+            -2.8
+          ]
+        ],
+        "sceneRate": 0.2,
+        "speedBand": [
+          2,
+          6
+        ]
+      },
+      "holdBreakNote": "Out of lane or band again — walking pace, horn at the crossing, the same as the first leg.",
+      "id": "leg-two",
+      "kind": "drive",
+      "prompt": "Continue at walking pace toward the drop-off bay, horn again at the second cross aisle.",
+      "target": "wp-wr-jack",
+      "title": "Drive the second leg into the drop-off bay",
+      "why": "The second leg is where the habits from the first one either hold or slip — the same walking pace, the same horn at the same kind of blind crossing, now with the supervisor watching to see if today was a fluke or a start. Ending it lined up on the drop-off bay is what makes the next step, setting the load down, possible without a second pass."
+    },
+    {
+      "cue": "Raise the pallet until it just clears the floor and hold it while it settles.",
+      "holdBreakNote": "The load dropped back before it settled — raise it just clear again and hold it there.",
+      "id": "raise-hold",
+      "kind": "hold",
+      "prompt": "Raise the pallet until it just clears the floor and hold it while it settles.",
+      "seconds": 6,
+      "target": "wp-wr-lift-button",
+      "title": "Raise the load just clear and hold",
+      "why": "Raising a pallet just clear of the floor, then holding while it settles, is what catches a shifted carton or a stretch wrap that let go before the load is moving — an inch off the concrete, where it is nothing, instead of halfway into the bay, where it is a mess on the floor and a supervisor writing up why."
+    },
+    {
+      "cue": "Swing the tiller to bring the pallet square to the bay before running it in.",
+      "id": "square-bay",
+      "kind": "turn",
+      "prompt": "Swing the tiller to bring the pallet square to the bay before running it in.",
+      "target": "wp-wr-tiller",
+      "title": "Square up to the drop-off bay",
+      "turn": {
+        "axis": "y",
+        "label": "TILLER",
+        "turns": 0.25
+      },
+      "why": "A pallet run into a floor location at an angle catches the upright with a corner, and the upright is the one part of the rack everything above it depends on. Squaring up here, in the open aisle where there is room to correct, is what lets the load go in straight on the first try."
+    },
+    {
+      "cue": "Run the pallet straight into the marked bay and set it down inside the lines.",
+      "drag": {
+        "missNote": "Not inside the lines — square it up and run it straight into the bay.",
+        "radius": 0.5,
+        "to": "wp-wr-floor-bay"
+      },
+      "id": "set-pallet",
+      "kind": "drag",
+      "prompt": "Run the pallet straight into the marked bay and set it down inside the lines.",
+      "target": "wp-wr-pallet",
+      "title": "Set the pallet in the drop-off bay",
+      "why": "The painted lines keep the pallet inside the uprights, back from the aisle, and clear of the flue space the sprinklers need — a pallet left proud of the lines is the one the next truck clips or the one a picker has to squeeze past for the rest of the shift."
+    },
+    {
+      "cue": "Forks all the way down, then key off and out.",
+      "id": "park-truck",
+      "itemNames": {
+        "wp-wr-park-forks": "forks fully lowered",
+        "wp-wr-park-key": "key off and out"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Forks down first, then the key — a truck is made safe before it is left, not the other way round.",
+      "prompt": "Forks all the way down, then key off and out.",
+      "targets": [
+        "wp-wr-park-forks",
+        "wp-wr-park-key"
+      ],
+      "title": "Park the truck the way the standard says",
+      "why": "An unattended truck is left with the forks fully lowered and the key off — a raised fork is a shin injury at exactly the height nobody looks for it, and a keyed truck is one anybody untrained could climb onto and drive."
+    },
+    {
+      "cue": "Go over both legs with the supervisor: the pre-trip, the crossings, and how the controls actually felt.",
+      "id": "supervisor-debrief",
+      "kind": "select",
+      "prompt": "Go over both legs with the supervisor: the pre-trip, the crossings, and how the controls actually felt.",
+      "target": "wp-wr-supervisor",
+      "title": "Debrief with the supervisor",
+      "why": "The supervisor watched things from beside the jack that are invisible from the tiller — how close the pedestrian actually came, how the second leg's horn compared to the first. Two minutes talking it through turns a first day into the start of a habit instead of an afternoon nobody reviews."
+    },
+    {
+      "cue": "Log the pre-trip result, both legs, and the supervisor's note, then sign it.",
+      "id": "close-log",
+      "kind": "select",
+      "prompt": "Log the pre-trip result, both legs, and the supervisor's note, then sign it.",
+      "target": "wp-wr-ridealong-log",
+      "title": "Sign the ride-along log",
+      "why": "The ride-along log is the record that today actually happened the way it did — what was found on the pre-trip, how the crossings went, what the supervisor said to work on. It is also the first entry in the file the programme's coach reads before the next placement."
+    }
+  ],
+  "supportLine": "your supervisor or your Teamsters steward, and your employer's employee assistance programme if the first day on a live floor is harder than it looks from the sideline",
+  "tagline": "Report in, PPE checked in order, the route briefed, the truck pre-tripped, two legs driven at walking pace with the horn at every cross aisle, a load raised and held, and the truck squared and parked before the debrief",
+  "title": "SmartCiti.X~ Warehouse Ride-Along Day VR",
+  "trade": "Pathway Edition — a warehouse ride-along day beside a supervisor on a live pallet-jack route",
+  "underwater": null,
+  "weather": null
+}

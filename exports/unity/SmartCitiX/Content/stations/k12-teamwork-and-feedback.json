@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "team-player",
+    "name": "Team Player",
+    "note": "Roles agreed, feedback given specific and kind, received without defending and a disagreement settled fairly"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "ASSISTS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Newcomer",
+      "Teammate",
+      "Supporter",
+      "Captain",
+      "Coach"
+    ],
+    "system": "Team Board"
+  },
+  "hazards": {
+    "defend-every-point": "You argued back against every point of feedback. Listening first, asking a question to understand and thanking the person, even if you disagree, gets you far more from feedback than defending yourself does.",
+    "feedback-about-the-person": "You said your teammate was just bad at it. Feedback about the person hurts and gives them nothing to work on; feedback about the work, what they did and what might help, is specific, kind and useful.",
+    "one-voice-decides": "You let the loudest voice decide for the whole team. Good teams hear from everyone, especially the quiet members, before deciding; the loudest idea is not always the best one.",
+    "wet-floor-sprint": "You ran across a wet patch of court to reach the huddle. Wet sports floors are slippery; you walk round the cone, and the coach has the floor dried before anyone plays on it."
+  },
+  "id": "k12-teamwork-and-feedback",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-your-reply-while-a-teammate",
+      "alert": "One teammate has gone quiet and moved to the edge of the group while others talk over them.",
+      "cue": "Invite them back in and ask for their idea.",
+      "delay": 3,
+      "id": "a-teammate-is-left-out",
+      "kind": "Left out",
+      "missNote": "Nobody noticed, and the teammate sat out the rest of the session feeling unwanted by the group.",
+      "seconds": 12,
+      "target": "ktf-invite-in",
+      "why": "Being left out is painful and it loses the team a voice. Inviting them back and asking for their idea shows the team values everyone, and it is often exactly the idea the group needed.",
+      "wrongNote": "That leaves them out. Invite them in. Choose the response that deals with it now."
+    },
+    {
+      "after": "keep-a-disagreement-calm",
+      "alert": "The team coach asks you to give feedback to a teammate on the drill they just led.",
+      "cue": "Say something specific they did well and one thing to try next.",
+      "delay": 3,
+      "id": "the-coach-asks-for-feedback",
+      "kind": "Coach question",
+      "missNote": "You said it was fine, and your teammate had nothing specific to work on in the next drill.",
+      "seconds": 12,
+      "target": "ktf-say-feedback",
+      "why": "The coach is checking you can put the feedback steps into practice on the spot. Being specific and kind shows you can help a teammate improve without knocking their confidence.",
+      "wrongNote": "That is too vague to help. Choose the response that deals with it now."
+    }
+  ],
+  "lateNotes": {
+    "ktf-checkin": "The check-in comes at the very end of the session.",
+    "ktf-team-log": "The team review is written once the session is done — nothing to record yet."
+  },
+  "name": "Teamwork and Feedback",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-literacy-and-life-skills"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "defend-every-point",
+      "feedback-about-the-person",
+      "ktf-agreements",
+      "ktf-checkin",
+      "ktf-compare-card",
+      "ktf-feedback-token",
+      "ktf-goal",
+      "ktf-invite-in",
+      "ktf-listen-hold",
+      "ktf-ord-ask",
+      "ktf-ord-listen",
+      "ktf-ord-next",
+      "ktf-ord-specific",
+      "ktf-role-dial",
+      "ktf-roles",
+      "ktf-say-feedback",
+      "ktf-share-board",
+      "ktf-team-log",
+      "ktf-teammate-spot",
+      "ktf-tone-meter",
+      "ktf-track-meter",
+      "ktf-trophy",
+      "ktf-tt-loudest",
+      "ktf-tt-person",
+      "ktf-tt-quiet",
+      "ktf-tt-thanks",
+      "ktf-wet-card",
+      "one-voice-decides",
+      "wet-floor-sprint"
+    ],
+    "meshes": 297
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark the three things on the team board that help a team work together.",
+      "decoyNotes": {
+        "ktf-trophy": "A reminder of past success, but it does not make this team work."
+      },
+      "id": "find-what-makes-a-team-work",
+      "itemNames": {
+        "ktf-agreements": "the team's talking agreements",
+        "ktf-goal": "the shared goal",
+        "ktf-roles": "the list of roles"
+      },
+      "itemNotes": {
+        "ktf-agreements": "Take turns, listen, respect ideas.",
+        "ktf-goal": "Everyone pulling towards the same thing.",
+        "ktf-roles": "Each person knows their part."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the three things on the team board that help a team work together.",
+      "targets": [
+        "ktf-goal",
+        "ktf-roles",
+        "ktf-agreements"
+      ],
+      "title": "Find what makes a team work",
+      "why": "Teams work well when everyone knows the shared goal, each person has a clear role, and there are agreed ways to talk, like taking turns and listening. Finding those three on the team board shows that good teamwork is built on purpose, not left to luck."
+    },
+    {
+      "cue": "Ask if they want feedback, name something specific, suggest one next step, then listen.",
+      "id": "put-the-feedback-steps-in-order",
+      "itemNames": {
+        "ktf-ord-ask": "1 · ask if they want feedback",
+        "ktf-ord-listen": "4 · listen to their reply",
+        "ktf-ord-next": "3 · suggest one next step",
+        "ktf-ord-specific": "2 · name something specific that went well"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Ask if they want feedback before you give it.",
+      "prompt": "Ask if they want feedback, name something specific, suggest one next step, then listen.",
+      "targets": [
+        "ktf-ord-ask",
+        "ktf-ord-specific",
+        "ktf-ord-next",
+        "ktf-ord-listen"
+      ],
+      "title": "Put the feedback steps in order",
+      "why": "Asking first makes feedback something offered, not forced. Naming something specific that went well, suggesting one clear next step and then listening to their reply keeps feedback useful and kind, and it is the pattern good coaches use every day. Skipping the listening step turns feedback into a lecture, and people stop hearing lectures quickly."
+    },
+    {
+      "cue": "Read the coach's card: walk round the cone, never across a wet court.",
+      "id": "walk-round-the-wet-patch",
+      "kind": "select",
+      "prompt": "Read the coach's card: walk round the cone, never across a wet court.",
+      "target": "ktf-wet-card",
+      "title": "Walk round the wet patch",
+      "why": "A wet patch on a sports floor is as slippery as ice. Walking round the cone and letting the coach dry it is the rule every team follows, because an injured teammate helps nobody, and looking after each other is where teamwork starts. A wet patch is also a test of the team: the one who stops to warn others is doing the team's work."
+    },
+    {
+      "cue": "Turn the role wheel so each teammate gets a different job this round.",
+      "id": "turn-the-role-wheel-to-share",
+      "kind": "turn",
+      "prompt": "Turn the role wheel so each teammate gets a different job this round.",
+      "target": "ktf-role-dial",
+      "title": "Turn the role wheel to share the jobs",
+      "turn": {
+        "axis": "y",
+        "label": "ROLES",
+        "turns": 0.5
+      },
+      "why": "Rotating roles lets everyone try leading, recording and checking, and stops the same people always doing the same jobs. It builds skills across the team and shows everyone what each role takes."
+    },
+    {
+      "cue": "Commit when the tone meter shows your feedback is specific and kind.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "TONE",
+        "missNote": "Not in the band. Make it more specific, or kinder.",
+        "speed": 0.6
+      },
+      "id": "judge-the-tone-of-your-feedback",
+      "kind": "gauge",
+      "prompt": "Commit when the tone meter shows your feedback is specific and kind.",
+      "target": "ktf-tone-meter",
+      "title": "Judge the tone of your feedback",
+      "why": "Feedback that is too vague helps nobody, and feedback that is harsh makes people stop listening. Aiming for specific and kind, the middle of the band, gives your teammate something clear to work on and the confidence to try it. The same words can land as help or as criticism depending on how they are said, so tone matters."
+    },
+    {
+      "cue": "Stay quiet and listen fully until your teammate has finished.",
+      "holdBreakNote": "You jumped in before they finished. Let them finish, then reply.",
+      "id": "hold-your-reply-while-a-teammate",
+      "kind": "hold",
+      "prompt": "Stay quiet and listen fully until your teammate has finished.",
+      "seconds": 6,
+      "target": "ktf-listen-hold",
+      "title": "Hold your reply while a teammate speaks",
+      "why": "Waiting until someone has finished, instead of planning your answer while they talk, is what listening really means. It shows respect, it means you hear the whole idea, and it often changes what you were going to say. People can tell when they are really being listened to, and it makes them more willing to listen back."
+    },
+    {
+      "cue": "Drag the specific, kind feedback card to your teammate's spot.",
+      "drag": {
+        "missNote": "Not given yet. Take the specific, kind card to your teammate.",
+        "radius": 0.45,
+        "to": "ktf-teammate-spot"
+      },
+      "id": "choose-a-helpful-feedback-card",
+      "kind": "drag",
+      "prompt": "Drag the specific, kind feedback card to your teammate's spot.",
+      "target": "ktf-feedback-token",
+      "title": "Choose a helpful feedback card",
+      "why": "A card that says what went well and one thing to try next gives your teammate a clear way forward. Choosing it over a vague or harsh card is practising exactly the words that make feedback land well."
+    },
+    {
+      "cue": "Look at the practice team talk and mark each problem.",
+      "decoyNotes": {
+        "ktf-tt-thanks": "Thanking teammates is good practice. Keep it."
+      },
+      "id": "spot-the-problems-in-a-practice",
+      "itemNames": {
+        "ktf-tt-loudest": "the loudest voice deciding",
+        "ktf-tt-person": "feedback about the person, not the work",
+        "ktf-tt-quiet": "a quiet teammate never asked"
+      },
+      "itemNotes": {
+        "ktf-tt-loudest": "Decide together.",
+        "ktf-tt-person": "Talk about what they did.",
+        "ktf-tt-quiet": "Hear from everyone."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the practice team talk and mark each problem.",
+      "targets": [
+        "ktf-tt-person",
+        "ktf-tt-quiet",
+        "ktf-tt-loudest"
+      ],
+      "title": "Spot the problems in a practice team talk",
+      "why": "Team talks go wrong in familiar ways: feedback aimed at the person, a quiet teammate never asked and a decision made by the loudest voice. Spotting them in a practice talk helps you notice and fix them in real ones."
+    },
+    {
+      "cue": "Say what you do when someone gives you feedback, even if you disagree.",
+      "id": "say-how-to-receive-feedback-well",
+      "kind": "select",
+      "prompt": "Say what you do when someone gives you feedback, even if you disagree.",
+      "target": "ktf-compare-card",
+      "title": "Say how to receive feedback well",
+      "why": "Receiving feedback well means listening, asking a question to understand and thanking the person, then deciding what to use. Saying that aloud builds the habit, and it is one of the most valuable skills in school, sport and work. Nobody has to agree with every piece of feedback, but hearing it fully before deciding is fair to both people."
+    },
+    {
+      "cue": "Keep the discussion's temperature in the calm band as teammates disagree.",
+      "holdBreakNote": "The discussion got heated. Slow down, name what you agree on, and bring it back.",
+      "id": "keep-a-disagreement-calm",
+      "kind": "track",
+      "prompt": "Keep the discussion's temperature in the calm band as teammates disagree.",
+      "seconds": 8,
+      "target": "ktf-track-meter",
+      "title": "Keep a disagreement calm",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "CALM",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "Disagreements are normal and can make a team's ideas better, as long as they stay calm and about the ideas. Keeping your voice steady, naming what you agree on and looking for a fair way to decide keeps the team together. When a discussion stays calm, the team can use the disagreement to find a better plan than either side started with."
+    },
+    {
+      "cue": "Write what the team did well, one thing to improve and who will do what.",
+      "id": "record-the-teams-review",
+      "kind": "select",
+      "prompt": "Write what the team did well, one thing to improve and who will do what.",
+      "target": "ktf-team-log",
+      "title": "Record the team's review",
+      "why": "A short team review turns one session into learning for the next. Writing a strength, one improvement and clear actions means everyone leaves knowing what comes next."
+    },
+    {
+      "cue": "Thank one teammate for a specific thing they did today.",
+      "id": "thank-a-teammate-for-something-specific",
+      "kind": "select",
+      "prompt": "Thank one teammate for a specific thing they did today.",
+      "target": "ktf-share-board",
+      "title": "Thank a teammate for something specific",
+      "why": "Specific thanks tells someone exactly what they did that helped, which makes them more likely to do it again. It ends a session warmly and builds the trust that good teams rely on."
+    },
+    {
+      "cue": "How did working as a team feel today? What would you do differently?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "How did working as a team feel today? What would you do differently?",
+      "target": "ktf-checkin",
+      "title": "Check in at the end of the session",
+      "why": "The arena crew ends a shift with a huddle, so the class ends with one: each learner says what the team did well and what they personally would change. Practising that in front of the group, with no blame in it, is the whole of the lesson, and the coach can hear which teams found their voice."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Specific, kind and useful — give feedback on the work, never the person",
+  "title": "SmartCiti.X~ Teamwork and Feedback VR",
+  "trade": "Life-skills class at the arena's team room — learner and team coach",
+  "underwater": null,
+  "weather": "clear"
+}

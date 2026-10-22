@@ -1,0 +1,445 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "one-voice-held",
+    "name": "One Voice",
+    "note": "The whole call run at walking pace and speaking volume, with a voluntary transport at the end of it"
+  },
+  "category": "Emergency Services",
+  "certification": "CIT International's crisis intervention team model — the forty-hour curriculum, the co-responder clinician, and a crisis stabilisation unit as a destination that is not a jail; the Americans with Disabilities Act (ADA) title II duty to accommodate a person's disability, mental illness included, during a police contact; the state's emergency psychiatric hold as the county behavioural health authority that runs the stabilisation unit administers it — named as the body rather than as a section quoted from memory; SAMHSA's trauma-informed care principles and Psychological First Aid (NCTSN and WHO) for what is actually said on the step; NIMS/ICS through FEMA IS-100 for the unified command a police and clinician co-response works inside; OSHA 29 CFR 1910.1030 for the moment any contact breaks skin; the police officers' association and FOP contract language that puts peer support after a call like this one",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "DOJ",
+        "citedAs": "Americans with Disabilities Act",
+        "id": "ada-title-ii",
+        "title": "Americans with Disabilities Act Title II — programme accessibility for public entities and their services"
+      },
+      {
+        "body": "CIT",
+        "citedAs": "CIT International",
+        "id": "cit-international-model",
+        "title": "CIT International's Crisis Intervention Team core elements for response to people in crisis"
+      },
+      {
+        "body": "FEMA",
+        "citedAs": "FEMA IS-100",
+        "id": "fema-is-courses",
+        "title": "FEMA Emergency Management Institute IS-100 and IS-700 independent-study courses in ICS and NIMS"
+      },
+      {
+        "body": "NIMS/ICS",
+        "citedAs": "ICS",
+        "id": "nims-ics",
+        "title": "NIMS incident command system — the structure a multi-agency response runs inside"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "NCTSN",
+        "citedAs": "Psychological First Aid",
+        "id": "pfa-field-guide",
+        "title": "Psychological First Aid Field Operations Guide (NCTSN and the National Center for PTSD), and the WHO field guide"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "trauma-informed care",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      },
+      {
+        "body": "WHO",
+        "citedAs": "WHO",
+        "id": "who-guidance",
+        "title": "World Health Organization technical and field guidance for health emergencies and outbreak response"
+      }
+    ]
+  },
+  "district": "Emergency Services",
+  "domain": "Emergency Services",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "read-before-moving",
+        "name": "Read Before Moving",
+        "note": "Every pre-contact cue picked up before a single step was taken"
+      },
+      {
+        "id": "nothing-forced",
+        "name": "Nothing Forced",
+        "note": "No unsafe action anywhere in the call"
+      },
+      {
+        "id": "silence-kept",
+        "name": "Silence Kept",
+        "note": "Both timed periods — the gap and the silence — carried the full count"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "level-voice",
+        "name": "Level Voice",
+        "note": "No corrections anywhere in the call"
+      },
+      {
+        "id": "measured-approach",
+        "name": "Measured Approach",
+        "note": "Approach pace and gap both read inside their bands"
+      },
+      {
+        "id": "eight-straight",
+        "name": "Eight Straight",
+        "note": "Eight correct actions in a row"
+      }
+    ],
+    "currency": "RAPPORT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Patrol Officer",
+      "CIT Trained",
+      "Crisis Team Officer",
+      "Co-Response Lead",
+      "CIT Instructor"
+    ],
+    "system": "Slow Is Fast"
+  },
+  "hazards": {
+    "command-and-threaten": "You gave an order and named a consequence. Commands work on people who are deciding whether to comply; they do nothing for somebody who cannot hear you over their own alarm, and a threat you then have to carry out is how a welfare check becomes a use-of-force report.",
+    "crowd-the-porch": "You stepped up onto the porch, inside arm's reach of somebody who is already frightened. The gap is not politeness — it is the reaction time that lets this end in conversation, and a person in crisis reads a closing distance as the moment the thing they have been dreading starts.",
+    "cuffs-and-booking": "You reached for the handcuffs and the booking paperwork. Arresting a person for the symptoms of an illness moves them from a stabilisation unit that could treat them to a cell that cannot, and it is the outcome the crisis intervention team model was built specifically to avoid.",
+    "two-voices": "Both of you started talking. Two officers speaking is two sets of instructions to somebody whose thinking is already narrowed by fear, and it hands them a reason to stop listening to either of you. One speaker, one relationship — the second officer covers and stays quiet."
+  },
+  "id": "crisis-intervention-call",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-the-gap",
+      "alert": "The person has picked a garden trowel off the step and is turning it over in their hands — and your partner has started up the walkway toward them.",
+      "cue": "Wave your partner back and re-set the gap. One speaker, one distance.",
+      "delay": 3,
+      "id": "object-picked-up-partner-closes",
+      "kind": "Partner closing in",
+      "missNote": "Your partner closed to arm's reach with an object in the person's hands and nobody signalled anything. The trowel was never the problem — the geometry was, and by the time it was noticed there was no gap left to hold.",
+      "seconds": 12,
+      "target": "partner-wave-back",
+      "why": "An object in somebody's hands is a reason to hold the gap, not to close it — and a second officer walking in turns a conversation into a surround, which is the geometry every crisis contact goes wrong from. The hand signal exists so the correction happens without a word being said out loud, because saying it out loud tells the person they are now the subject of a tactical discussion.",
+      "wrongNote": "It is the hand signal to your partner, not anything to do with the person or the object. Fix the geometry first, quietly, then carry on the conversation you were having."
+    },
+    {
+      "after": "give-time",
+      "alert": "A neighbour has come out to the kerb across the street and is shouting advice over the top of everything — \"just go with them, you're being ridiculous!\"",
+      "cue": "Send your partner to walk the neighbour back. Do not answer them yourself.",
+      "delay": 3,
+      "id": "neighbour-shouting-advice",
+      "kind": "Bystander interfering",
+      "missNote": "The shouting carried on across the whole silence you were holding. The person stopped talking and started listening to the street instead, and the one voice you had spent ten minutes establishing was no longer the only one on the call.",
+      "seconds": 12,
+      "target": "neighbour-redirect",
+      "why": "A bystander shouting is a third voice in a conversation you deliberately built for one, and the content is worse than the volume — being told they are being ridiculous, in front of their own house, hands the person in crisis a reason to prove otherwise. Your partner moving the neighbour back keeps the one relationship intact; you turning round to argue across the street ends it.",
+      "wrongNote": "Not from where you are standing — turning round to answer the street means leaving the conversation. Send your partner to walk them back and keep your attention on the porch."
+    }
+  ],
+  "lateNotes": {
+    "transport-offer": "The offer of a ride comes after the listening, not instead of it. Offered too early it is heard as a decision that has already been made about them, which is the fastest way to lose a voluntary transport.",
+    "weapon-question-card": "The weapon question gets asked plainly, but it gets asked inside a conversation that already exists — leading with it, before a name and an open question, tells the person the last twenty seconds were a search and not a talk."
+  },
+  "name": "Crisis Intervention Call",
+  "parSeconds": 360,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "first-responders"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "approach-pace",
+      "choice-sit-or-stand",
+      "choice-water",
+      "choice-who-we-call",
+      "cit-log-board",
+      "clinician-handoff",
+      "command-and-threaten",
+      "crew-checkin-board",
+      "crowd-the-porch",
+      "csu-destination",
+      "cue-caller-at-the-gate",
+      "cue-hands-out-of-sight",
+      "cue-seated-still",
+      "cuffs-and-booking",
+      "driveway-spot",
+      "family-account-card",
+      "family-member",
+      "gap-track-point",
+      "introduction-card",
+      "leaps-ask",
+      "leaps-empathize",
+      "leaps-listen",
+      "leaps-paraphrase",
+      "leaps-summarize",
+      "lightbar-switch",
+      "neighbour-redirect",
+      "one-voice-marker",
+      "partner-wave-back",
+      "silence-hold-point",
+      "transport-offer",
+      "two-voices",
+      "weapon-question-card"
+    ],
+    "meshes": 263
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Stop at the gate and look. Three things about this scene decide how the next twenty minutes go.",
+      "id": "size-up-the-call",
+      "itemNames": {
+        "cue-caller-at-the-gate": "the family member who made the call",
+        "cue-hands-out-of-sight": "hands in a jacket pocket, out of sight",
+        "cue-seated-still": "seated on the step, not advancing"
+      },
+      "itemNotes": {
+        "cue-caller-at-the-gate": "Somebody in the family called this in, which means there is a history available to you and a person who is going to be here long after you leave.",
+        "cue-hands-out-of-sight": "You cannot see both hands. That is a reason to keep the gap and ask a plain question about it later — it is not a reason to close the distance now.",
+        "cue-seated-still": "They are sitting down and staying sat down. Nothing about that posture is closing on anybody, and it buys you the whole first minute if you do not spend it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Stop at the gate and look. Three things about this scene decide how the next twenty minutes go.",
+      "targets": [
+        "cue-seated-still",
+        "cue-hands-out-of-sight",
+        "cue-caller-at-the-gate"
+      ],
+      "title": "Read the porch before you take a step",
+      "why": "Nearly every bad outcome on a crisis call is decided in the ten seconds before contact, because that is when the approach speed, the distance and the number of people talking all get set. A seated person who is not advancing, a pair of hands you cannot see and a family member who called it in are three different pieces of information, and each one changes a different decision — pace, gap, and who you get the history from."
+    },
+    {
+      "cue": "Come up the walk at a walk — commit the pace when the readout is in the band.",
+      "gauge": {
+        "green": [
+          0.06,
+          0.3
+        ],
+        "label": "APPROACH",
+        "missNote": "That is a closing pace, not an approach. Reset and commit inside the band — a fast approach is read as the start of a fight by somebody who is already braced for one.",
+        "speed": 0.62
+      },
+      "id": "slow-the-approach",
+      "kind": "gauge",
+      "prompt": "Come up the walk at a walk — commit the pace when the readout is in the band.",
+      "target": "approach-pace",
+      "title": "Slow the approach to a walking pace",
+      "why": "Speed is the loudest thing an officer brings onto a porch. A person whose alarm system has been running for days reads a fast approach as the thing they have been waiting for, and once that switch flips there is no sentence that unflips it. Walking pace does two jobs at once: it says nothing is about to happen to you, and it leaves you the seconds you would otherwise have spent arriving."
+    },
+    {
+      "cue": "Turn the bar off at the console — the lights did their job on the way here.",
+      "id": "quiet-the-scene",
+      "kind": "turn",
+      "prompt": "Turn the bar off at the console — the lights did their job on the way here.",
+      "target": "lightbar-switch",
+      "title": "Kill the strobes and leave the scene quiet",
+      "turn": {
+        "axis": "y",
+        "label": "LIGHT BAR",
+        "turns": 0.75
+      },
+      "why": "Overhead strobes are a warning device for traffic and they are stimulation for everybody else. On a residential street at conversational distance they add nothing to your safety, they pull the neighbours out onto their lawns, and for somebody already overwhelmed they are one more thing the nervous system has to process instead of your voice. Reducing stimulation is the first physical de-escalation move available and it costs a switch."
+    },
+    {
+      "cue": "Say it out loud so everyone knows: you talk, your partner covers and stays quiet.",
+      "id": "one-voice-contact",
+      "kind": "select",
+      "prompt": "Say it out loud so everyone knows: you talk, your partner covers and stays quiet.",
+      "target": "one-voice-marker",
+      "title": "One speaker — take contact and put your partner on cover",
+      "why": "The single most reliable predictor of whether a crisis contact stays verbal is whether one person owns the talking. Two voices split the person's attention, contradict each other within a minute, and leave nobody watching the scene. Naming contact and cover out loud also tells your partner what they are for, which is what stops them filling a silence they find uncomfortable."
+    },
+    {
+      "cue": "Find your distance and keep it — not creeping in, not backing out of earshot.",
+      "holdBreakNote": "The distance got away from you. Come back to it and hold it — the gap is doing more of this work than anything you are going to say.",
+      "id": "hold-the-gap",
+      "kind": "track",
+      "prompt": "Find your distance and keep it — not creeping in, not backing out of earshot.",
+      "seconds": 7,
+      "target": "gap-track-point",
+      "title": "Hold the gap while they settle",
+      "track": {
+        "drift": 0.16,
+        "fall": 0.42,
+        "green": [
+          0.32,
+          0.72
+        ],
+        "label": "GAP",
+        "rise": 0.5,
+        "start": 0.5
+      },
+      "why": "The gap is a live thing, not a mark on the ground: they shift, you shift, and without attention the distance closes by half a metre a minute until somebody is inside somebody else's space. Held, it is reaction time for you and breathing room for them. Given away, it is the reason a conversation that was working suddenly is not, and neither person can say what changed."
+    },
+    {
+      "cue": "\"My name's Alvarez. I'm not here to arrest anybody — your sister called because she's worried about you.\"",
+      "id": "introduce-by-name",
+      "kind": "select",
+      "prompt": "\"My name's Alvarez. I'm not here to arrest anybody — your sister called because she's worried about you.\"",
+      "target": "introduction-card",
+      "title": "Introduce yourself by name and say why you are here",
+      "why": "A name turns a uniform into a person, and saying plainly why you are there removes the question the person is spending all their attention on. It also puts the honest reason on the table early, which matters later: if the first thing you said was true, the offer of a ride at the end has some credit behind it. Withholding why you came buys nothing and costs the whole conversation once they work it out."
+    },
+    {
+      "cue": "Take it in order. Listening first, then the feeling named, then the open question, then it goes back to them in their own words.",
+      "id": "reflective-listening",
+      "itemNames": {
+        "leaps-ask": "Ask — the open question: \"what's going on for you today?\"",
+        "leaps-empathize": "Empathise — \"that sounds exhausting\"",
+        "leaps-listen": "Listen — let them finish, all of it",
+        "leaps-paraphrase": "Paraphrase — say it back in their words",
+        "leaps-summarize": "Summarise — \"so the two things are the noise and the letter\""
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Listen, empathise, ask, paraphrase, summarise. Leading with the question before you have listened makes it an interview, and an interview is the thing this person is most afraid you came to do.",
+      "prompt": "Take it in order. Listening first, then the feeling named, then the open question, then it goes back to them in their own words.",
+      "targets": [
+        "leaps-listen",
+        "leaps-empathize",
+        "leaps-ask",
+        "leaps-paraphrase",
+        "leaps-summarize"
+      ],
+      "title": "Work the LEAPS sequence — listen, empathise, ask, paraphrase, summarise",
+      "why": "LEAPS is taught in order because each step earns the next one. Listening without interrupting is what produces something to empathise with; empathising is what makes an open question land as interest rather than interrogation; paraphrasing proves you actually heard it, and the summary is where the person hears their own problem in a shape small enough to do something about. Run out of order it becomes a questionnaire, and a questionnaire gets short answers."
+    },
+    {
+      "cue": "Hold the silence. Do not fill it, do not repeat the question, let them get there.",
+      "holdBreakNote": "You filled the silence. Nothing was going wrong — the pause was them working out what to say, and it started again from the top when you spoke.",
+      "id": "give-time",
+      "kind": "hold",
+      "prompt": "Hold the silence. Do not fill it, do not repeat the question, let them get there.",
+      "seconds": 9,
+      "target": "silence-hold-point",
+      "title": "Give them time — stop talking",
+      "why": "Time is the only de-escalation tool that works on its own, and silence is how you spend it. A person whose thinking is slowed by fear or by medication needs several seconds longer than feels natural to assemble an answer, and every time an officer fills that gap the clock resets. There is nothing else you have to do in the next nine seconds, and standing there quietly is the whole skill."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Give them three things they get to decide. Small ones count.",
+      "id": "offer-choices",
+      "itemNames": {
+        "choice-sit-or-stand": "sit on the step or stand — their call",
+        "choice-water": "a glass of water, or not",
+        "choice-who-we-call": "who gets called, and who does not"
+      },
+      "kind": "sequence",
+      "prompt": "Give them three things they get to decide. Small ones count.",
+      "targets": [
+        "choice-sit-or-stand",
+        "choice-water",
+        "choice-who-we-call"
+      ],
+      "title": "Offer real choices, in any order",
+      "why": "A crisis is, from the inside, the experience of having no control over anything. Every genuine choice handed back — where to sit, whether to drink something, who gets phoned — restores a piece of that, and a person who has made three small decisions is measurably more likely to make the large one voluntarily. The choices have to be real: offering an option you will then overrule costs more trust than never offering it."
+    },
+    {
+      "cue": "\"I have to ask, and I'm asking straight: is there anything on you or next to you that could hurt either of us?\"",
+      "id": "weapon-question",
+      "kind": "select",
+      "prompt": "\"I have to ask, and I'm asking straight: is there anything on you or next to you that could hurt either of us?\"",
+      "target": "weapon-question-card",
+      "title": "Ask the weapon question plainly",
+      "why": "The question gets asked, and it gets asked as a question rather than as a search. Said plainly, with the reason attached, it is answered honestly far more often than it is dodged — and an honest answer is worth more than a pat-down that ends the rapport you just spent ten minutes building. Dressing it up, or skipping it because the conversation is going well, are both ways of pretending the hands you cannot see are not there."
+    },
+    {
+      "cue": "Take her back to the driveway — out of the conversation, not out of the call.",
+      "drag": {
+        "missNote": "Not clear of the walkway. A family member standing inside the conversation is a second voice whether she speaks or not, and she is the one person here whose presence can flip this either way.",
+        "radius": 0.6,
+        "to": "driveway-spot"
+      },
+      "id": "family-back",
+      "kind": "drag",
+      "prompt": "Take her back to the driveway — out of the conversation, not out of the call.",
+      "target": "family-member",
+      "title": "Walk the family member back out of the line",
+      "why": "Family is the most powerful variable on a crisis call and it cuts both directions. The person who called is frightened, exhausted and often part of the argument that started this, and their presence inside the conversation invites the person in crisis to perform for them. Moving her back is not dismissing her — it is putting her somewhere she can be spoken to properly in a moment, and where nothing she says gets heard as a demand."
+    },
+    {
+      "cue": "Now hear her: what changed, what they are prescribed, what worked the last time.",
+      "id": "family-account",
+      "kind": "select",
+      "prompt": "Now hear her: what changed, what they are prescribed, what worked the last time.",
+      "target": "family-account-card",
+      "title": "Take the family member's account",
+      "why": "Nobody on this porch knows more than she does. What the person was like a week ago, what they take, which hospital or clinic already has a file, and what actually calmed things down last time are all facts you cannot get from the person in crisis and cannot get from dispatch. Taking that account properly is also the difference between a caller who rings next time and one who decides it is not worth it."
+    },
+    {
+      "cue": "Offer it, say plainly where it goes, then introduce the clinician and give her what you have.",
+      "id": "voluntary-transport",
+      "itemNames": {
+        "clinician-handoff": "hand off to the co-responder clinician",
+        "csu-destination": "name where — the crisis stabilisation unit, not a cell",
+        "transport-offer": "offer the ride, as an offer"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Offer, then name the destination, then hand off. Naming a facility before there is an offer on the table sounds like a decision that has already been made about them, and that is where a voluntary transport turns into a hold.",
+      "prompt": "Offer it, say plainly where it goes, then introduce the clinician and give her what you have.",
+      "targets": [
+        "transport-offer",
+        "csu-destination",
+        "clinician-handoff"
+      ],
+      "title": "Offer voluntary transport, name the destination, hand off",
+      "why": "Voluntary is the whole point. A person who agrees to go keeps their dignity, keeps their record clean and arrives somewhere that can actually treat them, and that only happens if the offer is an offer and the destination is named honestly. The handoff matters as much: the clinician needs what the family told you, what the person told you and what you agreed to, or the first ten minutes of the assessment are spent re-earning ground you already covered."
+    },
+    {
+      "cue": "Write it up as a crisis contact: what was said, what was offered, where they went.",
+      "id": "cit-log",
+      "kind": "select",
+      "prompt": "Write it up as a crisis contact: what was said, what was offered, where they went.",
+      "target": "cit-log-board",
+      "title": "File the crisis contact log",
+      "why": "The crisis intervention team model runs on this entry. It is what tells the next unit dispatched to this address that the last contact was verbal and voluntary, it is what lets the co-response programme show the diversion actually happened, and it is the only record that this was resolved without force. Logged as an ordinary welfare check, the whole call disappears from the one dataset that funds the programme."
+    },
+    {
+      "cue": "Two minutes in the car: how did that land on you, and the peer-support line if it did.",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "Two minutes in the car: how did that land on you, and the peer-support line if it did.",
+      "target": "crew-checkin-board",
+      "title": "Check in with your partner before you clear",
+      "why": "Calls that end well still cost something, and a partner who stood covering a silence for twenty minutes has been carrying it too. The department's critical-incident stress rule names the peer-support team and the employee assistance line as available after any call involving a person in crisis, not only after a shooting, and the two-minute check before you clear is what makes the number real rather than a poster in the hallway."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A porch, a person in crisis and twenty minutes: the approach slowed, one voice, the gap held, time given, choices offered — and a stabilisation unit instead of a booking cell",
+  "title": "SmartCiti.X~ Crisis Intervention Call VR",
+  "trade": "Police officer — crisis intervention team",
+  "underwater": null,
+  "weather": "overcast"
+}

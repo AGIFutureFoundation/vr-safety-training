@@ -1,0 +1,83 @@
+{
+  "id": "k12-practical-math",
+  "title": "K-12 Practical Maths — Classroom Flow",
+  "version": 1,
+  "start": "brief-first",
+  "meta": {
+    "audience": "A class, or a small group sharing one device, working through maths set in the worlds.",
+    "why": "Maths is checked, not trusted: the gate reads whether the stations were passed with no misconception or unsafe shortcut, and the teacher decides what the result evidences against the school's own curriculum.",
+    "hostNotes": "The SmartCiti.X side of the flow contract only (docs/flowhub.md, docs/k12.md): nothing here states how Cognition.X or any other host stores or presents it. Any host that speaks the contract loads, starts and listens; the teacher gate reads this run's own attempt records.",
+    "lowConnectivity": "Works offline once the page has loaded; the run waits in this browser's own storage, so a lost connection loses nothing."
+  },
+  "nodes": [
+    {
+      "id": "brief-first",
+      "kind": "brief",
+      "app": "smartcity",
+      "ref": "k12-measuring-and-scaling-the-court",
+      "title": "Pre-brief — measuring and scaling the court",
+      "why": "The first station's own study card, read before the class starts, so everyone knows what the lesson is for and what to watch for."
+    },
+    {
+      "id": "prog",
+      "kind": "programme",
+      "app": "smartcity",
+      "ref": "k12-practical-math",
+      "title": "K-12 Practical Maths",
+      "why": "The programme itself: SmartCiti.X opens it at the first station the learner has not yet passed, exactly as its own Start button does."
+    },
+    {
+      "id": "checkin-mid",
+      "kind": "checkin",
+      "app": "smartcity",
+      "title": "Class check-in",
+      "why": "A pause between the stations and the gate to say how it is going. Never scored, and it never leaves the learner's browser."
+    },
+    {
+      "id": "gate-teacher",
+      "kind": "gate",
+      "app": "smartcity",
+      "title": "Teacher gate",
+      "why": "The gate reads the programme's key stations from this run's own records: passed, with no misconception or unsafe shortcut. It certifies nothing; the teacher decides what it evidences against the school's own curriculum.",
+      "params": {
+        "competency": "k12-practical-math",
+        "rule": "passed",
+        "stations": [
+          "k12-measuring-and-scaling-the-court"
+        ]
+      }
+    },
+    {
+      "id": "checkin-close",
+      "kind": "checkin",
+      "app": "smartcity",
+      "title": "End-of-lesson check-in",
+      "why": "The lesson closes on the learner's own answer about how it went, not on a score."
+    }
+  ],
+  "edges": [
+    {
+      "from": "brief-first",
+      "to": "prog"
+    },
+    {
+      "from": "prog",
+      "to": "checkin-mid"
+    },
+    {
+      "from": "checkin-mid",
+      "to": "gate-teacher"
+    },
+    {
+      "from": "gate-teacher",
+      "to": "checkin-close",
+      "when": {
+        "competency": "k12-practical-math"
+      }
+    },
+    {
+      "from": "gate-teacher",
+      "to": "prog"
+    }
+  ]
+}

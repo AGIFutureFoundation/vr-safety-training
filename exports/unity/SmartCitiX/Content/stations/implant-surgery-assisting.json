@@ -1,0 +1,435 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "sterile-placement",
+    "name": "Sterile Placement",
+    "note": "A fixture placed with the field unbroken, the kit in sequence and the seating torque read off the wrench"
+  },
+  "category": "Dental & Oral Health",
+  "certification": "DANB's Certified Oral and Maxillofacial Surgery Assistant credential and the general chairside and infection-control components behind it; AAOMS guidance on the office-based surgical and anaesthesia team; the state dental practice act, which sets what a surgical assistant may place, cut or record and what only the operating dentist may; SEIU and UFCW clinic and dental staff; the CDC's Guidelines for Infection Control in Dental Health-Care Settings on surgical asepsis, sterile irrigant and instrument sterilisation; OSHA 29 CFR 1910.1030 bloodborne pathogens and 29 CFR 1910.132 personal protective equipment; NFPA 99 for the medical gas and surgical vacuum this operatory runs on",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "FDA",
+        "citedAs": "FDA-cleared",
+        "id": "fda-cleared-devices",
+        "title": "FDA clearance of medical and dental devices — the labelled indications a device may be used for"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 99",
+        "id": "nfpa-99",
+        "title": "NFPA 99 — Health Care Facilities Code"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "state dental board",
+        "citedAs": "dental practice act",
+        "id": "state-dental-board",
+        "title": "The state dental board and its dental practice act: licensure, scope of practice, and the allowable-duties rules for dental assistants and hygienists"
+      },
+      {
+        "body": "union",
+        "citedAs": "UFCW",
+        "id": "ufcw-training",
+        "title": "UFCW member training for retail food, clinic and dental support work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Oral and maxillofacial surgery",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "field-unbroken",
+        "name": "Field Unbroken",
+        "note": "Nothing unsterile reached for across the whole placement"
+      },
+      {
+        "id": "torque-read",
+        "name": "Torque Read",
+        "note": "Irrigation and seating torque both held near band centre"
+      },
+      {
+        "id": "kit-in-order",
+        "name": "Kit In Order",
+        "note": "The drill sequence handed up in the published order, first time"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "theatre-pace",
+        "name": "Theatre Pace",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "no-corrections",
+        "name": "No Corrections",
+        "note": "A placement with no corrections at all"
+      },
+      {
+        "id": "scrubbed-streak",
+        "name": "Scrubbed Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "TORQ",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Chairside Assistant",
+      "Surgical Assistant",
+      "Sterile Field Lead",
+      "Implant Coordinator",
+      "Surgery Certified"
+    ],
+    "system": "Surgical Field"
+  },
+  "hazards": {
+    "reused-drill": "That is the drill from the case before this one, back in the tray with its wear marks on it. Implant drills are cutting instruments with a manufacturer-stated number of osteotomies in them, and a dull drill does not fail cleanly: it burnishes and heats bone instead of cutting it, and overheated bone at the fixture wall is exactly the tissue that fails to integrate months later.",
+    "tap-water-bottle": "That bottle is ordinary operatory water, not sterile irrigant. Bone cutting is irrigated with sterile saline because the osteotomy is an open surgical wound, and dental unit water — held to a bacterial ceiling for routine treatment, not to sterility — has no business inside one. Reaching for it turns an implant site into an inoculation site.",
+    "uncapped-syringe": "The local anaesthetic syringe is lying on the bracket with the needle bare. An uncapped needle on a tray somebody is reaching across all appointment is the commonest percutaneous injury in dentistry, and it is the injury OSHA 29 CFR 1910.1030 asks employers to engineer out rather than train around — the sheath goes back on with a one-handed technique the moment the injection is finished.",
+    "unwrapped-abutment": "That healing abutment is lying on the open counter with its wrapper already off and nothing over it. An implant component is a sterile item until the moment its package is opened onto a sterile field, and one that has sat in room air beside a sink is going into a surgical wound carrying whatever settled on it — the CDC's dental infection-control guidance treats surgical items as a separate class from everything else in the operatory for exactly this reason."
+  },
+  "id": "implant-surgery-assisting",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "retract-hold",
+      "alert": "The irrigation line has stopped running clear and the reservoir has emptied — the bur is cutting bone with nothing cooling it.",
+      "cue": "No irrigant reaching the bur — the reservoir is empty.",
+      "delay": 3,
+      "id": "irrigant-dry",
+      "kind": "Equipment fault",
+      "missNote": "The drill kept cutting dry. Nothing visible happens at the time, which is the trap — the damage is a ring of dead bone at the fixture wall that shows up months later as an implant that never integrated.",
+      "seconds": 12,
+      "target": "saline-reservoir",
+      "why": "A cutting bur with no irrigant turns into a heater within seconds, and bone a few degrees above body temperature dies whether or not it looks any different when the drill comes out. The reservoir is the fix, and it has to be a fresh sterile bag rather than a top-up from whatever is nearest.",
+      "wrongNote": "It is the sterile irrigant reservoir. Restoring the coolant is the only thing that stops bone being heated, and no adjustment at the pump makes an empty bag deliver."
+    },
+    {
+      "after": "torque-read",
+      "alert": "The surgical suction canister is full to its float and has stopped pulling — fluid is backing up the line toward the field.",
+      "cue": "The suction canister is full and the line is backing up.",
+      "delay": 3,
+      "id": "suction-overflow",
+      "kind": "Contamination risk",
+      "missNote": "The canister was left on its float. Fluid backing out of a suction line onto the field contaminates it, and a field that has been contaminated has to be re-laid mid-case with an open wound waiting on it.",
+      "seconds": 12,
+      "target": "suction-canister",
+      "why": "A full canister does not simply stop working: the float shuts the vacuum off and what is already in the line has somewhere to go, which is back down the tubing toward the tip lying on a sterile field. Changing the canister is a two-second job and the only one that restores suction without carrying contaminated fluid across the drape.",
+      "wrongNote": "It is the suction canister. Nothing at the chair restores vacuum while the float is up, and the longer it sits the further back up the line the fluid travels."
+    }
+  ],
+  "lateNotes": {
+    "graft-packet": "Graft material is opened after the fixture is seated and the defect is actually visible — opened early, it sits drying on the field.",
+    "postop-card": "Post-operative instructions are given once the surgery is finished, to a patient who can listen to them.",
+    "torque-ratchet": "The ratchet comes up when the osteotomy is finished and the fixture is ready to seat, not while the drills are still cutting."
+  },
+  "name": "Implant Surgery Assisting",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "dental-careers-unspoken-smiles"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "cap-mask",
+      "case-plan",
+      "drill-32",
+      "drill-38",
+      "dull-drill",
+      "expired-graft",
+      "graft-packet",
+      "graft-well",
+      "implant-log",
+      "irrigation-dial",
+      "pilot-drill",
+      "postop-card",
+      "pouch-breach",
+      "retractor",
+      "reused-drill",
+      "saline-reservoir",
+      "scrub-sink",
+      "sign-bleeding",
+      "sign-mobility",
+      "sign-swelling",
+      "sterile-drape",
+      "sterile-gloves",
+      "suction-canister",
+      "tap-water-bottle",
+      "team-checkin",
+      "torque-ratchet",
+      "torque-wrench",
+      "uncapped-syringe",
+      "unwrapped-abutment"
+    ],
+    "meshes": 244
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the planned site, the fixture size and the medical history off the plan, and check the consent is signed.",
+      "id": "case-plan",
+      "kind": "select",
+      "prompt": "Read the planned site, the fixture size and the medical history off the plan, and check the consent is signed.",
+      "target": "case-plan",
+      "title": "Read the surgical plan and the consent before anything is opened",
+      "why": "The plan is where the fixture diameter, the length and the planned drill sequence live, and the history beside it is where an antiresorptive drug, an anticoagulant or uncontrolled diabetes shows up — all three change what happens at this chair rather than what happens afterwards. Opening a sterile kit before anyone has read which fixture the surgeon intends to place means opening a second one when the plan turns out to say something else, and the consent is what makes the whole appointment lawful in the first place."
+    },
+    {
+      "cue": "Three items on this setup cannot go on a surgical field. Find them by looking.",
+      "id": "setup-check",
+      "itemNames": {
+        "dull-drill": "the drill past its stated osteotomy count",
+        "expired-graft": "the graft packet past its expiry",
+        "pouch-breach": "the sterilisation pouch with a broken seal"
+      },
+      "itemNotes": {
+        "dull-drill": "The wear marks on this drill say it has already cut its stated number of osteotomies. Manufacturers count them because cutting efficiency falls off a cliff, and the heat that replaces cutting is what kills bone at the fixture wall.",
+        "expired-graft": "This graft packet's date has passed. Expiry on a bone substitute is a statement about the material and its packaging, not a formality — past it nobody can say what is in the vial or whether the barrier held.",
+        "pouch-breach": "The seal on this pouch has lifted along one edge. A pouch that is not intact is not sterile, whatever the indicator strip inside it turned, and it goes back through reprocessing rather than onto the field."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three items on this setup cannot go on a surgical field. Find them by looking.",
+      "targets": [
+        "pouch-breach",
+        "expired-graft",
+        "dull-drill"
+      ],
+      "title": "Walk the setup before the first package is opened",
+      "why": "None of these three announce themselves once the case has started: a lifted pouch seal looks like a sealed pouch from a metre away, an out-of-date graft vial looks exactly like an in-date one, and a worn drill still spins. Every one of them is cheap to catch now and expensive to catch later, because the moment the field is laid and the surgeon is gloved, the only way to replace a contaminated or wrong item is to break the field and start that part again."
+    },
+    {
+      "cue": "Cap and mask on first, then the surgical hand scrub, and only then open the sterile gloves.",
+      "id": "scrub-sequence",
+      "itemNames": {
+        "cap-mask": "surgical cap and mask",
+        "scrub-sink": "the surgical hand scrub",
+        "sterile-gloves": "the sterile glove pack"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — cap and mask before the scrub, and the sterile gloves last of all. Gloving before scrubbing puts a sterile barrier over hands that were never prepared.",
+      "prompt": "Cap and mask on first, then the surgical hand scrub, and only then open the sterile gloves.",
+      "targets": [
+        "cap-mask",
+        "scrub-sink",
+        "sterile-gloves"
+      ],
+      "title": "Cap and mask, surgical scrub, then sterile gloves",
+      "why": "The order is the whole point. Cap and mask go on before the hands are clean because putting them on afterwards means touching your own face and hair with scrubbed hands; the surgical scrub is longer and reaches higher than a routine hand wash because this is a surgical procedure rather than a restorative one; and the sterile gloves are opened last, onto hands that have nothing left on them, so the outside of the glove is the barrier the CDC's surgical-asepsis guidance assumes it is."
+    },
+    {
+      "cue": "Lay the sterile drape over the tray and set the kit out where the surgeon's hand will go.",
+      "id": "drape-field",
+      "kind": "select",
+      "prompt": "Lay the sterile drape over the tray and set the kit out where the surgeon's hand will go.",
+      "target": "sterile-drape",
+      "title": "Lay the sterile field and set the tray in reach",
+      "why": "A sterile field is a defined area, not a general intention: the drape marks where sterile items may sit, and anything that leaves it or hangs below the table edge has left it for good. Laying it out so the instruments sit under the surgeon's own hand is what stops the pass turning into a reach across the field, and a reach across a field is how most avoidable breaks in asepsis actually happen in a small operatory."
+    },
+    {
+      "cue": "Set the irrigation flow for this drill sequence, then commit the reading.",
+      "gauge": {
+        "green": [
+          0.34,
+          0.58
+        ],
+        "label": "IRRIGANT FLOW",
+        "missNote": "Outside the flow this sequence calls for. Read the drill manufacturer's own figure off the kit lid rather than setting it by the sound of the pump.",
+        "speed": 0.8
+      },
+      "id": "irrigation-set",
+      "kind": "gauge",
+      "prompt": "Set the irrigation flow for this drill sequence, then commit the reading.",
+      "target": "irrigation-dial",
+      "title": "Set the chilled sterile irrigant flow",
+      "why": "Irrigation is not a courtesy here — it is the only thing carrying the heat of a cutting bur out of the osteotomy, and bone begins to die irreversibly a few degrees above body temperature. Too little flow and the fixture wall is cooked before the drill is withdrawn; too much and the surgeon is working in a flooded site they cannot see into. Chilled sterile saline at the published rate is what lets a drill cut bone that will still be alive to integrate with the implant."
+    },
+    {
+      "cue": "Hold the retractor steady and keep the suction tip off the bone while the surgeon cuts.",
+      "holdBreakNote": "The retraction dropped while the bur was still turning. Reseat it and hold — soft tissue falling into a cutting drill is a laceration the patient feels for weeks.",
+      "id": "retract-hold",
+      "kind": "hold",
+      "prompt": "Hold the retractor steady and keep the suction tip off the bone while the surgeon cuts.",
+      "seconds": 9,
+      "target": "retractor",
+      "title": "Hold retraction and suction clear of the osteotomy",
+      "why": "Two jobs at once, and both of them are about what the surgeon can see. The retractor holds the flap and the cheek out of a line of sight a few millimetres wide, and the suction tip stays near the site but never on it, because suction placed on cut bone strips away the blood clot and the bone chips that the site needs. Let the retraction drift and the flap falls into a spinning bur; park the suction on the crest and the osteotomy dries out under it."
+    },
+    {
+      "cue": "Pilot drill first, then the intermediate, then the final drill for this fixture diameter.",
+      "id": "drill-sequence",
+      "itemNames": {
+        "drill-32": "the 3.2 mm twist drill",
+        "drill-38": "the 3.8 mm final drill",
+        "pilot-drill": "the pilot drill"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of sequence — pilot, then intermediate, then final. Jumping a diameter over-widens the osteotomy and costs the fixture its primary stability.",
+      "prompt": "Pilot drill first, then the intermediate, then the final drill for this fixture diameter.",
+      "targets": [
+        "pilot-drill",
+        "drill-32",
+        "drill-38"
+      ],
+      "title": "Hand up the drill sequence in the published order",
+      "why": "An osteotomy is widened in small published steps because each drill only has to remove a thin ring of bone: skip a diameter and the next drill takes a bite it was never designed for, which chatters, over-widens the site and leaves the fixture without the primary stability it needs to stay still while it integrates. The sequence on the kit lid belongs to the implant system in front of you, and it is the manufacturer's labelled instruction for an FDA-cleared device rather than a suggestion the room may improve on."
+    },
+    {
+      "cue": "Turn the ratchet to carry the fixture down into the osteotomy under the surgeon's hand.",
+      "id": "seat-fixture",
+      "kind": "turn",
+      "prompt": "Turn the ratchet to carry the fixture down into the osteotomy under the surgeon's hand.",
+      "target": "torque-ratchet",
+      "title": "Seat the fixture with the ratchet",
+      "turn": {
+        "axis": "y",
+        "label": "SEATING RATCHET",
+        "turns": 1.5
+      },
+      "why": "The fixture is threaded into bone slowly and by hand, because the feel of the thread engaging is the only live information anybody has about the quality of the bone it is cutting into. Driving it fast with a motor removes that feedback and can strip the thread in soft bone, and a stripped osteotomy has no way of holding the implant still. The ratchet's job is to turn the fixture, never to force it: resistance that suddenly climbs means the site needs reassessing, not a longer lever."
+    },
+    {
+      "cue": "Hold the wrench in the band and read the seating torque back out loud as it climbs.",
+      "holdBreakNote": "The wrench went outside the band. Bring it back and read it again — a torque figure nobody held steady is a figure nobody can put in the record.",
+      "id": "torque-read",
+      "kind": "track",
+      "prompt": "Hold the wrench in the band and read the seating torque back out loud as it climbs.",
+      "seconds": 10,
+      "target": "torque-wrench",
+      "title": "Read the seating torque back to the surgeon",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.44,
+        "green": [
+          0.36,
+          0.6
+        ],
+        "label": "SEATING TORQUE",
+        "rise": 0.52,
+        "start": 0.1
+      },
+      "why": "Seating torque is the number that goes in the record and the number that decides what happens next: too little and the fixture is not stable enough to be loaded or to carry a healing abutment, too much and the bone at the fixture wall is being crushed rather than compressed, which shows up as crestal bone loss months afterwards. The assistant reading the wrench aloud is how the value actually reaches the operator's ears while their eyes are still in the field, and it is the reading that gets written down rather than an impression of how tight it felt."
+    },
+    {
+      "cue": "Carry the graft packet to the sterile mixing well and open it there, not over the tray.",
+      "drag": {
+        "missNote": "Not in the well. Graft opened over the tray scatters, and granules off the field cannot go into the wound.",
+        "radius": 0.45,
+        "to": "graft-well"
+      },
+      "id": "graft-place",
+      "kind": "drag",
+      "prompt": "Carry the graft packet to the sterile mixing well and open it there, not over the tray.",
+      "target": "graft-packet",
+      "title": "Take the graft to the mixing well",
+      "why": "Particulate graft is opened into a well on the sterile field and hydrated there, so that the material stays contained and the surgeon can pick it up in one motion instead of chasing granules across a drape. Opened anywhere else it scatters, and scattered graft is both waste and a contamination route — every granule that lands off the field is one somebody is tempted to pick up again. The packet is handled once, by one pair of gloves, and what comes out of it goes straight into the defect."
+    },
+    {
+      "cue": "Go through the written post-operative instructions with the patient before they get up.",
+      "id": "postop-brief",
+      "kind": "select",
+      "prompt": "Go through the written post-operative instructions with the patient before they get up.",
+      "target": "postop-card",
+      "title": "Give the post-operative instructions",
+      "why": "Most of what decides whether this site heals happens in the next seventy-two hours, at home, with nobody watching: firm pressure rather than repeated peeking at the gauze, cold on the outside for the first day, no rinsing or spitting hard enough to disturb the clot, no smoking and no drinking through a straw, and the analgesic and any antimicrobial taken as written. Instructions given in writing as well as out loud are the ones a patient can still follow that evening, when the local has worn off and they cannot remember what was said."
+    },
+    {
+      "cue": "Point out the three things on the chart that mean this patient calls the practice rather than waiting.",
+      "id": "warning-signs",
+      "itemNames": {
+        "sign-bleeding": "bleeding on gentle probing at the collar",
+        "sign-mobility": "any movement of the implant itself",
+        "sign-swelling": "swelling and discharge around the implant neck"
+      },
+      "itemNotes": {
+        "sign-bleeding": "An implant collar that bleeds when it is touched gently is inflamed. Bleeding on probing is the earliest sign anybody can teach a patient to notice at home with a soft brush.",
+        "sign-mobility": "An integrated implant does not move at all. Any movement the patient can feel is a failure of integration and needs the surgeon the same week, not at the next recall.",
+        "sign-swelling": "Puffy, red tissue around the collar with pus coming from it is the picture of peri-implantitis rather than ordinary post-operative soreness — it is a reason to be seen, not a reason to wait and see."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Point out the three things on the chart that mean this patient calls the practice rather than waiting.",
+      "targets": [
+        "sign-swelling",
+        "sign-bleeding",
+        "sign-mobility"
+      ],
+      "title": "Teach the peri-implantitis warning signs off the chart",
+      "why": "An implant does not ache the way a tooth does, and that is the problem: disease around the collar can progress a long way with very little pain, so the patient's own eyes and a soft brush are the early warning system. Swelling with discharge, bleeding when the collar is touched and any movement at all are the three findings worth teaching, because each of them means the tissue or the bone around the fixture is being lost and every week of waiting costs bone that does not come back."
+    },
+    {
+      "cue": "Check in with the surgeon and the circulating assistant: counts, specimen, anything that felt off.",
+      "id": "team-checkin",
+      "kind": "select",
+      "prompt": "Check in with the surgeon and the circulating assistant: counts, specimen, anything that felt off.",
+      "target": "team-checkin",
+      "title": "Check in with the surgical team before breaking down",
+      "why": "A surgical case ends with a conversation, not with the last suture. The sharps and instrument counts get said out loud, the fixture and graft lot numbers get confirmed by two people rather than one, and anybody who saw something they were not happy about — a glove that brushed a light handle, a drill that sounded wrong — says it now while it can still be written down and acted on. A team that only debriefs after a bad outcome never learns from the cases that nearly went wrong."
+    },
+    {
+      "cue": "Log the fixture lot and size, the seating torque, the graft lot and the sterilisation load, then hand over.",
+      "id": "implant-log",
+      "kind": "select",
+      "prompt": "Log the fixture lot and size, the seating torque, the graft lot and the sterilisation load, then hand over.",
+      "target": "implant-log",
+      "title": "Write the implant record and hand over",
+      "why": "This record is what anybody treating this implant in ten years has to work from, and half of it cannot be reconstructed later: the fixture's manufacturer, diameter, length and lot number, the torque it actually seated at, the graft lot in the defect and the sterilisation load number for the kit used. Lot numbers are what make a manufacturer's recall reach the handful of patients it concerns, and the handover to whoever is watching this patient in recovery is what stops a bleeding point being noticed by nobody."
+    }
+  ],
+  "supportLine": "If a case leaves you shaken, your union's member assistance programme — SEIU and UFCW both run confidential counselling lines for clinic staff — will talk it through with you, and the call is not reported to the practice.",
+  "tagline": "A single-fixture implant placement from the assistant's side: sterile field, kit sequence, chilled irrigation, a torque you can read, graft handled once, and a patient who leaves knowing what failure looks like",
+  "title": "SmartCiti.X~ Implant Surgery Assisting VR",
+  "trade": "Dental assistant — surgical assisting (DANB Certified Oral and Maxillofacial Surgery Assistant), SEIU and UFCW clinic and dental staff",
+  "underwater": null,
+  "weather": "clear"
+}

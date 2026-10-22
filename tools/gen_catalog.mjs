@@ -1,0 +1,156 @@
+/**
+ * Generates WebXR/smartcity/catalog.json — the machine-readable roster a
+ * hosting platform, portal or metaverse fabric can index without loading
+ * any app: every SmartCiti.X station and Trade Skills room with its
+ * category, trade, real certification, badge, rank ladder, step count, and
+ * the deep link and embed parameters that open it. Built from the real
+ * modules (same headless harness as the checkers), so it cannot drift.
+ *
+ *     node tools/gen_catalog.mjs
+ */
+import { readFileSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
+import { ROOT, WEBXR, loadSmartCity, loadTrades } from "./lib/headless.mjs";
+import { CURRICULA } from "../WebXR/smartcity/js/curricula.js";
+
+// The weather kinds, read out of weather.js so the catalog never lists a kind
+// the stage cannot build or misses one it can.
+const WEATHER_KINDS = (readFileSync(join(WEBXR, "shared/weather.js"), "utf8")
+  .match(/export const WEATHER_KINDS = \[([^\]]*)\]/)?.[1] ?? "")
+  .split(",").map((k) => k.trim().replace(/^["']|["']$/g, "")).filter(Boolean);
+
+const OUT = join(WEBXR, "smartcity", "catalog.json");
+// The twenty-level ladders are generated from the same programmes and the
+// same station modules, so a station added to a programme lands on its
+// ladder in the same run (tools/gen_ladders.mjs, docs/ladders.md). They are
+// written first so each programme's entry below can carry its ladder's
+// counts, which the homepage's training-tracks section reads.
+const { writeLadders } = await import("./gen_ladders.mjs");
+const { ladders: LADDER_LIST } = await writeLadders();
+const LADDER_OF = new Map(LADDER_LIST.map((l) => [l.programme, l]));
+const city = await loadSmartCity();
+const trades = await loadTrades();
+
+function meshCount(suite, r) {
+  try {
+    const root = new suite.THREE.Group();
+    r.build(root);
+    let meshes = 0, lights = 0;
+    root.traverse((o) => { if (o.isMesh || o.isPoints || o.isLine) meshes += 1; if (o.intensity !== undefined) lights += 1; });
+    return { meshes, lights };
+  } catch (_) { return { meshes: null, lights: null }; }
+}
+// A Quest-class headset comfortably draws a few hundred small meshes per
+// station on top of the stage; flag anything past this so the headset pass
+// starts with the heaviest stations.
+// Two budgets, because they are not the same scene: a SmartCiti.X station
+// sits on the shared stage (plaza, district, skyline, weather, site apron),
+// a Trade Skills room IS the whole scene. Keep in step with check_budget.mjs.
+const MESH_BUDGET = { smartcity: 320, trades: 430 };
+
+const common = (r) => ({
+  id: r.id, name: r.name ?? r.title, title: r.title, tagline: r.tagline ?? null,
+  category: r.category ?? null, domain: r.domain ?? null, trade: r.trade ?? null,
+  union: r.union ?? null, certification: r.certification ?? null,
+  accent: r.accentCss ?? null, parSeconds: r.parSeconds ?? null, weather: r.weather ?? "clear", indoor: r.indoor ?? null, district: r.district ?? null,
+  steps: r.steps.length, hazards: Object.keys(r.hazards ?? {}).length,
+  // Interruptions belong on the published record for the same reason steps and
+  // hazards do: a hall choosing a station, or a lesson composed over the
+  // roster, has to be able to see which procedures assess noticing.
+  interrupts: (r.interrupts ?? []).length,
+  stepKinds: [...new Set(r.steps.map((s) => s.kind))],
+  badge: r.badge ?? null,
+});
+
+const stations = city.ROOMS.map((r) => ({
+  app: "smartcity", ...common(r), ...meshCount(city, r), overBudget: (meshCount(city, r).meshes ?? 0) > MESH_BUDGET.smartcity, index: r.index ?? null, flat: !!r.flat,
+  system: r.game?.system ?? null, currency: r.game?.currency ?? null, ranks: r.game?.ranks ?? [],
+  awards: [...(r.game?.badges ?? []), ...(r.game?.challenges ?? [])].map((a) => ({ id: a.id, name: a.name, note: a.note })),
+  sources: (r.dossier ?? []).flatMap((d) => [d.source, d.source2].filter(Boolean)),
+  deepLink: `smartcity/index.html?sim=${r.id}`,
+}));
+const rooms = trades.ROOMS.map((r) => ({
+  app: "trades", ...common(r), ...meshCount(trades, r), overBudget: (meshCount(trades, r).meshes ?? 0) > MESH_BUDGET.trades, category: r.category ?? "Trade Skills Simulator",
+  deepLink: `trades/index.html?room=${r.id}`,
+}));
+
+/** A programme's twenty-level track in numbers: what the homepage card and a platform indexing the roster need. */
+function ladderSummary(l) {
+  if (!l) return null;
+  return {
+    levels: l.levels.length, lessons: l.lessons, tasks: l.levels.reduce((a, lv) => a + lv.tasks.length, 0),
+    atBar: l.gap.full, partial: l.gap.partial, stationsNeeded: l.gap.stationsNeeded,
+    lessonBar: 75, note: "a lesson is one station step under one condition; see docs/ladders.md",
+  };
+}
+
+const catalog = {
+  protocol: 2,
+  network: "SmartCiti.X ~VR Simulators (Powered by AGI Corp & Visko)",
+  generatedAt: new Date().toISOString().slice(0, 10),
+  apps: {
+    smartcity: { entry: "smartcity/index.html", dist: "smartcity/dist/smartcity-x.html", modes: ["flat", "ar", "vr"], stations: stations.length },
+    trades: { entry: "trades/index.html", dist: "trades/dist/trade-skills-simulator.html", modes: ["flat", "vr"], rooms: rooms.length },
+    holodeck: { entry: "holodeck/index.html", dist: "holodeck/dist/holodeck.html", modes: ["flat", "vr"], note: "prompt-generated procedures; can load any SmartCiti.X station by name" },
+    portal: { entry: "portal/index.html" },
+  },
+  categories: [...new Set([...stations, ...rooms].map((s) => s.category))].map((c) => ({
+    name: c, stations: [...stations, ...rooms].filter((s) => s.category === c).map((s) => s.id),
+  })),
+  launch: {
+    identity: "?learner=<name>&learner_id=<id>&learner_home=<https origin>  or  postMessage({type:'smartcitix:identity', learner, learner_id, learner_home})",
+    lrs: "?lrs_endpoint=<https url>  or  postMessage({type:'smartcitix:lrs', endpoint, auth})",
+    robot: "?robot=<skill 0..1>  runs a software trainee (SmartCiti.X)",
+    commands: [
+      "smartcitix:open {sim|room, skipBrief?}", "smartcitix:hub", "smartcitix:status", "smartcitix:catalog",
+      "smartcitix:flow.load {flow}", "smartcitix:flow.start {flowId?, restart?}", "smartcitix:flow.resume {nodeId, outcome}",
+    ],
+    events: [
+      "smartcitix:ready", "smartcitix:state", "smartcitix:catalog", "smartcitix:progress", "smartcitix:record", "smartcitix:credential",
+      "smartcitix:flow.state", "smartcitix:flow.done", "smartcitix:flow.external",
+    ],
+    trust: "commands are accepted, and events sent, only to the origin given as learner_home",
+    flows: "protocol 2: a host hands over a flow (a node graph with a condition on every edge) and hears every transition back. Schema and message contract: docs/flowhub.md, WebXR/shared/flowhub.js; examples in WebXR/flows/",
+  },
+  weather: { kinds: WEATHER_KINDS, note: "each station declares the conditions its procedure is written for; ?weather= overrides, ?time=night|dusk|day sets the hour", override: "?weather=<kind>" },
+  profile: { levels: 33, tiers: ["Trainee", "Apprentice", "Journeyworker", "Technician", "Specialist", "Foreman", "Master", "Certified Master", "Legend"], shared: ["smartcity", "trades", "holodeck"] },
+  records: { formats: ["csv", "xapi-1.0.3", "open-badges-2.0"], passRule: "stars >= 2 and no unsafe action" },
+  performance: { meshBudget: MESH_BUDGET, note: "meshes counted from a headless build of each station. A SmartCiti.X station is measured against 320 because the shared stage is drawn around it; a Trade Skills room against 430 because the room is the whole scene. overBudget stations go first in the headset pass" },
+  curricula: CURRICULA.map((c) => ({
+    id: c.id, name: c.name, union: c.union, certification: c.certification, summary: c.summary, accent: c.accent ?? null,
+    ...(c.audience ? { audience: c.audience, band: c.band ?? null, teacherNote: c.teacherNote ?? null } : {}),
+    stations: c.stations.map((s) => ({ app: s.app, id: s.id, why: s.why })),
+    completionRule: "every station has a passing attempt (stars >= 2, no unsafe action)",
+    ladder: ladderSummary(LADDER_OF.get(c.id)),
+  })),
+  stations: [...stations, ...rooms],
+};
+writeFileSync(OUT, JSON.stringify(catalog, null, 2) + "\n");
+console.log(`Wrote ${OUT.replace(ROOT + "/", "")} (${stations.length} stations, ${rooms.length} rooms, ${catalog.categories.length} categories, ${catalog.curricula.length} programmes)`);
+await import("./gen_competency_programmes.mjs");
+// The homepage is generated from the catalog that was just written, so a
+// station, category or programme can never exist in the roster and be missing
+// from the page a learner actually lands on.
+const { writeHome } = await import("./gen_home.mjs");
+writeHome();
+// One training-track page per programme, from the ladders and the catalog
+// just written (tools/gen_tracks.mjs; bundled into WebXR/dist/tracks/).
+const { writeTracks } = await import("./gen_tracks.mjs");
+await writeTracks();
+// The Foreman's Radio quiz data (docs/easter-egg.md) — regenerated here too,
+// so it can never drift from tools/standards.json.
+const { writeRadioQuizData } = await import("./gen_radio_quiz.mjs");
+writeRadioQuizData();
+// The race's capstone liveries (docs/easter-egg.md) — one per programme with
+// a ladder, regenerated from the ladders that gen_ladders.mjs just wrote.
+const { writeCapstoneLiveries } = await import("./gen_capstone_liveries.mjs");
+writeCapstoneLiveries();
+// Toolbox Talk Bingo's per-station hazard-label pool (docs/easter-egg.md) —
+// regenerated here too, so it can never drift from a station's own hazards.
+const { writeBingoHazardsData } = await import("./gen_bingo_hazards.mjs");
+await writeBingoHazardsData();
+// The level-ladder milestone quotes (docs/ladders.md) — regenerated after
+// gen_ladders.mjs above has written the ladders themselves, so a milestone
+// can never quote a level or a station that has since changed.
+const { writeLadderMilestonesData } = await import("./gen_ladder_milestones.mjs");
+await writeLadderMilestonesData();

@@ -1,0 +1,414 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "reshored-before-load",
+    "name": "Reshored Before Load",
+    "note": "A bay stripped strip by strip on the engineer's ticket, a reshore in behind every strip, and the reshores watched through the pour above"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "UBC carpentry apprenticeship formwork curriculum through the Carpenters International Training Fund, and LIUNA Training laborer curricula; ACI 347 Guide to Formwork for Concrete, including removal of forms and reshoring; OSHA 29 CFR 1926.703 formwork and shoring — forms removed only once the concrete has the strength the engineer requires, and reshoring — under 29 CFR 1926 Subpart Q; ANSI A10.9 concrete and masonry construction safety; the engineer of record's strength ticket and reshoring plan",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ACI",
+        "citedAs": "ACI 347",
+        "id": "aci-347",
+        "title": "ACI 347 Guide to Formwork for Concrete — design, construction, removal of forms and reshoring"
+      },
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI A10.9",
+        "id": "ansi-a10-9",
+        "title": "ANSI/ASSP A10.9 — Concrete and masonry construction safety requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "Carpenters",
+        "id": "carpenters-ictf",
+        "title": "United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA Training",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.703",
+        "id": "osha-1926-703",
+        "title": "29 CFR 1926.703 — Requirements for cast-in-place concrete"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction & Structural Trades",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "ticket-first",
+        "name": "Ticket First",
+        "note": "Not a single form moved before the strength ticket was read"
+      },
+      {
+        "id": "watched-the-pour",
+        "name": "Watched The Pour",
+        "note": "The reshores watched in band through the whole pour above"
+      },
+      {
+        "id": "nothing-overhead",
+        "name": "Nothing Overhead",
+        "note": "Never under a lowering panel, never prying overhead, never stripping ahead of a ticket, never pulling a reshore"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-strip",
+        "name": "Clean Strip",
+        "note": "No corrections through the whole bay"
+      },
+      {
+        "id": "snug-not-jacked",
+        "name": "Snug Not Jacked",
+        "note": "The reshore snugged inside the band first time"
+      },
+      {
+        "id": "bay-by-break",
+        "name": "Bay By Break",
+        "note": "Bay stripped, reshored and logged inside 80% of par"
+      }
+    ],
+    "currency": "FORM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice",
+      "Stripper",
+      "Reshore Hand",
+      "Deck Foreman",
+      "Strip Crew Certified"
+    ],
+    "system": "Strip Crew"
+  },
+  "hazards": {
+    "pry-overhead": "You went to pry the panel off the soffit with the stripping bar from directly underneath it. A panel that breaks free under a bar falls onto the person holding the bar. Panels are released from the side, by lowering their shores, with the bar used from outside the drop zone.",
+    "pull-reshore": "You went to pull a reshore out to make room for the panel cart. A reshore is carrying part of this slab and part of the floor being poured above it; take one out and its share goes onto its neighbours and onto a slab that has not reached full strength. Reshores stay until the reshoring plan releases them.",
+    "strip-next-bay": "You went to start stripping the next bay. That bay was poured later and the engineer's ticket in front of you releases this bay only. Concrete gains strength with time and temperature, and a bay a day younger may not yet carry itself; each bay is stripped on its own ticket.",
+    "under-lowering-panel": "You stepped under the form panel while it was being lowered. A stripped panel hangs from one line and whatever friction is left between it and the slab, and plywood stuck to concrete lets go all at once. OSHA's formwork rule and every stripping procedure keep people out from under forms being removed; the panel comes down onto an empty floor."
+  },
+  "id": "bt-formwork-stripping-and-reshoring",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "panel-lower",
+      "alert": "A laborer has ducked under the barricade chain to grab a stripped beam — he is standing under the panel you are lowering.",
+      "cue": "Stop, get him out, and close the barricade behind him.",
+      "delay": 2,
+      "id": "laborer-under-forms",
+      "kind": "Worker inside the exclusion zone",
+      "missNote": "The laborer stayed under the panel for the rest of the lower; it slid off its beams at the last half metre and landed flat a step from where he stood.",
+      "seconds": 12,
+      "target": "exclusion-zone",
+      "why": "The exclusion zone only works if it is enforced the moment somebody breaks it. The panel stops where it is, the worker is called out, and the gap he came through is closed — the beam he wanted will still be there in five minutes, and the panel overhead is exactly what the zone was set up for.",
+      "wrongNote": "The barricade — there is a person under a panel coming down, and the zone has to be closed again now."
+    },
+    {
+      "after": "pour-above",
+      "alert": "The reshore under strip B has gone loose as the pour moved over it — it rattles when tapped and the slab above is deflecting onto its neighbours.",
+      "cue": "Call the pour hold on the radio until the reshore is snugged again.",
+      "delay": 2,
+      "id": "reshore-loose",
+      "kind": "Reshore gone loose",
+      "missNote": "The pump kept placing over strip B; the slab deflected onto the loose reshore's neighbours until a hairline crack showed across the soffit between them.",
+      "seconds": 12,
+      "target": "pump-radio",
+      "why": "A loose reshore during a pour is carrying nothing, and its share of the wet concrete is going onto its neighbours and onto a young slab. The pump stops placing while the reshore is snugged again; a pour paused for a minute costs nothing, a pour that keeps going over an unsupported point can cost the slab.",
+      "wrongNote": "The pump radio — the concrete has to stop going on before the reshore can be made to carry again."
+    }
+  ],
+  "lateNotes": {
+    "reshore-post": "The reshore goes in once the first panel is down — and before the next strip is touched.",
+    "screw-jack": "The first shore is eased once the ticket is read, the bay walked and the exclusion zone signed — not before anyone knows whether this slab may carry itself.",
+    "strip-log": "The bay is logged once every strip is out, every reshore is in and the pour above has been watched."
+  },
+  "name": "Formwork Stripping & Reshoring",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "builders-trades"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "concretePump",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "radio",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "exclusion-zone",
+      "laydown",
+      "loose-panel",
+      "lowering-line",
+      "nails-up",
+      "panel-stack",
+      "pry-overhead",
+      "pull-reshore",
+      "pump-radio",
+      "reshore-b",
+      "reshore-c",
+      "reshore-head",
+      "reshore-mark",
+      "reshore-monitor",
+      "reshore-post",
+      "reshores-missing",
+      "screw-jack",
+      "soffit-crack",
+      "stack-on-reshore",
+      "strength-ticket",
+      "strip-b",
+      "strip-c",
+      "strip-log",
+      "strip-next-bay",
+      "under-lowering-panel"
+    ],
+    "meshes": 199
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the ticket: which bay it releases, the field-cured test result against the stripping strength the engineer requires, and the reshoring plan it refers to.",
+      "id": "strength-ticket",
+      "kind": "select",
+      "prompt": "Read the ticket: which bay it releases, the field-cured test result against the stripping strength the engineer requires, and the reshoring plan it refers to.",
+      "target": "strength-ticket",
+      "title": "Read the engineer's strength ticket for this bay",
+      "why": "Forms come off when the concrete can carry itself, and that is decided by the engineer from test results, not by the calendar or by how hard the slab looks. OSHA 29 CFR 1926.703 lets forms and shores be removed only once the employer has determined the concrete has gained enough strength, based on the plans and specifications or on test results, and ACI 347 puts the same decision with the engineer. The ticket names the bay it releases, and it releases nothing else."
+    },
+    {
+      "cue": "Walk under the bay: the slab's underside, the forms and their clips, the shores, and the reshore marks on the floor.",
+      "id": "bay-walk",
+      "itemNames": {
+        "loose-panel": "a panel already hanging by one clip overhead",
+        "reshores-missing": "reshore marks with no reshores staged at them",
+        "soffit-crack": "a crack in the slab soffit running out from the column"
+      },
+      "itemNotes": {
+        "loose-panel": "Somebody has already knocked the clips off one panel and left it hanging by the last one. It comes down first, under control, before anyone works beneath it.",
+        "reshores-missing": "The reshoring plan's marks are chalked on the floor but the reshores are still on the truck. Stripping starts only when the reshores are staged beside their marks, because they go in the moment each strip comes out.",
+        "soffit-crack": "A crack running out from the column face on the underside of the slab is something the engineer sees before stripping, not after. It is marked and reported, and the strip waits for an answer."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk under the bay: the slab's underside, the forms and their clips, the shores, and the reshore marks on the floor.",
+      "targets": [
+        "soffit-crack",
+        "loose-panel",
+        "reshores-missing"
+      ],
+      "title": "Walk the bay before a form moves",
+      "why": "A stripping crew is about to work directly under a slab and its forms, and the walk is where anything that makes that unsafe is found while nothing is moving yet. A crack in the soffit may mean the slab is not behaving as designed, a panel left hanging by one clip is a falling object waiting for its moment, and reshores that are not staged mean the bay would be left unsupported between strips."
+    },
+    {
+      "cue": "Close the bay with the barricade chain and post the danger sign on the signage pad, so nobody walks under forms coming down.",
+      "id": "exclusion-zone",
+      "kind": "select",
+      "prompt": "Close the bay with the barricade chain and post the danger sign on the signage pad, so nobody walks under forms coming down.",
+      "target": "exclusion-zone",
+      "title": "Set and sign the stripping exclusion zone",
+      "why": "Stripping drops things: panels, beams, clips and nails, from ceiling height, without warning. The exclusion zone keeps everyone not stripping out of the bay, and the sign on the pad says why in words anyone approaching can read. A zone that is only understood by the crew inside it protects nobody who wanders into it from the next bay."
+    },
+    {
+      "cue": "Wind the screw jack on strip A's first shore down a little at a time, until the panel above lets go of the soffit.",
+      "id": "screw-jack",
+      "kind": "turn",
+      "prompt": "Wind the screw jack on strip A's first shore down a little at a time, until the panel above lets go of the soffit.",
+      "target": "screw-jack",
+      "title": "Ease the first shore's screw jack down",
+      "turn": {
+        "label": "SCREW JACK",
+        "turns": 1
+      },
+      "why": "Forms are released by lowering their support, a small amount at a time, so the panel breaks free of the concrete under control and drops onto its own beams rather than off the soffit onto the floor. Winding the jack fast or knocking the shore out sends the whole strip down at once; easing it lets the crew see the panel release before anybody is underneath it."
+    },
+    {
+      "cue": "Hold the lowering line and let the panel down steadily onto the empty floor, standing outside the drop zone.",
+      "holdBreakNote": "The line went slack and the panel dropped the last half metre. Take up the line and let it down steadily.",
+      "id": "panel-lower",
+      "kind": "hold",
+      "prompt": "Hold the lowering line and let the panel down steadily onto the empty floor, standing outside the drop zone.",
+      "seconds": 5,
+      "target": "lowering-line",
+      "title": "Lower the panel on its line",
+      "why": "A form panel that has let go of the soffit is a sheet of plywood on beams, hanging from a line, over a floor that must be empty. Held steady and let down slowly, it lands flat where it can be cleaned and carried off; dropped, it slides, bounces and breaks — and people get hurt in stripping mostly by forms coming down in a way nobody planned."
+    },
+    {
+      "cue": "Carry the reshore to its chalked mark under the stripped strip and stand it plumb under the slab.",
+      "drag": {
+        "missNote": "Not on the chalk mark — the reshore stands where the reshoring plan marks it, under the stripped strip.",
+        "radius": 0.4,
+        "to": "reshore-mark"
+      },
+      "id": "reshore-post",
+      "kind": "drag",
+      "prompt": "Carry the reshore to its chalked mark under the stripped strip and stand it plumb under the slab.",
+      "target": "reshore-post",
+      "title": "Set a reshore at its mark before anything else comes out",
+      "why": "The reshoring plan puts a reshore under the slab where the engineer needs one, and it goes in straight after the strip above it is out — before the next strip is touched — so no part of the slab is left spanning further than its young concrete can. A reshore set a hand's width off its mark is supporting a point the engineer never checked."
+    },
+    {
+      "cue": "Take the reshore's screw up until its head is snug against the slab, and commit there: tight enough to carry, not jacking the slab.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.58
+        ],
+        "label": "RESHORE",
+        "missNote": "Not snug — loose it carries nothing, jacked it lifts the slab. Back it off and take it up again.",
+        "speed": 0.72
+      },
+      "id": "reshore-snug",
+      "kind": "gauge",
+      "prompt": "Take the reshore's screw up until its head is snug against the slab, and commit there: tight enough to carry, not jacking the slab.",
+      "target": "reshore-head",
+      "title": "Snug the reshore to the soffit — do not jack it",
+      "why": "A reshore is snugged, never jacked: its job is to share load as the slab above is loaded, not to push the young slab up. Jacked, it lifts the slab off its neighbours and puts bending into concrete that is not ready for it; left loose, it carries nothing until the slab has already deflected onto it. Snug to the soffit is the only setting that does what the engineer's plan assumes."
+    },
+    {
+      "cue": "Lower strip B and reshore it, then lower strip C and reshore it — never two strips out without their reshores.",
+      "id": "strip-order",
+      "itemNames": {
+        "reshore-b": "reshore under strip B",
+        "reshore-c": "reshore under strip C",
+        "strip-b": "strip B lowered",
+        "strip-c": "strip C lowered"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Strip, reshore, strip, reshore — every strip has its reshore in before the next strip comes out.",
+      "prompt": "Lower strip B and reshore it, then lower strip C and reshore it — never two strips out without their reshores.",
+      "targets": [
+        "strip-b",
+        "reshore-b",
+        "strip-c",
+        "reshore-c"
+      ],
+      "title": "Strip and reshore the rest of the bay, one strip at a time",
+      "why": "Stripping is paced by the reshores. Two strips out with no reshore between them leaves the slab spanning twice as far as the plan allows at the moment it is least able to carry it, and the first sign would be a crack. Strip, reshore, strip, reshore keeps the slab supported at the plan's spacing the whole time the forms are coming down."
+    },
+    {
+      "cue": "Look over what has come down: the panels, their nails, and where they have been left.",
+      "id": "stripped-find",
+      "itemNames": {
+        "nails-up": "stripped plywood lying nails-up in the walkway",
+        "stack-on-reshore": "stripped panels leaned against a reshore"
+      },
+      "itemNotes": {
+        "nails-up": "A stripped panel has been dropped in the walkway with its nails pointing up. It is a puncture wound waiting for a boot; nails are pulled or bent over, and the panel goes to the laydown.",
+        "stack-on-reshore": "Somebody has leaned a stack of panels against a reshore. A bump to that stack is a sideways kick at a post that is carrying the slab, and a reshore knocked out of plumb is carrying nothing."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over what has come down: the panels, their nails, and where they have been left.",
+      "targets": [
+        "nails-up",
+        "stack-on-reshore"
+      ],
+      "title": "Check the stripped forms and the floor",
+      "why": "The stripped material is its own hazard: plywood with nails still in it, beams and clips on the floor, and stacks put down wherever there was room. Left where they fall they injure feet and knock reshores; put where they belong, they are ready for the next lift. The check happens before the floor above is loaded, because a reshore disturbed during the pour is found out the hard way."
+    },
+    {
+      "cue": "Take the stack of stripped, de-nailed panels out of the bay and set it flat in the laydown area.",
+      "drag": {
+        "missNote": "Not in the laydown — the stripped panels go out of the bay into the marked laydown, not stacked by the reshores.",
+        "radius": 0.6,
+        "to": "laydown"
+      },
+      "id": "panel-stack",
+      "kind": "drag",
+      "prompt": "Take the stack of stripped, de-nailed panels out of the bay and set it flat in the laydown area.",
+      "target": "panel-stack",
+      "title": "Carry the stripped panels to the laydown",
+      "why": "Stripped forms go out of the bay and into the laydown flat, cleaned and de-nailed, so the reshored bay stays clear for the pour above and nothing is leaning against the posts carrying the slab. A tidy laydown is also where the carpenters check each panel for damage before it goes back up on the next deck."
+    },
+    {
+      "cue": "Keep the reshore readings inside the plan's band as the pump places concrete on the deck above.",
+      "holdBreakNote": "The reshore readings left the band while nobody watched. Find out which one, and bring it back before more concrete goes on.",
+      "id": "pour-above",
+      "kind": "track",
+      "prompt": "Keep the reshore readings inside the plan's band as the pump places concrete on the deck above.",
+      "seconds": 7,
+      "target": "reshore-monitor",
+      "title": "Watch the reshores while the floor above is poured",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.46,
+        "green": [
+          0.38,
+          0.58
+        ],
+        "label": "RESHORES",
+        "rise": 0.54,
+        "start": 0.2
+      },
+      "why": "The pour above is the moment the reshores were put in for: the wet concrete's weight comes down through the new deck's shores onto this young slab, and through it onto the reshores. Watching them — a load reading, a tap test, the deflection telltale — during the pour is how the crew sees a reshore that has gone loose or a slab taking more than the plan predicted, while there is still time to stop placing concrete."
+    },
+    {
+      "cue": "Record the ticket that released the bay, the reshores set, the soffit crack reported, the laborer who came under the barricade and the loose reshore during the pour.",
+      "id": "strip-log",
+      "kind": "select",
+      "prompt": "Record the ticket that released the bay, the reshores set, the soffit crack reported, the laborer who came under the barricade and the loose reshore during the pour.",
+      "target": "strip-log",
+      "title": "Log the strip",
+      "why": "The strip log is how the engineer knows this bay was stripped on its own ticket and reshored to the plan, and it is where the soffit crack becomes a question the engineer has to answer before the reshores come out. It is written at the bay while the reshores are still in and the pour is still fresh, not reconstructed at the end of the week."
+    },
+    {
+      "cue": "Call the pour foreman: bay stripped, reshores in and holding. Then check in with the crew about the laborer under the forms and the loose reshore.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the pour foreman: bay stripped, reshores in and holding. Then check in with the crew about the laborer under the forms and the loose reshore.",
+      "target": "pump-radio",
+      "title": "Check in with the crew and the pour foreman",
+      "why": "The pour foreman only releases the next deck once the crew below confirms the reshores held, so this call sequences the job. It is also the crew's check-in: a laborer ducking under the barricade while a panel was coming down and a reshore going loose during a pour are the moments the crew replays that night, and the building trades' practice is to name them on the radio along with the member assistance line."
+    }
+  ],
+  "supportLine": "your Carpenters or LIUNA local's member assistance programme, or the employee assistance line posted on the contractor's site board",
+  "tagline": "Stripping a deck bay the day the engineer says it may go: the strength ticket read, the bay walked, the exclusion zone signed, one shore's screw jack eased, the panel lowered on its line, a reshore in before the next strip comes out, each reshore snugged and never jacked, the strips stripped and reshored in turn, the stripped forms checked and carried off, and the reshores watched while the floor above is poured",
+  "title": "SmartCiti.X~ Formwork Stripping & Reshoring VR",
+  "trade": "Carpenter — UBC, with LIUNA laborers — stripping deck forms and reshoring",
+  "underwater": null,
+  "weather": "overcast"
+}

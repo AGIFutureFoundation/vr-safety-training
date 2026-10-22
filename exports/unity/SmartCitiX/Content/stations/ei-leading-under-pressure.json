@@ -1,0 +1,417 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "steady-lead",
+    "name": "Steady Lead",
+    "note": "A slipping schedule led with a calm voice, one next step at a time, every safety step kept and every crew member credited"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "NIMS and ICS for the structure a lead keeps under pressure — unity of command, a manageable span of control and objectives stated plainly; 8 CCR 3203, the employer's Injury and Illness Prevention Program, for hazards that are not traded for schedule; the MUTCD for the work zone that has to stay set until the street reopens; SAMHSA's trauma-informed principles of safety, peer support and empowerment for a tired crew; Psychological First Aid for the calm, practical presence a lead offers; SEIU and AFSCME for the public-works members whose contract sets rest breaks and overtime. The emotional-intelligence steps follow the programme's own guide",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "Cal/OSHA",
+        "citedAs": "8 CCR 3203",
+        "id": "cal-osha-3203",
+        "title": "8 CCR 3203 — Injury and Illness Prevention Program"
+      },
+      {
+        "body": "MUTCD",
+        "citedAs": "MUTCD",
+        "id": "mutcd",
+        "title": "Manual on Uniform Traffic Control Devices — temporary traffic control for work zones (Part 6)"
+      },
+      {
+        "body": "NIMS/ICS",
+        "citedAs": "ICS",
+        "id": "nims-ics",
+        "title": "NIMS incident command system — the structure a multi-agency response runs inside"
+      },
+      {
+        "body": "NCTSN",
+        "citedAs": "Psychological First Aid",
+        "id": "pfa-field-guide",
+        "title": "Psychological First Aid Field Operations Guide (NCTSN and the National Center for PTSD), and the WHO field guide"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "SAMHSA",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Civic",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "Read the Crew",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-blame",
+        "name": "No Blame",
+        "note": "No unsafe action anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "STEADY",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Crew Member",
+      "Lead Hand",
+      "Crew Lead",
+      "Supervisor",
+      "Mentor"
+    ],
+    "system": "Lead Board"
+  },
+  "hazards": {
+    "cancel-the-rest-break": "You cancelled the crew's rest break to make up the time. Rest breaks are set in the contract SEIU and AFSCME members work under, and a crew with no break in a long night shift is a crew whose attention is going; the break is part of the schedule, not the slack in it.",
+    "shout-to-speed-them-up": "You raised your voice to push the crew faster. A lead who shouts under pressure passes the pressure straight down, and a tired crew hurried by shouting makes the mistakes that cost more time than they save; the calm voice is not softness, it is the fastest way through.",
+    "skip-the-trench-check-to-save-time": "You told the crew to skip the trench inspection this once to catch up. A hazard traded for schedule is still a hazard, and 8 CCR 3203 asks the employer to correct hazards, not defer them; the time a skipped check saves is nothing next to what a collapse or a struck line costs the crew and the street.",
+    "take-the-credit-with-the-supervisor": "You told the supervisor you had pulled the job back on schedule. Credit taken by the lead for a crew's overtime tells every tired worker that the effort was the lead's, and SAMHSA's principles of peer support and empowerment are built on the opposite — credit shared is what brings a crew back next time."
+  },
+  "id": "ei-leading-under-pressure",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-a-calm-voice",
+      "alert": "The supervisor calls the lead's radio demanding to know why the job is behind and saying to skip whatever it takes.",
+      "cue": "Answer with the plan and the objectives, calmly — safety first, then the repair, then the street.",
+      "delay": 3,
+      "id": "the-supervisor-demands-faster",
+      "kind": "Pressure from above",
+      "missNote": "The lead passed the supervisor's shouting straight to the crew, and within ten minutes somebody had pulled the trench ladder to save time.",
+      "seconds": 12,
+      "target": "elp-answer-with-plan",
+      "why": "Pressure from above is where a lead's calm matters most, because whatever comes over the radio will be passed to the crew. Answering with the plan and the objectives in order, calmly, holds the line on safety and gives the supervisor what they actually need: a realistic time and a reason to trust it.",
+      "wrongNote": "That does not answer the supervisor. Give them the plan and the objectives, calmly."
+    },
+    {
+      "after": "hold-the-crew-steady",
+      "alert": "A section of soil sloughs off the trench wall beside the shoring while a crew member is down in it.",
+      "cue": "Call everyone out by the ladder and stop work in the trench — the schedule stops with it.",
+      "delay": 3,
+      "id": "a-trench-wall-sloughs",
+      "kind": "Trench warning",
+      "missNote": "Nobody called it, the crew member stayed in the trench to finish the joint, and a second slough buried their boots before they climbed out.",
+      "seconds": 12,
+      "target": "elp-everyone-out",
+      "why": "Soil coming off a trench wall is a warning that beats any schedule. Everyone out by the ladder, work stopped, and the competent person reinspects before anyone goes back in; the lead who calls it without hesitation, two hours behind, is showing the crew what the objectives list meant.",
+      "wrongNote": "That does not get anyone out of the trench. Call everyone out and stop work."
+    }
+  ],
+  "lateNotes": {
+    "elp-crew-checkin": "The crew check-in comes at the very end of the shift.",
+    "elp-shift-log": "The shift log is written once the street is reopened — nothing to record yet."
+  },
+  "name": "Leading Under Pressure",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "civic-leadership-and-ei"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "cancel-the-rest-break",
+      "elp-answer-with-plan",
+      "elp-break-slot",
+      "elp-break-token",
+      "elp-calm-spot",
+      "elp-calm-voice-card",
+      "elp-credit-board",
+      "elp-crew-checkin",
+      "elp-cut-cones-pulled",
+      "elp-cut-ladder-moved",
+      "elp-cut-no-spotter",
+      "elp-cut-tools-staged",
+      "elp-everyone-out",
+      "elp-flagger-steady",
+      "elp-objectives-card",
+      "elp-order-breathe",
+      "elp-order-check",
+      "elp-order-facts",
+      "elp-order-one-step",
+      "elp-pace-meter",
+      "elp-rotation-dial",
+      "elp-rushing-the-shoring",
+      "elp-shift-log",
+      "elp-snapping-at-each-other",
+      "elp-steady-meter",
+      "elp-yawning-operator",
+      "shout-to-speed-them-up",
+      "skip-the-trench-check-to-save-time",
+      "take-the-credit-with-the-supervisor"
+    ],
+    "meshes": 271
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Look across the crew and mark where the slipping schedule is turning into a risk.",
+      "decoyNotes": {
+        "elp-flagger-steady": "The flagger holding the zone steadily is doing fine. Look for where pressure is showing."
+      },
+      "id": "read-the-crew-under-pressure",
+      "itemNames": {
+        "elp-rushing-the-shoring": "a worker rushing the trench shoring",
+        "elp-snapping-at-each-other": "two crew members snapping at each other",
+        "elp-yawning-operator": "the operator yawning at the controls"
+      },
+      "itemNotes": {
+        "elp-rushing-the-shoring": "Rushing the shoring is the schedule talking. That is the first place pressure becomes a hazard.",
+        "elp-snapping-at-each-other": "Snapping at each other is pressure turning into conflict. Calm voice first, then the next step.",
+        "elp-yawning-operator": "A yawning operator at the controls is fatigue at the most dangerous seat. A break or a swap."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look across the crew and mark where the slipping schedule is turning into a risk.",
+      "targets": [
+        "elp-rushing-the-shoring",
+        "elp-yawning-operator",
+        "elp-snapping-at-each-other"
+      ],
+      "title": "Read where the pressure is showing",
+      "why": "Pressure shows in a crew before anyone says the word behind: a worker rushing the shoring, the operator yawning at the controls, two people snapping at each other. Each is the schedule turning into a hazard in a different way, and a lead who sees them first can decide what the crew needs before the pressure decides for them."
+    },
+    {
+      "cue": "Safe trench, main repaired, street open — in that order, out loud.",
+      "id": "state-the-objectives",
+      "kind": "select",
+      "prompt": "Safe trench, main repaired, street open — in that order, out loud.",
+      "target": "elp-objectives-card",
+      "title": "State the objectives in order",
+      "why": "ICS asks every incident to run on objectives stated plainly and in priority, and the same discipline steadies a crew. Saying out loud that a safe trench comes before the repaired main, and both before the reopened street, settles the question every tired worker is silently asking — which corner can we cut — before anyone has to ask it."
+    },
+    {
+      "cue": "Breathe, say where we are, give one next step, check it landed.",
+      "id": "build-the-next-steps-in-order",
+      "itemNames": {
+        "elp-order-breathe": "1 · breathe, lower your voice",
+        "elp-order-check": "4 · check it landed",
+        "elp-order-facts": "2 · say where we are",
+        "elp-order-one-step": "3 · give one next step"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Your own calm comes first — instructions given in a stressed voice carry the stress with them.",
+      "prompt": "Breathe, say where we are, give one next step, check it landed.",
+      "targets": [
+        "elp-order-breathe",
+        "elp-order-facts",
+        "elp-order-one-step",
+        "elp-order-check"
+      ],
+      "title": "Lead in the order pressure needs",
+      "why": "The lead's own calm comes first because the crew reads it before they hear anything. Saying plainly where the job stands removes the rumours; one next step, not a list, gives tired people something they can do; and checking it landed catches the worker who nodded without hearing. Out of order, a lead gives instructions to a crew that is still reacting to the lead's own stress."
+    },
+    {
+      "cue": "Gather the crew at the tailboard and hold a low, level voice while you say where the job stands.",
+      "holdBreakNote": "Your voice climbed before the hold was up. The crew takes its tone from you — bring it back down.",
+      "id": "hold-a-calm-voice",
+      "kind": "hold",
+      "prompt": "Gather the crew at the tailboard and hold a low, level voice while you say where the job stands.",
+      "seconds": 6,
+      "target": "elp-calm-spot",
+      "title": "Hold a calm voice at the tailboard",
+      "why": "A lead's voice is the crew's weather. Holding it low and level at the tailboard, while saying honestly that the job is behind, tells the crew the situation is serious and manageable at once — which is the state in which tired people make their best decisions, and the presence Psychological First Aid describes as the first thing people under stress need."
+    },
+    {
+      "cue": "Rotate the yawning operator off the controls and a rested, qualified crew member on.",
+      "id": "turn-the-crew-rotation",
+      "kind": "turn",
+      "prompt": "Rotate the yawning operator off the controls and a rested, qualified crew member on.",
+      "target": "elp-rotation-dial",
+      "title": "Turn the dial to rotate the tired operator",
+      "turn": {
+        "axis": "y",
+        "label": "ROTATE",
+        "turns": 0.5
+      },
+      "why": "Fatigue at the controls of an excavator beside an open trench and a live main is the most dangerous kind of tired. Rotating the operator to a lighter task, with a rested and qualified crew member taking the seat, keeps the job moving without asking anyone to push through the one thing that should not be pushed through."
+    },
+    {
+      "cue": "Commit when the pace reads right — steady enough to recover time, never fast enough to skip a step.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "PACE",
+        "missNote": "Outside the band. Too slow and the street stays shut; too fast and the corners get cut. Set a pace the crew can hold safely.",
+        "speed": 0.62
+      },
+      "id": "set-the-pace",
+      "kind": "gauge",
+      "prompt": "Commit when the pace reads right — steady enough to recover time, never fast enough to skip a step.",
+      "target": "elp-pace-meter",
+      "title": "Set a pace the crew can hold",
+      "why": "Under schedule pressure the instinct is to go as fast as possible, and a crew pushed flat-out for an hour then slows to a crawl and starts making mistakes. A steady pace the crew can hold safely until the street reopens usually recovers more time than a sprint, and it keeps every safety step in the sequence."
+    },
+    {
+      "cue": "Drag the rest break from the cancelled pile to its slot in the shift plan.",
+      "drag": {
+        "missNote": "The break is not back in the plan. Rest is part of the schedule — move it all the way to its slot.",
+        "radius": 0.45,
+        "to": "elp-break-slot"
+      },
+      "id": "move-the-break-to-its-slot",
+      "kind": "drag",
+      "prompt": "Drag the rest break from the cancelled pile to its slot in the shift plan.",
+      "target": "elp-break-token",
+      "title": "Put the rest break back in the plan",
+      "why": "Protecting the rest break when the schedule slips is the clearest signal a lead can give that the crew matters more than the clock. It is also practical: tired workers take longer to do everything, and a break taken on time buys back attention for the hardest part of the job, which is still ahead in the backfill and the paving."
+    },
+    {
+      "cue": "\"Here's where we are: two hours behind, the trench is safe, and this is the next thing we do.\"",
+      "id": "say-where-we-are",
+      "kind": "select",
+      "prompt": "\"Here's where we are: two hours behind, the trench is safe, and this is the next thing we do.\"",
+      "target": "elp-calm-voice-card",
+      "title": "Tell the crew the truth about the schedule",
+      "why": "Crews under pressure fill silence with rumours — the supervisor is furious, we will be here till noon. Telling them the truth plainly, with the good news that the trench is safe and a single next step, replaces the rumour with a plan, and trusts the crew with information in the way SAMHSA's principles of transparency describe."
+    },
+    {
+      "cue": "Walk the site as the pace picks up and mark each safety step that is quietly disappearing.",
+      "decoyNotes": {
+        "elp-cut-tools-staged": "Tools staged ready for the paving is good preparation, not a corner cut."
+      },
+      "id": "spot-the-corners-being-cut",
+      "itemNames": {
+        "elp-cut-cones-pulled": "cones pulled back before the zone is clear",
+        "elp-cut-ladder-moved": "the trench ladder pulled out early",
+        "elp-cut-no-spotter": "the excavator swinging with no spotter"
+      },
+      "itemNotes": {
+        "elp-cut-cones-pulled": "Cones pulled early put traffic into a zone that is still a worksite. Put them back until it is clear.",
+        "elp-cut-ladder-moved": "The ladder is the way out of the trench. It stays until the last person is out.",
+        "elp-cut-no-spotter": "A swing with no spotter beside an open trench is the corner that hurts someone first. Stop the swing."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the site as the pace picks up and mark each safety step that is quietly disappearing.",
+      "targets": [
+        "elp-cut-no-spotter",
+        "elp-cut-ladder-moved",
+        "elp-cut-cones-pulled"
+      ],
+      "title": "Find the corners being cut",
+      "why": "Under pressure, safety steps rarely get skipped by decision; they disappear one at a time because each one looks small. A swing with no spotter, the trench ladder pulled early, cones taken back before the zone is clear — a lead walking the site as the pace picks up is the only thing that catches them before one becomes the incident."
+    },
+    {
+      "cue": "Keep steadiness in band through the last stretch — not flagging, not frantic.",
+      "holdBreakNote": "Steadiness left the band — flagging or frantic. Name the next step again and reset the pace.",
+      "id": "hold-the-crew-steady",
+      "kind": "track",
+      "prompt": "Keep steadiness in band through the last stretch — not flagging, not frantic.",
+      "seconds": 8,
+      "target": "elp-steady-meter",
+      "title": "Hold the crew steady through the backfill",
+      "track": {
+        "drift": 0.15,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "STEADY",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "The last stretch of a long night is where tired crews either flag or rush. Holding steadiness in band through the backfill — the next step named each time, a word to whoever looks tired, the pace unchanged — is what gets the street reopened without the incident that would have closed it again."
+    },
+    {
+      "cue": "Record why the job slipped, the operator rotation, the break kept and the time the street reopened.",
+      "id": "log-the-shift",
+      "kind": "select",
+      "prompt": "Record why the job slipped, the operator rotation, the break kept and the time the street reopened.",
+      "target": "elp-shift-log",
+      "title": "Log the shift honestly",
+      "why": "An honest shift log records the delay and its cause alongside the decisions made about it — the operator rotated, the break kept, no safety step skipped. That record protects the crew if anyone asks why the street opened late, and it gives the next job's planning the real time a repair like this takes."
+    },
+    {
+      "cue": "Report the reopened street and name the crew members who made it happen.",
+      "id": "share-the-credit",
+      "kind": "select",
+      "prompt": "Report the reopened street and name the crew members who made it happen.",
+      "target": "elp-credit-board",
+      "title": "Share the credit with the supervisor, by name",
+      "why": "When the supervisor asks how the job was pulled back, the answer is the crew, by name: the operator who took the seat, the worker who kept the shoring right, the flagger who held the zone all night. Credit shared upward is what the crew will remember about this shift long after the delay is forgotten."
+    },
+    {
+      "cue": "At the truck: how is everyone, and is anyone too tired to drive?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "At the truck: how is everyone, and is anyone too tired to drive?",
+      "target": "elp-crew-checkin",
+      "title": "Check in with the crew before they drive home",
+      "why": "A long night shift ends with a drive home, and a tired worker behind the wheel is the last hazard of the job. Asking how everyone is, and whether anyone is too tired to drive, with the steward and the employee assistance line named for anyone carrying the night with them, is the check-in the programme's guide offers."
+    }
+  ],
+  "supportLine": "your supervisor, your union steward, or the employee assistance line — leading a tired crew against the clock is heavy, and worth talking through",
+  "tagline": "The schedule slips and the crew is tired: a calm voice, one clear next step, no safety step traded for time, and credit shared at the end",
+  "title": "SmartCiti.X~ Leading Under Pressure VR",
+  "trade": "City public works crew lead",
+  "underwater": null,
+  "weather": "overcast"
+}

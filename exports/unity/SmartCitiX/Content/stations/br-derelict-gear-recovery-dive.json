@@ -1,0 +1,398 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "gear-out-diver-clear",
+    "name": "Gear Out, Diver Clear",
+    "note": "The net and the pot recovered, the live catch released, and the umbilical, the lift bag and the blade never where they could take the diver"
+  },
+  "category": "Maritime & Ports",
+  "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.422 procedures during the dive (communications, the tended diver) and 29 CFR 1910.420 the employer's safe practices manual for lift bag and cutting work; ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADCI",
+        "citedAs": "ADCI",
+        "id": "adci-consensus-standards",
+        "title": "Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations"
+      },
+      {
+        "body": "union",
+        "citedAs": "Pile Drivers",
+        "id": "carpenters-ictf",
+        "title": "United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.420",
+        "id": "osha-1910-420",
+        "title": "29 CFR 1910.420 — Safe practices manual (the employer's written procedures for each diving mode, the dive team's duties and emergency procedures)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.422",
+        "id": "osha-1910-422",
+        "title": "29 CFR 1910.422 — Procedures during the dive (water entry and exit, communications, decompression tables, power tools, termination of the dive)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910 Subpart T",
+        "id": "osha-1910-subpart-t",
+        "title": "29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 197 Subpart B",
+        "id": "uscg-46-cfr-197-subpart-b",
+        "title": "46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction"
+      }
+    ]
+  },
+  "district": "bay-underwater",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "sized-up",
+        "name": "Sized Up",
+        "note": "The net and the groundline found before anything was touched"
+      },
+      {
+        "id": "neutral-first",
+        "name": "Neutral First",
+        "note": "The lift bag filled inside the band first time"
+      },
+      {
+        "id": "nothing-on-the-diver",
+        "name": "Nothing On The Diver",
+        "note": "No bag clipped to the harness, no haul on the groundline, never down-current of the net, never cutting toward the umbilical"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-recovery",
+        "name": "Clean Recovery",
+        "note": "No corrections from the on-bottom report to the read-up"
+      },
+      {
+        "id": "controlled-lift",
+        "name": "Controlled Lift",
+        "note": "The pot walked in band the whole way to the downline"
+      },
+      {
+        "id": "recovered-in-time",
+        "name": "Recovered In Time",
+        "note": "Recovery read up inside 80% of par"
+      }
+    ],
+    "currency": "MESH",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Diver Trainee",
+      "Diver",
+      "Recovery Diver",
+      "Lead Recovery Diver",
+      "Gear Recovery Certified"
+    ],
+    "system": "Gear Recovery"
+  },
+  "hazards": {
+    "bag-to-harness": "You went to clip the lift bag's line to your harness to keep it handy. A lift bag that breaks away or is overfilled rises faster the higher it goes as its air expands, and whatever it is clipped to goes with it: a diver taken up on a lift bag has an uncontrolled ascent with no stops — how divers are bent and embolised. The bag is only ever rigged to the load, never to the diver.",
+    "cut-toward-umbilical": "You started the cut with the blade drawn toward the umbilical where it crossed the net. A net cutter drawn toward yourself is drawn toward the gas, comms and lifting line you are breathing through, and a slip in low visibility is a cut hose. Every cut is made away from the diver and away from the umbilical.",
+    "downcurrent-of-net": "You moved round to the down-current side of the net. The current lays a net over whatever is down-current of it, and a diver there has the netting draped over the helmet, the harness and the umbilical at once. Nets are worked from up-current, where the current holds them away from you.",
+    "haul-groundline": "You took hold of the pot's taut groundline to haul it free. A groundline running off into the murk is tied to something you cannot see — another pot, an anchor, a snag — and hauling on it can pull the diver off the bottom, drag a second piece of gear down onto you, or part and whip. It is followed, looked at and cut where it can be controlled, not hauled blind."
+  },
+  "id": "br-derelict-gear-recovery-dive",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-upcurrent",
+      "alert": "The current has swung — a panel of the net has lifted off the pile and draped across your umbilical just behind your helmet.",
+      "cue": "Give the tender the line-pull signal to hold the umbilical steady, then work the net off it from up-current.",
+      "delay": 2,
+      "id": "net-on-umbilical",
+      "kind": "Net fouling the umbilical",
+      "missNote": "You backed away from the net with it still across your umbilical; the tender, feeling the pull, took in slack and dragged the netting tight round the hose behind your helmet.",
+      "seconds": 14,
+      "target": "tender-signal",
+      "why": "A net on the umbilical tightens if either end moves: the tender paying out or taking in, or the diver backing away, pulls the netting deeper into the bundle. The first thing is the signal that tells the tender to hold everything steady, so the diver can lift the netting off the umbilical from up-current. If it cannot be cleared, the supervisor sends the standby, who is dressed for exactly that.",
+      "wrongNote": "The tender signal — have the tender hold the umbilical steady before you work the net off it."
+    },
+    {
+      "after": "walk-load",
+      "alert": "The pot has shed its silt and the lift bag is rising — it is pulling up off the bottom and gathering speed.",
+      "cue": "Pull the lift bag's dump valve to spill air and bring the pot back down, then tell the supervisor.",
+      "delay": 2,
+      "id": "bag-runaway",
+      "kind": "Lift bag starting to run",
+      "missNote": "You hung on to the rising pot; the bag took it up off the bottom with you holding the bridle, and the supervisor had to call you to let go as your pneumo showed you rising.",
+      "seconds": 12,
+      "target": "dump-valve",
+      "why": "A lift bag that starts to rise will keep accelerating as its air expands, and it will take whatever it is attached to — or snagged on — to the surface with it. The dump valve spills air in a moment and brings the load back down while it is still close; holding on and hoping is how a diver ends up riding a load to the surface or letting it go into the dive boat's hull.",
+      "wrongNote": "The dump valve — spill air from the bag before it runs, do not hang on to the load."
+    }
+  ],
+  "lateNotes": {
+    "diver-slate": "The recovery is read up once the net has gone up the downline.",
+    "lift-bag": "The lift bag is filled once the net is bagged and cinched — clear the net before you put any lift on the pot.",
+    "load-walk": "The pot is walked to the downline once the rigging has been checked."
+  },
+  "name": "Derelict Gear Recovery Dive",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-restoration-maritime-underwater"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bag-cinch",
+      "bag-to-harness",
+      "cut-toward-umbilical",
+      "diver-comms",
+      "diver-slate",
+      "downcurrent-of-net",
+      "downline-clip",
+      "dump-valve",
+      "haul-groundline",
+      "lift-bag",
+      "line-over-umbilical",
+      "load-walk",
+      "net-bag-up",
+      "net-billow",
+      "net-cut-point",
+      "net-cutter",
+      "pot-door",
+      "pot-tag",
+      "recovery-bag",
+      "shackle-pin",
+      "stage-checkin",
+      "taut-groundline",
+      "tender-signal",
+      "upcurrent-station"
+    ],
+    "meshes": 189
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Call the supervisor: on the bottom at the pile, feeling good, visibility and current as you find them, and the gear in sight — a net on the pile and a pot beside it.",
+      "id": "on-bottom",
+      "kind": "select",
+      "prompt": "Call the supervisor: on the bottom at the pile, feeling good, visibility and current as you find them, and the gear in sight — a net on the pile and a pot beside it.",
+      "target": "diver-comms",
+      "title": "Report on the bottom beside the gear",
+      "why": "A recovery dive is planned from a survey, but the bottom is never quite what the survey said: the net may have moved, the current may be setting across it, the pot may have company. The on-bottom report tells the supervisor what is really there before the diver goes near it, starts the clock the dive is run against, and proves the voice circuit on the bottom — it is the comms check that matters most on a dive among netting."
+    },
+    {
+      "cue": "From where you are, look at how the net is hanging and moving, and follow the pot's lines with your eyes — what is tight, what is loose, what goes where.",
+      "id": "size-up",
+      "itemNames": {
+        "net-billow": "ghost net billowing off the pile in the current",
+        "taut-groundline": "pot's groundline running off taut into the murk"
+      },
+      "itemNotes": {
+        "net-billow": "A panel of lost net is hung on the pile and billowing out down-current, its lower edge lifting and settling with each surge — a curtain that will lay itself over anything that moves into it.",
+        "taut-groundline": "The crab pot's groundline runs off the pot and into the murk under tension. It is tied to something out of sight, and whatever that is will move if the line is hauled."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "From where you are, look at how the net is hanging and moving, and follow the pot's lines with your eyes — what is tight, what is loose, what goes where.",
+      "targets": [
+        "net-billow",
+        "taut-groundline"
+      ],
+      "title": "Size up the gear before touching it",
+      "why": "Derelict gear is dangerous because it was designed to catch things and it still does: nets entangle divers, lines snag umbilicals and pots pin hands. The size-up is done before contact so the plan is built on how the gear is actually lying — which way the net will move in the current and which lines are under load — rather than discovered by getting caught in it."
+    },
+    {
+      "cue": "Hold on the pile up-current of the net, clear of the netting, while you tell the supervisor where you will cut and in what order.",
+      "holdBreakNote": "You let go of the pile before the plan was agreed and drifted toward the net — take hold up-current again and finish the plan with the supervisor.",
+      "id": "hold-upcurrent",
+      "kind": "hold",
+      "prompt": "Hold on the pile up-current of the net, clear of the netting, while you tell the supervisor where you will cut and in what order.",
+      "seconds": 5,
+      "target": "upcurrent-station",
+      "title": "Hold station up-current of the net while you plan the cut",
+      "why": "Up-current of a net, the water carries the netting away from you; down-current, it carries it onto you. Holding station on the up-current side while you plan the cut keeps the diver out of the net and gives the supervisor time to agree the order — which edge first, where the umbilical will be and when the tender will need to take up slack."
+    },
+    {
+      "cue": "Turn the latch on the pot's door and open it wide, so the live crabs trapped inside can walk out onto the bottom.",
+      "id": "free-catch",
+      "kind": "turn",
+      "prompt": "Turn the latch on the pot's door and open it wide, so the live crabs trapped inside can walk out onto the bottom.",
+      "target": "pot-door",
+      "title": "Open the pot's door and let the live crabs out",
+      "turn": {
+        "label": "POT DOOR LATCH",
+        "turns": 0.5
+      },
+      "why": "A derelict pot keeps fishing long after its owner lost it: animals go in after the bait, cannot get out, die and become the bait for the next. Opening the door on the bottom lets the live catch walk out where it belongs before the pot is lifted, and a pot with its door open stops fishing even if the lift has to wait for another dive."
+    },
+    {
+      "cue": "Take the net cutter off its lanyard clip and draw it through the lashings at the marked cut point on the up-current edge, blade away from you and the umbilical.",
+      "drag": {
+        "missNote": "Not at the cut point — cut at the marked lashing on the up-current edge, blade away from you.",
+        "radius": 0.5,
+        "to": "net-cut-point"
+      },
+      "id": "cut-net",
+      "kind": "drag",
+      "prompt": "Take the net cutter off its lanyard clip and draw it through the lashings at the marked cut point on the up-current edge, blade away from you and the umbilical.",
+      "target": "net-cutter",
+      "title": "Cut the net free from the pile, away from yourself",
+      "why": "The net is cut free from the pile at its lashings, on the up-current edge first, so the rest of it streams away from you as it comes loose rather than folding back over you. The cutter stays on its lanyard so it cannot be dropped into the net, and every stroke goes away from the diver's body and umbilical, because a slip in bad visibility goes wherever the blade was pointed."
+    },
+    {
+      "cue": "Feed the freed net into the recovery bag a bight at a time, keeping it off your harness, then pull the drawstring tight and clip it.",
+      "id": "bag-net",
+      "itemNames": {
+        "bag-cinch": "recovery bag's drawstring cinched and clipped",
+        "recovery-bag": "net fed into the mesh recovery bag"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — the net goes into the bag first; cinch it only when all of it is inside.",
+      "prompt": "Feed the freed net into the recovery bag a bight at a time, keeping it off your harness, then pull the drawstring tight and clip it.",
+      "targets": [
+        "recovery-bag",
+        "bag-cinch"
+      ],
+      "title": "Bag the net, then cinch the bag",
+      "why": "A loose net in the water is still a net: it drifts, it snags the umbilical and it catches the next diver. Fed into the bag a little at a time from up-current it goes in without wrapping the diver, and it is only cinched once it is all inside, so the drawstring closes on the net and not on a bight still hanging out of the bag toward your fins."
+    },
+    {
+      "cue": "Crack air into the lift bag rigged to the pot a little at a time and commit when the pot just lifts off the silt and hangs — neutral, not rising.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.62
+        ],
+        "label": "LIFT BAG",
+        "missNote": "Outside the band — fill in small bursts and stop the moment the pot just hangs off the silt.",
+        "speed": 0.62
+      },
+      "id": "fill-lift-bag",
+      "kind": "gauge",
+      "prompt": "Crack air into the lift bag rigged to the pot a little at a time and commit when the pot just lifts off the silt and hangs — neutral, not rising.",
+      "target": "lift-bag",
+      "title": "Fill the lift bag until the pot is just neutral",
+      "why": "A lift bag is filled to make the load just neutral, never buoyant: a neutral load can be walked across the bottom by hand, while a buoyant one is on its way to the surface and gaining speed as its air expands. Filling in small bursts and stopping as the pot just lightens keeps the lift under the diver's control, and the dump valve is there to take air out if it goes past neutral."
+    },
+    {
+      "cue": "Look along the rigging from the bag to the pot: the shackle pin, the line's path, and where your umbilical is in relation to it.",
+      "id": "rigging-check",
+      "itemNames": {
+        "line-over-umbilical": "lift line crossing over your umbilical",
+        "shackle-pin": "lift bag shackle pin not moused"
+      },
+      "itemNotes": {
+        "line-over-umbilical": "The lift line runs from the bag down to the pot across your umbilical where it lies over the pot — if the bag rose, it would take the umbilical with it.",
+        "shackle-pin": "The shackle joining the lift bag's line to the pot has its pin screwed in but not moused with wire; a pin that backs out under a swinging load lets the bag go on its own."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look along the rigging from the bag to the pot: the shackle pin, the line's path, and where your umbilical is in relation to it.",
+      "targets": [
+        "shackle-pin",
+        "line-over-umbilical"
+      ],
+      "title": "Check the lift rigging before the load moves",
+      "why": "Lift bag rigging fails in the two places a hurried diver does not look: the shackle pin that backs out as the load swings, and the line that has crossed over the diver's own umbilical. A load that breaks away sends the bag to the surface uncontrolled; a lift line over the umbilical turns the lift into a pull on the diver. Both are seen and fixed while the load is still resting on the bottom."
+    },
+    {
+      "cue": "Guide the neutral pot across the bottom to the downline by hand, venting a little air from the dump valve whenever it starts to rise — never letting it get light.",
+      "holdBreakNote": "The load went out of band — dragging in the silt or getting light. Vent or add a touch of air and bring it back to neutral.",
+      "id": "walk-load",
+      "kind": "track",
+      "prompt": "Guide the neutral pot across the bottom to the downline by hand, venting a little air from the dump valve whenever it starts to rise — never letting it get light.",
+      "seconds": 6,
+      "target": "load-walk",
+      "title": "Walk the pot to the downline, venting to keep it neutral",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "LOAD BUOYANCY",
+        "rise": 0.56,
+        "start": 0.14
+      },
+      "why": "As the pot is moved it may shed silt and water and get lighter, and a bag that was neutral on the bottom starts to rise on its own. Walking it steadily and venting as soon as it lifts keeps the load hanging beside you, under control, until it is at the downline where the tender can take it. A diver who lets it get light is holding onto something that wants to go to the surface faster than they are allowed to."
+    },
+    {
+      "cue": "Wipe the tag on the pot's bridle with your glove and read the number up to the supervisor.",
+      "id": "read-tag",
+      "kind": "select",
+      "prompt": "Wipe the tag on the pot's bridle with your glove and read the number up to the supervisor.",
+      "target": "pot-tag",
+      "title": "Read the pot's buoy tag for the record",
+      "why": "Derelict gear programmes record every recovered pot's tag, because the tags show where gear is being lost and help fisheries and restoration managers work with fishers to stop it. The tag is read on the bottom, where the pot is still under control, so the record ties the tag to this site and this dive rather than to whichever pot is on deck when someone thinks to look."
+    },
+    {
+      "cue": "Clip the cinched recovery bag onto the downline's travelling clip and signal the tender to take it up.",
+      "drag": {
+        "missNote": "Not on the downline clip — send the bagged net up the downline, not in your hand.",
+        "radius": 0.5,
+        "to": "downline-clip"
+      },
+      "id": "net-up",
+      "kind": "drag",
+      "prompt": "Clip the cinched recovery bag onto the downline's travelling clip and signal the tender to take it up.",
+      "target": "net-bag-up",
+      "title": "Send the bagged net up on the downline clip",
+      "why": "The bagged net goes up the downline because the tender can control it there and it cannot drift back onto the site. Carried by hand it would ride with the diver on the ascent, snagging the umbilical at every stop; left on the bottom it is the next diver's entanglement. On the clip, it arrives at the ladder where the deck crew is waiting for it."
+    },
+    {
+      "cue": "Read your slate to the supervisor: the net and how much of it, the pot and its tag, the catch released, the groundline left for the next dive, the fouled umbilical and the bag that tried to run.",
+      "id": "read-up",
+      "kind": "select",
+      "prompt": "Read your slate to the supervisor: the net and how much of it, the pot and its tag, the catch released, the groundline left for the next dive, the fouled umbilical and the bag that tried to run.",
+      "target": "diver-slate",
+      "title": "Read the recovery up for the dive log",
+      "why": "The supervisor writes the dive log and the recovery tally from what you read up, and it is read while you are still on the bottom, where anything unclear can be looked at again. The groundline going off into the murk goes in as unfinished work, and the umbilical fouling and the runaway bag go in as well, because the next diver on this pile needs to know how this gear behaves."
+    },
+    {
+      "cue": "At the stage, clipped on: tell the supervisor how you feel after the net and the lift, and wait for the call to leave the bottom.",
+      "id": "stage-checkin",
+      "kind": "select",
+      "prompt": "At the stage, clipped on: tell the supervisor how you feel after the net and the lift, and wait for the call to leave the bottom.",
+      "target": "stage-checkin",
+      "title": "Check in at the stage and leave on the supervisor's call",
+      "why": "The ascent is the supervisor's call, and the check-in tells them you are on the stage, clipped on and well after a heavy, awkward piece of work. A net across the umbilical and a lift bag trying to run are the kind of moments a diver replays afterwards; saying so at the stage is part of the dive, and the Pile Drivers Local 34 member assistance line is there for what the debrief does not settle."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — Pile Drivers Local 34 — with the employer's employee assistance line behind it",
+  "tagline": "On the bottom beside the ghost net: on-bottom report, the billowing net and the taut groundline found, station held up-current while a panel of net wraps the umbilical, the live crabs let out of the pot, the net cut free from the pile, bagged and cinched, the lift bag filled to just neutral, the shackle and the lift line checked, the pot walked to the downline while the bag tries to run, the pot's tag read, the net sent up and the recovery read up for the dive log",
+  "title": "SmartCiti.X~ Derelict Gear Recovery Dive VR",
+  "trade": "Pile Drivers Local 34 commercial diver recovering derelict fishing gear for a Bay restoration, with the supervisor on the comms, the tender on the umbilical and the standby diver at the ladder",
+  "underwater": {
+    "bottomTimeSeconds": 600,
+    "depthLabel": "Per dive plan"
+  },
+  "weather": "clear"
+}

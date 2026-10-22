@@ -1,0 +1,396 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "waterfront-certified",
+    "name": "Waterfront Certified",
+    "note": "Full lift cycle with the red zone clear and every lock verified"
+  },
+  "category": "Maritime & Ports",
+  "certification": "ILWU — OSHA 29 CFR 1917 qualified crane operator; ASME B30.4 portal, tower and pillar crane standard",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASME",
+        "citedAs": "ASME B30.4",
+        "id": "asme-b30-4",
+        "title": "ASME B30.4 — Portal and pedestal cranes"
+      },
+      {
+        "body": "union",
+        "citedAs": "ILWU",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1917",
+        "id": "osha-1917",
+        "title": "29 CFR 1917 — Marine terminals"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Maritime",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "red-zone-clear",
+        "name": "Red Zone Clear",
+        "note": "Never stand under a suspended load"
+      },
+      {
+        "id": "true-limits",
+        "name": "True Limits",
+        "note": "Hold every reading near band centre"
+      },
+      {
+        "id": "locks-verified",
+        "name": "Locks Verified",
+        "note": "Clear the twist-lock check with no correction"
+      },
+      {
+        "id": "agv-routed-clean",
+        "name": "AGV Routed Clean",
+        "note": "Teach the AGV route in order, first try"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "vessel-window",
+        "name": "Vessel Window",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "no-respot",
+        "name": "No Respot",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "gang-streak",
+        "name": "Gang Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "DOCK",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Lashing Hand",
+      "Signal Person",
+      "Crane Operator",
+      "Gang Boss",
+      "Waterfront Certified"
+    ],
+    "system": "Waterfront Authority"
+  },
+  "hazards": {
+    "hoist-override": "That switch silences the unseated twist-lock warning instead of fixing it. Hoisting on an overridden warning means you find out which corner wasn't locked only after the container is already in the air.",
+    "lashing-cutter": "That is a cutting tool, not a release. Cutting a lashing rod instead of unwinding the turnbuckle releases it with no control at all — exactly the uncontrolled shift that the top-down order exists to prevent.",
+    "under-load-zone": "You stepped into the red zone directly beneath a suspended container. A dropped box or a parted sling gives nobody standing under it any time to react — the red zone stays empty for the entire lift, not just while it looks like it's moving.",
+    "wind-override": "That switch bypasses the wind-speed lockout. Above the crane's rated wind limit the load can swing further than the operator can control, and overriding the limit does not change what the wind is actually doing to the box."
+  },
+  "id": "dock-crane",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hoist",
+      "alert": "A lashing hand has cut through the marked zone to get to the next bay. They are under the container.",
+      "cue": "Somebody is in the red zone with a box in the air.",
+      "delay": 4,
+      "id": "red-zone-breached",
+      "kind": "Person under the load",
+      "missNote": "They walked the length of the bay under a suspended box. Nothing came off it. Longshore fatalities are overwhelmingly people being struck by or caught under cargo, and every one of them involved a zone somebody had already cleared once.",
+      "seconds": 11,
+      "target": "red-zone-marker",
+      "why": "The red zone exists because a container under a spreader can drop, swing or shed a twist-lock, and none of those give warning. It is re-cleared every time somebody crosses it, not once at the start of the shift.",
+      "wrongNote": "It is the red zone marker. Stop the lift and clear the person before anything else moves."
+    },
+    {
+      "after": "signal-check",
+      "alert": "A gust front has come across the berth. The box has started to sail on the spreader and the anemometer alarm is sounding.",
+      "cue": "The load is sailing.",
+      "delay": 3,
+      "id": "gust-front",
+      "kind": "Wind over limit",
+      "missNote": "The lift continued through the gust. The box swung into the cell guides on the way down and the crane took the shock through its boom. Wind limits on container cranes exist because the load is large, light and flat, not because the crane is weak.",
+      "seconds": 11,
+      "target": "anemometer",
+      "why": "A container is a sail. Above the working wind speed it stops following the spreader and starts swinging the crane, and the limit is a number on the load chart rather than a judgement call from the cab.",
+      "wrongNote": "It is the anemometer. When the load starts sailing, the wind speed is the only thing that decides whether this lift continues."
+    }
+  ],
+  "lateNotes": {
+    "hoist-lever": "The hoist only takes weight once every corner lock reads engaged — not on three out of four.",
+    "spreader-bar": "The spreader only comes down onto the container once every lashing rod for that tier is off — not while one is still holding it to the stack."
+  },
+  "name": "Dock Crane",
+  "parSeconds": 240,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "port-operations",
+    "ports-maritime-ecology",
+    "rigging-lifting",
+    "situational-awareness"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": null,
+    "hits": [
+      "agv-console-run",
+      "agv-console-save",
+      "agv-wp-pickup",
+      "agv-wp-stack",
+      "agv-wp-transit",
+      "anemometer",
+      "corner-unlatched",
+      "hoist-lever",
+      "hoist-override",
+      "indicator-false",
+      "lash-bottom",
+      "lash-mid",
+      "lash-top",
+      "lashing-cutter",
+      "lift-plan",
+      "load-chart-board",
+      "lower-container",
+      "red-zone-marker",
+      "release-twist-locks",
+      "retract-spreader",
+      "signal-person",
+      "spreader-bar",
+      "under-load-zone",
+      "wind-override"
+    ],
+    "meshes": 182
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Confirm the container weight, lift plan and the lashing gang's positions.",
+      "id": "briefing",
+      "kind": "select",
+      "prompt": "Confirm the container weight, lift plan and the lashing gang's positions.",
+      "target": "lift-plan",
+      "title": "Hold the pre-lift briefing",
+      "why": "The lashing gang and the crane operator are working the same box from two different places, each blind to most of what the other can see. The briefing is what keeps their timing matched — it fixes the container's weight, the pick points and where every hand on deck will be standing before the hook ever takes a strain."
+    },
+    {
+      "cue": "Confirm the container's weight is inside the crane's rated capacity at this radius.",
+      "id": "load-chart",
+      "kind": "select",
+      "prompt": "Confirm the container's weight is inside the crane's rated capacity at this radius.",
+      "target": "load-chart-board",
+      "title": "Check the load chart",
+      "why": "Rated capacity falls sharply as boom radius increases — a crane good for twenty-eight tonnes at thirty metres of reach is not good for it at forty. The chart is read for this exact lift, at this exact radius, every time, never assumed from a similar box that came off cleanly yesterday."
+    },
+    {
+      "cue": "Read the anemometer and commit while it holds inside the crane's operating limit.",
+      "gauge": {
+        "green": [
+          0,
+          0.42
+        ],
+        "label": "ANEMOMETER — WIND SPEED",
+        "missNote": "Over the crane's rated wind limit. Hold the lift and secure the boom until it drops.",
+        "speed": 0.55
+      },
+      "id": "wind-check",
+      "kind": "gauge",
+      "prompt": "Read the anemometer and commit while it holds inside the crane's operating limit.",
+      "target": "anemometer",
+      "title": "Check wind speed against the rated limit",
+      "why": "A container is a sail the moment it clears the stack — forty feet of flat steel with nothing to break the wind's grip on it. Wind speed against the crane's rated limit is checked and committed to before the box is off the chassis, not discovered for the first time with a load already swinging."
+    },
+    {
+      "cue": "Check and flag the red zone beneath the lift path clear of the lashing gang.",
+      "id": "red-zone-clear",
+      "kind": "select",
+      "prompt": "Check and flag the red zone beneath the lift path clear of the lashing gang.",
+      "target": "red-zone-marker",
+      "title": "Confirm the red zone is clear",
+      "why": "This is confirmed before the box leaves the stack, because once it is swinging on the hook the red zone stops being a place anyone can duck into or out of safely — a dropped container or a parted sling gives a person underneath it no warning and no time to move clear."
+    },
+    {
+      "cue": "Unwind and free the lashing rods from the top tier down to the bottom.",
+      "id": "lashing-release",
+      "itemNames": {
+        "lash-bottom": "bottom-tier lashing rods",
+        "lash-mid": "mid-tier lashing rods",
+        "lash-top": "top-tier lashing rods"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — lashings release top-tier first, then mid, then bottom. Bottom-up leaves an upper tier unsupported.",
+      "prompt": "Unwind and free the lashing rods from the top tier down to the bottom.",
+      "targets": [
+        "lash-top",
+        "lash-mid",
+        "lash-bottom"
+      ],
+      "title": "Release the lashings top-down",
+      "why": "A container stack is only stable while the tiers above it are still tied down. Releasing bottom-up leaves an upper tier held by nothing while someone is still standing among the containers to unwind it — which is how a top box ends up coming off the stack onto the person underneath."
+    },
+    {
+      "cue": "Land the spreader bar squarely on the container's corner castings.",
+      "id": "spreader-position",
+      "kind": "select",
+      "prompt": "Land the spreader bar squarely on the container's corner castings.",
+      "target": "spreader-bar",
+      "title": "Position the spreader over the container",
+      "why": "A spreader set even slightly off the corner castings will not seat every twist-lock properly, no matter how solid all four corners look going in — the pin only closes fully when it lines up dead centre in the casting, and a couple of centimetres of drift is enough to leave one open."
+    },
+    {
+      "cue": "Check each corner by hand. Two of the four don't match what the panel shows.",
+      "decoyNotes": {
+        "corner-good-1": "That corner is fully seated and reading correctly — leave it.",
+        "corner-good-2": "That corner is fully seated and reading correctly — leave it."
+      },
+      "id": "twist-lock-check",
+      "itemNames": {
+        "corner-unlatched": "unlatched corner lock",
+        "indicator-false": "corner light showing false-locked"
+      },
+      "itemNotes": {
+        "corner-unlatched": "That twist-lock handle is still open — the corner casting is not actually captured no matter what the panel says.",
+        "indicator-false": "That indicator reads locked but the lock itself has not rotated fully closed — the light is telling you something that isn't true."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check each corner by hand. Two of the four don't match what the panel shows.",
+      "targets": [
+        "corner-unlatched",
+        "indicator-false"
+      ],
+      "title": "Verify all four twist-locks",
+      "why": "The panel only reports what the sensor thinks happened, and a sensor that reads locked because a lock swung most of the way shut is reporting something that never actually occurred. Checking each handle by hand is how you find out what the corner is really doing before the container's weight goes onto it."
+    },
+    {
+      "cue": "Get a clear signal from the deck before taking any weight on the hook.",
+      "id": "signal-check",
+      "kind": "select",
+      "prompt": "Get a clear signal from the deck before taking any weight on the hook.",
+      "target": "signal-person",
+      "title": "Confirm with the signal person",
+      "why": "The operator's view of the container is partly blocked from the cab at this angle, especially the far corners and anything moving behind the spreader. The signal person is watching the one side the operator physically can't, and nothing takes weight on the hook until that person has confirmed it's clear."
+    },
+    {
+      "cue": "Ease the hoist lever up and hold the take-up rate steady while the container comes clear of the stack.",
+      "holdBreakNote": "Take-up rate out of band — too slow and the slack never comes up, too fast and you snatch it. Bring it back and hold it there.",
+      "id": "hoist",
+      "kind": "track",
+      "prompt": "Ease the hoist lever up and hold the take-up rate steady while the container comes clear of the stack.",
+      "seconds": 6,
+      "target": "hoist-lever",
+      "title": "Take the lift",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.5,
+        "green": [
+          0.34,
+          0.54
+        ],
+        "label": "HOIST RATE",
+        "rise": 0.55,
+        "start": 0.06
+      },
+      "why": "A smooth take-up lets you feel the load coming on evenly, so a lock that is not really made shows itself while the container is still an inch off the stack. A snatched lift is how a marginal lock finally lets go, and by then the container is already in the air."
+    },
+    {
+      "cue": "Lower fully onto the chassis, confirm the hook is slack, then release the locks and retract.",
+      "id": "land-release",
+      "itemNames": {
+        "lower-container": "lower onto the chassis",
+        "release-twist-locks": "release the twist-locks",
+        "retract-spreader": "retract the spreader"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — the container lands and takes its own weight first, then the locks release, then the spreader retracts.",
+      "prompt": "Lower fully onto the chassis, confirm the hook is slack, then release the locks and retract.",
+      "targets": [
+        "lower-container",
+        "release-twist-locks",
+        "retract-spreader"
+      ],
+      "title": "Land and release in order",
+      "why": "The locks only release once the container's full weight is settled back on the chassis and the hook has gone slack. Releasing early hands the box's weight to whatever twist-locks are still holding it — which, on a stack where the corners don't all seat exactly the same way, can be nothing at all."
+    },
+    {
+      "cue": "Record the pickup, transit and stack points for the yard AGV, in that order.",
+      "id": "agv-teach",
+      "itemNames": {
+        "agv-wp-pickup": "Pickup waypoint",
+        "agv-wp-stack": "Stack waypoint",
+        "agv-wp-transit": "Transit waypoint"
+      },
+      "itemNotes": {
+        "agv-wp-pickup": "Recorded at the chassis where the container just landed.",
+        "agv-wp-stack": "Recorded at the destination stack.",
+        "agv-wp-transit": "Recorded clear of the crane's swing radius and the lashing gang."
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "That point comes later in the route. Teach pickup, then transit, then stack — the AGV drives the points in recording order.",
+      "prompt": "Record the pickup, transit and stack points for the yard AGV, in that order.",
+      "targets": [
+        "agv-wp-pickup",
+        "agv-wp-transit",
+        "agv-wp-stack"
+      ],
+      "title": "Teach the AGV route waypoints",
+      "why": "The AGV drives this route exactly in the order it was recorded, with no judgement of its own about what actually lies between two points. Recording pickup, then transit, then stack in that order is what makes the taught path match the path the container needs to travel through a working yard."
+    },
+    {
+      "cue": "Commit the three waypoints to the yard's AGV coordination system.",
+      "id": "agv-save",
+      "kind": "select",
+      "prompt": "Commit the three waypoints to the yard's AGV coordination system.",
+      "target": "agv-console-save",
+      "title": "Save the AGV route",
+      "why": "An untaught point list is just three positions sitting in memory — nothing in the yard dispatches on it. Saving the route is what turns those recorded waypoints into a path the coordination system can actually assign to the AGV and send it driving."
+    },
+    {
+      "cue": "Hold RUN/VERIFY and watch the route clear the swing radius and the gang before dispatch.",
+      "holdBreakNote": "Released before the dry-run finished. Hold it through the whole route — that's how you catch a bad waypoint before the AGV drives it for real.",
+      "id": "agv-run",
+      "kind": "hold",
+      "prompt": "Hold RUN/VERIFY and watch the route clear the swing radius and the gang before dispatch.",
+      "seconds": 2.5,
+      "target": "agv-console-run",
+      "title": "Dry-run the AGV route",
+      "why": "A brand-new route has never been driven by anything before this. It is verified at walking pace with a hand on the console, watching the whole path clear the swing radius and the gang, before an unmanned vehicle is ever trusted to drive it for real at full speed."
+    },
+    {
+      "cue": "Record the lift weight, wind reading and lock verification, and sign the plan closed.",
+      "id": "log",
+      "kind": "select",
+      "prompt": "Record the lift weight, wind reading and lock verification, and sign the plan closed.",
+      "target": "lift-plan",
+      "title": "Close the lift log",
+      "why": "The log is the record a surveyor, the next shift or an investigator reads afterward — what was lifted, in what wind, with which corners verified and by whom. A lift with nothing logged behind it leaves nobody able to say afterward that any of this actually happened as described."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Container lift: lashing release order, twist-lock verification and wind-limit discipline",
+  "title": "SmartCiti.X~ Dock Crane VR",
+  "trade": "Longshoreman / container-crane operator",
+  "underwater": null,
+  "weather": "wind"
+}

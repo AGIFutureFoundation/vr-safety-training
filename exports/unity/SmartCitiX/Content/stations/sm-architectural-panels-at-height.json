@@ -1,0 +1,404 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clipped-and-tied",
+    "name": "Clipped And Tied",
+    "note": "A panel run set at height with the wind read, the harness on the anchor and nothing loose on the rail"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "SMART and its International Training Institute architectural sheet metal curriculum; SMACNA Architectural Sheet Metal Manual for panel systems, copings, flashings and expansion; OSHA 29 CFR 1926.453 aerial lifts (boom-supported platforms), 29 CFR 1926.501 duty to have fall protection and 29 CFR 1926.502 fall protection systems criteria including the personal fall arrest system on the platform; the lift maker's wind rating and the panel maker's installation instructions",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.453",
+        "id": "osha-1926-453",
+        "title": "29 CFR 1926.453 — Aerial lifts"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.501",
+        "id": "osha-1926-501",
+        "title": "29 CFR 1926.501 — Duty to have fall protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.502",
+        "id": "osha-1926-502",
+        "title": "29 CFR 1926.502 — Fall protection systems criteria and practices"
+      },
+      {
+        "body": "SMACNA",
+        "citedAs": "SMACNA Architectural Sheet Metal Manual",
+        "id": "smacna-architectural-sheet-metal",
+        "title": "SMACNA Architectural Sheet Metal Manual — flashings, copings, gutters, panels and expansion"
+      },
+      {
+        "body": "union",
+        "citedAs": "SMART",
+        "id": "smart-iti",
+        "title": "SMART and the International Training Institute — sheet metal, rail and transportation apprenticeship"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Manufacturing & Automation",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "wind-read",
+        "name": "Wind Read",
+        "note": "The anemometer read against the lift's rating before the platform went up"
+      },
+      {
+        "id": "nothing-dropped",
+        "name": "Nothing Dropped",
+        "note": "No unsafe action on the platform — gloves on, hook on the anchor, tools tethered"
+      },
+      {
+        "id": "steady-bead",
+        "name": "Steady Bead",
+        "note": "The joint sealed at a steady rate"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-panel",
+        "name": "Clean Panel",
+        "note": "The panel set without a correction"
+      },
+      {
+        "id": "cups-held",
+        "name": "Cups Held",
+        "note": "The panel never let go on the cups before it was clipped"
+      },
+      {
+        "id": "panel-in-time",
+        "name": "Panel In Time",
+        "note": "Set, sealed and logged inside 80% of par"
+      }
+    ],
+    "currency": "PANEL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Pre-apprentice",
+      "Ground Hand",
+      "Panel Installer",
+      "Facade Lead",
+      "Facade Crew Certified"
+    ],
+    "system": "Facade Crew"
+  },
+  "hazards": {
+    "bare-edge-panel": "You took the panel off the cart by its cut edge without gloves. A composite panel's edge is two skins of aluminium routed to a knife, and the panel weighs enough that a gust or a slip drags that edge through a bare palm; the gloves on the platform are for exactly that edge. The panel is carried by its return legs, gloved, or it is not carried.",
+    "open-hook": "You clipped the lanyard's snap hook to the platform rail instead of the anchor point. The rail is not rated for a fall, and a snap hook on a round rail can roll out under load — the anchor point on the platform is the one place 29 CFR 1926.502 lets a personal fall arrest system attach on a boom lift. Anchor, not rail, and the gate checked closed.",
+    "over-rail": "You leaned out over the top rail to reach the far clip. On a boom lift the platform can be flung by a bump or a gust and the harness only helps if you are inside the rails when it happens; a body over the rail is a body that the rail throws rather than holds. The lift moves so the clip is in front of you, not beside you.",
+    "wind-override": "You turned the lift's wind-limit override so the platform would go up in the gust. The maker rated this platform for a wind speed, and an override exists for bringing it down, not for going up; a raised platform with a panel on it in a wind over the rating is a sail on a lever with you on the end. Over the limit, the panel waits on the ground."
+  },
+  "id": "sm-architectural-panels-at-height",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "suction-hold",
+      "alert": "The lift alarm — the platform overload alarm is sounding with the panel cart's weight on the deck and the boom fully extended.",
+      "cue": "The platform is over its rated load at full reach, and you are holding a panel.",
+      "delay": 3,
+      "id": "lift-alarm",
+      "kind": "Lift alarm",
+      "missNote": "You held the panel and let the overload alarm sound until it stopped. The boom held that time. The rating on the platform placard exists because the boom's calculation stops applying above it, and the alarm is the only warning between that line and the boom folding.",
+      "seconds": 12,
+      "target": "boom-estop",
+      "why": "A boom lift's load rating falls with reach, and the cart that was inside the rating at the base of the facade is outside it with the boom out; the overload alarm is the maker saying the platform is past what the boom was calculated to hold. The emergency stop takes the controls out of play so nobody slews an overloaded platform, and the load comes off before the boom moves. The panel on the cups stays where it is; the platform does not.",
+      "wrongNote": "It is the emergency stop on the platform. Kill the controls first — the load comes off a platform nobody can move."
+    },
+    {
+      "after": "sealant-bead",
+      "alert": "A gust has caught the next panel standing against the rail behind you. The wind sock has gone horizontal and the panel is lifting.",
+      "cue": "A panel is about to leave the platform over the footpath.",
+      "delay": 3,
+      "id": "gust",
+      "kind": "Gust on the platform",
+      "missNote": "You finished the bead and the panel went over the rail. The debris net below has a tear in it under this bay. A composite panel falling fifteen metres is a blade with the weight of a door behind it, and the wind that took it was on the anemometer ten minutes ago.",
+      "seconds": 12,
+      "target": "panel-clamp",
+      "why": "A panel standing loose against the rail is a sail waiting for the gust that takes it, and the drop zone below is a barrier and a person. The clamp on the rail is what holds a panel that is not yet clipped, and it is put on before the bead is run, not after the gust; the bead can be tooled again, the panel cannot be caught once it is over the rail.",
+      "wrongNote": "It is the panel clamp on the rail. Clamp the loose panel first — the bead, the gun and the joint are all still there in a minute."
+    }
+  ],
+  "lateNotes": {
+    "caulk-gun": "Sealant goes in a joint whose panels are both clipped. A bead between a clipped panel and one on the cups is a bead you will pull out when the second panel moves.",
+    "metal-panel": "The panel comes off the cart after the harness is on the anchor and the wind has been read. A panel picked up first is a sail in your hands before you are tied off."
+  },
+  "name": "Architectural Panels at Height",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "anemometer",
+      "backer-rod",
+      "bare-edge-panel",
+      "boom-controls",
+      "boom-estop",
+      "caulk-gun",
+      "clip-driver",
+      "clip-rail",
+      "debris-net",
+      "expansion-joint",
+      "harness-webbing",
+      "joint-tool",
+      "lanyard-snap",
+      "loose-driver",
+      "metal-panel",
+      "open-hook",
+      "over-rail",
+      "panel-clamp",
+      "panel-log",
+      "reveal-gauge",
+      "sharp-hem",
+      "suction-lifter",
+      "tailboard",
+      "tie-off-anchor",
+      "unlatched-gate",
+      "wind-override"
+    ],
+    "meshes": 240
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the day's tailboard — the lift, the drop zone below, the wind limit, who is on the ground — and sign it.",
+      "id": "check-in",
+      "kind": "select",
+      "prompt": "Read the day's tailboard — the lift, the drop zone below, the wind limit, who is on the ground — and sign it.",
+      "target": "tailboard",
+      "title": "Sign the tailboard with the crew",
+      "why": "The tailboard is the crew's own briefing for a platform over a public footpath: who is on the platform, who is on the ground inside the drop zone's barriers, what the lift's wind rating is today and what stops work. Signing it is what makes you part of that crew rather than a person on a lift, and SMART facade crews read it every morning because the facade changes, the wind changes and the person on the ground is the one who gets hit by what falls."
+    },
+    {
+      "cue": "Take the anemometer reading at the platform and commit it inside the working band — a gust over the rating stops the panel work.",
+      "gauge": {
+        "green": [
+          0.2,
+          0.5
+        ],
+        "label": "WIND",
+        "missNote": "That reading is outside the working band — over the rating, the panel waits on the ground; under it, take the reading again at the platform.",
+        "speed": 0.72
+      },
+      "id": "wind-read",
+      "kind": "gauge",
+      "prompt": "Take the anemometer reading at the platform and commit it inside the working band — a gust over the rating stops the panel work.",
+      "target": "anemometer",
+      "title": "Read the wind against the lift's rating",
+      "why": "The boom lift's maker rates the platform for a wind speed, and a composite panel held on the platform adds sail area the rating never counted; the anemometer is read at the platform because the wind at the facade is not the wind on the ground. A reading over the band means the panel stays on the cart, not because of the rule but because of the lever: a gust on a panel at the end of a boom is a load on the platform that nobody calculated."
+    },
+    {
+      "cue": "Webbing and stitching first, then the lanyard and its hook gate, then the hook onto the platform's rated anchor — in that order, before the platform leaves the ground.",
+      "id": "harness",
+      "itemNames": {
+        "harness-webbing": "harness webbing and stitching",
+        "lanyard-snap": "lanyard and snap hook gate",
+        "tie-off-anchor": "the platform's anchor point"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Webbing, then lanyard, then anchor — the hook goes on last, onto a harness you have already proven.",
+      "prompt": "Webbing and stitching first, then the lanyard and its hook gate, then the hook onto the platform's rated anchor — in that order, before the platform leaves the ground.",
+      "targets": [
+        "harness-webbing",
+        "lanyard-snap",
+        "tie-off-anchor"
+      ],
+      "title": "Inspect the harness and tie off to the anchor",
+      "why": "A personal fall arrest system on a boom lift is inspected before use under 29 CFR 1926.502: webbing for cuts and chemical burns, stitching for pulled threads, the snap hook for a gate that closes and locks. It is inspected before it is clipped on because a harness found cut at height is a harness you are already wearing, and the hook goes to the platform's anchor point rather than the rail because the anchor is what was rated for a person's fall."
+    },
+    {
+      "cue": "Boom up and down, slew, drive, the horn and the emergency lowering — each answered before you rely on it at height.",
+      "id": "lift-controls",
+      "kind": "select",
+      "prompt": "Boom up and down, slew, drive, the horn and the emergency lowering — each answered before you rely on it at height.",
+      "target": "boom-controls",
+      "title": "Function-check the platform controls",
+      "why": "29 CFR 1926.453 has the platform's controls tested each day before use, and the reason is the one control you need at height and have not tried: a slew that does not stop, an emergency lowering nobody has cycled since the lift arrived. The check is done at the ground with the platform a metre up, where a control that does not answer is an inconvenience rather than a platform stuck at the facade in a rising wind."
+    },
+    {
+      "cue": "Gloved, by the return legs, off the cart and onto the clip rail so the top return sits in the rail's hook along its whole length.",
+      "drag": {
+        "missNote": "The return is not in the rail's hook — a panel resting on the rail rather than hooked into it is a panel the wind owns.",
+        "radius": 0.45,
+        "to": "clip-rail"
+      },
+      "id": "panel-drag",
+      "kind": "drag",
+      "prompt": "Gloved, by the return legs, off the cart and onto the clip rail so the top return sits in the rail's hook along its whole length.",
+      "target": "metal-panel",
+      "title": "Carry the panel to the clip rail",
+      "why": "The panel is carried by its return legs because they are the folded edges the system was designed to be handled by, and it is offered up to the rail so the top return engages the whole hook before it is let go; a panel hooked at one end and hanging at the other is a panel the wind will take off the rail. The cart to the rail is one movement with the panel against your body, not a walk across the platform with a sail held out."
+    },
+    {
+      "cue": "Clip over the return, fastener driven to the panel maker's torque — not spun in until it stops — at each clip position on the rail.",
+      "id": "clip-fasten",
+      "kind": "turn",
+      "prompt": "Clip over the return, fastener driven to the panel maker's torque — not spun in until it stops — at each clip position on the rail.",
+      "target": "clip-driver",
+      "title": "Drive the clip fasteners",
+      "turn": {
+        "axis": "z",
+        "label": "TORQUE",
+        "turns": 1
+      },
+      "why": "The clip holds the panel to the rail and lets it move as the aluminium expands in the sun, and the fastener is driven to the maker's torque because an overdriven screw in a thin rail strips its thread and holds nothing, while an underdriven one backs out under the panel's daily movement. The SMACNA Architectural Sheet Metal Manual gives the expansion allowance the clip must leave; a panel fixed rigid at every clip buckles by August."
+    },
+    {
+      "cue": "Cups pumped and locked on the panel face, hold it flat to the rail while the far clip is driven — do not let go until the clip is in.",
+      "holdBreakNote": "You let go of the cups before the far clip was in — the panel lifted at the edge. Get it flat again and hold it until the clip is driven.",
+      "id": "suction-hold",
+      "kind": "hold",
+      "prompt": "Cups pumped and locked on the panel face, hold it flat to the rail while the far clip is driven — do not let go until the clip is in.",
+      "seconds": 4,
+      "target": "suction-lifter",
+      "title": "Hold the panel on the cups while the second clip goes on",
+      "why": "Between the first clip and the second, the panel is held to the facade by your grip on the cups and nothing else; letting go to reach for the driver puts the panel in the wind's hands for the seconds it takes to pick it up. The cups are pumped, the vacuum lock checked, and the panel held flat until the far clip is driven, because a panel that lifts at one edge in a gust is a panel that leaves the platform."
+    },
+    {
+      "cue": "Backer rod in, gun at the joint, then a continuous bead run at a steady pace so the sealant fills the joint to the depth the maker calls for.",
+      "holdBreakNote": "The bead ran out of the band — a void or an overfill in the joint. Tool it out and run that stretch again at a steady pace.",
+      "id": "sealant-bead",
+      "kind": "track",
+      "prompt": "Backer rod in, gun at the joint, then a continuous bead run at a steady pace so the sealant fills the joint to the depth the maker calls for.",
+      "seconds": 5,
+      "target": "caulk-gun",
+      "title": "Seal the joint at a steady bead",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.44,
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "BEAD",
+        "rise": 0.56
+      },
+      "why": "A sealant joint between panels is sized for movement: a bead run too fast is a skin over a void that tears the first winter, a bead run too slow overfills the joint and cures into a rigid block that pulls the panel edge. The steady pace is what puts the right depth of sealant on the backer rod along the whole joint, and the joint is the only part of the facade that keeps the weather out of the wall behind it."
+    },
+    {
+      "cue": "Set the reveal gauge in the joint between this panel and the last and confirm the width the drawing gives.",
+      "id": "reveal-check",
+      "kind": "select",
+      "prompt": "Set the reveal gauge in the joint between this panel and the last and confirm the width the drawing gives.",
+      "target": "reveal-gauge",
+      "title": "Check the reveal",
+      "why": "The reveal between panels is what the architect drew and what the eye reads from the street: a joint that grows by a millimetre per panel across a facade is a visible taper at the corner, and a reveal narrowed to nothing is a joint with no room for the panels to move. The gauge is set in every joint because the drawing gives one number and the facade is a hundred panels, each of which can drift from it."
+    },
+    {
+      "cue": "Backer rod pressed to the maker's depth ahead of the bead, then the bead tooled to the rod so it bonds to both panel edges and not the rod.",
+      "id": "joint-seq",
+      "itemNames": {
+        "backer-rod": "backer rod pressed to depth",
+        "joint-tool": "the bead tooled"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Rod first, then tool — tooling presses the bead onto the rod, and there is nothing to press it onto without one.",
+      "prompt": "Backer rod pressed to the maker's depth ahead of the bead, then the bead tooled to the rod so it bonds to both panel edges and not the rod.",
+      "targets": [
+        "backer-rod",
+        "joint-tool"
+      ],
+      "title": "Finish the joint",
+      "why": "Sealant bonds to two sides of a joint and must not bond to the third, and the backer rod is what gives it that third side; without the rod the sealant sticks to the wall behind and tears itself when the panels move. It is tooled after the bead so the sealant is pressed onto both panel edges and shaped to shed water, which is the difference between a joint that lasts and one that lets water into the wall while looking sealed."
+    },
+    {
+      "cue": "Look at what is on the platform and what is on the rail and click the two things that must not be there when the boom slews.",
+      "id": "edge-walk",
+      "itemNames": {
+        "loose-driver": "the driver loose on the rail",
+        "sharp-hem": "an unfolded sharp hem on the cart"
+      },
+      "itemNotes": {
+        "loose-driver": "The driver is resting on the top rail with its tether unclipped. A bump of the boom puts it on the footpath fifteen metres below.",
+        "sharp-hem": "That panel on the cart came from the shop with its return unfolded — a routed edge standing open. It goes back down on the cart, not up on the rail."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at what is on the platform and what is on the rail and click the two things that must not be there when the boom slews.",
+      "targets": [
+        "sharp-hem",
+        "loose-driver"
+      ],
+      "title": "Walk the platform before the boom moves",
+      "why": "A boom lift's platform is a shelf over a public footpath, and everything on it is a dropped object the moment the boom slews: a driver on the rail, a panel with an open edge, a tube of sealant. The platform is walked before every move because the drop zone below is a barrier and a person, and a tool falling fifteen metres does not care about either; the tether on the driver is what the walk checks."
+    },
+    {
+      "cue": "At the parapet, confirm the coping's expansion joint is at the spacing the manual gives and the cover plate is free to move.",
+      "id": "flashing",
+      "kind": "select",
+      "prompt": "At the parapet, confirm the coping's expansion joint is at the spacing the manual gives and the cover plate is free to move.",
+      "target": "expansion-joint",
+      "title": "Check the coping's expansion joint",
+      "why": "A metal coping runs the length of a parapet in the sun, and it grows: the SMACNA Architectural Sheet Metal Manual gives the joint spacing that lets it, and a coping fixed solid across a joint buckles up off its cleats or tears its fasteners out of the wall. The cover plate is checked free because a plate sealed rigid to both sides is a joint that does not exist, and the failure shows up as a leak into the top of the wall a year later."
+    },
+    {
+      "cue": "Gate, then the drop zone below the platform — click the two things wrong with what keeps a fall or a drop from reaching somebody.",
+      "id": "deck-walk",
+      "itemNames": {
+        "debris-net": "the torn debris net below",
+        "unlatched-gate": "the platform gate not latched"
+      },
+      "itemNotes": {
+        "debris-net": "The debris net on the barrier below has a tear in it under this bay. Anything that leaves the platform goes straight through to the footpath.",
+        "unlatched-gate": "The gate closed behind you and never latched — a swing gate that can open outward is a rail that is not there."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Gate, then the drop zone below the platform — click the two things wrong with what keeps a fall or a drop from reaching somebody.",
+      "targets": [
+        "unlatched-gate",
+        "debris-net"
+      ],
+      "title": "Look at the gate and the ground before the next bay",
+      "why": "The platform gate and the debris net below are the two controls between this bay and the public, and both fail quietly: a gate that swung shut without latching, a net torn by yesterday's offcut. The person on the platform is the only one who sees both from where they are, and the boom does not move to the next bay until both are answered — the gate now, the net by the ground hand before the next panel."
+    },
+    {
+      "cue": "Panels set, wind readings, the harness inspection, the sealant lot, the faults found and fixed, and sign it.",
+      "id": "panel-log",
+      "kind": "select",
+      "prompt": "Panels set, wind readings, the harness inspection, the sealant lot, the faults found and fixed, and sign it.",
+      "target": "panel-log",
+      "title": "Log the bay",
+      "why": "The log carries the wind readings against the time each panel went up, which is what the crew shows when a panel comes off a facade in a storm and somebody asks whether it was set inside the rating. It also carries the harness inspection and the sealant lot, so a stitching failure or a sealant recall can be traced to this bay, and the unfolded hem and the torn net are on paper as fixed rather than assumed."
+    }
+  ],
+  "supportLine": "your SMART local's apprenticeship coordinator or the job steward, or your employer's employee assistance program if the gust that took the panel is what you keep seeing",
+  "tagline": "Tailboard and wind reading, harness inspected and tied off, the panel carried to the clip rail and clipped, held on the cups while it is fixed, the joint sealed at a steady bead, the platform walked for edges and dropped objects, logged",
+  "title": "SmartCiti.X~ Architectural Panels at Height VR",
+  "trade": "Architectural sheet metal worker — SMART, International Training Institute architectural curriculum",
+  "underwater": null,
+  "weather": "wind"
+}

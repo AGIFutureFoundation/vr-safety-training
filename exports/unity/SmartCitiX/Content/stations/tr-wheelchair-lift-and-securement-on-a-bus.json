@@ -1,0 +1,395 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "securement-certified",
+    "name": "Securement Certified",
+    "note": "All four points locked and tensioned, the boarding pad checked clear, and never a pull-away before the lift was fully stowed"
+  },
+  "category": "Mobility & Transit",
+  "certification": "FTA guidance implementing the Department of Transportation's ADA rules for wheelchair lifts and securement, Title II of the Americans with Disabilities Act for programme accessibility, ATU training for the operator's own duties at the lift, IBEW/NECA JATC practice for the lift's electrical and hydraulic maintenance, and NFPA 70 for the lift's own wiring",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADA",
+        "citedAs": "ADA's",
+        "id": "ada-radiographic-guidance",
+        "title": "American Dental Association and FDA guidance on prescribing dental radiographs"
+      },
+      {
+        "body": "DOJ",
+        "citedAs": "Americans with Disabilities Act",
+        "id": "ada-title-ii",
+        "title": "Americans with Disabilities Act Title II — programme accessibility for public entities and their services"
+      },
+      {
+        "body": "union",
+        "citedAs": "ATU",
+        "id": "atu-training",
+        "title": "ATU member training for bus and rail transit operations"
+      },
+      {
+        "body": "FTA",
+        "citedAs": "FTA",
+        "id": "fta-vehicle-accessibility",
+        "title": "FTA guidance implementing the Department of Transportation's ADA rules for wheelchair lifts, ramps and securement on fixed-route transit buses"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBEW/NECA JATC",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "NEC/NFPA 70",
+        "citedAs": "NFPA 70",
+        "id": "nec-nfpa-70",
+        "title": "NFPA 70 — National Electrical Code"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Mobility",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "pad-checked-clean",
+        "name": "Pad Checked Clean",
+        "note": "The boarding pad checked clear before the lift ever deployed"
+      },
+      {
+        "id": "tension-held",
+        "name": "Tension Held",
+        "note": "Securement tension committed inside the band first time"
+      },
+      {
+        "id": "never-a-shortcut",
+        "name": "Never a Shortcut",
+        "note": "Never deployed onto a blocked pad, never fewer than four points locked, never pulled away before the lift stowed"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-securement",
+        "name": "Clean Securement",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "stow-held-clean",
+        "name": "Stow Held Clean",
+        "note": "The lift-retract watch stayed in band the whole stow"
+      },
+      {
+        "id": "trip-logged-fast",
+        "name": "Trip Logged Fast",
+        "note": "Trip logged inside 80% of par"
+      }
+    ],
+    "currency": "TAG",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Route Hand",
+      "Lift Crew",
+      "Securement Lead",
+      "ADA Certified",
+      "Transit Operator Certified"
+    ],
+    "system": "Lift & Securement"
+  },
+  "hazards": {
+    "deploy-lift-path-blocked": "You deployed the lift before clearing the bag left on the boarding pad. A lift platform lowering onto an obstruction can jam halfway down or tip a rider rolling onto it, and the pad is checked clear before the lift ever moves specifically so that discovery never happens with someone already on the platform.",
+    "engage-only-two-points": "You locked two of the four securement points and called it done. ADA's own securement standard calls for four points because a wheelchair braced on only two can still pivot or tip under normal braking, and skipping the other two is trusting a partial system to behave like the complete one the rider is counting on.",
+    "pull-away-with-lift-not-stowed": "You pulled away from the curb before the lift had fully retracted and stowed. A lift left partway deployed hangs below the bus's own clearance envelope, and pulling away on it is how a piece of accessibility equipment becomes the thing that strikes a curb, a pedestrian, or the next vehicle at the stop.",
+    "release-without-seatbelt-check": "You started pulling away before confirming the rider's seatbelt was fastened. The securement straps hold the wheelchair in place, not the rider in the chair, and a belt left unchecked is the difference between a hard stop that is uncomfortable and one that throws a rider forward out of a chair that is itself locked down."
+  },
+  "id": "tr-wheelchair-lift-and-securement-on-a-bus",
+  "indoor": "garage",
+  "interrupts": [
+    {
+      "after": "return-kneel",
+      "alert": "A second rider using a wheelchair is waiting at this same stop and needs the lift again.",
+      "cue": "Redeploy the lift now — the radio check-in waits.",
+      "delay": 2,
+      "id": "second-rider-waiting",
+      "kind": "A second wheelchair rider is waiting at the same stop",
+      "missNote": "The radio check-in went out first while the second rider kept waiting at the curb for a lift that had already been stowed.",
+      "seconds": 14,
+      "target": "deploy-lift",
+      "why": "A second rider at the same stop needs the same accessible boarding the first one just received, and redeploying the lift now, before continuing to the next task, is what keeps this stop from becoming one rider helped and a second one passed by because the operator had already mentally moved on to the route.",
+      "wrongNote": "Redeploying the lift — a second rider waiting is answered by boarding them, not by finishing the previous check-in first."
+    },
+    {
+      "after": "brief-rider",
+      "alert": "The rider is signalling that a securement strap is pressing uncomfortably against their chair mid-brief.",
+      "cue": "Check and adjust the securement ratchet now — the stop-request briefing waits.",
+      "delay": 2,
+      "id": "rider-signals-distress",
+      "kind": "The rider signals the securement is too tight",
+      "missNote": "The briefing continued while the rider sat with an overtightened strap; the adjustment was not made until after the bus was already pulling away.",
+      "seconds": 12,
+      "target": "securement-ratchet",
+      "why": "A rider telling you a strap is wrong is telling you the system meant to protect them is currently working against their comfort, and checking it immediately — rather than finishing the briefing first — is what keeps a fixable adjustment from turning into a ride the rider has to endure the whole route.",
+      "wrongNote": "The securement ratchet — a rider signalling discomfort is answered immediately, not after finishing an unrelated briefing."
+    }
+  ],
+  "lateNotes": {
+    "rider-wheelchair": "There is nothing to roll aboard yet — the lift has to finish lowering with the rider on it first.",
+    "seatbelt": "Nothing to fasten yet — the securement points lock before the seatbelt goes on.",
+    "securement-ratchet": "Nothing to tension yet — all four securement points have to be hooked on before any of them are tightened."
+  },
+  "name": "Wheelchair Lift & Securement on a Bus",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "transit-ramp"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "busTransit",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "ada-procedure",
+      "clearance-sensor",
+      "deploy-lift",
+      "deploy-lift-path-blocked",
+      "engage-only-two-points",
+      "kneel-bus",
+      "kneel-control",
+      "lift-handrail",
+      "path-obstruction",
+      "pedestrian-blindspot",
+      "pull-away-with-lift-not-stowed",
+      "release-without-seatbelt-check",
+      "rider-wheelchair",
+      "seatbelt",
+      "securement-area",
+      "securement-ratchet",
+      "stop-request-card",
+      "supervisor-radio",
+      "tension-gauge",
+      "trip-log"
+    ],
+    "meshes": 178
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the card: the four securement points, the stop-request procedure, and the order the lift deploys in.",
+      "id": "read-ada-procedure",
+      "kind": "select",
+      "prompt": "Read the card: the four securement points, the stop-request procedure, and the order the lift deploys in.",
+      "target": "ada-procedure",
+      "title": "Read the ADA procedure card",
+      "why": "The procedure card is what keeps every operator on the route running the same securement sequence for the same reason ADA specifies it — not a version remembered slightly differently by whoever is behind the wheel that day."
+    },
+    {
+      "cue": "Kneel the bus at the curb, then deploy the wheelchair lift onto the boarding pad.",
+      "id": "kneel-and-deploy",
+      "itemNames": {
+        "deploy-lift": "lift deployed",
+        "kneel-bus": "bus kneeled at the curb"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "The bus kneels first — the lift only deploys once the bus is already down at the curb.",
+      "prompt": "Kneel the bus at the curb, then deploy the wheelchair lift onto the boarding pad.",
+      "targets": [
+        "kneel-bus",
+        "deploy-lift"
+      ],
+      "title": "Kneel the bus, then deploy the lift",
+      "why": "Kneeling first shortens the drop the lift itself has to cover, and deploying it only once the bus has actually settled is what keeps the platform from swinging out while the suspension is still adjusting under it."
+    },
+    {
+      "cue": "Look over the boarding pad for anything left on it before the platform lowers.",
+      "id": "inspect-lift-path",
+      "itemNames": {
+        "path-obstruction": "bag left on the boarding pad"
+      },
+      "itemNotes": {
+        "path-obstruction": "A bag has been left sitting on the boarding pad, right where the lift platform needs to land — cleared before the lift comes down, not discovered after."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the boarding pad for anything left on it before the platform lowers.",
+      "targets": [
+        "path-obstruction"
+      ],
+      "title": "Check the boarding pad before the lift comes down",
+      "why": "A lift platform lowering onto an obstruction does not always stop cleanly, and checking the pad now, while the lift is still up and nobody is standing on it, is the only point in this stop where an obstruction costs nothing but a look to clear."
+    },
+    {
+      "cue": "Hold the lift's handrail steady through the whole lower, watching the rider rather than the pad.",
+      "holdBreakNote": "The handrail was let go before the platform finished lowering — a lower that is only steadied for part of the way is a lower a rider felt the rest of unsteadied.",
+      "id": "lower-platform-hold",
+      "kind": "hold",
+      "prompt": "Hold the lift's handrail steady through the whole lower, watching the rider rather than the pad.",
+      "seconds": 5,
+      "target": "lift-handrail",
+      "title": "Hold the handrail steady while the platform lowers",
+      "why": "A platform that jolts on its way down is unsettling for a rider who cannot brace against it the way a standing passenger could, and holding the handrail steady through the full lower — eyes on the rider, not the mechanism — is what makes this the smooth ride ADA's own standard was written to guarantee."
+    },
+    {
+      "cue": "Roll the wheelchair from the lift platform into the marked securement area just inside the door.",
+      "drag": {
+        "missNote": "Not inside the securement area — the wheelchair has to be rolled fully onto the marked anchor points, not left staged near the door.",
+        "radius": 0.5,
+        "to": "securement-area"
+      },
+      "id": "roll-rider-aboard",
+      "kind": "drag",
+      "prompt": "Roll the wheelchair from the lift platform into the marked securement area just inside the door.",
+      "target": "rider-wheelchair",
+      "title": "Roll the rider aboard to the securement area",
+      "why": "The securement area is the one place inside the bus with the four anchor points this system is designed around, and rolling the rider fully into it — not leaving them staged near the door — is what makes the next step, locking those points, possible at all."
+    },
+    {
+      "cue": "Turn the ratchet on each securement strap until all four points are locked, watching the tension rather than counting turns.",
+      "id": "lock-securement-strap",
+      "kind": "turn",
+      "prompt": "Turn the ratchet on each securement strap until all four points are locked, watching the tension rather than counting turns.",
+      "target": "securement-ratchet",
+      "title": "Lock and tension the securement straps",
+      "turn": {
+        "label": "SECUREMENT",
+        "turns": 1
+      },
+      "why": "A securement strap that is hooked on but not actually tensioned still lets the chair shift under braking, and turning each ratchet until it takes up real tension — checked, not assumed — is what makes four hooked points into four points actually doing their job."
+    },
+    {
+      "cue": "Read the securement tension gauge and commit the reading once it settles inside the band.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "SECUREMENT",
+        "missNote": "Not settled inside the band — hold the reading until it stops moving before you commit it.",
+        "speed": 0.65
+      },
+      "id": "verify-securement-tension",
+      "kind": "gauge",
+      "prompt": "Read the securement tension gauge and commit the reading once it settles inside the band.",
+      "target": "tension-gauge",
+      "title": "Check the securement tension",
+      "why": "A strap tensioned by feel alone can still be looser than it seems once the bus is actually moving, and reading the gauge now — with the rider still at the curb rather than three stops down the route — is what catches a point that needs another turn before it ever gets tested by a hard stop."
+    },
+    {
+      "cue": "Fasten the rider's own seatbelt once all four securement points are locked and tensioned.",
+      "id": "fasten-seatbelt",
+      "kind": "select",
+      "prompt": "Fasten the rider's own seatbelt once all four securement points are locked and tensioned.",
+      "target": "seatbelt",
+      "title": "Fasten the rider's seatbelt",
+      "why": "The securement points hold the wheelchair to the floor; the seatbelt is what holds the rider to the chair, and fastening it last — once the chair itself is not going anywhere — is what completes a system that answers both halves of what a hard stop can do."
+    },
+    {
+      "cue": "Show the rider the stop-request cord or button and confirm they know how to use it before pulling away.",
+      "id": "brief-rider",
+      "kind": "select",
+      "prompt": "Show the rider the stop-request cord or button and confirm they know how to use it before pulling away.",
+      "target": "stop-request-card",
+      "title": "Brief the rider on the stop-request procedure",
+      "why": "A rider who does not know how to signal their stop is a rider depending entirely on the operator remembering their destination, and briefing the procedure now — while the bus is still stopped — is what gives them the same independence every other passenger already has."
+    },
+    {
+      "cue": "Watch the lift's clearance sensor as it retracts, keeping the reading inside the band all the way to fully stowed.",
+      "holdBreakNote": "The watch broke off before the sensor read fully stowed — a lift that is only checked for the first half of its retract is checked for exactly the half that was never in doubt.",
+      "id": "retract-lift-watch",
+      "kind": "track",
+      "prompt": "Watch the lift's clearance sensor as it retracts, keeping the reading inside the band all the way to fully stowed.",
+      "seconds": 6,
+      "target": "clearance-sensor",
+      "title": "Watch the lift stow clean",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.2,
+        "green": [
+          0.75,
+          1
+        ],
+        "label": "STOW",
+        "rise": 0.5,
+        "start": 0.2
+      },
+      "why": "A lift that stops retracting partway looks stowed from the driver's seat and is not, and watching the clearance sensor through the whole retract — rather than assuming the motor finished on its own — is what confirms the lift is actually tucked inside the bus's clearance envelope before the bus moves anywhere."
+    },
+    {
+      "cue": "Check both mirrors for anyone still near the bus before releasing the kneel and pulling out.",
+      "id": "check-mirror-blindspot",
+      "itemNames": {
+        "pedestrian-blindspot": "pedestrian in the mirror's blind spot"
+      },
+      "itemNotes": {
+        "pedestrian-blindspot": "A pedestrian is walking close along the curb, right at the edge of the mirror's own blind spot — checked for before pulling away, not discovered by the horn of a car behind you."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check both mirrors for anyone still near the bus before releasing the kneel and pulling out.",
+      "targets": [
+        "pedestrian-blindspot"
+      ],
+      "title": "Check the mirrors before pulling away from the curb",
+      "why": "A curb that was clear when the lift went down is not guaranteed to still be clear once boarding is finished, and checking the mirrors now, with the bus still stopped, is what catches a pedestrian who has drifted into the blind spot while everyone's attention was on the securement."
+    },
+    {
+      "cue": "Release the kneel back to normal ride height before pulling into traffic.",
+      "id": "return-kneel",
+      "kind": "select",
+      "prompt": "Release the kneel back to normal ride height before pulling into traffic.",
+      "target": "kneel-control",
+      "title": "Return the kneel to ride height",
+      "why": "A bus that pulls away still kneeled rides lower than its suspension was set for, and returning it to normal height now is what keeps the ride the rest of the route was designed around instead of one the kneel is still quietly working against."
+    },
+    {
+      "cue": "Call the road supervisor: rider secured, lift stowed, ready to continue the route.",
+      "id": "radio-checkin",
+      "kind": "select",
+      "prompt": "Call the road supervisor: rider secured, lift stowed, ready to continue the route.",
+      "target": "supervisor-radio",
+      "title": "Check in with the road supervisor",
+      "why": "The road supervisor's own schedule tracking depends on knowing this stop is actually finished, and calling it in — rather than just pulling away — is what keeps dispatch's picture of the route matching what is actually happening on it."
+    },
+    {
+      "cue": "Record the securement, the boarding pad obstruction cleared, and the stop-request briefing before continuing the route.",
+      "id": "close-trip-log",
+      "kind": "select",
+      "prompt": "Record the securement, the boarding pad obstruction cleared, and the stop-request briefing before continuing the route.",
+      "target": "trip-log",
+      "title": "Close the trip log",
+      "why": "The trip log is the agency's own record that this stop followed the full ADA procedure, and a boarding pad obstruction that never makes the log is a hazard the next operator at this stop finds out about only by finding it again themselves."
+    }
+  ],
+  "supportLine": "your ATU local's member assistance programme",
+  "tagline": "The stop before the route continues: the ADA procedure read for the securement points and the stop-request rule, the bus kneeled and the lift deployed in order, the boarding pad checked clear before anyone rolls forward, the platform held steady while it lowers, the rider rolled aboard to the securement area, all four points locked and tensioned, the seatbelt fastened, the stop-request procedure briefed, the lift watched clean back into its stow, the mirrors checked for anyone at the curb, the kneel returned to ride height, the road supervisor checked in with, and the trip logged",
+  "title": "SmartCiti.X~ Wheelchair Lift & Securement on a Bus VR VR",
+  "trade": "ATU transit operator running the wheelchair lift and securing a rider, with a road supervisor observing",
+  "underwater": null,
+  "weather": null
+}

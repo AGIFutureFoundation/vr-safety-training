@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "yard-sorter",
+    "name": "Yard Sorter",
+    "note": "Sorted model containers by destination, stacked them so the first to leave sat on top and checked the sort with a table"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "BOXES",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Tallier",
+      "Sorter",
+      "Stacker",
+      "Checker",
+      "Yard Planner"
+    ],
+    "system": "Yard Board"
+  },
+  "hazards": {
+    "first-out-at-the-bottom": "You put the first box to leave at the bottom. To reach it, every box on top would have to be moved first. The yard stacks in reverse order, so the box that leaves first sits on top and comes off in one lift.",
+    "heavy-on-top": "You put the heaviest box on top. A stack with its weight high up is wobbly, like a tower of books with the dictionary on top. Heavy boxes go low and lighter ones higher, so the stack stays steady.",
+    "sort-by-colour": "You sorted the boxes by colour. A box's colour often shows which company owns it, not where it is going. The yard sorts by destination, read from the label, so each ship gets the right boxes.",
+    "walk-under-a-lift": "You walked under a box that was being lifted. On a real terminal nobody ever stands under a load, and the model follows the same rule. Walk around the marked path and wait for the box to be set down."
+  },
+  "id": "k12-by-sorting-containers-at-the-port",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-the-stop-sign-while-the",
+      "alert": "A model truck rolls into the lane beside the walkway.",
+      "cue": "Stay on the green walkway and keep your hands out of the lane.",
+      "delay": 3,
+      "id": "a-model-truck-enters-the-lane",
+      "kind": "Truck moving",
+      "missNote": "A classmate reached into the lane, and the model truck had to stop until everyone was back on the walkway.",
+      "seconds": 12,
+      "target": "byo-stay-on-walkway",
+      "why": "Lanes are for trucks and walkways are for people, on a model yard and a real one. Keeping to the walkway lets the truck pass safely. The sort can wait a moment while it goes by.",
+      "wrongNote": "That puts hands in the truck lane. Stay on the walkway. Choose the response that deals with it now."
+    },
+    {
+      "after": "follow-the-box-along-the-truck",
+      "alert": "The planner points to a stack and asks which box should be on top.",
+      "cue": "Say that the box leaving first goes on top so it comes off in one lift.",
+      "delay": 3,
+      "id": "the-planner-asks-which-box-goes-on-top",
+      "kind": "Planner question",
+      "missNote": "You picked a box without a reason, and the planner had to explain last in, first out before the group could go on.",
+      "seconds": 12,
+      "target": "byo-say-top",
+      "why": "Explaining the stacking rule shows you understand why, not just what. The reason, saving lifts and time, is what makes the rule worth following. Planners ask new crew members the same question on their first day.",
+      "wrongNote": "That does not give the rule or the reason. Choose the response that deals with it now."
+    }
+  ],
+  "lateNotes": {
+    "byo-checkin": "The check-in comes at the very end of the visit.",
+    "byo-yard-log": "The sort table is written once the boxes are stacked — nothing to record yet."
+  },
+  "name": "Sorting Containers at the Port",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-practical-math"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "byo-checkin",
+      "byo-crane-dial",
+      "byo-dest",
+      "byo-first-box",
+      "byo-lane-meter",
+      "byo-lower-meter",
+      "byo-ord-group",
+      "byo-ord-order",
+      "byo-ord-read",
+      "byo-ord-stack",
+      "byo-paint",
+      "byo-rule-card",
+      "byo-say-top",
+      "byo-share-board",
+      "byo-ship",
+      "byo-stack-top",
+      "byo-stay-on-walkway",
+      "byo-stop-sign",
+      "byo-walkway-card",
+      "byo-weight",
+      "byo-yard-log",
+      "byo-yd-buried",
+      "byo-yd-heavy",
+      "byo-yd-labels",
+      "byo-yd-pile",
+      "first-out-at-the-bottom",
+      "heavy-on-top",
+      "sort-by-colour",
+      "walk-under-a-lift"
+    ],
+    "meshes": 235
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark the three parts of a container's label a yard planner reads to sort it.",
+      "decoyNotes": {
+        "byo-paint": "It often shows the owner, not where it is going."
+      },
+      "id": "find-what-the-label-tells-you",
+      "itemNames": {
+        "byo-dest": "where the box is going",
+        "byo-ship": "which ship or train takes it",
+        "byo-weight": "how heavy it is"
+      },
+      "itemNotes": {
+        "byo-dest": "The first thing a sort uses.",
+        "byo-ship": "Boxes for one ship stay together.",
+        "byo-weight": "Heavy boxes go low in a stack."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the three parts of a container's label a yard planner reads to sort it.",
+      "targets": [
+        "byo-dest",
+        "byo-ship",
+        "byo-weight"
+      ],
+      "title": "Find what the label tells you",
+      "why": "Every container carries a label that answers the questions the yard needs. Where is it going? Which ship or train takes it? How heavy is it? With those three facts from the label, the planner can decide which pile it joins and where in the stack it goes, without ever opening the doors."
+    },
+    {
+      "cue": "Take your place on the green walkway before the planner switches on the model crane.",
+      "id": "stand-on-the-walkway-behind-the",
+      "kind": "select",
+      "prompt": "Take your place on the green walkway before the planner switches on the model crane.",
+      "target": "byo-walkway-card",
+      "title": "Stand on the walkway behind the model yard",
+      "why": "On a real terminal people walk only on marked paths, away from moving machines and lifted loads. The green walkway around the model yard follows the same rule. Standing there first means you can see the whole yard and the crane can work without anyone being in its way."
+    },
+    {
+      "cue": "Read each label, group boxes by destination, order each group by when it leaves, then stack.",
+      "id": "put-the-sorting-steps-in-order",
+      "itemNames": {
+        "byo-ord-group": "2 · group boxes by destination",
+        "byo-ord-order": "3 · order each group by when it leaves",
+        "byo-ord-read": "1 · read every label",
+        "byo-ord-stack": "4 · stack them"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Read each box's label before you group anything.",
+      "prompt": "Read each label, group boxes by destination, order each group by when it leaves, then stack.",
+      "targets": [
+        "byo-ord-read",
+        "byo-ord-group",
+        "byo-ord-order",
+        "byo-ord-stack"
+      ],
+      "title": "Put the sorting steps in order",
+      "why": "Sorting works best in layers. Reading every label first means no box is misplaced. Grouping by destination puts boxes for the same ship together. Ordering each group by when it leaves tells you which goes on top. Stacking last means the stack is right the first time and nothing has to be moved twice."
+    },
+    {
+      "cue": "Hold the stop sign up until the model crane has set its box down.",
+      "holdBreakNote": "You lowered the sign before the box was down. Hold it up until the lift is finished.",
+      "id": "hold-the-stop-sign-while-the",
+      "kind": "hold",
+      "prompt": "Hold the stop sign up until the model crane has set its box down.",
+      "seconds": 6,
+      "target": "byo-stop-sign",
+      "title": "Hold the stop sign while the crane moves",
+      "why": "When a crane is lifting, a signal person keeps everyone back and watches the load. Holding the sign until the box is down shows you understand that the lift is not finished until it is on the ground. Real signal people hold their position through every lift, however many there are."
+    },
+    {
+      "cue": "Choose the rule the yard uses to decide which pile each box joins.",
+      "id": "choose-the-sorting-rule",
+      "kind": "select",
+      "prompt": "Choose the rule the yard uses to decide which pile each box joins.",
+      "target": "byo-rule-card",
+      "title": "Choose the sorting rule",
+      "why": "A sorting rule is a question you can answer the same way for every box. Where is it going? is the yard's rule, because it keeps each ship's boxes together. Choosing a clear rule, and using it for every box, is what sorting means in maths, whether you sort shapes, numbers or containers."
+    },
+    {
+      "cue": "Look at another group's model yard and mark each mistake.",
+      "decoyNotes": {
+        "byo-yd-labels": "Good practice. Keep it."
+      },
+      "id": "spot-the-mistakes-in-a-sample",
+      "itemNames": {
+        "byo-yd-buried": "the first box to leave at the bottom",
+        "byo-yd-heavy": "a heavy box on top of a stack",
+        "byo-yd-pile": "a box in the wrong destination pile"
+      },
+      "itemNotes": {
+        "byo-yd-buried": "Put it on top.",
+        "byo-yd-heavy": "Move it lower.",
+        "byo-yd-pile": "Read its label again."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at another group's model yard and mark each mistake.",
+      "targets": [
+        "byo-yd-pile",
+        "byo-yd-buried",
+        "byo-yd-heavy"
+      ],
+      "title": "Spot the mistakes in a sample yard",
+      "why": "Yards go wrong in familiar ways: a box in the wrong destination pile, the first box to leave buried at the bottom, or a heavy box sitting on top. Spotting them in someone else's yard teaches you to check your own before the crane starts."
+    },
+    {
+      "cue": "Turn the model crane's dial until its arm points at the destination pile.",
+      "id": "turn-the-crane-to-the-right",
+      "kind": "turn",
+      "prompt": "Turn the model crane's dial until its arm points at the destination pile.",
+      "target": "byo-crane-dial",
+      "title": "Turn the crane to the right pile",
+      "turn": {
+        "axis": "y",
+        "label": "CRANE",
+        "turns": 0.5
+      },
+      "why": "The crane lifts one box at a time and must point at the right pile before it lowers. Turning it deliberately, and checking before you drop, means the box lands where the sort says. Real crane operators line up every move with care, because a box in the wrong place causes delays later."
+    },
+    {
+      "cue": "Commit when the box is just above the stack, ready to be set down gently.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "LOWER",
+        "missNote": "Too fast or too far. Stop just above the stack, then set it down.",
+        "speed": 0.6
+      },
+      "id": "lower-the-box-gently",
+      "kind": "gauge",
+      "prompt": "Commit when the box is just above the stack, ready to be set down gently.",
+      "target": "byo-lower-meter",
+      "title": "Lower the box gently",
+      "why": "Setting a box down gently keeps the stack steady and protects what is inside. Stopping just above the stack and then lowering the last bit slowly is how operators land every box. In the model, a gentle landing keeps your careful sort from toppling over."
+    },
+    {
+      "cue": "Drag the box that leaves first onto the top of its stack.",
+      "drag": {
+        "missNote": "Not on top yet. The first box to leave goes on the top of its stack.",
+        "radius": 0.45,
+        "to": "byo-stack-top"
+      },
+      "id": "place-the-first-to-leave-box",
+      "kind": "drag",
+      "prompt": "Drag the box that leaves first onto the top of its stack.",
+      "target": "byo-first-box",
+      "title": "Place the first-to-leave box on top",
+      "why": "The box that leaves first must be easy to reach. Putting it on top means one lift gets it out, with nothing to move. This idea, last in and first out, is used in stacks of plates, piles of homework and big container yards alike, and it saves time every single day."
+    },
+    {
+      "cue": "Keep the marker on the box as the model truck carries it along the lane to the ship.",
+      "holdBreakNote": "The marker lost the box. Find the truck again and follow it along the lane.",
+      "id": "follow-the-box-along-the-truck",
+      "kind": "track",
+      "prompt": "Keep the marker on the box as the model truck carries it along the lane to the ship.",
+      "seconds": 8,
+      "target": "byo-lane-meter",
+      "title": "Follow the box along the truck lane",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "LANE",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "After sorting, boxes travel to the ship or the train. Following one along its lane shows why a good sort matters: the right box arrives at the right place in the right order. Yard planners watch these movements all day and adjust the plan if anything is out of place."
+    },
+    {
+      "cue": "Write each box's destination, when it leaves and its place in the stack in a table.",
+      "id": "record-your-sort-in-a-table",
+      "kind": "select",
+      "prompt": "Write each box's destination, when it leaves and its place in the stack in a table.",
+      "target": "byo-yard-log",
+      "title": "Record your sort in a table",
+      "why": "A table shows the whole sort at a glance and lets anyone check it. If a box is in the wrong place, the table shows it straight away. Yard planners keep a table like this for every stack, so the crane operators and truck drivers all work from the same plan."
+    },
+    {
+      "cue": "Show your table to the yard planner and ask if they would stack it the same way.",
+      "id": "check-your-sort-with-the-planner",
+      "kind": "select",
+      "prompt": "Show your table to the yard planner and ask if they would stack it the same way.",
+      "target": "byo-share-board",
+      "title": "Check your sort with the planner",
+      "why": "The planner sorts real boxes every day and knows the tricks. Checking with them tests your rule and your stacking order. If they would do something differently, ask why; the answer usually teaches a new idea, like keeping a lane clear for a late arrival."
+    },
+    {
+      "cue": "What rule did you sort by? Where else could you use last in, first out?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "What rule did you sort by? Where else could you use last in, first out?",
+      "target": "byo-checkin",
+      "title": "Check in on the walkway",
+      "why": "The yard crew ends every shift by checking the stacks together, so the class ends by checking in on the walkway. Each learner names the sorting rule and one place at home or school where last in, first out helps. If anyone still sorts by colour, the group reads the labels together once more."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Sort by where it is going, stack what leaves first on top — and heavy boxes go low",
+  "title": "SmartCiti.X~ Sorting Containers at the Port VR",
+  "trade": "Maths class at the port terminal with a yard planner — learner and container yard planner",
+  "underwater": null,
+  "weather": "clear"
+}

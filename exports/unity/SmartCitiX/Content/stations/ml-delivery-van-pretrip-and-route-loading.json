@@ -1,0 +1,429 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "route-ready",
+    "name": "Route Ready",
+    "note": "A full pre-trip and load, every defect found, the load strapped and logged, and the pull-out driven inside the lane and the band"
+  },
+  "category": "Mobility & Transit",
+  "certification": "FMCSA 49 CFR 396 inspection, repair and maintenance, whose driver vehicle inspection record covers a right-hand-drive delivery van the same as any other commercial vehicle; 49 CFR 392 driving of commercial motor vehicles, including the walk-around before the engine starts; the Revised NIOSH Lifting Equation for carrying loaded trays without a twisting lift; OSHA 29 CFR 1910.132 personal protective equipment, general requirements; NALC training for city letter carrier route safety",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 392",
+        "id": "fmcsa-49-cfr-392",
+        "title": "49 CFR Part 392 — Driving of commercial motor vehicles, including conduct at railroad grade crossings, hazardous conditions, and the hand-held mobile phone and texting prohibitions"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 396",
+        "id": "fmcsa-49-cfr-396",
+        "title": "49 CFR Part 396 — Inspection, repair and maintenance, including the driver vehicle inspection report"
+      },
+      {
+        "body": "union",
+        "citedAs": "NALC",
+        "id": "nalc-training",
+        "title": "NALC apprenticeship and training, as a training body"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "Revised NIOSH Lifting Equation",
+        "id": "niosh-lifting-equation",
+        "title": "Revised NIOSH Lifting Equation and its Applications Manual — recommended weight limit and lifting index for two-handed manual lifting"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Postal & Mail Processing",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "cold-walkaround",
+        "name": "Cold Walkaround",
+        "note": "Every vehicle defect found without a hint"
+      },
+      {
+        "id": "clear-bay",
+        "name": "Clear Bay",
+        "note": "Every load-bay hazard found before a single tray was loaded"
+      },
+      {
+        "id": "steady-pullout",
+        "name": "Steady Pull-Out",
+        "note": "The pull-out held its lane and its band the whole way"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "on-time",
+        "name": "On Time",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "safe-route",
+        "name": "Safe Route",
+        "note": "No unsafe action anywhere in the run"
+      }
+    ],
+    "currency": "READY",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Casual Carrier",
+      "Route Trainee",
+      "Letter Carrier",
+      "Lead Carrier",
+      "Route Ready Certified"
+    ],
+    "system": "Route Readiness"
+  },
+  "hazards": {
+    "blocked-curb-hazard": "A stack of empty totes has been left right in front of the van's only side door. On a right-hand-drive van that door is the one and only way out onto the curb — block it and a carrier's fastest way clear of a dog, a slick step or a moving car behind the van is gone.",
+    "cracked-mirror-hazard": "That passenger-side mirror has a spider-crack across the glass from a knock against a mailbox post. A cracked mirror gives a distorted, incomplete picture of the lane beside the van — exactly the lane a right-hand-drive van's own blind spot already leans on that mirror to cover.",
+    "loose-tray-hazard": "That tray is sitting loose on the shelf edge with nothing holding it in against a hard brake or a sharp turn. A tray that slides is a tray that spills mail across the floor at the worst stop of the day, or worse, comes down on the ankles of a carrier reaching in for the next bundle.",
+    "tail-lamp-hazard": "The nearside tail lamp lens is cracked and dark rather than glowing red. A carrier stopping and rolling at every third driveway is seen by the traffic behind almost entirely through that lamp, and a dark one is a rear-end collision waiting for the first driver who is not watching closely enough."
+  },
+  "id": "ml-delivery-van-pretrip-and-route-loading",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "tread-gauge",
+      "alert": "A mail handler's tug has pulled out from behind a rack and is crossing the apron directly behind the van, beacon turning.",
+      "cue": "Tap the horn and hold back rather than stepping out from behind the van into its path.",
+      "delay": 3,
+      "id": "tug-crossing",
+      "kind": "Yard tug crossing the apron",
+      "missNote": "You stepped out from behind the van anyway. A tug pulling a loaded cart train cannot stop nearly as fast as it looks like it can, and the gap behind a parked van is the blindest six feet on the whole apron.",
+      "seconds": 11,
+      "target": "van-horn",
+      "why": "A tug driver watching a string of carts has a narrow view behind them, and the apron behind a parked van is exactly where a carrier steps out without thinking to check first. A tap of the horn is what tells the tug driver someone is there before either of you commits to the same six feet of pavement.",
+      "wrongNote": "It is the horn. The tug is already committed to crossing behind the van."
+    },
+    {
+      "after": "load-trays",
+      "alert": "A stack of empty totes at the next bay over has toppled into the loading lane, spilling across the walkway.",
+      "cue": "Restack the totes clear of the lane before continuing the load.",
+      "delay": 3,
+      "id": "tote-spill",
+      "kind": "Tote stack topples nearby",
+      "missNote": "The toppled totes were left in the lane. The next person through it — carrier, tug or handler — meets them at a bad moment, not a convenient one.",
+      "seconds": 12,
+      "target": "restack-totes",
+      "why": "A toppled stack in a shared loading lane is the next carrier's rolled ankle or the next tug's flat tire, and it costs nothing to clear now compared to what it costs once someone is already down the length of it before noticing.",
+      "wrongNote": "Not that — the toppled totes in the lane come first."
+    }
+  ],
+  "lateNotes": {
+    "loading-tray": "Trays are loaded once the load bay has been read for what's already wrong with it, not before.",
+    "van-rig": "The van pulls out only once the load is strapped and the day's pre-trip is logged — never before."
+  },
+  "name": "Delivery Van Pre-Trip & Route Loading",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "postal-and-mail-processing"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "deliveryVan",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "yardHustler",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "blocked-curb-hazard",
+      "cargo-strap-ratchet",
+      "condition-card-panel",
+      "cracked-mirror-hazard",
+      "daily-log-panel",
+      "dispatch-radio",
+      "four-way-check",
+      "good-wiper-decoy",
+      "headlamp-check",
+      "hi-vis-vest",
+      "loading-tray",
+      "loose-tray-hazard",
+      "mirror-adjust",
+      "restack-totes",
+      "secured-rack-decoy",
+      "tail-lamp-hazard",
+      "tread-gauge-readout",
+      "tread-gauge-tool",
+      "van-horn",
+      "van-rig",
+      "van-shelf-socket",
+      "work-gloves"
+    ],
+    "meshes": 163
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "drive",
+    "find",
+    "gauge",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Hi-vis vest and work gloves before stepping up to the van.",
+      "id": "ppe",
+      "itemNames": {
+        "hi-vis-vest": "hi-vis vest",
+        "work-gloves": "work gloves"
+      },
+      "kind": "sequence",
+      "prompt": "Hi-vis vest and work gloves before stepping up to the van.",
+      "targets": [
+        "hi-vis-vest",
+        "work-gloves"
+      ],
+      "title": "Suit up before the walk-around",
+      "why": "A carrier works this apron on foot among tugs, other vans and reversing trucks, and the vest is what makes a driver's glance actually register a person rather than a shape near a bumper. The gloves are on before a hand goes near a tray edge, a strap ratchet or a door latch."
+    },
+    {
+      "cue": "Read the previous carrier's vehicle condition card: what was written up, and whether it has been signed off as repaired.",
+      "id": "condition-card",
+      "kind": "select",
+      "prompt": "Read the previous carrier's vehicle condition card: what was written up, and whether it has been signed off as repaired.",
+      "target": "condition-card-panel",
+      "title": "Read yesterday's condition card",
+      "why": "Per FMCSA 49 CFR 396 the last driver's report is the first thing to read, because it says what somebody else already found wrong with this van. A defect signed off as repaired is one you still check for yourself; one with no sign-off is one you cannot assume was fixed overnight."
+    },
+    {
+      "cue": "Walk the van cold, engine off. Two things are already wrong with it — find them.",
+      "decoyNotes": {
+        "good-wiper-decoy": "The wiper blades are seated and unmarked. Nothing to flag there."
+      },
+      "id": "vehicle-walkaround",
+      "itemNames": {
+        "cracked-mirror-hazard": "the cracked passenger mirror",
+        "tail-lamp-hazard": "the dark tail lamp"
+      },
+      "itemNotes": {
+        "cracked-mirror-hazard": "A spider-crack across the mirror glass. It gets written up and swapped before this van covers a route on it.",
+        "tail-lamp-hazard": "A cracked, dark tail lamp lens. Nobody behind this van can see it slow down until that lamp is fixed."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the van cold, engine off. Two things are already wrong with it — find them.",
+      "targets": [
+        "cracked-mirror-hazard",
+        "tail-lamp-hazard"
+      ],
+      "title": "Walk around the van before the engine starts",
+      "why": "A van that looks fine parked in a row is not the same as one a carrier has actually walked around — a cracked mirror or a dead lamp both read as fine from ten feet away and only show themselves up close, which is exactly why the walk-around happens before the key ever turns, not after the first stop."
+    },
+    {
+      "cue": "Seat the tread gauge in a groove of the front tire and commit once it reads at or above the label's minimum.",
+      "gauge": {
+        "green": [
+          0.3,
+          0.6
+        ],
+        "label": "FRONT TREAD",
+        "missNote": "Not seated in a groove, or below the label's minimum — measure again.",
+        "speed": 0.7
+      },
+      "id": "tread-gauge",
+      "kind": "gauge",
+      "prompt": "Seat the tread gauge in a groove of the front tire and commit once it reads at or above the label's minimum.",
+      "target": "tread-gauge-tool",
+      "title": "Measure the front tire tread",
+      "why": "A tire that looks fine at a glance can still be down to the wear bars, and a van making forty stops a day on the curb is asking a lot of whatever tread is left. Measuring in the groove rather than guessing from the shoulder is the difference between knowing the tire is fit for the route and hoping it is."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Headlamps low and high, then the four-way flashers.",
+      "id": "lights-walk",
+      "itemNames": {
+        "four-way-check": "four-way flashers",
+        "headlamp-check": "headlamps, low and high"
+      },
+      "kind": "sequence",
+      "prompt": "Headlamps low and high, then the four-way flashers.",
+      "targets": [
+        "headlamp-check",
+        "four-way-check"
+      ],
+      "title": "Walk the lights",
+      "why": "A van stopped at forty different curbs a day is a hazard to traffic every single time, and the four-ways are what tell a driver coming up behind it that this van is not simply slow — it is stopped, on purpose, and about to have someone step out of it."
+    },
+    {
+      "cue": "From the seat, set the driver's-side mirror so the van's own flank is just in view with the lane behind filling the rest.",
+      "id": "mirror-set",
+      "kind": "select",
+      "prompt": "From the seat, set the driver's-side mirror so the van's own flank is just in view with the lane behind filling the rest.",
+      "target": "mirror-adjust",
+      "title": "Set the driver's mirror from the seat",
+      "why": "A right-hand-drive van still has to be reversed and merged like any other, and the driver's mirror is what covers the side the body itself blocks from a straight look back. Set from the seat, not from the ground, it shows the flank as a reference and the lane behind as the reason to look at all."
+    },
+    {
+      "cue": "Look over the load bay before touching a single tray. Two things are already wrong with it — find them.",
+      "decoyNotes": {
+        "secured-rack-decoy": "That rack of trays is already strapped in and seated flush. Nothing to flag there."
+      },
+      "id": "load-bay-read",
+      "itemNames": {
+        "blocked-curb-hazard": "totes blocking the side door",
+        "loose-tray-hazard": "the unsecured tray on the shelf"
+      },
+      "itemNotes": {
+        "blocked-curb-hazard": "Totes stacked right across the only door. They move before anything else does — that door is the whole reason this van is built the way it is.",
+        "loose-tray-hazard": "A tray with nothing holding it against the shelf lip. It gets strapped in before the van moves an inch."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the load bay before touching a single tray. Two things are already wrong with it — find them.",
+      "targets": [
+        "blocked-curb-hazard",
+        "loose-tray-hazard"
+      ],
+      "title": "Read the load bay before loading",
+      "why": "A load bay that looks routine is not the same as one that has actually been checked — totes in front of the only door or a tray with nothing holding it are both invisible until the moment they are not, and finding them now costs a minute instead of costing a blocked exit or a spilled tray three stops into the route."
+    },
+    {
+      "cue": "Carry the tray from the cart to the van shelf, lifting with your legs rather than your back.",
+      "drag": {
+        "missNote": "Not onto the shelf — carry the tray all the way to its place before letting go.",
+        "radius": 0.45,
+        "to": "van-shelf-socket"
+      },
+      "id": "load-trays",
+      "kind": "drag",
+      "prompt": "Carry the tray from the cart to the van shelf, lifting with your legs rather than your back.",
+      "target": "loading-tray",
+      "title": "Load the trays in route order",
+      "why": "Per the Revised NIOSH Lifting Equation a load lifted close to the body with a straight back is carried by the legs; twisted at the waist toward a shelf, the same tray loads the spine instead. Loading in the order the route runs means the last stop of the day is not the tray buried at the very back of the shelf."
+    },
+    {
+      "cue": "Turn the cargo strap ratchet until the load is snug against the shelf rail.",
+      "id": "secure-load",
+      "kind": "turn",
+      "prompt": "Turn the cargo strap ratchet until the load is snug against the shelf rail.",
+      "target": "cargo-strap-ratchet",
+      "title": "Strap the load",
+      "turn": {
+        "axis": "z",
+        "label": "CARGO STRAP",
+        "turns": 0.5
+      },
+      "why": "A tray shelf with nothing holding the load against it turns every hard brake or sharp corner into a small avalanche of mail toward the door. A strap taken up snug now is the difference between a load that rides quietly and one that greets the carrier at the next stop already spilled."
+    },
+    {
+      "cue": "Log the walk-around, the defects found and the load before pulling out.",
+      "id": "daily-log",
+      "kind": "select",
+      "prompt": "Log the walk-around, the defects found and the load before pulling out.",
+      "target": "daily-log-panel",
+      "title": "Log the pre-trip and the load",
+      "why": "The log is what turns one carrier's careful pre-trip into a record the next carrier and the shop both get to read — a defect found but never logged is a defect the shop never schedules, and a load never logged is a route nobody can reconstruct if a tray turns up missing."
+    },
+    {
+      "cue": "Signal, check the mirror, tap the horn at the blind corner, and hold the marked lane out to the street at a walking-pace crawl.",
+      "drive": {
+        "bandLabel": "apron crawl, per the yard's own posted limit",
+        "checkWindow": 2.2,
+        "checks": [
+          {
+            "at": 0,
+            "kind": "signal-right",
+            "note": "Signal before the van ever moves — the apron is shared, and the signal is the only warning anyone else gets."
+          },
+          {
+            "at": 1,
+            "kind": "mirror-right",
+            "note": "Driver's mirror at the blind corner: the RHD body blocks the one glance that would otherwise cover it."
+          },
+          {
+            "at": 2,
+            "kind": "horn",
+            "note": "A tap of the horn at the blind corner tells anyone on foot the van is coming through before they step into its path."
+          }
+        ],
+        "controls": {
+          "horn": "van-horn"
+        },
+        "graceSeconds": 1.6,
+        "laneNote": "The van drifted outside the marked lane. On a shared apron that is the lane a tug or a carrier on foot is using.",
+        "laneWidth": 1.6,
+        "path": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            -3.2
+          ],
+          [
+            0.6,
+            -5.6
+          ]
+        ],
+        "sceneRate": 0.15,
+        "speedBand": [
+          2,
+          6
+        ]
+      },
+      "holdBreakNote": "Out of the marked lane, or moving faster than the apron allows — a shared apron is walked away from, not rolled through.",
+      "id": "pull-out-drive",
+      "kind": "drive",
+      "prompt": "Signal, check the mirror, tap the horn at the blind corner, and hold the marked lane out to the street at a walking-pace crawl.",
+      "target": "van-rig",
+      "title": "Pull out along the marked lane",
+      "why": "Per 49 CFR 392 a commercial vehicle's driver checks mirrors and signals before every move, and an apron shared with tugs, carts and other carriers on foot is exactly where that habit earns its keep — a van that simply rolls out on faith is a van betting nobody is in the one place its own body blocks from view."
+    },
+    {
+      "cue": "Tell dispatch the van is loaded, the pre-trip is clean, and the route is starting.",
+      "id": "route-checkin",
+      "kind": "select",
+      "prompt": "Tell dispatch the van is loaded, the pre-trip is clean, and the route is starting.",
+      "target": "dispatch-radio",
+      "title": "Check in with dispatch",
+      "why": "Dispatch is tracking every van on the route sheet against the clock, and a check-in is what confirms this one actually left loaded and roadworthy rather than simply on schedule. It is also the same call where a carrier says honestly if something about the van or the day is not right before it becomes someone else's problem down the route."
+    }
+  ],
+  "supportLine": "your NALC branch's member assistance representative, or the station's own employee assistance line",
+  "tagline": "A right-hand-drive delivery van before the first stop: yesterday's condition card read, the walk-around worked cold, tread measured, lamps and mirror checked, the load bay read for what's already wrong with it, trays loaded in route order and strapped down, the day logged, and a short pull-out with the mirror, signal and horn checks a curbside route runs on",
+  "title": "SmartCiti.X~ Delivery Van Pre-Trip & Route Loading VR",
+  "trade": "City letter carrier — vehicle pre-trip and route loading, NALC",
+  "underwater": null,
+  "weather": "overcast"
+}

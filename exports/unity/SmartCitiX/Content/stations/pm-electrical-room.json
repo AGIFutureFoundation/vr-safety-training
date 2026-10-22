@@ -1,0 +1,394 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "worked-dead",
+    "name": "Worked Dead",
+    "note": "A panel repaired in an electrically safe work condition, proven dead and restored by the person whose lock it was"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "NFPA 70E (Standard for Electrical Safety in the Workplace) for the arc flash label, approach boundaries, arc-rated PPE, the electrically safe work condition and absence-of-voltage testing; NFPA 70 for the working space kept clear in front of electrical equipment and for panel directories and filler plates; OSHA 29 CFR 1910.147 for lockout and tagout and 29 CFR 1910.333 for de-energising before work and keeping clear of live parts; IEC 61010 for the measurement category rating of the tester; NFPA 72 for the fire alarm equipment a feeder outage can drop into trouble; the local housing code's duty to restore essential services promptly; IUOE Local 39 building engineers and the licensed electrician they work alongside.",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ISO",
+        "citedAs": "IEC 61010",
+        "id": "iec-61010",
+        "title": "IEC 61010 — Safety requirements for electrical measurement, control and laboratory equipment (the CAT ratings)"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "NEC/NFPA 70",
+        "citedAs": "NFPA 70",
+        "id": "nec-nfpa-70",
+        "title": "NFPA 70 — National Electrical Code"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 70E",
+        "id": "nfpa-70e",
+        "title": "NFPA 70E — Standard for Electrical Safety in the Workplace"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 72",
+        "id": "nfpa-72",
+        "title": "NFPA 72 National Fire Alarm and Signaling Code"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.333",
+        "id": "osha-1910-333",
+        "title": "29 CFR 1910.333 — Selection and use of work practices for electrical safety"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Property Management",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "never-live",
+        "name": "Never Live",
+        "note": "No unsafe action anywhere in the job"
+      },
+      {
+        "id": "locked-and-tagged",
+        "name": "Locked and Tagged",
+        "note": "Feeder locked out on the first try"
+      },
+      {
+        "id": "cool-gear",
+        "name": "Cool Gear",
+        "note": "Infrared scan committed near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-job",
+        "name": "Clean Job",
+        "note": "No corrections anywhere"
+      },
+      {
+        "id": "short-outage",
+        "name": "Short Outage",
+        "note": "Inside 80% of par"
+      },
+      {
+        "id": "nine-dead",
+        "name": "Nine Clean",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "AMPS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Engineer Trainee",
+      "Building Engineer",
+      "Qualified Person",
+      "Chief Engineer",
+      "Switchroom Certified"
+    ],
+    "system": "Switchroom"
+  },
+  "hazards": {
+    "panel-worked-live": "You are taking the dead-front off panel 3A with the feeder still closed. Behind it is an energised bus with enough available fault current to throw an arc flash across the room, and NFPA 70E is written around one idea: equipment is put in an electrically safe work condition before it is worked on, not worked live because an outage is inconvenient.",
+    "puddle-standing": "You are stepping into the puddle under the dripping pipe to reach the panel. Water on the floor puts your body in the path of any current that finds its way to ground, and 29 CFR 1910.333 expects wet conditions to be dealt with before work near electrical equipment — the leak is fixed and the floor dried first.",
+    "tape-breaker": "You are taping the tripping breaker in the ON position so the resident gets power back. A breaker trips because the circuit is overloaded or faulted; holding it on turns the wiring in the walls into the fuse, and that is how an apartment fire starts behind the drywall hours after everyone has gone home.",
+    "unrated-tester": "You are picking up the cheap meter with no category rating to prove the panel dead. IEC 61010's measurement categories exist because a building's distribution panels can deliver transients that blow an unrated meter apart in your hand. The rated tester on the bench is the one that can be trusted on this bus."
+  },
+  "id": "pm-electrical-room",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "verify-dead",
+      "alert": "The fire alarm repeater on the wall starts beeping and its amber lamp lights: AC POWER LOSS — NAC PANEL 4. The booster for the fourth floor's horns runs off panel 3A.",
+      "cue": "Radio the front desk and the fire alarm company that the trouble is from your planned outage.",
+      "delay": 2,
+      "id": "fa-trouble",
+      "kind": "Alarm trouble signal",
+      "missNote": "The trouble sat unexplained at the desk and the monitoring company. Either someone is now chasing a fault that is not there, or they have learned to ignore that signal — and the fourth floor's horns are running down their battery.",
+      "seconds": 12,
+      "target": "desk-radio",
+      "why": "A trouble signal from a planned outage is expected — but only by you. The desk, the monitoring company and anyone else who sees it will treat it as a fault unless they are told, and a booster on battery has only so many hours. Telling them now keeps a real fault from being dismissed later as 'the electrician again'.",
+      "wrongNote": "Not that. Radio the desk and the fire alarm company so the trouble is logged as your planned outage."
+    },
+    {
+      "after": "torque-lug",
+      "alert": "A resident from the fourth floor comes to the door: her father's oxygen concentrator is on its backup battery and she wants to know how long the power will be off.",
+      "cue": "Keep her out of the room and check the building's powered medical equipment list for her unit and the battery plan.",
+      "delay": 3,
+      "id": "tenant-medical",
+      "kind": "Resident with a complaint",
+      "missNote": "The resident left without an answer, with her father's concentrator counting down on battery. Nobody checked whether the unit was on the list or what the plan was.",
+      "seconds": 12,
+      "target": "medical-device-list",
+      "why": "Buildings that keep a list of residents who rely on powered medical equipment do it for exactly this moment. Checking it tells you whether this unit was notified before the outage and what the plan is, and gives her a real answer — minutes left on the job, and an outlet on another panel if the battery runs short — instead of a guess.",
+      "wrongNote": "That does not help her. Check the powered medical equipment list for her unit and the backup plan."
+    }
+  ],
+  "lateNotes": {
+    "building-log": "The job goes into the log once the feeder is back on and the resident has power.",
+    "feeder-lock": "Your lock goes on once the feeder switch is open — a lock on a closed switch protects nobody.",
+    "torque-driver": "The lug is torqued once the panel is proven dead, not before."
+  },
+  "name": "Electrical Room",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "property-management"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "arc-flash-label",
+      "arc-rated-shirt",
+      "blank-directory",
+      "building-log",
+      "crew-checkin-board",
+      "desk-radio",
+      "face-shield",
+      "feeder-lock",
+      "feeder-switch-handle",
+      "ir-camera",
+      "medical-device-list",
+      "missing-blank",
+      "panel-worked-live",
+      "puddle-standing",
+      "storage-socket",
+      "stored-boxes",
+      "tape-breaker",
+      "torque-driver",
+      "unrated-tester",
+      "voltage-gloves",
+      "voltage-tester",
+      "water-stain"
+    ],
+    "meshes": 188
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the label on panel 3A's feeder switch: nominal voltage, arc flash boundary, incident energy and the PPE it calls for.",
+      "id": "arc-flash-label",
+      "kind": "select",
+      "prompt": "Read the label on panel 3A's feeder switch: nominal voltage, arc flash boundary, incident energy and the PPE it calls for.",
+      "target": "arc-flash-label",
+      "title": "Read the arc flash label",
+      "why": "The arc flash label is the result of an engineering study of this exact piece of equipment, and NFPA 70E uses it to set how close an unprotected person may come and what PPE the task needs. Reading it first is what turns 'it's only a panel' into a decision based on the energy actually available behind that door."
+    },
+    {
+      "cue": "Three conditions in this room need correcting before and after today's job. Find them.",
+      "id": "room-walk",
+      "itemNames": {
+        "blank-directory": "panel directory blank",
+        "missing-blank": "missing filler blank in the dead-front",
+        "water-stain": "pipe dripping over the switchboard"
+      },
+      "itemNotes": {
+        "blank-directory": "The panel's directory card is empty. NFPA 70 wants each circuit identified; without it, the only way to find a circuit is to switch things off until the right apartment goes dark.",
+        "missing-blank": "One breaker space on panel 3A has no filler blank. That is an open hole into a live bus, at finger height, in a room anyone with a key can enter.",
+        "water-stain": "A pipe above the switchboard is dripping and there is a stain spreading on the ceiling. Water and switchgear do not mix — it goes on the engineer's list before anything else."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three conditions in this room need correcting before and after today's job. Find them.",
+      "targets": [
+        "missing-blank",
+        "blank-directory",
+        "water-stain"
+      ],
+      "title": "Walk the electrical room",
+      "why": "Electrical rooms fail by neglect: a blank knocked out and never replaced, a directory nobody filled in, a leak nobody looked up at. None of them shows until the day someone is hurt or the switchboard trips. The walk is where a building engineer sees the room as an inspector — or an arc — would."
+    },
+    {
+      "cue": "Carry the boxes someone stacked in front of panel 3A out of the working space.",
+      "drag": {
+        "missNote": "Not out of the working space yet. Carry the boxes all the way to the storage spot by the door.",
+        "radius": 0.55,
+        "to": "storage-socket"
+      },
+      "id": "clear-space",
+      "kind": "drag",
+      "prompt": "Carry the boxes someone stacked in front of panel 3A out of the working space.",
+      "target": "stored-boxes",
+      "title": "Clear the working space in front of the gear",
+      "why": "NFPA 70 requires a clear working space in front of electrical equipment, and NFPA 70E counts on it: it is the room to stand in the right place, to step back from an arc and to leave the room fast. Boxes in front of a panel are also fuel in the one room a fire starts most violently."
+    },
+    {
+      "cue": "Scan panel 3A and its feeder with the infrared camera through the closed covers and commit when the hottest spot sits in the normal band.",
+      "gauge": {
+        "green": [
+          0.1,
+          0.3
+        ],
+        "label": "HOTTEST SPOT — RISE OVER AMBIENT",
+        "missNote": "That hot spot is outside the normal band. Scan again and, if it holds, treat it as a serious finding before anything is opened.",
+        "speed": 0.5
+      },
+      "id": "ir-scan",
+      "kind": "gauge",
+      "prompt": "Scan panel 3A and its feeder with the infrared camera through the closed covers and commit when the hottest spot sits in the normal band.",
+      "target": "ir-camera",
+      "title": "Scan the gear with the infrared camera",
+      "why": "A loose lug or a failing breaker gets hot long before it fails, and an infrared scan through closed covers finds it without anyone being exposed. A hot spot well above the others is a reason to stop and rethink the job — it may be the fault that tripped the breaker, and it may be a connection that will fail when disturbed."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Put on the arc-rated shirt, the voltage-rated gloves with protectors and the arc-rated face shield.",
+      "id": "ppe-on",
+      "itemNames": {
+        "arc-rated-shirt": "arc-rated shirt on",
+        "face-shield": "arc-rated face shield on",
+        "voltage-gloves": "voltage-rated gloves with leather protectors on"
+      },
+      "kind": "sequence",
+      "prompt": "Put on the arc-rated shirt, the voltage-rated gloves with protectors and the arc-rated face shield.",
+      "targets": [
+        "arc-rated-shirt",
+        "voltage-gloves",
+        "face-shield"
+      ],
+      "title": "Put on the PPE the label calls for",
+      "why": "Until absence of voltage has been proven, NFPA 70E treats the equipment as energised — which means the person operating the switch and testing the bus wears PPE sized to the label's incident energy. Ordinary cotton burns and melts into skin; arc-rated clothing is what turns a potentially fatal flash into a survivable one."
+    },
+    {
+      "cue": "Standing to the side of the switch, turn the handle to OFF.",
+      "id": "feeder-off",
+      "kind": "turn",
+      "prompt": "Standing to the side of the switch, turn the handle to OFF.",
+      "target": "feeder-switch-handle",
+      "title": "Open panel 3A's feeder switch",
+      "turn": {
+        "axis": "z",
+        "label": "FEEDER — PANEL 3A",
+        "turns": 0.25
+      },
+      "why": "The feeder switch is the disconnecting means for the whole panel, and opening it is the first physical step towards an electrically safe work condition. Standing to the side — handle-side, face turned away — is the habit NFPA 70E training teaches because if a switch is going to fail violently, it does so at the moment it is operated."
+    },
+    {
+      "cue": "Hang your own lock and tag on the feeder switch handle.",
+      "id": "lock-tag",
+      "kind": "select",
+      "prompt": "Hang your own lock and tag on the feeder switch handle.",
+      "target": "feeder-lock",
+      "title": "Lock and tag the feeder",
+      "why": "An open switch can be closed by the next person who wonders why the fourth floor is dark. 29 CFR 1910.147 requires the lock of each person working on the equipment, with a tag that says who and why — so that nobody can restore the power while your hands are inside the panel."
+    },
+    {
+      "cue": "With the rated tester, test it on a known source, test every phase to phase and phase to ground in the panel, then test the known source again — hold until the sequence completes.",
+      "holdBreakNote": "You stopped partway through the test sequence. Start it again — known source, every point in the panel, known source again.",
+      "id": "verify-dead",
+      "kind": "hold",
+      "prompt": "With the rated tester, test it on a known source, test every phase to phase and phase to ground in the panel, then test the known source again — hold until the sequence completes.",
+      "seconds": 5,
+      "target": "voltage-tester",
+      "title": "Prove absence of voltage",
+      "why": "An open switch is a belief; a test is proof. Testing the tester on a known live source before and after is what shows the meter did not fail silently in between, and 29 CFR 1910.333 and NFPA 70E both treat the equipment as live until this sequence has been completed. It is the step people skip the day they get hurt."
+    },
+    {
+      "cue": "Seat the new breaker and bring its lug screw up to the torque on the label — steady, not a snap.",
+      "holdBreakNote": "The torque went out of the band. Back off and bring it up again steadily to the label value.",
+      "id": "torque-lug",
+      "kind": "track",
+      "prompt": "Seat the new breaker and bring its lug screw up to the torque on the label — steady, not a snap.",
+      "seconds": 6,
+      "target": "torque-driver",
+      "title": "Torque the new breaker's lug to spec",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.4,
+        "green": [
+          0.44,
+          0.62
+        ],
+        "label": "LUG TORQUE",
+        "rise": 0.45,
+        "start": 0.2
+      },
+      "why": "The breaker failed because a connection was loose and ran hot; a new breaker on a loose lug will go the same way, and an over-torqued one strips the terminal or cracks the breaker. The torque value on the label is what the manufacturer tested, and a calibrated torque screwdriver is how you actually reach it rather than guessing by feel."
+    },
+    {
+      "cue": "Refit the dead-front and the filler blank, confirm everyone is clear, then take your own lock off.",
+      "id": "remove-lock",
+      "kind": "select",
+      "prompt": "Refit the dead-front and the filler blank, confirm everyone is clear, then take your own lock off.",
+      "target": "feeder-lock",
+      "title": "Replace the dead-front and remove your lock",
+      "why": "Only the person who applied a lock removes it, and only once the equipment is closed up, tools are counted and everyone is clear. The dead-front and the filler blank go back on first because the moment the feeder closes, anything left open is live again."
+    },
+    {
+      "cue": "Standing to the side, face turned away, turn the feeder handle back to ON.",
+      "id": "feeder-on",
+      "kind": "turn",
+      "prompt": "Standing to the side, face turned away, turn the feeder handle back to ON.",
+      "target": "feeder-switch-handle",
+      "title": "Restore the feeder from the side",
+      "turn": {
+        "axis": "z",
+        "label": "FEEDER — PANEL 3A",
+        "reverse": true,
+        "turns": 0.25
+      },
+      "why": "Closing a switch onto a panel is the moment a fault you did not find shows itself, which is why it is done in PPE, from the side, with nobody in front of the gear. The resident's lights coming back is the end of the job — the way it is done is what makes it safe."
+    },
+    {
+      "cue": "Log the scan result, the breaker replaced and torque applied, the blank and directory, the leak, the fire alarm trouble and the outage.",
+      "id": "building-log",
+      "kind": "select",
+      "prompt": "Log the scan result, the breaker replaced and torque applied, the blank and directory, the leak, the fire alarm trouble and the outage.",
+      "target": "building-log",
+      "title": "Write the job into the building log",
+      "why": "The building log is where the electrical history of the building accumulates: which breaker failed, what the scan showed, what was torqued to what, and when power was off and for how long. That record is what the next electrician, the insurer and the housing inspector will all ask for."
+    },
+    {
+      "cue": "Ask the electrician how the job went — the resident's call, the pressure to hurry — and name the member services line.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Ask the electrician how the job went — the resident's call, the pressure to hurry — and name the member services line.",
+      "target": "crew-checkin-board",
+      "title": "Check in with the electrician",
+      "why": "Electrical work under pressure — a resident without power, a medical device on a battery — is exactly when people are tempted to cut the corner that NFPA 70E is there to stop. Talking about that pressure afterwards, with the support line named, is how a crew keeps saying no to working live the next time it comes."
+    }
+  ],
+  "supportLine": "IUOE Local 39's member services or your employer's EAP",
+  "tagline": "A failed breaker replaced dead, never live: the arc flash label read, the working space cleared, the gear scanned, arc-rated PPE on, the feeder locked out, absence of voltage proven, the lug torqued, and power restored from the side",
+  "title": "SmartCiti.X~ Electrical Room VR",
+  "trade": "Building engineer — IUOE Local 39 stationary engineers, working with a licensed electrician",
+  "underwater": null,
+  "weather": null
+}

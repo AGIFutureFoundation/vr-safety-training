@@ -1,0 +1,410 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clean-air-level",
+    "name": "Clean Air Level",
+    "note": "A garage level patrolled and swept with the air read, the alarms answered and nothing ignored"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "OSHA's permissible exposure limit for carbon monoxide under 29 CFR 1910.1000, with the lower NIOSH recommended limit as the level a careful crew works to; 29 CFR 1910.22 for a garage floor kept free of oil and trip hazards and 29 CFR 1910.157 for portable extinguishers kept charged and in their cabinets; NFPA 70 for EV charging equipment and its emergency shut-off; NFPA 101 for the stair doors and exit signs of the garage's means of egress; the local building code's enclosed-garage ventilation and CO detection requirements and the storm water rules that keep oil out of the drains; SEIU building service staff and IUOE Local 39 engineers.",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "NEC/NFPA 70",
+        "citedAs": "NFPA 70",
+        "id": "nec-nfpa-70",
+        "title": "NFPA 70 — National Electrical Code"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 101",
+        "id": "nfpa-101",
+        "title": "NFPA 101 — Life Safety Code"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1000",
+        "id": "osha-1910-1000",
+        "title": "29 CFR 1910.1000 — Air contaminants and the permissible exposure limits"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.157",
+        "id": "osha-1910-157",
+        "title": "29 CFR 1910.157 — Portable fire extinguishers"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.22",
+        "id": "osha-1910-22",
+        "title": "29 CFR 1910.22 — Walking-working surfaces, general requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Property Management",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "alarm-answered",
+        "name": "Alarm Answered",
+        "note": "No unsafe action anywhere in the patrol"
+      },
+      {
+        "id": "lane-closed",
+        "name": "Lane Closed",
+        "note": "The lane coned off cleanly on the first try"
+      },
+      {
+        "id": "air-true",
+        "name": "Air True",
+        "note": "CO reading committed near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-patrol",
+        "name": "Clean Patrol",
+        "note": "No corrections anywhere"
+      },
+      {
+        "id": "quick-level",
+        "name": "Quick Level",
+        "note": "Inside 80% of par"
+      },
+      {
+        "id": "nine-checkpoints",
+        "name": "Nine Checkpoints",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "LEVELS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Relief Porter",
+      "Garage Porter",
+      "Patrol Lead",
+      "Garage Supervisor",
+      "Garage Patrol Certified"
+    ],
+    "system": "Garage Patrol"
+  },
+  "hazards": {
+    "co-horn-silence": "You are silencing the CO alarm horn and carrying on with the sweep. The horn means the air on this level has gone past the level the system was set to protect people at — you cannot smell CO and you will not feel it until you are confused. Silencing it without finding the source and confirming the fans is ignoring the one warning the garage has.",
+    "gate-reach": "You are reaching through the entry gate to free a stuck ticket while the arm is powered. The arm comes down with enough force to break a forearm, and it is designed to drop the instant its loop sees nothing under it. The gate is cleared from its control box with the arm locked up, not by hand under it.",
+    "propane-in-stair": "You are stowing the sweeper's spare propane cylinder in the stairwell to keep it out of the way. A stair is the garage's way out in a fire; a propane cylinder there is fuel in the escape route, and a leak collects low in a closed shaft. Spare cylinders go back to the outdoor cage the fire code intends for them.",
+    "storm-drain-hose": "You are hosing the oil slick towards the storm drain. That drain runs untreated to the nearest creek or bay, and the storm water rules make oil in it the building's discharge. Oil is absorbed, swept up and bagged — never washed away."
+  },
+  "id": "pm-parking-garage",
+  "indoor": "garage",
+  "interrupts": [
+    {
+      "after": "sweeper-run",
+      "alert": "The CO panel horn sounds and the strobe on the column starts flashing: HIGH CO — P1 NORTH. Your own sweeper is idling on propane in the middle of P1.",
+      "cue": "Shut the sweeper's engine off first — remove the source — then deal with the panel.",
+      "delay": 3,
+      "id": "co-alarm",
+      "kind": "CO alarm",
+      "missNote": "The sweeper kept idling while the CO alarm sounded. The air on the level is still getting worse, you are still breathing it, and the alarm that was meant to protect you has been treated as background noise.",
+      "seconds": 12,
+      "target": "sweeper-key",
+      "why": "The one CO source on this level you control is the engine under you. Switching it off stops the exhaust at once; the fans then clear what is already in the air. Anything else — acknowledging the panel, calling it in — can follow, but it should follow an engine that has stopped making the problem worse.",
+      "wrongNote": "Not first. The source is your sweeper's engine — turn the key off, then look at the panel."
+    },
+    {
+      "after": "callbox-check",
+      "alert": "A resident runs over: the EV charging cable at stall 12 is smoking and smells of burning plastic, with her car still plugged in.",
+      "cue": "Hit the EV chargers' emergency shut-off, then keep her back from the stall.",
+      "delay": 2,
+      "id": "tenant-ev",
+      "kind": "Resident with an emergency",
+      "missNote": "Nobody cut the power and the charger kept feeding the cable. A smoking connector left energised beside a car battery is how a garage fire begins.",
+      "seconds": 12,
+      "target": "ev-estop",
+      "why": "An overheating connector is an electrical fire starting at a car that holds a very large battery. The emergency shut-off that NFPA 70 puts in reach of EV charging equipment cuts power to every charger at once, which is the first thing to do before anyone touches the cable — and then everybody stays back and the fire department is called.",
+      "wrongNote": "Not that. Cut the power with the EV emergency shut-off on the wall first — nobody touches that cable while it is live."
+    }
+  ],
+  "lateNotes": {
+    "building-log": "The level goes into the log at the end of the patrol.",
+    "patrol-wand": "The checkpoint is scanned once the level has actually been walked and swept — not on the way past at the start.",
+    "sweeper-throttle": "The sweeper does not start until the air has been read, the fans are purging and the lane is coned off."
+  },
+  "name": "Parking Garage",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "property-management"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "absorbent-bag",
+      "building-log",
+      "co-horn-silence",
+      "co-meter",
+      "cone-a",
+      "cone-b",
+      "crew-checkin-board",
+      "empty-extinguisher-cabinet",
+      "ev-estop",
+      "exit-sign-p1",
+      "fan-hoa-switch",
+      "garage-callbox",
+      "gate-reach",
+      "lane-sign",
+      "oil-slick",
+      "oil-slick-socket",
+      "patrol-card",
+      "patrol-wand",
+      "propane-in-stair",
+      "stair-door-closer",
+      "stair-light-out",
+      "storm-drain-hose",
+      "sweeper-key",
+      "sweeper-throttle"
+    ],
+    "meshes": 196
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read tonight's patrol card and what the CO ventilation controller logged since the last round.",
+      "id": "patrol-card",
+      "kind": "select",
+      "prompt": "Read tonight's patrol card and what the CO ventilation controller logged since the last round.",
+      "target": "patrol-card",
+      "title": "Read the patrol card and the CO controller log",
+      "why": "The controller log shows when the CO sensors last pushed the exhaust fans to high and which sensor did it — a sensor that alarms every morning at the same time is traffic, one that alarmed at 3 a.m. is a car left running. The patrol card tells you which checkpoints and tasks are yours tonight. Together they turn a walk into a patrol."
+    },
+    {
+      "cue": "Hold the meter at breathing height in the drive aisle and commit only when the reading is well under the action level.",
+      "gauge": {
+        "green": [
+          0.05,
+          0.22
+        ],
+        "label": "CO — DRIVE AISLE, BREATHING HEIGHT",
+        "missNote": "That reading is too high to start work under. Let the fans clear the level and read it again — nothing with an engine runs until the air is well under the limit.",
+        "speed": 0.55
+      },
+      "id": "co-reading",
+      "kind": "gauge",
+      "prompt": "Hold the meter at breathing height in the drive aisle and commit only when the reading is well under the action level.",
+      "target": "co-meter",
+      "title": "Read the air with the handheld CO meter",
+      "why": "Carbon monoxide has no smell and no colour, and an enclosed garage collects it from every car that idled on the way out this morning. OSHA's exposure limit under 29 CFR 1910.1000 is the legal ceiling; NIOSH recommends a lower one, and a careful crew reads the air before starting anything with an engine of its own."
+    },
+    {
+      "cue": "Turn the exhaust fan selector from AUTO to HAND so the level is purging before the sweeper runs.",
+      "id": "fan-to-hand",
+      "kind": "turn",
+      "prompt": "Turn the exhaust fan selector from AUTO to HAND so the level is purging before the sweeper runs.",
+      "target": "fan-hoa-switch",
+      "title": "Put the exhaust fans on purge",
+      "turn": {
+        "axis": "z",
+        "label": "EXHAUST FANS",
+        "turns": 0.25
+      },
+      "why": "In AUTO the fans wait for a sensor to see CO before they speed up, which means the air gets worse before it gets better. Putting them to HAND before running a propane sweeper purges the level ahead of the exhaust it will add, rather than chasing it — and the selector goes back to AUTO the moment the work is done."
+    },
+    {
+      "cue": "Three things on this level need attention tonight. Find them.",
+      "id": "garage-walk",
+      "itemNames": {
+        "empty-extinguisher-cabinet": "extinguisher cabinet empty",
+        "oil-slick": "oil slick at the bottom of the ramp",
+        "stair-light-out": "light out over the stair door"
+      },
+      "itemNotes": {
+        "empty-extinguisher-cabinet": "The extinguisher cabinet by the column is empty. 29 CFR 1910.157 wants an extinguisher where the cabinet says there is one — a car fire in a garage is found with this cabinet.",
+        "oil-slick": "Fresh oil is spreading at the foot of the ramp, exactly where drivers brake and pedestrians cross.",
+        "stair-light-out": "The fixture over the stair door is dark. The way out is the last place a garage can afford a shadow — for egress in a fire and for a resident walking to their car at night."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things on this level need attention tonight. Find them.",
+      "targets": [
+        "empty-extinguisher-cabinet",
+        "stair-light-out",
+        "oil-slick"
+      ],
+      "title": "Walk the level",
+      "why": "A garage is where residents are most alone and most distracted — keys, bags, children — and its faults are the ones that hurt them: a fire nobody can fight, a dark stair, a slick where they step out of the car. None of them appears on a panel; they are found by somebody walking the level with their eyes open."
+    },
+    {
+      "cue": "Carry the bag of absorbent to the slick and cover it from the edges in.",
+      "drag": {
+        "missNote": "Not on the slick yet. Carry the absorbent right to the oil at the foot of the ramp.",
+        "radius": 0.6,
+        "to": "oil-slick-socket"
+      },
+      "id": "absorbent",
+      "kind": "drag",
+      "prompt": "Carry the bag of absorbent to the slick and cover it from the edges in.",
+      "target": "absorbent-bag",
+      "title": "Spread absorbent on the oil slick",
+      "why": "Absorbent turns a slick that spreads under every tyre into a granular mess that can be swept up and bagged. Working from the edges in stops it spreading further, and it keeps the oil out of the floor drains — which is the difference between a clean-up and a discharge. 29 CFR 1910.22 asks for the floor to be kept free of exactly this."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Place both cones and the LANE CLOSED sign across the aisle you are about to sweep.",
+      "id": "lane-closure",
+      "itemNames": {
+        "cone-a": "first cone placed",
+        "cone-b": "second cone placed",
+        "lane-sign": "LANE CLOSED sign placed"
+      },
+      "kind": "sequence",
+      "prompt": "Place both cones and the LANE CLOSED sign across the aisle you are about to sweep.",
+      "targets": [
+        "cone-a",
+        "cone-b",
+        "lane-sign"
+      ],
+      "title": "Cone off the lane for the sweeper",
+      "why": "A ride-on sweeper is slow, loud and wide, and a driver coming down the ramp does not expect it in the aisle. Two cones and a sign turn the aisle into a work area drivers route around, and they keep residents walking to their cars on the other side of it."
+    },
+    {
+      "cue": "Drive the sweeper down the coned aisle and keep it at walking pace — not creeping, not racing the brush.",
+      "holdBreakNote": "The sweeper drifted off walking pace. Bring it back to a speed where the brush picks up and you can stop for anyone stepping out.",
+      "id": "sweeper-run",
+      "kind": "track",
+      "prompt": "Drive the sweeper down the coned aisle and keep it at walking pace — not creeping, not racing the brush.",
+      "seconds": 6,
+      "target": "sweeper-throttle",
+      "title": "Sweep the aisle at a walking pace",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.4,
+        "green": [
+          0.38,
+          0.6
+        ],
+        "label": "SWEEPER — GROUND SPEED",
+        "rise": 0.45,
+        "start": 0.2
+      },
+      "why": "A sweeper run too fast throws grit, misses the absorbent and cannot stop for a child stepping out between cars; too slow and it idles propane exhaust into the level for twice as long. Walking pace is the speed at which the brush actually picks up, the operator can see around the machine, and the engine spends the least time in the garage."
+    },
+    {
+      "cue": "Press and hold the callbox button until the front desk answers and confirms they can hear you.",
+      "holdBreakNote": "You let go before the desk answered. Hold the button until somebody confirms they can hear you.",
+      "id": "callbox-check",
+      "kind": "hold",
+      "prompt": "Press and hold the callbox button until the front desk answers and confirms they can hear you.",
+      "seconds": 5,
+      "target": "garage-callbox",
+      "title": "Test the emergency callbox",
+      "why": "The callbox is the only guaranteed way for a resident in a garage with no signal to reach help, and it fails quietly — a cut line, a dead speaker, a desk extension that changed. Holding it until a person answers is the only proof it works, and a garage patrol is the round that is supposed to prove it every night."
+    },
+    {
+      "cue": "Scan the patrol checkpoint on the column to record that the level was walked.",
+      "id": "patrol-scan",
+      "kind": "select",
+      "prompt": "Scan the patrol checkpoint on the column to record that the level was walked.",
+      "target": "patrol-wand",
+      "title": "Scan the level checkpoint",
+      "why": "The checkpoint scan is the record that somebody was physically on this level at this time — which matters to the next shift, to a resident who reports something happened here, and to the patrol itself when a round is questioned. It is scanned after the walk, because it records the walk."
+    },
+    {
+      "cue": "Turn the fan selector back from HAND to AUTO now the sweeper is off.",
+      "id": "fan-to-auto",
+      "kind": "turn",
+      "prompt": "Turn the fan selector back from HAND to AUTO now the sweeper is off.",
+      "target": "fan-hoa-switch",
+      "title": "Return the exhaust fans to automatic",
+      "turn": {
+        "axis": "z",
+        "label": "EXHAUST FANS",
+        "reverse": true,
+        "turns": 0.25
+      },
+      "why": "Fans left in HAND run all night at full speed, which wastes a great deal of energy — and, worse, a selector left in HAND is often switched OFF by the next person who notices the noise, leaving the level with no CO response at all. AUTO is the position the CO sensors can actually control."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Let the stair door swing shut to prove it latches, and check the exit sign above it is lit.",
+      "id": "egress-check",
+      "itemNames": {
+        "exit-sign-p1": "exit sign lit",
+        "stair-door-closer": "stair door closes and latches"
+      },
+      "kind": "sequence",
+      "prompt": "Let the stair door swing shut to prove it latches, and check the exit sign above it is lit.",
+      "targets": [
+        "stair-door-closer",
+        "exit-sign-p1"
+      ],
+      "title": "Check the level's way out",
+      "why": "NFPA 101 wants the stair door to self-close and latch so smoke from a car fire stays out of the stair, and the exit sign lit so the way out can be found. Both fail quietly, and a patrol checking them on the way off the level is the cheapest fire protection the garage has."
+    },
+    {
+      "cue": "Log the CO reading, the extinguisher and stair light, the oil clean-up, the CO alarm, the charger and the callbox result.",
+      "id": "building-log",
+      "kind": "select",
+      "prompt": "Log the CO reading, the extinguisher and stair light, the oil clean-up, the CO alarm, the charger and the callbox result.",
+      "target": "building-log",
+      "title": "Write the level into the building log",
+      "why": "The building log is where a CO alarm, an EV charger that smoked and an empty extinguisher cabinet become work orders with owners. It is also the record that the garage was patrolled, the air was read and the alarms were answered — which is what anyone asks first after something goes wrong down here."
+    },
+    {
+      "cue": "Ask your partner how the CO alarm and the charger fire sat with them, and name the member line.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Ask your partner how the CO alarm and the charger fire sat with them, and name the member line.",
+      "target": "crew-checkin-board",
+      "title": "Check in with your patrol partner",
+      "why": "Night patrol in a garage is lonely work, and a real alarm — a smoking charger, a CO horn — leaves adrenaline behind that has nowhere to go at 2 a.m. A short check-in with a partner, with the SEIU member assistance line named, is how a crew keeps a frightening moment from turning into a bad night."
+    }
+  ],
+  "supportLine": "the SEIU member assistance line or your employer's EAP",
+  "tagline": "An enclosed garage patrolled and cleaned: CO read before an engine runs, fans to purge, the level walked, oil absorbed, a lane coned, the sweeper run at a walking pace, the callbox tested, the fans back to auto and the stairs checked",
+  "title": "SmartCiti.X~ Parking Garage VR",
+  "trade": "Porter and garage patrol — SEIU building service members, with IUOE Local 39 engineers for the ventilation and CO detection system",
+  "underwater": null,
+  "weather": null
+}

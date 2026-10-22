@@ -1,0 +1,77 @@
+{
+  "v": "rx/1",
+  "scenario": "rb-teleop-pick-place",
+  "name": "Teleop Pick-and-Place",
+  "station": "ad-cobot-risk-assessment-and-speed-separation",
+  "policy": {
+    "id": "rx-bc-rb-teleop-pick-place",
+    "version": "d9b20015",
+    "method": "behaviour-cloning-knn",
+    "file": "rb-teleop-pick-place/policy.json",
+    "modelHash": "d9b2001591c00551"
+  },
+  "dataSource": {
+    "id": "rx-ds-rb-teleop-pick-place",
+    "source": "synthetic",
+    "file": "rb-teleop-pick-place/dataset.json",
+    "demosOffered": 40,
+    "demosKept": 19,
+    "rows": 984
+  },
+  "seeds": {
+    "heldOut": "7001-7060",
+    "n": 60
+  },
+  "results": {
+    "random": {
+      "n": 60,
+      "success": 0,
+      "clean": 0.533,
+      "meanSteps": 400
+    },
+    "expert": {
+      "n": 60,
+      "success": 0.983,
+      "clean": 0.983,
+      "meanSteps": 51.05
+    },
+    "bcFiltered": {
+      "n": 60,
+      "success": 0.967,
+      "clean": 0.967,
+      "meanSteps": 62.633
+    },
+    "bcUnfiltered": {
+      "n": 60,
+      "success": 0,
+      "clean": 0,
+      "meanSteps": 400
+    },
+    "gapToExpert": 0.016
+  },
+  "invariants": {
+    "rules": [
+      "over-force",
+      "keep-out"
+    ],
+    "unit": "violation steps (a held protective stop repeats every step)",
+    "policyViolations": 755,
+    "policyViolationsByRule": {
+      "keep-out": 755
+    },
+    "policyEpisodesWithViolations": 2,
+    "policySteps": 3758,
+    "expertViolations": 1,
+    "expertEpisodesWithViolations": 1,
+    "expertSteps": 3063,
+    "of": 60
+  },
+  "lineage": {
+    "datasetId": "rx-ds-rb-teleop-pick-place",
+    "policyId": "rx-bc-rb-teleop-pick-place",
+    "sites": [],
+    "auditHead": "cbe2586f5f48b037",
+    "auditLines": 14
+  },
+  "measuredOn": "the simulated scenario only; no hardware run has happened"
+}

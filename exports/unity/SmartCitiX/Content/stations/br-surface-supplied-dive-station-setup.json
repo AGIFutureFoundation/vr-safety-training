@@ -1,0 +1,412 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clean-air-station",
+    "name": "Clean Air Station",
+    "note": "Intake upwind, condensate out, both supplies proven and the non-return valve holding before a diver dressed"
+  },
+  "category": "Maritime & Ports",
+  "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.430 diving equipment (air compressor systems and their intakes, breathing gas hoses, helmets), 29 CFR 1910.425 surface-supplied air diving (the reserve breathing gas and the standby) and 29 CFR 1910.420 the employer's safe practices manual; ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; supply, depth and time per the dive plan",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADCI",
+        "citedAs": "ADCI",
+        "id": "adci-consensus-standards",
+        "title": "Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations"
+      },
+      {
+        "body": "union",
+        "citedAs": "Pile Drivers",
+        "id": "carpenters-ictf",
+        "title": "United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.420",
+        "id": "osha-1910-420",
+        "title": "29 CFR 1910.420 — Safe practices manual (the employer's written procedures for each diving mode, the dive team's duties and emergency procedures)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.425",
+        "id": "osha-1910-425",
+        "title": "29 CFR 1910.425 — Surface-supplied air diving (limits, the tended diver, the standby diver and the reserve breathing gas)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.430",
+        "id": "osha-1910-430",
+        "title": "29 CFR 1910.430 — Diving equipment (air compressor systems and their intakes, breathing gas hoses, helmets and masks, decompression chambers, gauges and timekeeping)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910 Subpart T",
+        "id": "osha-1910-subpart-t",
+        "title": "29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 197 Subpart B",
+        "id": "uscg-46-cfr-197-subpart-b",
+        "title": "46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction"
+      }
+    ]
+  },
+  "district": "Maritime & Ports",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "intake-upwind",
+        "name": "Intake Upwind",
+        "note": "The compressor's intake run upwind of every exhaust first time"
+      },
+      {
+        "id": "valve-proven",
+        "name": "Valve Proven",
+        "note": "Bailout and panel both inside the band first time"
+      },
+      {
+        "id": "no-shortcuts",
+        "name": "No Shortcuts",
+        "note": "No intake at an exhaust, no grease on a high-pressure fitting, no whip check off, no hand past a guard"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-setup",
+        "name": "Clean Setup",
+        "note": "No corrections from the brief to the log"
+      },
+      {
+        "id": "panel-steady",
+        "name": "Panel Steady",
+        "note": "The regulator held in band the whole bring-up"
+      },
+      {
+        "id": "ready-early",
+        "name": "Ready Early",
+        "note": "Station logged inside 80% of par"
+      }
+    ],
+    "currency": "CHARGE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Tender",
+      "Diver-Tender",
+      "Diver",
+      "Lead Diver",
+      "Dive Station Certified"
+    ],
+    "system": "Station Setup"
+  },
+  "hazards": {
+    "grease-hp-fitting": "You reached for the tin of general-purpose grease to ease the high-pressure fitting on the cylinder bank. Oil and ordinary grease in a high-pressure gas fitting can ignite from the heat of compression when the valve is opened fast, and a fire inside a fitting is a fire in the diver's gas supply. Only the lubricant the manufacturer specifies for that service goes on those threads — usually none at all.",
+    "intake-at-exhaust": "You went to hang the compressor's intake beside the generator's exhaust stack, where the hose reaches without moving anything. A low-pressure dive compressor breathes whatever is at its intake and delivers it straight to the diver's helmet under pressure: carbon monoxide from an exhaust is invisible, has no smell, and at depth it poisons a diver faster than it would at the surface. 29 CFR 1910.430 wants intakes located away from exhaust and other contaminants — upwind, with the hose run to get there.",
+    "reach-past-guard": "You went to check the compressor belt tension with the guard swung open and the compressor running. A belt and pulley take a hand and a glove in faster than anyone can pull back, and a compressor on a moving deck is a machine you cannot brace against. The belt is checked with the compressor stopped, locked out and cooled, and the guard goes back on before it restarts.",
+    "whip-check-off": "You were about to open the high-pressure bank with the whip check unclipped from the hose joint. A high-pressure hose that parts at a fitting whips across the deck with enough force to break bones, and the whip check is the restraint that stops it. It is clipped across every high-pressure joint before any valve is opened."
+  },
+  "id": "br-surface-supplied-dive-station-setup",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "nrv-test",
+      "alert": "The crew boat alongside has started its outboards to reposition, and the wind has swung — blue exhaust is drifting straight across the compressor's intake.",
+      "cue": "Stop the compressor at its kill switch until the crew boat has moved and the intake is clear again.",
+      "delay": 2,
+      "id": "exhaust-at-intake",
+      "kind": "Exhaust drifting over the compressor intake",
+      "missNote": "The compressor kept running in the outboards' exhaust and pumped it into the volume tank; the tank had to be blown down and the air tested before the dive, and the morning's dive window was lost.",
+      "seconds": 14,
+      "target": "compressor-kill",
+      "why": "Everything the compressor draws in goes into the volume tank and on to the diver, so the moment exhaust reaches the intake the compressor is stopped — before it has filled the tank with carbon monoxide. It restarts only when the exhaust has gone and the intake has been re-run upwind, and if the tank might have taken any in, it is blown down before anyone breathes from it.",
+      "wrongNote": "The compressor's kill switch — stop it before it pumps the exhaust into the tank."
+    },
+    {
+      "after": "bring-up-panel",
+      "alert": "The compressor's high-temperature lamp is flashing and the primary supply gauge on the panel has started to sag.",
+      "cue": "Open the crossover to put the panel on the secondary bank, then tell the supervisor.",
+      "delay": 2,
+      "id": "compressor-overheat",
+      "kind": "Compressor high-temperature alarm",
+      "missNote": "The primary kept sagging while the regulator was chased up to hold it; the compressor tripped on temperature and the panel fell to nothing for the seconds it took to find the crossover.",
+      "seconds": 14,
+      "target": "crossover-valve",
+      "why": "A compressor that overheats will shut itself down or start cooking its oil into the air, and either way the primary supply is failing. The station is built for exactly this: the crossover puts the panel on the secondary bank in seconds, with no gap in supply, and only then is the compressor attended to. With a diver in the water that is the difference between an inconvenience and an emergency ascent.",
+      "wrongNote": "The crossover valve — put the panel on the secondary bank before the primary fails."
+    }
+  ],
+  "lateNotes": {
+    "panel-regulator": "The panel is brought up once the non-return valve is proven and the umbilical's ends are clean — nothing goes down a hose that has not been checked.",
+    "setup-log": "The station is logged once the standby's rig is staged — the log records a finished station.",
+    "tank-drain": "The volume tank is drained once the compressor has been inspected — find the problems with the source of the air before you start moving it."
+  },
+  "name": "Surface-Supplied Dive Station Setup",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-restoration-maritime-underwater"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "generatorTrailer",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "workboat",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bailout-gauge",
+      "belt-guard",
+      "comms-pin",
+      "compressor-kill",
+      "crossover-valve",
+      "filter-tag",
+      "grease-hp-fitting",
+      "intake-at-exhaust",
+      "intake-hose",
+      "nrv-test",
+      "panel-regulator",
+      "pneumo-blocked",
+      "pneumo-gauge",
+      "primary-hose",
+      "reach-past-guard",
+      "secondary-bank",
+      "setup-log",
+      "setup-sheet",
+      "standby-bench",
+      "standby-helmet",
+      "tank-drain",
+      "team-board",
+      "upwind-rail",
+      "whip-check-off"
+    ],
+    "meshes": 237
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "At the log table, in your PFD: the diving mode for today, the station layout from the employer's safe practices manual, the primary and secondary supplies the dive plan names, and who sets up what.",
+      "id": "take-setup",
+      "kind": "select",
+      "prompt": "At the log table, in your PFD: the diving mode for today, the station layout from the employer's safe practices manual, the primary and secondary supplies the dive plan names, and who sets up what.",
+      "target": "setup-sheet",
+      "title": "Take the station setup from the supervisor",
+      "why": "A surface-supplied station is set up to a layout the employer's safe practices manual writes down, because the supervisor has to be able to walk up to any station the contractor runs and find the panel, the secondary supply and the standby's rig where they expect them. 29 CFR 1910.420 has that manual at the dive location, and the setup starts from it and from today's dive plan rather than from how the last crew left the deck."
+    },
+    {
+      "cue": "Carry the compressor's intake hose to the upwind rail, clear of the generator's stack and the crew boat's outboards, and clip it high.",
+      "drag": {
+        "missNote": "Not on the upwind rail — the intake goes where no exhaust can reach it, clipped high.",
+        "radius": 0.5,
+        "to": "upwind-rail"
+      },
+      "id": "run-intake",
+      "kind": "drag",
+      "prompt": "Carry the compressor's intake hose to the upwind rail, clear of the generator's stack and the crew boat's outboards, and clip it high.",
+      "target": "intake-hose",
+      "title": "Run the compressor's intake upwind of every exhaust",
+      "why": "The compressor breathes what is at its intake and sends it, compressed, to the diver. On a workboat the air near the deck carries the generator's exhaust, the outboards' exhaust and fuel vapour from the fuel cans, so the intake is run to the upwind rail and clipped high, away from all of them. The wind on the Bay swings through the day, which is why the intake's position is checked again whenever it does."
+    },
+    {
+      "cue": "Walk the compressor with it stopped: the filter tower and its cartridge tag, the belt and its guard, the oil, the hoses and the pressure relief.",
+      "id": "inspect-compressor",
+      "itemNames": {
+        "belt-guard": "belt guard hanging open on one fastener",
+        "filter-tag": "filter cartridge tag past its change on the service record"
+      },
+      "itemNotes": {
+        "belt-guard": "The guard over the compressor's belt and pulleys is hanging on one fastener. With the compressor running that is an open nip point at knee height on a moving deck.",
+        "filter-tag": "The tag on the filter tower's cartridge shows it past the change the service record calls for. The filter is what takes oil mist and moisture out of the air the diver breathes; a spent cartridge passes them through."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the compressor with it stopped: the filter tower and its cartridge tag, the belt and its guard, the oil, the hoses and the pressure relief.",
+      "targets": [
+        "filter-tag",
+        "belt-guard"
+      ],
+      "title": "Inspect the compressor and its filtration before it runs",
+      "why": "The dive compressor is the diver's lungs for the day, and 29 CFR 1910.430 holds it to being inspected, maintained and delivering air fit to breathe. The filter cartridge is what stands between the compressor's own oil and the diver's helmet, and the guard is what stands between the tender's hand and the belt; both are checked with the machine stopped, because the time to find them wanting is before anybody is breathing from it."
+    },
+    {
+      "cue": "Open the volume tank's drain valve and let the water and oil blow out until the air runs dry, then close it.",
+      "id": "drain-tank",
+      "kind": "turn",
+      "prompt": "Open the volume tank's drain valve and let the water and oil blow out until the air runs dry, then close it.",
+      "target": "tank-drain",
+      "title": "Blow the condensate out of the volume tank",
+      "turn": {
+        "label": "TANK DRAIN",
+        "turns": 1
+      },
+      "why": "Compressing humid Bay air drops water out of it, and the volume tank is where that water and any oil carried over collect. Left in, the condensate rides into the panel and the umbilical, fogs the diver's helmet and freezes in the regulator in cold water. It is blown down at every setup until the air runs dry, and whatever comes out tells the team how the compressor is running."
+    },
+    {
+      "cue": "Connect the primary supply hose from the volume tank to the panel's primary inlet, then line up the high-pressure bank to the secondary inlet with the whip check clipped.",
+      "id": "line-up-supplies",
+      "itemNames": {
+        "primary-hose": "primary supply from the volume tank made up to the panel",
+        "secondary-bank": "secondary supply from the cylinder bank lined up on its own valve"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — make up the primary to the panel first, then line the secondary up to it.",
+      "prompt": "Connect the primary supply hose from the volume tank to the panel's primary inlet, then line up the high-pressure bank to the secondary inlet with the whip check clipped.",
+      "targets": [
+        "primary-hose",
+        "secondary-bank"
+      ],
+      "title": "Make up the primary supply, then line up the secondary",
+      "why": "29 CFR 1910.425 wants a surface-supplied diver to have a reserve breathing gas supply as well as the primary, and the station is built so the supervisor can switch from one to the other in seconds without leaving the panel. The primary is made up first so the secondary is lined up to a panel that is already plumbed, and every high-pressure joint gets its whip check before its valve is opened."
+    },
+    {
+      "cue": "Crack the bailout bottle's valve, let the gauge settle and commit the reading against the charge the dive plan sets for this depth.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.62
+        ],
+        "label": "BAILOUT vs PLAN",
+        "missNote": "Outside the band — let the bailout gauge settle and read it against the charge the dive plan sets.",
+        "speed": 0.7
+      },
+      "id": "read-bailout",
+      "kind": "gauge",
+      "prompt": "Crack the bailout bottle's valve, let the gauge settle and commit the reading against the charge the dive plan sets for this depth.",
+      "target": "bailout-gauge",
+      "title": "Read the bailout bottle against the dive plan",
+      "why": "The bailout bottle on the diver's back is the gas they breathe when everything at the surface fails at once — hose, panel, compressor and secondary together. It has to be charged to what the dive plan sets for this depth, and it is read at the setup rather than trusted from yesterday, because a bailout that was cracked and left open overnight is an empty bottle the diver will only discover when they need it."
+    },
+    {
+      "cue": "With the helmet's gas inlet disconnected, hold the test: try to draw back through the non-return valve and keep trying until it has held — nothing should come back.",
+      "holdBreakNote": "You let go before the valve had held — a non-return valve is proven by holding the draw until it seals. Take the test from the start.",
+      "id": "nrv-test",
+      "kind": "hold",
+      "prompt": "With the helmet's gas inlet disconnected, hold the test: try to draw back through the non-return valve and keep trying until it has held — nothing should come back.",
+      "seconds": 5,
+      "target": "nrv-test",
+      "title": "Prove the helmet's non-return valve",
+      "why": "The non-return valve at the helmet's inlet is what stops a parted or cut hose at the surface from sucking the gas out of the helmet — and the diver's face into it — at depth. It is tested before every dive by trying to draw back through it, and held long enough to prove it seals, because a valve that sticks open fails silently until the hose is damaged and then fails catastrophically."
+    },
+    {
+      "cue": "At the helmet end of the umbilical: blow through the pneumo hose and look at the comms connector's pins before anything is made up to the helmet.",
+      "id": "umbilical-ends",
+      "itemNames": {
+        "comms-pin": "green corrosion on a comms connector pin",
+        "pneumo-blocked": "pneumo hose end plugged with dried silt"
+      },
+      "itemNotes": {
+        "comms-pin": "One pin in the helmet comms connector is furred with green corrosion. A connector like that works on deck and cuts in and out in the water, which is when the supervisor most needs to hear the diver.",
+        "pneumo-blocked": "The open end of the pneumo hose is plugged with dried silt from the last job. A blocked pneumo reads wrong or not at all, and the supervisor reads the diver's depth — and the decompression — off it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "At the helmet end of the umbilical: blow through the pneumo hose and look at the comms connector's pins before anything is made up to the helmet.",
+      "targets": [
+        "pneumo-blocked",
+        "comms-pin"
+      ],
+      "title": "Check the umbilical's pneumo and comms ends",
+      "why": "The umbilical carries four things to the diver, and two of them fail quietly: a pneumo hose plugged with silt still looks like a hose, and a corroded comms pin still passes a test on a dry deck. Both are the supervisor's view of the diver — depth and voice — so they are checked at the helmet end at every setup, and cleaned or changed rather than hoped through another dive."
+    },
+    {
+      "cue": "Open the panel regulator steadily to bring the diver's supply up to the over-bottom pressure the dive plan sets, and hold it there while the supervisor watches the gauges — no overshoot, no hunting.",
+      "holdBreakNote": "The supply went out of band — overshoot or sag. Bring the regulator back steadily and hold it at the dive plan's figure.",
+      "id": "bring-up-panel",
+      "kind": "track",
+      "prompt": "Open the panel regulator steadily to bring the diver's supply up to the over-bottom pressure the dive plan sets, and hold it there while the supervisor watches the gauges — no overshoot, no hunting.",
+      "seconds": 6,
+      "target": "panel-regulator",
+      "title": "Bring the panel up to the dive plan's supply and hold it",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "PANEL REGULATOR",
+        "rise": 0.56,
+        "start": 0.14
+      },
+      "why": "The panel regulator sets the pressure the diver's helmet receives above the pressure at their depth, and the dive plan sets that figure for today's depth. Brought up steadily it settles where it was set and shows any leak as a falling gauge; opened in a rush it overshoots, slams the helmet's regulator and hides a leak in the needle's swing. The supervisor watches it held before calling the station ready."
+    },
+    {
+      "cue": "With the pneumo hose's end held at the waterline, bleed it and set the pneumofathometer to read zero at the surface.",
+      "id": "zero-pneumo",
+      "kind": "select",
+      "prompt": "With the pneumo hose's end held at the waterline, bleed it and set the pneumofathometer to read zero at the surface.",
+      "target": "pneumo-gauge",
+      "title": "Zero the pneumo with the hose end at the surface",
+      "why": "The pneumofathometer reads the diver's depth from the pressure needed to bleed gas out of the open end of the hose, and it only reads true if it starts from zero at the surface. A gauge that reads a little deep puts the dive on the wrong line of the tables the supervisor holds; zeroing it at the waterline at every setup is how the depth that goes in the dive record is the diver's real one."
+    },
+    {
+      "cue": "Carry the standby's helmet to the bench beside their umbilical, made up and ready to go on in a hurry.",
+      "drag": {
+        "missNote": "Not on the bench — the standby's helmet goes beside their umbilical, ready to go on.",
+        "radius": 0.5,
+        "to": "standby-bench"
+      },
+      "id": "stage-standby",
+      "kind": "drag",
+      "prompt": "Carry the standby's helmet to the bench beside their umbilical, made up and ready to go on in a hurry.",
+      "target": "standby-helmet",
+      "title": "Stage the standby diver's helmet on the bench",
+      "why": "29 CFR 1910.425 wants a standby diver available while a diver is in the water, and available means able to go in within moments, not after a search for their helmet. The standby's rig is made up on its own supply and staged beside them on the bench, so if the diver is fouled or unconscious the standby dresses, checks and goes while the supervisor is still on the comms."
+    },
+    {
+      "cue": "Record the compressor inspection and the filter changed, the tank blown down, both supplies lined up, the bailout charged, the non-return valve proven, the pneumo cleaned and zeroed and the comms connector changed.",
+      "id": "setup-log",
+      "kind": "select",
+      "prompt": "Record the compressor inspection and the filter changed, the tank blown down, both supplies lined up, the bailout charged, the non-return valve proven, the pneumo cleaned and zeroed and the comms connector changed.",
+      "target": "setup-log",
+      "title": "Log the station setup",
+      "why": "29 CFR 1910.430 wants diving equipment inspected and its maintenance recorded, and the setup log is where today's checks become a record the next crew can read: which cartridge went in, which connector was changed and who proved the non-return valve. The exhaust and the overheating go in as well, because a compressor that ran hot this morning is the first thing the mechanic should hear about."
+    },
+    {
+      "cue": "Tell the supervisor the station is set and logged, walk the tender and the standby through what changed, and check how everyone is before the diver dresses.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Tell the supervisor the station is set and logged, walk the tender and the standby through what changed, and check how everyone is before the diver dresses.",
+      "target": "team-board",
+      "title": "Report the station ready and check in with the team",
+      "why": "The supervisor calls the station ready, not the diver who set it up, and the report is made at the team board so the tender and the standby hear what was found and changed. It is also the moment to say how people are: a long setup in the sun, a compressor that overheated and a filter that should have been changed last week are the kind of morning the Pile Drivers Local 34 member assistance line exists for when a deck conversation does not settle it."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — Pile Drivers Local 34 — with the employer's employee assistance line behind it",
+  "tagline": "An hour before the first dive: the setup taken from the supervisor, the compressor intake run upwind, the filter and the belt guard found, the volume tank drained, the primary and secondary lined up, the bailout read, the helmet's non-return valve proven while the crew boat's exhaust drifts over the intake, the umbilical's pneumo and comms ends found, the panel brought up steady while the compressor overheats, the pneumo zeroed, the standby's rig staged and the station logged ready — every step in a PFD",
+  "title": "SmartCiti.X~ Surface-Supplied Dive Station Setup VR",
+  "trade": "Pile Drivers Local 34 commercial diver as lead diver setting up a surface-supplied air dive station on a Bay workboat, with the dive supervisor, the tender and the standby diver",
+  "underwater": null,
+  "weather": "clear"
+}

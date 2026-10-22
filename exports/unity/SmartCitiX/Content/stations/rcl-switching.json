@@ -1,0 +1,409 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "point-protected",
+    "name": "Point Protected",
+    "note": "A cut shoved, coupled, secured and left in the clear with the leading end never once out of sight"
+  },
+  "category": "Mobility & Transit",
+  "certification": "SMART Transportation Division and BLET — the carrier's remote control locomotive operator certification, over conductor and engineer certification under FRA 49 CFR 242 and 240; 49 CFR 218 Subpart B blue signal protection of workers; 49 CFR 232 brake system standards, including the securement of unattended equipment",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "BLET",
+        "id": "blet-training",
+        "title": "BLET certification and training for locomotive engineers and trainmen"
+      },
+      {
+        "body": "FRA",
+        "citedAs": "49 CFR 218",
+        "id": "fra-49-cfr-218",
+        "title": "49 CFR Part 218 — Railroad operating practices, including blue signal protection of workers"
+      },
+      {
+        "body": "FRA",
+        "citedAs": "49 CFR 232",
+        "id": "fra-49-cfr-232",
+        "title": "49 CFR Part 232 — Brake system safety standards for freight and other non-passenger trains"
+      },
+      {
+        "body": "FRA",
+        "citedAs": "49 CFR 242",
+        "id": "fra-49-cfr-242",
+        "title": "49 CFR Part 242 — Qualification and certification of conductors"
+      },
+      {
+        "body": "union",
+        "citedAs": "SMART",
+        "id": "smart-iti",
+        "title": "SMART and the International Training Institute — sheet metal, rail and transportation apprenticeship"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Rail",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "eyes-on-the-point",
+        "name": "Eyes On The Point",
+        "note": "Never let the movement run past what could be seen"
+      },
+      {
+        "id": "blue-is-yours",
+        "name": "Blue Is Yours",
+        "note": "The blue signal went up before anyone went between, and came down by the same hand"
+      },
+      {
+        "id": "speed-true",
+        "name": "Speed True",
+        "note": "Shove speed, coupling speed and the pull test all read inside their bands"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-list",
+        "name": "Clean List",
+        "note": "Worked the list with no corrections"
+      },
+      {
+        "id": "protection-held",
+        "name": "Protection Held",
+        "note": "Held three-step for the full count, first time"
+      },
+      {
+        "id": "yard-time",
+        "name": "Yard Time",
+        "note": "Cut tied down inside 80% of par"
+      }
+    ],
+    "currency": "CARS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Switchman",
+      "RCL Operator",
+      "Yard Foreman",
+      "Yardmaster",
+      "Yard Authority Certified"
+    ],
+    "system": "Yard Authority"
+  },
+  "hazards": {
+    "between-cars": "You went in between equipment that is neither separated nor protected. A cut with a locomotive coupled to it can move, and it does not need anybody to make a mistake first — slack running in will close a gap you are standing in faster than you can get out of it. Nothing goes between until the equipment is separated, protected, and protected by you.",
+    "lost-sight": "You kept shoving with the leading end behind the standing cut on the next track. Point protection is not a speed limit, it is a promise that the movement can be stopped short of whatever is in front of it — and that is not a promise anybody can make about track they cannot see. When the leading end goes out of sight, the movement stops until it is back in sight or somebody else has the point.",
+    "over-the-coupler": "You climbed over the drawbar to get to the other side. Crossing over couplers and drawbars puts your whole body in the one place on a car that closes under slack, and it is the crossing people make without thinking because the alternative is a long walk round the end. Go round the end, far enough out that nothing can reach you.",
+    "ride-the-shove": "You stepped onto the side ladder of a car that is moving. Getting on and off moving equipment is how switchmen lose feet, and on a remote control job it is worse than that: the operator riding the car is the operator who has stopped watching the leading end, and the only brake that cut has is the box on your chest."
+  },
+  "id": "rcl-switching",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "shove",
+      "alert": "A carman has come out from between the standing cars on the next track and is walking in the gauge ahead of your leading end.",
+      "cue": "There is a person where your movement is going.",
+      "delay": 3,
+      "id": "point-fouled",
+      "kind": "Somebody in the gauge",
+      "missNote": "You kept shoving. He heard it and stepped out, which is how almost all of these end and is exactly why people stop expecting them to matter. The cut you were pushing weighs well over a hundred tons a car, it makes very little noise at the leading end because the locomotive is four cars behind it, and nothing about it was going to stop for him.",
+      "seconds": 11,
+      "target": "stop-button",
+      "why": "Point protection is the promise that this movement can be stopped short of whatever is in front of it, and the moment a person is in front of it that promise is the only thing that matters. The stop goes in first and the conversation happens afterwards: on a remote control job the box in your hand is the only brake that cut has, and it is already in your hand.",
+      "wrongNote": "It is the stop on the box. Nothing else within reach takes the movement away from him before he is out of it."
+    },
+    {
+      "after": "knuckle",
+      "alert": "The blue signal you set is lying flat beside the rail. Somebody has lifted it so the track can be used, and your hands are still in the coupler.",
+      "cue": "Your protection is on the ground.",
+      "delay": 3,
+      "id": "blue-lifted",
+      "kind": "Your protection removed",
+      "missNote": "You finished the knuckle with your protection lying in the ballast. Nothing came into the track, which is luck rather than protection — for as long as your arms were inside that coupler the equipment was, as far as every other crew in this yard could tell, available to be coupled to and moved.",
+      "seconds": 12,
+      "target": "blue-signal",
+      "why": "A blue signal is applied by the worker it protects and removed only by that same worker, and that is not a formality about who is allowed to touch a flag: it is the whole reason the protection means anything while you are inside equipment you cannot see out of. The moment it is down, that equipment may be coupled to and moved, and nobody moving it knows you are in there.",
+      "wrongNote": "It is the blue signal. Nothing else you can reach from in here puts your own protection back up."
+    }
+  ],
+  "lateNotes": {
+    "blue-signal": "The blue signal goes up when you are about to work on, under or between the equipment — after the movement is made and the protection is set, not before.",
+    "handbrake-wheel": "Hand brakes go on when the cut is being left standing. At this point it is still coupled to a locomotive that answers your box."
+  },
+  "name": "RCL Switching",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "between-cars",
+      "blue-signal",
+      "brake-gauge",
+      "clearance-point",
+      "coupler-seat",
+      "dragging-hose",
+      "effort-gauge",
+      "handbrake-wheel",
+      "job-briefing",
+      "knuckle",
+      "loose-handhold",
+      "lost-sight",
+      "ocu-link",
+      "ocu-throttle",
+      "ocu-tilt",
+      "ocu-vest",
+      "over-the-coupler",
+      "point-position",
+      "ride-the-shove",
+      "speed-display",
+      "stop-button",
+      "switch-stand",
+      "three-step-button"
+    ],
+    "meshes": 259
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read which cars are moving, which track they go into, and which end you are shoving from.",
+      "id": "brief",
+      "kind": "select",
+      "prompt": "Read which cars are moving, which track they go into, and which end you are shoving from.",
+      "target": "job-briefing",
+      "title": "Take the job briefing and the switch list",
+      "why": "A remote control job is worked from the ground by one person with the whole movement in their hands, so the plan is settled before the wheels turn. The briefing is also where the crew agrees who holds the point and who is being protected, and that is the one thing nobody can work out later by looking."
+    },
+    {
+      "cue": "OCU on the harness, linked to the unit, tilt and vigilance proved before anything moves.",
+      "id": "link-up",
+      "itemNames": {
+        "ocu-link": "link the box to the locomotive",
+        "ocu-tilt": "prove the tilt and vigilance features",
+        "ocu-vest": "operator control unit and harness"
+      },
+      "kind": "sequence",
+      "prompt": "OCU on the harness, linked to the unit, tilt and vigilance proved before anything moves.",
+      "targets": [
+        "ocu-vest",
+        "ocu-link",
+        "ocu-tilt"
+      ],
+      "title": "Belt the box on, link it, prove its safeties",
+      "why": "The box on your chest is the cab now, and it is the only cab. Linking it is what hands a locomotive to somebody standing on the ballast, and the features that stop the movement when the operator goes down get proved at the start, while proving them costs nothing but a minute."
+    },
+    {
+      "cue": "Call for a brake application from the OCU and commit on the brake pipe reduction.",
+      "gauge": {
+        "green": [
+          0.56,
+          0.78
+        ],
+        "label": "BRAKE PIPE",
+        "missNote": "That is not the reduction the application should be making. Nothing moves on a brake you have not proved.",
+        "speed": 0.7
+      },
+      "id": "brake-check",
+      "kind": "gauge",
+      "prompt": "Call for a brake application from the OCU and commit on the brake pipe reduction.",
+      "target": "brake-gauge",
+      "title": "Prove the brakes answer the box",
+      "why": "Everything after this depends on the movement stopping when a hand that is not in the cab tells it to. The reduction is read off a gauge rather than assumed from a button, because a link that talks to a locomotive is not the same thing as a link that brakes it."
+    },
+    {
+      "cue": "Get yourself where you can see the leading end of the movement and the track ahead of it.",
+      "id": "point",
+      "kind": "select",
+      "prompt": "Get yourself where you can see the leading end of the movement and the track ahead of it.",
+      "target": "point-position",
+      "title": "Take the point before anything moves",
+      "why": "This is the rule the whole job hangs on: the movement goes no further than the operator can see it stop. On a shove that means being ahead of the leading end, on the side the track is visible from, and it means taking that position first rather than catching up with it afterwards."
+    },
+    {
+      "cue": "Hold the speed inside the band and keep the leading end in sight the whole way.",
+      "id": "shove",
+      "kind": "track",
+      "prompt": "Hold the speed inside the band and keep the leading end in sight the whole way.",
+      "seconds": 6,
+      "target": "ocu-throttle",
+      "title": "Shove at a speed you can stop within half of what you can see",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.38,
+        "green": [
+          0.16,
+          0.36
+        ],
+        "label": "SHOVE",
+        "rise": 0.46
+      },
+      "why": "Half the range of vision, short of anything fouling the track, is point protection written as a number. It is not a fixed speed — it is the speed at which this much clear track is enough, so it comes down when the sight line shortens and it comes down to zero when the sight line closes."
+    },
+    {
+      "cue": "Throw the switch stand right over for the track you are shoving into, then look at where the points actually went.",
+      "id": "line-switch",
+      "kind": "turn",
+      "prompt": "Throw the switch stand right over for the track you are shoving into, then look at where the points actually went.",
+      "target": "switch-stand",
+      "title": "Line the hand switch and look at the points",
+      "turn": {
+        "axis": "y",
+        "label": "HAND SWITCH",
+        "turns": 0.5
+      },
+      "why": "The target on a switch stand tells you what the handle did, not what the points did. A point that has not seated leaves a gap for a wheel to pick, and the only way that gets found before a derailment is somebody walking up and looking at the rail."
+    },
+    {
+      "cue": "Bring the movement down to a coupling speed and commit when the display reads it.",
+      "gauge": {
+        "green": [
+          0.08,
+          0.34
+        ],
+        "label": "COUPLING",
+        "missNote": "Too fast for a joint. Back it off and bring it in at a speed the far end of that track can absorb.",
+        "speed": 0.72
+      },
+      "id": "couple",
+      "kind": "gauge",
+      "prompt": "Bring the movement down to a coupling speed and commit when the display reads it.",
+      "target": "speed-display",
+      "title": "Couple at coupling speed",
+      "why": "Cars are coupled slowly because the impact carries on through the lading, the draft gear and whatever is standing at the far end of the track. A hard joint is also how a cut somebody thought was secured ends up shoved out the other end."
+    },
+    {
+      "cue": "Call for three-step from the box and hold until the locomotive acknowledges it.",
+      "holdBreakNote": "You let go before the acknowledgement came back. Protection you did not see confirmed is protection you do not have.",
+      "id": "protection",
+      "kind": "hold",
+      "prompt": "Call for three-step from the box and hold until the locomotive acknowledges it.",
+      "seconds": 5,
+      "target": "three-step-button",
+      "title": "Set three-step protection and hold for the acknowledgement",
+      "why": "Three-step is the machine's undertaking that it cannot move: brakes applied, reverser centred, power off. On a remote control job the same person asks for it and then relies on it, which is exactly why it is held until the acknowledgement comes back rather than assumed from a button press."
+    },
+    {
+      "cue": "Put the blue signal up yourself, before you go on, under or between the equipment.",
+      "id": "blue-signal",
+      "kind": "select",
+      "prompt": "Put the blue signal up yourself, before you go on, under or between the equipment.",
+      "target": "blue-signal",
+      "title": "Display your own blue signal",
+      "why": "A blue signal is personal. The worker it protects is the one who displays it and the only one who may remove it, and while it is up the equipment is not coupled to and is not moved by anybody. That is what makes it worth more than an arrangement with whoever happens to be on duty."
+    },
+    {
+      "cue": "Carry the spare knuckle in and seat it in the coupler, now that the equipment is separated and protected.",
+      "drag": {
+        "missNote": "Not seated in the coupler — a knuckle lying on the drawbar will not make a joint.",
+        "radius": 0.5,
+        "to": "coupler-seat"
+      },
+      "id": "knuckle",
+      "kind": "drag",
+      "prompt": "Carry the spare knuckle in and seat it in the coupler, now that the equipment is separated and protected.",
+      "target": "knuckle",
+      "title": "Change the broken knuckle",
+      "why": "This is the work all that protection was set for, and the reason it has to be personal: the person whose arms are inside the coupler is the person who asked for three-step and put the blue signal up. Knuckles are also heavy and awkward, which is its own argument for not doing this twice."
+    },
+    {
+      "cue": "Take the hand brake up on the car you are leaving, and take it up hard.",
+      "id": "handbrake",
+      "kind": "turn",
+      "prompt": "Take the hand brake up on the car you are leaving, and take it up hard.",
+      "target": "handbrake-wheel",
+      "title": "Wind the hand brake down on the cut",
+      "turn": {
+        "axis": "x",
+        "label": "HAND BRAKE",
+        "turns": 2
+      },
+      "why": "A cut left standing is held by hand brakes, not by air, because air leaks off and nobody will be here when it does. How many brakes and how hard is a judgement about the grade, the tonnage and the wind — and it is a judgement that gets tested in the next step rather than trusted."
+    },
+    {
+      "cue": "Pull against the applied hand brakes and commit when the load holds and the cut has not moved.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.66
+        ],
+        "label": "TRACTIVE EFFORT",
+        "missNote": "Either that was not enough pull to prove anything, or the cut moved under it. Tie down more brakes and test it again.",
+        "speed": 0.68
+      },
+      "id": "tug-test",
+      "kind": "gauge",
+      "prompt": "Pull against the applied hand brakes and commit when the load holds and the cut has not moved.",
+      "target": "effort-gauge",
+      "title": "Prove the securement by pulling against it",
+      "why": "Securement is verified by attempting to move the equipment, not by counting turns on a wheel. A wheel that span freely because the chain was slack feels exactly like a wheel that took up — right up until the cut is found somewhere nobody left it."
+    },
+    {
+      "cue": "Walk to the clearance point and sight along the adjacent track before you give the track up.",
+      "id": "clear-point",
+      "kind": "select",
+      "prompt": "Walk to the clearance point and sight along the adjacent track before you give the track up.",
+      "target": "clearance-point",
+      "title": "Check the cut is standing in the clear",
+      "why": "Equipment left fouling the next track is the cause of the side-swipe nobody saw coming, and it is always a car end sticking out by a couple of feet at a spot the operator never walked to. The clearance point is marked so that it can be looked at instead of estimated from down the yard."
+    },
+    {
+      "cue": "Go down the length of the cut and click whatever needs a bad order card.",
+      "id": "walk",
+      "itemNames": {
+        "dragging-hose": "dragging air hose",
+        "loose-handhold": "loose handhold"
+      },
+      "itemNotes": {
+        "dragging-hose": "The trainline hose on the far end is hanging down against the rail. Dragging equipment takes out a switch point the next time this car rolls, and it is the crew who left it who gets asked about it.",
+        "loose-handhold": "The handhold on the corner has pulled away at its top mount. That is the grab iron somebody puts their whole weight on in the dark, and the car does not go anywhere until it is carded for repair."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Go down the length of the cut and click whatever needs a bad order card.",
+      "targets": [
+        "dragging-hose",
+        "loose-handhold"
+      ],
+      "title": "Walk the cut before you leave it",
+      "why": "Nobody else is walking this cut tonight. Defects on yard equipment get found by the last person who worked it, walking it with their eyes open, and the list of what gets missed is the same list every time: hoses, handholds, sill steps and brake rigging."
+    },
+    {
+      "cue": "Work finished, everybody out from between — now take down the signal you put up.",
+      "id": "blue-clear",
+      "kind": "select",
+      "prompt": "Work finished, everybody out from between — now take down the signal you put up.",
+      "target": "blue-signal",
+      "title": "Take your own blue signal down, last",
+      "why": "It comes down by the same hand that put it up, and it comes down last, after the work is done and the people are clear. A blue signal taken down by somebody else, or taken down early because the track is wanted, is the precise failure the rule was written for."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A remote control shove worked from the ground: point protection on every movement, a blue signal put up and taken down by the one hand it protects, three-step before anybody fouls the equipment, and securement proved by pulling against it",
+  "title": "SmartCiti.X~ RCL Switching VR",
+  "trade": "Remote control locomotive operator / switchman",
+  "underwater": null,
+  "weather": "overcast"
+}

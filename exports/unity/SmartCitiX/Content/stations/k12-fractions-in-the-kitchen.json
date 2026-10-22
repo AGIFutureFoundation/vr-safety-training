@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "same-fraction",
+    "name": "Same Fraction",
+    "note": "A recipe scaled by one fraction throughout, measured with the right spoon and checked"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "PORTIONS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Helper",
+      "Measurer",
+      "Scaler",
+      "Cook",
+      "Chef"
+    ],
+    "system": "Recipe Board"
+  },
+  "hazards": {
+    "bigger-denominator-means-more": "You said a quarter is more than a half because four is bigger than two. The bottom number says how many equal parts the whole is cut into, so more parts means smaller parts; a quarter is less than a half.",
+    "near-the-hot-hob": "You reached across the hob for the jug. The hob may be hot even when it looks off, and the kitchen supervisor keeps the maths bench well away from it; you walk round, or ask.",
+    "scale-some-ingredients": "You halved some ingredients and not others. Scaling a recipe only works when every quantity is multiplied by the same fraction; change some and not others and the proportions change, and so does what comes out of the oven.",
+    "skip-washing-hands": "You started handling ingredients without washing your hands. The kitchen's first rule is clean hands before food, every time; a maths lesson in a kitchen keeps the kitchen's rules."
+  },
+  "id": "k12-fractions-in-the-kitchen",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "level-the-spoon-with-a-straight",
+      "alert": "A pan left on the hob by another group starts to smoke.",
+      "cue": "Step back from the hob and tell the kitchen supervisor at once; do not touch it.",
+      "delay": 3,
+      "id": "a-pan-starts-to-smoke",
+      "kind": "Smoking pan",
+      "missNote": "Nobody told the supervisor, and a classmate tried to move the pan and burned a hand.",
+      "seconds": 12,
+      "target": "kfk-tell-the-supervisor",
+      "why": "A smoking pan is the kitchen supervisor's to deal with, not a learner's. Stepping back and telling them straight away keeps everyone safe; touching or moving a hot pan is how burns happen.",
+      "wrongNote": "That does not get the supervisor. Step back and tell them. Choose the response that deals with it now."
+    },
+    {
+      "after": "keep-the-proportions-right-as-you",
+      "alert": "The kitchen supervisor points at an ingredient and asks how much you need for the half recipe.",
+      "cue": "Say the halved amount with its unit.",
+      "delay": 3,
+      "id": "the-supervisor-asks-how-much-for-half",
+      "kind": "Supervisor question",
+      "missNote": "You gave a number with no unit, and the supervisor could not tell if it was right.",
+      "seconds": 12,
+      "target": "kfk-say-the-half",
+      "why": "The supervisor is checking the fraction was applied and the unit kept. Answering with the amount and its unit shows both, which is exactly what someone following your recipe will need.",
+      "wrongNote": "That has no unit. Say the amount and its unit. Choose the response that deals with it now."
+    }
+  ],
+  "lateNotes": {
+    "kfk-checkin": "The check-in comes at the very end of the lesson.",
+    "kfk-recipe-log": "The recipe record is written once the scaling is checked — nothing to record yet."
+  },
+  "name": "Fractions in the Kitchen",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-practical-math"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bigger-denominator-means-more",
+      "kfk-checkin",
+      "kfk-compare-card",
+      "kfk-fraction-dial",
+      "kfk-level-spoon",
+      "kfk-measure-meter",
+      "kfk-ord-check",
+      "kfk-ord-fraction",
+      "kfk-ord-scale",
+      "kfk-ord-unit",
+      "kfk-picture",
+      "kfk-quantities",
+      "kfk-rc-fraction-written",
+      "kfk-rc-no-unit",
+      "kfk-rc-unscaled",
+      "kfk-rc-wrong-way",
+      "kfk-recipe-log",
+      "kfk-right-spoon-spot",
+      "kfk-say-the-half",
+      "kfk-serves",
+      "kfk-share-board",
+      "kfk-spoon-token",
+      "kfk-tell-the-supervisor",
+      "kfk-track-meter",
+      "kfk-units",
+      "kfk-wash-card",
+      "near-the-hot-hob",
+      "scale-some-ingredients",
+      "skip-washing-hands"
+    ],
+    "meshes": 240
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark the three things on the recipe card you need before scaling it.",
+      "decoyNotes": {
+        "kfk-picture": "Nice to look at, but it does not help the arithmetic."
+      },
+      "id": "find-what-the-recipe-card-gives",
+      "itemNames": {
+        "kfk-quantities": "the list of quantities",
+        "kfk-serves": "how many the recipe serves",
+        "kfk-units": "the units beside each quantity"
+      },
+      "itemNotes": {
+        "kfk-quantities": "Every one will be multiplied by the same fraction.",
+        "kfk-serves": "Compare it with how many you need. That gives the scale fraction.",
+        "kfk-units": "Keep the unit with the number when you scale it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the three things on the recipe card you need before scaling it.",
+      "targets": [
+        "kfk-serves",
+        "kfk-quantities",
+        "kfk-units"
+      ],
+      "title": "Find what the recipe card gives you",
+      "why": "Before scaling a recipe, find how many it serves, the list of quantities and the units each quantity is in. With those three, scaling is one calculation repeated; without them, it is guesswork. All the quantities are the ones the card itself shows."
+    },
+    {
+      "cue": "Wash and dry your hands before the lesson starts.",
+      "id": "wash-your-hands-before-touching-ingredients",
+      "kind": "select",
+      "prompt": "Wash and dry your hands before the lesson starts.",
+      "target": "kfk-wash-card",
+      "title": "Wash your hands before touching ingredients",
+      "why": "Clean hands before food is the kitchen's first rule, and it applies to a maths lesson here as much as to a cooking class. Starting with it every time makes it automatic, which is exactly how professional kitchens keep food safe."
+    },
+    {
+      "cue": "Find the fraction, scale each quantity, keep the unit, then check.",
+      "id": "put-the-scaling-in-order",
+      "itemNames": {
+        "kfk-ord-check": "4 · check the proportions",
+        "kfk-ord-fraction": "1 · find the scale fraction",
+        "kfk-ord-scale": "2 · scale each quantity",
+        "kfk-ord-unit": "3 · keep each unit"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Find the fraction first, so every quantity uses the same one.",
+      "prompt": "Find the fraction, scale each quantity, keep the unit, then check.",
+      "targets": [
+        "kfk-ord-fraction",
+        "kfk-ord-scale",
+        "kfk-ord-unit",
+        "kfk-ord-check"
+      ],
+      "title": "Put the scaling in order",
+      "why": "Finding the scale fraction first, from how many you need compared with how many the card serves, gives you one number to use for everything. Scaling each quantity by it, keeping the units, and then checking the proportions still look right is a method that works for any recipe."
+    },
+    {
+      "cue": "Hold the spoon steady and level it off with the back of a knife.",
+      "holdBreakNote": "The spoon tipped and heaped. Level it again with the straight edge.",
+      "id": "level-the-spoon-with-a-straight",
+      "kind": "hold",
+      "prompt": "Hold the spoon steady and level it off with the back of a knife.",
+      "seconds": 6,
+      "target": "kfk-level-spoon",
+      "title": "Level the spoon with a straight edge",
+      "why": "A heaped spoon can hold a lot more than a level one, which quietly undoes careful arithmetic. Levelling each spoonful makes the measurement match the number you calculated, the same way a scientist reads a measuring cylinder at eye level."
+    },
+    {
+      "cue": "Say which is bigger, a half or a quarter, and why.",
+      "id": "say-which-fraction-is-bigger",
+      "kind": "select",
+      "prompt": "Say which is bigger, a half or a quarter, and why.",
+      "target": "kfk-compare-card",
+      "title": "Say which fraction is bigger",
+      "why": "A half is bigger than a quarter because the whole is cut into fewer, larger parts. Being able to say why, not just which, is the understanding that stops the commonest fraction mistake."
+    },
+    {
+      "cue": "Look at the draft scaled recipe and mark each problem.",
+      "decoyNotes": {
+        "kfk-rc-fraction-written": "Writing the fraction once at the top is good practice. Keep it."
+      },
+      "id": "spot-the-problems-in-a-classmate",
+      "itemNames": {
+        "kfk-rc-no-unit": "a quantity with no unit",
+        "kfk-rc-unscaled": "an ingredient left unscaled",
+        "kfk-rc-wrong-way": "a quarter written as more than a half"
+      },
+      "itemNotes": {
+        "kfk-rc-no-unit": "Keep the unit with the number.",
+        "kfk-rc-unscaled": "Every quantity gets the same fraction.",
+        "kfk-rc-wrong-way": "More parts means smaller parts."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the draft scaled recipe and mark each problem.",
+      "targets": [
+        "kfk-rc-unscaled",
+        "kfk-rc-no-unit",
+        "kfk-rc-wrong-way"
+      ],
+      "title": "Spot the problems in a classmate's scaled recipe",
+      "why": "Scaled recipes go wrong in predictable ways: one ingredient left unscaled, a unit lost and a fraction compared the wrong way round. Spotting them in someone else's card helps you check your own."
+    },
+    {
+      "cue": "Turn the dial from the whole recipe to half, for half as many people.",
+      "id": "turn-the-recipe-from-whole-to",
+      "kind": "turn",
+      "prompt": "Turn the dial from the whole recipe to half, for half as many people.",
+      "target": "kfk-fraction-dial",
+      "title": "Turn the recipe from whole to half",
+      "turn": {
+        "axis": "y",
+        "label": "HALF",
+        "turns": 0.5
+      },
+      "why": "Halving is multiplying by one half, and it applies to every quantity equally. Turning the whole recipe to half at once, rather than ingredient by ingredient in your head, keeps the proportions right, and it is the same move a cook makes when fewer people are coming to dinner than the card expects."
+    },
+    {
+      "cue": "Commit when the jug shows the halved amount, not over and not under.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "AMOUNT",
+        "missNote": "Outside the band. Over or under the halved amount. Pour again carefully.",
+        "speed": 0.6
+      },
+      "id": "measure-the-halved-amount-accurately",
+      "kind": "gauge",
+      "prompt": "Commit when the jug shows the halved amount, not over and not under.",
+      "target": "kfk-measure-meter",
+      "title": "Measure the halved amount accurately",
+      "why": "Measuring accurately is where the fraction meets the real ingredient. Stopping at the halved amount, reading the jug at eye level, is what makes the scaled recipe actually work."
+    },
+    {
+      "cue": "Half of a half is needed. Drag the quarter spoon to the ingredient.",
+      "drag": {
+        "missNote": "Not in place yet. Take it all the way to the quarter measure.",
+        "radius": 0.45,
+        "to": "kfk-right-spoon-spot"
+      },
+      "id": "choose-the-right-measuring-spoon",
+      "kind": "drag",
+      "prompt": "Half of a half is needed. Drag the quarter spoon to the ingredient.",
+      "target": "kfk-spoon-token",
+      "title": "Choose the right measuring spoon",
+      "why": "Half of a half is a quarter, which is why the quarter spoon is the right one here. Choosing the right measure, rather than guessing with the wrong one and hoping, is fractions used for real, and it is the moment the arithmetic on the card becomes food in the bowl."
+    },
+    {
+      "cue": "Hold the mix in band with the scaled recipe as you combine the ingredients.",
+      "holdBreakNote": "The mix drifted from the recipe. Check the card before you add the next ingredient.",
+      "id": "keep-the-proportions-right-as-you",
+      "kind": "track",
+      "prompt": "Hold the mix in band with the scaled recipe as you combine the ingredients.",
+      "seconds": 8,
+      "target": "kfk-track-meter",
+      "title": "Keep the proportions right as you combine",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "PROPORTION",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "Combining is where a missed ingredient or a double measure shows up. Checking each addition against the scaled card, one ingredient at a time, keeps the proportions right to the end and catches the slip while it can still be fixed."
+    },
+    {
+      "cue": "Write the scaled quantities with their units and the fraction used.",
+      "id": "record-the-scaled-recipe",
+      "kind": "select",
+      "prompt": "Write the scaled quantities with their units and the fraction used.",
+      "target": "kfk-recipe-log",
+      "title": "Record the scaled recipe",
+      "why": "A written scaled recipe can be reused next time and checked by anyone. Recording the fraction at the top shows exactly how every quantity was worked out, so a slip in one line can be found and fixed without redoing the whole card."
+    },
+    {
+      "cue": "Wipe the bench and put the measures back where they belong.",
+      "id": "clean-down-the-bench",
+      "kind": "select",
+      "prompt": "Wipe the bench and put the measures back where they belong.",
+      "target": "kfk-share-board",
+      "title": "Clean down the bench",
+      "why": "Cleaning down is the kitchen's last rule, as washing hands is its first. It keeps the kitchen safe and clean for the next class, stops a spill becoming a slip, and finishes the lesson the way every professional kitchen finishes a shift."
+    },
+    {
+      "cue": "How did the recipe go? What was hard, and what would you try next time?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "How did the recipe go? What was hard, and what would you try next time?",
+      "target": "kfk-checkin",
+      "title": "Check in at the end of the lesson",
+      "why": "A short check-in at the end tells the teacher who is confident and who needs another go, and gives every learner a moment to notice what they learned. Nobody is graded here, and the teacher or a trusted adult is there for anyone who wants to talk it through."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Scale every ingredient by the same fraction — and wash your hands before you touch any of it",
+  "title": "SmartCiti.X~ Fractions in the Kitchen VR",
+  "trade": "Maths class in the teaching kitchen — learner and teacher",
+  "underwater": null,
+  "weather": "clear"
+}

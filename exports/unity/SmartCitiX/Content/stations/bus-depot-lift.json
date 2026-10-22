@@ -1,0 +1,331 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "on-the-locks",
+    "name": "On the Locks",
+    "note": "HV proven off, columns synced, an 18-tonne bus on its mechanical locks before a hand went underneath"
+  },
+  "category": "Mobility & Transit",
+  "certification": "ATU / IAM — ASE Transit Bus (H series) with H8 EV / hybrid-electric; ALI Lifting It Right (ANSI/ALI ALOIM); OSHA 1910.147 lockout for high-voltage disable",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "ATU",
+        "id": "atu-training",
+        "title": "ATU member training for bus and rail transit operations"
+      },
+      {
+        "body": "union",
+        "citedAs": "IAM",
+        "id": "iam-winpisinger-center",
+        "title": "IAM — the William W. Winpisinger Education and Technology Center's machinist and transportation training"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 70E",
+        "id": "nfpa-70e",
+        "title": "NFPA 70E — Standard for Electrical Safety in the Workplace"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Mobility",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "hv-proven",
+        "name": "HV Proven",
+        "note": "High voltage disabled and metered before the lift, first time"
+      },
+      {
+        "id": "never-under",
+        "name": "Never Under Hydraulics",
+        "note": "Never under the bus off the locks, never touched HV bare-handed"
+      },
+      {
+        "id": "level-raise",
+        "name": "Level Raise",
+        "note": "Held the columns level through the raise"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-lift",
+        "name": "Clean Lift",
+        "note": "No corrections through the whole lift"
+      },
+      {
+        "id": "pads-true",
+        "name": "Pads True",
+        "note": "Lift pads placed inside the manufacturer's points"
+      },
+      {
+        "id": "bay-turn",
+        "name": "Bay Turn",
+        "note": "Bus up, worked and down inside 80% of par"
+      }
+    ],
+    "currency": "RAISE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Fleet Tech",
+      "EV Tech",
+      "Lead Tech",
+      "Shop Supervisor",
+      "Depot Authority Certified"
+    ],
+    "system": "Depot Authority"
+  },
+  "hazards": {
+    "hv-bare": "You touched the orange high-voltage cable with bare hands before the system was disabled and proven. The traction battery is 600 V and does not care that the bus is switched off.",
+    "pad-on-body": "You put a lift pad on the body skirt instead of the frame lift point. The skirt is sheet metal; it crushes, the bus shifts on the columns, and it comes down where it likes.",
+    "raise-no-chock": "You started the raise with the wheels unchocked and the bus in neutral. A bus that rolls on the pads as it lifts rolls off them.",
+    "under-hydraulic": "You went under the bus with the columns still on hydraulics, locks not engaged. A seal, a hose or a valve is all that is holding 18 tonnes over you; the mechanical locks are what a person works under."
+  },
+  "id": "bus-depot-lift",
+  "indoor": "garage",
+  "interrupts": [
+    {
+      "after": "chock",
+      "alert": "A tech from the next bay has walked up with a diagnostic scanner, doesn't see your lock and tag, and is reaching for the master switch to bring the bus back up.",
+      "cue": "Stop them before that switch moves — this bus is not back together yet.",
+      "delay": 3,
+      "id": "coworker-reaches-for-master",
+      "kind": "Another tech reaches for the master switch",
+      "missNote": "The other tech flipped the master switch while you were reaching for a chock. It did not re-energise the HV bus by itself — the service disconnect was already pulled — but it proved the lock and tag alone were not stopping anyone's hand.",
+      "seconds": 12,
+      "target": "master-switch",
+      "why": "A lockout only works if everyone who could re-energise the system knows it is there, and a tech from another bay who has not read your tag has no reason to expect a live traction battery behind a switch that looks like any other. The switch is guarded in person until your own lock is the only thing on it.",
+      "wrongNote": "It is the master switch. Someone else's hand on it means your lockout was not actually protecting anyone from finding out the hard way."
+    },
+    {
+      "after": "raise",
+      "alert": "Column 3's pad has started to walk outward on the frame rail as the load comes on — old grease at that lift point is letting it slide instead of sitting still.",
+      "cue": "Stop the raise and reseat that pad before it climbs any further off the marked point.",
+      "delay": 3,
+      "id": "pad-slip-warning",
+      "kind": "A lift pad starting to slide",
+      "missNote": "The raise continued while column 3's pad kept walking off the lift point. By the time the bus reached working height, that corner was resting on the edge of the frame rail rather than square on the point it was engineered for.",
+      "seconds": 12,
+      "target": "lift-pad",
+      "why": "A pad that is drifting off the marked lift point at a few inches of travel is a pad that will be further off it at full height, and a column carrying an 18-tonne bus on a pad that is no longer under the engineered lift point is carrying it on sheet metal instead of frame. It gets caught and reseated at a few inches, not discovered at six feet.",
+      "wrongNote": "It is the lift pad. A pad that is sliding under load gets stopped and reseated now, not watched to see how far it goes."
+    }
+  ],
+  "lateNotes": {
+    "column-lower": "The work is done and the bay is cleared before the lower.",
+    "column-raise": "The raise comes after HV is proven off, the wheels are chocked and every pad is on a frame point."
+  },
+  "name": "Bus Depot Lift",
+  "parSeconds": 240,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "transit-ramp"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "busTransit",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "chock-front",
+      "chock-rear",
+      "column-lower",
+      "column-raise",
+      "cracked-hose",
+      "drive-motor",
+      "hv-bare",
+      "hv-meter",
+      "hv-service-plug",
+      "lift-pad",
+      "lift-point-socket",
+      "lock-lever",
+      "master-switch",
+      "pad-on-body",
+      "raise-no-chock",
+      "repair-order",
+      "under-hydraulic"
+    ],
+    "meshes": 118
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Check the job, the bus's lift-point diagram, its weight and the HV disable procedure for this model.",
+      "id": "ro",
+      "kind": "select",
+      "prompt": "Check the job, the bus's lift-point diagram, its weight and the HV disable procedure for this model.",
+      "target": "repair-order",
+      "title": "Read the repair order and the lift points",
+      "why": "Every model lifts at different frame points and disables its high-voltage system a different way — a point that is correct on a diesel cousin can be sheet metal on this one. The diagram and the disable procedure for this specific bus are read before anything is touched."
+    },
+    {
+      "cue": "Master switch off, then pull the HV service disconnect and pocket it.",
+      "id": "hv-disable",
+      "itemNames": {
+        "hv-service-plug": "HV service disconnect",
+        "master-switch": "master switch"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Master switch first, then the service disconnect — pulling it under load arcs the contacts.",
+      "prompt": "Master switch off, then pull the HV service disconnect and pocket it.",
+      "targets": [
+        "master-switch",
+        "hv-service-plug"
+      ],
+      "title": "Disable the high-voltage system",
+      "why": "The service disconnect opens the traction battery circuit itself, not just the low-voltage control loop the master switch runs. It is pulled after the master switch, in that order, and it stays in your pocket so nobody can reinsert it while you are underneath a bus you believe is de-energised."
+    },
+    {
+      "cue": "Wait the discharge time, then read the HV bus at the test point with the CAT III meter and commit inside the safe band.",
+      "gauge": {
+        "green": [
+          0,
+          0.1
+        ],
+        "label": "HV BUS",
+        "missNote": "Still charged — wait the full discharge time and read it again.",
+        "speed": 0.75
+      },
+      "id": "hv-verify",
+      "kind": "gauge",
+      "prompt": "Wait the discharge time, then read the HV bus at the test point with the CAT III meter and commit inside the safe band.",
+      "target": "hv-meter",
+      "title": "Prove the HV bus is de-energised",
+      "why": "The traction battery's capacitors hold a lethal charge for a period after the disconnect is pulled, following the same live-dead-live discipline NFPA 70E requires of any electrical energy source. The meter, read only after the full wait, is the actual proof the orange cables are safe to touch."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Chocks both sides of a wheel at each axle, parking brake set.",
+      "id": "chock",
+      "itemNames": {
+        "chock-front": "front chocks",
+        "chock-rear": "rear chocks"
+      },
+      "kind": "sequence",
+      "prompt": "Chocks both sides of a wheel at each axle, parking brake set.",
+      "targets": [
+        "chock-front",
+        "chock-rear"
+      ],
+      "title": "Chock the wheels",
+      "why": "The bus must not roll on the lift pads during the first few inches of travel, when the columns have barely started to take the load and the pads have the least purchase on the frame. Chocks at both axles and the parking brake set before any column moves at all."
+    },
+    {
+      "cue": "Roll each column in and set the pad under the frame lift point from the diagram.",
+      "drag": {
+        "missNote": "Not on the frame point — line the pad up with the marked lift point.",
+        "radius": 0.4,
+        "to": "lift-point-socket"
+      },
+      "id": "pads",
+      "kind": "drag",
+      "prompt": "Roll each column in and set the pad under the frame lift point from the diagram.",
+      "target": "lift-pad",
+      "title": "Place the lift pads on the frame points",
+      "why": "The frame lift point is engineered by the manufacturer to carry the full weight of an 18-tonne bus; nothing else along that frame or body is. The pad goes exactly on the marked point, on every column, with no column left to guesswork."
+    },
+    {
+      "cue": "Raise all columns together, watching the level — stop and correct if one column leads.",
+      "holdBreakNote": "Columns out of sync — stop, level, and raise again.",
+      "id": "raise",
+      "kind": "track",
+      "prompt": "Raise all columns together, watching the level — stop and correct if one column leads.",
+      "seconds": 7,
+      "target": "column-raise",
+      "title": "Raise in sync",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "LEVEL",
+        "rise": 0.6,
+        "start": 0.1
+      },
+      "why": "Four columns raising even slightly unevenly twist the bus's frame and shift its whole load onto only two of the four pads. The controller works to sync them, but the technician watches the level readout the entire climb and stops the raise the moment one column leads."
+    },
+    {
+      "cue": "Engage the locks on every column and lower the bus onto them until the hydraulics are unloaded.",
+      "holdBreakNote": "Not down on the locks yet — hold the lower until every column is seated.",
+      "id": "locks",
+      "kind": "hold",
+      "prompt": "Engage the locks on every column and lower the bus onto them until the hydraulics are unloaded.",
+      "seconds": 3,
+      "target": "lock-lever",
+      "title": "Lower onto the mechanical locks",
+      "why": "The bus is worked under only once it is resting on its mechanical locks, not on the columns' hydraulic rams. Lowering onto the locks takes the load off the hydraulics entirely, so a seal or a hose failure afterward has nothing left under it to drop."
+    },
+    {
+      "cue": "With the bus on its locks and HV proven off, disconnect the drive motor.",
+      "id": "work",
+      "kind": "select",
+      "prompt": "With the bus on its locks and HV proven off, disconnect the drive motor.",
+      "target": "drive-motor",
+      "title": "Work under the bus",
+      "why": "Everything before this step — HV proven dead, chocks set, pads on the frame, locks engaged — is what turns pulling a drive motor from underneath an 18-tonne bus into an ordinary task instead of a gamble."
+    },
+    {
+      "cue": "Look over the HV harness, the air lines and the frame while you have the access, and click the defect.",
+      "id": "walk",
+      "itemNames": {
+        "cracked-hose": "chafed HV cable jacket"
+      },
+      "itemNotes": {
+        "cracked-hose": "The orange HV cable to the rear motor is chafed through its jacket where it crosses the frame — an insulation fault waiting for the next wet day. It is written up before the bus goes back on the road."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the HV harness, the air lines and the frame while you have the access, and click the defect.",
+      "targets": [
+        "cracked-hose"
+      ],
+      "title": "Inspect under the bus while it is up",
+      "why": "A bus sits up on locks with clear access underneath for maybe an hour a month, and that hour is the only chance anyone gets to actually see the underside. What gets caught now is what keeps this bus out of the shop again next month."
+    },
+    {
+      "cue": "Everyone and everything out from under, locks released together, lower to the floor, reinsert the service disconnect last.",
+      "id": "lower",
+      "kind": "select",
+      "prompt": "Everyone and everything out from under, locks released together, lower to the floor, reinsert the service disconnect last.",
+      "target": "column-lower",
+      "title": "Clear the bay and lower",
+      "why": "The lower is called only by the person who has personally looked underneath the bus and confirmed the bay is clear of hands, tools and feet. The service disconnect goes back in only once the bus is back down on the ground and the job is fully closed."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Electric bus on column lifts: HV disable and prove, chocks, pad placement, synchronised raise, locks down, under-bus work, controlled lower",
+  "title": "SmartCiti.X~ Bus Depot Lift VR",
+  "trade": "Transit bus technician — electric fleet",
+  "underwater": null,
+  "weather": null
+}

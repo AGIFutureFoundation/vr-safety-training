@@ -1,0 +1,419 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "build-up-weighted-clean",
+    "name": "Build-Up Weighted Clean",
+    "note": "Every layer welded, weighted and checked against the load plan before the media went down"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "OSHA 29 CFR 1926.501 and 29 CFR 1926.502 fall protection at the roof edge, and 29 CFR 1926 Subpart M Fall protection generally; ANSI Z359 for the harness and anchor; 29 CFR 1926.1153 for dust from pouring lightweight growing media; NRCA and URW green-roof build-up practice; Roofers Local 40 apprenticeship and training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z359",
+        "id": "ansi-z359",
+        "title": "ANSI/ASSP Z359 — Fall Protection Code"
+      },
+      {
+        "body": "NRCA",
+        "citedAs": "NRCA",
+        "id": "nrca-roofing-practices",
+        "title": "National Roofing Contractors Association — roofing and waterproofing application, safety and quality practices"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.1153",
+        "id": "osha-1926-1153",
+        "title": "29 CFR 1926.1153 — Respirable crystalline silica in construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.501",
+        "id": "osha-1926-501",
+        "title": "29 CFR 1926.501 — Duty to have fall protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.502",
+        "id": "osha-1926-502",
+        "title": "29 CFR 1926.502 — Fall protection systems criteria and practices"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926 Subpart M Fall protection",
+        "id": "osha-1926-subpart-m",
+        "title": "OSHA 29 CFR 1926 Subpart M Fall protection"
+      },
+      {
+        "body": "union",
+        "citedAs": "Roofers Local 40",
+        "id": "roofers-local-40-training",
+        "title": "Roofers Local 40 — United Union of Roofers, Waterproofers and Allied Workers apprenticeship and training"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction & Structural Trades",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "plan-first",
+        "name": "Plan First",
+        "note": "The build-up plan read before the first layer went down"
+      },
+      {
+        "id": "steady-spread",
+        "name": "Steady Spread",
+        "note": "The media spread ran the whole strip without a break in pace"
+      },
+      {
+        "id": "never-left-unweighted",
+        "name": "Never Left Unweighted",
+        "note": "No fabric left loose, no heat gun left hot, no load left unchecked"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-build",
+        "name": "Clean Build",
+        "note": "No corrections anywhere on this run"
+      },
+      {
+        "id": "on-the-depth",
+        "name": "On The Depth",
+        "note": "The media depth reading committed inside band first time"
+      },
+      {
+        "id": "strip-closed",
+        "name": "Strip Closed",
+        "note": "Logged inside 80% of par"
+      }
+    ],
+    "currency": "LAYER",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice",
+      "Layer Hand",
+      "Media Runner",
+      "Lead Green-Roofer",
+      "Green-Roof Certified"
+    ],
+    "system": "Overburden Run"
+  },
+  "hazards": {
+    "edge-no-tieback": "You are spreading growing media right up to the unprotected edge with your lanyard not clipped to anything. A green roof's edge does not become less of a fall hazard because there is soil and a sedum mat on it instead of bare membrane — the drop on the other side of it is exactly the same.",
+    "fabric-catch-wind": "The filter fabric you just rolled out is starting to lift at its free edge with nothing holding it down yet. Unweighted fabric on an open roof catches wind exactly the way an unclipped membrane sheet does, and a strip that lifts and folds back on itself has to be rolled out and aligned all over again — assuming it does not go over the edge first.",
+    "heat-gun-idle-near-mulch": "The heat gun used to weld the root barrier seams is switched on and lying against the stack of dry coir erosion mats. Dry coir and mulch catch from a running heat gun the same way any dry fibrous material does, and the gun does not need to touch anything directly — sitting close for long enough is what it takes.",
+    "media-dust-no-respirator": "You are pouring a bag of lightweight growing media without wetting it down or wearing a respirator, and the dust is billowing across the whole strip. Expanded shale and perlite blends throw a fine dust that behaves like any other nuisance and crystalline dust once it is airborne — wetted down or filtered through a respirator, it never gets the chance to."
+  },
+  "id": "rf-green-roof-and-overburden-placement",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "fabric-roll",
+      "alert": "A gust catches the free edge of the fabric you just rolled out, and it starts lifting and folding back on itself.",
+      "cue": "Get a weight bag on the fabric's edge before the gust folds the whole strip back.",
+      "delay": 2,
+      "id": "gust-lifts-fabric",
+      "kind": "Gust lifts the unweighted fabric",
+      "missNote": "The fabric folded back on itself before the weight went on, dragging grit from the drainage board into a fold that will need re-laying before the media can go down on it.",
+      "seconds": 14,
+      "target": "weight-bag",
+      "why": "Filter fabric with nothing holding it down is exactly as vulnerable to wind as an unclipped membrane sheet, and a strip that folds back on itself has to be unrolled, cleaned of whatever grit it picked up, and laid flat all over again — weighting the edge the moment it is down is what a rolled-out strip actually needs to survive the first gust.",
+      "wrongNote": "That does not hold lifting fabric down. Get the weight bag on the edge before it folds any further."
+    },
+    {
+      "after": "media-spread",
+      "alert": "A coworker working the next bay downstream radios that water is pooling at a fitting on the irrigation line, right where it is about to be buried under media.",
+      "cue": "Check the irrigation valve and shut it down before that fitting gets covered.",
+      "delay": 2,
+      "id": "irrigation-leak-downstream",
+      "kind": "Coworker radios a leak downstream",
+      "missNote": "The fitting kept weeping while the media crew kept spreading, and the leak went under a fresh strip of growing media with nobody the wiser.",
+      "seconds": 14,
+      "target": "irrigation-valve",
+      "why": "A leaking fitting buried under growing media does not announce itself again until the media above it is waterlogged and the plants in it are drowning, which is exactly why a leak reported anywhere on the line gets the valve checked immediately, before another wheelbarrow of media goes over the top of it.",
+      "wrongNote": "Not that. Check the irrigation valve and shut it down before the leaking fitting is buried."
+    }
+  ],
+  "lateNotes": {
+    "log-board": "The log is written once the walk-round has found what it is going to find, not before.",
+    "media-depth-check": "Depth is checked once the media has actually been spread across that stretch — there is nothing to measure yet.",
+    "seam-weld": "The seam is welded once the root barrier is actually rolled out and aligned — there is nothing to weld yet."
+  },
+  "name": "Green Roof & Overburden Placement",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "roofers-and-waterproofers"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "anchor-clip",
+      "edge-no-tieback",
+      "fabric-catch-wind",
+      "fabric-stack",
+      "harness",
+      "heat-gun",
+      "heat-gun-idle-near-mulch",
+      "irrigation-valve",
+      "layout-line",
+      "load-gauge",
+      "log-board",
+      "media-depth-check",
+      "media-dust-no-respirator",
+      "media-spreader",
+      "membrane-puncture-risk",
+      "missed-irrigation-leak",
+      "plan-board",
+      "radio",
+      "root-barrier-stack",
+      "seam-weld",
+      "torn-root-barrier",
+      "unweighted-fabric-edge",
+      "weight-bag"
+    ],
+    "meshes": 158
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the plan: the layer order, the growing media depth, the saturated load the structure is rated for, and the irrigation layout.",
+      "id": "green-roof-plan",
+      "kind": "select",
+      "prompt": "Read the plan: the layer order, the growing media depth, the saturated load the structure is rated for, and the irrigation layout.",
+      "target": "plan-board",
+      "title": "Read the green roof build-up plan",
+      "why": "A green roof's saturated weight is the heaviest this roof will ever carry, and the structural engineer has already worked out exactly how deep the media can go and where — the plan is what keeps 'looks like enough soil' from becoming a live load the roof was never designed to hold."
+    },
+    {
+      "cue": "Put the harness on and snug it, then clip the lanyard to the certified roof anchor before working toward the open edge.",
+      "id": "harness-on",
+      "itemNames": {
+        "anchor-clip": "lanyard clipped to the roof anchor",
+        "harness": "full-body harness on and snugged"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Harness first — the lanyard clips to the back D-ring of a harness that is already on, not to one still on the rack.",
+      "prompt": "Put the harness on and snug it, then clip the lanyard to the certified roof anchor before working toward the open edge.",
+      "targets": [
+        "harness",
+        "anchor-clip"
+      ],
+      "title": "Harness on, then clipped to the roof anchor",
+      "why": "A green roof's edge is still an edge, soil and sedum on top of it or not, and 29 CFR 1926.502 makes the anchor, harness and connection one rated system rather than three pieces of gear that get treated as optional once the roof starts looking like a garden."
+    },
+    {
+      "cue": "Sweep the finished membrane for anything sharp, and check the root barrier rolls for damage before either goes down.",
+      "id": "membrane-inspect",
+      "itemNames": {
+        "membrane-puncture-risk": "sharp debris left on the finished membrane",
+        "torn-root-barrier": "a torn root barrier roll"
+      },
+      "itemNotes": {
+        "membrane-puncture-risk": "A scrap of cut fastener wire is sitting on the finished membrane exactly where the root barrier is about to be rolled over it — buried under every layer above it, that scrap becomes a puncture nobody can find again until the roof leaks.",
+        "torn-root-barrier": "One roll of root barrier has a split near its core. Rolled out anyway, that split is a gap in the one layer whose whole job is keeping roots from reaching the waterproofing underneath it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Sweep the finished membrane for anything sharp, and check the root barrier rolls for damage before either goes down.",
+      "targets": [
+        "membrane-puncture-risk",
+        "torn-root-barrier"
+      ],
+      "title": "Inspect the membrane and the root barrier stock before rolling anything out",
+      "why": "Once the root barrier, drainage layer, fabric and media are all down, the membrane underneath them is not visible again for the life of the roof — which makes this the only point in the whole build-up where a sharp scrap or a torn roll can still be caught before it is buried under everything else."
+    },
+    {
+      "cue": "Read the load gauge for this bay and commit once it sits inside the structural engineer's rated band for saturated media.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "SATURATED LOAD — STRUCTURAL BAND",
+        "missNote": "Off the structural engineer's rated band. Check the plan for this bay again before media goes down.",
+        "speed": 0.55
+      },
+      "id": "structural-load-check",
+      "kind": "gauge",
+      "prompt": "Read the load gauge for this bay and commit once it sits inside the structural engineer's rated band for saturated media.",
+      "target": "load-gauge",
+      "title": "Check the saturated load against the structural plan",
+      "why": "A green roof's media weighs far more saturated than it does dry, and the structural rating in the plan already accounts for that worst case — reading the gauge before media goes down is what confirms this bay is actually built for the load about to go on it, not just close enough by eye."
+    },
+    {
+      "cue": "Move the coir erosion mats and any dry mulch clear of the heat gun before it is switched on to weld the root barrier seams.",
+      "id": "mulch-clearance-check",
+      "kind": "select",
+      "prompt": "Move the coir erosion mats and any dry mulch clear of the heat gun before it is switched on to weld the root barrier seams.",
+      "target": "heat-gun",
+      "title": "Clear the heat-weld area before lighting the gun",
+      "why": "The heat gun does the same job at the scale of a seam that a torch does at the scale of a whole roll, and it earns the same respect — combustible material clear of it before it is powered on, not noticed and moved after the first mat starts smouldering."
+    },
+    {
+      "cue": "Carry the root barrier roll out to the layout line and unroll it flat over the inspected membrane.",
+      "drag": {
+        "missNote": "Not on the layout line. Carry the roll all the way out and unroll it flat before letting go.",
+        "radius": 0.55,
+        "to": "layout-line"
+      },
+      "id": "root-barrier-roll",
+      "kind": "drag",
+      "prompt": "Carry the root barrier roll out to the layout line and unroll it flat over the inspected membrane.",
+      "target": "root-barrier-stack",
+      "title": "Roll the root barrier out over the membrane",
+      "why": "The root barrier goes down first because everything above it depends on it being continuous — a gap left here is a gap every layer after it gets built directly on top of, with no way back down to fix it once the drainage board and media are in."
+    },
+    {
+      "cue": "Hold the heat gun steady over the seam until it has fused the full width of the overlap.",
+      "holdBreakNote": "The gun came off before the seam had fully fused — hold it steady a little longer over the overlap.",
+      "id": "seam-weld",
+      "kind": "hold",
+      "prompt": "Hold the heat gun steady over the seam until it has fused the full width of the overlap.",
+      "seconds": 4,
+      "target": "seam-weld",
+      "title": "Heat-weld the root barrier seam",
+      "why": "A root barrier seam that is only lightly tacked looks welded from above and opens the first time a root or a settling load puts any tension across it — holding the gun steady until the whole overlap has actually fused is what makes the barrier one continuous sheet instead of two sheets resting against each other."
+    },
+    {
+      "cue": "Carry the filter fabric out over the drainage board and unroll it flat, overlapping the previous strip.",
+      "drag": {
+        "missNote": "Not on the layout line. Carry the fabric all the way out and unroll it flat before letting go.",
+        "radius": 0.55,
+        "to": "layout-line"
+      },
+      "id": "fabric-roll",
+      "kind": "drag",
+      "prompt": "Carry the filter fabric out over the drainage board and unroll it flat, overlapping the previous strip.",
+      "target": "fabric-stack",
+      "title": "Roll the filter fabric out over the drainage layer",
+      "why": "The filter fabric is what keeps the growing media from washing down into the drainage layer and clogging it, and it only does that job laid flat and fully overlapped — a gap or a fold here is fine sediment finding its way into the drains the very first time it rains."
+    },
+    {
+      "cue": "Open the irrigation line's test valve and watch for a clean, even flow before it gets buried under media.",
+      "id": "irrigation-valve",
+      "kind": "turn",
+      "prompt": "Open the irrigation line's test valve and watch for a clean, even flow before it gets buried under media.",
+      "target": "irrigation-valve",
+      "title": "Open the irrigation test valve",
+      "turn": {
+        "axis": "z",
+        "label": "IRRIGATION TEST VALVE",
+        "turns": 0.4
+      },
+      "why": "The irrigation line is tested with the joint still visible because a leak found now is a fitting tightened in five minutes — the same leak found after the media is down is a line dug back out through however deep the growing media has already gone."
+    },
+    {
+      "cue": "Spread the growing media across the fabric at a steady rate — too slow leaves thin, uneven coverage, too fast raises dust and skips low spots.",
+      "holdBreakNote": "The spread rate broke out of the steady band. Bring it back to a steady rate before the depth goes uneven.",
+      "id": "media-spread",
+      "kind": "track",
+      "prompt": "Spread the growing media across the fabric at a steady rate — too slow leaves thin, uneven coverage, too fast raises dust and skips low spots.",
+      "seconds": 6,
+      "target": "media-spreader",
+      "title": "Spread the growing media at a steady rate",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.42,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "MEDIA SPREAD RATE",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "The plan's specified depth only comes out even if the media goes down at a steady rate — poured too slowly it piles unevenly and leaves thin patches that plants struggle in, poured too fast it throws dust across the whole strip and misses low spots that pool water the first time it rains."
+    },
+    {
+      "cue": "Push the depth probe into the spread media and commit once the reading sits inside the plan's specified depth band.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "GROWING MEDIA DEPTH",
+        "missNote": "Off the plan's specified depth. Spread the thin patch again before it is covered by the next strip.",
+        "speed": 0.55
+      },
+      "id": "media-depth-check",
+      "kind": "gauge",
+      "prompt": "Push the depth probe into the spread media and commit once the reading sits inside the plan's specified depth band.",
+      "target": "media-depth-check",
+      "title": "Check the placed media depth",
+      "why": "A strip that looks evenly covered from standing height can still be running shallow in patches, and a shallow patch of growing media is exactly where the plants specified for this roof will be the first to struggle or die — the probe is what turns 'looks about right' into the depth the plan actually specifies."
+    },
+    {
+      "cue": "Walk the finished strip against the plan: find the fabric edge left unweighted and the irrigation fitting still weeping.",
+      "id": "final-walk",
+      "itemNames": {
+        "missed-irrigation-leak": "a small leak in the irrigation line",
+        "unweighted-fabric-edge": "a fabric edge left unweighted"
+      },
+      "itemNotes": {
+        "missed-irrigation-leak": "A fitting on the irrigation line is weeping slowly where it was tested — small enough to miss from a glance, and exactly the kind of leak that saturates one patch of media long before anyone notices from above.",
+        "unweighted-fabric-edge": "This stretch of fabric edge never got its weight or its media cover — left like this overnight, it is exactly what the next gust finds first."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the finished strip against the plan: find the fabric edge left unweighted and the irrigation fitting still weeping.",
+      "targets": [
+        "unweighted-fabric-edge",
+        "missed-irrigation-leak"
+      ],
+      "title": "Walk the whole build-up before it gets covered for good",
+      "why": "Once the vegetated layer goes down, nothing under it is visible again without tearing the roof back apart, which makes this walk-round the last real chance to catch an unweighted edge or a weeping fitting while either one is still a five-minute fix instead of a full excavation."
+    },
+    {
+      "cue": "Write the puncture risk removed, the torn roll replaced, the load and depth readings, and the irrigation fix into the log.",
+      "id": "log-board",
+      "kind": "select",
+      "prompt": "Write the puncture risk removed, the torn roll replaced, the load and depth readings, and the irrigation fix into the log.",
+      "target": "log-board",
+      "title": "Log the build-up, the finds and the readings",
+      "why": "This build-up disappears under growing media and plants within days, so the log is the only record anyone will ever have of what the layers underneath the finished green roof actually looked like — the next person to dig into this roof reads this log before they ever put a shovel near it."
+    },
+    {
+      "cue": "Radio the crew working the next bay: this strip is welded, weighted, planted and logged, and name the support line.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Radio the crew working the next bay: this strip is welded, weighted, planted and logged, and name the support line.",
+      "target": "radio",
+      "title": "Check in with the crew and the ground",
+      "why": "A green-roof crew works bay by bay across a whole roof, and a short check-in at the end of a strip is what confirms the load, the weighting and the irrigation on it are actually done before anyone treats it as finished ground to walk or stage material on."
+    }
+  ],
+  "supportLine": "Roofers Local 40's member assistance programme, or your contractor's employee assistance line",
+  "tagline": "The build-up plan read, harness clipped, a puncture risk and a torn root barrier found, the structural load checked, the heat-weld area cleared, the root barrier rolled and welded, filter fabric rolled out, the irrigation line tested, growing media spread at a steady rate and its depth checked, an unweighted fabric edge and a missed leak found on the walk-round, and the day logged, with a gust lifting the fabric before it is weighted and a coworker downstream calling out a leak in the irrigation line along the way",
+  "title": "SmartCiti.X~ Green Roof & Overburden Placement VR",
+  "trade": "Roofer building up a green roof over finished waterproofing: root barrier, drainage layer, filter fabric, growing media and irrigation",
+  "underwater": null,
+  "weather": "wind"
+}

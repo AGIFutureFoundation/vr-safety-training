@@ -1,0 +1,436 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "lane-given-back",
+    "name": "Lane Given Back",
+    "note": "Blocked, tapered, shielded and cleared — nobody in the buffer, and the lane reopened on the plan's clock"
+  },
+  "category": "Emergency Services",
+  "certification": "The MUTCD's temporary traffic control for incident management — the advance warning area, a merging taper computed from the lane width and the posted speed, and a buffer space nobody works inside; the national Traffic Incident Management responder training the Federal Highway Administration sponsors, which is where the quick-clearance and unified-command language in this station comes from; ANSI/ISEA 107 high-visibility safety apparel, worn by every responder in the right-of-way; NFPA 1500 for fire-apparatus positioning and member safety on a roadway incident; OSHA 29 CFR 1910.132 for the hazard assessment behind that vest; NIMS/ICS through FEMA IS-100 and IS-700 for the unified command police, fire, EMS and the state transportation department actually work inside; the state transportation department's own open-roads policy on clearance times",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI/ISEA 107",
+        "id": "ansi-isea-107",
+        "title": "ANSI/ISEA 107 — High-visibility safety apparel and accessories"
+      },
+      {
+        "body": "FEMA",
+        "citedAs": "FEMA IS-100",
+        "id": "fema-is-courses",
+        "title": "FEMA Emergency Management Institute IS-100 and IS-700 independent-study courses in ICS and NIMS"
+      },
+      {
+        "body": "MUTCD",
+        "citedAs": "MUTCD",
+        "id": "mutcd",
+        "title": "Manual on Uniform Traffic Control Devices — temporary traffic control for work zones (Part 6)"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 1500",
+        "id": "nfpa-1500",
+        "title": "NFPA 1500 — Fire Department Occupational Safety, Health and Wellness Program"
+      },
+      {
+        "body": "NIMS/ICS",
+        "citedAs": "ICS",
+        "id": "nims-ics",
+        "title": "NIMS incident command system — the structure a multi-agency response runs inside"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      }
+    ]
+  },
+  "district": "Emergency Services",
+  "domain": "Emergency Services",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "geometry-first",
+        "name": "Geometry First",
+        "note": "The block, the taper and the shield all set before anybody worked in the open"
+      },
+      {
+        "id": "nobody-struck",
+        "name": "Nobody In The Lane",
+        "note": "No unsafe action anywhere on the scene"
+      },
+      {
+        "id": "eyes-upstream",
+        "name": "Eyes Upstream",
+        "note": "Both timed periods carried the full count"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-scene",
+        "name": "Clean Scene",
+        "note": "No corrections anywhere on the scene"
+      },
+      {
+        "id": "taper-to-spec",
+        "name": "Taper To Spec",
+        "note": "Taper length and upstream watch both inside their bands"
+      },
+      {
+        "id": "quick-clearance",
+        "name": "Quick Clearance",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "CLEARANCE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Patrol Officer",
+      "TIM Trained",
+      "Scene Commander",
+      "Unified Command",
+      "TIM Instructor"
+    ],
+    "system": "Open Roads"
+  },
+  "hazards": {
+    "no-vest-shoulder": "You stepped out onto the shoulder in a dark uniform on a wet night with the vest still in the boot. High-visibility apparel is required of every responder in the right-of-way precisely because a driver's headlights are the only thing making you exist, and rain takes most of that away before it reaches them.",
+    "park-downstream": "You set the patrol car past the crash, downstream of the work. A blocking vehicle only blocks what is behind it — parked downstream it shields nothing, and the first thing an inattentive driver reaches is the crew rather than four tons of car with its lights on.",
+    "stand-in-the-live-lane": "You are standing in an open travel lane with your back to approaching traffic, in rain. Struck-by is what kills responders on a roadway, and it happens to people who stepped into a lane for ten seconds because the work was there — the lane is either closed and coned or it is somewhere nobody stands.",
+    "taper-toward-traffic": "You started the cones at the crash and walked upstream into the traffic you had not yet warned. A taper is built from the advance warning end toward the scene so that every cone you set is protected by the ones already behind you — built the other way, you spend the whole job walking at oncoming vehicles."
+  },
+  "id": "traffic-incident-management",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "upstream-traffic-scan",
+      "alert": "A car has come straight through the advance warning and into the taper, clipping the second cone, still at highway speed.",
+      "cue": "Get everybody behind the block. Now — not after you see what it does.",
+      "delay": 3,
+      "id": "car-into-the-taper",
+      "kind": "Vehicle intrusion",
+      "missNote": "Nobody moved. The car found the shoulder on its own and went past, which is the outcome most intrusions have — and the reason people stop moving for the next one, right up until the one that does not.",
+      "seconds": 10,
+      "target": "safety-retreat-point",
+      "why": "An intrusion is the event every other part of the setup exists to survive, and the response is movement, not observation. Behind the blocking vehicle is the one place on this scene that a car in the taper cannot reach; anywhere in the buffer space is inside its stopping distance on wet asphalt. Waiting to see whether it corrects is spending the only seconds the watch just bought you.",
+      "wrongNote": "Not that. The cone, the radio and the arrow board are all things to fix afterwards; the only thing that matters in the next two seconds is everybody being behind the block."
+    },
+    {
+      "after": "stand-with-the-driver",
+      "alert": "The driver has stepped over the rail and started back toward the travel lane — they have decided their phone is still in the car.",
+      "cue": "Get in front of them and offer to fetch it yourself.",
+      "delay": 3,
+      "id": "driver-toward-the-lane",
+      "kind": "Driver in shock",
+      "missNote": "They made it to the vehicle on the shoulder with traffic passing a metre away and came back with the phone. Nothing happened, and nothing about the scene made it any less likely to happen the next time somebody's phone was in a car.",
+      "seconds": 11,
+      "target": "phone-retrieval-offer",
+      "why": "Somebody in shock with one fixed idea does not hear an instruction to stop, and shouting at them from behind speeds them up. Putting yourself between them and the lane and offering to get the phone replaces the idea rather than arguing with it, which is the only thing that reliably works — and it means the person who ends up near the vehicle is the one wearing the vest and watching the traffic.",
+      "wrongNote": "Not from where you are. Calling after them from behind does not stop somebody in shock — step into their path and take the errand off them."
+    }
+  ],
+  "lateNotes": {
+    "driver-words-card": "The driver gets spoken to properly once they are somewhere safe to be spoken to. A conversation held in the lane keeps them in the lane.",
+    "tow-request": "The tow gets called once the scene is protected and you know what it actually needs — requested from the shoulder before the block is set, it arrives into an unprotected scene and becomes another vehicle to keep out of the lane."
+  },
+  "name": "Traffic Incident Management",
+  "parSeconds": 375,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "first-responders"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 3,
+    "hits": [
+      "arrow-board-switch",
+      "block-position",
+      "call-clearance",
+      "cone-advance",
+      "cone-buffer",
+      "cone-taper-a",
+      "cone-taper-b",
+      "crew-checkin-board",
+      "driver-stand-point",
+      "driver-words-card",
+      "ems-load-spot",
+      "engine-shield-spot",
+      "guardrail-spot",
+      "hi-vis-vest",
+      "no-vest-shoulder",
+      "park-downstream",
+      "patrol-car",
+      "phone-retrieval-offer",
+      "pickup-downstream",
+      "read-crash-position",
+      "read-driver-at-rail",
+      "read-live-lane",
+      "reopen-lane",
+      "safety-retreat-point",
+      "shaken-driver",
+      "stand-in-the-live-lane",
+      "taper-length-gauge",
+      "taper-toward-traffic",
+      "tim-log-board",
+      "tow-request",
+      "tow-staging-spot",
+      "upstream-scan-point"
+    ],
+    "meshes": 238
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read it from inside the car: the live lane, where the vehicle sits, where the driver is.",
+      "id": "arrival-size-up",
+      "itemNames": {
+        "read-crash-position": "the vehicle, front corner into the rail",
+        "read-driver-at-rail": "the driver, out and walking about",
+        "read-live-lane": "the live lane, still running at speed"
+      },
+      "itemNotes": {
+        "read-crash-position": "The vehicle is off the travel lane and against the rail, which means this is a shoulder job — the lane closure is for the crew and the tow, not for the car.",
+        "read-driver-at-rail": "They are on their feet and moving around, which is a good sign medically and a problem tactically: an uninjured driver in shock walks wherever their phone is.",
+        "read-live-lane": "Traffic has not slowed and nothing upstream tells it to yet. That is the hazard that decides everything about the next four minutes."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Read it from inside the car: the live lane, where the vehicle sits, where the driver is.",
+      "targets": [
+        "read-live-lane",
+        "read-crash-position",
+        "read-driver-at-rail"
+      ],
+      "title": "Size up from the seat before you open the door",
+      "why": "The first decision on a roadway incident is made before a door opens, because once you are out of the car your options narrow to whatever the geometry already allows. Where the lane is, where the vehicle is and where the driver is walking are the three facts that set the block position, the size of the closure and how urgently somebody has to get to that person — and all three are visible from the seat."
+    },
+    {
+      "cue": "Put the car upstream of the work, angled across the closed lane, wheels turned away.",
+      "drag": {
+        "missNote": "Not upstream of the work. The block has to sit between approaching traffic and everybody working, or it is just a parked car with its lights on.",
+        "radius": 0.7,
+        "to": "block-position"
+      },
+      "id": "set-the-block",
+      "kind": "drag",
+      "prompt": "Put the car upstream of the work, angled across the closed lane, wheels turned away.",
+      "target": "patrol-car",
+      "title": "Set the block with the patrol car",
+      "why": "The blocking vehicle is the only piece of hard protection on a roadway incident and its position is the whole of its value: upstream of the work, angled so a strike pushes it away from the crew rather than through them, wheels turned toward the shoulder so it cannot roll into the work area. Four tons of car takes a hit that no cone, no vest and no amount of attention would have survived."
+    },
+    {
+      "cue": "Take the high-visibility vest out of the kit and put it on — before the door, not after.",
+      "id": "vest-before-stepping-out",
+      "kind": "select",
+      "prompt": "Take the high-visibility vest out of the kit and put it on — before the door, not after.",
+      "target": "hi-vis-vest",
+      "title": "Vest on before you step out",
+      "why": "High-visibility apparel is required of everyone working in the right-of-way, and the reason is measurable: retroreflective material returns headlight light to the driver's eye at a distance a dark uniform never reaches, and rain on a windscreen takes away most of what is left. The vest also has to go on before you are exposed — the moment nobody goes back for it is the moment they first see the scene."
+    },
+    {
+      "cue": "Set the merging taper for a closed lane at highway speed, then commit the reading.",
+      "gauge": {
+        "green": [
+          0.55,
+          0.68
+        ],
+        "label": "TAPER m",
+        "missNote": "That taper is wrong for the posted speed. Short, and drivers arrive at the closure with no room to merge; far too long and the closure starts before any of the advance warning does.",
+        "speed": 0.6
+      },
+      "id": "taper-length",
+      "kind": "gauge",
+      "prompt": "Set the merging taper for a closed lane at highway speed, then commit the reading.",
+      "target": "taper-length-gauge",
+      "title": "Work out the taper length for the posted speed",
+      "why": "A taper is a calculation, not a feel. The MUTCD sets the merging taper from the lane width and the posted speed, and at highway speeds the length in feet is the lane width times the speed in miles per hour — on a twelve-foot lane at sixty-five that is something near eight hundred feet, not the forty feet of cones somebody happens to have in the boot. Too short and traffic meets the closure without room to merge, which is how a secondary crash starts."
+    },
+    {
+      "cue": "Start at the far end and work back toward the scene, never the other way.",
+      "id": "set-the-taper",
+      "itemNames": {
+        "cone-advance": "advance warning cone, furthest upstream",
+        "cone-buffer": "buffer-space cone, at the near end",
+        "cone-taper-a": "first taper cone, working toward the scene",
+        "cone-taper-b": "second taper cone"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Furthest upstream first, then work back toward the scene. Starting at the crash means placing every cone in front of traffic that has not been told anything yet.",
+      "prompt": "Start at the far end and work back toward the scene, never the other way.",
+      "targets": [
+        "cone-advance",
+        "cone-taper-a",
+        "cone-taper-b",
+        "cone-buffer"
+      ],
+      "title": "Build the taper from upstream in",
+      "why": "The order the cones go out in is a safety rule, not a tidiness preference. Set from the advance warning end toward the scene, every cone you place has the ones already behind it warning traffic on your behalf, and you are always walking with the flow. Built from the crash outward you spend the entire task walking into oncoming vehicles that have had no warning at all — which is the sequence responders are most often struck during."
+    },
+    {
+      "cue": "Wind the board round to the arrow pointing drivers into the open lane.",
+      "id": "arrow-board",
+      "kind": "turn",
+      "prompt": "Wind the board round to the arrow pointing drivers into the open lane.",
+      "target": "arrow-board-switch",
+      "title": "Set the arrow board to the merge",
+      "turn": {
+        "axis": "y",
+        "label": "ARROW BOARD",
+        "turns": 0.75
+      },
+      "why": "Cones tell a driver something is wrong; an arrow tells them what to do about it, from far enough back to do it calmly. On a wet night the board is visible several hundred metres before any cone resolves out of the spray, and a driver who has already merged is a driver who never arrives at your taper at all. Set to the wrong indication it is worse than nothing, because people obey it."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Under one plan, in any order: the engine shields, the ambulance loads on the protected side, the tow waits downstream.",
+      "id": "place-the-apparatus",
+      "itemNames": {
+        "ems-load-spot": "the ambulance, load door on the protected side",
+        "engine-shield-spot": "the engine, shielding the work area",
+        "tow-staging-spot": "the tow, staged downstream and out of the way"
+      },
+      "kind": "sequence",
+      "prompt": "Under one plan, in any order: the engine shields, the ambulance loads on the protected side, the tow waits downstream.",
+      "targets": [
+        "engine-shield-spot",
+        "ems-load-spot",
+        "tow-staging-spot"
+      ],
+      "title": "Place the apparatus — engine, ambulance, tow",
+      "why": "Unified command on a roadway is mostly about where large vehicles sit. The engine goes where its mass is between traffic and the crew, with the pump panel on the protected side so nobody operates it from the lane. The ambulance's load door faces away from traffic, because a stretcher crossing behind an ambulance into a live lane is a routine way for this to go wrong. The tow stages downstream and clear so it is not one more obstruction while it waits."
+    },
+    {
+      "cue": "Walk them off the shoulder and behind the rail — somewhere a vehicle cannot reach.",
+      "drag": {
+        "missNote": "Still on the shoulder. A shoulder is not a safe place, it is the place secondary crashes end up — behind the rail or nothing.",
+        "radius": 0.6,
+        "to": "guardrail-spot"
+      },
+      "id": "driver-clear-of-the-lane",
+      "kind": "drag",
+      "prompt": "Walk them off the shoulder and behind the rail — somewhere a vehicle cannot reach.",
+      "target": "shaken-driver",
+      "title": "Get the driver behind the guardrail",
+      "why": "A driver standing on the shoulder of a live highway is the most exposed person on the scene and the least aware of it. Shock narrows attention to one thing — a phone, a bag, a dog in the back — and they will walk into a lane to get it without registering the traffic at all. Behind the rail is the only position on this scene that a vehicle leaving the carriageway cannot reach, and getting them there outranks every question you want to ask them."
+    },
+    {
+      "cue": "\"You're safe here. Nobody's hurt. Your car's going on a truck, and I'll stay with you — can I get anything out of it for you?\"",
+      "id": "words-for-the-driver",
+      "kind": "select",
+      "prompt": "\"You're safe here. Nobody's hurt. Your car's going on a truck, and I'll stay with you — can I get anything out of it for you?\"",
+      "target": "driver-words-card",
+      "title": "Tell the driver what is happening, in order",
+      "why": "A person in shock cannot hold a sequence of instructions, but they can hold reassurance, a fact and an offer. Saying they are safe, saying what happens to the car and offering to fetch what they need does two jobs: it is decent, and it removes the three reasons they were about to walk back into the lane. Asking before touching their belongings matters too — it is the one part of this they still have any say over."
+    },
+    {
+      "cue": "Keep your attention moving up the taper, not down at the work.",
+      "holdBreakNote": "Your attention came down onto the work, or drifted off the taper entirely. There is nothing else protecting the crew once nobody is looking upstream.",
+      "id": "upstream-traffic-scan",
+      "kind": "track",
+      "prompt": "Keep your attention moving up the taper, not down at the work.",
+      "seconds": 7,
+      "target": "upstream-scan-point",
+      "title": "Keep somebody's eyes upstream",
+      "track": {
+        "drift": 0.16,
+        "fall": 0.42,
+        "green": [
+          0.3,
+          0.72
+        ],
+        "label": "UPSTREAM",
+        "rise": 0.5,
+        "start": 0.5
+      },
+      "why": "Everything set up so far assumes drivers read it. Some will not — distracted, drunk, or simply unable to stop on a wet surface — and the only defence left is somebody seeing it coming with enough time to shout. That means one person's attention stays up the taper for the whole time anybody is working in the open, and it means the work does not swallow the person doing the watching."
+    },
+    {
+      "cue": "Request it by class: what the vehicle is, whether it rolls, and whether there is a recovery to do.",
+      "id": "tow-request",
+      "kind": "select",
+      "prompt": "Request it by class: what the vehicle is, whether it rolls, and whether there is a recovery to do.",
+      "target": "tow-request",
+      "title": "Call the tow with what it actually needs",
+      "why": "Quick clearance runs on the first request being right. A light truck sent to a vehicle that will not roll means a second call, another twenty minutes of closed lane and a queue that is now growing faster than it clears. Saying what the vehicle is, whether the wheels turn and whether anything has to be pulled out of the rail gets the right truck on the first attempt, which is most of what an open-roads policy is asking of you."
+    },
+    {
+      "cue": "Stay with them. No documents, no questions yet — just stay there.",
+      "holdBreakNote": "You left them on their own at the rail. That is the moment they go looking for the phone, and the lane is ten steps away.",
+      "id": "stand-with-the-driver",
+      "kind": "hold",
+      "prompt": "Stay with them. No documents, no questions yet — just stay there.",
+      "seconds": 8,
+      "target": "driver-stand-point",
+      "title": "Stand with the driver while the shock settles",
+      "why": "The documents can wait eight seconds and the driver cannot. Somebody who has just been in a crash is running on adrenaline and will not remember a licence request or a statement given in the first minutes, which is why both are better taken later. Standing with them also keeps them where you put them: the single most reliable way to stop a driver walking back toward the lane is for somebody to be there not doing anything in particular."
+    },
+    {
+      "cue": "Cones come up from the downstream end, then the lane goes back, then clearance goes over the radio.",
+      "id": "clearance-and-reopen",
+      "itemNames": {
+        "call-clearance": "call clearance with the times",
+        "pickup-downstream": "pick the cones up from the downstream end",
+        "reopen-lane": "give the lane back"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Downstream end first, then reopen, then call it. Reopening before the cones are up puts traffic into a lane that still has cones and people in it.",
+      "prompt": "Cones come up from the downstream end, then the lane goes back, then clearance goes over the radio.",
+      "targets": [
+        "pickup-downstream",
+        "reopen-lane",
+        "call-clearance"
+      ],
+      "title": "Pick up, reopen, call clearance",
+      "why": "Taking a closure down is the mirror of putting it up: from the downstream end back, so you are never the first thing traffic meets, and so the taper is still warning drivers while you are inside it. Then the lane goes back — a lane held ten minutes longer than it needs to be is queue, and queue is where the secondary crashes happen. Clearance called with the actual times is what the open-roads policy is measured on and what tells everyone still inbound to stand down."
+    },
+    {
+      "cue": "Write the times: notification, arrival, lane closed, lane open, scene clear.",
+      "id": "tim-log",
+      "kind": "select",
+      "prompt": "Write the times: notification, arrival, lane closed, lane open, scene clear.",
+      "target": "tim-log-board",
+      "title": "Log the incident against the plan's clock",
+      "why": "The traffic incident management plan is a set of timings and it only improves if the timings are recorded honestly. Notification to arrival, arrival to lane closed, closed to open, open to clear: those five numbers are what tell the next planning meeting whether the tow contract, the arrow board or the staging point is the thing costing twenty minutes. Left blank, every argument about roadway clearance is run on impressions."
+    },
+    {
+      "cue": "Before anybody leaves: is everyone all right, and does anybody want the peer-support line?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "Before anybody leaves: is everyone all right, and does anybody want the peer-support line?",
+      "target": "crew-checkin-board",
+      "title": "Check the crew before everyone rolls",
+      "why": "Working a wet highway with traffic a metre away is a sustained adrenaline load, and a near-miss in the taper stays with people whether or not anybody was touched. The critical-incident stress rule the department runs names peer support and the employee assistance line after any incident involving a near-miss or a serious injury, not only after a fatality, and the thirty seconds spent asking on the shoulder is what makes the number get used."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Wet shoulder, live lane: the block set upstream, the taper built for the posted speed, the engine shielding, the driver kept out of the lane — and the lane given back",
+  "title": "SmartCiti.X~ Traffic Incident Management VR",
+  "trade": "Police officer with fire and DOT under the traffic incident management plan",
+  "underwater": null,
+  "weather": "rain"
+}

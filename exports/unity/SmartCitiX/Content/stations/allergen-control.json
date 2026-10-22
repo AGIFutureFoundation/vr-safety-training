@@ -1,0 +1,362 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "flagged-and-walked",
+    "name": "Flagged and Walked",
+    "note": "An allergen order called back, built on dedicated tools with no shared contact, and walked to the pass by the cook who made it"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "FDA major food allergen labelling under FALCPA, with sesame added as the ninth allergen by the FASTER Act; the FDA Food Code as adopted in the California Retail Food Code; ServSafe Allergens training; Cal/OSHA general industry safety orders for the hot line itself; UNITE HERE Local 2, with AFSCME and SEIU food-service members running the same allergen protocol in school and hospital kitchens",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "CalCode",
+        "citedAs": "California Retail Food Code",
+        "id": "calcode-retail-food",
+        "title": "California Retail Food Code (Health and Safety Code Division 104, Part 7) — the FDA Food Code as California adopts it"
+      },
+      {
+        "body": "FDA",
+        "citedAs": "FDA Food Code",
+        "id": "fda-food-code",
+        "title": "FDA Food Code — the model code for retail food establishments"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "ServSafe",
+        "citedAs": "ServSafe",
+        "id": "servsafe-certification",
+        "title": "ServSafe Food Protection Manager and ServSafe Alcohol certification (National Restaurant Association)"
+      },
+      {
+        "body": "union",
+        "citedAs": "UNITE HERE",
+        "id": "unite-here-training",
+        "title": "UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Culinary & Hospitality",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "called-back-first",
+        "name": "Called Back First",
+        "note": "The ticket's flag read and called back before the board ever comes off the rack, first time"
+      },
+      {
+        "id": "never-shared",
+        "name": "Never Shared",
+        "note": "Never the shared board, never the shared fryer, never a plate walked by someone else"
+      },
+      {
+        "id": "clean-mise",
+        "name": "Clean Mise",
+        "note": "The ingredient check caught what didn't belong"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-plate",
+        "name": "Clean Plate",
+        "note": "No corrections across the whole ticket"
+      },
+      {
+        "id": "steady-cook",
+        "name": "Steady Cook",
+        "note": "Held the dedicated-pan cook without a break"
+      },
+      {
+        "id": "ticket-fast",
+        "name": "Ticket Fired Fast",
+        "note": "Plate walked inside 80% of par"
+      }
+    ],
+    "currency": "PICK",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Prep Cook",
+      "Line Cook",
+      "Lead Line",
+      "Sous Chef",
+      "Allergen Certified"
+    ],
+    "system": "Line Discipline"
+  },
+  "hazards": {
+    "shared-board": "That's a shared cutting board off the line rack, not the dedicated purple one. Whatever the last thing cut on it was is now a residue on a board about to touch an allergen order — colour coding only works if the allergen order actually uses the board it's colour-coded for.",
+    "shared-fryer": "That's the shared fryer basket — the same oil every other order on the line goes through today, tree nuts and shellfish breading included. Frying an allergen order's own ingredients in shared oil is a contact with every allergen that has gone through that oil this shift, full stop, no matter how clean the ingredients going in are.",
+    "shared-garnish-bin": "That garnish bin is the shared one every station on the line dips into, and a shared spoon just went from a plate with tree nuts on it straight into this bin. An allergen order's own plate can be perfect and still pick up a contact from the garnish that goes on last.",
+    "skip-callback": "You're about to start cooking without ever calling the ticket back to the expediter. The callback is what catches a flag that got missed reading the ticket the first time — skip it and the only check left is whatever happens to be right the first time through."
+  },
+  "id": "allergen-control",
+  "indoor": "kitchen",
+  "interrupts": [
+    {
+      "after": "cook-hold",
+      "alert": "The cook next to you, moving fast, reaches for your dedicated pan with the spatula he's been using on the shared line all night.",
+      "cue": "Get your own dedicated utensil into that pan before his does.",
+      "delay": 3,
+      "id": "shared-spatula",
+      "kind": "Shared spatula reaching for the allergen pan",
+      "missNote": "The shared spatula went into the dedicated pan before anyone stopped it, and every ingredient the rest of the line has touched tonight is now a contact on this specific plate.",
+      "seconds": 10,
+      "target": "swap-utensil",
+      "why": "A shared spatula carries whatever it last touched into a pan that has been kept clean specifically so nothing from the rest of the line reaches it — the entire point of a dedicated pan collapses the instant a shared tool touches what's in it, and it takes about a second for that to happen if nobody's watching for it.",
+      "wrongNote": "Not that. Getting the dedicated utensil into the pan first is the only thing that keeps the shared spatula out of it."
+    },
+    {
+      "after": "walk-plate",
+      "alert": "The expediter calls back across the pass — table 12's dish, already plated and sitting under the heat lamp, has a walnut flag on its ticket that nobody caught until now.",
+      "cue": "Pull that plate before it leaves the pass.",
+      "delay": 3,
+      "id": "late-flag",
+      "kind": "A missed allergen flag surfaces after plating",
+      "missNote": "The plate went out to table 12 with an allergen nobody flagged in time to stop it, which is the one outcome every step before this one was built to make impossible.",
+      "seconds": 10,
+      "target": "recall-plate",
+      "why": "A flag found after the plate is already sitting under the lamp is the exact failure the callback earlier in this ticket exists to prevent on every other order — the only thing left to do once it happens is stop that specific plate before a server picks it up, because there is no version of catching it at the table that ends well.",
+      "wrongNote": "Not that. Pulling that plate off the pass is the only response that stops it before it reaches the dining room."
+    }
+  ],
+  "lateNotes": {
+    "allergen-pick": "The plate gets marked once the dish is actually finished cooking — marking it earlier is a label on a pan, not on the plate that leaves the kitchen.",
+    "burner-dedicated": "The cook happens on the dedicated pan and burner only, after the move away from the shared line is already complete.",
+    "hidden-allergen-sauce": "The mise gets checked against the recipe's allergen list once the dedicated board and tools are already in hand — checking it before means checking it against nothing you're actually about to use."
+  },
+  "name": "Allergen Control",
+  "parSeconds": 260,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "culinary-kitchen"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "allergen-board-plan",
+      "allergen-pick",
+      "burner-dedicated",
+      "clean-station",
+      "cross-contact-garnish",
+      "dedicated-knife",
+      "dedicated-pan",
+      "expo-callback",
+      "glove-box",
+      "hand-sink",
+      "hidden-allergen-sauce",
+      "pass-walk",
+      "plate",
+      "purple-board",
+      "recall-plate",
+      "sanitize-station",
+      "shared-board",
+      "shared-fryer",
+      "shared-garnish-bin",
+      "skip-callback",
+      "swap-utensil",
+      "ticket-rail"
+    ],
+    "meshes": 150
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Check the ticket on the rail for the allergen icon before touching anything.",
+      "id": "ticket-read",
+      "kind": "select",
+      "prompt": "Check the ticket on the rail for the allergen icon before touching anything.",
+      "target": "ticket-rail",
+      "title": "Read the ticket's allergen flag",
+      "why": "The flag on the ticket is the only thing standing between an ordinary dish and one that has to be built completely differently — missing it here means every step after this one is being done for the wrong dish."
+    },
+    {
+      "cue": "Repeat the allergen and the table back to the expo before starting the dish.",
+      "id": "callback",
+      "kind": "select",
+      "prompt": "Repeat the allergen and the table back to the expo before starting the dish.",
+      "target": "expo-callback",
+      "title": "Call the order back to the expediter",
+      "why": "ServSafe's allergen training calls for a verbal read-back for exactly this order type, because a ticket read silently can be misread silently — saying it out loud and having the expo confirm it catches a wrong table, a wrong allergen or a wrong dish before a single pan gets pulled."
+    },
+    {
+      "cue": "Take the purple allergen board off the rack, not any of the coloured line boards.",
+      "id": "purple-board",
+      "kind": "select",
+      "prompt": "Take the purple allergen board off the rack, not any of the coloured line boards.",
+      "target": "purple-board",
+      "title": "Pull the dedicated purple board",
+      "why": "The purple board exists so an allergen order is visually distinct from across the kitchen, not just correctly prepared up close — anyone glancing at the line can see this board is doing different work, which is the whole point of colour coding under pressure."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Take the dedicated knife and pan kept separate from the shared line equipment.",
+      "id": "dedicated-tools",
+      "itemNames": {
+        "dedicated-knife": "dedicated knife",
+        "dedicated-pan": "dedicated pan"
+      },
+      "kind": "sequence",
+      "prompt": "Take the dedicated knife and pan kept separate from the shared line equipment.",
+      "targets": [
+        "dedicated-knife",
+        "dedicated-pan"
+      ],
+      "title": "Pull the dedicated knife and pan",
+      "why": "A knife or pan that has touched the allergen even once today carries it into whatever it touches next — the dedicated set is kept apart from the shared line specifically so this order never has to trust that a shared tool happens to be clean enough."
+    },
+    {
+      "cue": "Wash hands fully before the allergen ingredients come out.",
+      "holdBreakNote": "Cut the wash short. Hands go back under the water until the full wash is done.",
+      "id": "handwash",
+      "kind": "hold",
+      "prompt": "Wash hands fully before the allergen ingredients come out.",
+      "seconds": 8,
+      "target": "hand-sink",
+      "title": "Wash hands before touching the order",
+      "why": "Whatever the last thing your hands touched was is now on this dish unless it's washed off first — the handwash resets the one tool you can't swap out for a dedicated one."
+    },
+    {
+      "cue": "Pull a fresh pair of gloves after the handwash.",
+      "id": "glove-change",
+      "kind": "select",
+      "prompt": "Pull a fresh pair of gloves after the handwash.",
+      "target": "glove-box",
+      "title": "Change gloves",
+      "why": "Gloves worn on the rest of the line have touched whatever the rest of the line has touched — a fresh pair after the wash is the second half of the same reset, not a redundant one."
+    },
+    {
+      "cue": "Compare every ingredient staged for this dish against the recipe's own allergen list before cooking starts.",
+      "id": "ingredient-check",
+      "itemNames": {
+        "cross-contact-garnish": "garnish plated from the shared bin",
+        "hidden-allergen-sauce": "sauce with sesame in the mise"
+      },
+      "itemNotes": {
+        "cross-contact-garnish": "That garnish came out of the shared bin instead of a portion set aside for this ticket — right ingredient, wrong path to the plate.",
+        "hidden-allergen-sauce": "That sauce bottle in the mise has sesame in its own ingredient list — sesame was added as the ninth major allergen under the FASTER Act, and a sauce nobody double-checked against this ticket's flag is exactly how a ninth allergen gets missed by a crew still thinking in eight."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Compare every ingredient staged for this dish against the recipe's own allergen list before cooking starts.",
+      "targets": [
+        "hidden-allergen-sauce",
+        "cross-contact-garnish"
+      ],
+      "title": "Check the mise against the recipe's allergen list",
+      "why": "FALCPA's eight allergens plus sesame under the FASTER Act cover milk, eggs, fish, shellfish, tree nuts, peanuts, wheat, soybeans and sesame — nine names a recipe's own allergen list has to be checked against ingredient by ingredient, because a sauce or a garnish can carry one of them without looking any different from the version that doesn't."
+    },
+    {
+      "cue": "Carry the dedicated pan to the clean station away from the shared line and the shared fryer.",
+      "drag": {
+        "missNote": "Not clear of the shared line. Move the pan all the way to the dedicated station before starting to cook.",
+        "radius": 0.42,
+        "to": "clean-station"
+      },
+      "id": "cook-station",
+      "kind": "drag",
+      "prompt": "Carry the dedicated pan to the clean station away from the shared line and the shared fryer.",
+      "target": "dedicated-pan",
+      "title": "Move to the dedicated station",
+      "why": "Standing at the shared line to cook a dedicated pan puts it back in splash and steam range of everything the rest of the line is doing — the dedicated station exists so distance, not just dedicated equipment, is doing part of the work."
+    },
+    {
+      "cue": "Hold a steady cook on the dedicated pan and burner.",
+      "holdBreakNote": "Heat drifted out of band. Bring it back before the pan either undercooks or scorches.",
+      "id": "cook-hold",
+      "kind": "track",
+      "prompt": "Hold a steady cook on the dedicated pan and burner.",
+      "seconds": 7,
+      "target": "burner-dedicated",
+      "title": "Cook on the dedicated burner",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.42,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "DEDICATED COOK",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "The dedicated pan only protects the order for as long as it stays on the dedicated burner — set it down on a shared burner for even a minute and whatever that burner's grate has on it is now underneath this dish too."
+    },
+    {
+      "cue": "Plate the dish, then set the allergen marker on it before it leaves the station.",
+      "id": "plate-mark",
+      "itemNames": {
+        "allergen-pick": "allergen marker placed",
+        "plate": "dish plated"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Plate the dish first, then set the marker — a marker on an empty spot on the pass means nothing.",
+      "prompt": "Plate the dish, then set the allergen marker on it before it leaves the station.",
+      "targets": [
+        "allergen-pick",
+        "plate"
+      ],
+      "title": "Mark the plate",
+      "why": "The marker is what tells the expediter and the server, at a glance, that this specific plate needs the care the ticket called for — a correctly built dish with no marker on it is indistinguishable from an ordinary one the moment it leaves your hands."
+    },
+    {
+      "cue": "Carry the finished plate to the pass personally rather than handing it to someone else.",
+      "holdBreakNote": "Set the plate down before it reached the pass. Pick it back up and walk it the rest of the way yourself.",
+      "id": "walk-plate",
+      "kind": "hold",
+      "prompt": "Carry the finished plate to the pass personally rather than handing it to someone else.",
+      "seconds": 5,
+      "target": "pass-walk",
+      "title": "Walk the plate to the pass yourself",
+      "why": "Handing an allergen plate to somebody else to run is one more point where it can get set down next to the wrong dish or picked up by the wrong runner — the cook who built it walking it to the pass is the last checkpoint the ticket gets before a server ever touches it."
+    },
+    {
+      "cue": "Clean the dedicated board, knife and pan and return them to allergen storage, separate from the line's own tools.",
+      "id": "reset",
+      "kind": "select",
+      "prompt": "Clean the dedicated board, knife and pan and return them to allergen storage, separate from the line's own tools.",
+      "target": "sanitize-station",
+      "title": "Sanitise and return the dedicated tools",
+      "why": "The dedicated set only stays trustworthy for the next allergen ticket if it goes back to its own storage clean — left on the line rack even once, it's one more shared tool the next cook has no reason to think is any different."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "An allergen order on the line: the ticket's flag called back, the purple board and dedicated tools pulled, hands washed and gloves changed, the mise checked against the recipe's allergen list, the dish built in the dedicated pan away from the shared fryer, and the plate marked and walked personally to the pass",
+  "title": "SmartCiti.X~ Allergen Control VR",
+  "trade": "UNITE HERE Local 2 line cook",
+  "underwater": null,
+  "weather": null
+}

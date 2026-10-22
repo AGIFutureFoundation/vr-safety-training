@@ -1,0 +1,375 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "row-walked-clean",
+    "name": "Row Walked Clean",
+    "note": "Every unit proven, one alarm read before it was silenced, one leak isolated before anyone else got near it — first time"
+  },
+  "category": "Maritime & Ports",
+  "certification": "ILWU — OSHA 29 CFR 1918 marine terminal safety; OSHA 29 CFR 1910.147 lockout/tagout for isolating a faulted unit; EPA Clean Air Act Section 608 refrigerant-management and technician-certification requirements",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "EPA",
+        "citedAs": "Section 608",
+        "id": "epa-section-608",
+        "title": "Clean Air Act §608 (40 CFR Part 82 Subpart F) — refrigerant handling, recovery and technician certification"
+      },
+      {
+        "body": "union",
+        "citedAs": "ILWU",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1918",
+        "id": "osha-1918",
+        "title": "29 CFR 1918 — Safety and health regulations for longshoring"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Maritime",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "ground-proven",
+        "name": "Ground Proven",
+        "note": "Every plug tested before it took power"
+      },
+      {
+        "id": "row-clear",
+        "name": "Row Clear",
+        "note": "Never in the travel lane, never under an unplugged assumption"
+      },
+      {
+        "id": "reading-true",
+        "name": "Reading True",
+        "note": "Set point and return air both held inside the manifest's band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-walk",
+        "name": "Clean Walk",
+        "note": "No corrections anywhere in the row"
+      },
+      {
+        "id": "held-the-band",
+        "name": "Held the Band",
+        "note": "Return air never dropped out of band once it settled"
+      },
+      {
+        "id": "row-in-time",
+        "name": "Row In Time",
+        "note": "Whole row closed out inside 80% of par"
+      }
+    ],
+    "currency": "FROST",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Yard Hand",
+      "Reefer Tech",
+      "Lead Reefer Mechanic",
+      "Chief Reefer Mechanic",
+      "Reefer Row Certified"
+    ],
+    "system": "Reefer Row"
+  },
+  "hazards": {
+    "cross-travel-lane": "You stepped off the marked walk lane into the reach stacker's travel lane. A stacker working this row is watching the box on the end of its boom, not the strip of pavement where a person is not supposed to be standing — the walk lane is the only ground in this row built around people and a forty-tonne machine sharing it.",
+    "open-door-untested": "You went for the coil access door before running the detector along the seam. Whatever concentration built up behind that panel comes out the moment the door does, and finding out how much of it there was by opening the door first is finding out the hard way.",
+    "silence-without-read": "You silenced the high-temperature alarm without reading the discharge first. A quiet panel with nothing logged behind it looks identical whether the drift was caught in its first ten minutes or its first six hours, and the next shift has no way to tell which one they inherited.",
+    "skip-ground": "You went to seat the plug before the ground pin read continuous. A reefer chassis with a fault already sitting in it stays safe right up until a hand is the shortest path it finds to ground — that pin is tested on every plug, not just the ones that look old."
+  },
+  "id": "reefer-yard-monitoring",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "ground-check",
+      "alert": "A reach stacker has turned into the row and is working down it toward your position, its boom swinging a box into the stack two bays up.",
+      "cue": "You're down between two boxes with your back to the lane. Get to the marked walk lane before it reaches this bay.",
+      "delay": 4,
+      "id": "stacker-between-boxes",
+      "kind": "Reach stacker entering the row",
+      "missNote": "The stacker worked two more bays down the row before anyone reached the lane. Its mirrors never showed the gap between the boxes where a mechanic was crouched with a tester in hand.",
+      "seconds": 12,
+      "target": "lane-marker",
+      "why": "A reach stacker operator is watching the box on the end of the boom, not the gap between two containers at ground level where a mechanic is crouched with a tester in hand — stepping clear to the marked lane the moment one turns into the row is the only way you become a shape the driver is looking for, instead of one they had no reason to expect between the stacks.",
+      "wrongNote": "It's the marked walk lane. A stacker working down the row is answered by getting into the space it isn't driving through, not by finishing the job you were in the middle of."
+    },
+    {
+      "after": "return-air",
+      "alert": "Behind you, the unit you just set now shows its compressor breaker tripped and its alarm light already climbing to amber.",
+      "cue": "That's the box you just walked away from. Get back on it before the load inside starts warming for real.",
+      "delay": 3,
+      "id": "compressor-trip",
+      "kind": "Compressor trip behind you",
+      "missNote": "By the time anyone circled back, the compressor had been off long enough that the return air had already climbed two full degrees off the set point that had just been confirmed.",
+      "seconds": 12,
+      "target": "compressor-trip-panel",
+      "why": "A compressor that trips seconds after you have moved on is not a coincidence to write off on the way to the next unit — it is the reading you just confirmed telling you the unit was already working right at the edge of what it could hold, and the cargo inside starts warming again from the second the compressor stops, whether or not anyone is still standing there to notice.",
+      "wrongNote": "It's the tripped breaker on the unit you just left. Nothing else on this row explains a compressor going out the moment your back is turned."
+    }
+  ],
+  "lateNotes": {
+    "reefer-plug": "Ground checked first — the plug goes in once the tester reads continuous, not before.",
+    "setpoint-dial": "Nothing to dial until the plug is seated and locked and the unit is actually taking power."
+  },
+  "name": "Reefer Yard Monitoring",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "ports-maritime-ecology"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "alarm-panel",
+      "compressor-trip-panel",
+      "cross-travel-lane",
+      "exclusion-cones",
+      "gas-detector",
+      "ground-probe",
+      "hi-vis-vest",
+      "lane-marker",
+      "leak-fitting",
+      "log-board",
+      "manifest-board",
+      "open-door-untested",
+      "radio-checkin",
+      "reefer-plug",
+      "return-air-display",
+      "setpoint-dial",
+      "silence-without-read",
+      "skip-ground",
+      "tag-out",
+      "unit-alarming",
+      "unit-breaker-off"
+    ],
+    "meshes": 213
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the row assignment, the commodity, and the set point the manifest calls for on this box.",
+      "id": "manifest",
+      "kind": "select",
+      "prompt": "Check the row assignment, the commodity, and the set point the manifest calls for on this box.",
+      "target": "manifest-board",
+      "title": "Read the reefer manifest and yard plan",
+      "why": "The manifest is the only place the commodity and its required set point are written down together — a box of pharmaceuticals held two degrees off spoils just as fast as one parked on the wrong row entirely, and in a yard of hundreds of identical white units the manifest is the only thing that says which one is actually this one."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Put on the high-vis vest and radio yard control before stepping into the row.",
+      "id": "yard-brief",
+      "itemNames": {
+        "hi-vis-vest": "high-vis vest",
+        "radio-checkin": "radio check-in with yard control"
+      },
+      "kind": "sequence",
+      "prompt": "Put on the high-vis vest and radio yard control before stepping into the row.",
+      "targets": [
+        "hi-vis-vest",
+        "radio-checkin"
+      ],
+      "title": "Suit up and check in with yard control",
+      "why": "A reefer row at night is worked by reach stackers moving boxes on both sides of you, and a driver's view down a stack is worse than yours is of them. The vest is what lets a driver pick you out against a dark row, and the radio call is what tells every stacker on that frequency a body is walking this row before one of them starts a move down it."
+    },
+    {
+      "cue": "Find the painted pedestrian lane along the row and keep off the travel lane down its centre.",
+      "id": "lane-check",
+      "kind": "select",
+      "prompt": "Find the painted pedestrian lane along the row and keep off the travel lane down its centre.",
+      "target": "lane-marker",
+      "title": "Confirm the walk lane",
+      "why": "The travel lane down the centre of this row is where a reach stacker's own wheels run when it comes to reposition a box, and it does not slow for a shape it did not expect to find there. The painted walk lane at the row's edge is the one strip in this yard built around the fact that people and a forty-tonne machine are sharing the same eighteen feet of pavement."
+    },
+    {
+      "cue": "Hold the continuity tester on the plug's ground pin until it reads made.",
+      "holdBreakNote": "Let go before the tester settled — the reading was still climbing. Hold it on the pin until it reads made.",
+      "id": "ground-check",
+      "kind": "hold",
+      "prompt": "Hold the continuity tester on the plug's ground pin until it reads made.",
+      "seconds": 4,
+      "target": "ground-probe",
+      "title": "Prove the plug's ground before it goes in",
+      "why": "A reefer chassis with a fault already sitting in it is safe right up until somebody's hand becomes the path to ground it finds — testing that pin on every plug, every time, is what stands between a hot chassis and the mechanic who is about to grab it with both hands."
+    },
+    {
+      "cue": "Land the plug in the receptacle and turn the collar home to the locked position.",
+      "id": "plug-lock",
+      "kind": "turn",
+      "prompt": "Land the plug in the receptacle and turn the collar home to the locked position.",
+      "target": "reefer-plug",
+      "title": "Seat and lock the plug",
+      "turn": {
+        "axis": "y",
+        "label": "PLUG LOCK",
+        "turns": 0.6
+      },
+      "why": "A reefer plug that is pushed in but never turned home can still carry current on a blade resting loose against its contact, arcing and heating right where the next pair of hands goes to unplug it — the twist-lock is what actually clamps the blades against the receptacle instead of leaving them sitting on it."
+    },
+    {
+      "cue": "Dial the unit's set point to match the manifest and commit inside the band.",
+      "gauge": {
+        "green": [
+          0.27,
+          0.33
+        ],
+        "label": "SET POINT",
+        "missNote": "Off the manifest's set point — reset and dial it to the figure on the manifest, not close to it.",
+        "speed": 0.55
+      },
+      "id": "setpoint",
+      "kind": "gauge",
+      "prompt": "Dial the unit's set point to match the manifest and commit inside the band.",
+      "target": "setpoint-dial",
+      "title": "Set the controller to the manifest's set point",
+      "why": "The set point is the one number this box's entire cargo depends on for the rest of the voyage, and it is set from the manifest every time — never left on whatever the last commodity in this unit needed, because a set point that is merely close still cooks or freezes a load it was never dialed to hold."
+    },
+    {
+      "cue": "Watch the return-air reading settle inside the manifest's band as the unit cycles, and hold it there.",
+      "holdBreakNote": "Return air drifted out of the manifest's band — bring it back and hold it there before moving on.",
+      "id": "return-air",
+      "kind": "track",
+      "prompt": "Watch the return-air reading settle inside the manifest's band as the unit cycles, and hold it there.",
+      "seconds": 5,
+      "target": "return-air-display",
+      "title": "Track the return air against the manifest's band",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.3,
+          0.46
+        ],
+        "label": "RETURN AIR",
+        "rise": 0.5,
+        "start": 0.05
+      },
+      "why": "The set point is what the controller is told to hold; the return air is the actual temperature of the air coming back off the cargo, and a unit can be dialed exactly right and still be failing to hold it. Watching the return air settle into the manifest's band is the only way to know the box is doing what the dial says it should, rather than just what it was told to do."
+    },
+    {
+      "cue": "Check every unit's status light on the way down the row and click the one alarming.",
+      "id": "row-alarm",
+      "itemNames": {
+        "unit-alarming": "reefer unit alarming on high temperature"
+      },
+      "itemNotes": {
+        "unit-alarming": "Three units down, the alarm light is lit red and steady — this unit's discharge has climbed well past its set point."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check every unit's status light on the way down the row and click the one alarming.",
+      "targets": [
+        "unit-alarming"
+      ],
+      "title": "Walk the row for alarms",
+      "why": "An alarm on a reefer unit is not a nuisance light — in a yard this size it is the one signal that one specific box, out of hundreds sitting exactly alike, has already drifted off the temperature its cargo is paying to be held at, and it stops meaning anything the moment it goes unnoticed until the next scheduled walk."
+    },
+    {
+      "cue": "Check the alarming unit's discharge reading and log what it says before silencing the local alarm.",
+      "id": "investigate-alarm",
+      "kind": "select",
+      "prompt": "Check the alarming unit's discharge reading and log what it says before silencing the local alarm.",
+      "target": "alarm-panel",
+      "title": "Read the discharge temperature before silencing",
+      "why": "Silencing an alarm without reading what set it off throws away the one number that tells the next mechanic, or the terminal's monitoring desk, how far this unit had actually drifted and for how long — a quiet panel afterward looks exactly the same whether the drift was caught in its first ten minutes or its first six hours."
+    },
+    {
+      "cue": "Hold the refrigerant detector along the seam of the next unit's coil access door.",
+      "holdBreakNote": "Detector pulled away before the sweep finished — run it the full length of the seam, not partway.",
+      "id": "leak-sweep",
+      "kind": "hold",
+      "prompt": "Hold the refrigerant detector along the seam of the next unit's coil access door.",
+      "seconds": 4,
+      "target": "gas-detector",
+      "title": "Sweep the detector along the coil door",
+      "why": "Refrigerant shows up in a detector's reading long before it shows up as a smell over diesel exhaust and box fans, and a leak in a working reefer row never announces itself until the sweep is actually run along the seam it is escaping from — waiting to notice a smell means waiting until there is a great deal more of it out than there was when the sweep would have caught it."
+    },
+    {
+      "cue": "Follow the rising reading to the fitting it is coming from and click it.",
+      "id": "leak-confirm",
+      "itemNames": {
+        "leak-fitting": "leaking fitting on the coil"
+      },
+      "itemNotes": {
+        "leak-fitting": "The detector spikes right at this fitting — that is where the refrigerant is escaping."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Follow the rising reading to the fitting it is coming from and click it.",
+      "targets": [
+        "leak-fitting"
+      ],
+      "title": "Find the fitting the detector is reading",
+      "why": "A detector reading high somewhere along a coil door only proves refrigerant is present in that air, not which of a dozen fittings behind the panel is the actual source — following the reading to where it peaks is what turns 'there is a leak in here somewhere' into the one joint that needs the wrench."
+    },
+    {
+      "cue": "Open the unit's breaker, tag it out, then cone off the box so nobody works near it.",
+      "id": "isolate-box",
+      "itemNames": {
+        "exclusion-cones": "exclusion cones set around the box",
+        "tag-out": "unit tagged out",
+        "unit-breaker-off": "unit's breaker opened"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Breaker open, then the tag, then the cones — a tag has nothing to hold against on a box still taking power, and cones mean nothing around a unit somebody could still switch back on.",
+      "prompt": "Open the unit's breaker, tag it out, then cone off the box so nobody works near it.",
+      "targets": [
+        "unit-breaker-off",
+        "tag-out",
+        "exclusion-cones"
+      ],
+      "title": "De-energize and isolate the leaking box",
+      "why": "A leaking coil stays a slow refrigerant leak right up until somebody re-energizes the compressor trying to chase the box back onto temperature, which is exactly what turns a fitting weeping refrigerant into one back under full system pressure — the breaker comes open and stays tagged before anything else, and the cones are what keep the next mechanic walking the row from reaching for a unit that already has a name on the tag."
+    },
+    {
+      "cue": "Record the set point confirmed, the alarm found and cleared, and the leak isolated for the next shift.",
+      "id": "log",
+      "kind": "select",
+      "prompt": "Record the set point confirmed, the alarm found and cleared, and the leak isolated for the next shift.",
+      "target": "log-board",
+      "title": "Log the row",
+      "why": "The mechanic who reads this log at the start of the next shift was not standing in this row tonight — the log is the only way they learn that one specific box is sitting de-energized on a tag rather than finding out, from the outside, that it looks exactly like every other quiet unit in the row."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Night walk of the reefer rack: ground proven before the plug goes in, set point and return air read against the manifest, an alarming unit investigated, a refrigerant leak isolated, and the row kept clear of the reach stacker working it",
+  "title": "SmartCiti.X~ Reefer Yard Monitoring VR",
+  "trade": "Reefer mechanic — ILWU",
+  "underwater": null,
+  "weather": "fog"
+}

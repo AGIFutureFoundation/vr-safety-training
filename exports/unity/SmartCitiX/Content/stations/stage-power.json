@@ -1,0 +1,357 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "ground-first",
+    "name": "Ground First",
+    "note": "A tie-in proven dead, cammed ground-first, covered, energised and phase-checked with no shortcut"
+  },
+  "category": "Entertainment & Live Events",
+  "certification": "IATSE — ETCP Certified Entertainment Electrician; NEC Article 520 (theaters) and 525 / single-pole separable connector (cam-lock) sequence; NFPA 70E qualified for the verification",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ETCP",
+        "citedAs": "ETCP",
+        "id": "etcp-certification",
+        "title": "ETCP Certified Rigger (Arena and Theatre) and Certified Entertainment Electrician credentials"
+      },
+      {
+        "body": "union",
+        "citedAs": "IATSE",
+        "id": "iatse-training-trust",
+        "title": "IATSE Training Trust Fund — stagecraft, rigging and entertainment electrical skills training"
+      },
+      {
+        "body": "NEC/NFPA 70",
+        "citedAs": "NEC",
+        "id": "nec-nfpa-70",
+        "title": "NFPA 70 — National Electrical Code"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 70E",
+        "id": "nfpa-70e",
+        "title": "NFPA 70E — Standard for Electrical Safety in the Workplace"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.333",
+        "id": "osha-1910-333",
+        "title": "29 CFR 1910.333 — Selection and use of work practices for electrical safety"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Entertainment",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "proven-dead",
+        "name": "Proven Dead",
+        "note": "Live-dead-live in order, first time"
+      },
+      {
+        "id": "cam-order",
+        "name": "Cam Order",
+        "note": "Ground, neutral, then phases — never a phase first"
+      },
+      {
+        "id": "phases-read",
+        "name": "Phases Read",
+        "note": "Voltage read inside spec on every phase"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-tie-in",
+        "name": "Clean Tie-In",
+        "note": "No corrections through the whole tie-in"
+      },
+      {
+        "id": "load-held",
+        "name": "Load Held",
+        "note": "Held the load test the full duration"
+      },
+      {
+        "id": "doors-open",
+        "name": "Doors Open",
+        "note": "Power up inside 80% of par"
+      }
+    ],
+    "currency": "AMP",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Deck Electrician",
+      "Distro Tech",
+      "Head Electrician",
+      "Production Electrician",
+      "Tie-In Certified"
+    ],
+    "system": "Tie-In Authority"
+  },
+  "hazards": {
+    "house-switch": "That is the other tenant's company switch on the same house feeder — the one the scene shop's lift is fed from. It is not yours to open, lock, clear or even test, and killing somebody else's feed mid-load-in to make room for your own is how a venue ends up with two crews each certain the other one is locked out.",
+    "meter-no-gloves": "You went at the switch with the meter and no gloves or face shield. Verification is the live part of this job; it is done in the PPE the arc-flash label calls for, or it is not done.",
+    "phase-first": "You reached for a phase cam before the ground was on. Single-pole connectors are made ground first and broken ground last, so there is never a moment the distro frame is hot with no path back — that order is the whole reason cams are allowed.",
+    "taped-cam": "That cam is held in with tape because the latch is broken. A connector that can pull apart under load arcs — and a 400 A arc on a stage is a fire and a burn, not a fault.",
+    "wet-distro": "The distro is standing in the puddle from the load-in. A metal frame carrying three phases on a wet floor is a shock path to whoever touches it next; it gets moved and dried before it gets power."
+  },
+  "id": "stage-power",
+  "indoor": "theatre",
+  "interrupts": [
+    {
+      "after": "cams",
+      "alert": "The lighting board operator is on comms from out front: they saw the cams go in and think the tie-in is finished, and they're bringing the follow spots up right now.",
+      "cue": "The taps are still open behind an uncovered switch. Nobody flips anything until that's closed.",
+      "delay": 3,
+      "id": "board-op-early-power",
+      "kind": "Board op wants power early",
+      "missNote": "The board operator brought the spots up on their own timeline while the tap cover was still open on an unenergised switch. Nothing arced this time only because the switch itself was still locked off — the exposed lugs were sitting there regardless.",
+      "seconds": 12,
+      "target": "switch-cover",
+      "why": "A cam going in ground-first is only half the tie-in — the lugs behind an open tap cover are still exposed conductors, and 'the cams are in' is not the same fact as 'this is safe to energise.' The cover goes on before anyone anywhere touches that switch again.",
+      "wrongNote": "It is the tap cover. An open switch with bare lugs behind it does not wait for someone out front to guess the tie-in is done."
+    },
+    {
+      "after": "load",
+      "alert": "Another company switch on the same house feeder just came up hard — a hydraulic lift motor starting — and the whole building's voltage sagged for a few seconds.",
+      "cue": "Recheck the phase reading before you bring the load any higher.",
+      "delay": 3,
+      "id": "phase-sag-generator",
+      "kind": "Voltage sag on the feed",
+      "missNote": "The load test kept climbing through the sag without anyone looking at the distro meter again. If that dip had come with an uneven return to normal, one phase could have settled high with nobody watching for it.",
+      "seconds": 13,
+      "target": "distro-meter",
+      "why": "A shared house feeder means a large inrush anywhere on it can pull every phase down at once, and a tie-in that was balanced a minute ago is not proven balanced through someone else's motor starting. The reading is taken again rather than assumed still good from before the sag.",
+      "wrongNote": "It is the distro meter. A sag on a shared feeder is a reason to read the phases again, not a reason to keep pushing the load up."
+    }
+  ],
+  "lateNotes": {
+    "cam-ground": "Not yet — the switch is locked out and proven dead before any connector goes on.",
+    "switch-on": "The switch stays off until the cams are on in order, covered and strain-relieved."
+  },
+  "name": "Stage Power",
+  "parSeconds": 235,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "live-events"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "arc-ppe",
+      "cam-ground",
+      "cam-l1",
+      "cam-l2",
+      "cam-l3",
+      "cam-neutral",
+      "damaged-jacket",
+      "dimmer-test",
+      "distro-meter",
+      "house-switch",
+      "meter-live",
+      "meter-live-again",
+      "meter-no-gloves",
+      "meter-switch",
+      "phase-first",
+      "power-plot",
+      "strain-relief",
+      "switch-cover",
+      "switch-handle",
+      "switch-on",
+      "taped-cam",
+      "wet-distro"
+    ],
+    "meshes": 246
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the service size, the phase colours for this venue, and the load the tour brings.",
+      "id": "plot",
+      "kind": "select",
+      "prompt": "Check the service size, the phase colours for this venue, and the load the tour brings.",
+      "target": "power-plot",
+      "title": "Read the power plot",
+      "why": "The plot says what the venue can give and what the rig needs, in amps per phase, before any cam goes on — and it also says which colour is which phase in this building, because that is a local convention and not a national one. A 400 A switch feeding a 600 A rig is a decision that gets made here at the plot, in the quiet, not discovered when the house breaker trips at the top of the show with an audience in the room."
+    },
+    {
+      "cue": "Throw the switch off and hang your lock and tag.",
+      "id": "lockout",
+      "kind": "turn",
+      "prompt": "Throw the switch off and hang your lock and tag.",
+      "target": "switch-handle",
+      "title": "Open and lock the company switch",
+      "turn": {
+        "axis": "z",
+        "label": "SWITCH",
+        "turns": 0.5
+      },
+      "why": "The switch is opened and locked before the tap cover comes off, under OSHA 29 CFR 1910.147 — your own lock, your own key, and nobody else's. A venue has a house electrician, a second crew on another switch and a load-in running past the panel all afternoon, and your lock is the only thing standing between somebody's hand on that handle and your hands still on the lugs behind it."
+    },
+    {
+      "cue": "Gloves and face shield on before the meter goes near the switch.",
+      "id": "ppe",
+      "kind": "select",
+      "prompt": "Gloves and face shield on before the meter goes near the switch.",
+      "target": "arc-ppe",
+      "title": "Arc-rated PPE for the verification",
+      "why": "Proving it dead is the one moment in this whole tie-in when you are deliberately working on something that might still be live. OSHA 29 CFR 1910.333 sets the work practice and NFPA 70E is what the arc-flash label on the switch door is calculated from, so the category on that label is the gear you wear, not a suggestion — the meter goes nowhere near those lugs without gloves and a shield on first."
+    },
+    {
+      "cue": "Prove the meter on a known live source, test every lug of the switch, prove the meter again.",
+      "id": "verify",
+      "itemNames": {
+        "meter-live": "known live source",
+        "meter-live-again": "known live source again",
+        "meter-switch": "switch lugs"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Live, then dead, then live — the meter is proven before and after the reading you are relying on.",
+      "prompt": "Prove the meter on a known live source, test every lug of the switch, prove the meter again.",
+      "targets": [
+        "meter-live",
+        "meter-switch",
+        "meter-live-again"
+      ],
+      "title": "Live-dead-live",
+      "why": "A meter that reads zero can mean a dead switch, or it can mean a flat battery, a blown internal fuse, a lead broken inside its moulding, or a selector left on the wrong range. Every one of those reads exactly like a safe switch. Proving the meter on a known live source immediately before the reading and again immediately after it is the only thing that turns that zero from an absence of a number into evidence."
+    },
+    {
+      "cue": "Ground, then neutral, then the three phases — in that order, latched.",
+      "id": "cams",
+      "itemNames": {
+        "cam-ground": "ground (green)",
+        "cam-l1": "phase A",
+        "cam-l2": "phase B",
+        "cam-l3": "phase C",
+        "cam-neutral": "neutral (white)"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Ground, neutral, then phases. A phase first is the one order the code forbids.",
+      "prompt": "Ground, then neutral, then the three phases — in that order, latched.",
+      "targets": [
+        "cam-ground",
+        "cam-neutral",
+        "cam-l1",
+        "cam-l2",
+        "cam-l3"
+      ],
+      "title": "Make the cams ground-first",
+      "why": "Ground goes on first so the distro frame is bonded to the building's earth before any conductor could possibly be hot, which means a fault anywhere downstream has a path back rather than putting the frame at voltage. Neutral goes on before the phases so a load never sees a floating neutral even for an instant, because a floating neutral on a three-phase rig puts line voltage across single-phase gear. Coming off, the whole order reverses: phases first, ground last."
+    },
+    {
+      "cue": "Secure the feeder to the frame so no pull reaches the connectors.",
+      "id": "strain",
+      "kind": "select",
+      "prompt": "Secure the feeder to the frame so no pull reaches the connectors.",
+      "target": "strain-relief",
+      "title": "Strain-relieve the feeder",
+      "why": "The feeder is heavy, it runs across a floor the whole load-in crew is walking and rolling road cases over for the next several hours, and every one of those pulls travels back up the cable toward whatever is holding it. The strain relief takes that load at the frame so the cam connectors never do — a single-pole connector is rated to carry current, not to be the thing that stops a hundred kilos of copper sliding across a deck."
+    },
+    {
+      "cue": "Close the switch's tap cover so no lug is exposed.",
+      "id": "cover",
+      "kind": "select",
+      "prompt": "Close the switch's tap cover so no lug is exposed.",
+      "target": "switch-cover",
+      "title": "Cover the taps",
+      "why": "Nothing gets energised with a bare lug sitting exposed behind an open tap cover. Once that switch is closed the lugs are at 208 volts phase to phase with nothing over them, in a backstage corridor that fills with crew, carts and performers in the dark within the hour. The cover goes back on before the switch goes on, every single time, and there is no version of a quick test that is worth making an exception for."
+    },
+    {
+      "cue": "Take your lock off, clear the area, throw the switch on.",
+      "id": "switch-on",
+      "kind": "turn",
+      "prompt": "Take your lock off, clear the area, throw the switch on.",
+      "target": "switch-on",
+      "title": "Remove the lock and energise",
+      "turn": {
+        "axis": "z",
+        "label": "SWITCH",
+        "turns": 0.5
+      },
+      "why": "Your lock, your key, your call to re-energise, and nobody else's — a lock removed by anyone but the person who hung it is the failure mode the whole procedure exists to prevent. The area gets cleared before the handle moves because the first energisation after a tie-in is precisely the moment a reversed conductor, a loose lug or a nicked jacket finally announces itself, and it announces itself as an arc at the switch you are standing in front of."
+    },
+    {
+      "cue": "Read phase-to-neutral on each phase and commit inside the nominal band.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.6
+        ],
+        "label": "VOLTS",
+        "missNote": "Off nominal — do not load it. Recheck neutral and the cam order.",
+        "speed": 0.75
+      },
+      "id": "phases",
+      "kind": "gauge",
+      "prompt": "Read phase-to-neutral on each phase and commit inside the nominal band.",
+      "target": "distro-meter",
+      "title": "Read the phases at the distro",
+      "why": "Three phases reading right at the distro, phase to neutral, is the actual proof that the tie-in was made correctly rather than merely made. A lost or high-resistance neutral shows up here first and nowhere else — one phase reading high and another low, because the loads are now sharing a return that cannot carry them — and it shows up here long before it shows up as a rack of dimmers cooking themselves onstage in front of an audience."
+    },
+    {
+      "cue": "Bring a test load up on the dimmer and hold it while the phases stay balanced.",
+      "holdBreakNote": "Load dropped early — the balance was never proven. Bring it up and hold.",
+      "id": "load",
+      "kind": "hold",
+      "prompt": "Bring a test load up on the dimmer and hold it while the phases stay balanced.",
+      "seconds": 4,
+      "target": "dimmer-test",
+      "title": "Load test",
+      "why": "Balanced under an actual load is the last proof a tie-in can give, because voltage with nothing drawing current tells you the conductors are connected and nothing about how well. A lug that is finger-tight or a cam that is not fully latched reads perfectly at no load and then sags and heats the moment the first cue calls for real power — and the first cue is the worst possible time to find out, with a full house and the board operator committed."
+    },
+    {
+      "cue": "Inspect the feeder from the switch to the distro and click the damage.",
+      "id": "inspect",
+      "itemNames": {
+        "damaged-jacket": "damaged feeder jacket"
+      },
+      "itemNotes": {
+        "damaged-jacket": "The feeder jacket is cut through to the insulation where a road case rolled over it. That run gets replaced before the house opens."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Inspect the feeder from the switch to the distro and click the damage.",
+      "targets": [
+        "damaged-jacket"
+      ],
+      "title": "Walk the feeder run",
+      "why": "The feeder lives on the floor for the rest of the load-in, with every road case, every pallet truck and every foot in the building crossing it, and the damage that matters is a cut in the jacket rather than anything you would hear or smell. This walk, from the switch to the distro with your eyes on the cable the whole way, is what finds that cut while there is still time to pull a new run instead of at the top of the show."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Company switch tie-in: lockout, live-dead-live, cam-locks ground-first, cover and strain relief, energise, phase check, load test",
+  "title": "SmartCiti.X~ Stage Power VR",
+  "trade": "Stage / touring electrician",
+  "underwater": null,
+  "weather": null
+}

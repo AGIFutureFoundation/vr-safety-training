@@ -1,0 +1,395 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "cold-and-clear",
+    "name": "Cold and Clear",
+    "note": "A stocking run with the release proven, 41 °F confirmed, nothing raw over ready and every case dated — first time"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "California Retail Food Code / FDA Food Code §3-501.16 cold holding at 41 °F or below, §3-302.11 raw-to-ready storage order and §3-501.17 date marking; California Food Handler card and ServSafe Food Protection Manager; the means-of-egress principle behind OSHA 29 CFR 1910.36 — nobody works in a room they cannot get out of, which is why a walk-in has an inside release; NSF/ANSI 7 commercial refrigeration equipment; Cal/OSHA Title 8 General Industry Safety Orders on manual lifting; UNITE HERE Local 2",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CalCode",
+        "citedAs": "California Retail Food Code",
+        "id": "calcode-retail-food",
+        "title": "California Retail Food Code (Health and Safety Code Division 104, Part 7) — the FDA Food Code as California adopts it"
+      },
+      {
+        "body": "FDA",
+        "citedAs": "FDA Food Code",
+        "id": "fda-food-code",
+        "title": "FDA Food Code — the model code for retail food establishments"
+      },
+      {
+        "body": "NSF",
+        "citedAs": "NSF/ANSI 7",
+        "id": "nsf-ansi-7",
+        "title": "NSF/ANSI 7 — Commercial refrigerators and freezers"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.36",
+        "id": "osha-1910-36",
+        "title": "29 CFR 1910.36 — Design and construction requirements for exit routes"
+      },
+      {
+        "body": "ServSafe",
+        "citedAs": "ServSafe",
+        "id": "servsafe-certification",
+        "title": "ServSafe Food Protection Manager and ServSafe Alcohol certification (National Restaurant Association)"
+      },
+      {
+        "body": "union",
+        "citedAs": "UNITE HERE",
+        "id": "unite-here-training",
+        "title": "UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Culinary & Hospitality",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "release-proven",
+        "name": "Release Proven",
+        "note": "Inside release held and cleared before the door was ever trusted, first time"
+      },
+      {
+        "id": "never-trapped",
+        "name": "Never Trapped",
+        "note": "Never a blocked release, never raw over ready, never an unlabelled pan"
+      },
+      {
+        "id": "on-temp",
+        "name": "On Temp",
+        "note": "Thermometer and compressor readings both inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-stock",
+        "name": "Clean Stock",
+        "note": "No corrections anywhere on the run"
+      },
+      {
+        "id": "steady-wheel",
+        "name": "Steady Wheel",
+        "note": "Cart held a steady pace the whole way"
+      },
+      {
+        "id": "stock-fast",
+        "name": "Stocked In Time",
+        "note": "Run complete inside 80% of par"
+      }
+    ],
+    "currency": "CHILL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Prep Cook",
+      "Line Cook",
+      "Lead Cook",
+      "Kitchen Supervisor",
+      "Cold Storage Certified"
+    ],
+    "system": "Cold Storage"
+  },
+  "hazards": {
+    "blocked-release": "You left a stack of empty crates wedged against the inside release. The release is what a walk-in has instead of a window: block it and the next person in here — maybe you, in ten minutes — is sealed into a refrigerated room with no way to signal anyone and no way out.",
+    "case-on-floor": "That case is sitting straight on the floor instead of a shelf or a dunnage rack. Food stored on the floor picks up splash, mop water and anything that runs across a walk-in floor, and the Retail Food Code requires it up off the floor for exactly that reason.",
+    "raw-over-ready": "That shelf has raw product sitting above ready-to-eat food. Ready-to-eat gets no further cook step to kill anything that drips onto it, so the Food Code's storage order puts it on top and raw meat — poultry lowest of all — below everything it could contaminate on the way down.",
+    "unlabelled-pan": "That pan has no date label. Without a date nobody downstream — the next shift, the person doing inventory, an inspector — can tell how long it has been in this cooler, and FIFO rotation is just a guess once the dates are gone."
+  },
+  "id": "walk-in-cooler",
+  "indoor": "kitchen",
+  "interrupts": [
+    {
+      "after": "cart-travel",
+      "alert": "The door has caught the spring hinge and is swinging shut on the loaded cart wedged in the frame — with you still on the inside of it.",
+      "cue": "Do not shove the cart. Clear the latch from in here.",
+      "delay": 4,
+      "id": "door-swinging-shut",
+      "kind": "Door closing",
+      "missNote": "You kept wrestling the cart instead of clearing the latch. If that door had shut and caught, you would have been on the wrong side of a walk-in with a jammed release and nothing in the room to signal anyone with — which is the entire, ordinary way people get trapped in a cold room.",
+      "seconds": 12,
+      "target": "inside-release",
+      "why": "A door closing on a cart in the threshold is exactly the situation the inside release exists for: the latch does not know or care that the frame is jammed, and shoving the cart harder only wedges it tighter against a door that is trying to close.",
+      "wrongNote": "It is the inside release. Clear the latch first — the cart is not going anywhere until the door stops fighting it."
+    },
+    {
+      "after": "lift-form",
+      "alert": "The compressor's high-temperature alarm has started sounding while your hands are full with the case.",
+      "cue": "Set the case down and read the panel before you do anything else.",
+      "delay": 4,
+      "id": "temp-alarm-mid-stock",
+      "kind": "Temperature alarm",
+      "missNote": "You kept stocking with the alarm still sounding. Every minute this cooler runs above temperature is a minute every case already on these shelves is losing the safety margin the Food Code built into 41 °F — the alarm is the one thing telling you that in real time, not at the next log check.",
+      "seconds": 12,
+      "target": "compressor-panel",
+      "why": "An alarm mid-stock is real until the panel says otherwise, and what it says decides whether you keep stocking or stop and call it in. Guessing which one it is because your hands are full is how a cooler runs warm for an extra hour nobody notices.",
+      "wrongNote": "It is the compressor panel. Whatever this case can wait, an alarm on a running cooler cannot."
+    }
+  ],
+  "lateNotes": {
+    "old-case": "Rotation happens after the new case is dated, not before — you need to be able to read both dates to know which one moves to the front.",
+    "poultry-shelf": "Stock only goes on the shelf once you know which tier it belongs on — ready-to-eat above, raw below it, poultry on the bottom of the raw side."
+  },
+  "name": "Walk-In Cooler",
+  "parSeconds": 260,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "culinary-kitchen"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "blocked-release",
+      "cart",
+      "cart-handle",
+      "cart-parked-clear",
+      "case-heavy",
+      "case-on-floor",
+      "compressor-panel",
+      "date-label-new",
+      "door-latch-check",
+      "floor-ice",
+      "front-shelf-socket",
+      "gasket-gap",
+      "inside-release",
+      "light-switch",
+      "old-case",
+      "poultry-shelf",
+      "raw-beef-shelf",
+      "raw-over-ready",
+      "ready-to-eat-shelf",
+      "stock-log",
+      "unlabelled-pan",
+      "wall-thermometer"
+    ],
+    "meshes": 152
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Check today's delivery, the shelf plan and the last logged temperature.",
+      "id": "log",
+      "kind": "select",
+      "prompt": "Check today's delivery, the shelf plan and the last logged temperature.",
+      "target": "stock-log",
+      "title": "Read the cold-storage log",
+      "why": "The log is the record an inspector or a shift lead reads first: the last-known temperature, what came in and where it goes. It also tells you whether this cooler was already running warm before you opened the door on it."
+    },
+    {
+      "cue": "Push and hold the inside release bar until it clears the latch, before you trust the door behind you.",
+      "holdBreakNote": "You let go before the latch cleared. A release that almost works is a release that fails the one time you actually need it.",
+      "id": "release-check",
+      "kind": "hold",
+      "prompt": "Push and hold the inside release bar until it clears the latch, before you trust the door behind you.",
+      "seconds": 5,
+      "target": "inside-release",
+      "title": "Prove the inside release",
+      "why": "A walk-in's spring-loaded latch can hold from outside; the inside release is the only thing that lets it hold from outside and still open from inside. You prove it every time you go in, not the day the door was installed."
+    },
+    {
+      "cue": "Turn on the interior light and confirm it before the door is allowed to swing shut behind you.",
+      "id": "light-check",
+      "kind": "select",
+      "prompt": "Turn on the interior light and confirm it before the door is allowed to swing shut behind you.",
+      "target": "light-switch",
+      "title": "Confirm the light from inside",
+      "why": "You read a thermometer, a date label and a gasket by that light, and it is the only light there is once the door closes. A cooler you enter dark is a cooler you are stocking by feel."
+    },
+    {
+      "cue": "Read the thermometer and commit once it holds at or below 41 °F.",
+      "gauge": {
+        "green": [
+          0.08,
+          0.32
+        ],
+        "label": "COOLER TEMP",
+        "missNote": "Above 41 °F — do not stock it yet. Log it and get the unit checked before product goes in warm.",
+        "speed": 0.6
+      },
+      "id": "thermometer",
+      "kind": "gauge",
+      "prompt": "Read the thermometer and commit once it holds at or below 41 °F.",
+      "target": "wall-thermometer",
+      "title": "Read the wall thermometer",
+      "why": "41 °F is the Food Code's own line for cold holding — above it, time/temperature-control-for-safety food starts sliding into the danger zone the moment the door closes again, and that clock does not reset because nobody was watching."
+    },
+    {
+      "cue": "Two things about this cooler are not as they should be. Find them before you stock it.",
+      "id": "walk-check",
+      "itemNames": {
+        "floor-ice": "the ice building up on the floor",
+        "gasket-gap": "the lifted door gasket"
+      },
+      "itemNotes": {
+        "floor-ice": "Ice on the floor means moist air is getting in and freezing where it lands — usually the same gasket or a door left open too long — and it is also a slip hazard the moment somebody wheels a loaded cart across it.",
+        "gasket-gap": "The gasket has pulled away from the frame along this edge. A gap here is warm kitchen air leaking in continuously, which is why the unit is working harder than the thermometer explains."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things about this cooler are not as they should be. Find them before you stock it.",
+      "targets": [
+        "gasket-gap",
+        "floor-ice"
+      ],
+      "title": "Walk the door and the floor",
+      "why": "A gasket and a floor are checked with your eyes and a hand on the seal, not read off a gauge. Catching a soft gasket here is cheaper than the compressor running flat out against a leak all week and still losing the fight."
+    },
+    {
+      "cue": "Take the wheeled cart for the heavy case rather than carrying it by hand.",
+      "id": "cart-select",
+      "kind": "select",
+      "prompt": "Take the wheeled cart for the heavy case rather than carrying it by hand.",
+      "target": "cart",
+      "title": "Get the cart",
+      "why": "A case at or past the two-person lifting guideline goes on wheels, not on your spine. The cart exists so that decision is made once, before the case is off the truck, instead of negotiated case by case under time pressure."
+    },
+    {
+      "cue": "Feet set, knees bent, case held close — hold the lift under control before you stand.",
+      "holdBreakNote": "You stood up before the lift settled. Reset your feet and knees and take the weight under control, not on the way up.",
+      "id": "lift-form",
+      "kind": "hold",
+      "prompt": "Feet set, knees bent, case held close — hold the lift under control before you stand.",
+      "seconds": 5,
+      "target": "case-heavy",
+      "title": "Lift the case correctly",
+      "why": "The load moves with your legs, not your lower back, and it stays close to your body the whole way up. Cal/OSHA's own injury data on kitchen and warehouse work names the same lift, done the same wrong way, as the single most common cause of a cook's career-ending back injury."
+    },
+    {
+      "cue": "Ready-to-eat on top, whole cuts of raw meat in the middle, poultry on the bottom shelf — in that order.",
+      "id": "shelf-order",
+      "itemNames": {
+        "poultry-shelf": "bottom shelf — poultry",
+        "raw-beef-shelf": "middle shelf — whole cuts",
+        "ready-to-eat-shelf": "top shelf — ready-to-eat"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong tier for this case. Ready-to-eat stays above every raw product, and poultry sits below the other raw meat, not beside it.",
+      "prompt": "Ready-to-eat on top, whole cuts of raw meat in the middle, poultry on the bottom shelf — in that order.",
+      "targets": [
+        "ready-to-eat-shelf",
+        "raw-beef-shelf",
+        "poultry-shelf"
+      ],
+      "title": "Shelve the delivery top to bottom",
+      "why": "The Food Code orders raw storage by the cook temperature that kills its own pathogens: poultry needs the highest internal temperature, so it goes lowest, where a drip can only fall on the floor and never onto something that will not be cooked again."
+    },
+    {
+      "cue": "Apply a date label to the new case as it goes onto the shelf.",
+      "id": "label-new",
+      "kind": "select",
+      "prompt": "Apply a date label to the new case as it goes onto the shelf.",
+      "target": "date-label-new",
+      "title": "Date the new case",
+      "why": "A date written the moment product is put away is a date you can trust; one added later is a guess. Every rotation decision after this point depends on this label being right now, not at the end of the shift."
+    },
+    {
+      "cue": "Move the older-dated case to the front of the shelf, in front of the case you just put away.",
+      "drag": {
+        "missNote": "Not at the front — the oldest date has to be the first thing a hand meets on this shelf, not buried behind the new case.",
+        "radius": 0.4,
+        "to": "front-shelf-socket"
+      },
+      "id": "rotate-fifo",
+      "kind": "drag",
+      "prompt": "Move the older-dated case to the front of the shelf, in front of the case you just put away.",
+      "target": "old-case",
+      "title": "Rotate stock to the front",
+      "why": "First in, first out only works if the oldest date is also the easiest one to reach. A newer case parked in front buries the one that needs to move first, and it sits there getting older until somebody finds it by smell."
+    },
+    {
+      "cue": "Read the unit's status panel and commit once it shows normal run, no alarm latched.",
+      "gauge": {
+        "green": [
+          0.1,
+          0.34
+        ],
+        "label": "COMPRESSOR STATUS",
+        "missNote": "Not a clean run — do not walk away from an alarm you have not read.",
+        "speed": 0.65
+      },
+      "id": "compressor-check",
+      "kind": "gauge",
+      "prompt": "Read the unit's status panel and commit once it shows normal run, no alarm latched.",
+      "target": "compressor-panel",
+      "title": "Read the compressor panel",
+      "why": "The compressor's own alarm is the earliest warning this cooler is losing the fight — before the thermometer drifts far enough to be obvious, before product is at risk. Reading it is part of leaving the room, not something that only matters if it happens to be beeping."
+    },
+    {
+      "cue": "Hold a steady walking pace through the doorway — no sprinting the threshold, no stalling in it.",
+      "holdBreakNote": "Speed out of band in the doorway — settle it and hold a steady pace through.",
+      "id": "cart-travel",
+      "kind": "track",
+      "prompt": "Hold a steady walking pace through the doorway — no sprinting the threshold, no stalling in it.",
+      "seconds": 6,
+      "target": "cart-handle",
+      "title": "Wheel the cart out",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "CART SPEED",
+        "rise": 0.55,
+        "start": 0.1
+      },
+      "why": "The doorway is the narrowest, most heavily used part of this room, shared with whoever opens the door next. A cart taken through at a steady pace is one that does not clip the frame or block the release path for the person behind you."
+    },
+    {
+      "cue": "Check the door and the cart before you go.",
+      "id": "final-walk",
+      "itemNames": {
+        "cart-parked-clear": "the parked cart",
+        "door-latch-check": "the door latch"
+      },
+      "itemNotes": {
+        "cart-parked-clear": "The cart is parked clear of the doorway and the release, not left where the next person has to climb around it to reach either one.",
+        "door-latch-check": "The door has latched fully — not resting against the frame, actually caught — which is what keeps this cooler at temperature until the next person opens it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the door and the cart before you go.",
+      "targets": [
+        "door-latch-check",
+        "cart-parked-clear"
+      ],
+      "title": "Walk the room before you leave",
+      "why": "The room is left the way the next person needs it: latched, clear doorway, release reachable. That habit is what makes the release-check at the start of this run someone else's easy five seconds instead of their emergency."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Opening check and a stocking run: inside release and light proven before the door closes, 41 °F confirmed, gasket and floor checked, raw-below-ready stocking, FIFO dates, a case lifted right, and the compressor alarm read",
+  "title": "SmartCiti.X~ Walk-In Cooler VR",
+  "trade": "Line cook / kitchen worker — cold storage",
+  "underwater": null,
+  "weather": null
+}

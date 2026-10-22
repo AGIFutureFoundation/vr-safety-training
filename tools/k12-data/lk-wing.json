@@ -1,0 +1,146 @@
+{
+  "id": "k12-lk-how-a-wing-lifts-an-aircraft",
+  "index": "967",
+  "prefix": "lkf",
+  "accent": "#5a8fd0",
+  "floor": ["#74787c", "#66696e"],
+  "wall": ["#e4e8ee", "#d0d6e0"],
+  "trade": "Science lesson on flight with an aircraft maintenance crew at a regional airport — learner and aircraft mechanic",
+  "header": "Lower-secondary science at a regional airport hangar like the one at New Iberia: the four forces on an aircraft, how a wing's shape and angle turn moving air into lift, and why mechanics check every control surface before flight, worked with a model wing in a small wind tunnel and a parked aircraft in the scene.",
+  "name": "How a Wing Lifts an Aircraft",
+  "tagline": "Lift, weight, thrust and drag — tilt the wing, feel the air push and see why mechanics check every hinge",
+  "badge": { "id": "wing-reader", "name": "Wing Reader", "note": "Balanced the four forces, found the angle that gives lift in the wind tunnel and walked round a parked aircraft with the mechanic" },
+  "board": { "name": "Flight Board", "currency": "UPDRAFTS", "ranks": ["Paper Plane", "Glider", "Trainer", "Airliner", "Wing Reader"] },
+  "hazards": [
+    { "id": "walk-under-a-propeller", "label": "Walk past the front of the propeller?", "face": "PAST\nPROP", "text": "You headed for the front of the propeller. A propeller can be hard to see when it spins, and even a still one should never be touched or walked in front of. On the apron, people walk only where the ground crew shows them, well away from propellers and engine intakes." },
+    { "id": "heavier-cannot-fly", "label": "Say something this heavy could never fly?", "face": "TOO\nHEAVY?", "text": "You said the aircraft is too heavy to fly. It is heavy, but its wings push a huge amount of air downward every second as it moves, and the air pushes the wings up just as hard. Enough speed and the right wing shape make lift greater than weight." },
+    { "id": "push-a-control-surface", "label": "Push a flap on the parked aircraft?", "face": "PUSH\nFLAP", "text": "You reached to push a flap. Control surfaces are set and checked by the mechanics, and a pushed flap can hide damage or catch a hand. Look with your eyes, and let the mechanic move and inspect them." },
+    { "id": "leave-a-pen-on-the-apron", "label": "Leave your pen on the apron?", "face": "DROP\nIT", "text": "You left a pen on the apron. Loose objects on the ground can be sucked into an engine or thrown by the wind from a propeller. Crews walk the apron looking for anything loose, so keep everything you carry in your pocket." }
+  ],
+  "find1": {
+    "title": "Find the four forces on the aircraft",
+    "cue": "Mark lift, weight and thrust on the model aircraft.",
+    "why": "Four forces act on every aircraft in flight. Lift pushes up and comes from the wings. Weight pulls down toward the ground. Thrust pushes forward and comes from the engines or propellers. Drag holds the aircraft back as it pushes through the air. The aircraft climbs, cruises or lands depending on which forces are stronger.",
+    "items": [
+      ["lift", "lift, pushing up on the wings", "Comes from air moving over the wings."],
+      ["weight", "weight, pulling down", "Gravity on the aircraft and its load."],
+      ["thrust", "thrust, pushing forward", "Comes from the propellers."]
+    ],
+    "decoy": ["sock", "the windsock on its pole", "It shows the wind on the field, not a force on the aircraft."]
+  },
+  "select1": {
+    "title": "Walk the painted path with the mechanic",
+    "cue": "Follow the aircraft mechanic along the painted walkway into the hangar.",
+    "why": "An airport apron is busy, with aircraft, tugs and fuel trucks moving about. Painted walkways show where people on foot are expected, so drivers and pilots know where to look for them. Staying on the path with the mechanic keeps the class where the ground crew can see everyone at all times.",
+    "key": "path-card",
+    "label": "Painted walkway",
+    "face": "WALK THE\nPATH"
+  },
+  "seq": {
+    "title": "Put the takeoff forces in order",
+    "cue": "Order what happens as the aircraft goes from standing still to climbing.",
+    "why": "Takeoff is a story about forces changing. The engines give thrust and the aircraft rolls faster down the runway. As its speed grows, air moves faster over the wings and lift grows. When lift becomes greater than weight, the wheels leave the ground. Then the pilot keeps enough thrust to beat drag and keep climbing.",
+    "oon": "Out of order. The engines give thrust first, before there is any speed or lift.",
+    "items": [
+      ["ord-thrust", "engines give thrust and it rolls"],
+      ["ord-speed", "speed builds down the runway"],
+      ["ord-lift", "lift grows bigger than weight"],
+      ["ord-climb", "the wheels lift and it climbs"]
+    ]
+  },
+  "hold": {
+    "title": "Hold the wing steady in the wind tunnel",
+    "cue": "Hold the model wing steady in the airflow until the lift scale settles.",
+    "why": "A wind tunnel blows air past a model so scientists can measure the forces on it. Holding the wing steady lets the lift reading settle to one value. If the wing wobbles, the reading jumps about and cannot be trusted. Engineers test wing shapes this way long before a real aircraft is built.",
+    "brk": "The wing wobbled and the reading jumped. Hold it steady again and wait.",
+    "key": "wing-hold",
+    "label": "Hold the wing steady"
+  },
+  "turn": {
+    "title": "Tilt the wing to find more lift",
+    "cue": "Turn the angle knob to tilt the wing's front edge up until the lift scale rises.",
+    "why": "Tilting the front of the wing up a little makes it push more air downward, so the air pushes the wing up harder. That tilt is called the angle of attack. Tilt it too far and the smooth airflow breaks away from the top of the wing and lift drops suddenly. Pilots and designers keep the angle in the safe range.",
+    "key": "angle-knob",
+    "label": "Angle knob",
+    "dial": "ANGLE"
+  },
+  "gauge": {
+    "title": "Read the lift on the scale",
+    "cue": "Commit when the marker sits at the reading on the wind tunnel's lift scale.",
+    "why": "The scale measures how hard the air pushes the model wing up. Reading it at each angle lets you compare one setting with another. That comparison is how you find the angle that gives the most lift before the airflow breaks away. Measuring, not guessing, is how engineers learn what a wing can do.",
+    "key": "lift-meter",
+    "label": "Lift reading",
+    "meter": "LIFT",
+    "miss": "Not at the reading yet. Read where the needle points on the scale."
+  },
+  "drag": {
+    "title": "Set the flap down for landing",
+    "cue": "Drag the model flap down to its landing position at the back of the wing.",
+    "why": "Flaps slide out and down from the back of the wing. They change the wing's shape so it makes more lift at slow speed, which lets the aircraft land gently on a runway of normal length. They also add drag to help slow it down. That is why mechanics check that every flap moves freely before each flight.",
+    "key": "flap",
+    "label": "Wing flap",
+    "spot": "flap-spot",
+    "spotLabel": "Landing position",
+    "miss": "Not at the landing position yet. Set the flap fully down."
+  },
+  "select2": {
+    "title": "Say why the aircraft can fly",
+    "cue": "Choose the sentence that explains how something so heavy gets off the ground.",
+    "why": "You saw lift grow with speed and with the wing's tilt. A good answer says that the moving wing pushes air downward and the air pushes the wing up, and when that lift is bigger than the weight, the aircraft rises. It uses the forces you measured and nothing more.",
+    "key": "result-card",
+    "label": "State why it flies",
+    "face": "WHY DOES\nIT FLY?"
+  },
+  "find2": {
+    "title": "Spot what the mechanic checks on the walk-round",
+    "cue": "Walk round the parked aircraft with the mechanic and mark the three things checked.",
+    "why": "Before every flight a mechanic walks all the way round the aircraft. Tyres must be in good shape for landing. Control surfaces must move freely and be undamaged. Covers on sensors and intakes must be taken off. A careful walk-round catches small problems on the ground, where they are easy and safe to fix.",
+    "items": [
+      ["tyre", "the main wheel tyre", "Must be ready for landing."],
+      ["aileron", "the aileron hinge", "Must move freely."],
+      ["cover", "the red cover on a sensor", "Must be removed before flight."]
+    ],
+    "decoy": ["logo", "the logo on the tail", "Nice paint, but not a safety check."]
+  },
+  "track": {
+    "title": "Follow the smoke over the wing",
+    "cue": "Keep the marker on the smoke trail as it flows over the top of the wing.",
+    "why": "A thin line of smoke in the wind tunnel shows exactly how the air moves. Over a working wing it curves smoothly along the top and leaves the back edge heading downward. That downward push of air is the partner of lift. If you tilt the wing too far, the smoke tears away into swirls, and you can see lift being lost.",
+    "brk": "The marker lost the smoke. Find the trail again and follow it over the wing.",
+    "key": "smoke-track",
+    "label": "Smoke followed",
+    "meter": "FOLLOW"
+  },
+  "record": {
+    "title": "Record lift at each angle",
+    "cue": "Write a line for a small tilt, a medium tilt and a steep tilt.",
+    "why": "A record of lift at three angles shows the pattern in one glance: more tilt gives more lift, until too much tilt makes it fall away. A simple table like this is what test engineers build from wind tunnel runs, and pilots learn the same pattern so they never tilt too far.",
+    "key": "lift-log",
+    "label": "Lift table",
+    "done": "Lift table written"
+  },
+  "share": {
+    "title": "Show your table to the mechanic",
+    "cue": "Hand your lift table to the mechanic and point to the angle where lift fell away.",
+    "why": "Showing your results to someone who works with aircraft every day is a real test. The mechanic can tell you whether your pattern matches what happens on a real wing. Mechanics sign their work so the next person can trust it, and your table is your own signed record.",
+    "key": "share-board",
+    "label": "Show the table",
+    "done": "Table shown"
+  },
+  "checkin": {
+    "title": "Check in at the hangar door",
+    "cue": "Name the four forces. What happens if the wing is tilted too far?",
+    "why": "The mechanic ends the visit by asking what stuck. Each learner names the forces and says what a too-steep tilt does to the airflow. If anyone still thinks a heavy aircraft simply cannot fly, the class talks it through at the door.",
+    "label": "Hangar door check-in"
+  },
+  "interrupts": [
+    { "id": "a-tug-backs-out-of-the-hangar", "kind": "Ground traffic", "key": "stand-clear", "label": "Stand on the walkway and wait", "alert": "A tug starts to back an aircraft out through the hangar door.", "cue": "Stand still on the painted walkway and wait until the tug and aircraft are clear.", "why": "A tug driver pushing an aircraft backward cannot see everything behind the wings. Staying still on the walkway keeps you where the wing walker and driver expect people to be. Ground crews stop and wait for moving aircraft every day.", "miss": "The class kept walking toward the door as the aircraft came out. When a tug moves an aircraft, stop behind the painted line and let the wing walker wave you on.", "wrong": "That puts the class in the aircraft's path. Stand still on the walkway. Choose the response that deals with it now.", "done": "Class on the walkway, the aircraft rolled clear. The lesson carries on." },
+    { "id": "the-mechanic-asks-about-the-flaps", "kind": "Crew question", "key": "name-flaps", "label": "Say flaps add lift at slow speed", "alert": "The mechanic asks why the flaps come down before landing.", "cue": "Say the flaps change the wing's shape to give more lift at slow speed.", "why": "Landing means flying slowly, and slow air gives less lift. Flaps make up for it. Knowing that shows why a stuck flap is something the mechanic will always fix before flight.", "miss": "You could not say what the flaps do, and the mechanic explained before the class went on.", "wrong": "That does not explain the flaps. Say what they do at slow speed. Choose the response that deals with it now.", "done": "Flaps explained. The lesson carries on." }
+  ],
+  "crew": ["Science teacher", "Classmate", "Aircraft mechanic", "Ground crew wing walker"],
+  "guide": { "start": "Walk the painted path with the mechanic.", "after": "More speed and the right tilt give more lift.", "hazard": "Stop. Stay clear of the propeller." },
+  "lateRecord": "The lift table is written once you have tested the angles — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the end, by the hangar door.",
+  "scene": "lab",
+  "order": "a"
+}

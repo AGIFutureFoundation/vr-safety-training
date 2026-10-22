@@ -1,0 +1,69 @@
+{
+  "id": "union-umwa",
+  "kind": "union",
+  "name": "UMWA Union Package",
+  "title": "SmartCiti.X UMWA Union Package — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Every station the platform ties to United Mine Workers of America: the programmes whose union line names it and the stations whose own certification does.",
+  "certification": null,
+  "programmes": [
+    "mill-and-mine"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "mm-conveyor-fire-and-gas-monitoring"
+    },
+    {
+      "app": "smartcity",
+      "id": "mm-haul-truck-berm"
+    },
+    {
+      "app": "smartcity",
+      "id": "mm-mine-escapeway-drill"
+    },
+    {
+      "app": "smartcity",
+      "id": "mm-continuous-miner-face"
+    },
+    {
+      "app": "smartcity",
+      "id": "mm-paper-machine-dryer"
+    },
+    {
+      "app": "smartcity",
+      "id": "mm-coke-oven-heat-rotation"
+    },
+    {
+      "app": "smartcity",
+      "id": "mm-ladle-pour"
+    },
+    {
+      "app": "smartcity",
+      "id": "mm-hot-strip-mill-stand"
+    }
+  ],
+  "unions": [
+    "umwa"
+  ],
+  "unionLine": "United Mine Workers of America",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [],
+  "stationNames": {
+    "mm-conveyor-fire-and-gas-monitoring": "Conveyor Belt Fire & Gas Monitoring",
+    "mm-haul-truck-berm": "Haul Truck Berm & Dump Point",
+    "mm-mine-escapeway-drill": "Mine Escapeway & Self-Rescuer Drill",
+    "mm-continuous-miner-face": "Continuous Miner Face",
+    "mm-paper-machine-dryer": "Paper Machine Dryer Section",
+    "mm-coke-oven-heat-rotation": "Coke Oven Heat Rotation",
+    "mm-ladle-pour": "Ladle Pour",
+    "mm-hot-strip-mill-stand": "Hot-Strip Mill Stand"
+  },
+  "version": "1.0.0",
+  "contentHash": "0d62ac3b",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

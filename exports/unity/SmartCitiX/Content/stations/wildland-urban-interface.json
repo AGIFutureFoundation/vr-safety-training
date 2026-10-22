@@ -1,0 +1,430 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "structure-held",
+    "name": "Structure Held",
+    "note": "A defensible structure prepped against embers, the trigger point respected, and the pull-out called the instant conditions changed"
+  },
+  "category": "Emergency Services",
+  "certification": "IAFF — NFPA 1500 fire department occupational safety and health and its LCES doctrine for wildland operations, NFPA 1140 standard for wildland fire protection in the built environment, NFPA 1977 protective ensembles for wildland fire fighting, OSHA 29 CFR 1910.156 fire brigades, NWCG wildland fire behaviour and structure triage guidance, and NIMS/ICS through FEMA IS-100 for the evacuation authority a sheriff's deputy is carrying on this road",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "FEMA",
+        "citedAs": "FEMA IS-100",
+        "id": "fema-is-courses",
+        "title": "FEMA Emergency Management Institute IS-100 and IS-700 independent-study courses in ICS and NIMS"
+      },
+      {
+        "body": "union",
+        "citedAs": "IAFF",
+        "id": "iaff-training",
+        "title": "IAFF training programmes, including Fire Ground Survival and the peer support model"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 1140",
+        "id": "nfpa-1140",
+        "title": "NFPA 1140 — Standard for Wildland Fire Protection"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 1500",
+        "id": "nfpa-1500",
+        "title": "NFPA 1500 — Fire Department Occupational Safety, Health and Wellness Program"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 1977",
+        "id": "nfpa-1977",
+        "title": "NFPA 1977 — Protective Clothing and Equipment for Wildland Fire Fighting"
+      },
+      {
+        "body": "NIMS/ICS",
+        "citedAs": "ICS",
+        "id": "nims-ics",
+        "title": "NIMS incident command system — the structure a multi-agency response runs inside"
+      },
+      {
+        "body": "NWCG",
+        "citedAs": "NWCG",
+        "id": "nwcg-wildland-training",
+        "title": "NWCG wildland firefighter training (S-130/S-190) and the Incident Response Pocket Guide"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.156",
+        "id": "osha-1910-156",
+        "title": "29 CFR 1910.156 — Fire brigades"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Emergency Services",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "lces-first",
+        "name": "LCES First",
+        "note": "Lookouts, communications, escape routes and safety zone all named before anything else moved"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcut",
+        "note": "No unsafe action anywhere in the run"
+      },
+      {
+        "id": "trigger-respected",
+        "name": "Trigger Respected",
+        "note": "The pull-out called the instant the trigger point was met, not after the hose lay was finished"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-defense",
+        "name": "Clean Defense",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "prep-held",
+        "name": "Prep Held",
+        "note": "Every timed task carried its full duration, no early release"
+      },
+      {
+        "id": "prep-fast",
+        "name": "Prep Fast",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "DEFENSE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Wildland Crew",
+      "Engine Boss",
+      "Strike Team Leader",
+      "Division Supervisor",
+      "WUI Certified"
+    ],
+    "system": "Structure Group"
+  },
+  "hazards": {
+    "hose-lay-blocking-escape": "The hose line was laid straight across the driveway — the crew's own primary way out. A structure-protection line that blocks the escape route trades a defended house for a crew with nowhere to drive if the trigger point is called in the next five minutes, and that trade is never the right one.",
+    "remove-resident-forcibly": "You reached to physically move the resident toward the vehicle. Nobody on this crew has the legal authority to lay hands on a resident and force them off their own property — that authority belongs to the sheriff's deputy standing at the roadblock, and reaching for it yourself turns a refusal into a confrontation nobody needed.",
+    "unauthorized-burnout": "You picked up the drip torch to burn out the brush yourself. A tactical burnout changes where and how a fire spreads across the whole division, and lighting one without it being called and coordinated through command can put fire into a crew, a safety zone or an escape route that nobody signed off on it moving toward.",
+    "wood-pile-against-wall": "The stacked firewood is still touching the siding. A pile of split wood against the wall is not a detail to leave for later — it is a ladder fuel that carries an ember bed's heat straight into the structure's own skin, and every other piece of ember-resistant prep on this house means nothing while it is still there."
+  },
+  "id": "wildland-urban-interface",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hose-lay",
+      "alert": "The wind just swung and picked up past the number this crew agreed on — the lookout is calling the trigger point, right now.",
+      "cue": "Call the pull-out. The hose lay does not get finished.",
+      "delay": 3,
+      "id": "wind-shift-trigger",
+      "kind": "Wind shift — trigger point met",
+      "missNote": "The hose lay got finished before anybody kept moving toward the pull-out call. Whatever the fire did with the extra minutes the crew spent finishing it, that time was never actually available to spend once the trigger point was met.",
+      "seconds": 13,
+      "target": "pullout-radio",
+      "why": "The entire point of setting a trigger point before conditions changed was to make this exact moment not a debate — the wind crossed the agreed threshold, and the correct response is the radio call that pulls the crew out, not five more minutes finishing a hose lay that already has to be abandoned if the fire behaviour keeps moving the way this wind says it will.",
+      "wrongNote": "It is the pull-out call, not the hose in your hands — the trigger point was met, and finishing the lay was never the option once it was."
+    },
+    {
+      "after": "resident-refusal",
+      "alert": "The resident who just left is coming back through the roadblock on foot, saying she forgot the dog.",
+      "cue": "Intercept her calmly before she reaches the structure — this is the deputy's call to make, not a door to let her back through.",
+      "delay": 3,
+      "id": "resident-returns-for-pet",
+      "kind": "Resident back through the roadblock",
+      "missNote": "She reached the yard before anyone stopped her. A crew mid-prep on ember-resistant work now has an unplanned civilian on a property with an open propane valve, exposed vents and a hose lay in progress, on top of everything else the trigger point is about to ask of them.",
+      "seconds": 12,
+      "target": "roadblock-intercept",
+      "why": "A resident coming back for a pet is acting on real love for that animal, not defiance, and the response that respects both her and the operation is the same one as before — calm, and routed through the roadblock's actual authority — rather than either letting her walk back into a structure the crew is actively prepping for embers or meeting her with anything that reads as hostile.",
+      "wrongNote": "It is the resident at the roadblock, not the prep in front of you — intercept her calmly before she reaches the structure."
+    }
+  ],
+  "lateNotes": {},
+  "name": "Wildland-Urban Interface",
+  "parSeconds": 310,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "first-responders"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "clear-drop-zone",
+      "clearance-tape",
+      "comms-check",
+      "crew-checkin-board",
+      "defer-to-sheriff",
+      "escape-routes-marked",
+      "gutter-debris",
+      "hose-coil",
+      "hose-lay-blocking-escape",
+      "hose-socket",
+      "log-prep",
+      "log-triage",
+      "log-trigger",
+      "lookout-posted",
+      "needle-choked-gutter",
+      "open-attic-vent",
+      "porch-lantern",
+      "propane-valve",
+      "pullout-radio",
+      "remove-resident-forcibly",
+      "roadblock-intercept",
+      "safety-zone-marked",
+      "triage-defensible",
+      "trigger-board",
+      "unauthorized-burnout",
+      "vent-screen",
+      "vent-socket",
+      "weather-board",
+      "welcome-mat-fiber",
+      "wind-meter",
+      "wood-pile-against-wall"
+    ],
+    "meshes": 244
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Lookouts, communications, escape routes, safety zone — name all four before the crew touches the structure.",
+      "id": "declare-lces",
+      "itemNames": {
+        "comms-check": "communications checked",
+        "escape-routes-marked": "escape routes marked",
+        "lookout-posted": "lookout posted",
+        "safety-zone-marked": "safety zone marked"
+      },
+      "itemNotes": {
+        "comms-check": "Radio checked with command and with the lookout, on the same channel, before anybody's attention goes onto the structure.",
+        "escape-routes-marked": "Two ways off this property, not one — a single route is a route that stops being an option the moment it is blocked.",
+        "lookout-posted": "Someone whose only job right now is watching the fire and the wind, with a clear line of sight neither the crew nor the smoke will block."
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Lookout, then comms, then escape routes, then the safety zone — naming the safety zone before the escape routes are marked leaves the crew a place to run to with no agreed way of getting there.",
+      "prompt": "Lookouts, communications, escape routes, safety zone — name all four before the crew touches the structure.",
+      "targets": [
+        "lookout-posted",
+        "comms-check",
+        "escape-routes-marked",
+        "safety-zone-marked"
+      ],
+      "title": "Call LCES before anything else moves",
+      "why": "LCES is not a checklist to close out once the real work starts — it is the condition the real work happens inside, because a crew that has not named its escape routes and safety zone yet is a crew discovering them for the first time at the exact moment it no longer has time to. Naming all four, in order, before the first vent is checked is what makes every step after this one a job worked with an out, not a job worked hoping one exists."
+    },
+    {
+      "cue": "Check the spot forecast: wind direction, relative humidity, and which way the fire is expected to run.",
+      "id": "weather-brief",
+      "kind": "select",
+      "prompt": "Check the spot forecast: wind direction, relative humidity, and which way the fire is expected to run.",
+      "target": "weather-board",
+      "title": "Read the fire-behaviour and weather update",
+      "why": "Everything the crew is about to commit to this structure is a bet against what the fire does in the next hour, and the spot weather forecast is the best information anybody has about that bet before conditions actually change. A crew that skips the briefing is prepping a structure against the fire behaviour from an hour ago, not the one that is coming."
+    },
+    {
+      "cue": "Run the clearance tape from the structure to the nearest continuous fuel and commit the distance.",
+      "gauge": {
+        "green": [
+          0.55,
+          0.8
+        ],
+        "label": "CLEARANCE",
+        "missNote": "That clearance is short of what NWCG's guidance treats as defensible — this structure may not be one this crew can commit to holding.",
+        "speed": 0.7
+      },
+      "id": "assess-defensible-space",
+      "kind": "gauge",
+      "prompt": "Run the clearance tape from the structure to the nearest continuous fuel and commit the distance.",
+      "target": "clearance-tape",
+      "title": "Measure the defensible space",
+      "why": "Defensible space is a measured distance, not an impression from the driveway — NWCG's structure triage guidance sets a clearance a crew can actually defend inside, and a house that looks fine from the road can still have brush crowding the wall on the side nobody drove past. The tape is what turns triage from a guess into a number the next step can act on."
+    },
+    {
+      "cue": "Given the clearance just measured and the roof and siding materials, call this structure defensible and commit to prepping it.",
+      "id": "triage-call",
+      "kind": "select",
+      "prompt": "Given the clearance just measured and the roof and siding materials, call this structure defensible and commit to prepping it.",
+      "target": "triage-defensible",
+      "title": "Call the structure defensible",
+      "why": "Triage is the decision that everything else in this station depends on: a crew commits real time and a real hose lay to a structure only after deciding, on stated criteria, that the structure can actually be held — not because it is somebody's home, and not because walking away from it feels wrong. The same clearance and the same roofing on a structure the wind is about to put fire directly into would be called the other way."
+    },
+    {
+      "cue": "Walk the structure and click every point an ember could catch and hold — three of them are here.",
+      "decoyNotes": {
+        "porch-lantern": "The porch light is not a fuel bed — leave it, the find is for what an ember can catch on, not every object on the porch."
+      },
+      "id": "ember-hazard-find",
+      "itemNames": {
+        "needle-choked-gutter": "gutter packed with dry needles",
+        "open-attic-vent": "unscreened attic vent",
+        "welcome-mat-fiber": "fibre doormat at the entry"
+      },
+      "itemNotes": {
+        "needle-choked-gutter": "A gutter packed with dry needles is a fuel bed sitting right at the roofline, exactly where wind-blown embers land first.",
+        "open-attic-vent": "An open vent with no ember-resistant screen is a direct path into the attic space — embers do not need a flame front to get inside, only a gap.",
+        "welcome-mat-fiber": "A synthetic-fibre mat at the front door is a small, forgettable thing that catches an ember exactly like the gutter does, right at the threshold."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the structure and click every point an ember could catch and hold — three of them are here.",
+      "targets": [
+        "open-attic-vent",
+        "needle-choked-gutter",
+        "welcome-mat-fiber"
+      ],
+      "title": "Find what an ember can catch on",
+      "why": "A house rarely burns because flame reaches it directly at a WUI fire; it burns because embers thrown well ahead of the front find someplace to catch and hold — a vent, a gutter, a mat — and turn a near-miss into a structure fire an hour after the front has already passed. Finding those points before the front arrives is the entire logic of ember-resistant prep."
+    },
+    {
+      "cue": "Carry the ember-resistant screen from the kit and seat it over the open vent.",
+      "drag": {
+        "missNote": "Not seated over the vent — a screen sitting beside the opening stops nothing that flies through it.",
+        "radius": 0.5,
+        "to": "vent-socket"
+      },
+      "id": "vent-cover",
+      "kind": "drag",
+      "prompt": "Carry the ember-resistant screen from the kit and seat it over the open vent.",
+      "target": "vent-screen",
+      "title": "Screen the attic vent",
+      "why": "A quarter-inch mesh screen is a small piece of metal that does the one job that matters here: it stops an ember from ever reaching the dry lumber and insulation on the other side of that opening, which a crew standing outside with a hose cannot do once fire is already inside the attic."
+    },
+    {
+      "cue": "Pull the packed needles out of the gutter and drop them well clear of the structure.",
+      "drag": {
+        "missNote": "Dropped too close to the house — debris pulled from the gutter still has to land somewhere that is not another fuel bed against the wall.",
+        "radius": 0.6,
+        "to": "clear-drop-zone"
+      },
+      "id": "gutter-clear",
+      "kind": "drag",
+      "prompt": "Pull the packed needles out of the gutter and drop them well clear of the structure.",
+      "target": "gutter-debris",
+      "title": "Clear the gutter",
+      "why": "Clearing the gutter is not tidiness — it removes a fuel bed sitting at the roofline, right where wind-blown embers are most likely to land, so there is nothing there to catch when they do."
+    },
+    {
+      "cue": "Turn the tank valve fully closed.",
+      "id": "propane-shutoff",
+      "kind": "turn",
+      "prompt": "Turn the tank valve fully closed.",
+      "target": "propane-valve",
+      "title": "Shut the propane tank",
+      "turn": {
+        "axis": "z",
+        "label": "PROPANE",
+        "turns": 1
+      },
+      "why": "A propane tank with fire impinging on it is not a fuel source waiting to be a problem later — it is a pressure vessel, and shutting it off before the front arrives is one of the few single actions on this property that removes an entire category of failure rather than reducing its odds."
+    },
+    {
+      "cue": "Stretch the line around the exposed side of the structure — clear of the driveway the crew is parked in.",
+      "drag": {
+        "missNote": "Short of the structure — a hose lay that does not reach the exposed side is not protecting it yet.",
+        "radius": 0.55,
+        "to": "hose-socket"
+      },
+      "id": "hose-lay",
+      "kind": "drag",
+      "prompt": "Stretch the line around the exposed side of the structure — clear of the driveway the crew is parked in.",
+      "target": "hose-coil",
+      "title": "Lay the structure protection line",
+      "why": "The line is laid to reach the side of the structure the wind is going to push fire toward, and it is laid specifically clear of the driveway because that driveway is the escape route named at LCES — a hose lay that crosses it is a hose lay the crew has to run through, or around, if the trigger point is called in the next few minutes."
+    },
+    {
+      "cue": "Check the handheld anemometer and commit the current wind speed.",
+      "gauge": {
+        "green": [
+          0.1,
+          0.4
+        ],
+        "label": "WIND SPEED",
+        "missNote": "That reading is into the range the trigger point was set against — this is the moment to be watching for the call, not past it.",
+        "speed": 0.72
+      },
+      "id": "wind-monitor",
+      "kind": "gauge",
+      "prompt": "Check the handheld anemometer and commit the current wind speed.",
+      "target": "wind-meter",
+      "title": "Read the wind",
+      "why": "Wind is the number that can turn this whole plan over in minutes — every trigger point the crew just agreed to is stated in terms of what the wind does, and a live reading, taken and re-taken, is what actually catches a shift before it shows up as fire behaviour instead of a number on a gauge."
+    },
+    {
+      "cue": "Read the trigger-point board out loud to the crew: the wind speed, the fire-behaviour sign and the time that call the pull-out.",
+      "id": "trigger-brief",
+      "kind": "select",
+      "prompt": "Read the trigger-point board out loud to the crew: the wind speed, the fire-behaviour sign and the time that call the pull-out.",
+      "target": "trigger-board",
+      "title": "Confirm the trigger points",
+      "why": "A trigger point agreed on before conditions change is a decision the whole crew already made together, with time to think, rather than one somebody has to make alone in the ten seconds after the wind shifts. Said out loud, it also means every member of the crew calls the same pull-out at the same threshold, instead of five people individually deciding whether now is the moment."
+    },
+    {
+      "cue": "The homeowner is refusing to leave. Stay calm, and bring the sheriff's deputy at the roadblock into the conversation.",
+      "id": "resident-refusal",
+      "kind": "select",
+      "prompt": "The homeowner is refusing to leave. Stay calm, and bring the sheriff's deputy at the roadblock into the conversation.",
+      "target": "defer-to-sheriff",
+      "title": "Hand the refusal to the authority that can act on it",
+      "why": "This crew's job is structure defence, not law enforcement, and nothing about being a firefighter gives anybody here the authority to order a resident off their own property — the deputy at the roadblock is carrying an evacuation order that actually has legal force, and involving them, calmly and without judgment, is what gets a resident moved without the crew stepping outside what it is actually allowed to do."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Write the triage call, the prep completed and the trigger points into the structure-defence log.",
+      "id": "op-log",
+      "itemNames": {
+        "log-prep": "ember prep logged",
+        "log-triage": "triage decision logged",
+        "log-trigger": "trigger points logged"
+      },
+      "kind": "sequence",
+      "prompt": "Write the triage call, the prep completed and the trigger points into the structure-defence log.",
+      "targets": [
+        "log-triage",
+        "log-prep",
+        "log-trigger"
+      ],
+      "title": "Log the operation",
+      "why": "The log is what lets the division supervisor, and whoever holds this line after this crew rotates out, know exactly what was checked, what was done and at what wind speed this crew agreed to leave — without it, the next crew is re-deciding all three from scratch on a structure that already answered them."
+    },
+    {
+      "cue": "Ask how the crew is doing with the resident's refusal and the call they just made — not just whether the prep is done.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Ask how the crew is doing with the resident's refusal and the call they just made — not just whether the prep is done.",
+      "target": "crew-checkin-board",
+      "title": "Check in with the crew",
+      "why": "Being told no by a resident who is frightened, and then handing that off to law enforcement, sits with people differently than a hose lay does, and the department's peer-support line exists for exactly that kind of weight as much as it does for anything seen on the fireground. Asking the question and recording the answer is what keeps that part of the job from going unspoken."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Structure defence at a WUI fire: LCES first, the structure triaged, ember-resistant prep, the trigger points and the pull-out call, a live wind and fire-behaviour read, and a resident who will not leave handled with respect and the sheriff's authority",
+  "title": "SmartCiti.X~ Wildland-Urban Interface VR",
+  "trade": "Firefighter — IAFF",
+  "underwater": null,
+  "weather": "wind"
+}

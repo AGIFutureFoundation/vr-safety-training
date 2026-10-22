@@ -1,0 +1,404 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clean-core",
+    "name": "Clean Core",
+    "note": "A full, capped, labelled core from a clear spot, the bailout used without a pause and never a bare hand in the mud"
+  },
+  "category": "Maritime & Ports",
+  "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.422 procedures during the dive (communications, termination of the dive), 29 CFR 1910.425 surface-supplied air diving (the reserve breathing gas and the standby) and 29 CFR 1910.420 the employer's safe practices manual; ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan; the sediment handled per the sampling and work plans",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADCI",
+        "citedAs": "ADCI",
+        "id": "adci-consensus-standards",
+        "title": "Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations"
+      },
+      {
+        "body": "union",
+        "citedAs": "Pile Drivers",
+        "id": "carpenters-ictf",
+        "title": "United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.420",
+        "id": "osha-1910-420",
+        "title": "29 CFR 1910.420 — Safe practices manual (the employer's written procedures for each diving mode, the dive team's duties and emergency procedures)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.422",
+        "id": "osha-1910-422",
+        "title": "29 CFR 1910.422 — Procedures during the dive (water entry and exit, communications, decompression tables, power tools, termination of the dive)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.425",
+        "id": "osha-1910-425",
+        "title": "29 CFR 1910.425 — Surface-supplied air diving (limits, the tended diver, the standby diver and the reserve breathing gas)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910 Subpart T",
+        "id": "osha-1910-subpart-t",
+        "title": "29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 197 Subpart B",
+        "id": "uscg-46-cfr-197-subpart-b",
+        "title": "46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction"
+      }
+    ]
+  },
+  "district": "bay-underwater",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "spot-cleared",
+        "name": "Spot Cleared",
+        "note": "The cable and the buried metal found before the tube came off the rack"
+      },
+      {
+        "id": "recovery-read",
+        "name": "Recovery Read",
+        "note": "The core's recovery committed inside the band first time"
+      },
+      {
+        "id": "sealed-and-clear",
+        "name": "Sealed And Clear",
+        "note": "Never over the cable, never a bare hand, never kneeling in the mud, never a lift bag on the rack"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-sampling",
+        "name": "Clean Sampling",
+        "note": "No corrections from the on-bottom report to the core log"
+      },
+      {
+        "id": "steady-push",
+        "name": "Steady Push",
+        "note": "The core pushed in band the whole way"
+      },
+      {
+        "id": "sampled-in-time",
+        "name": "Sampled In Time",
+        "note": "Core log read up inside 80% of par"
+      }
+    ],
+    "currency": "CORE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Diver Trainee",
+      "Diver",
+      "Sampling Diver",
+      "Lead Sampling Diver",
+      "Core Sampling Certified"
+    ],
+    "system": "Core Sampling"
+  },
+  "hazards": {
+    "bare-hand-sediment": "You pulled a glove off to wipe the mud off the tube. The sediment at a restoration site is sampled because it may hold legacy contamination, and a bare hand in it is exposure through the skin and through every cut — the diver wears a sealed helmet and a drysuit so that none of it touches them. The glove stays on; the tube is wiped at the surface in the decon.",
+    "core-over-cable": "You set the tube up over the line of the submarine cable because the silt was softer there. A cable crossing a sampling site can carry power, and a core tube or a probe driven into its armour is at best a damaged cable and at worst a diver in contact with it. The site walk found the warning post for a reason: the core goes where the plan and the cable's clearance allow, not where the mud is easiest.",
+    "kneel-in-sediment": "You went to kneel in the mud to get your weight over the core. Kneeling drives the suit into the sediment, lifts a plume that drifts over the next core spot and over you, and smears the contamination over the knees and the harness that the tender will handle. The push comes from the handle, standing off the bottom, with the diver's weight on the fins.",
+    "lift-bag-rack": "You reached for a lift bag to float the loaded rack up faster. A lift bag filled on the bottom accelerates as it rises and its air expands, it can take the rack to the surface uncontrolled — into the hull of the dive boat or back down on the diver — and a snag on the diver's harness takes the diver with it. The rack goes up the downline on its clip, where the tender controls it."
+  },
+  "id": "br-underwater-sediment-core-sampling",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "push-core",
+      "alert": "Your next breath does not come — the helmet's regulator gives nothing on the inhale and the supervisor's voice says the primary has dropped.",
+      "cue": "Open your bailout valve on the harness, tell the supervisor you are on bailout, and leave the core.",
+      "delay": 2,
+      "id": "supply-stops",
+      "kind": "Primary gas supply lost",
+      "missNote": "You kept pushing the core on an empty breath; by the time you reached for the bailout you were short of gas and the supervisor had already sent the standby down the downline.",
+      "seconds": 12,
+      "target": "bailout-valve",
+      "why": "The bailout bottle is there for the moment the surface supply stops, and it is opened by feel, on the harness, without thinking — the diver's hand has found that valve on every pre-dive check. Once on bailout the diver tells the supervisor, leaves the work where it is and heads for the downline while the supervisor switches the panel to the secondary; 29 CFR 1910.425 puts that reserve gas and the standby at the station for exactly this.",
+      "wrongNote": "The bailout valve on your harness — gas first, then the supervisor, then the downline."
+    },
+    {
+      "after": "draw-core",
+      "alert": "The strobe on the downline is flashing and the supervisor is calling you back: fog has come in over the site and a vessel is inbound — leave the work and come to the downline.",
+      "cue": "Leave the rack where it is and get a hand on the downline, then tell the supervisor you are on it.",
+      "delay": 2,
+      "id": "recall",
+      "kind": "Supervisor recalls the diver",
+      "missNote": "You kept drawing the core out and racking it while the strobe flashed; the supervisor, with a vessel inbound in the fog, spent those minutes not knowing where on the bottom you were.",
+      "seconds": 14,
+      "target": "downline-hand",
+      "why": "29 CFR 1910.422 has the dive terminated when the supervisor calls it, and a recall is not a request to finish the core first: the conditions at the surface that made the call are ones the diver cannot see. Getting a hand on the downline puts you where the surface expects you, ready to come up or to wait out the vessel, and the samples can be recovered on the next dive.",
+      "wrongNote": "The downline — a recall means a hand on the downline now, not after the core."
+    }
+  ],
+  "lateNotes": {
+    "core-log": "The core log is read up once the rack has gone up the downline.",
+    "core-push": "The core is pushed once the tube is standing at a clear spot — not before the site walk has found what is under the silt.",
+    "core-recovery": "The recovery is read once the core is out and capped at both ends."
+  },
+  "name": "Underwater Sediment Core Sampling",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-restoration-maritime-underwater"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bailout-valve",
+      "bare-hand-sediment",
+      "buried-metal",
+      "cable-crossing",
+      "cap-bottom",
+      "cap-top",
+      "core-label",
+      "core-log",
+      "core-over-cable",
+      "core-push",
+      "core-recovery",
+      "core-spot",
+      "core-tube",
+      "diver-comms",
+      "downline-clip",
+      "downline-hand",
+      "draw-core",
+      "glove-tear",
+      "kneel-in-sediment",
+      "lift-bag-rack",
+      "neck-dam-mud",
+      "rack-latch",
+      "sample-rack",
+      "stage-checkin"
+    ],
+    "meshes": 191
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Call the supervisor: on the bottom at the station marker, feeling good, the visibility and the current as you find them, and the station number read off the marker.",
+      "id": "on-bottom",
+      "kind": "select",
+      "prompt": "Call the supervisor: on the bottom at the station marker, feeling good, the visibility and the current as you find them, and the station number read off the marker.",
+      "target": "diver-comms",
+      "title": "Report on the bottom at the sampling station",
+      "why": "A sediment sample is worth nothing unless it came from the station the sampling plan named, so the report includes the number off the marker as well as how you are and what the water is doing. The supervisor logs it against the plan, the clock starts on the dive, and the report doubles as the comms check on the bottom — the voice circuit proven where the work is before anything is pushed into the mud."
+    },
+    {
+      "cue": "Look along the bottom round the plan's spot for crossings, posts and anything buried: cables, pipes, debris.",
+      "id": "clear-spot",
+      "itemNames": {
+        "buried-metal": "sheet of corrugated metal just under the silt at the plan's spot",
+        "cable-crossing": "submarine cable crossing the site under its warning post"
+      },
+      "itemNotes": {
+        "buried-metal": "A hand fanned lightly over the plan's spot finds the edge of a corrugated sheet just under the silt. A tube pushed there stops on it, and its edge is a cut for a glove.",
+        "cable-crossing": "A warning post stands over an armoured cable half-buried across the site. Whatever it carries, nothing is driven into the bottom along its line."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look along the bottom round the plan's spot for crossings, posts and anything buried: cables, pipes, debris.",
+      "targets": [
+        "cable-crossing",
+        "buried-metal"
+      ],
+      "title": "Walk the core site for what is under the silt",
+      "why": "The sampling plan puts the station on a chart, but the chart does not show the cable that was laid since or the sheet of metal a storm dropped there. A tube or a probe driven into a cable is a damaged utility at best and a diver in contact with it at worst, and a tube pushed onto buried debris gives a short, disturbed core that is not a sample of anything. The site is walked first so the core goes where it is safe and meaningful."
+    },
+    {
+      "cue": "Take a clean tube from the sample rack, handle fitted, and stand it upright on the marked clear spot inside the station, away from the cable's line and the metal.",
+      "drag": {
+        "missNote": "Not on the clear spot — stand the tube on the marked spot, clear of the cable and the metal.",
+        "radius": 0.5,
+        "to": "core-spot"
+      },
+      "id": "place-tube",
+      "kind": "drag",
+      "prompt": "Take a clean tube from the sample rack, handle fitted, and stand it upright on the marked clear spot inside the station, away from the cable's line and the metal.",
+      "target": "core-tube",
+      "title": "Carry a tube from the rack to a clear spot",
+      "why": "The tube comes off the rack clean and capped until it is used, so nothing on it but the core reaches the laboratory. It is stood on a spot the site walk cleared and the plan still allows, because moving the station to wherever the mud is soft changes what is being sampled — and the supervisor needs to record the offset if it moves at all."
+    },
+    {
+      "cue": "Push down on the coring handle at a steady rate, the tube vertical, your weight on your fins and off the bottom — no twisting, no bouncing.",
+      "holdBreakNote": "The push went out of band — forcing it or stalling. Ease back and bring it down steadily again.",
+      "id": "push-core",
+      "kind": "track",
+      "prompt": "Push down on the coring handle at a steady rate, the tube vertical, your weight on your fins and off the bottom — no twisting, no bouncing.",
+      "seconds": 6,
+      "target": "core-push",
+      "title": "Push the core in steadily, keeping it vertical",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "CORE PUSH",
+        "rise": 0.56,
+        "start": 0.14
+      },
+      "why": "A push core is a record of the sediment layer by layer, and it only stays a record if the tube goes in steadily and straight: twisting smears the layers into each other, bouncing compacts them and a tube pushed at an angle takes a longer, distorted core. Pushing from the handle with your weight on the fins keeps you off the contaminated bottom and keeps the plume down, and the pace is set by the mud, not by the bottom time."
+    },
+    {
+      "cue": "Press the top cap on the tube while it is still in the mud, then dig out beside it with a gloved hand and slide the bottom cap on as it comes free.",
+      "id": "cap-core",
+      "itemNames": {
+        "cap-bottom": "bottom dug out beside the tube and capped",
+        "cap-top": "top cap pressed on the tube before it is moved"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — cap the top first so the suction holds the core in while you free the bottom.",
+      "prompt": "Press the top cap on the tube while it is still in the mud, then dig out beside it with a gloved hand and slide the bottom cap on as it comes free.",
+      "targets": [
+        "cap-top",
+        "cap-bottom"
+      ],
+      "title": "Cap the top, then dig out and cap the bottom",
+      "why": "The top cap goes on first because it seals the tube and the suction then holds the core in while the bottom is dug out; a tube lifted open at the top drops its core back onto the bottom on the way out. The bottom cap follows as the tube clears the mud, so the core is sealed at both ends before it has moved more than a hand's width."
+    },
+    {
+      "cue": "Rock the capped tube gently and draw it out of the mud slowly, keeping it upright and holding it steady until it is clear and the plume has settled.",
+      "holdBreakNote": "You let the core tip before it was clear — the layers would slump. Bring it back upright and draw it out slowly again.",
+      "id": "draw-core",
+      "kind": "hold",
+      "prompt": "Rock the capped tube gently and draw it out of the mud slowly, keeping it upright and holding it steady until it is clear and the plume has settled.",
+      "seconds": 5,
+      "target": "draw-core",
+      "title": "Draw the capped core out slowly and hold it upright",
+      "why": "A core drawn out in a hurry breaks its seal and slumps, and a core laid on its side lets the layers slide; either way the laboratory is sent a jar of mixed mud. Drawing it out slowly and holding it upright until the plume settles keeps the layers as they were in the bottom and lets you see the caps are still seated before the core leaves your hands."
+    },
+    {
+      "cue": "Hold the tube against the light and commit the reading where the sediment line sits on the tube's scale, against what the sampling plan accepts.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.62
+        ],
+        "label": "CORE RECOVERY",
+        "missNote": "Outside the band — hold the tube still and read where the sediment line sits on the scale.",
+        "speed": 0.68
+      },
+      "id": "read-recovery",
+      "kind": "gauge",
+      "prompt": "Hold the tube against the light and commit the reading where the sediment line sits on the tube's scale, against what the sampling plan accepts.",
+      "target": "core-recovery",
+      "title": "Read the core's recovery against the tube's scale",
+      "why": "The sampling plan says how much of a core has to come back for it to count, because a short core may have missed the layer the restoration is worried about or lost it on the way out. Reading the recovery on the bottom means a short core can be taken again beside the first while you are still at the station, instead of the whole dive being repeated when the laboratory rejects it."
+    },
+    {
+      "cue": "Write the station number, the core number and an arrow to the top on the tube's label with the grease pencil.",
+      "id": "label-core",
+      "kind": "select",
+      "prompt": "Write the station number, the core number and an arrow to the top on the tube's label with the grease pencil.",
+      "target": "core-label",
+      "title": "Label the core with the station, number and top",
+      "why": "A core without a label is a tube of mud, and a core without a top arrow is a record read upside down. The label is written on the bottom, as the core is taken, so the station, the number and the orientation are fixed to the tube before it is racked beside others that look exactly like it; the chain of custody begins with this line."
+    },
+    {
+      "cue": "Stand the core in its slot in the sample rack and turn the latch down over it until it is clamped.",
+      "id": "latch-rack",
+      "kind": "turn",
+      "prompt": "Stand the core in its slot in the sample rack and turn the latch down over it until it is clamped.",
+      "target": "rack-latch",
+      "title": "Latch the core upright in the sample rack",
+      "turn": {
+        "label": "RACK LATCH",
+        "turns": 0.5
+      },
+      "why": "The rack keeps the cores upright and apart on the way to the surface, and the latch keeps them in it when the rack swings on the downline. A core that falls out of its slot on the ascent is a lost sample, and one that travels on its side has slumped by the time it reaches the deck — so each one is latched as it is racked, not all of them at the end."
+    },
+    {
+      "cue": "Look over your gloves, your suit, the helmet's neck dam and the umbilical at the harness for tears and for mud carried on them.",
+      "id": "self-check",
+      "itemNames": {
+        "glove-tear": "split in the outer glove at the thumb",
+        "neck-dam-mud": "mud packed round the helmet's neck dam and the umbilical at the harness"
+      },
+      "itemNotes": {
+        "glove-tear": "The outer glove has split at the thumb where it caught the edge of the buried sheet; the inner glove is still whole, but the tear lets sediment in against it.",
+        "neck-dam-mud": "Mud from the dig has packed round the neck dam and the umbilical where it clips to the harness — the first place the tender's hands and the decon brush will meet it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over your gloves, your suit, the helmet's neck dam and the umbilical at the harness for tears and for mud carried on them.",
+      "targets": [
+        "glove-tear",
+        "neck-dam-mud"
+      ],
+      "title": "Check yourself for contamination before you leave the site",
+      "why": "What comes up on the diver comes aboard, and the tender and the decon crew need to know where it is before they touch it. A torn glove is reported so the supervisor knows the diver's skin may have been exposed, and mud packed round the neck dam and the harness is where contamination reaches the hands that help the diver undress. The check is made on the bottom, while it can still be rinsed off in the water column on the way up."
+    },
+    {
+      "cue": "Clip the latched sample rack onto the downline's travelling clip and signal the tender to take it up.",
+      "drag": {
+        "missNote": "Not on the downline clip — the rack goes up the downline where the tender controls it.",
+        "radius": 0.5,
+        "to": "downline-clip"
+      },
+      "id": "rack-up",
+      "kind": "drag",
+      "prompt": "Clip the latched sample rack onto the downline's travelling clip and signal the tender to take it up.",
+      "target": "sample-rack",
+      "title": "Send the rack up on the downline clip",
+      "why": "The rack goes up the downline because the tender can control it there: steady, upright and clear of the umbilical, arriving where the decon crew is waiting for it. Carried by hand it rides with the diver on the ascent and turns every stop into a juggling act; floated on a bag it goes where the bag decides. The downline is the one road to the surface that nobody has to guess about."
+    },
+    {
+      "cue": "Read your slate to the supervisor: station, core numbers, the recovery of each, the spot's offset from the plan, the cable and the metal, the torn glove, the bailout and the recall.",
+      "id": "core-log",
+      "kind": "select",
+      "prompt": "Read your slate to the supervisor: station, core numbers, the recovery of each, the spot's offset from the plan, the cable and the metal, the torn glove, the bailout and the recall.",
+      "target": "core-log",
+      "title": "Read the core log up for the chain of custody",
+      "why": "The supervisor starts the chain of custody form from what you read up: which core came from which spot at what time, and how much of it came back. The laboratory, the regulators and the restoration's engineers will all rely on that record, so it is read from the slate on the bottom, where anything unclear can still be checked. The bailout and the recall go in the dive log beside it."
+    },
+    {
+      "cue": "At the stage, clipped on: tell the supervisor how you feel after the bailout and the recall, and that the torn glove needs looking at in the decon, then wait for the call.",
+      "id": "stage-checkin",
+      "kind": "select",
+      "prompt": "At the stage, clipped on: tell the supervisor how you feel after the bailout and the recall, and that the torn glove needs looking at in the decon, then wait for the call.",
+      "target": "stage-checkin",
+      "title": "Check in at the stage and leave on the supervisor's call",
+      "why": "The ascent is the supervisor's call, and the check-in tells them you are on the stage and well — and that the decon crew should look at your hand when the glove comes off. Going onto bailout is a frightening moment even when it works exactly as trained, and saying so at the stage is part of the dive; the Pile Drivers Local 34 member assistance line is there for what the debrief does not settle."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — Pile Drivers Local 34 — with the employer's employee assistance line behind it",
+  "tagline": "On the bottom at the sampling station: on-bottom report, the cable and the buried metal found, the tube carried to a clear spot, the core pushed steady while the gas supply stops, the top capped before the bottom, the core drawn out while the supervisor calls a recall, the recovery read, the core labelled and latched in the rack, yourself checked for contamination, the rack sent up the downline and the core log read up for the chain of custody",
+  "title": "SmartCiti.X~ Underwater Sediment Core Sampling VR",
+  "trade": "Pile Drivers Local 34 commercial diver taking push cores of Bay sediment for a restoration's sampling plan, with the supervisor on the comms, the tender on the umbilical and the standby diver at the ladder",
+  "underwater": {
+    "bottomTimeSeconds": 600,
+    "depthLabel": "Per dive plan"
+  },
+  "weather": "clear"
+}

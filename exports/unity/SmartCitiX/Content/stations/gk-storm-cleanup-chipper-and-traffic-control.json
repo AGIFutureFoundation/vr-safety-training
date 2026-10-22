@@ -1,0 +1,416 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "shoulder-cleared",
+    "name": "Shoulder Cleared",
+    "note": "Taper set, the chipper guard checked, every branch fed from behind the line, and the shoulder cleared without a single unsafe act"
+  },
+  "category": "Grounds & Landscaping",
+  "certification": "ANSI Z133 safety requirements for arboricultural operations, including chippers used on a tree crew; Manual on Uniform Traffic Control Devices (MUTCD) for the roadside work zone; OSHA 29 CFR 1910.132 personal protective equipment, 29 CFR 1910.212 machine guarding and 29 CFR 1910.147 control of hazardous energy; LIUNA grounds and landscaping crew training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI",
+        "citedAs": "ANSI Z133",
+        "id": "ansi-z133-arboriculture",
+        "title": "ANSI Z133 — safety requirements for arboricultural operations, including chippers used on a tree crew"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "MUTCD",
+        "citedAs": "MUTCD",
+        "id": "mutcd",
+        "title": "Manual on Uniform Traffic Control Devices — temporary traffic control for work zones (Part 6)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      }
+    ]
+  },
+  "district": "fairway-park",
+  "domain": "Grounds & Landscaping",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "guard-checked",
+        "name": "Guard Checked",
+        "note": "Never fed the chipper without the infeed guard confirmed"
+      },
+      {
+        "id": "hands-clear",
+        "name": "Hands Clear",
+        "note": "Never reached past the feed line into the infeed"
+      },
+      {
+        "id": "locked-for-jams",
+        "name": "Locked for Jams",
+        "note": "Locked out the chipper before clearing a jam"
+      },
+      {
+        "id": "steady-taper",
+        "name": "Steady Taper",
+        "note": "Held the flagger signal and the chipper gauge near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-clear",
+        "name": "Quick Clear",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-round",
+        "name": "Clean Round",
+        "note": "No corrections across the whole run"
+      },
+      {
+        "id": "grounds-streak",
+        "name": "Grounds Streak",
+        "note": "Eight correct actions in a row"
+      }
+    ],
+    "currency": "TURF",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ground Hand",
+      "Storm Crew",
+      "Chipper Certified",
+      "Crew Lead",
+      "Grounds Certified"
+    ],
+    "system": "Grounds Crew"
+  },
+  "hazards": {
+    "clear-jam-without-lockout": "You reached for that jam without locking the chipper out first. A jammed feed can release all at once the moment something shifts, and a machine that is not locked out is a machine that can start pulling again with a hand already inside it.",
+    "loose-clothing-near-infeed": "That loose strap is hanging right where the infeed rollers can catch it. A chipper's rollers pull whatever they grab all the way through, and a sleeve, a drawstring or a loose strap caught at the infeed does not let go the way a hand pulling back on its own would.",
+    "reach-into-infeed-hopper": "You reached into the infeed hopper while the chipper was running. The rollers that pull a branch into a chipper's blades do not know the difference between wood and an arm reaching in after it, and that pull does not stop or reverse just because a hand followed the branch too far.",
+    "stand-in-traffic-lane-unprotected": "You are standing in the open travel lane before the taper is set. A shoulder cleanup with no taper up yet is a work zone drivers have had no warning about, and standing in the lane on that assumption is trusting every driver to see what nothing has told them is there."
+  },
+  "id": "gk-storm-cleanup-chipper-and-traffic-control",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "feed-branch-from-line",
+      "alert": "A branch has caught crosswise in the infeed rollers and kicked back hard toward the feed line.",
+      "cue": "Hit the feed reverse lever before the kickback reaches anyone standing at the line.",
+      "delay": 3,
+      "id": "branch-kicks-back",
+      "kind": "Kickback",
+      "missNote": "The infeed kept running while the branch kept kicking back. A jammed feed does not clear itself by continuing to feed into it.",
+      "seconds": 10,
+      "target": "feed-reverse-lever",
+      "why": "A branch that kicks back out of the infeed is moving with real force behind it, and the reverse lever is what actually stops the rollers from driving it further rather than hoping the next branch feeds through cleaner — reversing immediately is what keeps that kickback from becoming a strike.",
+      "wrongNote": "Not that — the feed reverse lever is what this kickback needs, before anything else about this feed continues."
+    },
+    {
+      "after": "track-flagger-signal",
+      "alert": "A car has drifted across the taper line and is closing on the work zone from the open lane.",
+      "cue": "Raise the stop paddle before the car reaches the crew.",
+      "delay": 4,
+      "id": "car-drifts-into-taper",
+      "kind": "Traffic incursion",
+      "missNote": "The car kept closing while the crew kept working. A taper that a car has already crossed is not doing its job for the crew standing past it.",
+      "seconds": 11,
+      "target": "stop-sign-paddle",
+      "why": "A car already drifting across the taper has already missed the cones, and the flagger's stop paddle is the one thing left that can actually get a driver's attention before the crew's own workspace becomes the car's path — raising it immediately is what this drift needs, not a wave that assumes the driver already sees the zone.",
+      "wrongNote": "Not that — the stop paddle is what this drift needs, before the car reaches the crew."
+    }
+  ],
+  "lateNotes": {
+    "infeed-guard-check": "The infeed guard and the discharge chute direction get confirmed every time the chipper is set up fresh, not assumed unchanged from the last job.",
+    "sagging-power-line": "A line sagging this low from storm damage gets treated as energised until the utility says otherwise — it never gets assumed dead because the power looks out."
+  },
+  "name": "Storm Cleanup: Chipper & Traffic Control",
+  "parSeconds": 310,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "grounds-and-landscaping"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "advance-warning-sign",
+      "assessment-board",
+      "brush-bundle",
+      "chipper-gauge",
+      "chipper-lockout",
+      "chute-rotate",
+      "clear-debris-pile",
+      "clear-jam-without-lockout",
+      "closing-log",
+      "cut-gloves",
+      "debris-blocking-drain",
+      "discharge-chute-check",
+      "ear-protection",
+      "estop-brief",
+      "eye-protection",
+      "feed-control-lever",
+      "feed-reverse-lever",
+      "flagger",
+      "flagger-station",
+      "hard-hat",
+      "infeed-guard-check",
+      "infeed-staging-socket",
+      "loose-clothing-near-infeed",
+      "reach-into-infeed-hopper",
+      "sagging-power-line",
+      "stand-in-traffic-lane-unprotected",
+      "stop-sign-paddle",
+      "taper-cones",
+      "tree-under-tension"
+    ],
+    "meshes": 101
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the work order's own notes on downed limbs and line damage before setting up.",
+      "id": "read-damage-assessment",
+      "kind": "select",
+      "prompt": "Check the work order's own notes on downed limbs and line damage before setting up.",
+      "target": "assessment-board",
+      "title": "Read the storm damage assessment",
+      "why": "The damage assessment is where the first crew through already noted what looked dangerous — reading it before setup means today's crew is working from what was actually found, not discovering the same hazards again from scratch."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Hard hat, eye protection, ear protection and cut-resistant gloves before the truck is even unloaded.",
+      "id": "ppe-up",
+      "itemNames": {
+        "cut-gloves": "cut-resistant gloves",
+        "ear-protection": "ear protection",
+        "eye-protection": "eye protection",
+        "hard-hat": "hard hat"
+      },
+      "kind": "sequence",
+      "prompt": "Hard hat, eye protection, ear protection and cut-resistant gloves before the truck is even unloaded.",
+      "targets": [
+        "hard-hat",
+        "eye-protection",
+        "ear-protection",
+        "cut-gloves"
+      ],
+      "title": "Suit up before setting up",
+      "why": "Storm debris drops without warning from branches still settling overhead, the chipper runs loud enough to matter for a whole shift, and handling splintered, wet wood all day is exactly what gloves are for — all of it goes on before the first branch is even dragged to the chipper."
+    },
+    {
+      "cue": "Three things about this site change the plan — find them before the taper or the chipper are even placed.",
+      "decoyNotes": {
+        "clear-debris-pile": "That pile is loose brush with nothing hazardous mixed into it. Nothing to flag there."
+      },
+      "id": "walk-the-damage",
+      "itemNames": {
+        "debris-blocking-drain": "debris blocking the storm drain",
+        "sagging-power-line": "the power line sagging from storm damage",
+        "tree-under-tension": "the storm-damaged tree still under tension"
+      },
+      "itemNotes": {
+        "debris-blocking-drain": "Debris blocking a storm drain during continued rain is how a cleanup site turns into a flooded one before the crew is even done.",
+        "sagging-power-line": "A line sagging this low gets treated as energised until the utility confirms otherwise — never assumed dead because the storm knocked it loose.",
+        "tree-under-tension": "A tree damaged like this can still be holding tension in ways that are not obvious from the ground, and it gets planned around before anyone works underneath it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things about this site change the plan — find them before the taper or the chipper are even placed.",
+      "targets": [
+        "sagging-power-line",
+        "tree-under-tension",
+        "debris-blocking-drain"
+      ],
+      "title": "Walk the damage before setting anything up",
+      "why": "A storm site that looks like straightforward brush from the truck is not the same thing as a site someone has actually walked, and a sagging line, a tree under tension or a blocked drain are exactly what a walk-down catches before the crew sets up anywhere near them."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Set the taper cones, the advance warning sign and the flagger station to the traffic-control plan.",
+      "id": "set-up-traffic-control",
+      "itemNames": {
+        "advance-warning-sign": "advance warning sign",
+        "flagger-station": "flagger station",
+        "taper-cones": "taper cones"
+      },
+      "kind": "sequence",
+      "prompt": "Set the taper cones, the advance warning sign and the flagger station to the traffic-control plan.",
+      "targets": [
+        "taper-cones",
+        "advance-warning-sign",
+        "flagger-station"
+      ],
+      "title": "Set up the traffic-control zone",
+      "why": "A taper set to the plan, an advance sign giving drivers time to react, and a flagger stationed where they can actually be seen are what turn an open shoulder into an announced work zone drivers have real warning about, rather than one they discover at the last second."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Confirm the infeed guard is in place and the discharge chute is aimed away from the lane and the crew.",
+      "id": "chipper-precheck",
+      "itemNames": {
+        "discharge-chute-check": "discharge chute direction",
+        "infeed-guard-check": "infeed guard"
+      },
+      "kind": "sequence",
+      "prompt": "Confirm the infeed guard is in place and the discharge chute is aimed away from the lane and the crew.",
+      "targets": [
+        "infeed-guard-check",
+        "discharge-chute-check"
+      ],
+      "title": "Precheck the chipper",
+      "why": "The infeed guard is what keeps a hand from following a branch too far in, and a discharge chute aimed away from the lane and the crew is what keeps the chipped debris from becoming its own hazard the moment the machine starts running."
+    },
+    {
+      "cue": "Turn the chute to aim the discharge away from the open lane and anyone standing nearby.",
+      "id": "rotate-discharge-chute",
+      "kind": "turn",
+      "prompt": "Turn the chute to aim the discharge away from the open lane and anyone standing nearby.",
+      "target": "chute-rotate",
+      "title": "Aim the discharge chute",
+      "turn": {
+        "axis": "y",
+        "label": "DISCHARGE CHUTE",
+        "turns": 0.4
+      },
+      "why": "Chipped debris leaves the discharge chute with real force behind it, and turning the chute to aim it at open ground — not the lane, not the crew — is what keeps that debris from becoming a hazard of its own the moment the chipper starts feeding."
+    },
+    {
+      "cue": "Hold the feed control engaged while feeding from behind the marked no-hands line for the full pass.",
+      "holdBreakNote": "Released the feed control before the branch cleared the infeed. Hold it from behind the line for the whole pass, every time.",
+      "id": "feed-branch-from-line",
+      "kind": "hold",
+      "prompt": "Hold the feed control engaged while feeding from behind the marked no-hands line for the full pass.",
+      "seconds": 5,
+      "target": "feed-control-lever",
+      "title": "Feed the branch from behind the line",
+      "why": "The marked line is set at the distance the infeed rollers can reach a hand that follows a branch too far — holding the feed control from behind that line for the whole pass, not just the first push, is what keeps the operator's hands exactly where the rollers cannot reach them."
+    },
+    {
+      "cue": "Keep the flagger's signal steady, working the shoulder only while traffic reads clear.",
+      "holdBreakNote": "The flagger's signal dropped out of the clear band. Hold the work until the signal reads clear again.",
+      "id": "track-flagger-signal",
+      "kind": "track",
+      "prompt": "Keep the flagger's signal steady, working the shoulder only while traffic reads clear.",
+      "seconds": 8,
+      "target": "flagger",
+      "title": "Work the shoulder under the flagger's signal",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.44,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "FLAGGER SIGNAL",
+        "rise": 0.5,
+        "start": 0.16
+      },
+      "why": "The flagger is watching the approach the crew working the shoulder cannot see while focused on the chipper, and a steady signal is what lets the crew trust the lane is actually clear instead of assuming the taper alone is doing the whole job."
+    },
+    {
+      "cue": "Carry the cleared brush from the shoulder to the chipper's staging area.",
+      "drag": {
+        "missNote": "Not at the staging area — carry the brush to where the chipper's staging spot actually is.",
+        "radius": 0.4,
+        "to": "infeed-staging-socket"
+      },
+      "id": "drag-brush-to-chipper",
+      "kind": "drag",
+      "prompt": "Carry the cleared brush from the shoulder to the chipper's staging area.",
+      "target": "brush-bundle",
+      "title": "Stage brush at the chipper",
+      "why": "Staging brush at the chipper before it is ever fed keeps the feeding operator working steadily from one bundle to the next, instead of stepping away from the infeed mid-feed to fetch more material."
+    },
+    {
+      "cue": "Read the pressure gauge and commit only inside the manufacturer's band.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.68
+        ],
+        "label": "HYDRAULIC PRESSURE",
+        "missNote": "Outside the manufacturer's band. Let the machine idle and the reading settle before committing it.",
+        "speed": 0.58
+      },
+      "id": "check-chipper-gauge",
+      "kind": "gauge",
+      "prompt": "Read the pressure gauge and commit only inside the manufacturer's band.",
+      "target": "chipper-gauge",
+      "title": "Check the chipper's hydraulic pressure",
+      "why": "A chipper running outside its own hydraulic pressure band feeds unevenly and stalls on branches it should handle cleanly — the gauge is what confirms the machine is actually running the way its manual expects before the crew trusts it with a full afternoon of feeding."
+    },
+    {
+      "cue": "Point out the emergency stop's location to everyone working near the chipper.",
+      "id": "brief-estop-location",
+      "kind": "select",
+      "prompt": "Point out the emergency stop's location to everyone working near the chipper.",
+      "target": "estop-brief",
+      "title": "Confirm the e-stop location with the crew",
+      "why": "An emergency stop nobody but the operator knows the location of is not actually an emergency stop for the rest of the crew — confirming it with everyone working nearby is what makes it something anyone can reach in the second it actually matters."
+    },
+    {
+      "cue": "Lock out the chipper's own energy source before reaching toward a jam.",
+      "id": "lockout-for-jam",
+      "kind": "select",
+      "prompt": "Lock out the chipper's own energy source before reaching toward a jam.",
+      "target": "chipper-lockout",
+      "title": "Lock out the chipper before clearing a jam",
+      "why": "A jam that releases suddenly does not wait for a hand to be clear of the infeed — locking the chipper out before reaching toward it is what actually removes the hazard, rather than trusting that the machine will stay still because nothing is currently moving."
+    },
+    {
+      "cue": "Log the damage findings, the traffic-control setup and the cleared shoulder before leaving the site.",
+      "id": "shutdown-log",
+      "kind": "select",
+      "prompt": "Log the damage findings, the traffic-control setup and the cleared shoulder before leaving the site.",
+      "target": "closing-log",
+      "title": "Close out the storm cleanup log",
+      "why": "The storm cleanup log is what the utility crew and the next inspection both read — a shoulder cleared cleanly but never logged leaves nothing behind to prove the sagging line was actually flagged and the traffic control actually held the whole time."
+    }
+  ],
+  "supportLine": "your union steward or the grounds department's employee assistance line",
+  "tagline": "A roadside storm cleanup after the wind: the damage walked for a sagging line, the taper and signs set to the traffic-control plan, the chipper's own guard checked and its chute aimed off the lane, every branch fed from behind the line, and the machine locked out before any jam is cleared",
+  "title": "SmartCiti.X~ Storm Cleanup: Chipper & Traffic Control VR",
+  "trade": "Grounds storm-response crew member — LIUNA grounds and landscaping crew",
+  "underwater": null,
+  "weather": "wind"
+}

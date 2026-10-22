@@ -1,0 +1,373 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "segregated-and-proven",
+    "name": "Segregated and Proven",
+    "note": "Every incompatible pair separated, the hood and the eyewash both proven, and nothing decanted by a bare hand"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "AFT and CSEA instructional support training; OSHA's Hazard Communication standard (29 CFR 1910.1200) for the GHS-labelled reagents and the SDS binder; ANSI/ISEA Z358.1 for the eyewash and drench shower; OSHA's eye and hand protection standards (29 CFR 1910.133, 29 CFR 1910.138) at the storage cabinet and the fume hood; the school's own chemical hygiene plan and the manufacturer's compatibility chart for how reagents are segregated on the shelf, named here as governing documents rather than by a clause number",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "union",
+        "citedAs": "CSEA",
+        "id": "csea-training",
+        "title": "CSEA — California School Employees Association training for classified school employees"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.133",
+        "id": "osha-1910-133",
+        "title": "29 CFR 1910.133 — Eye and face protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.138",
+        "id": "osha-1910-138",
+        "title": "29 CFR 1910.138 — Hand protection"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Building Systems & Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "carrier-not-hand",
+        "name": "Carrier, Not Hand",
+        "note": "Every corrosive moved with the bottle carrier, never a bare hand"
+      },
+      {
+        "id": "clean-check",
+        "name": "Clean Check",
+        "note": "No corrections across the whole check"
+      },
+      {
+        "id": "steady-pour",
+        "name": "Steady Pour",
+        "note": "The decanting pour held in band without a break"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "lab-ready-on-time",
+        "name": "Lab Ready on Time",
+        "note": "Whole check finished inside 80% of par"
+      },
+      {
+        "id": "one-pass-cabinet-check",
+        "name": "One-Pass Cabinet Check",
+        "note": "Storage cabinet check clean on the first pass"
+      },
+      {
+        "id": "eight-in-a-row",
+        "name": "Eight in a Row",
+        "note": "Eight correct actions in a row"
+      }
+    ],
+    "currency": "ML",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Lab Aide Trainee",
+      "Lab Aide",
+      "Lead Lab Aide",
+      "Lab Safety Trainer",
+      "Chemical Storage Certified"
+    ],
+    "system": "Between Periods"
+  },
+  "hazards": {
+    "expired-chemical-not-flagged": "That reagent is well past the date on its own label and it's still sitting in the active-use rack. A chemical that's degraded past its shelf life can react unpredictably compared to what the SDS describes for it fresh — it gets flagged and pulled, not left for the next class to reach for.",
+    "flammables-outside-cabinet": "That solvent is sitting out on the open bench instead of in the flammables cabinet. A flammable liquid outside its rated cabinet is one static spark or one nearby burner away from a fire the cabinet exists specifically to contain.",
+    "mix-acid-with-bleach-storage": "That shelf has an acid and a chlorine-bleach-based reagent stored side by side. The two react to release chlorine gas if they ever mix, which is exactly why the compatibility chart keeps them in separate cabinets rather than trusting that neither bottle ever leaks or gets knocked over.",
+    "unlabeled-bottle-in-hood": "That bottle in the hood has no label at all. Nobody after this moment — not the next class, not the aide covering tomorrow's shift — has any way to know what's actually in it without opening it and finding out the hard way."
+  },
+  "id": "ed-science-lab-chemical-storage-and-eyewash",
+  "indoor": "shop",
+  "interrupts": [
+    {
+      "after": "decant-corrosive",
+      "alert": "A student passing in the hallway has bumped a cart, knocking a small reagent bottle to the floor — it's cracked and starting to leak.",
+      "cue": "Get the spill kit on it now.",
+      "delay": 2,
+      "id": "student-knocks-bottle",
+      "kind": "A student in the hallway knocks a bottle off a cart",
+      "missNote": "The leak spread across the hallway floor while the pour in the hood continued — a cracked bottle doesn't wait for a convenient stopping point.",
+      "seconds": 10,
+      "target": "spill-kit",
+      "why": "A cracked bottle leaking in a hallway outside a lab is a spill the moment it happens, not a mess to deal with after the pour in front of you is finished — the spill kit answers it immediately, because a small leak left even a minute becomes a bigger one and a wider area to clean.",
+      "wrongNote": "The spill kit — that's what answers a leaking bottle, right now."
+    },
+    {
+      "after": "eyewash-drench",
+      "alert": "The fume hood's sash alarm starts sounding — someone has raised the sash well past its rated line.",
+      "cue": "Lower the sash back to the line.",
+      "delay": 2,
+      "id": "hood-sash-alarm",
+      "kind": "Fume hood sash alarm sounds",
+      "missNote": "The sash stayed raised past its line with the alarm still sounding — a hood that isn't at its rated opening isn't reliably containing whatever fumes are still inside it.",
+      "seconds": 9,
+      "target": "hood-sash",
+      "why": "A sash raised past its rated line lets the hood's containment fail exactly when something is still working inside it — the alarm is answered by lowering the sash immediately, not by finishing whatever else is in progress first.",
+      "wrongNote": "The sash — lower it back to the line, that's what the alarm is calling out."
+    }
+  ],
+  "lateNotes": {
+    "eyewash-drench-station": "The eyewash gets proven once the decanting is actually finished, not before.",
+    "hood-gauge": "Not yet — the hood's airflow gets checked once the cabinet itself has already been walked, not before."
+  },
+  "name": "Science Lab Chemical Storage & Eyewash Check",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "education-support-staff"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "bottle-carrier",
+      "correct-cabinet-spot",
+      "expired-chemical-not-flagged",
+      "expired-reagent",
+      "eyewash-drench-station",
+      "flammables-outside-cabinet",
+      "gas-valve",
+      "gloves-on",
+      "goggles-on",
+      "hood-gauge",
+      "hood-sash",
+      "incompatible-bottle",
+      "incompatible-storage",
+      "inventory-log",
+      "lab-checklist-board",
+      "lab-log",
+      "mix-acid-with-bleach-storage",
+      "ppe-restock-box",
+      "ppe-shelf-spot",
+      "sash-lowered",
+      "sds-binder",
+      "spill-kit",
+      "unlabeled-bottle",
+      "unlabeled-bottle-in-hood"
+    ],
+    "meshes": 123
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the checklist for which classes are using hazardous reagents today.",
+      "id": "read-lab-checklist",
+      "kind": "select",
+      "prompt": "Read the checklist for which classes are using hazardous reagents today.",
+      "target": "lab-checklist-board",
+      "title": "Read today's lab safety checklist",
+      "why": "Knowing which periods actually need the corrosives or the flammables out today is what tells the aide which cabinets get opened at all — a lab prepped for a class that never touches the acid cabinet is a cabinet that stayed shut and safe for one more day."
+    },
+    {
+      "cue": "Three things about this cabinet are not right. Find them before any class opens a bottle.",
+      "id": "cabinet-check",
+      "itemNames": {
+        "expired-reagent": "the reagent past its expiry date",
+        "incompatible-storage": "the acid shelved next to the bleach-based reagent",
+        "unlabeled-bottle": "the bottle with no label"
+      },
+      "itemNotes": {
+        "expired-reagent": "This reagent is well past the date on its own label. A chemical that's degraded past its shelf life doesn't behave the way its SDS describes for it fresh, and it gets flagged before a class ever reaches for it.",
+        "incompatible-storage": "This acid and this chlorine-bleach-based reagent are shelved side by side. The compatibility chart keeps them apart because a leak or a knocked-over bottle is the only thing standing between adjacent storage and a chlorine gas release.",
+        "unlabeled-bottle": "This bottle carries no label at all. Whatever's inside it is a guess the moment it leaves this shelf, and Hazard Communication exists precisely so nobody in this room ever has to guess."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things about this cabinet are not right. Find them before any class opens a bottle.",
+      "targets": [
+        "unlabeled-bottle",
+        "incompatible-storage",
+        "expired-reagent"
+      ],
+      "title": "Walk the storage cabinet before first period",
+      "why": "The cabinet gets walked with the compatibility chart in mind, not just a glance for anything obviously spilled — a mislabelled bottle, two reagents shelved together that shouldn't be, or one past its date all look completely normal from across the room."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Put on splash goggles, then chemical gloves, then lower the fume hood sash to its marked line.",
+      "id": "ppe-and-hood-sash",
+      "itemNames": {
+        "gloves-on": "chemical gloves on",
+        "goggles-on": "splash goggles on",
+        "sash-lowered": "fume hood sash lowered to the line"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Goggles, then gloves, then the sash — the sash is set last because it's adjusted from a position already wearing both.",
+      "prompt": "Put on splash goggles, then chemical gloves, then lower the fume hood sash to its marked line.",
+      "targets": [
+        "goggles-on",
+        "gloves-on",
+        "sash-lowered"
+      ],
+      "title": "Goggles, gloves, then the hood sash",
+      "why": "Goggles and gloves go on before anything in the hood is touched because the hood's own containment only protects what's inside it — the aide standing in front of the sash needs their own protection regardless of how well the hood is working."
+    },
+    {
+      "cue": "Read the hood's airflow gauge and commit once it settles in the working band.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.66
+        ],
+        "label": "HOOD AIRFLOW",
+        "missNote": "Not in the working band. A hood reading outside it isn't reliably containing anything — flag it before using it.",
+        "speed": 0.6
+      },
+      "id": "hood-airflow-gauge",
+      "kind": "gauge",
+      "prompt": "Read the hood's airflow gauge and commit once it settles in the working band.",
+      "target": "hood-gauge",
+      "title": "Check the fume hood's airflow",
+      "why": "A sash lowered to the right line still does nothing if the fan behind it isn't actually pulling air — the gauge is what confirms the hood is containing fumes rather than just looking like it is from the front."
+    },
+    {
+      "cue": "Turn each unused bench gas valve fully closed before any chemical work begins.",
+      "id": "close-gas-valves",
+      "kind": "turn",
+      "prompt": "Turn each unused bench gas valve fully closed before any chemical work begins.",
+      "target": "gas-valve",
+      "title": "Close the bench gas valves",
+      "turn": {
+        "label": "BENCH GAS VALVE",
+        "turns": 0.4
+      },
+      "why": "A bench gas valve left cracked open between classes is a leak nobody is watching for, in the same room a corrosive is about to be decanted — closing every valve that isn't actively feeding a burner right now is what keeps an open flame or a gas smell from ever becoming part of today's chemical work."
+    },
+    {
+      "cue": "Pour from the large bottle into the smaller one at a steady rate, using the carrier.",
+      "holdBreakNote": "Pour rate out of band — too slow drips down the outside of the bottle, too fast splashes back over the lip. Bring it back to steady.",
+      "id": "decant-corrosive",
+      "kind": "track",
+      "prompt": "Pour from the large bottle into the smaller one at a steady rate, using the carrier.",
+      "seconds": 6,
+      "target": "bottle-carrier",
+      "title": "Decant the corrosive with the bottle carrier",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.36,
+        "green": [
+          0.34,
+          0.58
+        ],
+        "label": "POUR RATE",
+        "rise": 0.4,
+        "start": 0.15
+      },
+      "why": "A steady, controlled pour rate is what keeps a corrosive inside the two containers instead of splashing back over the lip of either one — the carrier holds the weight so both of an aide's hands can stay on the actual pour instead of one of them fighting to hold a heavy bottle steady."
+    },
+    {
+      "cue": "Carry the reagent found on the walk to the cabinet its compatibility group actually belongs in.",
+      "drag": {
+        "missNote": "Not in the right cabinet yet. Carry it all the way to the group its own chart entry belongs to.",
+        "radius": 0.5,
+        "to": "correct-cabinet-spot"
+      },
+      "id": "move-incompatible",
+      "kind": "drag",
+      "prompt": "Carry the reagent found on the walk to the cabinet its compatibility group actually belongs in.",
+      "target": "incompatible-bottle",
+      "title": "Move the incompatible reagent to its own cabinet",
+      "why": "Finding the mis-shelved reagent on the walk only matters once it's actually moved — the compatibility chart's whole point is which cabinet a chemical lives in, not just knowing which one it shouldn't be next to."
+    },
+    {
+      "cue": "Hold the combination valve open until both the eyewash and the drench shower flow together.",
+      "holdBreakNote": "You let go before both the eyewash and the shower settled into a steady flow. A short flush proves nothing about whether the line behind it is actually clear.",
+      "id": "eyewash-drench",
+      "kind": "hold",
+      "prompt": "Hold the combination valve open until both the eyewash and the drench shower flow together.",
+      "seconds": 8,
+      "target": "eyewash-drench-station",
+      "title": "Prove the eyewash and drench shower together",
+      "why": "A lab handling corrosives needs both the eyewash and the drench shower proven, not just one of them — a splash can hit an eye, a sleeve or a whole side of someone's body, and the equipment for all three only counts as ready once it's actually been run."
+    },
+    {
+      "cue": "Carry the box of replacement goggles and gloves to the PPE shelf.",
+      "drag": {
+        "missNote": "Not at the shelf yet. Carry the restock box all the way to the PPE hooks before the next class arrives.",
+        "radius": 0.5,
+        "to": "ppe-shelf-spot"
+      },
+      "id": "restock-ppe-station",
+      "kind": "drag",
+      "prompt": "Carry the box of replacement goggles and gloves to the PPE shelf.",
+      "target": "ppe-restock-box",
+      "title": "Restock the PPE station",
+      "why": "A PPE hook that runs empty partway through the day is the reason a student or a teacher reaches for a reagent without the protection the label calls for — restocking it between periods, before the shelf actually runs out, is what keeps that choice from ever coming up."
+    },
+    {
+      "cue": "Cross the shelf against the inventory log and flag anything past its date.",
+      "id": "check-inventory",
+      "kind": "select",
+      "prompt": "Cross the shelf against the inventory log and flag anything past its date.",
+      "target": "inventory-log",
+      "title": "Check the inventory against expiry dates",
+      "why": "The inventory log is the one place expiry dates actually get tracked across an entire cabinet at once — a reagent flagged here today is one a substitute aide or a new teacher won't have to discover expired mid-class next month."
+    },
+    {
+      "cue": "Check that every reagent on the shelf has a matching, current safety data sheet in the binder.",
+      "id": "confirm-sds-binder",
+      "kind": "select",
+      "prompt": "Check that every reagent on the shelf has a matching, current safety data sheet in the binder.",
+      "target": "sds-binder",
+      "title": "Confirm the SDS binder is current",
+      "why": "A safety data sheet that's missing or out of date is a reagent nobody in the room can actually look up in an emergency — the binder gets checked against the shelf itself, not assumed complete because it usually is."
+    },
+    {
+      "cue": "Record today's findings, the hood reading and the eyewash test on the lab safety log.",
+      "id": "log-lab-check",
+      "kind": "select",
+      "prompt": "Record today's findings, the hood reading and the eyewash test on the lab safety log.",
+      "target": "lab-log",
+      "title": "Sign the lab safety log",
+      "why": "The signed log is the school's own record that the room was actually checked today — it is also where the flagged expired reagent and the mis-shelved bottle get tracked until whoever orders replacements closes them out."
+    }
+  ],
+  "supportLine": "your AFT or CSEA chapter's member assistance line, or the district's employee assistance programme",
+  "tagline": "Between periods: the storage cabinet checked for what's shelved wrong, the fume hood's sash and airflow proven, a corrosive decanted with the bottle carrier, incompatible reagents moved to their own cabinets, the eyewash and drench shower both proven, the inventory checked against its expiry dates, and the SDS binder confirmed current before the next class opens a single bottle",
+  "title": "SmartCiti.X~ Science Lab Chemical Storage & Eyewash Check VR",
+  "trade": "AFT- or CSEA-represented instructional lab aide maintaining a school science lab's chemical storage and safety equipment between classes",
+  "underwater": null,
+  "weather": "overcast"
+}

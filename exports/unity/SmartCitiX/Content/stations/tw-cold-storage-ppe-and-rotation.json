@@ -1,0 +1,386 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "cold-storage-certified",
+    "name": "Cold-Storage Certified",
+    "note": "Checked in with a buddy, caught every hazard on the room read, pulled the correct rotation-marked pallet, and checked out again before moving on"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "Teamsters warehouse and logistics automation training; ASHRAE 15 safety standard for refrigeration systems and IIAR 2 and IIAR 6 for closed-circuit ammonia refrigeration design, inspection and maintenance, worked the way the site's own cold-work programme applies them; OSHA 29 CFR 1910.132 personal protective equipment for insulated cold-work gear; NIOSH findings on cold-storage slip and cold-stress incidents",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASHRAE",
+        "citedAs": "ASHRAE 15",
+        "id": "ashrae-15",
+        "title": "ANSI/ASHRAE 15 — Safety Standard for Refrigeration Systems"
+      },
+      {
+        "body": "IIAR",
+        "citedAs": "IIAR 2",
+        "id": "iiar-2",
+        "title": "ANSI/IIAR 2 — Safe design of closed-circuit ammonia refrigeration systems"
+      },
+      {
+        "body": "IIAR",
+        "citedAs": "IIAR 6",
+        "id": "iiar-6",
+        "title": "ANSI/IIAR 6 — Inspection, testing and maintenance of closed-circuit ammonia refrigeration systems"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "Teamsters",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Warehousing & Logistics",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "buddy-every-time",
+        "name": "Buddy Every Time",
+        "note": "Checked in and out with a buddy, first try"
+      },
+      {
+        "id": "never-skip-the-ice",
+        "name": "Never Skip the Ice",
+        "note": "Never missed a hazard on the room read"
+      },
+      {
+        "id": "fifo-honest",
+        "name": "FIFO Honest",
+        "note": "Pulled the correctly rotation-marked pallet, first try"
+      },
+      {
+        "id": "clean-checkout",
+        "name": "Clean Checkout",
+        "note": "Logged out clean, no corrections"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-pull",
+        "name": "Quick Pull",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "frost-streak",
+        "name": "Frost Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "FROST",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Room Visitor",
+      "Cold Aware",
+      "Cold-Storage Handler",
+      "Cold-Storage Authority",
+      "Cold-Storage Certified"
+    ],
+    "system": "Cold-Room Discipline"
+  },
+  "hazards": {
+    "door-propped-hazard": "That door is propped open with a pallet. A cold room held open is a cold room that is not actually cold any more, and it is also a room whose self-closing door — the one thing that limits how long anyone is exposed on a quick errand — has been disabled by the same prop.",
+    "ice-patch-hazard": "That ice patch has built up right at the doorway threshold, exactly where the temperature swings most on every entry and exit. Ice at a threshold is not a surprise anywhere it forms — it is a slip waiting on whoever assumes the floor is as dry as the aisle behind them.",
+    "skip-buddy-hazard": "That sign reads 'enter alone' taped over the buddy-system reminder. A buddy system exists for exactly the scenario it looks least necessary in — a quick, familiar errand into a room where nothing has ever gone wrong before is precisely when nobody thinks to miss an associate who does not come back out on time.",
+    "torn-seal-hazard": "That strip curtain has a torn panel hanging loose. A gap in the curtain is a steady stream of warm, humid air finding its way in, and everything that air is carrying condenses and freezes on the first cold surface it reaches — usually the floor, right where somebody is about to walk."
+  },
+  "id": "tw-cold-storage-ppe-and-rotation",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "temp-check",
+      "alert": "A temperature alarm sounds — the room ran warmer than it should have during an earlier cycle, a sign the door did not seal properly last time.",
+      "cue": "Report the alarm to the refrigeration technician rather than continuing the pull as if the room is reading normally.",
+      "delay": 4,
+      "id": "door-seal-fault",
+      "kind": "Temperature alarm",
+      "missNote": "The alarm was left unreported. A door that has already failed to seal once will fail again, and each time is a longer temperature excursion than the last.",
+      "seconds": 12,
+      "target": "refrigeration-tech-radio",
+      "why": "A temperature excursion that already happened once and is only now showing up on the alarm is telling you the door seal or the closer needs attention before the next several openings make it worse — reporting it is what gets it fixed instead of quietly tolerated shift after shift.",
+      "wrongNote": "Not that — a temperature alarm goes to the refrigeration technician before this pull continues."
+    },
+    {
+      "after": "rotation-confirm",
+      "alert": "The buddy check-in radio call has gone unanswered.",
+      "cue": "Exit the cold room and account for your buddy in person rather than continuing to work alone past the check-in.",
+      "delay": 4,
+      "id": "buddy-no-response-fault",
+      "kind": "Buddy check-in silence",
+      "missNote": "The missed check-in was ignored and work continued. A buddy system that gets overridden by feeling fine is not a buddy system any more.",
+      "seconds": 12,
+      "target": "supervisor-radio",
+      "why": "A buddy system only works if a missed check-in actually changes what happens next — continuing to work because the room feels fine treats the one signal built to catch a problem as background noise, exactly when it might be doing its job.",
+      "wrongNote": "Not that — a missed check-in means exiting and accounting for the buddy in person, not continuing to work."
+    }
+  ],
+  "lateNotes": {
+    "buddy-board": "The buddy check-in happens before the door opens, not reconstructed afterward from who happened to notice the associate was gone.",
+    "rotation-tag": "The rotation-marked pallet gets confirmed by its tag before it is pulled, not chosen because it happens to be the closest one to the door."
+  },
+  "name": "Cold-Storage PPE & Rotation",
+  "parSeconds": 270,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "warehouse-and-logistics-automation"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "forkliftCounterbalance",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "1.04x1.7x1.24",
+        "count": 2,
+        "kit": "unknown"
+      },
+      {
+        "builder": "1.98x2.68x0.28",
+        "count": 1,
+        "kit": "unknown"
+      },
+      {
+        "builder": "2.62x4.22x1.18",
+        "count": 2,
+        "kit": "unknown"
+      }
+    ],
+    "error": null,
+    "footprint": 2.7,
+    "hits": [
+      "buddy-board",
+      "closing-log",
+      "coldroom-door",
+      "door-assist-button",
+      "door-propped-hazard",
+      "exposure-log",
+      "forklift-fork-socket",
+      "ice-patch-hazard",
+      "insulated-coat",
+      "insulated-gloves",
+      "intact-rack-frame",
+      "marked-pallet",
+      "refrigeration-tech-radio",
+      "rotation-tag",
+      "skip-buddy-hazard",
+      "supervisor-radio",
+      "temp-gauge",
+      "torn-seal-hazard"
+    ],
+    "meshes": 172
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Insulated coat and insulated gloves before opening the cold-room door.",
+      "id": "ppe",
+      "itemNames": {
+        "insulated-coat": "insulated coat",
+        "insulated-gloves": "insulated gloves"
+      },
+      "kind": "sequence",
+      "prompt": "Insulated coat and insulated gloves before opening the cold-room door.",
+      "targets": [
+        "insulated-coat",
+        "insulated-gloves"
+      ],
+      "title": "Suit up before opening the door",
+      "why": "Putting the insulated gear on before the door opens, rather than partway into the room, is what keeps the first minute inside from being the coldest minute an associate spends unprotected today — the minute a bare hand on a frozen rail or a chilled lung actually notices the difference."
+    },
+    {
+      "cue": "Check in on the buddy board before opening the door.",
+      "id": "buddy-checkin",
+      "kind": "select",
+      "prompt": "Check in on the buddy board before opening the door.",
+      "target": "buddy-board",
+      "title": "Check in with your buddy",
+      "why": "The buddy board is what turns 'someone will notice eventually' into 'someone is actually watching the clock' — checking in is what makes the buddy system real instead of a rule nobody actually follows on a quick errand that everyone assumes will only take a minute."
+    },
+    {
+      "cue": "Look the entry over before opening the door. Three things are already wrong with it — find them.",
+      "decoyNotes": {
+        "intact-rack-frame": "That rack frame is intact and properly anchored. Nothing to flag there."
+      },
+      "id": "room-hazard-read",
+      "itemNames": {
+        "door-propped-hazard": "door propped open with a pallet",
+        "ice-patch-hazard": "ice patch at the threshold",
+        "torn-seal-hazard": "torn strip curtain panel"
+      },
+      "itemNotes": {
+        "door-propped-hazard": "The prop comes out and the door gets its self-closing function back before the next entry.",
+        "ice-patch-hazard": "The ice gets salted or scraped before anyone crosses this threshold again.",
+        "torn-seal-hazard": "A torn curtain panel gets replaced, not worked around — the gap keeps growing until it is."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look the entry over before opening the door. Three things are already wrong with it — find them.",
+      "targets": [
+        "ice-patch-hazard",
+        "door-propped-hazard",
+        "torn-seal-hazard"
+      ],
+      "title": "Read the room for what is already wrong with it",
+      "why": "A doorway that looks routine on approach is not the same thing as one an associate has actually checked — ice, a propped door or a torn curtain each quietly turns a controlled cold room into a set of problems that only get bigger with every entry, and finding them now costs a work order instead of costing someone a fall or a spoiled pallet."
+    },
+    {
+      "cue": "Turn the door handle and open it fully before stepping through.",
+      "id": "door-open",
+      "kind": "turn",
+      "prompt": "Turn the door handle and open it fully before stepping through.",
+      "target": "coldroom-door",
+      "title": "Open the cold-room door",
+      "turn": {
+        "axis": "y",
+        "label": "DOOR HANDLE",
+        "turns": 0.4
+      },
+      "why": "Opening the door fully, rather than squeezing through a gap to save a few seconds of cold air, is what keeps the strip curtain doing its job instead of getting shouldered aside and torn — the same tear this station just found somewhere else on the door."
+    },
+    {
+      "cue": "Hold the power-assist button until the door has fully retracted for the pallet jack to pass.",
+      "holdBreakNote": "Released the assist button before the door fully retracted. A door forced the last part of the way by hand is a door that will need the track adjusted sooner than it should.",
+      "id": "door-hold-open",
+      "kind": "hold",
+      "prompt": "Hold the power-assist button until the door has fully retracted for the pallet jack to pass.",
+      "seconds": 5,
+      "target": "door-assist-button",
+      "title": "Hold the door's power assist",
+      "why": "Holding the assist button for the full retraction, rather than letting go early and forcing the door the rest of the way by hand, is what keeps the door track from taking the kind of side-load that eventually throws it out of alignment."
+    },
+    {
+      "cue": "Confirm the pallet's rotation tag before pulling it.",
+      "id": "rotation-confirm",
+      "kind": "select",
+      "prompt": "Confirm the pallet's rotation tag before pulling it.",
+      "target": "rotation-tag",
+      "title": "Confirm the rotation-marked pallet",
+      "why": "Confirming the tag rather than the position is what keeps first-in-first-out honest — the pallet nearest the door is not always the one that has been here longest, and pulling by convenience instead of by date is how older stock quietly ages past its window."
+    },
+    {
+      "cue": "Carry the marked pallet to the door for the waiting forklift.",
+      "drag": {
+        "missNote": "Not onto the fork — the pallet only leaves the room under control when it lands where the forklift can take it, not partway there.",
+        "radius": 0.45,
+        "to": "forklift-fork-socket"
+      },
+      "id": "pull-pallet",
+      "kind": "drag",
+      "prompt": "Carry the marked pallet to the door for the waiting forklift.",
+      "target": "marked-pallet",
+      "title": "Pull the marked pallet",
+      "why": "Moving the pallet under control, the short distance to the door where the forklift is actually waiting, is what keeps this errand as brief and as controlled as a cold-room entry should be — a rushed or unsteady carry is exactly how a slip on a still-thawing floor turns into a dropped pallet."
+    },
+    {
+      "cue": "Read the room's temperature gauge and commit only within the expected operating range.",
+      "gauge": {
+        "green": [
+          0.35,
+          0.65
+        ],
+        "label": "ROOM TEMPERATURE",
+        "missNote": "Committed outside the expected range. A room reading outside its normal range gets reported, not treated as close enough.",
+        "speed": 0.5
+      },
+      "id": "temp-check",
+      "kind": "gauge",
+      "prompt": "Read the room's temperature gauge and commit only within the expected operating range.",
+      "target": "temp-gauge",
+      "title": "Confirm the room temperature",
+      "why": "A room reading outside its expected range is telling you something before the alarm ever sounds — the gauge is the honest number, not how cold the room feels after thirty seconds of acclimating to it, and a range this platform is not certain of is one the room's own posted procedure states plainly."
+    },
+    {
+      "cue": "Log the exit time before leaving the room area.",
+      "id": "log-exit-time",
+      "kind": "select",
+      "prompt": "Log the exit time before leaving the room area.",
+      "target": "exposure-log",
+      "title": "Log the exit time",
+      "why": "The exposure log is what lets the next associate, and the site's own cold-work programme, actually see how long people are spending in this room — a log that never gets updated is a limit nobody can tell whether they are honouring, shift after shift, until a pattern of long entries finally shows up somewhere."
+    },
+    {
+      "cue": "Turn the door handle closed and confirm it seats.",
+      "id": "door-close",
+      "kind": "turn",
+      "prompt": "Turn the door handle closed and confirm it seats.",
+      "target": "coldroom-door",
+      "title": "Close the cold-room door",
+      "turn": {
+        "axis": "y",
+        "label": "DOOR HANDLE",
+        "turns": 0.4
+      },
+      "why": "A door that is not fully seated will not hold the room's temperature no matter how good the seal is — confirming it now is what keeps this trip from being the reason the next shift finds the room running warm and every pallet on the rack a few degrees closer to spoiled."
+    },
+    {
+      "cue": "Check out on the buddy board once you are clear of the room.",
+      "id": "buddy-checkout",
+      "kind": "select",
+      "prompt": "Check out on the buddy board once you are clear of the room.",
+      "target": "buddy-board",
+      "title": "Check out with your buddy",
+      "why": "Checking out is what closes the loop the check-in opened — a buddy system that only tracks who went in, never who came back out, cannot actually tell the difference between a normal errand and one that went wrong until somebody notices the associate never reappeared."
+    },
+    {
+      "cue": "Sign the pull log before moving on to the next task.",
+      "id": "closing-log",
+      "kind": "select",
+      "prompt": "Sign the pull log before moving on to the next task.",
+      "target": "closing-log",
+      "title": "Sign the pull log",
+      "why": "The signed log is the record that this specific pallet, pulled on this specific rotation tag, actually followed the room's own procedure — not assumed fine because it usually does, and not reconstructed from memory once the pallet is already three aisles away on a forklift."
+    }
+  ],
+  "supportLine": "your Teamsters local's member assistance programme, or the site's employee assistance line if a close call in the cold room is what stayed with you",
+  "tagline": "Entering a cold-storage room the way its own procedure requires it: insulated PPE worn before the door opens, a buddy actually checked in, the ice and the propped door and the torn seal caught before they become a fall or a temperature excursion, and the correct rotation-marked pallet pulled by date rather than by convenience",
+  "title": "SmartCiti.X~ Cold-Storage PPE & Rotation VR",
+  "trade": "Teamsters warehouse associate — cold-storage entry and stock rotation",
+  "underwater": null,
+  "weather": null
+}

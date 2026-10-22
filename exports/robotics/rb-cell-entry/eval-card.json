@@ -1,0 +1,81 @@
+{
+  "v": "rx/1",
+  "scenario": "rb-cell-entry",
+  "name": "Robot Cell Entry",
+  "station": "ad-robot-cell-lockout-and-safe-reentry",
+  "policy": {
+    "id": "rx-bc-rb-cell-entry",
+    "version": "31f876a6",
+    "method": "behaviour-cloning-knn",
+    "file": "rb-cell-entry/policy.json",
+    "modelHash": "31f876a605368d44"
+  },
+  "dataSource": {
+    "id": "rx-ds-rb-cell-entry",
+    "source": "synthetic",
+    "file": "rb-cell-entry/dataset.json",
+    "demosOffered": 40,
+    "demosKept": 24,
+    "rows": 584
+  },
+  "seeds": {
+    "heldOut": "7001-7060",
+    "n": 60
+  },
+  "results": {
+    "random": {
+      "n": 60,
+      "success": 0,
+      "clean": 0.05,
+      "meanSteps": 159.4
+    },
+    "expert": {
+      "n": 60,
+      "success": 1,
+      "clean": 1,
+      "meanSteps": 22.583
+    },
+    "bcFiltered": {
+      "n": 60,
+      "success": 1,
+      "clean": 1,
+      "meanSteps": 24.583
+    },
+    "bcUnfiltered": {
+      "n": 60,
+      "success": 1,
+      "clean": 1,
+      "meanSteps": 23.583
+    },
+    "gapToExpert": 0
+  },
+  "invariants": {
+    "rules": [
+      "enter-live-cell",
+      "skip-estop-test",
+      "lockout-order",
+      "no-verify",
+      "restart-with-lock",
+      "left-locked"
+    ],
+    "unit": "violation steps (a held protective stop repeats every step)",
+    "policyViolations": 0,
+    "policyViolationsByRule": {},
+    "policyEpisodesWithViolations": 0,
+    "policySteps": 1475,
+    "expertViolations": 0,
+    "expertEpisodesWithViolations": 0,
+    "expertSteps": 1355,
+    "of": 60
+  },
+  "lineage": {
+    "datasetId": "rx-ds-rb-cell-entry",
+    "policyId": "rx-bc-rb-cell-entry",
+    "sites": [
+      "rb-site-soma-robot-cell"
+    ],
+    "auditHead": "e951f5b2ab674f86",
+    "auditLines": 5
+  },
+  "measuredOn": "the simulated scenario only; no hardware run has happened"
+}

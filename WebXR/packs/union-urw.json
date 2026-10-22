@@ -1,0 +1,198 @@
+{
+  "id": "union-urw",
+  "kind": "union",
+  "name": "URW Union Package",
+  "title": "SmartCiti.X URW Union Package — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "Every station the platform ties to United Union of Roofers, Waterproofers and Allied Workers: the programmes whose union line names it and the stations whose own certification does.",
+  "certification": null,
+  "programmes": [
+    "roofers-and-waterproofers"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "rf-green-roof-and-overburden-placement"
+    },
+    {
+      "app": "smartcity",
+      "id": "rf-skylight-and-hatch-guarding"
+    },
+    {
+      "app": "smartcity",
+      "id": "rf-roof-tear-off-and-debris-chute"
+    },
+    {
+      "app": "smartcity",
+      "id": "rf-below-grade-waterproofing-and-drainage-board"
+    },
+    {
+      "app": "smartcity",
+      "id": "rf-standing-seam-metal-panel-and-clip"
+    },
+    {
+      "app": "smartcity",
+      "id": "rf-hot-asphalt-kettle-and-mop"
+    },
+    {
+      "app": "smartcity",
+      "id": "rf-single-ply-tpo-heat-welding-and-seam-probe"
+    },
+    {
+      "app": "smartcity",
+      "id": "rf-torch-applied-membrane-and-fire-watch"
+    }
+  ],
+  "unions": [
+    "urw"
+  ],
+  "unionLine": "United Union of Roofers, Waterproofers and Allied Workers",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "downtown-housing-block"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-tammany",
+      "sites": [
+        "st-sw-piney-woods-east-renovation-site",
+        "st-sw-piney-woods-west-renovation-site",
+        "st-sw-piney-woods-east-west-renovation-site"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-downtown",
+      "sites": [
+        "dt-sw-russian-hill-renovation-site",
+        "dt-sw-western-addition-renovation-site"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-mission",
+      "sites": [
+        "mi-sw-mission-renovation-site",
+        "mi-sw-potrero-hill-renovation-site"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-marina",
+      "sites": [
+        "ma-sw-western-addition-renovation-site"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-bayview",
+      "sites": [
+        "bv-sw-excelsior-renovation-site"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-north-beach",
+      "sites": [
+        "jackson-square-renovation"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-haight-castro",
+      "sites": [
+        "alamo-square-victorian-row",
+        "haight-victorian-renovation"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "laf-downtown",
+      "sites": [
+        "lafd-roofing-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "laf-carencro-north",
+      "sites": [
+        "lafc-subdivision-framing"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "la-meta-richland",
+      "sites": [
+        "lmr-roofing-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "lc-lakefront-downtown",
+      "sites": [
+        "lcd-roof-repair-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "nola-french-quarter-cbd",
+      "sites": [
+        "nfq-balcony-restoration",
+        "nfq-french-market-shed-repair"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "nola-uptown-garden",
+      "sites": [
+        "nup-shotgun-restoration",
+        "nup-gas-service",
+        "nup-roofing-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "nola-mid-city-gentilly",
+      "sites": [
+        "nmc-cottage-restoration",
+        "nmc-roofing-crew"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "nola-bywater-lower-ninth",
+      "sites": [
+        "nbw-creole-cottage-restoration",
+        "nbw-solar-roof"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "br-downtown-riverfront",
+      "sites": [
+        "brd-roofing-crew"
+      ]
+    }
+  ],
+  "stationNames": {
+    "rf-green-roof-and-overburden-placement": "Green Roof & Overburden Placement",
+    "rf-skylight-and-hatch-guarding": "Skylight & Hatch Guarding",
+    "rf-roof-tear-off-and-debris-chute": "Roof Tear-Off & Debris Chute",
+    "rf-below-grade-waterproofing-and-drainage-board": "Below-Grade Waterproofing & Drainage Board",
+    "rf-standing-seam-metal-panel-and-clip": "Standing-Seam Metal Panel & Clip",
+    "rf-hot-asphalt-kettle-and-mop": "Hot Asphalt Kettle & Mop",
+    "rf-single-ply-tpo-heat-welding-and-seam-probe": "Single-Ply TPO Heat Welding & Seam Probe",
+    "rf-torch-applied-membrane-and-fire-watch": "Torch-Applied Membrane & Fire Watch"
+  },
+  "version": "1.0.0",
+  "contentHash": "fb558a80",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}

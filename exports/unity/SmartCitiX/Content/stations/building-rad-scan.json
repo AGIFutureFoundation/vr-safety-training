@@ -1,0 +1,424 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "building-released",
+    "name": "Building Released",
+    "note": "Instrument bracketed at both ends of the day, the reclassification flagged the moment the drain called for it, and no shortcut on the mark, the photo or the swipe"
+  },
+  "category": "Environmental Monitoring",
+  "certification": "LIUNA hazmat and environmental laborers assisting the survey; IUOE Local 3 operating engineers on the aerial lift that reaches the upper wall lanes; OSHA HAZWOPER 40-hour (29 CFR 1910.120); NRC 10 CFR 20 occupational dose limits; EPA MARSSIM structure-surface survey methodology; the site's radiological work plan and QAPP chain of custody; California Department of Public Health (CDPH) Radiologic Health Branch oversight",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "EPA",
+        "citedAs": "MARSSIM",
+        "id": "marssim",
+        "title": "MARSSIM — Multi-Agency Radiation Survey and Site Investigation Manual"
+      },
+      {
+        "body": "NRC",
+        "citedAs": "10 CFR 20",
+        "id": "nrc-10-cfr-20",
+        "title": "10 CFR Part 20 — Standards for protection against radiation"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.120",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "both-brackets",
+        "name": "Both Brackets",
+        "note": "Probe source-checked clean at the start of the day and again at the end"
+      },
+      {
+        "id": "no-shortcuts",
+        "name": "No Shortcuts",
+        "note": "Never skipped the check source, crossed into unsurveyed ground, reused a swipe or skipped a photo"
+      },
+      {
+        "id": "true-lanes",
+        "name": "True Lanes",
+        "note": "Held probe height and scan speed inside the band on both the floor and the walls"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-survey",
+        "name": "Clean Survey",
+        "note": "No corrections anywhere in the survey"
+      },
+      {
+        "id": "steady-sweep",
+        "name": "Steady Sweep",
+        "note": "Never broke a scan speed or a hold"
+      },
+      {
+        "id": "envelope-early",
+        "name": "Envelope Early",
+        "note": "Swipe bagged and logged inside 80% of par"
+      }
+    ],
+    "currency": "DPM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Grid Walker",
+      "Wall Scanner",
+      "Drain Checker",
+      "Release Reviewer",
+      "Structure Survey Certified"
+    ],
+    "system": "Structure Survey Integrity"
+  },
+  "hazards": {
+    "cross-barrier": "You stepped past the barrier tape into the next room, which has not been gridded or classified yet. MARSSIM's coverage claim is a claim about the survey unit that was actually walked — ground on the far side of that tape is not part of it yet, whatever the floor plan says it will eventually be.",
+    "reuse-swipe": "You picked up a swipe that already wiped a different point on the grid instead of a fresh one. A swipe carries whatever it last touched, so a reused one cannot tell an inspector whether this point is contaminated or whether the last point was — it is a result that answers a question about the wrong square of floor.",
+    "skip-photo": "You placed the flag and moved on without photographing it. The photograph is what ties a specific numbered flag to a specific patch of stained concrete for anyone reviewing this survey after the crew has left the building — a flag with no photograph is a location that exists only in one person's memory of where they thought it was.",
+    "skip-source-check": "You powered up and started scanning without checking the probe against the source first. Every reading this instrument takes in this building today is unverifiable — there is no way to tell a genuinely elevated wall reading from a probe that was already reading high before it ever crossed the threshold."
+  },
+  "id": "building-rad-scan",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "drain-scan",
+      "alert": "The floor drain's reading just topped the investigation level — that one number is enough to move this whole survey unit up a classification.",
+      "cue": "Flag the reclassification on the unit placard now, before the scan moves anywhere else.",
+      "delay": 4,
+      "id": "drain-reclass",
+      "kind": "Reclassification",
+      "missNote": "The scan carried on for two more lanes under the old classification before anyone updated the placard, and every reading taken in those minutes now has to be re-evaluated against a coverage standard the unit no longer actually meets.",
+      "seconds": 13,
+      "target": "reclass-placard",
+      "why": "MARSSIM's classification sets how much of a survey unit actually has to be scanned, and a single confirmed reading over the investigation level means this unit no longer qualifies for the class it was posted under when the crew walked in — leave the old placard up and the next person through the door reads the wrong coverage requirement off a sign that no longer describes this room.",
+      "wrongNote": "Not that — the placard. The classification that's posted on it stopped being true the moment that drain reading came in."
+    },
+    {
+      "after": "source-check-pm",
+      "alert": "A demolition crew is already hauling the roll-up door open into the survey unit — nobody told them the release hasn't been signed off yet.",
+      "cue": "Stop them at the door before anyone off this survey crew is standing on ground that hasn't been released.",
+      "delay": 3,
+      "id": "door-breach",
+      "kind": "Early entry",
+      "missNote": "Two demolition workers and a pallet jack crossed the unswiped half of the floor before anyone reached the door, and the survey now has to note that the room's condition can no longer be guaranteed unchanged since the last reading.",
+      "seconds": 12,
+      "target": "door-stop",
+      "why": "Release depends on the day's full data actually being reviewed, not on the scan simply being finished — a crew walking equipment across a floor that hasn't been signed off can scuff a marked point, kick debris into a drain that's still under evaluation, or simply be standing somewhere nobody has yet said is safe to stand.",
+      "wrongNote": "Not that — the door. Whoever is coming through it has to be stopped before this floor is signed as released."
+    }
+  ],
+  "lateNotes": {
+    "camera": "Nothing to photograph until the flag is actually down on the point — a photograph of an empty patch of floor proves where nothing is.",
+    "check-source": "The source doesn't get touched until the coveralls are on and the range is set — checking a probe you aren't ready to survey with yet just spends the source's certified count for nothing.",
+    "flag-marker": "Nothing confirmed to flag yet — the static count has to actually finish and read over the investigation level before there is a location worth marking.",
+    "floor-drain": "Nothing to hold a count over yet — the floor lanes have to actually reach this corner of the room before the drain gets its own dedicated count on top of the grid.",
+    "swipe-kit": "Nothing to swipe until the point is flagged and photographed — a removable-contamination result with no confirmed, marked location isn't tied to anything the next crew can find again."
+  },
+  "name": "Building Rad Scan",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-bay-restoration"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "camera",
+      "check-source",
+      "coc-socket",
+      "cross-barrier",
+      "door-stop",
+      "dosimeter",
+      "drain-flag-socket",
+      "efficiency-panel",
+      "flag-marker",
+      "floor-drain",
+      "lift-control",
+      "probe",
+      "reclass-placard",
+      "reference-surface",
+      "reuse-swipe",
+      "rwp-board",
+      "skip-photo",
+      "skip-source-check",
+      "swipe-envelope",
+      "swipe-kit",
+      "tyvek",
+      "unlabeled-envelope"
+    ],
+    "meshes": 234
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the posted classification, the grid spacing and the investigation level the plan sets for this building before the probe comes off the cart.",
+      "id": "plan",
+      "kind": "select",
+      "prompt": "Check the posted classification, the grid spacing and the investigation level the plan sets for this building before the probe comes off the cart.",
+      "target": "rwp-board",
+      "title": "Read the survey unit's classification and release criteria",
+      "why": "MARSSIM classifies a survey unit before anyone scans it — a Class 1 unit gets scanned at full coverage, a lower class does not — and the release criteria on the plan are the number every reading in this building gets judged against. Walking in and scanning without reading it first means guessing at both the coverage this room needs and the number that decides whether it gets released."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Clip on the dosimeter and step into coveralls before crossing the threshold into the survey unit.",
+      "id": "ppe",
+      "itemNames": {
+        "dosimeter": "dosimeter",
+        "tyvek": "disposable coveralls"
+      },
+      "kind": "sequence",
+      "prompt": "Clip on the dosimeter and step into coveralls before crossing the threshold into the survey unit.",
+      "targets": [
+        "dosimeter",
+        "tyvek"
+      ],
+      "title": "Put on dosimetry and coveralls",
+      "why": "The dosimeter is this technician's own exposure record for the day, and it only means something if it went on before the first reading rather than clipped on somewhere mid-survey. A derelict floor carries decades of loose debris the coveralls keep off skin and out of the truck at shift's end."
+    },
+    {
+      "cue": "Hold the probe against the sealed check source until the reading settles and confirm it falls inside the tagged tolerance.",
+      "holdBreakNote": "Lifted off the source before the reading settled — that is not a check, it's a glance. Hold it on until it settles and reads back inside tolerance.",
+      "id": "source-check-am",
+      "kind": "hold",
+      "prompt": "Hold the probe against the sealed check source until the reading settles and confirm it falls inside the tagged tolerance.",
+      "seconds": 5,
+      "target": "check-source",
+      "title": "Source-check the probe — morning",
+      "why": "This is the first end of the bracket: proof the probe itself reads true before it crosses the threshold. A survey run on an unchecked instrument is not evidence of anything about this building, no matter how carefully the floor gets walked afterward — it is a number nobody can stand behind."
+    },
+    {
+      "cue": "Read the counting efficiency off the source-check response and commit once it lands inside the plan's tagged band.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "COUNTING EFFICIENCY",
+        "missNote": "Not a settled efficiency figure — read the source-check response again and commit only once it's inside the plan's tagged band.",
+        "speed": 0.62
+      },
+      "id": "efficiency",
+      "kind": "gauge",
+      "prompt": "Read the counting efficiency off the source-check response and commit once it lands inside the plan's tagged band.",
+      "target": "efficiency-panel",
+      "title": "Record the probe's counting efficiency",
+      "why": "Efficiency is what converts this probe's raw count rate into the disintegrations-per-minute figure the investigation level is actually written in — record it wrong, or skip it, and every reading the probe takes today gets compared against the plan's number using the wrong conversion, which can hide a real exceedance or manufacture one that was never there."
+    },
+    {
+      "cue": "Read the probe on the reference coupon outside the survey unit and commit once the reading settles inside the expected range.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.56
+        ],
+        "label": "BACKGROUND",
+        "missNote": "That is not a settled background reading — read the reference coupon again and commit only once it's inside the expected range.",
+        "speed": 0.6
+      },
+      "id": "background",
+      "kind": "gauge",
+      "prompt": "Read the probe on the reference coupon outside the survey unit and commit once the reading settles inside the expected range.",
+      "target": "reference-surface",
+      "title": "Establish background on the reference surface",
+      "why": "Every reading taken inside this survey unit is judged against this number, not against zero — and it has to come from a surface known to be clean, mounted outside the unit, not from an assumption about what a derelict building's background ought to read. Skip it and there is no way to tell a genuinely elevated wall reading from ordinary background on old concrete."
+    },
+    {
+      "cue": "Hold the probe at the method's height and keep your pace inside the band, overlapping each lane into the last.",
+      "holdBreakNote": "Speed drifted out of the band — at that pace the probe is either skating over floor it never really surveyed or falling behind the plan's schedule. Bring it back and hold the lane.",
+      "id": "floor-scan",
+      "kind": "track",
+      "prompt": "Hold the probe at the method's height and keep your pace inside the band, overlapping each lane into the last.",
+      "seconds": 9,
+      "target": "probe",
+      "title": "Scan the floor in overlapping lanes",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "SCAN SPEED",
+        "rise": 0.55,
+        "start": 0.1
+      },
+      "why": "MARSSIM's coverage claim only holds at this speed and probe height, with each lane overlapping the one before it — faster or higher, and a hot spot the size the plan is looking for can pass under the probe between lanes; slower or lower, and the crew never clears the floor before the day's access window closes."
+    },
+    {
+      "cue": "Have the platform raised to the height the plan calls for before the wall lanes start.",
+      "id": "lift-raise",
+      "kind": "turn",
+      "prompt": "Have the platform raised to the height the plan calls for before the wall lanes start.",
+      "target": "lift-control",
+      "title": "Raise the aerial lift to wall-scan height",
+      "turn": {
+        "axis": "y",
+        "label": "LIFT HEIGHT",
+        "turns": 0.6
+      },
+      "why": "The plan sets a wall height for a reason — most of what a demolition drops from overhead lands within that band — and a platform stopped short of it leaves the top of every wall lane unscanned no matter how carefully the rest gets swept. IUOE runs the lift itself; the technician's job is confirming it stops at the height the plan actually asked for."
+    },
+    {
+      "cue": "Sweep the wall lanes side to side at the platform's set height, keeping pace inside the band.",
+      "holdBreakNote": "Sweep speed drifted out of the band — bring it back before the lift moves to the next wall lane.",
+      "id": "wall-scan",
+      "kind": "track",
+      "prompt": "Sweep the wall lanes side to side at the platform's set height, keeping pace inside the band.",
+      "seconds": 8,
+      "target": "probe",
+      "title": "Scan the walls to survey height",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.38,
+          0.6
+        ],
+        "label": "WALL SWEEP",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "A wall scanned too fast from a lift that is already costing the crew time on the clock is the same coverage failure as a floor lane walked too fast — the difference is that nobody re-checks a wall lane on the way out the way a boot might catch a missed floor square, so this pass has to be right the first time."
+    },
+    {
+      "cue": "Hold the probe over the drain grate for the full count — drains and low points collect loose contamination whether or not they sit on the grid.",
+      "holdBreakNote": "Lifted the probe before the count finished — an incomplete count over a drain proves nothing about what's actually collected in it.",
+      "id": "drain-scan",
+      "kind": "hold",
+      "prompt": "Hold the probe over the drain grate for the full count — drains and low points collect loose contamination whether or not they sit on the grid.",
+      "seconds": 6,
+      "target": "floor-drain",
+      "title": "Scan the floor drain and low points",
+      "why": "Loose material on a derelict floor migrates downhill under its own weight and years of foot traffic, and a drain or a low point is exactly where it settles — the general grid pattern can pass within a metre of that concentration and never actually read over it, which is why drains get their own dedicated count on top of the lanes rather than trusting the grid to happen to cross them."
+    },
+    {
+      "cue": "Hold the probe steady over the same point for the full static count now that the drain has read elevated.",
+      "holdBreakNote": "Lifted the detector before the count finished — an incomplete static count is not confirmation of anything, it's a reading that got interrupted.",
+      "id": "static-count",
+      "kind": "hold",
+      "prompt": "Hold the probe steady over the same point for the full static count now that the drain has read elevated.",
+      "seconds": 6,
+      "target": "floor-drain",
+      "title": "Take the confirmatory static count",
+      "why": "A held reading during a walk-round is what finds a hot spot; a static count taken afterward, with the probe still and the clock running the full duration, is what actually confirms a point sits over the investigation level rather than a spike in the noise. Nothing gets flagged, photographed or swiped off a walk-round number alone."
+    },
+    {
+      "cue": "Set the numbered flag on the point first, then photograph it for the survey record.",
+      "id": "flag-photo",
+      "itemNames": {
+        "camera": "camera",
+        "flag-marker": "numbered flag"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "The flag goes down first, on the point the count confirmed — photographing an unflagged patch of floor documents nothing anyone can find again.",
+      "prompt": "Set the numbered flag on the point first, then photograph it for the survey record.",
+      "targets": [
+        "flag-marker",
+        "camera"
+      ],
+      "title": "Mark and photograph the location",
+      "why": "The flag is what makes this an actual location and not just a number in a logbook, and the photograph is what ties that specific flag to this specific patch of stained concrete for anyone reviewing the survey after the crew has left — flag it and walk away without the photo, and the record depends on nobody ever needing to prove where the flag actually stood."
+    },
+    {
+      "cue": "Wipe the flagged point with a fresh swipe filter from the rack — never one already used somewhere else on the grid.",
+      "id": "swipe",
+      "kind": "select",
+      "prompt": "Wipe the flagged point with a fresh swipe filter from the rack — never one already used somewhere else on the grid.",
+      "target": "swipe-kit",
+      "title": "Take a swipe for removable contamination",
+      "why": "The probe reading tells you the point is elevated; the swipe is the only thing that tells you how much of that activity is loose enough to move on a boot or a glove versus fixed to the concrete, and that distinction is what the waste route and the respiratory protection for the demolition crew actually get decided on."
+    },
+    {
+      "cue": "Seal the swipe in its numbered envelope, write the point ID, date, time and surveyor on it, and carry it to the custody log before it leaves your hand.",
+      "drag": {
+        "missNote": "Not carried to the custody log — a sealed envelope set down anywhere else in the room is a sample with no custody record yet.",
+        "radius": 0.4,
+        "to": "coc-socket"
+      },
+      "id": "bag-swipe",
+      "kind": "drag",
+      "prompt": "Seal the swipe in its numbered envelope, write the point ID, date, time and surveyor on it, and carry it to the custody log before it leaves your hand.",
+      "target": "swipe-envelope",
+      "title": "Seal, label and log the swipe under chain of custody",
+      "why": "From here the swipe is evidence, and the label plus the custody log are what prove it came off this exact point at this exact time — a swipe that sits unsealed or unlogged for even a few minutes is a sample nobody downstream can vouch for, whatever the number on it eventually reads."
+    },
+    {
+      "cue": "Hold the probe against the same check source again before the day's data gets signed off.",
+      "holdBreakNote": "Lifted off the source again before it settled — the closing check has to actually complete, or the day's data is only bracketed on one end.",
+      "id": "source-check-pm",
+      "kind": "hold",
+      "prompt": "Hold the probe against the same check source again before the day's data gets signed off.",
+      "seconds": 5,
+      "target": "check-source",
+      "title": "Source-check the probe — end of day",
+      "why": "This closes the bracket the morning check opened. A day's readings verified only at the start are one drifted battery or one bumped calibration away from unverifiable by the time anyone questions them — the closing check is what lets every reading taken in this building today stand on its own."
+    },
+    {
+      "cue": "Check every envelope on the tray against the custody log and click the one with no label.",
+      "id": "final-walk",
+      "itemNames": {
+        "unlabeled-envelope": "unlabeled envelope"
+      },
+      "itemNotes": {
+        "unlabeled-envelope": "That envelope has no point ID, no date and no surveyor's initials on it — it is not traceable to any square on the grid, and a lab cannot certify a swipe it cannot place."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check every envelope on the tray against the custody log and click the one with no label.",
+      "targets": [
+        "unlabeled-envelope"
+      ],
+      "title": "Walk the sample tray before it leaves the building",
+      "why": "The lab trusts whatever the label says an envelope is. One unlabeled swipe among labeled ones in the same tray is a sample that either gets thrown out or gets guessed at, and neither of those is what a removable-contamination result under chain of custody is supposed to survive to become."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A derelict building's structure-surface survey ahead of demolition: instrument bracketed by a check source, floor and walls scanned to the plan's coverage, drains scanned as collection points, and a swipe bagged under chain of custody",
+  "title": "SmartCiti.X~ Building Rad Scan VR",
+  "trade": "Radiation control technician — building structure-surface survey",
+  "underwater": null,
+  "weather": null
+}

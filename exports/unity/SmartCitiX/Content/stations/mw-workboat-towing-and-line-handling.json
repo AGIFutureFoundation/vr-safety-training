@@ -1,0 +1,397 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clear-of-the-hawser",
+    "name": "Clear Of The Hawser",
+    "note": "Never over a working hawser, never a hand on the drum, never a line near the screw, and both the set and the silent radio answered"
+  },
+  "category": "Maritime & Ports",
+  "certification": "Inlandboatmen's Union of the ILWU deck practice on towing vessels; MEBA engineering watch; SIU Paul Hall Center unlicensed deck training; USCG 46 CFR Subchapter M towing vessel inspection, including the vessel's towing safety management and its towing gear; IMO STCW basic safety training; IMO MARPOL for the fuel and the bilge on deck",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "ILWU",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "IMO",
+        "citedAs": "IMO MARPOL",
+        "id": "imo-marpol",
+        "title": "MARPOL — International Convention for the Prevention of Pollution from Ships"
+      },
+      {
+        "body": "IMO",
+        "citedAs": "IMO STCW",
+        "id": "imo-stcw",
+        "title": "STCW — Convention on Standards of Training, Certification and Watchkeeping for Seafarers"
+      },
+      {
+        "body": "union",
+        "citedAs": "MEBA",
+        "id": "meba-calhoon-school",
+        "title": "MEBA — the Calhoon MEBA Engineering School's licensed marine engineer training"
+      },
+      {
+        "body": "union",
+        "citedAs": "SIU",
+        "id": "siu-paul-hall-center",
+        "title": "SIU — the Paul Hall Center for Maritime Training and Education's unlicensed mariner programmes"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "Subchapter M",
+        "id": "uscg-subchapter-m",
+        "title": "46 CFR Subchapter M — Inspection of towing vessels"
+      }
+    ]
+  },
+  "district": "Maritime & Ports",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "plan-first",
+        "name": "Plan First",
+        "note": "The voyage and tow plan read before any line moved"
+      },
+      {
+        "id": "load-read-true",
+        "name": "Load Read True",
+        "note": "Hawser load committed inside the band first time"
+      },
+      {
+        "id": "out-of-the-lead",
+        "name": "Out Of The Lead",
+        "note": "Never over the hawser, never at the drum by hand, never a lashed release"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-make-up",
+        "name": "Clean Make-Up",
+        "note": "No corrections from the plan to the log"
+      },
+      {
+        "id": "steady-payout",
+        "name": "Steady Payout",
+        "note": "Hawser paid out in band the whole way to the master's length"
+      },
+      {
+        "id": "on-the-tide",
+        "name": "On The Tide",
+        "note": "Tow logged inside 80% of par"
+      }
+    ],
+    "currency": "FATHOM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ordinary",
+      "Deckhand",
+      "Lead Deckhand",
+      "Tow Mate",
+      "Tow Deck Certified"
+    ],
+    "system": "Tow Deck"
+  },
+  "hazards": {
+    "hand-on-drum": "You put a gloved hand on the hawser to guide it onto the turning drum. The drum takes a glove, the hand in it and the arm behind it faster than the winch can be stopped; a hawser that is spooling badly is stopped and fixed with the drum still, never guided by hand while it turns.",
+    "heaving-line-screw": "You threw the heaving line off the quarter with the master working the engine ahead. A heaving line that falls short goes into the water right where the wheel wash pulls it in, and a line round a tug's wheel takes her propulsion in the middle of making up to a barge — the heaving line goes from the stern, with 'wheel stopped' called from the wheelhouse first.",
+    "release-lashed": "You left the tow hook's quick release lashed shut with a bit of small stuff. The release is what lets the master drop the tow in seconds when the barge sheers and starts to pull the tug over — girting — and a lashed release is a release nobody can trip when the tug is already heeling. It is kept free and proven, never tied off for convenience.",
+    "step-over-hawser": "You stepped over the hawser to cross the afterdeck while it was working. A hawser under load moves sideways across the deck with every sheer of the tow, faster than a person can lift a foot, and a hawser that jumps the roller sweeps the deck at knee height — the afterdeck is crossed forward of the winch, never over the lead."
+  },
+  "id": "mw-workboat-towing-and-line-handling",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "heaving-line",
+      "alert": "The flood has set in and the barge is being carried down onto the tug's quarter — the gap is closing and the heaving line is going slack between the hulls.",
+      "cue": "Call the master on the deck radio: the barge is setting down on the quarter, the distance, and the heaving line is slack.",
+      "delay": 2,
+      "id": "current-set-on-barge",
+      "kind": "Current shift sets the barge down",
+      "missNote": "The barge's bow closed on the quarter with the deckhand still at the stern tending a slack heaving line, and the wheelhouse learned about the set when the hulls touched.",
+      "seconds": 14,
+      "target": "tow-radio",
+      "why": "The master cannot see the barge's bow closing on the quarter from the wheelhouse controls, and a barge setting down on a tug puts the deckhand between two hulls. The answer is to tell the wheelhouse what the deck can see — the set, the closing distance and the slack line — so the master can use the engines to open the gap before anyone on deck tries to fend a barge off by hand.",
+      "wrongNote": "The deck radio — the master needs to hear the set and the closing distance to open the gap with the engines."
+    },
+    {
+      "after": "pay-out",
+      "alert": "The deck radio has gone silent in the middle of the pay-out — no answer from the wheelhouse and the tug still coming ahead.",
+      "cue": "Stop paying out, hold the brake, and raise the wheelhouse on the backup handheld from the charger.",
+      "delay": 2,
+      "id": "comms-lost-payout",
+      "kind": "Comms lost with the wheelhouse",
+      "missNote": "The pay-out carried on with the radio dead; the master, hearing nothing, eased the engine as the deckhand let the brake off, and the hawser ran slack into the water toward the wheel.",
+      "seconds": 14,
+      "target": "backup-radio",
+      "why": "A tow paid out without the wheelhouse hearing the deck is two people guessing at each other's next move with a hawser between them. The agreed lost-comms answer is to stop what is changing — the pay-out — and get a voice back on the backup handheld before anything else moves, rather than carrying on and assuming the master saw what the deck did.",
+      "wrongNote": "The backup handheld — with the deck radio dead, the first job is a voice back with the wheelhouse before anything else moves."
+    }
+  ],
+  "lateNotes": {
+    "load-gauge": "The load is read once the eye is on the barge and the master has taken a strain — there is nothing on the gauge before that.",
+    "towing-log": "The tow is logged once the hawser is out, the afterdeck chained off and the gear stowed — last, not first.",
+    "winch-lever": "The hawser pays out once the eye is on the barge's bitt and the load has been read — not with the eye still on deck."
+  },
+  "name": "Workboat Towing & Line Handling",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "backup-radio",
+      "barge-bitt",
+      "danger-chain",
+      "gear-box",
+      "gob-eye-worn",
+      "hand-on-drum",
+      "hawser-chafe",
+      "hawser-eye",
+      "heaving-line",
+      "heaving-line-screw",
+      "line-knife",
+      "load-gauge",
+      "release-lashed",
+      "roller-seized",
+      "shackle-unmoused",
+      "step-over-hawser",
+      "tow-radio",
+      "tow-vest",
+      "towing-log",
+      "voyage-plan",
+      "wheelhouse-intercom",
+      "winch-brake",
+      "winch-lever"
+    ],
+    "meshes": 187
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the plan on the deckhouse board: the barge and her draft, the route, the tow length for the water, the weather window, and each crew member's job on deck.",
+      "id": "voyage-plan",
+      "kind": "select",
+      "prompt": "Read the plan on the deckhouse board: the barge and her draft, the route, the tow length for the water, the weather window, and each crew member's job on deck.",
+      "target": "voyage-plan",
+      "title": "Read the voyage and tow plan with the master",
+      "why": "A tow is two vessels joined by a line that neither controls alone, and the plan is where the tug's crew agree what the barge weighs, how long the hawser will be in open water and in the channel, and who is where on deck. The Subchapter M rules put a towing vessel under a documented safety management and voyage planning regime for exactly this reason: the time to find out the tow length does not suit the channel is at the dock, not with the hawser out."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Work vest on and fastened, and a sheathed line knife on your belt where either hand can reach it.",
+      "id": "vest-and-knife",
+      "itemNames": {
+        "line-knife": "line knife on the belt",
+        "tow-vest": "work vest"
+      },
+      "kind": "sequence",
+      "prompt": "Work vest on and fastened, and a sheathed line knife on your belt where either hand can reach it.",
+      "targets": [
+        "tow-vest",
+        "line-knife"
+      ],
+      "title": "Put on the work vest and the line knife",
+      "why": "A deckhand on a tug works low freeboard at the stern where a sheer of the tow or a wave over the quarter puts people in the water, and the work vest is what a crew recovers them by. The knife is for the one thing a deckhand cannot otherwise get out of — a heaving line or a messenger round a wrist or a boot as it runs — and it is on the belt before the lines move, because nobody fetches a knife once a line has them."
+    },
+    {
+      "cue": "Walk the hawser from the drum to the eye and the bridle's shackles: chafe on the cover, cuts, pins moused, thimbles seated.",
+      "id": "gear-walk",
+      "itemNames": {
+        "hawser-chafe": "chafed section of the hawser at the roller",
+        "shackle-unmoused": "bridle shackle with no mousing on the pin"
+      },
+      "itemNotes": {
+        "hawser-chafe": "The hawser's cover is chafed through to the core strands where it last lay over the stern roller — that is the point that takes every sheer of the tow, and a chafed section is where it parts.",
+        "shackle-unmoused": "The shackle joining the bridle to the hawser has its pin screwed home but no mousing wire — a working tow backs a pin out a turn at a time until the bridle lets go."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the hawser from the drum to the eye and the bridle's shackles: chafe on the cover, cuts, pins moused, thimbles seated.",
+      "targets": [
+        "hawser-chafe",
+        "shackle-unmoused"
+      ],
+      "title": "Walk the hawser and the bridle before making up",
+      "why": "A towing hawser stores enormous energy when a barge sheers, and when it parts it snaps back along its lead faster than anyone can move. It parts at a chafe, a cut or a fitting that has worked loose, and those are found by walking the gear on deck before the eye goes to the barge — once the tow is working, nobody gets near the hawser to look at it."
+    },
+    {
+      "cue": "Wind the band brake on hard and engage the drum's dog, so nothing pays off the drum while the eye is passed.",
+      "id": "set-brake",
+      "kind": "turn",
+      "prompt": "Wind the band brake on hard and engage the drum's dog, so nothing pays off the drum while the eye is passed.",
+      "target": "winch-brake",
+      "title": "Set the towing winch brake before the eye goes out",
+      "turn": {
+        "label": "WINCH BRAKE",
+        "turns": 1.5
+      },
+      "why": "The winch drum holds the hawser only through its brake and dog, and the moment the barge's crew take the eye and the tug moves, any slack on deck becomes line running off a free drum — a bight whipping across the afterdeck. The brake is set by turning it on until it bites and the dog is engaged, and the deckhand checks both with a hand on the brake wheel rather than an assumption about who last used the winch."
+    },
+    {
+      "cue": "Throw from the stern with the wheel stopped, then tend the heaving line — slack out as the barge crew haul, never a turn round your hand.",
+      "holdBreakNote": "Let go before the barge crew had it fast — a heaving line dropped between the vessels is a line near the wheel. Take it up and tend it again.",
+      "id": "heaving-line",
+      "kind": "hold",
+      "prompt": "Throw from the stern with the wheel stopped, then tend the heaving line — slack out as the barge crew haul, never a turn round your hand.",
+      "seconds": 5,
+      "target": "heaving-line",
+      "title": "Tend the heaving line to the barge until they have it fast",
+      "why": "The heaving line is the messenger the hawser's eye follows across the water, and it is tended until the barge crew have it on their bitt because a heaving line let go of is a line in the water beside a propeller. It is never wrapped round a hand, because the barge moves with the tide and the person holding a wrapped line goes with it; the tending hand pays it out through an open grip."
+    },
+    {
+      "cue": "With the barge crew hauling the heaving line, send the hawser's eye across and see it dropped over the barge's bitt — from outside the bight on deck.",
+      "drag": {
+        "missNote": "Not on the bitt — the eye has to drop fully over the barge's bitt, not hang on its horn, before the master takes a strain.",
+        "radius": 0.55,
+        "to": "barge-bitt"
+      },
+      "id": "pass-eye",
+      "kind": "drag",
+      "prompt": "With the barge crew hauling the heaving line, send the hawser's eye across and see it dropped over the barge's bitt — from outside the bight on deck.",
+      "target": "hawser-eye",
+      "title": "Pass the hawser's eye across and over the barge's bitt",
+      "why": "The eye is heavy, wet and stiff, and it goes across on the heaving line rather than by hand so no one leans out between two moving hulls. It is dropped fully over the bitt so it cannot ride up and jump off under the first strain, and the deckhand watches it seated before calling 'all fast' to the wheelhouse — because the master's next move is to take a strain on whatever the deck has said is fast."
+    },
+    {
+      "cue": "Watch the winch's load gauge as the master comes ahead easy, and commit the reading against the working band the master set for this tow.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "HAWSER LOAD",
+        "missNote": "Outside the band — read the needle once the master's strain has steadied, and call it against the master's band, not a guess.",
+        "speed": 0.7
+      },
+      "id": "read-load",
+      "kind": "gauge",
+      "prompt": "Watch the winch's load gauge as the master comes ahead easy, and commit the reading against the working band the master set for this tow.",
+      "target": "load-gauge",
+      "title": "Read the hawser load as the master takes a strain",
+      "why": "A hawser's load climbs steeply when a tug comes ahead on a dead barge, and the load gauge is the only honest number on deck: the hawser looks the same at a quarter of its strength and at all of it. The master sets the working band for the tow and the gear, and the deckhand's job is to read the needle and say it, so the master can ease off before the gear, the bitt or the hawser becomes the thing that fails."
+    },
+    {
+      "cue": "Look at the gob rope's eye and staple and the stern roller: free to turn, nothing worn through, the gob set to hold the hawser down.",
+      "id": "gob-and-roller",
+      "itemNames": {
+        "gob-eye-worn": "worn gob rope eye at its staple",
+        "roller-seized": "stern roller seized on its pin"
+      },
+      "itemNotes": {
+        "gob-eye-worn": "The gob rope's eye is worn flat and fraying where it rides the staple — the gob rope is what holds the hawser aft and keeps the tow's pull low on the stern, and a gob that parts lets a sheering barge pull the tug round.",
+        "roller-seized": "The stern roller has seized on its pin and does not turn; the hawser is dragging over a fixed steel face, which is exactly what chafed the section you found at the roller."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the gob rope's eye and staple and the stern roller: free to turn, nothing worn through, the gob set to hold the hawser down.",
+      "targets": [
+        "gob-eye-worn",
+        "roller-seized"
+      ],
+      "title": "Walk the gob rope and the stern roller",
+      "why": "The danger that kills tug crews is girting: a barge that sheers out to the side pulls the tow line abeam and rolls the tug over in seconds. The gob rope keeps the hawser's pull low and aft where the tug can resist it, and a roller that turns keeps the hawser from chafing where it bears — both are walked once the tow is on, because they only show their wear under load."
+    },
+    {
+      "cue": "Ease the winch lever to pay out as the tug comes ahead, keeping the hawser at a steady working tension until the master's length is on the marks.",
+      "holdBreakNote": "The tension broke out of band on the way out — the hawser went slack or snatched. Bring the lever back to a steady pay-out and hold it.",
+      "id": "pay-out",
+      "kind": "track",
+      "prompt": "Ease the winch lever to pay out as the tug comes ahead, keeping the hawser at a steady working tension until the master's length is on the marks.",
+      "seconds": 6,
+      "target": "winch-lever",
+      "title": "Pay out the hawser to the master's tow length",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "PAY-OUT TENSION",
+        "rise": 0.6,
+        "start": 0.12
+      },
+      "why": "Paying out is the winch and the engines in step: too fast and the hawser goes slack, sinks and fouls the bottom or the wheel; too slow and the tug snatches against the barge with the brake half-on. The tension is held in band while the length goes out, because a steady tow is a predictable one, and the master chose the length for the water ahead — the deckhand's job is to give exactly that length, not what feels about right."
+    },
+    {
+      "cue": "Put the chain across the deck forward of the winch: nobody between the winch and the stern while the hawser is working.",
+      "id": "chain-off",
+      "kind": "select",
+      "prompt": "Put the chain across the deck forward of the winch: nobody between the winch and the stern while the hawser is working.",
+      "target": "danger-chain",
+      "title": "Chain off the afterdeck while the tow works",
+      "why": "Once a tow is working, the afterdeck between the winch and the stern is the snap-back zone of the heaviest line on the vessel, and the hawser moves across it with every sheer. The chain across the deck is the physical reminder for everyone, the engineer coming up from below included, that nobody walks through there for a coffee — if something has to be done aft, the master is told and the tow is eased first."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Coil the heaving line down clear of the scuppers and put the loose gear — the spare shackle, the marlinspike, the chafe gear — in the deck box and latch it.",
+      "id": "stow-gear",
+      "itemNames": {
+        "gear-box": "loose gear in the deck box, lid latched",
+        "heaving-line": "heaving line coiled down and made up"
+      },
+      "kind": "sequence",
+      "prompt": "Coil the heaving line down clear of the scuppers and put the loose gear — the spare shackle, the marlinspike, the chafe gear — in the deck box and latch it.",
+      "targets": [
+        "heaving-line",
+        "gear-box"
+      ],
+      "title": "Coil down and stow the loose gear",
+      "why": "Loose gear on an afterdeck with a working hawser is gear that ends up round the hawser, over the side or under a boot in the next wave. A heaving line coiled down and made up is ready for the next job and out of the water; a latched deck box keeps the spare shackle from going through the stern rail and into the wheel wash when the tug rolls."
+    },
+    {
+      "cue": "Log the barge and the tow length, the load read, the chafe and the unmoused shackle, the worn gob eye and the seized roller, the current set and the lost comms.",
+      "id": "towing-log",
+      "kind": "select",
+      "prompt": "Log the barge and the tow length, the load read, the chafe and the unmoused shackle, the worn gob eye and the seized roller, the current set and the lost comms.",
+      "target": "towing-log",
+      "title": "Enter the make-up in the towing log",
+      "why": "The towing log is the vessel's record under its safety management system, and it is where a chafed hawser becomes a replacement and a seized roller becomes a job for the engineer before the next tow. The lost-comms call is logged too, because the next crew needs to know the primary radio dropped out — a fault that happens once and is not written down is a fault that surprises someone else later."
+    },
+    {
+      "cue": "On the intercom: the afterdeck is chained off and stowed, what you found on the gear, and how the deck crew are after the set and the dropped radio.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "On the intercom: the afterdeck is chained off and stowed, what you found on the gear, and how the deck crew are after the set and the dropped radio.",
+      "target": "wheelhouse-intercom",
+      "title": "Check in with the master and the engineer",
+      "why": "The master takes the tow on the strength of the deck's report, and the engineer who will be asked to look at the roller needs to hear it now. It is also the crew's own check-in: a make-up with a barge setting down on the quarter and a radio going silent in the middle of it is the kind of moment that deserves to be talked through, and the union's member assistance line is there for what does not get said on the intercom."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — the Inlandboatmen's Union, MEBA or SIU — with the employer's employee assistance line behind it",
+  "tagline": "Making up to a barge astern: the voyage plan read, vest and knife on, the hawser and bridle walked, the winch brake set, the heaving line tended to the barge through a current shift, the eye passed to the barge's bitt, the load read, the gob and roller walked, the hawser paid out to the master's length through a lost-comms call, the afterdeck chained off, the gear stowed and the tow logged",
+  "title": "SmartCiti.X~ Workboat Towing & Line Handling VR",
+  "trade": "Inlandboatmen's Union of the ILWU deckhand on a harbour towing vessel, with the MEBA licensed engineer on watch and an SIU-trained AB in the relief crew",
+  "underwater": null,
+  "weather": "overcast"
+}

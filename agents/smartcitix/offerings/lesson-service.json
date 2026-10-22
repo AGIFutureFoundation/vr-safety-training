@@ -1,0 +1,54 @@
+{
+  "$comment": "An offering in the shape acp-cli's `acp offering create` takes (src/commands/offering.ts at commit 9aa61ae): name, description, priceType, priceValue, slaMinutes, requirements, deliverable, requiredFunds, isHidden, subscriptionIds. Prices are null: set by the owner. Keys under x-smartcitix are this repository's own and are never sent. Draft, in preparation; nothing is published.",
+  "name": "lesson-service",
+  "description": "A lesson composed from real SmartCiti.X Holodeck stations for a sentence, such as a lockout refresher for apprentices: stations in order with the reason for each, the unions and standards they name, and a pass bar. Union-trade audiences today; K-12 programmes as they land in the registry. Not a certification.",
+  "priceType": null,
+  "priceValue": null,
+  "priceNote": "set by the owner",
+  "slaMinutes": 10,
+  "requirements": {
+    "type": "object",
+    "properties": {
+      "prompt": {
+        "type": "string"
+      },
+      "max": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 8
+      }
+    },
+    "required": [
+      "prompt"
+    ],
+    "additionalProperties": false
+  },
+  "deliverable": {
+    "type": "object",
+    "properties": {
+      "lesson": {
+        "type": "object"
+      },
+      "notice": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "lesson",
+      "notice"
+    ]
+  },
+  "requiredFunds": false,
+  "isHidden": true,
+  "subscriptionIds": [],
+  "x-smartcitix": {
+    "function": "compose_lesson",
+    "handler": "composeLessonJob",
+    "registry": {
+      "module": "WebXR/shared/lessons.js",
+      "export": "composeLesson",
+      "app": "smartcity",
+      "exampleStation": "valve-vault"
+    }
+  }
+}

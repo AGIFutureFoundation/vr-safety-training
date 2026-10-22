@@ -1,0 +1,356 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "bed-honest",
+    "name": "Bed Honest",
+    "note": "A proven instrument, a real grid, an honest action-level call, and a failed bed raised with clean fill — not planted in"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "California Department of Public Health Radiologic Health Branch registration for the XRF analyser's sealed source under OSHA 29 CFR 1910.1096 ionizing radiation; NIOSH field-portable XRF guidance for lead and arsenic screening; ASTM D6288 field portable XRF method; DTSC / OEHHA California Human Health Screening Levels for lead and arsenic in residential soil; EPA guidance on gardening in urban soils; the Hunters Point Biomonitoring Initiative's community garden screening protocol",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "DTSC",
+        "citedAs": "DTSC",
+        "id": "dtsc-hazardous-waste-control",
+        "title": "California Department of Toxic Substances Control — state hazardous waste control rules and oversight of contaminated-site cleanups"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1096",
+        "id": "osha-1910-1096",
+        "title": "29 CFR 1910.1096 — Ionizing radiation"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "standard-first",
+        "name": "Standard First",
+        "note": "Never took a reading before the check standard proved the instrument"
+      },
+      {
+        "id": "no-exposure",
+        "name": "No Exposure",
+        "note": "Never a hazard — instrument, bed or fill"
+      },
+      {
+        "id": "reading-true",
+        "name": "Reading True",
+        "note": "The XRF reading and the depth hold both inside spec"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-screen",
+        "name": "Clean Screen",
+        "note": "No corrections across the whole screening event"
+      },
+      {
+        "id": "depth-held",
+        "name": "Depth Held",
+        "note": "Held the probe steady for the full reading"
+      },
+      {
+        "id": "bed-flagged-fast",
+        "name": "Bed Flagged Fast",
+        "note": "Failed bed flagged and logged inside 80% of par"
+      }
+    ],
+    "currency": "READING",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Volunteer",
+      "Garden Screener",
+      "Bed Lead",
+      "Screening Coordinator",
+      "Garden Screen Certified"
+    ],
+    "system": "Garden Screen"
+  },
+  "hazards": {
+    "no-clean-fill": "You grabbed the bag of soil dug out of the yard instead of the certified clean fill pallet. A raised bed built on the same contaminated soil, refilled with more of the same dirt from three feet away, is a taller box around the same problem — the whole point of raising it is the fill underneath being something else entirely.",
+    "plant-in-failed-bed": "You reached for the seed packets at the edge of the bed that just read over the action level. The reading is the reason nothing goes into this soil until it is raised and refilled — planting in it now puts down roots, and small hands, in dirt this station exists to keep them out of.",
+    "point-at-person": "You swung the XRF's window toward the volunteer standing beside the bed. The sealed source in this instrument is why the state's Radiologic Health Branch registers it in the first place — the window points at soil and nothing else, ever, no matter how quick the check.",
+    "skip-check-standard": "You pressed the XRF straight onto the bed's soil without ever reading the certified check standard first. A reading off an unproven instrument is not evidence of anything — the ASTM method this screening follows exists specifically so a number can be trusted, and that starts with proving the instrument before it ever touches a gardener's bed."
+  },
+  "id": "garden-soil-screen",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "probe-depth",
+      "alert": "A toddler from the family gardening two beds over has wandered off and is kneeling at the edge of this bed, both hands already down in the soil the XRF is sitting in.",
+      "cue": "Stop the family before more soil ends up on those hands — the caution sign, now.",
+      "delay": 3,
+      "id": "child-hands-in-bed",
+      "kind": "Child's hands in the failed bed",
+      "missNote": "The reading finished with the child still kneeling in the bed the whole time — whatever this soil turns out to hold, it already had eight more seconds of contact with two-year-old hands than any screening protocol accounts for.",
+      "seconds": 12,
+      "target": "caution-sign",
+      "why": "Lead in soil does not need a cut or a scrape to get into a child — hand-to-mouth contact is the main route for a toddler exactly this age, and this bed has not even been cleared yet. The reading can wait eight seconds; the hands coming out of that soil cannot.",
+      "wrongNote": "That's not it — the caution sign is what gets the family off this bed right now, not the analyser in your hand."
+    },
+    {
+      "after": "check-standard",
+      "alert": "The XRF's reading on its own certified check standard has drifted well outside the value on the standard's own certificate — something about today's instrument is not what it was at the last calibration.",
+      "cue": "Don't trust this instrument yet — swap in the fresh standard block and rerun the check.",
+      "delay": 3,
+      "id": "standard-out-of-range",
+      "kind": "Check standard reads out of range",
+      "missNote": "The screening went ahead on an instrument that had just failed its own check standard. Every reading logged today now carries an asterisk nobody can remove after the fact — the gardeners get a results sheet built on a number the instrument itself had already contradicted.",
+      "seconds": 12,
+      "target": "recheck-standard",
+      "why": "A check standard reading outside its certified range is not a rounding error, it is the one warning the instrument gives before every reading that follows it is wrong in the same direction — a drifted analyser can read a contaminated bed as clean or a clean bed as failed, and there is no way to tell which from the readout alone.",
+      "wrongNote": "Not that — the fresh standard block is what proves the instrument again. Nothing else on this table does."
+    }
+  ],
+  "lateNotes": {
+    "bed-marker-flag": "There is no call to flag yet — the reading has to clear the action-level board first, or the flag is a guess dressed up as a result.",
+    "xrf-reading": "Nothing to read yet — the probe has to sit at depth in the bed before the analyser has anything real under its window."
+  },
+  "name": "Garden Soil Screen",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-can-we-live"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "action-board",
+      "bed-liner",
+      "bed-marker-flag",
+      "bed-socket",
+      "caution-sign",
+      "check-standard-block",
+      "clean-fill-pallet",
+      "clean-fill-pour",
+      "dosimeter-badge",
+      "grid-1",
+      "grid-2",
+      "grid-3",
+      "grid-4",
+      "mislabeled-fill-bag",
+      "nitrile-gloves",
+      "no-clean-fill",
+      "operator-card",
+      "plant-in-failed-bed",
+      "point-at-person",
+      "raised-frame",
+      "recheck-standard",
+      "results-sheet",
+      "screening-plan",
+      "skip-check-standard",
+      "xrf-probe",
+      "xrf-reading"
+    ],
+    "meshes": 158
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence"
+  ],
+  "steps": [
+    {
+      "cue": "Check the bed list, the grid spacing, the sample depth and the action levels before the case comes open.",
+      "id": "plan",
+      "kind": "select",
+      "prompt": "Check the bed list, the grid spacing, the sample depth and the action levels before the case comes open.",
+      "target": "screening-plan",
+      "title": "Read the screening plan",
+      "why": "The plan sets which beds get screened this morning, how many points make up each bed's grid, and how deep the probe has to sit — a screener who has not read it is guessing at the very numbers that decide whether a family's bed gets flagged."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Gloves on, dosimeter badge clipped on, operator card checked against today's instrument.",
+      "id": "stage-gear",
+      "itemNames": {
+        "dosimeter-badge": "radiation dosimeter badge",
+        "nitrile-gloves": "nitrile gloves",
+        "operator-card": "XRF operator certification card"
+      },
+      "kind": "sequence",
+      "prompt": "Gloves on, dosimeter badge clipped on, operator card checked against today's instrument.",
+      "targets": [
+        "nitrile-gloves",
+        "dosimeter-badge",
+        "operator-card"
+      ],
+      "title": "Stage the screener's own gear",
+      "why": "The gloves keep whatever is actually in this soil off the screener's own hands between beds; the dosimeter is how the state's Radiologic Health Branch tracks exposure from the sealed source over a whole season of screenings, not just today; and the operator card is what makes today's reading one a registered operator is allowed to certify."
+    },
+    {
+      "cue": "Hold the XRF's window against the certified check standard until the reading settles.",
+      "holdBreakNote": "You lifted the window before the reading settled — an unsettled check proves nothing about the instrument either way.",
+      "id": "check-standard",
+      "kind": "hold",
+      "prompt": "Hold the XRF's window against the certified check standard until the reading settles.",
+      "seconds": 7,
+      "target": "check-standard-block",
+      "title": "Prove the instrument on its check standard",
+      "why": "The check standard has a certified, known value written on its own certificate — reading it first is the only way to know the instrument in your hand today is reading true, before it is ever trusted on soil where the true answer is exactly what nobody yet knows."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Place all four stakes so the bed is divided into the plan's screening grid.",
+      "id": "lay-grid",
+      "itemNames": {
+        "grid-1": "grid stake — corner 1",
+        "grid-2": "grid stake — corner 2",
+        "grid-3": "grid stake — corner 3",
+        "grid-4": "grid stake — corner 4"
+      },
+      "kind": "sequence",
+      "prompt": "Place all four stakes so the bed is divided into the plan's screening grid.",
+      "targets": [
+        "grid-1",
+        "grid-2",
+        "grid-3",
+        "grid-4"
+      ],
+      "title": "Lay out the bed's screening grid",
+      "why": "One reading from wherever the probe happens to land is a reading about that one spot, not about the bed a family is about to plant — the grid is what turns a single number into a result that actually describes the whole bed the gardeners are asking about."
+    },
+    {
+      "cue": "Press the XRF's window flat against the soil at the depth collar and hold it steady.",
+      "holdBreakNote": "The window lifted off the soil before the reading settled — pick the depth back up and hold it there for the full count.",
+      "id": "probe-depth",
+      "kind": "hold",
+      "prompt": "Press the XRF's window flat against the soil at the depth collar and hold it steady.",
+      "seconds": 8,
+      "target": "xrf-probe",
+      "title": "Seat the probe at the marked depth",
+      "why": "Lead and arsenic in garden soil are not even top to bottom — a probe held at the surface reads whatever blew in or was tracked across the top, while the depth collar is where a trowel and a child's hands actually reach. Holding steady at that depth is what makes the reading about the soil a plant's roots and a gardener's hands will actually touch."
+    },
+    {
+      "cue": "Let the analyser's reading settle and commit the value it lands on.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "Pb / As",
+        "missNote": "That reading had not settled yet — let the analyser finish and commit the value it holds steady on.",
+        "speed": 0.68
+      },
+      "id": "read-xrf",
+      "kind": "gauge",
+      "prompt": "Let the analyser's reading settle and commit the value it lands on.",
+      "target": "xrf-reading",
+      "title": "Read the lead and arsenic result",
+      "why": "The number on the screen is what the action-level board is about to be measured against — read it too early, while it is still climbing toward a stable value, and the bed gets judged against a number the instrument had not actually finished giving yet."
+    },
+    {
+      "cue": "Check today's reading against the DTSC / OEHHA screening levels on the board.",
+      "id": "action-levels",
+      "kind": "select",
+      "prompt": "Check today's reading against the DTSC / OEHHA screening levels on the board.",
+      "target": "action-board",
+      "title": "Compare the reading to the action levels",
+      "why": "A number in parts per million means nothing to a gardener on its own — the action-level board is what turns 500-odd parts per million into a plain answer: this bed is safe to plant, or it is not, measured against the same residential screening levels the state itself uses."
+    },
+    {
+      "cue": "Carry the red \"do not plant\" marker to the bed that read over the action level.",
+      "drag": {
+        "missNote": "Not planted yet — the flag has to go in the bed itself, where the next person walking by will actually see it.",
+        "radius": 0.45,
+        "to": "bed-socket"
+      },
+      "id": "flag-bed",
+      "kind": "drag",
+      "prompt": "Carry the red \"do not plant\" marker to the bed that read over the action level.",
+      "target": "bed-marker-flag",
+      "title": "Flag the failed bed",
+      "why": "A result that lives only on a clipboard is a result the next volunteer who walks by never sees — the flag standing in the bed itself is what stops a hand reaching for a trowel here before the results sheet ever makes it back to the shed."
+    },
+    {
+      "cue": "Order the raised-bed frame and the certified clean fill — not more of this bed's own soil.",
+      "id": "clean-fill",
+      "kind": "select",
+      "prompt": "Order the raised-bed frame and the certified clean fill — not more of this bed's own soil.",
+      "target": "clean-fill-pallet",
+      "title": "Call for the raised bed and its clean fill",
+      "why": "Raising the bed only solves anything if what goes inside it is different from what failed — certified clean fill, with its own paperwork, is what makes the new bed a fresh answer instead of the same contaminated dirt sitting a few inches higher."
+    },
+    {
+      "cue": "Set the frame, lay the root barrier liner, then fill with the certified clean soil.",
+      "id": "build-raised-bed",
+      "itemNames": {
+        "bed-liner": "root barrier liner",
+        "clean-fill-pour": "certified clean fill",
+        "raised-frame": "raised-bed frame"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Frame, then liner, then fill — clean soil poured before the liner is down just sits on top of the problem it was bought to avoid.",
+      "prompt": "Set the frame, lay the root barrier liner, then fill with the certified clean soil.",
+      "targets": [
+        "raised-frame",
+        "bed-liner",
+        "clean-fill-pour"
+      ],
+      "title": "Build the raised bed",
+      "why": "The liner goes down before the fill for the same reason the fill has to be clean at all — without it, a root or a worm eventually moves contaminated soil up into the very fill that was supposed to be the fix, on a timeline measured in seasons rather than an afternoon."
+    },
+    {
+      "cue": "Write the bed's result, the action level it was measured against, and the raised-bed plan in plain language.",
+      "id": "results-sheet",
+      "kind": "select",
+      "prompt": "Write the bed's result, the action level it was measured against, and the raised-bed plan in plain language.",
+      "target": "results-sheet",
+      "title": "Complete the results sheet for the gardeners",
+      "why": "The gardeners who use this bed every week are not going to read a lab report in parts per million — the results sheet is what tells them, in their own language, which bed is fine, which bed is being raised, and why, so the decision this station made is one they can actually act on."
+    },
+    {
+      "cue": "Check the shed and the beds once more for anything that could undo today's result.",
+      "id": "walk",
+      "itemNames": {
+        "mislabeled-fill-bag": "the bag marked \"garden soil\" beside the shed"
+      },
+      "itemNotes": {
+        "mislabeled-fill-bag": "This bag reads \"garden soil\" but it is dug from the yard, not the certified pallet — left beside the shed, it is exactly what the next volunteer reaches for without knowing today's result."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the shed and the beds once more for anything that could undo today's result.",
+      "targets": [
+        "mislabeled-fill-bag"
+      ],
+      "title": "Walk the garden before you pack up",
+      "why": "The screening crew is not here every day — anything left ambiguous now is a decision some volunteer without today's results sheet will make alone, on a Saturday morning, with a trowel already in hand."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Screening a community garden bed with a handheld XRF: the check standard proven first, the grid laid out, readings taken at depth, the action levels read straight, the bed that fails flagged and raised with clean fill, and a results sheet the gardeners can actually read",
+  "title": "SmartCiti.X~ Garden Soil Screen VR",
+  "trade": "Community environmental monitor",
+  "underwater": null,
+  "weather": "clear"
+}

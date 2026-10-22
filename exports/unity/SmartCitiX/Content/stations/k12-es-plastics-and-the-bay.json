@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "shore-sweeper",
+    "name": "Shore Sweeper",
+    "note": "Sorted plastics in a float test, explained why plastic breaks up but stays, and swept a shoreline strip safely with the beach crew"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "PIECES",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Spotter",
+      "Picker",
+      "Sorter",
+      "Sweeper",
+      "Shore Keeper"
+    ],
+    "system": "Sweep Board"
+  },
+  "hazards": {
+    "pick-up-sharp-things": "You reached for broken glass. Sharp things are picked up only with tongs and go into the crew's sharps tub. Call the crew lead if you see anything sharp.",
+    "plastic-melts-away": "You said plastic melts away in the water. Sun and waves break plastic into smaller and smaller pieces, but the pieces stay. That is why keeping plastic out of the water in the first place matters most.",
+    "sweep-alone": "You wandered off on your own. The crew sweeps in pairs inside the flagged strip so everyone stays in sight. Stay with your partner and inside the flags.",
+    "turn-your-back-on-waves": "You turned your back on the waves. Waves can run up the beach further than you expect. Sweep above the wet sand line and face the water whenever you are near it."
+  },
+  "id": "k12-es-plastics-and-the-bay",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-the-bag-open-for-your",
+      "alert": "A bigger wave runs up the sand towards the sweep strip.",
+      "cue": "Move up the beach with your partner, facing the water.",
+      "delay": 3,
+      "id": "a-big-wave-runs-up-the-sand",
+      "kind": "Wave run-up",
+      "missNote": "The pair kept sweeping with their backs to the water, and the crew lead had to call them up the beach.",
+      "seconds": 12,
+      "target": "esp-move-up-beach",
+      "why": "Waves sometimes run further up the beach than the others. Moving up with your partner, facing the water, keeps you dry and steady. The lifeguards and the crew watch the waves the whole time.",
+      "wrongNote": "That keeps you by the water's edge. Move up the beach. Choose the response that deals with it now."
+    },
+    {
+      "after": "follow-a-floating-bag-on-the",
+      "alert": "The crew lead asks where broken glass goes.",
+      "cue": "Say sharp pieces go in the sharps tub, picked up with tongs.",
+      "delay": 3,
+      "id": "the-crew-lead-asks-about-sharps",
+      "kind": "Crew question",
+      "missNote": "You could not say where sharp pieces go, and the crew lead had to explain before the sweep went on.",
+      "seconds": 12,
+      "target": "esp-name-sharps",
+      "why": "Knowing the sharps rule shows you can sweep safely. Tongs and a hard tub keep hands safe now and later. Every crew uses the same rule.",
+      "wrongNote": "That does not say where sharp pieces go. Choose the response that deals with it now."
+    }
+  ],
+  "lateNotes": {
+    "esp-checkin": "The check-in comes at the very end of the sweep.",
+    "esp-sweep-log": "The sweep tally is written after the sweep — nothing to record yet."
+  },
+  "name": "Plastics and the Bay",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-science"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "esp-bag-hold",
+      "esp-bag-track",
+      "esp-bin",
+      "esp-bits",
+      "esp-cap",
+      "esp-checkin",
+      "esp-float-meter",
+      "esp-glass",
+      "esp-move-up-beach",
+      "esp-name-sharps",
+      "esp-ord-drop",
+      "esp-ord-fill",
+      "esp-ord-sort",
+      "esp-ord-watch",
+      "esp-outfall",
+      "esp-result-card",
+      "esp-salt-dial",
+      "esp-share-board",
+      "esp-sharps-tub",
+      "esp-shell",
+      "esp-strip",
+      "esp-sweep-log",
+      "esp-tideline",
+      "esp-tong-card",
+      "esp-tower",
+      "pick-up-sharp-things",
+      "plastic-melts-away",
+      "sweep-alone",
+      "turn-your-back-on-waves"
+    ],
+    "meshes": 235
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark the three kinds of plastic you can see in the sweep strip.",
+      "decoyNotes": {
+        "esp-shell": "It belongs on the beach. Leave it."
+      },
+      "id": "find-the-kinds-of-plastic-on",
+      "itemNames": {
+        "esp-bits": "tiny coloured plastic bits",
+        "esp-cap": "a whole bottle cap",
+        "esp-strip": "a torn strip of plastic bag"
+      },
+      "itemNotes": {
+        "esp-bits": "What is left after breaking up.",
+        "esp-cap": "Still in one piece.",
+        "esp-strip": "Breaking into smaller parts."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the three kinds of plastic you can see in the sweep strip.",
+      "targets": [
+        "esp-cap",
+        "esp-strip",
+        "esp-bits"
+      ],
+      "title": "Find the kinds of plastic on the beach",
+      "why": "Plastic reaches the shore in many forms. A bottle cap arrives whole, a bag gets torn into strips, and tiny coloured bits are what is left after sun and waves break bigger pieces apart. Seeing all three shows that plastic changes shape but does not disappear."
+    },
+    {
+      "cue": "Fill the tray, drop in each piece, watch it, then sort floaters and sinkers.",
+      "id": "put-the-float-test-in-order",
+      "itemNames": {
+        "esp-ord-drop": "2 · drop in one piece at a time",
+        "esp-ord-fill": "1 · fill the tray with salty water",
+        "esp-ord-sort": "4 · sort floaters and sinkers into two piles",
+        "esp-ord-watch": "3 · watch whether it floats or sinks"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Fill the tray with water first.",
+      "prompt": "Fill the tray, drop in each piece, watch it, then sort floaters and sinkers.",
+      "targets": [
+        "esp-ord-fill",
+        "esp-ord-drop",
+        "esp-ord-watch",
+        "esp-ord-sort"
+      ],
+      "title": "Put the float test in order",
+      "why": "The float test shows which plastics ride on the surface and which sink. Filling the tray first, dropping each piece in and watching it before sorting keeps the test tidy. Knowing which pieces float explains why some plastic washes up on beaches and some ends up in the mud."
+    },
+    {
+      "cue": "Put on gloves and take a pair of tongs before the sweep starts.",
+      "id": "put-on-gloves-and-pick-up",
+      "kind": "select",
+      "prompt": "Put on gloves and take a pair of tongs before the sweep starts.",
+      "target": "esp-tong-card",
+      "title": "Put on gloves and pick up the tongs",
+      "why": "Gloves keep hands clean, and tongs let you pick things up without touching them. The crew uses both on every sweep, because some beach litter is sharp or dirty. Getting ready before you start means you never have to grab something with a bare hand."
+    },
+    {
+      "cue": "Turn the salt dial to the teacher's setting to make Bay-like water.",
+      "id": "set-the-salt-level-in-the",
+      "kind": "turn",
+      "prompt": "Turn the salt dial to the teacher's setting to make Bay-like water.",
+      "target": "esp-salt-dial",
+      "title": "Set the salt level in the tray",
+      "turn": {
+        "axis": "y",
+        "label": "SALT",
+        "turns": 0.5
+      },
+      "why": "Salty water holds things up a little more than fresh water. Setting the salt level like Bay water makes the float test closer to what happens in the real Bay. Keeping the same salt level for every piece keeps the test fair. Scientists try to make a model as close to the real place as they can, so the results mean more."
+    },
+    {
+      "cue": "Commit when the marker matches the size of the floater pile.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "FLOAT",
+        "missNote": "Not matched yet. Move the marker to match the floater pile.",
+        "speed": 0.6
+      },
+      "id": "read-how-many-pieces-floated",
+      "kind": "gauge",
+      "prompt": "Commit when the marker matches the size of the floater pile.",
+      "target": "esp-float-meter",
+      "title": "Read how many pieces floated",
+      "why": "Comparing the floater and sinker piles shows how much plastic stays on the surface. Floating plastic travels with wind and tides and often washes up on beaches. Reading the pile size helps you explain why the sweep finds so much light plastic."
+    },
+    {
+      "cue": "Hold the collection bag open while your partner drops the pieces in.",
+      "holdBreakNote": "The bag closed and a piece blew away. Hold it open again.",
+      "id": "hold-the-bag-open-for-your",
+      "kind": "hold",
+      "prompt": "Hold the collection bag open while your partner drops the pieces in.",
+      "seconds": 6,
+      "target": "esp-bag-hold",
+      "title": "Hold the bag open for your partner",
+      "why": "Holding the bag open makes the sweep quick and keeps pieces from blowing away. Working in pairs, one holding and one picking, is how the crew sweeps safely. It also means someone is always watching the waves while the other looks down."
+    },
+    {
+      "cue": "Use the tongs to drag the broken glass into the sharps tub.",
+      "drag": {
+        "missNote": "Not in the sharps tub yet. Use the tongs and place it in the tub.",
+        "radius": 0.45,
+        "to": "esp-sharps-tub"
+      },
+      "id": "put-the-sharp-piece-in-the",
+      "kind": "drag",
+      "prompt": "Use the tongs to drag the broken glass into the sharps tub.",
+      "target": "esp-glass",
+      "title": "Put the sharp piece in the sharps tub",
+      "why": "Sharp things never go in the soft bag, where they could cut someone later. The sharps tub has hard sides and a lid. Putting sharp pieces there straight away keeps the whole crew safe while they carry the bags. Hard sides and a lid mean nobody gets a surprise cut when the bags are lifted into the truck."
+    },
+    {
+      "cue": "Look along the beach and mark each way plastic reaches the shore.",
+      "decoyNotes": {
+        "esp-tower": "Important for safety, but not a plastic source."
+      },
+      "id": "spot-where-plastic-comes-from",
+      "itemNames": {
+        "esp-bin": "an overflowing bin by the path",
+        "esp-outfall": "a storm drain pipe onto the beach",
+        "esp-tideline": "the line of litter the tide left"
+      },
+      "itemNotes": {
+        "esp-bin": "Wind blows plastic out.",
+        "esp-outfall": "It carries street litter.",
+        "esp-tideline": "Waves bring it in."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look along the beach and mark each way plastic reaches the shore.",
+      "targets": [
+        "esp-bin",
+        "esp-outfall",
+        "esp-tideline"
+      ],
+      "title": "Spot where plastic comes from",
+      "why": "Plastic reaches the beach from many places. Wind blows it from bins, storm drains carry it from streets, and waves bring it in from the water. Knowing where it comes from helps people stop it at the start, which works better than cleaning it up later."
+    },
+    {
+      "cue": "Choose the sentence that says what your test and sweep showed.",
+      "id": "say-what-happens-to-plastic-in",
+      "kind": "select",
+      "prompt": "Choose the sentence that says what your test and sweep showed.",
+      "target": "esp-result-card",
+      "title": "Say what happens to plastic in the water",
+      "why": "Your tray showed many plastics float, and the beach showed pieces of every size, from whole caps to tiny bits. A good answer says plastic breaks into smaller pieces but stays in the water. It does not claim more than you saw. Keeping to what you saw, and not guessing, is what makes a conclusion strong."
+    },
+    {
+      "cue": "Keep the marker on the floating bag as the waves carry it to the shore.",
+      "holdBreakNote": "The marker lost the bag. Find it again and follow it to the shore.",
+      "id": "follow-a-floating-bag-on-the",
+      "kind": "track",
+      "prompt": "Keep the marker on the floating bag as the waves carry it to the shore.",
+      "seconds": 8,
+      "target": "esp-bag-track",
+      "title": "Follow a floating bag on the waves",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "DRIFT",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "Following one bag shows how plastic travels. It rides on the surface, drifts with the wind and waves, and lands on the beach at the tide line. Seeing that path helps you understand why beaches collect so much floating plastic. The tide line on a beach is often where the most floating plastic gathers, which is why sweeps start there."
+    },
+    {
+      "cue": "Tally the caps, strips and bits your pair collected on the sweep sheet.",
+      "id": "record-what-you-collected",
+      "kind": "select",
+      "prompt": "Tally the caps, strips and bits your pair collected on the sweep sheet.",
+      "target": "esp-sweep-log",
+      "title": "Record what you collected",
+      "why": "A tally of what was collected shows which kinds of plastic are most common. Beach crews keep these records from every sweep, so they can tell people which items to stop using. Your tally joins theirs. Totals from many sweeps show whether fewer caps and bags are reaching the shore over the months."
+    },
+    {
+      "cue": "Tell another group one swap that means less plastic reaches the Bay.",
+      "id": "share-one-way-to-use-less",
+      "kind": "select",
+      "prompt": "Tell another group one swap that means less plastic reaches the Bay.",
+      "target": "esp-share-board",
+      "title": "Share one way to use less plastic",
+      "why": "Stopping plastic at the start works best. Sharing swaps like a refillable bottle or a cloth bag spreads good ideas. Beach crews say the best sweep is the one that finds less than last time. A swap that a whole class makes adds up to a lot of plastic that never reaches the beach at all."
+    },
+    {
+      "cue": "What happens to plastic in the water? What is one way to keep it out?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "What happens to plastic in the water? What is one way to keep it out?",
+      "target": "esp-checkin",
+      "title": "Check in before leaving the beach",
+      "why": "The crew counts the bags and checks everyone is back before leaving. Each learner says what happens to plastic and one way to keep it out. If anyone thinks plastic melts away, the group sorts it out now. The crew also checks that every tong and glove comes back, so the kit is ready for the next sweep."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "Plastic breaks into smaller pieces but does not go away — test which pieces float, then sweep the shore safely",
+  "title": "SmartCiti.X~ Plastics and the Bay VR",
+  "trade": "Science class with the beach crew on a shoreline sweep — learner and beach crew lead",
+  "underwater": null,
+  "weather": "clear"
+}

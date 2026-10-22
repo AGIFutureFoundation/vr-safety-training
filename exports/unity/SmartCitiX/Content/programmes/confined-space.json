@@ -1,0 +1,197 @@
+{
+  "accent": "#4fd1ff",
+  "anchors": [
+    {
+      "id": "ct-notice-board-south-treatment-plant",
+      "name": "Union hall notice board · South Treatment Plant",
+      "position": [
+        734.1,
+        579.1
+      ],
+      "stations": [
+        "ut-water-treatment-chemical-delivery-unloading",
+        "chlorine-room",
+        "lift-station",
+        "cs-permit-entry-and-attendant-duties",
+        "k12-water-cycle-and-filtration"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "south-shoreline"
+    },
+    {
+      "id": "ct-tool-crib-west-oakland-utility-yard",
+      "name": "Tool crib · West Oakland Utility Yard",
+      "position": [
+        -369.8,
+        56.9
+      ],
+      "stations": [
+        "valve-vault",
+        "ut-water-main-break-emergency-shutdown-and-excavation"
+      ],
+      "table": "CT_BAY_ASSETS",
+      "world": "bayworld",
+      "zone": "west-oakland"
+    },
+    {
+      "id": "south-treatment-plant",
+      "name": "South Treatment Plant",
+      "position": [
+        715,
+        585
+      ],
+      "stations": [
+        "ut-water-treatment-chemical-delivery-unloading",
+        "chlorine-room",
+        "lift-station",
+        "cs-permit-entry-and-attendant-duties",
+        "k12-water-cycle-and-filtration"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "south-shoreline"
+    },
+    {
+      "id": "west-oakland-utility-yard",
+      "name": "West Oakland Utility Yard",
+      "position": [
+        -384,
+        71
+      ],
+      "stations": [
+        "valve-vault",
+        "ut-water-main-break-emergency-shutdown-and-excavation"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "west-oakland"
+    },
+    {
+      "id": "ct-dive-slate-outfall-intake-lockout-site",
+      "name": "Dive slate · Outfall Intake Lockout Site",
+      "position": [
+        392.8,
+        -302.7
+      ],
+      "stations": [
+        "uw-intake-screen-cleaning-with-lockout",
+        "uw-pipeline-crossing-inspection-dive",
+        "cs-permit-entry-and-attendant-duties",
+        "cd-hydraulic-tools-and-suction-hazards-underwater"
+      ],
+      "table": "CT_DEEP_ASSETS",
+      "world": "underwater",
+      "zone": "outfall-apron"
+    },
+    {
+      "id": "outfall-intake-lockout-site",
+      "name": "Outfall Intake Lockout Site",
+      "position": [
+        380,
+        -290
+      ],
+      "stations": [
+        "uw-intake-screen-cleaning-with-lockout",
+        "uw-pipeline-crossing-inspection-dive",
+        "cs-permit-entry-and-attendant-duties",
+        "cd-hydraulic-tools-and-suction-hazards-underwater"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "outfall-apron"
+    }
+  ],
+  "certification": "OSHA 29 CFR 1910.146 permit-required confined spaces, with NFPA 1006 rescue technician for the last station",
+  "competency": {
+    "id": "confined-space",
+    "kind": "programme",
+    "require": 4,
+    "standards": [
+      "osha-1910-146",
+      "nfpa-1006",
+      "osha-1910-134"
+    ],
+    "stations": [
+      "valve-vault",
+      "lift-station",
+      "chlorine-room",
+      "confined-rescue",
+      "manhole-entry-and-atmospheric-monitoring",
+      "cs-permit-entry-and-attendant-duties",
+      "cs-ventilation-and-air-monitoring-plan",
+      "cs-non-entry-retrieval-and-tripod"
+    ],
+    "title": "Enter, attend and rescue from a permit-required confined space"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "liuna-training-fund",
+    "ua-apprenticeship",
+    "iuoe-training",
+    "iaff-training",
+    "osha-1910-146",
+    "ansi-z117-1",
+    "osha-1910-134",
+    "nfpa-1006",
+    "nfpa-1670",
+    "niosh-criteria"
+  ],
+  "id": "confined-space",
+  "ladder": {
+    "atBar": 20,
+    "lessonBar": 75,
+    "lessons": 1627,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 0,
+    "stationsNeeded": 0,
+    "tasks": 128
+  },
+  "name": "Confined Space — Entry and Rescue",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "valve-vault",
+      "why": "The permit itself: testing in order, a guarded opening and an attendant who never leaves."
+    },
+    {
+      "app": "smartcity",
+      "id": "lift-station",
+      "why": "A wet well, where the atmosphere changes while you are in it and the pumps are the second hazard."
+    },
+    {
+      "app": "smartcity",
+      "id": "chlorine-room",
+      "why": "A space you do not enter blind: the monitor and the air pack are read and staged from outside the door."
+    },
+    {
+      "app": "smartcity",
+      "id": "confined-rescue",
+      "why": "The rescue, including the part where the first job is stopping a coworker from becoming the second patient."
+    },
+    {
+      "app": "smartcity",
+      "id": "manhole-entry-and-atmospheric-monitoring",
+      "why": "A sewer manhole in a live lane, where the lane closure, the top-to-bottom test and the winch line are all the entrant's own work, and the flow can rise from a pump someone else controls."
+    },
+    {
+      "app": "smartcity",
+      "id": "cs-permit-entry-and-attendant-duties",
+      "why": "The permit as a document and the attendant as a job: every blank caught before anyone signs, the count kept on a tag board, and the post held when a foreman wants an errand run."
+    },
+    {
+      "app": "smartcity",
+      "id": "cs-ventilation-and-air-monitoring-plan",
+      "why": "Ventilation as a plan rather than a fan: the dead corners found, the duct run to sweep them, the purge run for the permit's time, and the entrant recalled the moment the blower stops."
+    },
+    {
+      "app": "smartcity",
+      "id": "cs-non-entry-retrieval-and-tripod",
+      "why": "The rescue that needs no rescuer: a tripod set square, a winch proven under a test weight, the line on the back D-ring before entry, and a drill haul cranked from outside the hole."
+    }
+  ],
+  "summary": "Four spaces and the rescue. The first three build the permit, the atmosphere and the attendant; the last one is what happens when all of that failed for somebody else.",
+  "union": "LIUNA, UA, IUOE and IAFF technical rescue"
+}

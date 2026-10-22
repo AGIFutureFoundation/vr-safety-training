@@ -1,0 +1,433 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "soft-hands",
+    "name": "Soft Hands",
+    "note": "Every pass seen, every catch made with the fingers up, and no knock to the head shrugged off"
+  },
+  "category": "Youth Sports & Coaching",
+  "certification": "USA Basketball youth development guidelines on age-appropriate ball size, partner distance and skill progression; NFHS guidance on a safe playing area and hydration in school sport; CDC Heads Up for a ball to the head — recognise, remove, refer; the U.S. Center for SafeSport for correcting a young player calmly and in view; the American Red Cross first aid course for cold on a jammed finger and never pulling it",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CDC",
+        "citedAs": "CDC Heads Up",
+        "id": "cdc-heads-up",
+        "title": "CDC Heads Up concussion-in-youth-sports training for coaches, parents and athletes: recognise the signs, remove the player from play, refer for evaluation, and return only with clearance"
+      },
+      {
+        "body": "NFHS",
+        "citedAs": "NFHS",
+        "id": "nfhs-basketball-rules",
+        "title": "National Federation of State High School Associations (NFHS) basketball rules and its sports medicine advisory guidance on concussion, heat and hydration for school sport"
+      },
+      {
+        "body": "Red Cross",
+        "citedAs": "American Red Cross first aid",
+        "id": "red-cross-first-aid-course",
+        "title": "American Red Cross first aid, CPR and AED course for coaches and staff: check the scene, call, care, and hand over to emergency services"
+      },
+      {
+        "body": "U.S. Center for SafeSport",
+        "citedAs": "U.S. Center for SafeSport",
+        "id": "safesport-code",
+        "title": "U.S. Center for SafeSport abuse-prevention training and policies for adults who work with young athletes: two adults present, observable and interruptible interactions, and reporting"
+      },
+      {
+        "body": "USA Basketball",
+        "citedAs": "USA Basketball",
+        "id": "usa-basketball-youth-guidelines",
+        "title": "USA Basketball youth development guidelines: age-appropriate play, practice length and frequency, rest and multi-sport participation for young players, and the coach licence that teaches them"
+      }
+    ]
+  },
+  "district": "gym-court",
+  "domain": "Youth Sports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clear-background",
+        "name": "Clear Background",
+        "note": "Everything behind the receivers found first time"
+      },
+      {
+        "id": "nobody-hit",
+        "name": "Nobody Hit",
+        "note": "No unsafe action in the whole passing block"
+      },
+      {
+        "id": "catchable",
+        "name": "Catchable",
+        "note": "Pass speed and partner rhythm both inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-chain",
+        "name": "Clean Chain",
+        "note": "No corrections anywhere in the block"
+      },
+      {
+        "id": "steady-chain",
+        "name": "Steady Chain",
+        "note": "Held the partner rhythm in band the whole time"
+      },
+      {
+        "id": "sharp-chain",
+        "name": "Sharp Chain",
+        "note": "Practice log reached inside 80% of par"
+      }
+    ],
+    "currency": "ASSISTS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Rebound Helper",
+      "Drill Coach",
+      "Assistant Coach",
+      "Head Coach",
+      "Offence Educator"
+    ],
+    "system": "Pass Chain"
+  },
+  "hazards": {
+    "cross-the-passing-lines": "You ran two partner lines passing across each other. Every player in a passing drill is watching the ball in the air, not the player crossing behind it; crossing lines guarantees a receiver stepping into another pair's pass or into another player at head height.",
+    "leaky-bottle-on-court": "You left the leaking water bottle lying on the court beside the passing line. The puddle it makes is exactly where a receiver steps to meet a pass, with their weight moving forward and their eyes on the ball.",
+    "shake-off-ball-to-face": "You told the player hit in the face by a pass to shake it off and get back in line. A ball to the head can cause a concussion, and the signs — a headache, a dazed look, a player who seems slow or off — often show minutes later; a player sent straight back is a player whose brain is exposed to a second hit before anyone has checked.",
+    "water-in-the-locker-room": "You left the team's water bottles in the locker room to keep the court tidy. A drink that needs a trip down a corridor is a drink young players skip, and in a warm gym the fluid they miss adds up quietly across a practice."
+  },
+  "id": "bb-passing-and-catching",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "show-a-target",
+      "alert": "After a turnover in the line, one player has fired the ball hard at a teammate from two steps away, and the teammate is shouting back.",
+      "cue": "Stop the pair and send the thrower to the sit-out chair with the assistant — calm voice, no audience.",
+      "delay": 3,
+      "id": "ball-fired-at-teammate",
+      "kind": "Heated moment",
+      "missNote": "Nobody stepped in, the teammate threw it back even harder, and the next ball went past both of them into another pair's line. What started as one bad moment has put four players in the path of angry, uncontrolled passes.",
+      "seconds": 12,
+      "target": "sit-out-chair",
+      "why": "A ball thrown in anger is a safety problem before it is a discipline problem, and it is settled by distance and a calm adult, not by a scene in front of the team. A brief sit-out with the assistant takes the thrower out of range, lets the heat drop, and keeps the conversation that follows observable and respectful, the way SafeSport guidance frames correcting young athletes.",
+      "wrongNote": "That does not settle it. Send the thrower to the sit-out chair with the assistant first."
+    },
+    {
+      "after": "partner-rhythm",
+      "alert": "The fire alarm is sounding while your team and the team on the other half of the court are both mid-drill.",
+      "cue": "Balls down, out through your marked exit with the assistant, and a headcount by your own team list outside.",
+      "delay": 3,
+      "id": "fire-alarm-two-teams",
+      "kind": "Fire alarm",
+      "missNote": "The passing kept going until the other team started leaving, and then both groups crowded one door. Outside, nobody can say which players belong to which coach or whether everyone made it out.",
+      "seconds": 12,
+      "target": "fire-exit-door",
+      "why": "With two teams in one gym, an evacuation only works if each coach takes their own group out through their own marked exit and counts them against their own list. Balls down and out immediately, headcount at the assembly point, and nobody goes back in until the building is cleared — every alarm treated as real.",
+      "wrongNote": "The alarm comes first. Balls down and everyone out through the marked fire exit."
+    }
+  ],
+  "lateNotes": {
+    "crew-checkin-board": "The staff check-in comes after the log, at the end of the block.",
+    "practice-log-board": "The log closes the passing block once it has run and the water is staged — nothing to record yet."
+  },
+  "name": "Passing and Catching",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "basketball-fundamentals"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "bench-bottle-socket",
+      "bottle-crate",
+      "bounce-dial",
+      "call-name-card",
+      "crew-checkin-board",
+      "cross-the-passing-lines",
+      "fault-eyes-off-ball",
+      "fault-fingers-pointed",
+      "fault-lazy-lob",
+      "fault-two-hands",
+      "fire-exit-door",
+      "heads-up-card",
+      "lane-glass-door",
+      "lane-padded-wall",
+      "lane-parent-chairs",
+      "lane-scorer-laptop",
+      "leaky-bottle-on-court",
+      "partner-cone",
+      "partner-socket",
+      "pass-extend",
+      "pass-grip",
+      "pass-speed-meter",
+      "pass-step",
+      "pass-thumbs-down",
+      "practice-log-board",
+      "rhythm-meter",
+      "shake-off-ball-to-face",
+      "sit-out-chair",
+      "target-hands-marker",
+      "type-bounce",
+      "type-outlet",
+      "type-overhead",
+      "water-in-the-locker-room"
+    ],
+    "meshes": 243
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Look past each receiver's shoulder. Mark everything a missed pass would hit.",
+      "decoyNotes": {
+        "lane-padded-wall": "The padded end wall is the best backstop in the gym. Line the receivers up in front of it."
+      },
+      "id": "clear-the-backgrounds",
+      "itemNames": {
+        "lane-glass-door": "a glass-panelled door behind a receiver",
+        "lane-parent-chairs": "parents' folding chairs in the ball path",
+        "lane-scorer-laptop": "a laptop on the scorer's table behind the line"
+      },
+      "itemNotes": {
+        "lane-glass-door": "A missed pass that hits a glass panel can break it over whoever is near. Turn the line so the receivers have the padded wall behind them.",
+        "lane-parent-chairs": "Parents are welcome to watch — from behind the bleacher rail, not in the path of every missed catch.",
+        "lane-scorer-laptop": "A missed pass will find the laptop sooner or later. Move it or move the line."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look past each receiver's shoulder. Mark everything a missed pass would hit.",
+      "targets": [
+        "lane-glass-door",
+        "lane-parent-chairs",
+        "lane-scorer-laptop"
+      ],
+      "title": "Check what is behind every receiver",
+      "why": "Every passing drill produces missed catches, and every missed catch keeps travelling. What sits behind the receivers — a glass panel, a row of parents, a laptop on the scorer's table — is what that ball hits. Checking the background before the first pass, and turning the lines so a padded wall takes the misses, is the safe-playing-area habit school-sport guidance asks of every coach."
+    },
+    {
+      "cue": "Set the rule: say your partner's name, see their hands, then pass.",
+      "id": "call-the-name",
+      "kind": "select",
+      "prompt": "Set the rule: say your partner's name, see their hands, then pass.",
+      "target": "call-name-card",
+      "title": "Make every pass start with a name",
+      "why": "Most passes that hit a face are passes the receiver never saw coming. A name called before the ball leaves the hands turns every pass into a two-way agreement, gets the receiver's eyes and hands up, and builds the talking habit a real offence needs — at the cost of one word."
+    },
+    {
+      "cue": "Grip with thumbs behind the ball, step toward your partner, push the arms out, finish thumbs down.",
+      "id": "build-the-chest-pass",
+      "itemNames": {
+        "pass-extend": "push both arms out to the chest",
+        "pass-grip": "fingers spread, thumbs behind the ball",
+        "pass-step": "step toward the target",
+        "pass-thumbs-down": "follow through, thumbs down, palms out"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Grip, step, push, follow through — without the step the arms do all the work and the pass arrives hard and off target.",
+      "prompt": "Grip with thumbs behind the ball, step toward your partner, push the arms out, finish thumbs down.",
+      "targets": [
+        "pass-grip",
+        "pass-step",
+        "pass-extend",
+        "pass-thumbs-down"
+      ],
+      "title": "Build the chest pass in order",
+      "why": "The chest pass is the first pass a young player learns because it is short, straight and controllable, and each part adds power without adding risk. The grip gives control, the step toward the target gives the power, the push aims it, and the thumbs-down follow-through puts backspin on it so it arrives soft. Built out of order, players throw with their arms alone and the ball arrives hard and wild."
+    },
+    {
+      "cue": "Receivers hold both hands up at the chest, fingers up, thumbs close — hold it while you scan the lines.",
+      "holdBreakNote": "The hands dropped before the ball arrived. Target up again — fingers up, thumbs close — and hold it.",
+      "id": "show-a-target",
+      "kind": "hold",
+      "prompt": "Receivers hold both hands up at the chest, fingers up, thumbs close — hold it while you scan the lines.",
+      "seconds": 7,
+      "target": "target-hands-marker",
+      "title": "Hold target hands up for the catch",
+      "why": "A receiver who shows two hands at the chest, fingers up, gives the passer a target and puts the hands in the one shape that catches rather than jams. Holding the target until the ball arrives is the habit, and for the coach it is a moment to scan every pair and spot the receiver whose hands are down or whose eyes are elsewhere."
+    },
+    {
+      "cue": "Commit when the passes read crisp but catchable for this age group.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "PASS SPEED",
+        "missNote": "Outside the band. A floater gets stolen; a rocket jams fingers and hits faces. Find crisp and catchable and commit.",
+        "speed": 0.64
+      },
+      "id": "match-the-speed",
+      "kind": "gauge",
+      "prompt": "Commit when the passes read crisp but catchable for this age group.",
+      "target": "pass-speed-meter",
+      "title": "Match the pass speed to the receiver",
+      "why": "A pass is only as good as the catch it allows. Too soft and it floats into a defender's hands; too hard for the receiver's size and skill and it jams fingers or hits a face. Youth development guidance scales passing drills to age and size, and reading speed against the receiver in front of you, not the strongest passer in the gym, is how that scaling happens."
+    },
+    {
+      "cue": "Carry the partner cone out to the marked distance for this group.",
+      "drag": {
+        "missNote": "Not on the mark. Too close and there is no time to react; too far and they start heaving it — set the cone on the spot.",
+        "radius": 0.45,
+        "to": "partner-socket"
+      },
+      "id": "space-the-partners",
+      "kind": "drag",
+      "prompt": "Carry the partner cone out to the marked distance for this group.",
+      "target": "partner-cone",
+      "title": "Space the partners for their age",
+      "why": "Partner distance decides how hard players throw. Too close and the receiver has no time to get their hands up; too far and young players start heaving the ball with their whole body, losing all control. A distance set for the group's age keeps passes in the range where technique, not effort, gets the ball there."
+    },
+    {
+      "cue": "Turn the floor marker out to about two-thirds of the way toward the receiver.",
+      "id": "set-the-bounce-spot",
+      "kind": "turn",
+      "prompt": "Turn the floor marker out to about two-thirds of the way toward the receiver.",
+      "target": "bounce-dial",
+      "title": "Set the bounce spot for the bounce pass",
+      "turn": {
+        "axis": "y",
+        "label": "BOUNCE SPOT",
+        "turns": 0.5
+      },
+      "why": "A bounce pass that hits the floor too close to the passer arrives at the receiver's knees or shins; one that hits too close to the receiver kicks up into their face. A spot about two-thirds of the way across brings the ball up to the waist, where the hands are. Marking it on the floor gives every pair the same target to aim at."
+    },
+    {
+      "cue": "Watch the receivers. Mark every catch or pass habit that needs fixing now.",
+      "decoyNotes": {
+        "fault-two-hands": "Two hands on the catch is exactly right for this age. Look for what will jam a finger, hit a face or get stolen."
+      },
+      "id": "fix-the-catches",
+      "itemNames": {
+        "fault-eyes-off-ball": "a receiver looking away as the ball arrives",
+        "fault-fingers-pointed": "fingers pointed straight at the ball",
+        "fault-lazy-lob": "a lazy, looping lob of a pass"
+      },
+      "itemNotes": {
+        "fault-eyes-off-ball": "Eyes that leave the ball early mean the hands miss it and the ball meets the face. Cue 'watch it into your hands'.",
+        "fault-fingers-pointed": "Fingertips pointed at the ball take the full impact on the end of the finger — that is how fingers jam. Cue 'fingers up, catch with the pads'.",
+        "fault-lazy-lob": "A floater hangs in the air long enough for anyone to take it. Cue 'step and snap' for a crisp, flat pass."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Watch the receivers. Mark every catch or pass habit that needs fixing now.",
+      "targets": [
+        "fault-fingers-pointed",
+        "fault-eyes-off-ball",
+        "fault-lazy-lob"
+      ],
+      "title": "Correct the catches that hurt hands",
+      "why": "Jammed fingers are the most common hand injury in youth basketball, and nearly all of them come from fingertips pointed straight at an arriving ball. Correcting that, eyes that leave the ball early, and looping passes that invite steals and collisions is where a coach's attention earns its keep — calmly, one cue at a time, in view of everyone."
+    },
+    {
+      "cue": "Hold the pairs in a steady catch-and-pass rhythm — quick hands, never rushing a pass before the partner is ready.",
+      "holdBreakNote": "The rhythm left the band — balls held too long, or thrown before the partner was ready. Bring it back to quick and ready.",
+      "id": "partner-rhythm",
+      "kind": "track",
+      "prompt": "Hold the pairs in a steady catch-and-pass rhythm — quick hands, never rushing a pass before the partner is ready.",
+      "seconds": 8,
+      "target": "rhythm-meter",
+      "title": "Keep the partner passing rhythm steady",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.44,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "RHYTHM",
+        "rise": 0.55,
+        "start": 0.24
+      },
+      "why": "Quick hands are the goal, but a pass thrown before the partner has recovered from the last catch is a pass that hits them. Holding the pairs in a quick-and-ready rhythm builds the snap of a real offence while keeping every ball arriving at hands that are up and waiting."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Overhead, bounce to the marked spot, and outlet to the wing — one short block of each.",
+      "id": "pass-types",
+      "itemNames": {
+        "type-bounce": "bounce pass to the spot",
+        "type-outlet": "outlet pass to the wing",
+        "type-overhead": "two-hand overhead pass"
+      },
+      "kind": "sequence",
+      "prompt": "Overhead, bounce to the marked spot, and outlet to the wing — one short block of each.",
+      "targets": [
+        "type-overhead",
+        "type-bounce",
+        "type-outlet"
+      ],
+      "title": "Add the other passes to the chain",
+      "why": "Each pass solves a different problem: the overhead gets the ball over a defender, the bounce gets it under outstretched arms, the outlet starts a break. Adding them only after the chest pass is solid follows the control-first progression, and short blocks of each keep attention and technique high."
+    },
+    {
+      "cue": "Any ball to the head: the player sits out and is checked for concussion signs by the athletic trainer before playing again.",
+      "id": "ball-to-the-head-rule",
+      "kind": "select",
+      "prompt": "Any ball to the head: the player sits out and is checked for concussion signs by the athletic trainer before playing again.",
+      "target": "heads-up-card",
+      "title": "Post the rule for a ball to the head",
+      "why": "A ball to the head in a passing drill is common and usually harmless, which is exactly why it gets waved off. CDC Heads Up training asks coaches to treat every blow to the head as a possible concussion: take the player out, watch for signs like headache, confusion or a dazed look, and let a trained person decide. Posting the rule before practice means nobody negotiates it in the moment."
+    },
+    {
+      "cue": "Carry the crate of named bottles from the locker-room door to the bench.",
+      "drag": {
+        "missNote": "Not at the bench. Water left by the locker-room door is water nobody walks to — carry the crate all the way.",
+        "radius": 0.5,
+        "to": "bench-bottle-socket"
+      },
+      "id": "stage-the-bottles",
+      "kind": "drag",
+      "prompt": "Carry the crate of named bottles from the locker-room door to the bench.",
+      "target": "bottle-crate",
+      "title": "Stage the water bottles at the bench",
+      "why": "Water players can reach in ten seconds during a break is water they actually drink. A crate of named bottles at the bench means no sharing, no queue at the fountain, and no reason to skip the break — the simple arrangement that does more for heat safety in a warm gym than any poster."
+    },
+    {
+      "cue": "Record the background fixes, the catching corrections and any ball to the head and who checked it.",
+      "id": "log-the-passing",
+      "kind": "select",
+      "prompt": "Record the background fixes, the catching corrections and any ball to the head and who checked it.",
+      "target": "practice-log-board",
+      "title": "Log the passing block",
+      "why": "Any ball to the head belongs in the log with the time and who checked the player, because concussion signs can appear hours later and the parents and athletic trainer need to know it happened. The corrections and background fixes go in beside it, so the next practice starts from what this one learned."
+    },
+    {
+      "cue": "At the bench: what each of you saw on the lines, anything about the sit-out, and is everybody good to go on?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "At the bench: what each of you saw on the lines, anything about the sit-out, and is everybody good to go on?",
+      "target": "crew-checkin-board",
+      "title": "Check in with the assistant coach and the athletic trainer",
+      "why": "The assistant handled the sit-out and the athletic trainer watched the hands; the head coach was running the drill. A short check-in puts the heated moment and any sore fingers on the table while they are fresh, agrees how to follow up with the players involved, and keeps the adults working in the open as one staff."
+    }
+  ],
+  "supportLine": "your league's coach coordinator, or the assistant who took the sit-out with you — the heated moments stay with the adults who handled them, and are worth saying out loud",
+  "tagline": "Every receiver's background checked, names called before passes, a chest pass built in order, target hands up, speed matched to the catcher, the bounce spot set, and any ball to the face taken seriously",
+  "title": "SmartCiti.X~ Passing and Catching VR",
+  "trade": "Youth basketball coach",
+  "underwater": null,
+  "weather": "clear"
+}

@@ -1,0 +1,363 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "plan-read-partner-braced",
+    "name": "Plan Read, Partner Braced",
+    "note": "The plan read before anything else, the brakes proven, never a solo lift or a twisted back, and the student settled and strapped before sign-off"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "AFT and CSEA paraeducator training; Cal/OSHA's musculoskeletal injury prevention approach (8 CCR 3345) and repetitive-motion standard (8 CCR 5110) for a lift and transfer done this often in a working day; OSHA's bloodborne pathogens standard (29 CFR 1910.1030) and PPE standard (29 CFR 1910.132) for gloves during personal care; the student's own individualized transfer plan for the technique, the equipment and the number of assisting staff, read fresh every time rather than assumed from memory",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "Cal/OSHA",
+        "citedAs": "8 CCR 3345",
+        "id": "cal-osha-3345",
+        "title": "8 CCR 3345 — Hotel housekeeping musculoskeletal injury prevention programme"
+      },
+      {
+        "body": "Cal/OSHA",
+        "citedAs": "8 CCR 5110",
+        "id": "cal-osha-5110",
+        "title": "8 CCR 5110 — Repetitive motion injuries"
+      },
+      {
+        "body": "union",
+        "citedAs": "CSEA",
+        "id": "csea-training",
+        "title": "CSEA — California School Employees Association training for classified school employees"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Building Systems & Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "never-solo",
+        "name": "Never Solo",
+        "note": "Never attempted the lift alone or skipped the gait belt"
+      },
+      {
+        "id": "clean-transfer",
+        "name": "Clean Transfer",
+        "note": "No corrections across the whole transfer"
+      },
+      {
+        "id": "steady-brace",
+        "name": "Steady Brace",
+        "note": "The braced pivot held in band without a break"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "transfer-on-time",
+        "name": "Transfer on Time",
+        "note": "Whole transfer finished inside 80% of par"
+      },
+      {
+        "id": "one-pass-pre-lift",
+        "name": "One-Pass Pre-Lift Check",
+        "note": "Pre-lift check clean on the first pass"
+      },
+      {
+        "id": "eight-in-a-row",
+        "name": "Eight in a Row",
+        "note": "Eight correct actions in a row"
+      }
+    ],
+    "currency": "LIFT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Aide Trainee",
+      "Paraeducator",
+      "Lead Paraeducator",
+      "Transfer Trainer",
+      "Safe Handling Certified"
+    ],
+    "system": "Safe Transfer"
+  },
+  "hazards": {
+    "lift-alone-without-second-person": "That's starting the lift without the second paraeducator in position. The plan calls for two people because a transfer that goes wrong partway through needs a second set of hands already there, not one being called for after the student is already off balance.",
+    "skip-gait-belt": "That's reaching for an underarm hold instead of the gait belt. A grip under the arms has nothing to hold onto if the student's legs give way mid-transfer and can injure the shoulder it's pulling on — the gait belt is the one hold built to carry weight safely by design.",
+    "twist-while-lifting": "That's a twist through the back instead of a pivot on the feet. A spine loaded and twisted at the same time is exactly the motion behind the injuries a lift-and-transfer job sees most — the feet turn to face the new seat; the back stays square to whatever it's carrying the whole way round.",
+    "unlocked-brake-attempt": "The wheelchair's brakes were never actually locked, and the transfer is starting anyway. A chair that rolls even a few inches mid-transfer takes the base out from under a lift that was counting on it staying put."
+  },
+  "id": "ed-paraeducator-safe-lift-and-transfer",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "braced-pivot",
+      "alert": "Partway through the pivot, the student signals discomfort — this isn't going the way the plan expects.",
+      "cue": "Pause the pivot and check in before continuing.",
+      "delay": 2,
+      "id": "student-discomfort",
+      "kind": "Student signals discomfort mid-pivot",
+      "missNote": "The pivot continued through a clear discomfort signal — a plan followed past the point where it stops matching what's actually happening is no longer the safe transfer it was written to be.",
+      "seconds": 10,
+      "target": "second-paraeducator",
+      "why": "A transfer plan describes what should happen, not a guarantee that it always will — signalled discomfort mid-pivot gets a pause and a check-in with the partner holding the other side, not a push through to finish the motion faster.",
+      "wrongNote": "Check in with your partner — that's what a discomfort signal mid-pivot calls for, not finishing the motion."
+    },
+    {
+      "after": "confirm-brakes",
+      "alert": "A classroom aide across the room is calling for help with an unrelated incident right as the transfer is about to start.",
+      "cue": "Stay with the transfer — it doesn't stop partway through for something else.",
+      "delay": 2,
+      "id": "aide-calls-for-help",
+      "kind": "Classroom aide needs help across the room",
+      "missNote": "Attention went across the room mid-setup, and the transfer sat half-ready with a student still expecting it to continue.",
+      "seconds": 10,
+      "target": "gait-belt",
+      "why": "A transfer already underway does not pause for an unrelated call across the room — the safest response is finishing the step in front of you with your full attention, then responding, because a lift or pivot left half-finished to answer something else is exactly when a student who trusted the hold gets dropped.",
+      "wrongNote": "Stay on the gait belt — the transfer in front of you finishes before anything else gets your attention."
+    }
+  ],
+  "lateNotes": {
+    "brace-effort": "The pivot happens once the count of three has actually been called — that's the next step.",
+    "gait-belt": "Not yet — the belt goes on once the pre-lift check has actually cleared the space, not before."
+  },
+  "name": "Paraeducator Safe Lift & Transfer",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "education-support-staff"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "brace-effort",
+      "brake-lever",
+      "brakes-locked",
+      "classroom-chair-spot",
+      "classroom-teacher-intercom",
+      "gait-belt",
+      "lift-alone-without-second-person",
+      "loose-gait-belt-buckle",
+      "obstruction-in-path",
+      "path-cleared",
+      "seatbelt-buckle",
+      "second-paraeducator",
+      "skip-gait-belt",
+      "student-marker",
+      "transfer-board-ready",
+      "transfer-log",
+      "transfer-plan-card",
+      "twist-while-lifting",
+      "unlocked-brake-attempt",
+      "unlocked-brake-lever",
+      "wheelchair-park-brake"
+    ],
+    "meshes": 122
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the student's individualized transfer plan before touching anything.",
+      "id": "read-transfer-plan",
+      "kind": "select",
+      "prompt": "Read the student's individualized transfer plan before touching anything.",
+      "target": "transfer-plan-card",
+      "title": "Read today's transfer plan",
+      "why": "The plan names the technique, the equipment and the number of staff this specific transfer calls for, and it can change as a student's needs change — reading it fresh, every time, is what keeps a paraeducator from running yesterday's transfer on a plan that's since been updated."
+    },
+    {
+      "cue": "Use the intercom to tell the classroom teacher the transfer is beginning.",
+      "id": "notify-teacher",
+      "kind": "select",
+      "prompt": "Use the intercom to tell the classroom teacher the transfer is beginning.",
+      "target": "classroom-teacher-intercom",
+      "title": "Let the classroom teacher know the transfer is starting",
+      "why": "The classroom teacher is running the rest of the room during this transfer and needs to know two adults are about to be occupied with it — a quick heads-up is what keeps the teacher from expecting a paraeducator's attention on anything else for the next few minutes."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Lock the wheelchair's brakes, set the transfer board in position, then clear the path to the classroom chair, in that order.",
+      "id": "prep-space",
+      "itemNames": {
+        "brakes-locked": "wheelchair brakes locked",
+        "path-cleared": "path to the chair cleared",
+        "transfer-board-ready": "transfer board in position"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Brakes, then the board, then the path — the chair has to be locked down before either the board or the path matters.",
+      "prompt": "Lock the wheelchair's brakes, set the transfer board in position, then clear the path to the classroom chair, in that order.",
+      "targets": [
+        "brakes-locked",
+        "transfer-board-ready",
+        "path-cleared"
+      ],
+      "title": "Lock the brakes, ready the board, clear the path",
+      "why": "The brakes are locked before anything else because every step after this one assumes the chair isn't moving; the path gets cleared last so nothing that was in the way during setup is still there once the actual lift starts."
+    },
+    {
+      "cue": "Hold the brake lever fully engaged and confirm it clicks locked on both sides.",
+      "holdBreakNote": "You let go before both sides clicked locked. A brake that isn't confirmed locked is a chair that might still roll under a lift.",
+      "id": "confirm-brakes",
+      "kind": "hold",
+      "prompt": "Hold the brake lever fully engaged and confirm it clicks locked on both sides.",
+      "seconds": 5,
+      "target": "brake-lever",
+      "title": "Confirm the brakes are actually locked",
+      "why": "A brake lever that looks engaged and one that's actually clicked into its locked position are not always the same thing — holding it to the click on both sides is what turns 'probably locked' into a chair that's certain not to roll."
+    },
+    {
+      "cue": "Three things about this room are not right. Find them before the count of three.",
+      "id": "pre-lift-check",
+      "itemNames": {
+        "loose-gait-belt-buckle": "the gait belt's loose buckle",
+        "obstruction-in-path": "the chair left in the transfer path",
+        "unlocked-brake-lever": "the second wheelchair's unlocked brake"
+      },
+      "itemNotes": {
+        "loose-gait-belt-buckle": "This gait belt's buckle isn't fully seated. A belt that isn't seated can let go under load at the exact moment it's needed to hold weight.",
+        "obstruction-in-path": "A stray chair is sitting in the transfer path between the wheelchair and the classroom seat. Anything in that path is something a paraeducator mid-pivot, watching the student rather than the floor, can catch a foot on.",
+        "unlocked-brake-lever": "A second wheelchair nearby has its brake lever sitting unlocked. It isn't the chair being transferred from today, but an unlocked chair anywhere in a room used for transfers is one more thing that can roll into the space at the wrong moment."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things about this room are not right. Find them before the count of three.",
+      "targets": [
+        "loose-gait-belt-buckle",
+        "obstruction-in-path",
+        "unlocked-brake-lever"
+      ],
+      "title": "Walk the room before the lift",
+      "why": "The room gets checked the same way the wheelchair's own brakes do — assumed right is not the same as confirmed right, and every one of these three problems is easiest to catch standing still, before two people are mid-lift and looking at each other instead of the floor."
+    },
+    {
+      "cue": "Fit the gait belt snugly at the waist and check it seats fully.",
+      "id": "gait-belt-fit",
+      "kind": "select",
+      "prompt": "Fit the gait belt snugly at the waist and check it seats fully.",
+      "target": "gait-belt",
+      "title": "Fit the gait belt",
+      "why": "The gait belt is the one hold in this whole transfer built to carry weight safely — fitted snugly and fully seated, it gives both paraeducators a grip that won't slip or pull on a joint the way an arm or an underarm hold can."
+    },
+    {
+      "cue": "Confirm your partner is braced and ready on the other side before the count.",
+      "id": "second-person-ready",
+      "kind": "select",
+      "prompt": "Confirm your partner is braced and ready on the other side before the count.",
+      "target": "second-paraeducator",
+      "title": "Confirm the second paraeducator is in position",
+      "why": "The plan calls for two people specifically because a transfer that starts to go wrong needs a second set of hands already in place — checking your partner is set, out loud, before the count is what makes this a two-person lift in practice and not just on paper."
+    },
+    {
+      "cue": "Keep your own effort steady through the pivot — braced through the legs, not the back.",
+      "holdBreakNote": "Effort out of band — too little risks losing control of the pivot, too much means the back just took over from the legs. Bring it back to steady.",
+      "id": "braced-pivot",
+      "kind": "track",
+      "prompt": "Keep your own effort steady through the pivot — braced through the legs, not the back.",
+      "seconds": 6,
+      "target": "brace-effort",
+      "title": "Hold a braced, steady pivot",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.64
+        ],
+        "label": "LIFT EFFORT",
+        "rise": 0.4,
+        "start": 0.2
+      },
+      "why": "A pivot done right loads the legs at a steady, sustained effort and turns on the feet; one done wrong spikes as the back takes over mid-lift, exactly the moment a twisted spine is loaded hardest — holding a steady band the whole way through is what keeps the legs doing the work the back cannot do safely."
+    },
+    {
+      "cue": "Guide the student down into the classroom chair, aligned and settled.",
+      "drag": {
+        "missNote": "Not aligned in the chair yet. Settle the student fully into the seat before letting go of the belt.",
+        "radius": 0.5,
+        "to": "classroom-chair-spot"
+      },
+      "id": "seat-and-align",
+      "kind": "drag",
+      "prompt": "Guide the student down into the classroom chair, aligned and settled.",
+      "target": "student-marker",
+      "title": "Settle the student into the classroom chair",
+      "why": "The pivot only finishes once the student is actually seated and aligned in the new chair — set down off-centre or at an angle, and the transfer isn't complete no matter how well the lift itself went."
+    },
+    {
+      "cue": "Wheel the chair clear and turn the brake lever to lock it in its parking spot.",
+      "id": "park-wheelchair",
+      "kind": "turn",
+      "prompt": "Wheel the chair clear and turn the brake lever to lock it in its parking spot.",
+      "target": "wheelchair-park-brake",
+      "title": "Park and re-lock the empty wheelchair",
+      "turn": {
+        "label": "PARK BRAKE",
+        "turns": 0.4
+      },
+      "why": "An empty wheelchair left unlocked in a busy classroom is its own rolling hazard — parking it clear of the walkway and locking it again is what keeps it exactly where it was left until it's needed for the next transfer."
+    },
+    {
+      "cue": "Hold the buckle closed until it clicks fully seated.",
+      "holdBreakNote": "The buckle didn't click fully seated before you let go. A belt that isn't seated does nothing the moment it's actually needed.",
+      "id": "fasten-seatbelt",
+      "kind": "hold",
+      "prompt": "Hold the buckle closed until it clicks fully seated.",
+      "seconds": 4,
+      "target": "seatbelt-buckle",
+      "title": "Fasten the seatbelt in the new seat",
+      "why": "A transfer that ends with the student unsecured in the new seat has only moved the risk from the lift itself to the first time that chair shifts or tips — the seatbelt closes out the transfer, not the pivot."
+    },
+    {
+      "cue": "Record the time, the technique used and how the student tolerated it.",
+      "id": "log-transfer",
+      "kind": "select",
+      "prompt": "Record the time, the technique used and how the student tolerated it.",
+      "target": "transfer-log",
+      "title": "Log the transfer",
+      "why": "The log is what tells the next paraeducator, the case manager or the family whether this transfer went the way the plan expects — a change in how a student tolerates the lift is exactly the kind of thing that has to show up here before it shows up as a bigger problem."
+    }
+  ],
+  "supportLine": "your AFT or CSEA chapter's member assistance line, or the district's employee assistance programme",
+  "tagline": "The transfer plan read first, the wheelchair's brakes locked and proven, the path cleared, a pre-lift check for what's not right, the gait belt fitted, a braced pivot held steady with a partner rather than a twist alone, the wheelchair parked, the seatbelt fastened, and the transfer logged",
+  "title": "SmartCiti.X~ Paraeducator Safe Lift & Transfer VR",
+  "trade": "AFT- or CSEA-represented paraeducator transferring a student who uses a wheelchair, with a second paraeducator assisting",
+  "underwater": null,
+  "weather": "overcast"
+}

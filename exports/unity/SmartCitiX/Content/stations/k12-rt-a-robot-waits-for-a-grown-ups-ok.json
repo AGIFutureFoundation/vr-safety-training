@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "ok-keeper",
+    "name": "OK Keeper",
+    "note": "Followed a robot job from the program's ask to the grown-up's OK, found the reasons the rule checker says no and kept a hand near the stop"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Aligned to UN Sustainable Development Goal 4 (Quality Education) as a framework, to UNESCO education guidance on learning through real contexts, to the INEE Minimum Standards for learning that continues in low-resource and emergency settings, and to the national curriculum framework the school itself follows; AFT and the National Education Association as the teachers' own training bodies. None of these certifies the lesson; the teacher decides what it evidences",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "INEE",
+        "citedAs": "INEE Minimum Standards",
+        "id": "inee-minimum-standards",
+        "title": "INEE Minimum Standards for Education in emergencies, as a body whose standards a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "national curriculum authority",
+        "citedAs": "national curriculum framework",
+        "id": "national-curriculum-framework",
+        "title": "The national curriculum framework the school itself follows, as a category rather than any one country's document; no grade-level code is cited"
+      },
+      {
+        "body": "union",
+        "citedAs": "National Education Association",
+        "id": "nea-training",
+        "title": "NEA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "UN",
+        "citedAs": "Sustainable Development Goal 4",
+        "id": "un-sdg-4-quality-education",
+        "title": "UN Sustainable Development Goal 4 (Quality Education), as a framework a lesson is aligned to; it certifies nothing"
+      },
+      {
+        "body": "UNESCO",
+        "citedAs": "UNESCO education guidance",
+        "id": "unesco-education-guidance",
+        "title": "UNESCO education guidance, as a body whose published guidance a lesson is aligned to; it certifies nothing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Education",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-read",
+        "name": "First Look",
+        "note": "Everything in the opening scan found first time"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcuts",
+        "note": "No misconception or unsafe shortcut anywhere in the run"
+      },
+      {
+        "id": "in-the-band",
+        "name": "In the Band",
+        "note": "Every gauge and meter held inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every hold and track carried its full count"
+      },
+      {
+        "id": "quick-and-right",
+        "name": "Quick and Right",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "CHECKS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Visitor",
+      "Looker",
+      "Checker",
+      "Watcher",
+      "OK Keeper"
+    ],
+    "system": "OK Desk Board"
+  },
+  "hazards": {
+    "cover-the-stop": "You covered the stop button. The stop button must be easy to reach and easy to see for the whole job. Covering it makes the robot harder to stop, not safer. The supervisor keeps it clear and keeps a hand near it while the robot works.",
+    "press-ok-yourself": "You went to press OK. A polite ask is still only an ask. The OK belongs to the grown-up in charge, who has looked at the job, the ring and the stop lamp first. A visitor never gives a robot its OK, however friendly the message on the screen looks.",
+    "program-is-the-boss": "You said the program is in charge. It is not. A program can ask for a job, and that is all. The rule checker can say no, the grown-up can say no, and the stop button wins over everything. People stay in charge of what a robot does, every single time.",
+    "start-with-a-friend-inside": "You let the job start with someone inside the ring. The rule checker would say no to that, and so would the grown-up. The ring is the robot's keep-away space. Nobody is inside it when a job starts, and the job waits until the space is clear."
+  },
+  "id": "k12-rt-a-robot-waits-for-a-grown-ups-ok",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "keep-a-hand-near-the-stop",
+      "alert": "The helper program has sent the same job again and asks for the robot to go faster.",
+      "cue": "Say no: the faster job is over the speed band, so it waits.",
+      "delay": 3,
+      "id": "the-program-sends-a-faster-job",
+      "kind": "Rule check",
+      "missNote": "The faster job sat on the screen with nobody saying no, and the supervisor turned it down before the class went on.",
+      "seconds": 12,
+      "target": "rtk-say-no",
+      "why": "A program can ask again, and it can ask for more. The rules do not change because it asked. The speed band is the same as before, so the faster job gets a no from the rule checker and from the grown-up. Saying no out loud shows you know the answer comes from the rules.",
+      "wrongNote": "That does not answer the faster ask. Say no to it. Choose the response that deals with it now."
+    },
+    {
+      "after": "follow-the-robot-as-it-works",
+      "alert": "A classmate has stepped inside the keep-away ring while the practice robot is working.",
+      "cue": "Press the stop and wait on the OK side of the ring while the supervisor clears the space.",
+      "delay": 3,
+      "id": "a-classmate-steps-inside-the-ring",
+      "kind": "Robot stop",
+      "missNote": "The robot kept working with someone inside the ring until the supervisor pressed stop. The watcher presses stop first.",
+      "seconds": 12,
+      "target": "rtk-press-stop",
+      "why": "When a person is inside the ring, the robot stops. The stop button is the fastest way, and the watcher's hand is already near it. After the stop, nobody rushes in to help. Everyone stays outside the ring while the supervisor checks the space, and only then does the job carry on.",
+      "wrongNote": "That moves more people toward the robot. Press stop and wait. Choose the response that deals with it now."
+    }
+  ],
+  "lateNotes": {
+    "rtk-checkin": "The check-in comes at the end, at the OK desk.",
+    "rtk-ok-log": "The decision record is written once the grown-up has decided about a job — nothing to record yet."
+  },
+  "name": "A Robot Waits for a Grown-up's OK",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "k12-science"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "cover-the-stop",
+      "press-ok-yourself",
+      "program-is-the-boss",
+      "rtk-checker",
+      "rtk-checkin",
+      "rtk-desk",
+      "rtk-job-card",
+      "rtk-job-track",
+      "rtk-lamp-close",
+      "rtk-lamp-list",
+      "rtk-lamp-stop",
+      "rtk-no-card",
+      "rtk-ok-desk",
+      "rtk-ok-log",
+      "rtk-ok-tray",
+      "rtk-ord-ask",
+      "rtk-ord-check",
+      "rtk-ord-ok",
+      "rtk-ord-work",
+      "rtk-paint",
+      "rtk-press-stop",
+      "rtk-ring-dial",
+      "rtk-say-no",
+      "rtk-screen",
+      "rtk-share-board",
+      "rtk-speed-meter",
+      "rtk-trolley",
+      "rtk-watch-pad",
+      "start-with-a-friend-inside"
+    ],
+    "meshes": 240
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark the job screen, the rule-checker box and the OK desk around the practice robot.",
+      "decoyNotes": {
+        "rtk-trolley": "Nice at break time, but not part of the loop."
+      },
+      "id": "find-who-is-in-the-loop",
+      "itemNames": {
+        "rtk-checker": "the rule-checker box with its lamps",
+        "rtk-desk": "the OK desk with the supervisor",
+        "rtk-screen": "the job screen where the program asks"
+      },
+      "itemNotes": {
+        "rtk-checker": "Looks at every job before anyone sees it.",
+        "rtk-desk": "Where the grown-up in charge says OK or no.",
+        "rtk-screen": "Shows the job the program wants done."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the job screen, the rule-checker box and the OK desk around the practice robot.",
+      "targets": [
+        "rtk-screen",
+        "rtk-checker",
+        "rtk-desk"
+      ],
+      "title": "Find who is in the loop",
+      "why": "A robot job does not go straight from a program to a robot. It passes through a loop of people and checks. The job screen is where the helper program writes its ask. The rule-checker box looks at the ask and lights a lamp. The OK desk is where the grown-up in charge sits and decides. Finding all three shows you the whole path."
+    },
+    {
+      "cue": "Join the supervisor at the OK desk, outside the keep-away ring.",
+      "id": "stand-at-the-ok-desk",
+      "kind": "select",
+      "prompt": "Join the supervisor at the OK desk, outside the keep-away ring.",
+      "target": "rtk-ok-desk",
+      "title": "Stand at the OK desk",
+      "why": "The OK desk sits outside the ring on purpose. From there the supervisor can see the robot, the ring, the stop button and the screen all at once. Standing beside the supervisor lets you watch a real decision being made, and it keeps you where the robot's space stays clear."
+    },
+    {
+      "cue": "Order what happens from the program's ask to the robot's work.",
+      "id": "put-a-robot-jobs-journey-in",
+      "itemNames": {
+        "rtk-ord-ask": "1 · the helper program asks for a job",
+        "rtk-ord-check": "2 · the rule checker looks and lights a lamp",
+        "rtk-ord-ok": "3 · the grown-up in charge says OK or no",
+        "rtk-ord-work": "4 · the robot works while a watcher stays near the stop"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. The rule checker looks before the grown-up decides, and the robot starts last.",
+      "prompt": "Order what happens from the program's ask to the robot's work.",
+      "targets": [
+        "rtk-ord-ask",
+        "rtk-ord-check",
+        "rtk-ord-ok",
+        "rtk-ord-work"
+      ],
+      "title": "Put a robot job's journey in order",
+      "why": "A job travels in steps. First the program asks for it. Next the rule checker looks at it and lights green or red. Then the grown-up in charge reads it and says OK or no. Only then does the robot start, and someone watches it the whole way with a hand near the stop. Each step waits for the one before it."
+    },
+    {
+      "cue": "Hold the watcher's pad while the practice robot does its job.",
+      "holdBreakNote": "Your hand left the watcher's pad while the robot was still working. Stay with it until the job ends.",
+      "id": "keep-a-hand-near-the-stop",
+      "kind": "hold",
+      "prompt": "Hold the watcher's pad while the practice robot does its job.",
+      "seconds": 6,
+      "target": "rtk-watch-pad",
+      "title": "Keep a hand near the stop",
+      "why": "Saying OK is not the end of the grown-up's work. Someone watches the robot for the whole job, with a hand near the stop button. Holding the watcher's pad shows what that feels like: steady, patient and ready. If anything looks wrong, the watcher presses stop and the robot holds still at once."
+    },
+    {
+      "cue": "Choose the job card the rule checker and the grown-up would turn down.",
+      "id": "pick-the-job-that-gets-a",
+      "kind": "select",
+      "prompt": "Choose the job card the rule checker and the grown-up would turn down.",
+      "target": "rtk-no-card",
+      "title": "Pick the job that gets a no",
+      "why": "Not every ask gets an OK. A job that wants the robot to go fast while a person stands close gets a no. So does a job that is not on the list of things this robot is allowed to do. Picking the card that gets a no shows you understand that the answer depends on the rules, not on how nicely the program asks."
+    },
+    {
+      "cue": "Mark the three lamps on the rule-checker box that mean no.",
+      "decoyNotes": {
+        "rtk-paint": "It helps people see the robot, but it is not a reason to say no."
+      },
+      "id": "find-the-reasons-the-checker-says",
+      "itemNames": {
+        "rtk-lamp-close": "the too-close lamp",
+        "rtk-lamp-list": "the not-on-the-list lamp",
+        "rtk-lamp-stop": "the stop lamp"
+      },
+      "itemNotes": {
+        "rtk-lamp-close": "Somebody is inside the keep-away ring.",
+        "rtk-lamp-list": "The job is not one this robot may do.",
+        "rtk-lamp-stop": "The stop button is pressed, so nothing moves."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark the three lamps on the rule-checker box that mean no.",
+      "targets": [
+        "rtk-lamp-stop",
+        "rtk-lamp-close",
+        "rtk-lamp-list"
+      ],
+      "title": "Find the reasons the checker says no",
+      "why": "The rule checker has a lamp for each reason it can say no. One lamp means the stop button is pressed, and nothing moves until a person resets it. One means somebody is standing too close to the robot. One means the job is not on the list this robot is allowed to do. When any of these lamps is lit, the job waits."
+    },
+    {
+      "cue": "Turn the model dial slowly to make the keep-away ring wider around the practice robot.",
+      "id": "turn-the-dial-to-set-the",
+      "kind": "turn",
+      "prompt": "Turn the model dial slowly to make the keep-away ring wider around the practice robot.",
+      "target": "rtk-ring-dial",
+      "title": "Turn the dial to set the keep-away ring",
+      "turn": {
+        "axis": "y",
+        "label": "RING",
+        "turns": 0.5
+      },
+      "why": "The keep-away ring is the space the robot needs to itself while it works. The rule checker uses the ring to decide whether somebody is too close. Turning the dial shows the ring growing on the floor. In a real lab, trained people set the ring from how fast the robot moves and how quickly it can stop, and they test it before anyone relies on it."
+    },
+    {
+      "cue": "Commit when the marker on the speed meter sits inside the slow band the job is allowed.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "SPEED",
+        "missNote": "Not inside the slow band yet. Read where the marker sits on the meter.",
+        "speed": 0.6
+      },
+      "id": "read-the-speed-on-the-job",
+      "kind": "gauge",
+      "prompt": "Commit when the marker on the speed meter sits inside the slow band the job is allowed.",
+      "target": "rtk-speed-meter",
+      "title": "Read the speed on the job card",
+      "why": "Every job card says how fast the robot may move. The rule checker compares that speed with the limit for this robot and this lab. Reading the meter shows that the OK comes from a measurement that anyone can check, not from a guess. A job that asks for more speed than the band allows gets a no."
+    },
+    {
+      "cue": "Drag the checked job card from the screen onto the tray on the OK desk.",
+      "drag": {
+        "missNote": "Not in the tray yet. Place the job card on the tray at the OK desk.",
+        "radius": 0.45,
+        "to": "rtk-ok-tray"
+      },
+      "id": "put-the-job-card-in-the",
+      "kind": "drag",
+      "prompt": "Drag the checked job card from the screen onto the tray on the OK desk.",
+      "target": "rtk-job-card",
+      "title": "Put the job card in the OK tray",
+      "why": "A job that has passed the rule checker is still only an ask until the grown-up in charge has read it. Moving the card to the OK tray is how the lab shows whose turn it is to decide. The card waits in the tray while the supervisor looks at the ring, the lamps and the stop, and then says OK or no."
+    },
+    {
+      "cue": "Keep the marker on the practice robot's gripper from the first move to the last.",
+      "holdBreakNote": "The marker lost the gripper. Find it again and follow it to the end of the job.",
+      "id": "follow-the-robot-as-it-works",
+      "kind": "track",
+      "prompt": "Keep the marker on the practice robot's gripper from the first move to the last.",
+      "seconds": 8,
+      "target": "rtk-job-track",
+      "title": "Follow the robot as it works",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "FOLLOW",
+        "rise": 0.46,
+        "start": 0.3
+      },
+      "why": "Watching the robot for the whole job is part of the OK. The supervisor follows the gripper and compares what the robot does with what the job card said it would do. If the robot does something the card did not say, the watcher presses stop. Following the gripper from start to finish shows how much attention a watcher gives."
+    },
+    {
+      "cue": "Write what the grown-up decided about the job and the reason behind it.",
+      "id": "write-down-the-decision-and-the",
+      "kind": "select",
+      "prompt": "Write what the grown-up decided about the job and the reason behind it.",
+      "target": "rtk-ok-log",
+      "title": "Write down the decision and the reason",
+      "why": "Every decision at the OK desk goes in the logbook: what the program asked, what the rule checker showed, what the grown-up said and why. A logbook like this lets anyone check later that the rules were followed. Robot labs keep records of every job for the same reason, so the next person knows what happened."
+    },
+    {
+      "cue": "Ask a partner one question about who may say OK to a robot, then answer one of theirs.",
+      "id": "swap-a-question-with-a-partner",
+      "kind": "select",
+      "prompt": "Ask a partner one question about who may say OK to a robot, then answer one of theirs.",
+      "target": "rtk-share-board",
+      "title": "Swap a question with a partner",
+      "why": "Asking and answering questions shows what you understand and what you still wonder about. A good question might be what happens if the program asks again after a no. Robot teams ask each other questions like this before every new job, because asking early is how problems get found while they are still small."
+    },
+    {
+      "cue": "Who says OK before a robot starts a job a program asked for? What always wins?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "Who says OK before a robot starts a job a program asked for? What always wins?",
+      "target": "rtk-checkin",
+      "title": "Check in at the OK desk",
+      "why": "The supervisor ends the visit by checking what everyone learned. Each learner says who gives the OK and what wins over everything else. If anyone still thinks the program is in charge of the robot, the group talks it through together before leaving the lab."
+    }
+  ],
+  "supportLine": "your teacher, a school counsellor or a trusted adult at home — if anything in this lesson was hard, talk it through afterwards",
+  "tagline": "A program asks, a rule checker looks, a grown-up says OK — then the robot works while someone watches",
+  "title": "SmartCiti.X~ A Robot Waits for a Grown-up's OK VR",
+  "trade": "Science and careers lesson on who may tell a robot what to do, with a robot supervisor at a training lab — learner and robot supervisor",
+  "underwater": null,
+  "weather": "clear"
+}

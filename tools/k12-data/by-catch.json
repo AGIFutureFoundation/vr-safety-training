@@ -1,0 +1,146 @@
+{
+  "id": "k12-by-a-shrimp-boats-fair-count",
+  "index": "837",
+  "prefix": "byk",
+  "accent": "#d0764a",
+  "floor": ["#736c62", "#655f56"],
+  "wall": ["#ece0d6", "#ddcfc2"],
+  "trade": "Maths class aboard a shrimp boat at the harbour — learner and shrimp boat deckhand",
+  "header": "Upper-primary maths at the Shell Beach Oyster and Shrimp Harbour in St. Bernard Parish: counting a catch fairly by taking sample scoops from all over the bin, keeping a tally, repeating and finding the average, and using the sample to estimate the whole, using only the scoops and the tally board the scene shows.",
+  "name": "A Shrimp Boat's Fair Count",
+  "tagline": "Scoop from all over, tally every one, repeat — a fair sample tells you about the whole catch",
+  "badge": { "id": "fair-counter", "name": "Fair Counter", "note": "Took fair sample scoops from a catch bin, tallied them, found the average and estimated the whole catch from it" },
+  "board": { "name": "Catch Board", "currency": "TALLIES", "ranks": ["Sorter", "Counter", "Tallier", "Sampler", "Deck Boss"] },
+  "hazards": [
+    { "id": "pick-the-biggest", "label": "Scoop from the top where the biggest shrimp are?", "face": "TOP\nONLY", "text": "You scooped only from the top, where the biggest shrimp sat. A sample from one spot is not fair, because the catch is not the same all through the bin. Scooping from the top, middle and bottom gives a sample that looks like the whole catch." },
+    { "id": "count-by-guessing", "label": "Look at the scoop and guess how many are in it?", "face": "JUST\nGUESS", "text": "You guessed the number in the scoop. A guess can be far off, and nobody can check it. Moving each shrimp to the other side as you make a tally mark means every one is counted once, and the count can be trusted." },
+    { "id": "one-scoop-is-enough", "label": "Stop after one scoop and call it the answer?", "face": "ONE\nSCOOP", "text": "You stopped after one scoop. One scoop might be unusually full or empty. Taking several and finding the average smooths out the odd ones, so your estimate is closer to the truth." },
+    { "id": "hands-near-the-winch", "label": "Reach past the winch drum to grab a dropped scoop?", "face": "BY THE\nWINCH", "text": "You reached past the winch drum. Winches wind rope with great force, and deckhands keep hands well clear. Ask the deckhand to pass the scoop back; the count can wait a moment." }
+  ],
+  "find1": {
+    "title": "Find what you need for a fair count",
+    "cue": "Mark the three things on deck you need to count the catch fairly.",
+    "why": "Counting a big catch one by one would take far too long, so crews count a sample. For that you need a scoop that holds the same amount each time, a sorting tray to spread the shrimp out, and a tally board to keep your marks. With those three, a fair count takes minutes instead of hours.",
+    "items": [
+      ["scoop", "the measuring scoop", "It holds the same amount each time."],
+      ["tray", "the sorting tray", "Spread the scoop out to count it."],
+      ["tally", "the tally board", "One mark for each shrimp counted."]
+    ],
+    "decoy": ["flag", "the boat's flag on the mast", "It shows the wind, but it will not help you count."]
+  },
+  "seq": {
+    "title": "Put the fair-count steps in order",
+    "cue": "Scoop, spread it on the tray, tally each one, then repeat from another part of the bin.",
+    "why": "Doing the steps in order keeps the count honest. A level scoop gives the same amount each time, spreading it out means none are hidden, tallying one at a time means none are counted twice, and repeating from another part of the bin makes the sample fair. Skip a step and the count stops being trustworthy.",
+    "oon": "Out of order. Take a level scoop before you spread anything on the tray.",
+    "items": [
+      ["ord-scoop", "take a level scoop"],
+      ["ord-spread", "spread it on the tray"],
+      ["ord-tally", "tally each one"],
+      ["ord-repeat", "repeat from another part of the bin"]
+    ]
+  },
+  "select1": {
+    "title": "Put on gloves and stand at the sorting table",
+    "cue": "Put on the deck gloves and stand at the sorting table before the bin lid comes off.",
+    "why": "Shrimp have small sharp points, and the deck can be wet and cold. Gloves protect your hands, and the sorting table keeps you in one safe spot away from ropes and the winch. Deckhands suit up the same way at the start of every sort, so the work can be quick and calm.",
+    "key": "glove-card",
+    "label": "Gloves on at the table",
+    "face": "GLOVES\nON"
+  },
+  "turn": {
+    "title": "Turn the bin to reach a new part of the catch",
+    "cue": "Turn the bin handle so the next scoop comes from a different part of the catch.",
+    "why": "Turning the bin lets you reach the middle and the bottom, not just the top. Different parts of a catch can hold different sizes, so a fair sample comes from all over. Crews move around the bin for each scoop for exactly this reason, so the count describes the whole haul.",
+    "key": "bin-handle",
+    "label": "Bin turned",
+    "dial": "BIN"
+  },
+  "gauge": {
+    "title": "Level the scoop",
+    "cue": "Commit when the scoop is filled exactly to the level line.",
+    "why": "Each scoop must hold the same amount, or you cannot compare them. Filling it to the line and sweeping off the heap makes every scoop equal. That sameness is what lets you use your average scoop to estimate how many shrimp are in the whole bin.",
+    "key": "level-meter",
+    "label": "Scoop level",
+    "meter": "SCOOP",
+    "miss": "Not level yet. Fill to the line and sweep off the heap."
+  },
+  "hold": {
+    "title": "Keep your place on the tray",
+    "cue": "Hold the counting stick at your place on the tray until the tally mark is made.",
+    "why": "When you count many small things it is easy to lose your place. Holding your stick where you are while a partner makes the mark means none are skipped or counted twice. Pairs of deckhands count the same way: one moves, one marks, and they check each other.",
+    "brk": "The stick slipped and you lost your place. Go back to the last marked shrimp.",
+    "key": "count-stick",
+    "label": "Hold your place"
+  },
+  "drag": {
+    "title": "Return the small fish to the water",
+    "cue": "Drag the small fish from the tray to the return chute.",
+    "why": "Nets catch other creatures along with shrimp. Crews return them to the water quickly, so they have the best chance to swim away. Moving them off the tray also keeps your shrimp count honest, because only shrimp should be tallied.",
+    "key": "small-fish",
+    "label": "Small fish",
+    "spot": "chute",
+    "spotLabel": "The return chute",
+    "miss": "Not in the chute yet. Slide the fish to the return chute."
+  },
+  "find2": {
+    "title": "Spot the unfair counts on the board",
+    "cue": "Look at another group's tally board and mark each problem.",
+    "why": "Counts go wrong in familiar ways: every scoop from the same spot, a scoop that was heaped instead of level, or a number written with no tally marks to back it up. Spotting these on another board teaches you what makes a count fair, and helps you check your own.",
+    "items": [
+      ["tb-same", "every scoop from the top of the bin", "Scoop from all over."],
+      ["tb-heaped", "a heaped scoop marked as level", "Level every scoop."],
+      ["tb-guess", "a number with no tally marks", "Show the marks, not just the number."]
+    ],
+    "decoy": ["tb-labels", "each scoop labelled by where it came from", "Good practice. Keep it."]
+  },
+  "select2": {
+    "title": "Choose how to estimate the whole catch",
+    "cue": "Choose the method that uses your average scoop to estimate the whole bin.",
+    "why": "If you know how many shrimp are in an average scoop, and how many scoops fill the bin, you can multiply to estimate the whole. It is an estimate, not an exact count, and saying so is honest. Crews and scientists use this same idea to count things far too many to count one by one.",
+    "key": "method-card",
+    "label": "Choose the method",
+    "face": "HOW MANY\nIN ALL?"
+  },
+  "track": {
+    "title": "Follow the sorting belt",
+    "cue": "Keep the marker on the shrimp as they move along the sorting belt to the ice.",
+    "why": "After counting, the catch moves along the belt to be iced so it stays fresh. Following it shows the whole job: catch, count, sort and keep. Watching carefully also lets you spot anything that is not shrimp and lift it off before it reaches the ice.",
+    "brk": "The marker left the belt. Find the shrimp again and follow them.",
+    "key": "belt-meter",
+    "label": "Belt followed",
+    "meter": "BELT"
+  },
+  "record": {
+    "title": "Record your scoops and your estimate",
+    "cue": "Write each scoop's tally, the average and your estimate for the whole bin.",
+    "why": "A record of every scoop lets anyone check your average and your estimate. It also shows how much the scoops varied, which tells you how confident to be. Crews keep catch records for every trip, so they can see how the season is going and share fair numbers with others.",
+    "key": "catch-log",
+    "label": "Catch record",
+    "done": "Scoops and estimate recorded"
+  },
+  "share": {
+    "title": "Compare with the deckhand's count",
+    "cue": "Put your estimate next to the deckhand's and talk about any difference.",
+    "why": "Comparing with an experienced counter tests your method. If the two estimates are close, your sample was fair. If they are far apart, you look for the reason, perhaps scoops from one spot or a heaped scoop. Finding the reason is just as useful as being right.",
+    "key": "share-board",
+    "label": "Compare with the deckhand",
+    "done": "Estimates compared"
+  },
+  "checkin": {
+    "title": "Check in on the dock",
+    "cue": "What made your count fair? Where else could a sample help you count something big?",
+    "why": "Shrimp crews finish by talking over the haul on the dock, so the class does the same. Each learner says one thing that makes a sample fair and one place they could use the idea, like counting birds or leaves. If anyone still thinks one scoop is enough, the group looks at the tally board together.",
+    "label": "End-of-visit check-in"
+  },
+  "interrupts": [
+    { "id": "the-winch-starts-to-turn", "kind": "Winch moving", "key": "step-clear", "label": "Step back from the winch to the sorting table", "alert": "The captain calls out and the winch starts turning to lift the net.", "cue": "Step back to the sorting table and keep your hands at your sides.", "why": "A turning winch pulls rope with great force. Stepping back to your spot and keeping your hands still keeps everyone clear. The count waits until the captain says the winch has stopped.", "miss": "A classmate stayed near the winch, and the captain had to stop the lift until the deck was clear again.", "wrong": "That does not move you clear of the winch. Step back to the table. Choose the response that deals with it now.", "done": "Deck clear, the net lifted. The lesson carries on." },
+    { "id": "the-deckhand-asks-about-the-average", "kind": "Deckhand question", "key": "say-average", "label": "Say how you found the average scoop", "alert": "The deckhand asks how you worked out your average scoop.", "cue": "Say that you added the tallies and shared the total equally across the scoops.", "why": "Explaining the average shows you understand it as sharing out fairly. That idea is what makes the estimate work. Saying it clearly also lets the deckhand check your working, just as crews check each other's counts.", "miss": "You could not say how you found the average, and the deckhand had to show the sharing before the group could go on.", "wrong": "That does not explain the average. Choose the response that deals with it now.", "done": "Average explained. The lesson carries on." }
+  ],
+  "crew": ["Maths teacher", "Classmate", "Shrimp boat deckhand", "Boat captain"],
+  "guide": { "start": "Scoop from all over, tally every one.", "after": "Average scoop, then estimate.", "hazard": "Stop. Level scoops — and hands clear of the winch." },
+  "lateRecord": "The catch record is written once the scoops are counted — nothing to record yet.",
+  "lateCheckin": "The check-in comes at the very end of the visit.",
+  "scene": "deck",
+  "order": "c"
+}

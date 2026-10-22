@@ -1,0 +1,137 @@
+{
+  "id": "ethics-and-responsible-automation",
+  "kind": "programme",
+  "name": "Ethics and Responsible Automation — Entry Point",
+  "title": "SmartCiti.X Ethics and Responsible Automation — Entry Point — Powered by AGI Corp",
+  "audience": "trades",
+  "summary": "The entry point for deciding what a robot on a site is allowed to do, who answers for it, and what is said to the public when something goes wrong. Its stations are the governance and communication ones; the robot-control stations sit in the control entry point, so the two packs teach the same stop rule from two sides.",
+  "certification": "The municipal ethics code, the conflict-of-interest rules that bind public officials, and the crisis-communication practice a public body is held to",
+  "programmes": [
+    "ethics-and-responsible-automation"
+  ],
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "ethics-and-conflict-of-interest"
+    },
+    {
+      "app": "smartcity",
+      "id": "public-meeting-chair"
+    },
+    {
+      "app": "smartcity",
+      "id": "crisis-communication-podium"
+    },
+    {
+      "app": "smartcity",
+      "id": "community-listening-session"
+    },
+    {
+      "app": "smartcity",
+      "id": "cv-difficult-conversation-across-difference"
+    },
+    {
+      "app": "smartcity",
+      "id": "ei-giving-and-taking-feedback"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-amr-fleet-traffic-and-estop-drill"
+    }
+  ],
+  "unions": [
+    "afscme",
+    "seiu"
+  ],
+  "unionLine": "AFSCME and SEIU public-service staff, and the site supervisors who answer for an automated site; taught as a civic course, not a union apprenticeship",
+  "k12Bands": [],
+  "path": "union-trades",
+  "alsoPaths": [],
+  "worlds": [
+    {
+      "world": "bayworld",
+      "sites": [
+        "downtown-civic-center"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "st-bernard",
+      "sites": [
+        "sb-sw-arabi-and-chalmette-grocery-distribution-centre"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-downtown",
+      "sites": [
+        "market-street-union-hall"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-golden-gate-park",
+      "sites": [
+        "gg-sw-sunset-grocery-distribution-centre"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "sf-sunset-south",
+      "sites": [
+        "stonestown-grocery-dock"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-west-oakland",
+      "sites": [
+        "mandela-parkway-union-hall"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-downtown-lake",
+      "sites": [
+        "oakland-civic-centre"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "oak-emeryville-berkeley",
+      "sites": [
+        "berkeley-civic-centre"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-pablo",
+      "sites": [
+        "richmond-civic-centre"
+      ]
+    },
+    {
+      "world": "parishes",
+      "parish": "bay-san-jose",
+      "sites": [
+        "san-jose-civic-centre",
+        "japantown-union-hall",
+        "sj-gsi-planning-studio"
+      ]
+    }
+  ],
+  "stationNames": {
+    "ethics-and-conflict-of-interest": "Ethics and Conflict of Interest",
+    "public-meeting-chair": "Public Meeting Chair",
+    "crisis-communication-podium": "Crisis Communication Podium",
+    "community-listening-session": "Community Listening Session",
+    "cv-difficult-conversation-across-difference": "Difficult Conversation Across Difference",
+    "ei-giving-and-taking-feedback": "Giving and Taking Feedback",
+    "ad-amr-fleet-traffic-and-estop-drill": "AMR Fleet Traffic & E-stop Drill"
+  },
+  "version": "1.0.0",
+  "contentHash": "357459fa",
+  "brand": "SmartCiti.X · Powered by AGI Corp",
+  "generator": "tools/gen_packs.mjs",
+  "provenance": "Generated from WebXR/smartcity/catalog.json, tools/unions.json and the worlds' site data; nothing hand-typed."
+}
