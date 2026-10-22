@@ -4,7 +4,7 @@ import {
   stationPad, holoPanel, holoTag, instrument, standingFigure, surfaceTexture, texturedMat,
   blockFace, tileFace, gratingFace, reg,
 } from "../citykit.js";
-import { amrRobot } from "../../../shared/equipment.js";
+import { mobileRobot, rbSpeedLimit, rbZone, rbShowZone } from "../../../shared/robot-models.js";
 
 import { simTitle, system, AWARD } from "../gamify.js";
 
@@ -92,9 +92,11 @@ export const SIM_AD_AMR_FLEET_TRAFFIC_AND_ESTOP_DRILL = {
     const trayMesh = box(g, 1.4, 0.03, 0.8, 3.6, 0.13, 3.4, 0xffffff, { rough: 0.7, cast: false });
     trayMesh.material = texturedMat(surfaceTexture((cx, w, h) => gratingFace(cx, w, h, {}), { repeat: 2, px: 256 }), { rough: 0.7, metal: 0.4, color: 0xffffff });
     holoTag(g, "robot hall, AMR lane A", -3.8, 3.7, -7.05, { css: "#4fd1ff", w: 0.5 });
-    const rig = amrRobot(g, -3.2, 0, -3.0, {});
-    const P = rig.userData.parts;
-    const amr2 = amrRobot(g, 3.3, 0, -3.4, { ry: 1.2 }); const amr3 = amrRobot(g, 0.2, 0, -4.8, { ry: 0.4 }); box(g, 8.6, 0.006, 1.3, 0, 0.125, -3.4, 0x2f6fe0, { rough: 0.7, opacity: 0.45, transparent: true, cast: false }); for (const dz of [-0.7, 0.7]) box(g, 8.6, 0.008, 0.08, 0, 0.127, -3.4 + dz, 0xf0b323, { rough: 0.6, cast: false });
+    // Units 12, 14 and 17 (shared/robot-models.js mobile robots) drive lane A live: each one's speed is the governor's
+    // for the distance to the picker crossing the lane (reduced inside 1.5 m, stopped inside 0.5 m), and the whole
+    // fleet holds at zero on the e-stop drill. Unit 12 shows its scanner fields on the floor.
+    const units = [[-3.2, true], [0.4, false], [3.0, false]].map(([x, fields]) => ({ x, m: mobileRobot(g, x, 0.12, -3.4, { ry: Math.PI / 2, fields }) }));
+    box(g, 8.6, 0.006, 1.3, 0, 0.125, -3.4, 0x2f6fe0, { rough: 0.7, opacity: 0.45, transparent: true, cast: false }); for (const dz of [-0.7, 0.7]) box(g, 8.6, 0.008, 0.08, 0, 0.127, -3.4 + dz, 0xf0b323, { rough: 0.6, cast: false });
     const post = (x, z, h) => cyl(g, 0.035, 0.045, h, x, h / 2, z, 0x3b4148, { rough: 0.5, metal: 0.5, seg: 10 });
     const cap = {};
     post(-1.68, 1.47, 0.95);
@@ -209,33 +211,50 @@ export const SIM_AD_AMR_FLEET_TRAFFIC_AND_ESTOP_DRILL = {
     const faultLamp = ball(g, 0.07, 3.4, 2.0, -3.2, 0xd2312b, { emissive: 0xd2312b, ei: 1.6, seg: 12 });
     faultLamp.visible = false;
     const crew = standingFigure(g, -3.9, 1.2, { ry: 1.2, cloth: 0x2b3138, helmet: 0xf2f2f2 });
+    const picker = standingFigure(g, 0, -1.9, { ry: Math.PI, cloth: 0xf0b323, helmet: 0xf2f2f2 });
+    holoTag(picker, "picker crossing the lane", 0, 1.95, 0.15, { css: "#4fd1ff", w: 0.42 });
+    let drillHold = false, pauseUntil = 0, clock = 0, unit14Tripped = false;
     holoTag(crew, "fleet lead", 0, 1.95, 0.15, { css: "#4fd1ff", w: 0.34 });
     const faultOn = /[?&]fault=estop-trip(&|$)/.test(globalThis.location?.search ?? "");
     const fStep = SIM_AD_AMR_FLEET_TRAFFIC_AND_ESTOP_DRILL.steps.find((s) => s.id === "recover-select");
     const fDecl = SIM_AD_AMR_FLEET_TRAFFIC_AND_ESTOP_DRILL.faults[0];
     if (fStep) { fStep.target = faultOn ? fDecl.target : fDecl.from; fStep.cue = faultOn ? fDecl.note : fDecl.cue; }
     faultLamp.visible = faultOn;
+    unit14Tripped = faultOn;
     if (faultOn) holoTag(g, "Unit 14: E-STOP TRIPPED", 3.4, 2.25, -3.2, { css: "#d2312b", w: 0.44 });
     return {
       hits,
       footprint: 2.9,
       spawnLook: new THREE.Vector3(0, 1.3, 3.6),
       onInterrupt(it) {
-        if (it.id === "robot-leaves-lane") { faultLamp.visible = true; cap["fleet-pause"].material = mat(0xf0645b, { rough: 0.5, emissive: 0xf0645b, ei: 0.6 }); }
+        if (it.id === "robot-leaves-lane") { units[1].m.position.z = -2.75; faultLamp.visible = true; cap["fleet-pause"].material = mat(0xf0645b, { rough: 0.5, emissive: 0xf0645b, ei: 0.6 }); }
         if (it.id === "forklift-in-lane") { cap["zone-request"].material = mat(0xf0645b, { rough: 0.5, emissive: 0xf0645b, ei: 0.6 }); }
       },
       onInterruptEnd(it) {
         if (it.resolved !== "answered") return;
-        if (it.id === "robot-leaves-lane") { faultLamp.visible = false; cap["fleet-pause"].material = mat(0x59c97b, { rough: 0.5 }); }
+        if (it.id === "robot-leaves-lane") { faultLamp.visible = false; cap["fleet-pause"].material = mat(0x59c97b, { rough: 0.5 }); pauseUntil = clock + 4; units[1].m.position.z = -3.4; }
         if (it.id === "forklift-in-lane") { cap["zone-request"].material = mat(0x59c97b, { rough: 0.5 }); }
       },
       onStepComplete(step) {
+        if (step.id === "estop-drill") drillHold = true;
+        if (step.id === "recover-select") { drillHold = false; unit14Tripped = false; }
         if (step.id === "scanner-check") repaint(cap["scanner-meter"].userData.screen, signFace("OK", { bg: "#0d1c24", accent: "#59c97b", fg: "#bfeaf7", scale: 0.5 }));
         if (step.id === "closeout") repaint(logFace, signFace("FLEET LOG\nCLOSED", { bg: "#0f1b14", accent: "#59c97b", fg: "#bff7d4", scale: 0.26 }));
       },
       onHazard() {},
       animate(t, dt, session) {
         crew.userData.head.rotation.y = Math.sin(t * 0.5) * 0.3;
+        clock = t;
+        const cross = (Math.sin(t * 0.25) + 1) / 2;
+        picker.position.z = -1.9 - 3.0 * cross; picker.rotation.y = Math.cos(t * 0.25) > 0 ? Math.PI : 0;
+        units.forEach((u, i) => {
+          const held = drillHold || t < pauseUntil || (i === 1 && unit14Tripped);
+          const d = Math.hypot(u.m.position.x - picker.position.x, u.m.position.z - picker.position.z);
+          const v = rbSpeedLimit(d, { estop: held, nominal: 0.5 });
+          u.x += v * dt; if (u.x > 4.0) u.x = -4.0; u.m.position.x = u.x;
+          const P = u.m.userData.parts; P.driveL.rotation.x += (v * dt) / 0.075; P.driveR.rotation.x += (v * dt) / 0.075;
+          rbShowZone(u.m, rbZone(d, held));
+        });
         const gg = session?.gauge;
         if (gg && !gg.committed && session?.step?.id === "scanner-check") repaint(cap["scanner-meter"].userData.screen, signFace(gg.t > 0.43 && gg.t < 0.61 ? "OK" : "CHECK", { bg: "#0d1c24", accent: gg.t > 0.43 && gg.t < 0.61 ? "#59c97b" : "#f0645b", fg: "#bfeaf7", scale: 0.5 }));
       },

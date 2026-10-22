@@ -209,6 +209,7 @@ const CHECKERS = [
   "check_ros_assist.mjs",
   "check_cleanup_atlas.mjs",
   "check_robot_language.mjs",
+  "check_robot_models.mjs",
   "check_bridge.mjs",
   // Enterprise seat billing: the payments block, the adapter and mock, the budget agent, the Billing tab, the Worker handler (docs/payments.md).
   "check_payments.mjs",

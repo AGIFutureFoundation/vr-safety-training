@@ -1,6 +1,6 @@
 # Progress, October 2026
 
-What the builds of 19 and 20 October 2026 added, each with the file that holds it and the checker that proves it. The robots are simulated; no hardware result, partnership, customer, price or fundraising claim is made here.
+What the builds of 19 to 22 October 2026 added, each with the file that holds it and the checker that proves it. The robots are simulated; no hardware result, partnership, customer, price or fundraising claim is made here.
 
 ## Packs and programmes
 
@@ -43,5 +43,14 @@ The national list itself is not in the repository yet: this session's network po
 |---|---|---|
 | Synthetic worker-assist episodes in a ROS 2 message layout, for every union with a scope, over four generic robot styles (collaborative arm, mobile robot, gantry hoist, inspection quadruped); a speed-and-separation governor caps speed by the worker's distance and holds zero under e-stop on every step | `exports/ros-assist/`, `tools/gen_ros_assist.mjs` | `tools/check_ros_assist.mjs` |
 | Robot language data: every station's own procedure text as instruction records, 14,351 in all from the 742 stations: 9,892 steps (the instruction, the action it asks for and why), 1,470 interrupts (a situation mid-task and the stop or response it calls for) and 2,989 unsafe choices with the reason each is unsafe. Each record names its station, whose category, programmes, standards and matching robot-assist style are in the index. Quoted, not generated; no learner data | `exports/robot-language/`, `tools/gen_robot_language.mjs` | `tools/check_robot_language.mjs` |
+
+## Detailed robot models and live robot simulation
+
+| Added | Where it lives | Checked by |
+|---|---|---|
+| Detailed, articulated generic robots: a floor-mounted six-axis arm (gripper or vacuum plate), a six-axis cobot with LED joint rings and a force-torque wrist, a warehouse mobile robot with front and rear safety scanners, e-stops, a light strip and optional field discs, a legged inspection robot with three joints per leg, and a three-axis gantry. Every joint is its own part at its real pivot | `WebXR/shared/robot-models.js` | `tools/check_fleet.mjs` (mesh budget, footprint, parts) |
+| Forward kinematics from one joint chain the models are built from, a joint-limit clamp, a pick-and-place path per arm, and a path player that advances by the tool's own travel so the tool never moves faster than the speed governor allows: stopped inside 0.5 m and under an e-stop, 0.25 m/s inside 1.5 m, the same governor the worker-assist episodes record | `WebXR/shared/robot-models.js` | `tools/check_robot_models.mjs` (31 checks, including 2,400 simulated ticks per arm) |
+| The robot cell, cobot bench and palletizer every robot station uses are now built from these arms, with the old part names kept so existing stations still move them | `WebXR/shared/equipment.js` | `tools/check_fleet.mjs`, `tools/check_robot_models.mjs` |
+| Nine robot stations drive their robots live. The speed-and-separation station runs its cobot from the fields as the learner sets them, with a walk tester on a loop and a board showing normal, reduced, protective stop or e-stop. The robot-fleet station's three mobile robots drive their lane and slow or stop for a picker crossing it, and all hold on the e-stop drill. The agent-dispatch station adds a legged inspection robot on patrol that halts with the arm | `WebXR/smartcity/js/sims/rt-*.js`, `ad-*.js`, `rp-*.js`, `vb-*.js` | `tools/check_robot_models.mjs` |
 
 Not included yet: translated robot instructions (they need a reviewed source), any brand or model of robot, and any hardware run.

@@ -49,6 +49,7 @@ APPS = {
             SHARED / "kit.js",
             SHARED / "textures.js",
             SHARED / "fleet.js",
+            SHARED / "robot-models.js",
             SHARED / "equipment.js",
             SHARED / "toolkit.js",
             SHARED / "props.js",
@@ -110,6 +111,7 @@ APPS = {
             SHARED / "kit.js",
             SHARED / "textures.js",
             SHARED / "fleet.js",
+            SHARED / "robot-models.js",
             SHARED / "equipment.js",
             SHARED / "toolkit.js",
             SHARED / "props.js",
@@ -390,6 +392,7 @@ APPS = {
             SHARED / "textures.js",
             SHARED / "perf.js",
             SHARED / "fleet.js",
+            SHARED / "robot-models.js",
             SHARED / "equipment.js",
             SHARED / "toolkit.js",
             SHARED / "props.js",
@@ -526,6 +529,7 @@ APPS = {
             SHARED / "textures.js",
             SHARED / "perf.js",
             SHARED / "fleet.js",
+            SHARED / "robot-models.js",
             SHARED / "equipment.js",
             SHARED / "unions.js",
             WEBXR / "smartcity/js/curricula.js",
@@ -647,6 +651,7 @@ APPS = {
             SHARED / "skill-gates-ui.js",
             # The Motor Pool (console MOTORPOOL): the registry, the kit (which
             # dispatches to fleet.js and equipment.js) and the board.
+            SHARED / "robot-models.js",
             SHARED / "equipment.js",
             SHARED / "drivables-data.js",
             SHARED / "drivables.js",
@@ -1646,7 +1651,7 @@ DIST_SHARED = [
     # "../../../shared/" path, which from sims/ and the folder root lands on
     # this folder's shared/ — without them no station loads in the flat build
     # (tools/check_links.mjs loads one per world). Their own imports included.
-    "kit.js", "textures.js", "eggs.js", "ei-guide.js", "equipment.js", "fleet.js", "props.js", "toolkit.js", "perf.js",
+    "kit.js", "textures.js", "eggs.js", "ei-guide.js", "equipment.js", "robot-models.js", "fleet.js", "props.js", "toolkit.js", "perf.js",
     # The video-background layer (console CINEMA, docs/home-backgrounds.md):
     # the homepage and the track pages import it; account.js imports it for
     # the sign-in backdrop.

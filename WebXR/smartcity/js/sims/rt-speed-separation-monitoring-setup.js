@@ -5,6 +5,7 @@ import {
   tileFace, paintedSteelFace, gratingFace, equipmentCabinet, reg,
 } from "../citykit.js";
 import { cobotBench } from "../../../shared/equipment.js";
+import { rbLive, rbDistForZone } from "../../../shared/robot-models.js";
 import { simTitle, system, AWARD } from "../gamify.js";
 
 // SmartCiti.X~ Setting Up Speed-and-Separation Monitoring — its own gamified system: Measured Distance.
@@ -102,6 +103,9 @@ export const SIM_RT_SPEED_SEPARATION_MONITORING_SETUP = {
     holoTag(g, "scanner set-up bay — procedural, generic cobot", -3.6, 3.7, -7.05, { css: "#9b7fe0", w: 0.64 });
     const rig = cobotBench(g, 0, 0, -3.6, { colour: 0x9b7fe0 });
     const P = rig.userData.parts ?? {};
+    // The cobot runs a real pick-and-place path (shared/robot-models.js) and answers the fields as they are set:
+    // inside the warning field it drops to reduced speed, inside the protective field it holds still.
+    const live = rbLive(rig, { nominal: 0.6 });
     // the fields drawn on the floor (resized as they are set), the scanner's fan, the configuration laptop
     const warnField = box(g, 3.4, 0.004, 2.6, 0, 0.126, -3.4, 0xf0b323, { rough: 0.7, opacity: 0.16, transparent: true, cast: false });
     const protField = box(g, 2.4, 0.004, 1.7, 0, 0.13, -3.5, 0xd2312b, { rough: 0.7, opacity: 0.18, transparent: true, cast: false });
@@ -183,13 +187,21 @@ export const SIM_RT_SPEED_SEPARATION_MONITORING_SETUP = {
     holoTag(lead, "safety lead", 0, 1.95, 0.15, { css: "#9b7fe0", w: 0.3 });
     const coworker = standingFigure(g, 3.9, -2.4, { ry: -1.4, cloth: 0x5a6b7a, helmet: 0x5a6b7a });
     holoTag(coworker, "coworker", 0, 1.95, 0.15, { css: "#9b7fe0", w: 0.26 });
+    // the walk tester's live approach loop and the arm-state board that follows it
+    const walker = standingFigure(g, -3.2, -1.6, { ry: 2.06, cloth: 0xf0b323, helmet: 0xf2f2f2 });
+    holoTag(walker, "walk tester", 0, 1.95, 0.15, { css: "#9b7fe0", w: 0.28 });
+    const liveBoard = group(g, -3.3, 0, -3.4, 0.9);
+    cyl(liveBoard, 0.025, 0.025, 1.4, 0, 0.7, -0.03, 0x2b2f34, { rough: 0.5, seg: 8 });
+    box(liveBoard, 0.5, 0.34, 0.03, 0, 1.55, 0, 0x1b232b, { rough: 0.6 });
+    const liveFace = decal(liveBoard, 0.46, 0.3, 0, 1.55, 0.02, signFace("ARM\nNORMAL", { bg: "#11181f", accent: "#59c97b", fg: "#efe8fb", scale: 0.22 }), { px: 320 });
+    const inField = (m, w, d, cz, x, z) => Math.abs(x) <= (w * m.scale.x) / 2 && Math.abs(z - cz) <= (d * m.scale.z) / 2;
+    let estopHeld = false, liveKey = "normal";
     const faultOn = new URLSearchParams(globalThis.location?.search ?? "").get("fault") === "reflector-shadow";
     const fStep = SIM_RT_SPEED_SEPARATION_MONITORING_SETUP.steps.find((s) => s.id === "find-shadow");
     const fDecl = SIM_RT_SPEED_SEPARATION_MONITORING_SETUP.faults[0];
     if (fStep) { fStep.targets = [faultOn ? fDecl.target : fDecl.from]; fStep.target = fStep.targets[0]; fStep.cue = faultOn ? fDecl.note : fDecl.cue; }
     if (faultOn) { cab.position.set(3.6, 0, -4.4); sign.position.set(1.9, 0.9, -2.6); sign.rotation.y = 0; shadow.position.set(1.9, 0.138, -1.7); holoTag(g, "Scanner shadow: CHECK", 3.4, 2.25, -3.2, { css: "#d2312b", w: 0.44 }); }
     faultLamp.visible = faultOn;
-    let armSpeed = 0.6;
     return {
       hits,
       footprint: 2.9,
@@ -200,21 +212,30 @@ export const SIM_RT_SPEED_SEPARATION_MONITORING_SETUP = {
       },
       onInterruptEnd(it) {
         if (it.resolved !== "answered") return;
-        if (it.id === "cart-shadow") { faultLamp.visible = false; coworker.position.set(3.9, 0, -2.4); cart.position.set(3.6, 0, -5.6); cap["cell-estop"].material = mat(0x59c97b, { rough: 0.5, emissive: 0x59c97b, ei: 0.3 }); armSpeed = 0; }
+        if (it.id === "cart-shadow") { faultLamp.visible = false; coworker.position.set(3.9, 0, -2.4); cart.position.set(3.6, 0, -5.6); cap["cell-estop"].material = mat(0x59c97b, { rough: 0.5, emissive: 0x59c97b, ei: 0.3 }); estopHeld = true; }
         if (it.id === "late-stop") { cap["stop-readout"].material = mat(0x59c97b, { rough: 0.5 }); protField.scale.set(1.1, 1, 1.1); cap["protective-dial"].material = mat(0x59c97b, { rough: 0.5, emissive: 0x59c97b, ei: 0.4 }); }
       },
       onStepComplete(step) {
         if (step.id === "protective-set") { protField.scale.set(1, 1, 1); protField.material = mat(0xd2312b, { rough: 0.7, opacity: 0.3, transparent: true }); repaint(cap["protective-dial"].userData.screen, signFace("SHEET", { bg: "#140c22", accent: "#59c97b", fg: "#efe8fb", scale: 0.42 })); }
         if (step.id === "warning-set") { warnField.scale.set(1.15, 1, 1.15); warnField.material = mat(0xf0b323, { rough: 0.7, opacity: 0.28, transparent: true }); repaint(cap["warning-dial"].userData.screen, signFace("OUTER", { bg: "#140c22", accent: "#59c97b", fg: "#efe8fb", scale: 0.42 })); }
         if (step.id === "find-shadow") { cab.position.set(3.6, 0, -4.4); shadow.visible = false; }
-        if (step.id === "walk-hold") armSpeed = 0.25;
+        if (step.id === "walk-hold") estopHeld = false;
         if (step.id === "commit-config") { screen.material = mat(0x1d2329, { rough: 0.3, emissive: 0x1f6a3a, ei: 0.6 }); repaint(cfgFace, signFace("FIELDS\nCOMMITTED", { bg: "#11181f", accent: "#59c97b", fg: "#bff7d4", scale: 0.24 })); }
       },
       onHazard() {},
       animate(t, dt, session) {
         lead.userData.head.rotation.y = Math.sin(t * 0.5) * 0.3;
-        if (P.arm) P.arm.rotation.y = Math.sin(t * armSpeed) * 0.5;
-        if (P.elbow) P.elbow.rotation.x = Math.sin(t * armSpeed * 1.5) * 0.2;
+        // walk tester: out on the walkway, in to the bench front and back, on a slow loop
+        const w = (Math.sin(t * 0.32) + 1) / 2;
+        walker.position.set(-3.2 + 2.6 * w, 0, -1.6 - 1.4 * w);
+        const zone = inField(protField, 2.4, 1.7, -3.5, walker.position.x, walker.position.z) ? "stop"
+          : inField(warnField, 3.4, 2.6, -3.4, walker.position.x, walker.position.z) ? "reduced" : "normal";
+        const st = live.tick(dt, { distM: rbDistForZone(zone), estop: estopHeld });
+        const key = estopHeld ? "estop" : st.zone;
+        if (key !== liveKey) {
+          liveKey = key;
+          repaint(liveFace, signFace({ estop: "E-STOP\nHELD", stop: "PROTECTIVE\nSTOP", reduced: "REDUCED\nSPEED", normal: "ARM\nNORMAL" }[key], { bg: "#11181f", accent: key === "normal" ? "#59c97b" : key === "reduced" ? "#f0b323" : "#d2312b", fg: "#efe8fb", scale: 0.22 }));
+        }
         const gg = session?.gauge;
         if (gg && !gg.committed && session?.step?.id === "protective-set") { protField.scale.set(0.6 + gg.t * 0.7, 1, 0.6 + gg.t * 0.7); repaint(cap["protective-dial"].userData.screen, signFace(gg.t > 0.56 && gg.t < 0.74 ? "SHEET" : gg.t <= 0.56 ? "SHORT" : "WIDE", { bg: "#140c22", accent: gg.t > 0.56 && gg.t < 0.74 ? "#59c97b" : "#f0645b", fg: "#efe8fb", scale: 0.42 })); }
         if (gg && !gg.committed && session?.step?.id === "warning-set") { warnField.scale.set(0.7 + gg.t * 0.6, 1, 0.7 + gg.t * 0.6); repaint(cap["warning-dial"].userData.screen, signFace(gg.t > 0.6 && gg.t < 0.8 ? "OUTER" : gg.t <= 0.6 ? "INSIDE" : "FAR", { bg: "#140c22", accent: gg.t > 0.6 && gg.t < 0.8 ? "#59c97b" : "#f0645b", fg: "#efe8fb", scale: 0.42 })); }

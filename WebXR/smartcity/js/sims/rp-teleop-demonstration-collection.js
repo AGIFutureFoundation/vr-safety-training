@@ -5,6 +5,7 @@ import {
   tileFace, blockFace, gratingFace, reg,
 } from "../citykit.js";
 import { cobotBench } from "../../../shared/equipment.js";
+import { rbLive } from "../../../shared/robot-models.js";
 import { simTitle, system, AWARD } from "../gamify.js";
 
 // SmartCiti.X~ Collecting a Robot Demonstration Safely — its own gamified system: Clean Demo.
@@ -103,6 +104,7 @@ export const SIM_RP_TELEOP_DEMONSTRATION_COLLECTION = {
     holoTag(g, "robot-learning bench — procedural, generic cobot", -3.6, 3.7, -7.05, { css: "#8fd17a", w: 0.62 });
     const rig = cobotBench(g, 0, 0, -3.6, {});
     const P = rig.userData.parts ?? {};
+    const live = rbLive(rig); // the arm runs a real joint path under the speed governor (shared/robot-models.js)
     // the teleoperation station: a controller desk, a camera on a mast, the recording light
     const desk = box(g, 1.1, 0.06, 0.6, -2.6, 0.82, -2.4, 0x3b4148, { rough: 0.6 });
     for (const sx of [-0.5, 0.5]) for (const sz of [-0.25, 0.25]) box(g, 0.04, 0.8, 0.04, -2.6 + sx, 0.4, -2.4 + sz, 0x2b2f34, { rough: 0.6 });
@@ -209,8 +211,7 @@ export const SIM_RP_TELEOP_DEMONSTRATION_COLLECTION = {
       onHazard() {},
       animate(t, dt, session) {
         lead.userData.head.rotation.y = Math.sin(t * 0.5) * 0.3;
-        if (P.arm) P.arm.rotation.y = Math.sin(t * 0.4) * 0.5;
-        if (P.elbow) P.elbow.rotation.x = Math.sin(t * 0.6) * 0.2;
+        live.tick(dt, { nominal: 0.4 });
         const gg = session?.gauge;
         if (gg && !gg.committed && session?.step?.id === "reduced-speed") repaint(cap["reduced-speed-key"].userData.screen, signFace(gg.t > 0.42 && gg.t < 0.6 ? "T1" : "CHECK", { bg: "#0d1c12", accent: gg.t > 0.42 && gg.t < 0.6 ? "#59c97b" : "#f0645b", fg: "#cff7c4", scale: 0.5 }));
       },

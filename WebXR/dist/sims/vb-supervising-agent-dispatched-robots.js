@@ -5,6 +5,7 @@ import {
   tileFace, blockFace, gratingFace, reg,
 } from "../citykit.js";
 import { cobotBench } from "../../../shared/equipment.js";
+import { rbLive, quadrupedRobot, rbGait } from "../../../shared/robot-models.js";
 import { simTitle, system, AWARD } from "../gamify.js";
 
 // SmartCiti.X~ Supervising Robots Dispatched by Software Agents — its own gamified system: The Governor Holds.
@@ -104,6 +105,7 @@ export const SIM_VB_SUPERVISING_AGENT_DISPATCHED_ROBOTS = {
     holoTag(g, "agent dispatch desk — procedural, simulated robot only", 3.2, 3.7, -5.45, { css: "#5ec8d8", w: 0.7 });
     const rig = cobotBench(g, 0, 0, -3.6, {});
     const P = rig.userData.parts ?? {};
+    const live = rbLive(rig); // the arm runs a real joint path under the speed governor (shared/robot-models.js)
     // the dispatch wall: three queued jobs, three policy plaques, the run screen
     const cap = {};
     const plaque = (id, label, x, y, colour, w = 0.5, h = 0.34) => { const p = box(g, w, h, 0.04, x, y, -5.45, colour, { rough: 0.5 }); decal(p, w - 0.06, h - 0.06, 0, 0, 0.022, signFace(label, { bg: "#0d1a1f", accent: "#5ec8d8", scale: 0.24 }), { px: 256 }); reg(hits, p, id); cap[id] = p; return p; };
@@ -179,6 +181,10 @@ export const SIM_VB_SUPERVISING_AGENT_DISPATCHED_ROBOTS = {
     // keep-out sphere marker for the teammate on the bench, shown during the deviation
     const keepOut = ball(g, 0.32, 0.7, 1.15, -3.4, 0xf0645b, { rough: 0.6, emissive: 0xf0645b, ei: 0.5, seg: 14 });
     keepOut.visible = false;
+    // a second agent-dispatched robot: a legged inspection unit patrolling behind the bench; it halts with the arm
+    const dog = quadrupedRobot(g, -3.0, 0.12, -5.1, { ry: Math.PI / 2 });
+    holoTag(dog, "inspection unit, dispatched", 0, 0.95, 0, { css: "#5ec8d8", w: 0.42 });
+    let dogDir = 1;
     // a desk with screens and a chair for the supervisor
     box(g, 1.4, 0.05, 0.6, 3.4, 0.76, -4.6, 0x3b4148, { rough: 0.6 });
     for (const sx of [-0.65, 0.65]) box(g, 0.04, 0.74, 0.55, 3.4 + sx, 0.37, -4.6, 0x2b2f34, { rough: 0.6 });
@@ -211,7 +217,7 @@ export const SIM_VB_SUPERVISING_AGENT_DISPATCHED_ROBOTS = {
       },
       onInterruptEnd(it) {
         if (it.resolved !== "answered") return;
-        if (it.id === "deviation") { keepOut.visible = false; faultLamp.visible = faultOn; if (P.arm) P.arm.rotation.y = 0; cap["run-estop"].material = mat(0x59c97b, { rough: 0.5, emissive: 0x59c97b, ei: 0.3 }); }
+        if (it.id === "deviation") { keepOut.visible = false; faultLamp.visible = faultOn; cap["run-estop"].material = mat(0x59c97b, { rough: 0.5, emissive: 0x59c97b, ei: 0.3 }); }
         if (it.id === "resend-fast") { resendCard.visible = false; cap["refuse-key"].material = mat(0x59c97b, { rough: 0.5 }); }
       },
       onStepComplete(step) {
@@ -225,7 +231,11 @@ export const SIM_VB_SUPERVISING_AGENT_DISPATCHED_ROBOTS = {
       onHazard() {},
       animate(t, dt, session) {
         lead.userData.head.rotation.y = Math.sin(t * 0.5) * 0.3;
-        if (P.arm && !keepOut.visible) P.arm.rotation.y = Math.sin(t * 0.3) * 0.35;
+        live.tick(dt, { nominal: 0.35, estop: keepOut.visible });
+        const dogV = keepOut.visible ? 0 : 0.35;
+        dog.position.x += dogV * dt * dogDir;
+        if (Math.abs(dog.position.x) > 3.2) { dogDir = -Math.sign(dog.position.x); dog.rotation.y = dogDir > 0 ? Math.PI / 2 : -Math.PI / 2; }
+        rbGait(dog, t, dogV > 0 ? 1 : 0);
         const gg = session?.gauge;
         if (gg && !gg.committed && session?.step?.id === "speed-gauge") repaint(cap["speed-dial"].userData.screen, signFace(gg.t > 0.42 && gg.t < 0.6 ? "MATCH" : "CHECK", { bg: "#0b1a1f", accent: gg.t > 0.42 && gg.t < 0.6 ? "#59c97b" : "#f0645b", fg: "#dff6fa", scale: 0.5 }));
       },

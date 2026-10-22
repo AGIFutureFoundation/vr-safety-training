@@ -5,6 +5,7 @@ import {
   tileFace, paintedSteelFace, gratingFace, reg,
 } from "../citykit.js";
 import { cobotBench } from "../../../shared/equipment.js";
+import { rbLive } from "../../../shared/robot-models.js";
 import { simTitle, system, AWARD } from "../gamify.js";
 
 // SmartCiti.X~ Measuring a Cobot's Contact Forces — its own gamified system: Soft Contact.
@@ -102,7 +103,7 @@ export const SIM_RT_COBOT_POWER_FORCE_LIMIT_CHECK = {
     deck.material = texturedMat(surfaceTexture((cx, w, h) => gratingFace(cx, w, h, {}), { repeat: 2, px: 256 }), { rough: 0.7, metal: 0.4, color: 0xffffff });
     holoTag(g, "verification bench — procedural, generic cobot", -3.6, 3.7, -7.05, { css: "#5bb7d9", w: 0.64 });
     const rig = cobotBench(g, 0, 0, -3.6, { colour: 0x5bb7d9 });
-    const P = rig.userData.parts ?? {};
+    const live = rbLive(rig); // the arm runs a real joint path under the speed governor (shared/robot-models.js)
     // the measuring stand and fixture on the bench, a pendant on a bracket, the readout mast
     const fixture = box(g, 0.3, 0.1, 0.3, 0.55, 0.98, -3.5, 0x53585e, { rough: 0.5, metal: 0.4 });
     const clamp = box(g, 0.08, 0.14, 0.12, 0.7, 1.08, -3.5, 0x9aa2a8, { rough: 0.4, metal: 0.5 });
@@ -213,8 +214,7 @@ export const SIM_RT_COBOT_POWER_FORCE_LIMIT_CHECK = {
       onHazard() {},
       animate(t, dt, session) {
         lead.userData.head.rotation.y = Math.sin(t * 0.5) * 0.3;
-        if (P.arm) P.arm.rotation.y = Math.sin(t * armSpeed) * 0.5;
-        if (P.elbow) P.elbow.rotation.x = Math.sin(t * armSpeed * 1.5) * 0.2;
+        live.tick(dt, { nominal: armSpeed });
         const gg = session?.gauge;
         if (gg && !gg.committed && session?.step?.id === "region-set") repaint(cap["region-dial"].userData.screen, signFace(gg.t > 0.44 && gg.t < 0.62 ? "HAND" : "SHIN?", { bg: "#0a1a22", accent: gg.t > 0.44 && gg.t < 0.62 ? "#59c97b" : "#f0645b", fg: "#dff5fc", scale: 0.45 }));
         if (gg && !gg.committed && session?.step?.id === "collab-mode") repaint(cap["mode-readout"].userData.screen, signFace(gg.t > 0.4 && gg.t < 0.58 ? "PFL" : "CHECK", { bg: "#0a1a22", accent: gg.t > 0.4 && gg.t < 0.58 ? "#59c97b" : "#f0645b", fg: "#dff5fc", scale: 0.5 }));

@@ -5,6 +5,7 @@ import {
   tileFace, blockFace, gratingFace, reg,
 } from "../citykit.js";
 import { cobotBench } from "../../../shared/equipment.js";
+import { rbLive } from "../../../shared/robot-models.js";
 import { teachPendant } from "../../../shared/toolkit.js";
 import { simTitle, system, AWARD } from "../gamify.js";
 
@@ -104,7 +105,7 @@ export const SIM_RP_ROBOT_POLICY_EVALUATION_REVIEW = {
     deck.material = texturedMat(surfaceTexture((cx, w, h) => gratingFace(cx, w, h, {}), { repeat: 2, px: 256 }), { rough: 0.7, metal: 0.4, color: 0xffffff });
     holoTag(g, "policy review bay — procedural, generic cobot", 3.4, 3.7, -5.45, { css: "#b79cff", w: 0.6 });
     const rig = cobotBench(g, 0, 0, -3.6, {});
-    const P = rig.userData.parts ?? {};
+    const live = rbLive(rig); // the arm runs a real joint path under the speed governor (shared/robot-models.js)
     const pendant = teachPendant(g, -1.3, 0.96, -3.6, { ry: 0.3 });
     // the review wall: three policy version plaques, an episode strip, a replay screen
     const plaque = (id, label, x, colour) => { const p = box(g, 0.5, 0.34, 0.04, x, 2.4, -5.45, colour, { rough: 0.5 }); decal(p, 0.44, 0.28, 0, 0, 0.022, signFace(label, { bg: "#141022", accent: "#b79cff", scale: 0.26 }), { px: 256 }); reg(hits, p, id); return p; };
@@ -221,7 +222,7 @@ export const SIM_RP_ROBOT_POLICY_EVALUATION_REVIEW = {
       onHazard() {},
       animate(t, dt, session) {
         lead.userData.head.rotation.y = Math.sin(t * 0.5) * 0.3;
-        if (P.arm) P.arm.rotation.y = Math.sin(t * 0.3) * 0.35;
+        live.tick(dt, { nominal: 0.3 });
         if (pendant) pendant.rotation.y = 0.3;
         const gg = session?.gauge;
         if (gg && !gg.committed && session?.step?.id === "criteria-gauge") repaint(cap["criteria-dial"].userData.screen, signFace(gg.t > 0.44 && gg.t < 0.62 ? "MATCH" : "CHECK", { bg: "#120f1f", accent: gg.t > 0.44 && gg.t < 0.62 ? "#59c97b" : "#f0645b", fg: "#e2dbff", scale: 0.5 }));

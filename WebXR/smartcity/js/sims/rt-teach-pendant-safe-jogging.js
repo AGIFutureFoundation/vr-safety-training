@@ -5,6 +5,7 @@ import {
   pavingFace, blockFace, gratingFace, lockTag, reg,
 } from "../citykit.js";
 import { robotCell } from "../../../shared/equipment.js";
+import { rbLive } from "../../../shared/robot-models.js";
 import { simTitle, system, AWARD } from "../gamify.js";
 
 // SmartCiti.X~ Teaching a Robot from the Pendant — its own gamified system: Enabled Hand.
@@ -102,6 +103,7 @@ export const SIM_RT_TEACH_PENDANT_SAFE_JOGGING = {
     holoTag(g, "teach cell — procedural, generic industrial arm", -3.4, 3.9, -7.15, { css: "#f0a63a", w: 0.66 });
     const cell = robotCell(g, 0, 0, -4.3, {});
     const P = cell.userData.parts ?? {};
+    const live = rbLive(cell); // the arm runs a real joint path under the speed governor (shared/robot-models.js)
     // the controller cabinet beside the cell, the mode selector and the pendant hook on its door
     box(g, 0.7, 1.7, 0.5, 3.0, 0.85, -4.6, 0x9aa2a8, { rough: 0.5, metal: 0.4 });
     box(g, 0.6, 1.5, 0.02, 3.0, 0.85, -4.34, 0x7f8a92, { rough: 0.5, metal: 0.3 });
@@ -188,7 +190,7 @@ export const SIM_RT_TEACH_PENDANT_SAFE_JOGGING = {
     if (fStep) { fStep.targets = [faultOn ? fDecl.target : fDecl.from]; fStep.target = fStep.targets[0]; fStep.cue = faultOn ? fDecl.note : fDecl.cue; }
     if (faultOn) { cableLoop.position.set(-0.6, 0.3, -2.7); cableLoop.rotation.z = 1.5; cart.position.set(-3.6, 0, -3.0); holoTag(g, "Escape route: CHECK", 3.4, 2.25, -3.2, { css: "#d2312b", w: 0.44 }); }
     faultLamp.visible = faultOn;
-    let auto = true, armPhase = 0;
+    let auto = true;
     return {
       hits,
       footprint: 2.9,
@@ -213,9 +215,7 @@ export const SIM_RT_TEACH_PENDANT_SAFE_JOGGING = {
       onHazard() {},
       animate(t, dt, session) {
         second.userData.head.rotation.y = Math.sin(t * 0.5) * 0.3;
-        armPhase += dt * (auto ? 0.8 : 0.25);
-        if (P.base) P.base.rotation.y = Math.sin(armPhase) * 0.6;
-        if (P.upperArm) P.upperArm.rotation.x = Math.sin(armPhase * 0.7) * 0.25;
+        live.tick(dt, { nominal: auto ? 0.7 : 0.25 }); // manual reduced speed caps the tool at the reduced band
         const gg = session?.gauge;
         if (gg && !gg.committed && session?.step?.id === "mode-select") repaint(cap["mode-selector"].userData.screen, signFace(gg.t > 0.4 && gg.t < 0.58 ? "T1" : "AUTO?", { bg: "#1c140a", accent: gg.t > 0.4 && gg.t < 0.58 ? "#59c97b" : "#f0645b", fg: "#fbefdc", scale: 0.5 }));
       },

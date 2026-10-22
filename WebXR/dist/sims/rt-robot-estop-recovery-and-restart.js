@@ -5,6 +5,7 @@ import {
   pavingFace, blockFace, deckPlateFace, lockTag, reg,
 } from "../citykit.js";
 import { robotCell } from "../../../shared/equipment.js";
+import { rbLive } from "../../../shared/robot-models.js";
 import { simTitle, system, AWARD } from "../gamify.js";
 
 // SmartCiti.X~ Bringing a Robot Back After an E-stop — its own gamified system: Reason First.
@@ -102,6 +103,7 @@ export const SIM_RT_ROBOT_ESTOP_RECOVERY_AND_RESTART = {
     holoTag(g, "stopped cell — procedural, generic industrial arm", -3.4, 3.9, -7.15, { css: "#e0634a", w: 0.66 });
     const cell = robotCell(g, 0, 0, -4.3, { colour: 0xd8a63a });
     const P = cell.userData.parts ?? {};
+    const live = rbLive(cell); // the arm runs a real joint path under the speed governor (shared/robot-models.js)
     // the control panel outside: stop log screen, reset, stack light held red
     box(g, 0.7, 1.7, 0.5, 3.0, 0.85, -4.6, 0x9aa2a8, { rough: 0.5, metal: 0.4 });
     const stack = []; for (let i = 0; i < 3; i++) stack.push(cyl(g, 0.05, 0.05, 0.08, 3.0, 1.82 + i * 0.09, -4.6, [0x3fc26a, 0xffab2e, 0xd8322c][i], { emissive: [0x000000, 0x000000, 0xd8322c][i], ei: 1.0, seg: 12 }));
@@ -191,7 +193,7 @@ export const SIM_RT_ROBOT_ESTOP_RECOVERY_AND_RESTART = {
     if (fStep) { fStep.targets = [faultOn ? fDecl.target : fDecl.from]; fStep.target = fStep.targets[0]; fStep.cue = faultOn ? fDecl.note : fDecl.cue; }
     if (faultOn) { part.position.set(2.5, 0.48, -6.6); recvLamp.material = mat(0xd2312b, { emissive: 0xd2312b, ei: 1.2 }); holoTag(g, "Stop cause: CHECK", 3.4, 2.25, -3.2, { css: "#d2312b", w: 0.44 }); }
     faultLamp.visible = faultOn;
-    let running = false, armPhase = 0, resetTwist = 0;
+    let running = false, resetTwist = 0;
     return {
       hits,
       footprint: 2.9,
@@ -218,7 +220,7 @@ export const SIM_RT_ROBOT_ESTOP_RECOVERY_AND_RESTART = {
       onHazard() {},
       animate(t, dt, session) {
         lead.userData.head.rotation.y = Math.sin(t * 0.5) * 0.3;
-        if (running) { armPhase += dt * 0.3; if (P.base) P.base.rotation.y = Math.sin(armPhase) * 0.6; if (P.upperArm) P.upperArm.rotation.x = Math.sin(armPhase * 0.7) * 0.25; }
+        if (running) live.tick(dt, { nominal: 0.35 });
         cap["estop-reset"].children[1].rotation.y = resetTwist * Math.PI / 2;
         const gg = session?.gauge;
         if (gg && !gg.committed && session?.step?.id === "verify-zero") repaint(cap["verify-meter"].userData.screen, signFace(gg.t < 0.18 ? "0" : "LIVE", { bg: "#1c0e0a", accent: gg.t < 0.18 ? "#59c97b" : "#f0645b", fg: "#fbe6e0", scale: 0.55 }));

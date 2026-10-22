@@ -182,6 +182,7 @@ const KITS = [
   { file: "shared/drivables.js", budget: "DV_BUDGET", builders: "DV_BUILDERS" },
   // The parish kits (console KREWE): streetcar, pump house, floodwall, floodgate, two hulls, shotgun block, live oak, bandstand, barriers, ferry landing.
   { file: "shared/kw-kits.js", budget: "KW_BUDGET", builders: "KW_KIT_BUILDERS" },
+  { file: "shared/robot-models.js", budget: "RB_BUDGET", builders: "RB_BUILDERS" },
 ];
 // The class ceilings the assets brief sets, whatever a table declares.
 const CEILING = {

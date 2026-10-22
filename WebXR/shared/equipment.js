@@ -5,6 +5,7 @@ import {
   flRig, flDone, flLivery, flLiveryMat, flDoorMat, flDoor, flGlassMat, flTreadMat, flGrilleMat,
   flWheel, flAxle, flSteerWheel, flMirror, flLights, flMediumCab,
 } from "./fleet.js";
+import { rbArm6Into, rbCobotInto } from "./robot-models.js";
 
 // Shared equipment kit — construction plant and terminal equipment.
 //
@@ -1549,7 +1550,9 @@ export function dockLevelerBay(parent, x, y, z, opts = {}) {
 /**
  * A robotic palletizer arm: a pedestal base, a rotating turret, an upper
  * arm and forearm, a suction-cup wrist, and a build-pallet turntable set
- * out in front of it. Parts: turret, upperArm, foreArm, wrist, turntable.
+ * out in front of it. The arm is robot-models.js's six-axis arm with a
+ * vacuum plate. Parts: turret, upperArm, foreArm, wrist (aliases of j1, j2,
+ * j3, j6), j1-j6, tcp, turntable; rbPose() and rbArmPlayer() drive it.
  */
 export function roboticPalletizer(parent, x, y, z, opts = {}) {
   const colour = opts.colour ?? 0xe4622a;
@@ -1560,20 +1563,15 @@ export function roboticPalletizer(parent, x, y, z, opts = {}) {
     const a = (i / 8) * Math.PI * 2;
     box(S, 0.06, 0.9, 0.06, Math.sin(a) * 0.4, 0.45, Math.cos(a) * 0.4, 0xf0b323, { rough: 0.6, finish: "painted", cast: false });
   }
-  const turret = rig.part("turret", 0, 0.9, 0);
-  cyl(turret, 0.3, 0.3, 0.3, 0, 0.15, 0, colour, { rough: 0.45, finish: "painted", seg: 16 });
-  const upperArm = rig.part("upperArm", 0, 0.3, 0.1, turret);
-  box(upperArm, 0.24, 0.9, 0.24, 0, 0.45, 0, colour, { rough: 0.45, finish: "painted" });
-  const foreArm = rig.part("foreArm", 0, 0.9, 0, upperArm);
-  box(foreArm, 0.2, 0.75, 0.2, 0, 0.38, 0.08, colour, { rough: 0.45, finish: "painted" });
-  const wrist = rig.part("wrist", 0, 0.75, 0.16, foreArm);
-  box(wrist, 0.42, 0.1, 0.42, 0, 0, 0, 0x2b2f34, { rough: 0.5, metal: 0.4 });
-  for (const [sx, sz] of [[-0.16, -0.16], [0.16, -0.16], [-0.16, 0.16], [0.16, 0.16]]) {
-    cyl(wrist, 0.05, 0.05, 0.05, sx, -0.06, sz, 0x1c1e21, { rough: 0.7, finish: "rubber", seg: 10 });
-  }
+  // The detailed six-axis arm with a vacuum plate (shared/robot-models.js); legacy aliases: turret = j1 (yaw),
+  // upperArm = j2, foreArm = j3, wrist = j6 (the vacuum plate's flange).
+  const A = rbArm6Into(rig, rig.base, { at: [0, 0.9, 0], k: 1.15, colour, tool: "vacuum" });
+  rig.set("turret", A.j1); rig.set("upperArm", A.j2); rig.set("foreArm", A.j3); rig.set("wrist", A.j6);
   const turntable = rig.part("turntable", 0, 0.06, 1.5);
   cyl(turntable, 0.62, 0.62, 0.12, 0, 0, 0, 0x6f7a83, { rough: 0.5, metal: 0.4, seg: 24 });
-  return flDone(rig, { footprint: EQUIPMENT_BUDGET.roboticPalletizer.footprint });
+  const palDone = flDone(rig, { footprint: EQUIPMENT_BUDGET.roboticPalletizer.footprint });
+  palDone.userData.chain = "arm6"; palDone.userData.k = 1.15;
+  return palDone;
 }
 
 /**
@@ -1817,8 +1815,9 @@ export function depotHangarBay(parent, x, y, z, opts = {}) {
  * table, perimeter guard fencing on three sides, a light curtain across
  * the open side (two posts and a beam band), an interlocked access gate,
  * a lockout point on the cell's disconnect and a status stack light.
- * Parts: base, upperArm, foreArm, wrist, gate, lightCurtain, stackLight,
- * disconnect.
+ * The arm is robot-models.js's detailed six-axis arm. Parts: base,
+ * upperArm, foreArm, wrist (aliases of j1, j2, j3, j5), j1-j6, fingerL,
+ * fingerR, tcp, gate, lightCurtain, stackLight, disconnect.
  */
 export function robotCell(parent, x, y, z, opts = {}) {
   const colour = opts.colour ?? 0xe4622a;
@@ -1830,14 +1829,10 @@ export function robotCell(parent, x, y, z, opts = {}) {
   box(S, 4.0, 1.8, 0.1, 0, 0.9, -1.95, 0x2b2f34, { rough: 0.6, metal: 0.4, finish: "grating", opacity: 0.55, transparent: true });
   box(S, 1.2, 0.8, 0.8, 0.9, 0.4, -0.9, 0x6f7a83, { rough: 0.5, metal: 0.4 });
   cyl(S, 0.4, 0.45, 0.5, -0.4, 0.25, -0.5, 0x53585e, { rough: 0.5, metal: 0.4, seg: 16 });
-  const base = rig.part("base", -0.4, 0.5, -0.5);
-  cyl(base, 0.3, 0.3, 0.3, 0, 0.15, 0, colour, { rough: 0.45, finish: "painted", seg: 16 });
-  const upper = rig.part("upperArm", 0, 0.3, 0, base);
-  box(upper, 0.22, 0.9, 0.22, 0, 0.45, 0, colour, { rough: 0.45, finish: "painted" });
-  const fore = rig.part("foreArm", 0, 0.9, 0, upper);
-  box(fore, 0.18, 0.18, 0.8, 0, 0, 0.4, colour, { rough: 0.45, finish: "painted" });
-  const wrist = rig.part("wrist", 0, 0, 0.8, fore);
-  box(wrist, 0.14, 0.14, 0.14, 0, -0.07, 0, 0x2b2f34, { rough: 0.5, metal: 0.4 });
+  // The detailed six-axis arm from shared/robot-models.js (joints j1-j6 at their real pivots); the legacy part names
+  // the stations animate stay as aliases: base = j1 (yaw), upperArm = j2, foreArm = j3, wrist = j5.
+  const A = rbArm6Into(rig, rig.base, { at: [-0.4, 0.5, -0.5], k: 0.72, colour });
+  rig.set("base", A.j1); rig.set("upperArm", A.j2); rig.set("foreArm", A.j3); rig.set("wrist", A.j5);
   const gate = rig.part("gate", 1.2, 0, 1.95);
   box(gate, 1.0, 1.8, 0.06, 0, 0.9, 0, 0xf0b323, { rough: 0.5, finish: "painted", opacity: 0.8, transparent: true });
   const curtain = rig.part("lightCurtain", -0.6, 0, 1.95);
@@ -1848,15 +1843,19 @@ export function robotCell(parent, x, y, z, opts = {}) {
   const disc = rig.part("disconnect", 1.85, 1.2, 1.0);
   box(disc, 0.1, 0.4, 0.3, 0, 0, 0, 0x9aa2a8, { rough: 0.5, metal: 0.4 });
   box(disc, 0.06, 0.1, 0.1, 0.07, 0, 0, 0xd8322c, { rough: 0.5 });
-  return flDone(rig, { footprint: EQUIPMENT_BUDGET.robotCell.footprint });
+  const cellDone = flDone(rig, { footprint: EQUIPMENT_BUDGET.robotCell.footprint });
+  cellDone.userData.chain = "arm6"; cellDone.userData.k = 0.72;
+  return cellDone;
 }
 
 /**
- * A collaborative robot bench: a steel bench with a small four-axis cobot
+ * A collaborative robot bench: a steel bench with a six-axis cobot
  * arm, a parts tray, an area scanner on the bench front and a floor zone
  * painted in two bands (the warning and the protective separation the risk
- * assessment names; no distance here is anybody's figure). Parts: arm,
- * elbow, gripper, scanner, zoneWarn, zoneStop.
+ * assessment names; no distance here is anybody's figure). The arm is
+ * robot-models.js's six-axis cobot. Parts: arm, elbow, gripper (aliases of
+ * j1, j3, j6), j1-j6, fingerL, fingerR, tcp, ledRings, scanner, zoneWarn,
+ * zoneStop.
  */
 export function cobotBench(parent, x, y, z, opts = {}) {
   const colour = opts.colour ?? 0x3a78c9;
@@ -1869,17 +1868,18 @@ export function cobotBench(parent, x, y, z, opts = {}) {
   box(zw, 3.0, 0.004, 2.2, 0, 0, 0, 0xf0b323, { rough: 0.7, opacity: 0.35, transparent: true, cast: false });
   const zs = rig.part("zoneStop", 0, 0.008, 0);
   box(zs, 2.2, 0.004, 1.4, 0, 0, 0, 0xd8322c, { rough: 0.7, opacity: 0.35, transparent: true, cast: false });
-  const arm = rig.part("arm", -0.3, 0.93, -0.1);
-  cyl(arm, 0.09, 0.1, 0.12, 0, 0.06, 0, 0xeef1f3, { rough: 0.4, seg: 14 });
-  box(arm, 0.09, 0.45, 0.09, 0, 0.34, 0, 0xeef1f3, { rough: 0.4 });
-  const elbow = rig.part("elbow", 0, 0.56, 0, arm);
-  box(elbow, 0.08, 0.08, 0.4, 0, 0, 0.2, colour, { rough: 0.4, finish: "painted" });
-  const grip = rig.part("gripper", 0, 0, 0.42, elbow);
-  box(grip, 0.1, 0.1, 0.06, 0, -0.05, 0, 0x2b2f34, { rough: 0.5, metal: 0.4 });
+  // The detailed six-axis cobot from shared/robot-models.js on its base plate; legacy aliases: arm = j1 (yaw),
+  // elbow = j3, gripper = j6 (the wrist flange carrying the F/T sensor and fingers).
+  cyl(S, 0.1, 0.11, 0.03, -0.3, 0.945, -0.1, 0x8c949b, { rough: 0.4, metal: 0.45, finish: "brushed", seg: 24 });
+  cyl(S, 0.075, 0.08, 0.06, -0.3, 0.99, -0.1, 0xe6e9ec, { rough: 0.3, metal: 0.25, finish: "painted", seg: 22 });
+  const C = rbCobotInto(rig, rig.base, { at: [-0.3, 1.02, -0.1], k: 1, colour });
+  rig.set("arm", C.j1); rig.set("elbow", C.j3); rig.set("gripper", C.j6); rig.set("ledRings", C.ledRings);
   const scanner = rig.part("scanner", 0, 0.2, 0.46);
   box(scanner, 0.14, 0.12, 0.1, 0, 0, 0, 0xf0b323, { rough: 0.5, finish: "painted" });
   box(scanner, 0.1, 0.03, 0.01, 0, 0, 0.055, 0x161d24, { rough: 0.2 });
-  return flDone(rig, { footprint: EQUIPMENT_BUDGET.cobotBench.footprint });
+  const benchDone = flDone(rig, { footprint: EQUIPMENT_BUDGET.cobotBench.footprint });
+  benchDone.userData.chain = "cobot6"; benchDone.userData.k = 1;
+  return benchDone;
 }
 
 // ------------------------------------------------------------------ budget
@@ -2082,12 +2082,12 @@ export const EQUIPMENT_BUDGET = {
   cleanRoomBay: { build: "cleanRoomBay", meshes: 11, footprint: [5, 3.03, 4], parts: ["airShowerDoor", "esdTester", "esdLamp", "workBench", "filterGrid"], note: "cleanroom bay: gowning bench, air-shower door, ESD tester, grounded bench, filter grid" },
   testStand: { build: "testStand", meshes: 10, footprint: [4.4, 2.88, 4.4], parts: ["frame", "deflector", "beacon", "gate", "controlWindow"], note: "generic propulsion test stand pad with deflector, bunkered window, hold beacon and exclusion gate" },
   depotHangarBay: { build: "depotHangarBay", meshes: 37, footprint: [8, 4, 7], parts: ["jet", "toolCrib", "workStand", "servicingCart", "spillKit", "dripPan"], note: "depot hangar bay around the shared regionalJet, with tool crib, work stand and fluid-servicing cart" },
-  robotCell: { build: "robotCell", meshes: 16, footprint: [4, 2.02, 4], parts: ["base", "upperArm", "foreArm", "wrist", "gate", "lightCurtain", "stackLight", "disconnect"], note: "fenced six-axis robot cell with light curtain, interlocked gate, stack light and lockable disconnect" },
-  cobotBench: { build: "cobotBench", meshes: 10, footprint: [3, 1.53, 2.2], parts: ["arm", "elbow", "gripper", "scanner", "zoneWarn", "zoneStop"], note: "collaborative robot bench with area scanner and painted separation zones" },
+  robotCell: { build: "robotCell", meshes: 34, footprint: [4, 2.02, 4], parts: ["base", "upperArm", "foreArm", "wrist", "j1", "j2", "j3", "j4", "j5", "j6", "fingerL", "fingerR", "tcp", "gate", "lightCurtain", "stackLight", "disconnect"], note: "fenced cell around the detailed six-axis arm (robot-models.js), light curtain, interlocked gate, stack light and lockable disconnect" },
+  cobotBench: { build: "cobotBench", meshes: 31, footprint: [3, 1.65, 2.2], parts: ["arm", "elbow", "gripper", "j1", "j2", "j3", "j4", "j5", "j6", "fingerL", "fingerR", "tcp", "ledRings", "scanner", "zoneWarn", "zoneStop"], note: "bench with the detailed six-axis cobot (robot-models.js), area scanner and painted separation zones" },
   amrRobot: { build: "amrRobot", meshes: 7, footprint: [0.68, 0.41, 0.92], parts: ["liftPlate", "statusRing", "lidar"], note: "autonomous mobile robot (AMR/AGV), low chassis on caster feet" },
   conveyorSection: { build: "conveyorSection", meshes: 5, footprint: [0.6, 0.79, 1.2], parts: ["guard", "estopCord", "rollers"], note: "roller-conveyor bed section with nip-point guard and pull-cord E-stop" },
   dockLevelerBay: { build: "dockLevelerBay", meshes: 10, footprint: [2.3, 2.49, 2.1], parts: ["leverPlate", "lip", "restraintArm", "dockLightRed", "dockLightGreen", "restraintLightRed", "restraintLightGreen"], note: "dock leveler, lip, dock bumpers and ICC bar vehicle restraint" },
-  roboticPalletizer: { build: "roboticPalletizer", meshes: 8, footprint: [1.24, 2.9, 2.58], parts: ["turret", "upperArm", "foreArm", "wrist", "turntable"], note: "articulated palletizer arm on a pedestal, with a build-pallet turntable" },
+  roboticPalletizer: { build: "roboticPalletizer", meshes: 24, footprint: [1.24, 2.37, 2.58], parts: ["turret", "upperArm", "foreArm", "wrist", "j1", "j2", "j3", "j4", "j5", "j6", "tcp", "turntable"], note: "detailed six-axis arm with a vacuum plate (robot-models.js) on a pedestal, with a build-pallet turntable" },
   batteryChargingStation: { build: "batteryChargingStation", meshes: 6, footprint: [1, 1.67, 0.8], parts: ["beacon", "cable"], note: "lift-truck battery charger cabinet with a spill containment tray" },
   rollingMillStand: { build: "rollingMillStand", meshes: 16, footprint: [3.86, 3.1, 5], parts: ["housingL", "housingR", "workRollTop", "workRollBottom", "backupRollTop", "backupRollBottom", "screwdown", "guardGate", "entryTable", "exitTable"], note: "four-high hot-strip mill stand with an entry/exit roller table" },
   ladleCrane: { build: "ladleCrane", meshes: 10, footprint: [2.7, 3.21, 1.16], parts: ["bridge", "trolley", "hookBlock", "ladleBody", "ladleTrunnion", "pourLip"], note: "overhead ladle crane, ladle hanging free to tilt on its trunnions" },

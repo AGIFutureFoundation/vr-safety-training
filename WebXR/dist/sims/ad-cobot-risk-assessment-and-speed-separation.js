@@ -5,6 +5,7 @@ import {
   blockFace, tileFace, gratingFace, reg,
 } from "../citykit.js";
 import { cobotBench } from "../../../shared/equipment.js";
+import { rbLive } from "../../../shared/robot-models.js";
 import { teachPendant } from "../../../shared/toolkit.js";
 import { simTitle, system, AWARD } from "../gamify.js";
 
@@ -93,7 +94,7 @@ export const SIM_AD_COBOT_RISK_ASSESSMENT_AND_SPEED_SEPARATION = {
     trayMesh.material = texturedMat(surfaceTexture((cx, w, h) => gratingFace(cx, w, h, {}), { repeat: 2, px: 256 }), { rough: 0.7, metal: 0.4, color: 0xffffff });
     holoTag(g, "training centre, cobot bench", -3.8, 3.7, -7.05, { css: "#5ee0b0", w: 0.5 });
     const rig = cobotBench(g, 0, 0, -3.6, {});
-    const P = rig.userData.parts;
+    const live = rbLive(rig); // the arm runs a real joint path under the speed governor (shared/robot-models.js)
     const pendant = teachPendant(g, -1.3, 0.96, -3.6, { ry: 0.3 }); reg(hits, pendant, "pendant-cb");
     const post = (x, z, h) => cyl(g, 0.035, 0.045, h, x, h / 2, z, 0x3b4148, { rough: 0.5, metal: 0.5, seg: 10 });
     const cap = {};
@@ -236,7 +237,7 @@ export const SIM_AD_COBOT_RISK_ASSESSMENT_AND_SPEED_SEPARATION = {
       onHazard() {},
       animate(t, dt, session) {
         crew.userData.head.rotation.y = Math.sin(t * 0.5) * 0.3;
-        P.arm.rotation.y = Math.sin(t * 0.7) * 0.9;
+        live.tick(dt, { nominal: 0.5 });
         const gg = session?.gauge;
         if (gg && !gg.committed && session?.step?.id === "stop-time") repaint(cap["stop-meter"].userData.screen, signFace(gg.t > 0.43 && gg.t < 0.61 ? "OK" : "CHECK", { bg: "#0d1c24", accent: gg.t > 0.43 && gg.t < 0.61 ? "#59c97b" : "#f0645b", fg: "#bfeaf7", scale: 0.5 }));
       },
